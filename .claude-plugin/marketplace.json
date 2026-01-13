@@ -1,0 +1,13 @@
+{
+  "name": "mblode-agent-skills",
+  "owner": {
+    "name": "mblode"
+  },
+  "plugins": [
+    {
+      "name": "mblode-agent-skills",
+      "source": ".",
+      "description": "Design and frontend workflow skills for Claude Code."
+    }
+  ]
+}

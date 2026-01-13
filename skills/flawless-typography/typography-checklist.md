@@ -1,0 +1,152 @@
+# Typography Checklist
+
+Use this checklist to implement or review typography in UI/web work. Apply only the items that are relevant to the target surface.
+
+## Contents
+- Checklist
+
+## Checklist
+- [ ] Replace straight quotes/apostrophes with smart quotes; ensure UTF-8; normalize content at build/render time.
+- [ ] Enable smart quotes; treat primes as distinct; choose dash style (spaced en or unspaced em) and be consistent.
+- [ ] If em dash is too wide in the chosen face, switch to spaced en dashes for breaks.
+- [ ] Use en dash for ranges and em dash for attribution; never use double hyphens; use prime/double-prime glyphs (Unicode/entities).
+- [ ] Use multiplication sign and fraction entities; use accented characters correctly; avoid font subsetting; store accents as Unicode.
+- [ ] Ensure fonts include accents; use correct TM/RT superscripts and copyright inline; do not duplicate word + symbol.
+- [ ] Use non-breaking space between copyright symbol and year; use correct entities; use ampersands only for proper names/shorthand.
+- [ ] Use ampersands sparingly; prefer midpoints for inline separators over bars/bullets.
+- [ ] Use midpoints for horizontal list separators when appropriate.
+- [ ] Use the correct midpoint character with hair/thin spaces as needed; remove unnecessary punctuation and follow abbreviation rules.
+- [ ] Remove apostrophes from decades and periods from acronyms; choose sentence or title case for headings and apply consistently.
+- [ ] Auto-format titles per style guide; enforce single space after sentence-ending punctuation.
+- [ ] Audit copy for double spaces and remove them.
+- [ ] Ensure all sentence-ending punctuation is followed by exactly one space.
+- [ ] Use italics (not bold/all caps/quotes) for emphasis; prefer fonts with true italics for body text.
+- [ ] Limit emphasis; italicize publication titles; avoid underlines except for actual links.
+- [ ] Never underline for emphasis (print or web); use hanging punctuation only where feasible (blockquotes/display).
+- [ ] If using hanging punctuation, implement only where support exists; for web, limit to left edge and special cases.
+- [ ] Set body size first; use large desktop sizes (16-24px typical), smaller on mobile/print; adjust for x-height.
+- [ ] Avoid oversized desktop type; target mobile body 15-19px and print 10-12pt; scale headers down on mobile.
+- [ ] Keep line length 45-75 characters (66 ideal); adjust per breakpoint; avoid very long lines.
+- [ ] Measure line length including spaces; set line height around 1.45-1.5 and avoid excessive leading; use unitless values.
+- [ ] If a sans face has large x-height, add a bit more line spacing.
+- [ ] Adjust line height based on size/line length/x-height; choose body fonts with low contrast, large x-height, open apertures, large counters.
+- [ ] Prefer text-cut faces for body; avoid overly large x-height; select humanist/modern sans only if they meet legibility traits.
+- [ ] Load real regular/italic/bold/bold-italic styles to avoid faux; define `@font-face` per weight/style.
+- [ ] Ensure `@font-face` entries map the four styles to the same family with correct weights/styles.
+- [ ] Prefer true italics (not obliques); use WOFF2/variable fonts; drop least-used styles only if necessary.
+- [ ] Verify italics are true; use only regular/book/medium weights for body text.
+- [ ] Set body weight around 400-500; avoid ultra-light weights for longform; test cross-platform.
+- [ ] Use heavier weights only at large sizes; never use display faces for body copy.
+- [ ] Treat Display/Headline/etc as display-only; avoid display glyphs in body; ignore Caption cuts for web body.
+- [ ] Avoid long body text in monospaced fonts; reserve for short stylistic blocks.
+- [ ] Allow brief mono sections only; enable standard ligatures for body; keep discretionary ligatures off in body text.
+- [ ] Enable OpenType features for body: `kern`, `liga`, `clig`, `calt`.
+- [ ] Disable distracting ligatures (and in code); never letterspace body text except tiny captions or display lowercase.
+- [ ] Remember kerning vs letterspacing; add adequate padding/margins around paragraphs.
+- [ ] Ensure column padding and outer margins (including thumb space in print and mobile gutters).
+- [ ] Break long copy into readable paragraphs; avoid walls of text.
+- [ ] Use subheads/lists where useful; separate paragraphs by line breaks or indents, not both.
+- [ ] If using indents, apply only after the first paragraph (`p + p`) and size appropriately; keep paragraph spacing modest and responsive.
+- [ ] Set line height first, then adjust paragraph spacing; avoid paragraphs touching.
+- [ ] Place subheaders closer to the paragraph they introduce than to the preceding text.
+- [ ] Use extra spacing for large subheaders; avoid default center alignment except for intentional formal/large display.
+- [ ] If center-aligning text, increase line height and use sparingly.
+- [ ] Avoid justified text on the web; only justify with strong hyphenation support.
+- [ ] Never justify without hyphenation; avoid letterspacing in justification; use better hyphenation tools if required.
+- [ ] Add letterspacing to uppercase (about 0.1-0.2em) and adjust for size.
+- [ ] Increase spacing for small uppercase; avoid multi-line uppercase blocks.
+- [ ] Avoid uppercase paragraphs; do not letterspace or use optical kerning on monospaced or connected script fonts.
+- [ ] Keep spacing/kerning at metrics for mono/script; do not adjust tracking.
+- [ ] Use metrics kerning; add slight letterspacing only for tiny text; otherwise increase font size.
+- [ ] If letterspacing small text, also increase word spacing; avoid faux bold/italics by loading real styles.
+- [ ] Identify true italics; avoid faux styles in output; use real small caps when available, avoid pseudo.
+- [ ] Enable OpenType small caps via `font-feature-settings` and add slight tracking.
+- [ ] Avoid pseudo small caps; use small caps for abbreviations/subheads; manage widows/orphans with non-breaking spaces.
+- [ ] Insert non-breaking spaces in headlines/nav to prevent single-word lines; avoid overuse in paragraphs.
+- [ ] Use non-breaking spaces for short phrases/time/brands; use `white-space: nowrap` sparingly; never distort type; choose condensed/extended styles.
+- [ ] Do not stretch/squish body text; only distort logos if intentional; use condensed/extended variants instead.
+- [ ] Use tabular figures and right alignment in tables; enable `tnum` or use mono/system fonts.
+- [ ] Right-align table numbers, use commas; prefer tabular digits; use oldstyle figures in running text when available.
+- [ ] Enable `onum` for oldstyle or `lnum` for lining digits; use lining next to uppercase/UI.
+- [ ] Spell out 1-9 if desired; ensure text/background contrast (not necessarily pure black).
+- [ ] Avoid low-contrast light text; make links distinct from body text with color or underline.
+- [ ] Implement link styling with subtle underline/hover without layout shift.
+- [ ] Avoid using link color for non-links; design accessible link styles; be cautious with text over photos.
+- [ ] If using text on photos, enforce contrast (overlay or curated images) or avoid the pattern.
+- [ ] Avoid decorative hero photos that hurt readability/perf; when stacking vertical type, use uppercase.
+- [ ] Rotate vertical type clockwise and center-align; rely on built-in kerning; manually kern only for large display/logos.
+- [ ] Accept minor kerning irregularities; do not over-kern.
+- [ ] Use metrics kerning; adjust tracking before kerning; use hair/thin spaces where needed.
+- [ ] Use hair/thin spaces instead of no space or word space when spacing feels off.
+- [ ] Use `&hairsp;`/`&thinsp;` around em dashes/citations as needed; add horizontal padding between nav items.
+- [ ] Limit nav items; use CSS padding not spaces; indicate current nav item as selected/inactive (not others).
+- [ ] Keep selected nav readable; never gray navigable items; ensure list text does not wrap under bullets.
+- [ ] Use proper list markup (`<ul>/<ol>`); add vertical spacing for multi-line items.
+- [ ] If list item titles wrap, increase vertical padding and tighten line height so wrapped lines stay grouped.
+- [ ] Test lists with long content and narrow widths.
+- [ ] Swap display faces to text faces on small screens via media queries.
+- [ ] Identify display faces by naming; avoid for body; limit long light-on-dark text.
+- [ ] Use off-white text on dark backgrounds; reserve reversed type for appropriate contexts.
+- [ ] Edit copy for clarity; remove redundant UI text.
+- [ ] Start layout with body text; use modular scale as a guide, not a constraint.
+- [ ] Break the scale if optical fit demands it; prioritize readability over numeric purity.
+- [ ] Choose body size first; ensure strong size contrast (same or clearly different).
+- [ ] Avoid near-equal sizes; build hierarchy with weight/italics/caps/color, one axis at a time.
+- [ ] Use letterspaced caps/small caps for subheads; size caps down to avoid shouting.
+- [ ] Avoid header colors that match link colors; avoid all-italic headers; use CSS text-transform; keep heading levels shallow (h1-h3).
+- [ ] Use descriptive, skimmable headings (not generic).
+- [ ] As headings grow, reduce weight or lighten color for balance.
+- [ ] Lighten headers subtly; prefer darkened brand hues over flat gray.
+- [ ] Define and document a consistent type system; avoid random style changes; use grids but do not obsess over baseline grids.
+- [ ] Baseline grids are impractical for web; prioritize font size, line height, and line length.
+- [ ] Accept web fluidity; do not chase total control.
+- [ ] Trust your eye; vet typography frameworks; place captions/descriptions closer to the images they describe.
+- [ ] Use proximity/dividers to clarify associations; place dividers above headings, not below.
+- [ ] Remember dividers are rules; avoid underlining headings; choose hanging bullets only if they improve reading.
+- [ ] Decide between hanging vs indented bullets based on readability; indented often scans better.
+- [ ] Avoid hanging bullets on mobile; add vertical spacing between bullet items; balance layouts optically.
+- [ ] Optically center elements (slightly above true center); account for overshoot in round/pointed shapes.
+- [ ] Limit to two typefaces (body + display) unless you can manage a complex system.
+- [ ] If using more faces, enforce strict system; consider superfamilies for easy pairing.
+- [ ] Prefer serif/sans pairs from the same superfamily; use example list only as a starting point.
+- [ ] Avoid pairing two sans-serifs unless they are the same genre; serif + sans is safer.
+- [ ] Avoid pairing two serifs; if necessary, use strong contrast or the same family.
+- [ ] Avoid mixing modern and old-style serifs; pairing by the same designer can help.
+- [ ] Pair typefaces that harmonize or contrast strongly; avoid "almost the same" pairs.
+- [ ] Judge harmony by handwritten vs constructed feel; compare stress angles and skeletons.
+- [ ] Match stress direction to find harmony (e.g., vertical stress pairs).
+- [ ] Geometric sans pairs well with modern/rational serifs; ensure text legibility at small sizes.
+- [ ] Avoid geometric sans with old-style serif; pair grotesques/gothics with transitional serifs for classic feel.
+- [ ] Understand grotesque/grotesk/gothic naming; pair neo-grotesques with slab serifs.
+- [ ] Neo-grotesques are weak for body; slabs can be good; pair humanist sans with old-style serifs.
+- [ ] Humanist serif/sans share calligraphic traits; pair neo-humanist sans with contemporary serifs for screens.
+- [ ] Neo-humanist + contemporary serif are highly readable; treat pairing rules as guidance, not law.
+- [ ] Know rules before breaking them; pick UI fonts with distinct l/I/1 glyphs.
+- [ ] Check ambiguous glyphs (I/l/1); consider serifs for UI; use condensed faces for headlines when space is tight.
+- [ ] Use condensed/extra-condensed for headlines to control line breaks; avoid condensed for body.
+- [ ] Condensed faces can work for tight UI labels; when swapping fonts, re-tune size/line/spacing/padding.
+- [ ] If fonts are metrically compatible, swaps are easier; define strong fallback font stacks.
+- [ ] Test fallbacks and missing glyphs; ensure accent support; avoid empty glyph boxes.
+- [ ] Include likely-installed fallbacks; avoid over-subsetting; choose quality fonts.
+- [ ] Evaluate font quality via kerning/word samples; prefer reputable sources; do not use pirated fonts.
+- [ ] License fonts properly (especially web); buy full families or use open-source; use large type as a design element.
+- [ ] Use huge type to showcase fonts; scale down on small screens; begin brand capitalization decisions.
+- [ ] Pick a consistent brand capitalization (prefer single-word with initial cap); avoid all caps/lowercase in running text.
+- [ ] Avoid .com in brand names; use mid-word caps only if needed; enforce consistency everywhere.
+- [ ] Choose logo typeface based on the specific letters in the name; favor distinctive glyphs you actually use.
+- [ ] Use swashes/discretionary ligatures/stylistic alternates in logos sparingly for memorability.
+- [ ] Look for swashes in italics or separate files; use display cut for headlines when available.
+- [ ] Use display cuts only at large sizes; enable discretionary ligatures/swashes for headlines, not body.
+- [ ] Enable headline OpenType features: `kern`, `liga`, `clig`, `calt`, `dlig`, `swsh`.
+- [ ] Enable swashes on specific letters if needed; tighten line height and tracking for large headlines.
+- [ ] Use negative leading only when safe; test multi-line headlines; display cuts may need less tracking.
+- [ ] Break the grid intentionally with oversized type/images/quotes while keeping overall structure.
+- [ ] Allow grid deviations when useful; add a lead/lede paragraph with larger or distinct styling.
+- [ ] Leads can be short; start articles with initial small caps or drop caps where appropriate.
+- [ ] Implement small caps or drop caps (CSS `initial-letter` in Safari or JS fallback); use whitespace as a design element.
+- [ ] Give typography room to breathe; use color to create brand and hierarchy.
+- [ ] Use color intentionally with sufficient contrast; subtle tints can be distinctive.
+- [ ] Avoid pure black/white; use slightly tinted blacks/whites to reduce glare.
+- [ ] Tint blacks/whites with brand hue but keep contrast adequate.
+- [ ] Keep type consistent across web/print/app; license fonts for each medium; make body text distinctive to brand.
+- [ ] Experiment beyond default fonts/colors; aim for recognizable body-text identity.

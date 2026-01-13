@@ -1,0 +1,8 @@
+{
+  "name": "mblode-agent-skills",
+  "version": "0.1.0",
+  "description": "Design and frontend workflow skills for Claude Code.",
+  "repository": "https://github.com/mblode/agent-skills",
+  "license": "MIT",
+  "keywords": ["skills", "design", "frontend", "ui", "workflow"]
+}
