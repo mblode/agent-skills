@@ -1,18 +1,11 @@
----
-name: design-principles
-description: Minimal, precise design system for dashboards, admin tools, SaaS, and data-heavy UIs. Use when the UI must feel clean, crafted, and enterprise-grade.
----
+# Product UI (SaaS/Admin/Data-heavy)
 
-# Design Principles
-
-## Scope
-- Use for SaaS/admin/dashboards and data-heavy tools.
-- For marketing or creative experiences, use `frontend-design`.
+Use for dashboards, admin tools, and data-dense workflows.
 
 ## Commit to a direction
 - Define product context, user type, and emotional goal.
 - Pick one dominant personality: precision/density, warm/approachable, trust/financial, bold/modern, utility/dev, data/analytics.
-- Choose a color foundation (warm, cool, neutral, tinted), light or dark, and a single accent.
+- Choose a colour foundation (warm, cool, neutral, tinted), light or dark, and a single accent.
 - Pick a layout approach: dense grid, spacious, sidebar, top nav, or split list-detail.
 - Choose typography that matches the product (system, geometric sans, humanist, mono).
 
@@ -31,20 +24,22 @@ description: Minimal, precise design system for dashboards, admin tools, SaaS, a
 - Create a clear hierarchy (headline, body, label).
 - Use tabular numbers or monospace for data tables and IDs.
 - Icons must add meaning; remove decorative icons.
+- Use sentence case and British/Australian spelling in UI copy.
 
-## Color and contrast
+## Colour and contrast
 - Use a 4-level contrast hierarchy (primary, secondary, muted, faint).
-- Use color only for meaning (status, action).
+- Use colour only for meaning (status, action).
 
 ## Navigation context
 - Show navigation, page location, and user/workspace context.
-- In dark mode, prefer borders over shadows; adjust semantic colors.
+- In dark mode, prefer borders over shadows; adjust semantic colours.
 
 ## Motion
-- Follow `animation-guidelines` and keep motion subtle for enterprise UI.
+- Keep motion subtle and functional.
+- Follow `audit-ui` motion guidelines.
 
 ## Interaction baseline
-- Use `craft-checklist` for UX/a11y polish and `animation-guidelines` for motion.
+- Use `audit-ui` for UX/a11y polish and QA.
 
 ## Anti-patterns
 - Heavy shadows, large radii on small controls, thick borders, gradients for decoration, multiple accents, glowing borders, excessive spacing, visual noise.

@@ -5,6 +5,7 @@ Use this as a final polish pass.
 ## Legibility and typography
 - Use correct punctuation (quotes, apostrophes, dashes); use `&hellip;` for ellipsis.
 - Keep sentence case; avoid underlines except links.
+- Use British/Australian spelling in user-facing copy.
 - Body size: 18-24px desktop, 14-19px mobile; line length 45-75 chars; line-height ~1.45.
 - Avoid letter-spacing on body; add slight tracking to all-caps and small labels.
 - Limit to <= 2 typefaces; weights >= 400; use `clamp()` for fluid sizes.
@@ -16,7 +17,7 @@ Use this as a final polish pass.
 - Enable `-webkit-font-smoothing` and `text-rendering: optimizeLegibility`.
 
 ## Motion
-- Validate against `animation-guidelines` (timing, easing, reduced motion, transform/opacity only).
+- Validate against `motion-guidelines` (timing, easing, reduced motion, transform/opacity only).
 
 ## Keyboard, focus, and targets
 - Provide full keyboard support and visible focus styles.
@@ -29,7 +30,7 @@ Use this as a final polish pass.
 - If it looks clickable, it must be clickable; remove dead zones between items.
 - Avoid text selection during drag; use `inert` or disable selection where needed.
 
-## Forms and input behavior
+## Forms and input behaviour
 - Label inputs; Enter submits; textarea uses Cmd/Ctrl+Enter.
 - Inputs must be hydration-safe (no lost focus/value after hydration).
 - Use correct `type`, `name`, `autocomplete`, and `inputmode`.
@@ -60,7 +61,7 @@ Use this as a final polish pass.
 ## Performance
 - Preload above-the-fold images and critical fonts; set explicit image dimensions.
 - Virtualize large lists.
-- Minimize re-renders; profile when needed.
+- Minimise re-renders; profile when needed.
 - Use `will-change` sparingly; avoid heavy blur and excessive video autoplay.
 
 ## Accessibility and theming
@@ -68,7 +69,7 @@ Use this as a final polish pass.
 - Add `aria-label` to icon-only controls; mark decorative elements `aria-hidden`.
 - Do not attach tooltips to disabled controls; hover-tooltips should not contain interactive content.
 - Use `<img>` for images; HTML illustrations need an accessible name.
-- Provide redundant status cues (not color-only).
+- Provide redundant status cues (not colour-only).
 - Provide skip link and heading hierarchy.
 - Do not animate during theme switches; set `color-scheme` and `<meta name="theme-color">`.
 - Guard hydration for date/time; `value` inputs require `onChange`.

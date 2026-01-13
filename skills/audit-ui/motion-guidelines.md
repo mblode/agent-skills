@@ -1,9 +1,4 @@
----
-name: animation-guidelines
-description: Motion standards for UI interactions. Use when implementing animations, hover states, transitions, or motion design.
----
-
-# Animation Guidelines
+# Motion Guidelines
 
 Apply consistent motion rules for UI interactions.
 
@@ -28,7 +23,7 @@ Apply consistent motion rules for UI interactions.
 ## Easing defaults
 - Enter/hover: `cubic-bezier(0.22, 1, 0.36, 1)`.
 - Move: `cubic-bezier(0.25, 1, 0.5, 1)`.
-- Simple hover color/opacity: `200ms ease`.
+- Simple hover colour/opacity: `200ms ease`.
 
 ## Accessibility
 - If `transform` is used, disable it in `prefers-reduced-motion`.
@@ -37,6 +32,3 @@ Apply consistent motion rules for UI interactions.
 - Pause looping animations off-screen.
 - Toggle `will-change` only during heavy motion and only for `transform`/`opacity`.
 - Prefer `transform` over positional props in animation libraries.
-
-## Reference
-- See `animation-examples.md` for code snippets, easing tables, and motion recipes.

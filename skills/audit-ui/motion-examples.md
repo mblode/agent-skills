@@ -1,6 +1,6 @@
-# Animation Examples and Reference
+# Motion Examples and Reference
 
-Use these snippets and references when implementing rules from `animation-guidelines`.
+Use these snippets and references when implementing rules from `motion-guidelines`.
 
 ## Contents
 - Principles examples

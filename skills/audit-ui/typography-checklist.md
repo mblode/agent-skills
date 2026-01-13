@@ -6,7 +6,7 @@ Use this checklist to implement or review typography in UI/web work. Apply only 
 - Checklist
 
 ## Checklist
-- [ ] Replace straight quotes/apostrophes with smart quotes; ensure UTF-8; normalize content at build/render time.
+- [ ] Replace straight quotes/apostrophes with smart quotes; ensure UTF-8; normalise content at build/render time.
 - [ ] Enable smart quotes; treat primes as distinct; choose dash style (spaced en or unspaced em) and be consistent.
 - [ ] If em dash is too wide in the chosen face, switch to spaced en dashes for breaks.
 - [ ] Use en dash for ranges and em dash for attribution; never use double hyphens; use prime/double-prime glyphs (Unicode/entities).
@@ -49,8 +49,8 @@ Use this checklist to implement or review typography in UI/web work. Apply only 
 - [ ] If using indents, apply only after the first paragraph (`p + p`) and size appropriately; keep paragraph spacing modest and responsive.
 - [ ] Set line height first, then adjust paragraph spacing; avoid paragraphs touching.
 - [ ] Place subheaders closer to the paragraph they introduce than to the preceding text.
-- [ ] Use extra spacing for large subheaders; avoid default center alignment except for intentional formal/large display.
-- [ ] If center-aligning text, increase line height and use sparingly.
+- [ ] Use extra spacing for large subheaders; avoid default centre alignment except for intentional formal/large display.
+- [ ] If centre-aligning text, increase line height and use sparingly.
 - [ ] Avoid justified text on the web; only justify with strong hyphenation support.
 - [ ] Never justify without hyphenation; avoid letterspacing in justification; use better hyphenation tools if required.
 - [ ] Add letterspacing to uppercase (about 0.1-0.2em) and adjust for size.
@@ -69,18 +69,18 @@ Use this checklist to implement or review typography in UI/web work. Apply only 
 - [ ] Right-align table numbers, use commas; prefer tabular digits; use oldstyle figures in running text when available.
 - [ ] Enable `onum` for oldstyle or `lnum` for lining digits; use lining next to uppercase/UI.
 - [ ] Spell out 1-9 if desired; ensure text/background contrast (not necessarily pure black).
-- [ ] Avoid low-contrast light text; make links distinct from body text with color or underline.
+- [ ] Avoid low-contrast light text; make links distinct from body text with colour or underline.
 - [ ] Implement link styling with subtle underline/hover without layout shift.
-- [ ] Avoid using link color for non-links; design accessible link styles; be cautious with text over photos.
+- [ ] Avoid using link colour for non-links; design accessible link styles; be cautious with text over photos.
 - [ ] If using text on photos, enforce contrast (overlay or curated images) or avoid the pattern.
 - [ ] Avoid decorative hero photos that hurt readability/perf; when stacking vertical type, use uppercase.
-- [ ] Rotate vertical type clockwise and center-align; rely on built-in kerning; manually kern only for large display/logos.
+- [ ] Rotate vertical type clockwise and centre-align; rely on built-in kerning; manually kern only for large display/logos.
 - [ ] Accept minor kerning irregularities; do not over-kern.
 - [ ] Use metrics kerning; adjust tracking before kerning; use hair/thin spaces where needed.
 - [ ] Use hair/thin spaces instead of no space or word space when spacing feels off.
 - [ ] Use `&hairsp;`/`&thinsp;` around em dashes/citations as needed; add horizontal padding between nav items.
 - [ ] Limit nav items; use CSS padding not spaces; indicate current nav item as selected/inactive (not others).
-- [ ] Keep selected nav readable; never gray navigable items; ensure list text does not wrap under bullets.
+- [ ] Keep selected nav readable; never grey navigable items; ensure list text does not wrap under bullets.
 - [ ] Use proper list markup (`<ul>/<ol>`); add vertical spacing for multi-line items.
 - [ ] If list item titles wrap, increase vertical padding and tighten line height so wrapped lines stay grouped.
 - [ ] Test lists with long content and narrow widths.
@@ -89,23 +89,23 @@ Use this checklist to implement or review typography in UI/web work. Apply only 
 - [ ] Use off-white text on dark backgrounds; reserve reversed type for appropriate contexts.
 - [ ] Edit copy for clarity; remove redundant UI text.
 - [ ] Start layout with body text; use modular scale as a guide, not a constraint.
-- [ ] Break the scale if optical fit demands it; prioritize readability over numeric purity.
+- [ ] Break the scale if optical fit demands it; prioritise readability over numeric purity.
 - [ ] Choose body size first; ensure strong size contrast (same or clearly different).
-- [ ] Avoid near-equal sizes; build hierarchy with weight/italics/caps/color, one axis at a time.
+- [ ] Avoid near-equal sizes; build hierarchy with weight/italics/caps/colour, one axis at a time.
 - [ ] Use letterspaced caps/small caps for subheads; size caps down to avoid shouting.
-- [ ] Avoid header colors that match link colors; avoid all-italic headers; use CSS text-transform; keep heading levels shallow (h1-h3).
+- [ ] Avoid header colours that match link colours; avoid all-italic headers; use CSS text-transform; keep heading levels shallow (h1-h3).
 - [ ] Use descriptive, skimmable headings (not generic).
-- [ ] As headings grow, reduce weight or lighten color for balance.
-- [ ] Lighten headers subtly; prefer darkened brand hues over flat gray.
+- [ ] As headings grow, reduce weight or lighten colour for balance.
+- [ ] Lighten headers subtly; prefer darkened brand hues over flat grey.
 - [ ] Define and document a consistent type system; avoid random style changes; use grids but do not obsess over baseline grids.
-- [ ] Baseline grids are impractical for web; prioritize font size, line height, and line length.
+- [ ] Baseline grids are impractical for web; prioritise font size, line height, and line length.
 - [ ] Accept web fluidity; do not chase total control.
 - [ ] Trust your eye; vet typography frameworks; place captions/descriptions closer to the images they describe.
 - [ ] Use proximity/dividers to clarify associations; place dividers above headings, not below.
 - [ ] Remember dividers are rules; avoid underlining headings; choose hanging bullets only if they improve reading.
 - [ ] Decide between hanging vs indented bullets based on readability; indented often scans better.
 - [ ] Avoid hanging bullets on mobile; add vertical spacing between bullet items; balance layouts optically.
-- [ ] Optically center elements (slightly above true center); account for overshoot in round/pointed shapes.
+- [ ] Optically centre elements (slightly above true centre); account for overshoot in round/pointed shapes.
 - [ ] Limit to two typefaces (body + display) unless you can manage a complex system.
 - [ ] If using more faces, enforce strict system; consider superfamilies for easy pairing.
 - [ ] Prefer serif/sans pairs from the same superfamily; use example list only as a starting point.
@@ -144,9 +144,9 @@ Use this checklist to implement or review typography in UI/web work. Apply only 
 - [ ] Allow grid deviations when useful; add a lead/lede paragraph with larger or distinct styling.
 - [ ] Leads can be short; start articles with initial small caps or drop caps where appropriate.
 - [ ] Implement small caps or drop caps (CSS `initial-letter` in Safari or JS fallback); use whitespace as a design element.
-- [ ] Give typography room to breathe; use color to create brand and hierarchy.
-- [ ] Use color intentionally with sufficient contrast; subtle tints can be distinctive.
+- [ ] Give typography room to breathe; use colour to create brand and hierarchy.
+- [ ] Use colour intentionally with sufficient contrast; subtle tints can be distinctive.
 - [ ] Avoid pure black/white; use slightly tinted blacks/whites to reduce glare.
 - [ ] Tint blacks/whites with brand hue but keep contrast adequate.
 - [ ] Keep type consistent across web/print/app; license fonts for each medium; make body text distinctive to brand.
-- [ ] Experiment beyond default fonts/colors; aim for recognizable body-text identity.
+- [ ] Experiment beyond default fonts/colours; aim for recognisable body-text identity.

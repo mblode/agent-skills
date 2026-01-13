@@ -11,9 +11,9 @@
 - Import proto-generated types directly; do not duplicate API response types.
 - Extend proto only for UI needs; keep UI types feature-scoped.
 - Use mappers for transformations; avoid `as` casting.
-- Normalize timestamps to `Date` in mappers.
+- Normalise timestamps to `Date` in mappers.
 
-## Organization
+## Organisation
 - `types/index.ts`: Zod schemas + inferred types.
 - `types/common.ts`: shared enums/interfaces.
 - `types/<domain>.ts`: feature UI types.

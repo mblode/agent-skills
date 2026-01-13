@@ -1,9 +1,9 @@
 ---
-name: frontend-standards
-description: Production frontend standards for React/TypeScript/Next.js. Use when reviewing, refactoring, or writing frontend code, especially forms, state, hooks/components, and type safety.
+name: implement-frontend
+description: Implementation standards for React/TypeScript/Next.js. Use when writing or reviewing frontend code, especially forms, state, hooks/components, and type safety.
 ---
 
-# Frontend Standards
+# Implement Frontend
 
 Use this as the baseline for all frontend code. Fix violations.
 
@@ -42,6 +42,7 @@ Use this as the baseline for all frontend code. Fix violations.
 - `setQueryData` is allowed only for optimistic updates or small, scoped edits.
 
 ## Performance & UX (required)
+- Follow `audit-ui` for motion, accessibility, and UX checklist items.
 - Lazy-load heavy UI (charts, editors, modals) with dynamic import and suspense fallback.
 - Reserve image sizes to avoid layout shift; use `next/image` when applicable.
 - Enforce bundle budgets in CI (document the budgets in the repo).
@@ -49,17 +50,6 @@ Use this as the baseline for all frontend code. Fix violations.
 ## Observability (required)
 - Add error boundaries at route/layout level; report exceptions to Sentry (or project standard).
 - Tag client errors with `userId`/`orgId` and `release` (commit/semantic version), scrub PII.
-
-## Web interface guidelines (mandatory UX baseline)
-- Full keyboard support; visible focus rings (`:focus-visible`/`:focus-within`); manage focus in dialogs/menus.
-- Hit targets >= 24px (>= 44px on mobile); hover styles gated by `@media (hover: hover)`; `touch-action: manipulation`.
-- Forms: labels wired to inputs; Enter submits; textarea uses Cmd/Ctrl+Enter; keep submit enabled until request starts, then disable with spinner.
-- Never block paste/typing; inline errors; focus first error; inputs with `value` include `onChange`.
-- Navigation uses `<a>`/`<Link>`; URL reflects state; Back/Forward restores scroll position.
-- If showing a spinner/skeleton, add a short show-delay (150-300ms); confirm destructive actions or provide Undo.
-- Follow `animation-guidelines` for motion rules.
-- Respect safe areas; avoid unwanted scrollbars; handle long content with truncation (`min-w-0`).
-- Theming: `color-scheme: dark` on `<html>` for dark themes; `<meta name="theme-color">` matches background.
 
 ## Required structure (per feature)
 ```
