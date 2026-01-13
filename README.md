@@ -1,4 +1,4 @@
-# Design skills
+# Agent skills
 
 A minimal set of skills for high-quality UI and frontend work.
 
