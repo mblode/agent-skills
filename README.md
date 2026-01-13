@@ -19,13 +19,22 @@ For project scope without plugins, copy `skills/` into `.claude/skills`. For per
 
 ### Codex
 
-Use the built-in installer for a single skill:
+Use the built-in installer for each skill:
 
 ```
 $skill-installer https://github.com/mblode/agent-skills/tree/main/skills/design-principles
+$skill-installer https://github.com/mblode/agent-skills/tree/main/skills/frontend-design
+$skill-installer https://github.com/mblode/agent-skills/tree/main/skills/craft-checklist
+$skill-installer https://github.com/mblode/agent-skills/tree/main/skills/animation-guidelines
+$skill-installer https://github.com/mblode/agent-skills/tree/main/skills/frontend-standards
+$skill-installer https://github.com/mblode/agent-skills/tree/main/skills/fullstack-architecture
+$skill-installer https://github.com/mblode/agent-skills/tree/main/skills/repository-workflow
+$skill-installer https://github.com/mblode/agent-skills/tree/main/skills/flawless-typography
 ```
 
-For project scope, copy `skills/` into `.codex/skills`. For personal scope, copy into `$CODEX_HOME/skills` (or `~/.codex/skills`). Restart Codex to pick up new skills.
+Restart Codex to pick up new skills.
+
+For manual installation, copy `skills/` into `.codex/skills` (project scope) or `$CODEX_HOME/skills` (or `~/.codex/skills`) for personal scope.
 
 ## Skills included
 
