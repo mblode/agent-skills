@@ -6,7 +6,7 @@ A minimal set of skills for high-quality UI and frontend work.
 
 ### Claude Code
 
-Install via plugin marketplace:
+Install via plugin marketplace from GitHub:
 
 ```
 /plugin marketplace add mblode/agent-skills

@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "mblode-agent-skills",
-      "source": ".",
+      "source": "./",
       "description": "Design and frontend workflow skills for Claude Code."
     }
   ]
