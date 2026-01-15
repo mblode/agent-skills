@@ -43,6 +43,9 @@ High-signal pull request review focused on bugs and CLAUDE.md compliance. Use be
 ### optimise-seo
 Optimize SEO for Next.js applications including sitemaps, meta tags, structured data, and Core Web Vitals. Use for pre-launch audits and ongoing SEO improvements.
 
+### multi-tenant-platform-architecture
+Cloudflare-first architecture guidance for multi-tenant platforms where tenants own their space. Use for domain strategy, isolation, routing, custom domains, and plan/limit mapping.
+
 ## Contributing
 
 Edit the files in `skills/`. Keep `SKILL.md` concise and use reference files for detail.
