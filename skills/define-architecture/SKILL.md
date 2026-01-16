@@ -19,7 +19,7 @@ Define workflow, repo shape, and backend/frontend architecture patterns.
 - ConnectRPC + protobuf types.
 - Prisma + Postgres.
 - Supabase (auth/storage), Stripe (payments), Resend (email), Twilio (SMS).
-- Ultracite withBiome
+- Ultracite with Biome
 - Vitest.
 
 ## Monorepo shape (example)
