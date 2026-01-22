@@ -5,7 +5,7 @@ A minimal, opinionated set of skills for planning, design, engineering, and UI q
 ## Quick Start
 
 ```bash
-npx skills i mblode/agent-skills
+npx skills add mblode/agent-skills
 ```
 
 Supports OpenCode, Claude Code, Codex, and Cursor.
