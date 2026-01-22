@@ -68,7 +68,7 @@ DAO rules
 - Server Components by default; "use client" only when needed.
 - TanStack/Connect Query for server state; MobX only for global client state.
 - Use `implement-frontend` for forms, hooks, and type safety.
-- Use `audit-ui` for UI polish and motion rules.
+- Use `audit-ui` for UI polish; use `ui-animation` for motion rules.
 
 ## Commands (common)
 

@@ -12,6 +12,6 @@ Choose the right track and follow its guidance.
 - Marketing/brand/creative: read `marketing-ui.md`.
 
 ## Cross-skill baselines
-- Use `audit-ui` for motion, accessibility, and final QA.
+- Use `ui-animation` for motion; use `audit-ui` for accessibility and final QA.
 - Use `implement-frontend` for React/TypeScript implementation standards.
 - Use `design-in-code.md` for low-fi planning and layout-first workflow.

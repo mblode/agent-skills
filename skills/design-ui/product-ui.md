@@ -36,7 +36,7 @@ Use for dashboards, admin tools, and data-dense workflows.
 
 ## Motion
 - Keep motion subtle and functional.
-- Follow `audit-ui` motion guidelines.
+- Follow `ui-animation` guidelines.
 
 ## Interaction baseline
 - Use `audit-ui` for UX/a11y polish and QA.

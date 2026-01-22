@@ -40,7 +40,7 @@ Goal: make the UI look human-designed, not AI-default.
 - Hit targets >= 24px (>= 44px on mobile); hover styles gated by `@media (hover: hover)`.
 - Forms: labels wired to inputs; Enter submits; textarea uses Cmd/Ctrl+Enter; keep submit enabled until request starts, then disable with spinner.
 - Never block paste/typing; inline errors; focus first error; inputs with `value` include `onChange`.
-- Follow `audit-ui` motion rules and reduced-motion behaviour.
+- Follow `ui-animation` motion rules and reduced-motion behaviour.
 - Respect safe areas; handle long content with truncation; design empty/error states.
 - Locale-aware formatting (`Intl.*`); use `&hellip;` and non-breaking spaces for glued terms.
 

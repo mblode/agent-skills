@@ -52,7 +52,7 @@ Use this as the baseline for all frontend code. Fix violations.
 - `setQueryData` is allowed only for optimistic updates or small, scoped edits.
 
 ## Performance & UX (required)
-- Follow `audit-ui` for motion, accessibility, and UX checklist items.
+- Follow `audit-ui` for accessibility and UX checklist items; use `ui-animation` for motion.
 - Lazy-load heavy UI (charts, editors, modals) with dynamic import and suspense fallback.
 - Reserve image sizes to avoid layout shift; use `next/image` when applicable.
 - Enforce bundle budgets in CI (document the budgets in the repo).

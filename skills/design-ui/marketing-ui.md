@@ -13,7 +13,7 @@ Deliver working code with a clear aesthetic point of view. Avoid generic AI aest
 - Hit targets >= 24px (>= 44px on mobile).
 - Keep forms accessible (labels, enter-to-submit, inline errors).
 - Handle loading/empty/error states and long content.
-- Follow `audit-ui` for full a11y, motion, and polish checks.
+- Follow `audit-ui` for full a11y and polish checks; use `ui-animation` for motion.
 
 ## Aesthetic rules
 - Typography: choose distinctive fonts (not Inter/Roboto/Arial/system). Weight >= 400. Use `clamp()`.
@@ -23,7 +23,7 @@ Deliver working code with a clear aesthetic point of view. Avoid generic AI aest
 - Interaction details: set `pointer-events: none` on decorative layers; allow text selection by default.
 
 ## Motion
-- Follow `audit-ui` motion guidelines for timing, easing, and reduced-motion behaviour.
+- Follow `ui-animation` guidelines for timing, easing, and reduced-motion behaviour.
 
 ## Avoid AI slop
 - Do not reuse default font stacks, purple gradients, or default layouts.

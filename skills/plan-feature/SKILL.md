@@ -95,7 +95,7 @@ Create a concrete, ordered plan with:
 Explicitly note which standards apply:
 - Frontend changes: reference `implement-frontend`, `audit-ui`
 - UI changes: reference `design-ui`
-- Motion: reference `audit-ui`
+- Motion: reference `ui-animation`
 - Backend: reference `define-architecture`
 - Typography: reference `audit-ui`
 

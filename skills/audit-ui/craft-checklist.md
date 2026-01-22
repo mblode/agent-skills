@@ -17,7 +17,7 @@ Use this as a final polish pass.
 - Enable `-webkit-font-smoothing` and `text-rendering: optimizeLegibility`.
 
 ## Motion
-- Validate against `motion-guidelines` (timing, easing, reduced motion, transform/opacity only).
+- Validate against `ui-animation` (timing, easing, reduced motion, transform/opacity only).
 
 ## Keyboard, focus, and targets
 - Provide full keyboard support and visible focus styles.

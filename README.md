@@ -16,7 +16,8 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 - Architecture setup (project start): `define-architecture` for repo shape, backend patterns, and workflow.
 - Visual direction (design phase): `design-ui` for product vs marketing look/feel.
 - Implementation (build phase): `implement-frontend` for React/TypeScript/Next standards.
-- UI QA (pre‑ship): `audit-ui` for motion, typography, accessibility, and final craft pass.
+- UI QA (pre‑ship): `audit-ui` for typography, accessibility, and final craft pass.
+- Motion/animation: `ui-animation` for easing, timing, and reduced-motion rules.
 - Review (pre‑merge): `review-pr` for bug and CLAUDE.md compliance checks.
 - Launch/SEO (pre‑launch and audits): `optimise-seo` for metadata, structure, and Core Web Vitals.
 
@@ -40,7 +41,11 @@ Implementation standards and best practices for React/TypeScript/Next.js. Use wh
 
 ### audit-ui
 
-Final quality audit for motion, typography, accessibility, and UX polish. Use when reviewing or refining UI before release to ensure professional craft and compliance.
+Final quality audit for typography, accessibility, and UX polish. Use when reviewing or refining UI before release to ensure professional craft and compliance.
+
+### ui-animation
+
+Guidelines and examples for UI motion and animation. Use when designing, implementing, or reviewing motion, easing, timing, and reduced-motion behaviour.
 
 ### review-pr
 

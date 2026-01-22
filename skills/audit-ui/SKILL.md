@@ -1,6 +1,6 @@
 ---
 name: audit-ui
-description: Final UI quality audit for motion, typography, accessibility, and UX polish. Use when reviewing or refining UI before release.
+description: Final UI quality audit for typography, accessibility, and UX polish. Use when reviewing or refining UI before release.
 ---
 
 # UI Audit
@@ -10,7 +10,7 @@ Run the checklist that matches the change.
 ## Choose the checklist
 - Full UI pass: `craft-checklist.md`.
 - Typography audit: `typography-checklist.md`.
-- Motion rules and recipes: `motion-guidelines.md` and `motion-examples.md`.
+- Motion rules and recipes: use `ui-animation`.
 
 ## Workflow
 - Apply only the items relevant to the surface.

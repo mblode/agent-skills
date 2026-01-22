@@ -1,16 +1,6 @@
-# Motion Examples and Reference
+# UI Animation Examples
 
-Use these snippets and references when implementing rules from `motion-guidelines`.
-
-## Contents
-- Principles examples
-- What to animate examples
-- Spatial rules and stagger
-- Easing reference
-- Hover transitions
-- Accessibility and reduced motion
-- Origin-aware animations
-- Performance recipes
+Use these snippets and tips when implementing the core rules in `SKILL.md`.
 
 ## Principles examples
 ```css
@@ -110,30 +100,10 @@ const listVariants = {
 
 ## Easing reference
 - Default to `ease-out` for most animations.
-- Do not use built-in easings unless it is `ease` or `linear`.
-- Enter: `cubic-bezier(0.22, 1, 0.36, 1)` (ease-out).
-- Move: `cubic-bezier(0.25, 1, 0.5, 1)` (ease-in-out).
-- `ease-in` (avoid; feels slow):
-  - `ease-in-quad`: `cubic-bezier(.55, .085, .68, .53)`
-  - `ease-in-cubic`: `cubic-bezier(.550, .055, .675, .19)`
-  - `ease-in-quart`: `cubic-bezier(.895, .03, .685, .22)`
-  - `ease-in-quint`: `cubic-bezier(.755, .05, .855, .06)`
-  - `ease-in-expo`: `cubic-bezier(.95, .05, .795, .035)`
-  - `ease-in-circ`: `cubic-bezier(.6, .04, .98, .335)`
-- `ease-out` (entering/interactions):
-  - `ease-out-quad`: `cubic-bezier(.25, .46, .45, .94)`
-  - `ease-out-cubic`: `cubic-bezier(.215, .61, .355, 1)`
-  - `ease-out-quart`: `cubic-bezier(.165, .84, .44, 1)`
-  - `ease-out-quint`: `cubic-bezier(.23, 1, .32, 1)`
-  - `ease-out-expo`: `cubic-bezier(.19, 1, .22, 1)`
-  - `ease-out-circ`: `cubic-bezier(.075, .82, .165, 1)`
-- `ease-in-out` (moving within screen):
-  - `ease-in-out-quad`: `cubic-bezier(.455, .03, .515, .955)`
-  - `ease-in-out-cubic`: `cubic-bezier(.645, .045, .355, 1)`
-  - `ease-in-out-quart`: `cubic-bezier(.77, 0, .175, 1)`
-  - `ease-in-out-quint`: `cubic-bezier(.86, 0, .07, 1)`
-  - `ease-in-out-expo`: `cubic-bezier(1, 0, 0, 1)`
-  - `ease-in-out-circ`: `cubic-bezier(.785, .135, .15, .86)`
+- Enter: `cubic-bezier(0.22, 1, 0.36, 1)`.
+- Move: `cubic-bezier(0.25, 1, 0.5, 1)`.
+- Simple hover colour/opacity: `200ms ease`.
+- Avoid `ease-in` for UI (feels slow).
 
 ### Drawer example
 ```css
@@ -153,7 +123,6 @@ const listVariants = {
 
 ## Hover transitions
 - Use `ease` with `200ms` for simple hover transitions (`color`, `background-color`, `opacity`).
-- For complex hover motion, follow the easing rules above.
 - Disable hover transitions on touch devices via `@media (hover: hover) and (pointer: fine)`.
 
 ```css
@@ -196,8 +165,6 @@ export function AnimatedCard() {
 ```
 
 ## Origin-aware animations
-- Elements should animate from the trigger; adjust `transform-origin` to the trigger position.
-
 ```css
 .popover[data-side="top"]    { transform-origin: bottom center; }
 .popover[data-side="bottom"] { transform-origin: top center; }
@@ -245,3 +212,132 @@ export function usePauseOffscreen<T extends HTMLElement>() {
   return ref;
 }
 ```
+
+## Practical tips
+
+### Record your animations
+When something feels off but you cannot identify why, record the animation and play it back frame by frame.
+
+### Fix shaky animations
+Elements can shift by 1px at the start/end of CSS transforms due to GPU/CPU handoff.
+
+```css
+.element {
+  will-change: transform;
+}
+```
+
+### Scale buttons on press
+```css
+button:active {
+  transform: scale(0.97);
+}
+```
+
+### Avoid animating from scale(0)
+```css
+.element {
+  transform: scale(0.95);
+  opacity: 0;
+}
+.element.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+```
+
+### Skip animation on subsequent tooltips
+```css
+.tooltip {
+  transition:
+    transform 125ms ease-out,
+    opacity 125ms ease-out;
+  transform-origin: var(--transform-origin);
+}
+.tooltip[data-starting-style],
+.tooltip[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+/* Skip animation for subsequent tooltips */
+.tooltip[data-instant] {
+  transition-duration: 0ms;
+}
+```
+
+### Keep animations fast
+UI motion should stay under 300ms for core interactions.
+
+### Do not animate keyboard interactions
+Never animate:
+- List navigation with arrow keys
+- Keyboard shortcut responses
+- Tab/focus movements
+
+### Fix hover flicker
+```html
+<div class="box">
+  <div class="box-inner"></div>
+</div>
+```
+
+```css
+.box:hover .box-inner {
+  transform: translateY(-20%);
+}
+.box-inner {
+  transition: transform 200ms ease;
+}
+```
+
+### Disable hover on touch devices
+```css
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: scale(1.05);
+  }
+}
+```
+
+### Ensure appropriate target areas
+Minimum target size is 44px (Apple and WCAG recommendation).
+
+```css
+@utility touch-hitbox {
+  position: relative;
+}
+@utility touch-hitbox::before {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  min-height: 44px;
+  min-width: 44px;
+  z-index: 9999;
+}
+```
+
+```jsx
+<button className="touch-hitbox">
+  <BellIcon />
+</button>
+```
+
+### Use blur as a fallback
+```css
+.button-transition {
+  transition:
+    transform 150ms ease-out,
+    filter 150ms ease-out;
+}
+.button-transition:active {
+  transform: scale(0.97);
+  filter: blur(2px);
+}
+```
+
+Keep blur under 20px, especially on Safari.

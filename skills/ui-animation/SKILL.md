@@ -1,6 +1,11 @@
-# Motion Guidelines
+---
+name: ui-animation
+description: Guidelines and examples for UI motion and animation. Use when designing, implementing, or reviewing motion, easing, timing, and reduced-motion behaviour.
+---
 
-Apply consistent motion rules for UI interactions.
+# UI Animation
+
+Use these core rules for consistent motion and animation decisions.
 
 ## Core rules
 - Animate to clarify cause/effect or add deliberate delight.
@@ -32,3 +37,11 @@ Apply consistent motion rules for UI interactions.
 - Pause looping animations off-screen.
 - Toggle `will-change` only during heavy motion and only for `transform`/`opacity`.
 - Prefer `transform` over positional props in animation libraries.
+
+## Reference
+- Snippets and practical tips: `examples.md`.
+
+## Workflow
+- Start with the core rules, then pick a reference snippet.
+- Keep motion functional; honor `prefers-reduced-motion`.
+- When reviewing, cite file paths and line numbers and propose concrete fixes.
