@@ -38,6 +38,9 @@ Critical questions:
 - Who is this for? (user type, environment, scale)
 - How will you verify it works? (testing approach, validation)
 
+### Speed-to-learning reference
+- Use `ship-fast-loop.md` for a lightweight shipping loop and feedback cadence.
+
 ### 2. Analysis
 Explore the codebase systematically:
 - Locate relevant files (use Glob/Grep, document paths with line numbers)

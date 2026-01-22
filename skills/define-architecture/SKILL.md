@@ -11,16 +11,22 @@ Define workflow, repo shape, and backend/frontend architecture patterns.
 
 - Build frontend first: mock UI -> proto contract -> backend (TDD) -> integrate.
 - Exception: unblocker infra (auth/middleware/schema) can come first.
+- Ship small and reversible changes; rollback faster than you debate.
+- Add structure only when customers pay, multiple contributors exist, or bugs cost real money/time.
+- Use `shipping-practices.md` for rollout, flags, and feedback loops.
 
 ## Stack defaults (adjust per project)
 
 - Turborepo + npm workspaces.
 - Next.js App Router + React.
+- Tailwind CSS + shadcn/ui.
+- React Hook Form + TanStack Query.
 - ConnectRPC + protobuf types.
 - Prisma + Postgres.
 - Supabase (auth/storage), Stripe (payments), Resend (email), Twilio (SMS).
-- Ultracite with Biome
+- Ultracite with Biome.
 - Vitest.
+- Deploy: Vercel (web) + Fly.io (API).
 
 ## Monorepo shape (example)
 
@@ -79,6 +85,11 @@ DAO rules
 - Integration/E2E: parallel with dynamic IDs.
 - Frontend tests: Vitest/jsdom as needed.
 
+## Craftsmanship reference
+
+- Use `craftsmanship.md` for debugging, testing, performance, portability, and professionalism checklists.
+- Apply these when setting org-wide standards or reviewing architecture decisions.
+
 ## Conventions
 
 - Prefer `type` over `interface`.
@@ -89,10 +100,11 @@ DAO rules
 
 - Commit subjects in imperative mood.
 - PRs: green lint/type/tests, document migrations, add UI screenshots.
+- Small teams default to small changes, frequent merges, and a rollback plan. PRs are optional as broadcast, not permission.
 
 ## Production readiness (priority order)
 
 - Security: rotate secrets, CORS, rate limits, headers, dependency scanning.
-- Architecture: modular services, auth/error middleware, strict typing.
+- Architecture: modular services, auth/error middleware, strict typing, and conventional/boring stacks.
 - Infra: integration tests, health checks, automated deploys.
 - Observability: tracing, audit logs, alerting.

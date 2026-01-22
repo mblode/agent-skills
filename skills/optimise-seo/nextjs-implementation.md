@@ -1,6 +1,6 @@
 # Next.js SEO Implementation
 
-Essential patterns for Next.js 16 App Router.
+Essential patterns for Next.js App Router.
 
 ## Metadata
 

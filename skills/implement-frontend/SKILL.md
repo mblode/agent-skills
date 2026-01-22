@@ -14,6 +14,16 @@ Use this as the baseline for all frontend code. Fix violations.
 - Use proto types as the contract; do not duplicate API types.
 - Components render; hooks own data fetching and business logic.
 
+## Code quality (baseline)
+- Use active verb names; use one word per concept.
+- Keep functions small, do one thing, and stay at one abstraction level.
+- Minimize arguments; avoid boolean flags; avoid negative conditionals.
+- Use else-if for multi-way decisions.
+- Replace magic numbers with named constants.
+- Comment intent, warnings, examples, or TODOs; never contradict code.
+- Remove commented-out or unused code.
+- Guard against hidden side effects.
+
 ## Critical anti-patterns
 - Duplicate state or syncing state via `useEffect`.
 - API calls or business logic inside components.

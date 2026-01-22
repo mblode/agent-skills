@@ -14,3 +14,4 @@ Choose the right track and follow its guidance.
 ## Cross-skill baselines
 - Use `audit-ui` for motion, accessibility, and final QA.
 - Use `implement-frontend` for React/TypeScript implementation standards.
+- Use `design-in-code.md` for low-fi planning and layout-first workflow.

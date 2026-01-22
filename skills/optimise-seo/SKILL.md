@@ -1,34 +1,60 @@
 ---
 name: optimise-seo
-description: Optimise SEO for Next.js. Sitemaps, meta tags, structured data, Core Web Vitals. No UI changes.
+description: This skill should be used when the user asks to "improve SEO", "add sitemap.xml", "fix meta tags", "add structured data", "set canonical URLs", "improve Core Web Vitals", "audit SEO", "programmatic SEO", or "build SEO pages at scale" in a Next.js App Router app. Perform no visual redesigns.
 ---
 
 # Optimise SEO
 
-Essential optimisations for search visibility.
+Practical SEO improvements for Next.js App Router without visual redesign.
+
+## Constraints
+- No visual redesigns or layout changes. Allowed: metadata, structured data, semantic HTML, internal links, alt text, sitemap/robots, performance tuning.
+
+## Quick workflow
+1) Inventory routes and index intent
+2) Fix crawl/index foundations
+3) Implement metadata + structured data
+4) Improve semantics, links, and CWV
+5) Validate and document
 
 ## Must-have
-- Unique title (50-60 chars) and description (150-160 chars) per page
-- Dynamic sitemap.xml (`app/sitemap.ts`)
-- Robots.txt allowing crawlers (`app/robots.ts`)
-- JSON-LD: Organization, WebSite, BreadcrumbList
-- Canonical URLs on all pages
-- OpenGraph and Twitter Card meta tags
-- Semantic HTML: `<header>`, `<nav>`, `<main>`, `<article>`, `<footer>`
-- Single h1 per page, logical h2-h6 hierarchy
-- Alt text on all images
-- Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1
+- Sitemap (`app/sitemap.ts`) and robots (`app/robots.ts`)
+- Canonicals consistent on every page
+- Unique titles + descriptions
+- OpenGraph + Twitter Card tags
+- JSON-LD: Organization, WebSite, BreadcrumbList (+ Article/Product/FAQ as needed)
+- One h1 and logical headings; semantic HTML
+- Alt text, internal links, CWV targets, mobile/desktop parity
+
+## Programmatic SEO (pages at scale)
+- Validate demand for a repeatable pattern before generating pages
+- Require unique value per page and defensible data
+- Use clean subfolder URLs, hubs/spokes, and breadcrumbs
+- Index only strong pages; monitor indexation and cannibalization
+
+## SEO audit (triage order)
+1) Crawl/index: robots, sitemap, noindex, canonicals, redirects, soft 404s
+2) Technical: HTTPS, CWV, mobile parity
+3) On-page/content: titles/H1, internal links, remove or noindex thin pages
+
+## Outputs
+- List files changed and why
+- Provide validation results and remaining issues
+
+## Resources
+- `nextjs-implementation.md` for code examples
+- `seo-checklist.md` for launch checklist
 
 ## Don't
-- Duplicate/missing meta titles or descriptions
-- Block crawlers incorrectly
-- Missing canonical URLs
-- JavaScript-only rendering without SSR/SSG
-- Generic/missing image alt text
+- Duplicate or missing titles/descriptions
+- Block crawlers unintentionally
+- Omit or conflict canonicals
+- Rely on JS-only rendering without SSR/SSG
+- Use generic or missing alt text
 - Use headings for styling
-
-## Implementation
-See `nextjs-implementation.md` for code examples.
+- Over-generate thin pages or doorway pages
+- Keyword stuff or create cannibalization
+- Perform visual redesigns or layout changes
 
 ## Validation
 ```bash
