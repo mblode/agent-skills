@@ -15,3 +15,8 @@ Run the checklist that matches the change.
 ## Workflow
 - Apply only the items relevant to the surface.
 - When reviewing, cite file paths and line numbers and propose concrete fixes.
+
+## Output format
+- Group findings by file. Use `file:line` format.
+- State issue + location. Skip explanation unless the fix is non-obvious.
+- Mark clean files with `✓ pass`.

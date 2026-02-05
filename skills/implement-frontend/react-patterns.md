@@ -43,6 +43,7 @@
 - Full keyboard support per WAI-ARIA APG; visible focus rings (`:focus-visible`/`:focus-within`).
 - Hit targets >= 24px (>= 44px on mobile); hover styles gated by `@media (hover: hover)`.
 - Use `<a>`/`<Link>` for navigation; URL reflects state; Back/Forward restores scroll.
+- Deep-link all stateful UI; if it uses `useState`, consider URL sync via `nuqs` or similar.
 - Respect safe areas and avoid unwanted scrollbars; use `min-w-0` for truncation.
 
 ## Performance
@@ -50,12 +51,15 @@
 - Virtualize long lists.
 - Use stable keys; avoid index keys.
 - Keep `useEffect` deps correct; clean up.
+- No layout reads in render (`getBoundingClientRect`, `offsetHeight`, `offsetWidth`, `scrollTop`); batch DOM reads/writes.
+- Prefer uncontrolled inputs; controlled inputs must be cheap per keystroke.
 
 ## Next.js
 - Use `next/link` for internal nav.
 - Default to Server Components; add "use client" only when required.
 - Prefer server `page.tsx` wrappers that render client children.
 - Add `loading.tsx`/`error.tsx` for key routes.
+- Detect language via `Accept-Language` / `navigator.languages`, not IP geolocation.
 
 ## Final check
 - No duplicate state, no manual form state, no logic in components, no `form` in deps.

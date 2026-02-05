@@ -18,6 +18,7 @@ Use these core rules for consistent motion and animation decisions.
 - Only `transform` and `opacity`.
 - Never animate layout properties; never use `transition: all`.
 - Avoid blur > 20px.
+- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`.
 - Disable transitions during theme switches.
 
 ## Spatial and sequencing

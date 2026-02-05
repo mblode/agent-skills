@@ -3,7 +3,7 @@
 ## Hygiene
 - Eliminate `any`, `as any`, `// @ts-ignore`, and `// @ts-expect-error`.
 - Add explicit types where not obvious (props, events, generics).
-- Prefer `type` over `interface`.
+- Prefer `interface` over `type`. Use `interface extends` instead of `type &` intersections — interfaces create flat, cached object types while intersections are recursively merged and never cached, which degrades TS language-server and `tsc` performance in large codebases.
 - One component per file; use arrow components.
 - Return types: allow inference or use `React.ReactElement` (server components: `Promise<React.ReactElement>`).
 

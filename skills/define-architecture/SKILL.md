@@ -92,7 +92,7 @@ DAO rules
 
 ## Conventions
 
-- Prefer `type` over `interface`.
+- Prefer `interface` over `type`; use `interface extends` instead of `type &` (flat cached types vs recursive merge).
 - Use `import type` for types.
 - Biome: 2-space indent, double quotes, semicolons, 100 char width.
 

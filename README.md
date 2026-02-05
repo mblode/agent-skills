@@ -57,7 +57,7 @@ Optimize SEO for Next.js applications including sitemaps, meta tags, structured 
 
 ### multi-tenant-platform-architecture
 
-Cloudflare-first architecture guidance for multi-tenant platforms where tenants own their space. Use for domain strategy, isolation, routing, custom domains, and plan/limit mapping.
+Architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use for domain strategy, tenant isolation, routing, custom domains, and plan/limit mapping.
 
 ## Contributing
 

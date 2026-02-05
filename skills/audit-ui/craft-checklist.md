@@ -26,6 +26,11 @@ Use this as a final polish pass.
 - Gate hover styles with `@media (hover: hover)`.
 - Never disable browser zoom (`user-scalable=no` / `maximum-scale=1`).
 - Use `touch-action: manipulation` on tap targets to prevent double-tap zoom.
+- Never `outline: none` / `outline-none` without a `:focus-visible` replacement.
+- Buttons/links need a `hover:` state; hover/active/focus should be more prominent than rest state.
+- `scroll-margin-top` on heading anchors for in-page links.
+- Set `-webkit-tap-highlight-color` intentionally on tap targets.
+- `autoFocus` sparingly — desktop only, single primary input; avoid on mobile.
 - Disable pointer events on decorative layers (glows, gradients).
 - If it looks clickable, it must be clickable; remove dead zones between items.
 - Avoid text selection during drag; use `inert` or disable selection where needed.
@@ -39,8 +44,12 @@ Use this as a final polish pass.
 - Do not block paste or typing; validate after input.
 - Show inline errors; focus the first error on submit.
 - Allow incomplete submission to surface validation; keep submit enabled until request starts, then disable with spinner and keep the original label.
+- Checkboxes/radios: label + control share a single hit target (no dead zones).
+- Placeholders end with `…` and show an example pattern.
+- `autocomplete="off"` on non-auth fields to avoid password-manager triggers.
 - Trim trailing whitespace from IME/text expansion to avoid false errors.
 - Ensure password managers and one-time codes work.
+- Warn before navigation with unsaved changes (`beforeunload` or router guard).
 
 ## Navigation and feedback
 - Use `<a>`/`<Link>` for navigation; preserve URL state; Back/Forward restores scroll.
@@ -59,8 +68,12 @@ Use this as a final polish pass.
 - Use locale-aware formatting (`Intl.*`).
 
 ## Performance
-- Preload above-the-fold images and critical fonts; set explicit image dimensions.
-- Virtualize large lists.
+- Above-fold critical images: `priority` or `fetchpriority="high"`; below-fold images: `loading="lazy"`.
+- Set explicit `width` and `height` on images to prevent CLS.
+- Critical fonts: `<link rel="preload" as="font">` with `font-display: swap`.
+- Add `<link rel="preconnect">` for CDN/asset domains.
+- Virtualize large lists (>50 items).
+- No layout reads in render (`getBoundingClientRect`, `offsetHeight`, etc.); batch DOM reads/writes.
 - Minimise re-renders; profile when needed.
 - Use `will-change` sparingly; avoid heavy blur and excessive video autoplay.
 
@@ -72,12 +85,37 @@ Use this as a final polish pass.
 - Provide redundant status cues (not colour-only).
 - Provide skip link and heading hierarchy.
 - Do not animate during theme switches; set `color-scheme` and `<meta name="theme-color">`.
+- Native `<select>`: set explicit `background-color` and `color` (Windows dark mode fix).
 - Guard hydration for date/time; `value` inputs require `onChange`.
+- `suppressHydrationWarning` only where truly needed (dates, theme).
 
 ## Extra polish
 - Match box-shadows and motion to high-quality references.
 - Add SEO metadata and dynamic OG images.
 - Add keyboard shortcuts where useful.
+
+## Content and copy
+- Active voice: "Install the CLI" not "The CLI will be installed".
+- Sentence case for headings and buttons.
+- Numerals for counts: "8 deployments" not "eight".
+- Specific button labels: "Save API Key" not "Continue".
+- Error messages include fix/next step, not just the problem.
+- Second person; avoid first person.
+- `&` over "and" where space-constrained.
+
+## Anti-patterns (flag these)
+- `user-scalable=no` or `maximum-scale=1` disabling zoom.
+- `onPaste` + `preventDefault`.
+- `transition: all` — list properties explicitly.
+- `outline-none` without `:focus-visible` replacement.
+- `<div>` / `<span>` with click handlers instead of `<button>`.
+- Inline `onClick` navigation without `<a>`.
+- Images without `width`/`height` dimensions.
+- Large arrays `.map()` without virtualization.
+- Form inputs without labels.
+- Icon buttons without `aria-label`.
+- Hardcoded date/number formats (use `Intl.*`).
+- `autoFocus` without clear justification.
 
 ## Resources
 - Devouring Details, Sanding UI, Paul Graham on Taste, Typewolf checklist.
