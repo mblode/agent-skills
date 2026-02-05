@@ -2,6 +2,12 @@
 
 Use this reference to map platform limits directly to pricing tiers.
 
+## Freshness policy
+
+- Treat values below as a snapshot as of 2026-02-05.
+- Re-check each cited source before finalizing pricing, architecture, or launch decisions.
+- If a source conflicts with this file, treat the source documentation as canonical and update this file.
+
 ## Cloudflare Workers limits (per request/isolate)
 
 - CPU time: 10 ms (Free), 30 s default / 5 min max (Paid).

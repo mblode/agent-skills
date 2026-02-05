@@ -2,6 +2,17 @@
 
 Use these snippets and tips when implementing the core rules in `SKILL.md`.
 
+## Table of contents
+- [Principles examples](#principles-examples)
+- [What to animate examples](#what-to-animate-examples)
+- [Spatial rules and stagger](#spatial-rules-and-stagger)
+- [Easing reference](#easing-reference)
+- [Hover transitions](#hover-transitions)
+- [Accessibility and reduced motion](#accessibility-and-reduced-motion)
+- [Origin-aware animations](#origin-aware-animations)
+- [Performance recipes](#performance-recipes)
+- [Practical tips](#practical-tips)
+
 ## Principles examples
 ```css
 /* Panel.module.css */
@@ -12,7 +23,8 @@ Use these snippets and tips when implementing the core rules in `SKILL.md`.
 
 @media (prefers-reduced-motion: reduce) {
   .panel {
-    transition-duration: 1ms;
+    transform: none;
+    transition: none;
   }
 }
 ```
@@ -20,16 +32,20 @@ Use these snippets and tips when implementing the core rules in `SKILL.md`.
 ```tsx
 // app/components/Panel.tsx
 "use client";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import styles from "./Panel.module.css";
 
 export function Panel() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
       className={styles.panel}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+      transition={
+        reduceMotion ? { duration: 0 } : { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
+      }
     />
   );
 }
@@ -99,10 +115,9 @@ const listVariants = {
 ```
 
 ## Easing reference
-- Default to `ease-out` for most animations.
 - Enter: `cubic-bezier(0.22, 1, 0.36, 1)`.
 - Move: `cubic-bezier(0.25, 1, 0.5, 1)`.
-- Simple hover colour/opacity: `200ms ease`.
+- Simple hover colour/background/opacity: `200ms ease`.
 - Avoid `ease-in` for UI (feels slow).
 
 ### Drawer example
@@ -145,6 +160,7 @@ const listVariants = {
   .menu,
   .toast {
     transform: none;
+    transition: none;
   }
 }
 ```
@@ -176,8 +192,8 @@ export function AnimatedCard() {
 - Pause looping animations off-screen.
 - Do not animate drag gestures using CSS variables.
 - Toggle `will-change` only during heavy animations.
-- Only use `will-change` for `transform`, `opacity`, `clipPath`, `filter`.
-- In Motion/Framer Motion, prefer `transform` over `x`/`y`.
+- Only use `will-change` for `transform` and `opacity`.
+- In Motion/Framer Motion, prefer transform-based movement (`x`/`y` or `transform`) over layout props (`top`/`left`).
 - Use springs by default; avoid bouncy springs unless dragging.
 
 ```css
@@ -327,17 +343,17 @@ Minimum target size is 44px (Apple and WCAG recommendation).
 </button>
 ```
 
-### Use blur as a fallback
+### Use opacity as a fallback
 ```css
 .button-transition {
   transition:
     transform 150ms ease-out,
-    filter 150ms ease-out;
+    opacity 150ms ease-out;
 }
 .button-transition:active {
   transform: scale(0.97);
-  filter: blur(2px);
+  opacity: 0.9;
 }
 ```
 
-Keep blur under 20px, especially on Safari.
+Prefer this over `filter`-based effects for core interactions.

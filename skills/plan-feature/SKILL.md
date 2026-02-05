@@ -1,6 +1,7 @@
 ---
 name: plan-feature
-description: Plan features and complex changes. Use when the user requests a plan/spec, says "detailed plan please", or when changes span multiple files/systems.
+version: 0.1.0
+description: Create implementation-ready plans and specs for complex changes without writing code. Use when the user asks for a plan/spec/roadmap, requests a detailed plan, or when a change spans multiple files/systems and needs discovery, sequencing, or architecture decisions.
 ---
 
 # Feature Planning
@@ -9,19 +10,13 @@ Create concrete, implementation-ready plans for features and complex changes.
 
 DO NOT WRITE CODE during planning. Only explore, analyse, and document.
 
-## Scope
+## Planning threshold
 
-Use this skill when:
-- User explicitly requests a plan or says "detailed plan please"
-- Changes affect 3+ files or multiple systems
-- Multiple valid approaches exist and user input is needed
-- Requirements are unclear and discovery is needed
-- Architectural decisions are required
-
-Skip planning for:
-- Single-file changes with clear requirements
-- Obvious bug fixes
-- Simple additions with no architectural impact
+Before deep planning, quickly confirm the scope:
+- Plan in detail when changes affect 3+ files or multiple systems
+- Plan in detail when requirements are unclear or architectural tradeoffs exist
+- Skip heavyweight planning for single-file changes with clear requirements
+- For small/obvious changes, give a short execution outline instead of a full spec
 
 ## Planning workflow
 
@@ -30,6 +25,7 @@ Ask targeted questions to uncover intent. For each question:
 - Present 2-3 concrete options with tradeoffs
 - Give your recommended option with clear reasoning
 - One question at a time; wait for user response
+- Skip questions already answered by the user
 
 Critical questions:
 - What problem are you solving? (user pain point, business goal)
@@ -43,7 +39,7 @@ Critical questions:
 
 ### 2. Analysis
 Explore the codebase systematically:
-- Locate relevant files (use Glob/Grep, document paths with line numbers)
+- Locate relevant files (prefer `rg --files` and `rg`; document paths with line numbers)
 - Map existing patterns (architecture, naming, data flow)
 - Identify dependencies (what will be affected by changes)
 - Find similar implementations (to maintain consistency)
@@ -114,24 +110,24 @@ Before finalizing, verify the plan includes:
 ## Anti-patterns
 
 Avoid vague plans:
-- ❌ "Update the authentication system"
-- ✅ "Modify `auth/middleware.ts:34` to add `validateSession()` that checks token expiry"
+- Bad: "Update the authentication system"
+- Good: "Modify `auth/middleware.ts:34` to add `validateSession()` that checks token expiry"
 
 Avoid missing context:
-- ❌ "Add error handling"
-- ✅ "Wrap API call in `auth/api.ts:67` with try/catch, show toast on error per `audit-ui`"
+- Bad: "Add error handling"
+- Good: "Wrap API call in `auth/api.ts:67` with try/catch, show toast on error per `audit-ui`"
 
 Avoid assuming knowledge:
-- ❌ "Use the standard pattern"
-- ✅ "Follow the existing DAO pattern from `user/dao.ts:12-45` (class-based with explicit types)"
+- Bad: "Use the standard pattern"
+- Good: "Follow the existing DAO pattern from `user/dao.ts:12` (class-based with explicit types)"
 
 Avoid incomplete acceptance criteria:
-- ❌ "Make sure it works"
-- ✅ "Verify: (1) form submits on Enter, (2) shows inline errors, (3) disables submit during request"
+- Bad: "Make sure it works"
+- Good: "Verify: (1) form submits on Enter, (2) shows inline errors, (3) disables submit during request"
 
 Avoid ignoring standards:
-- ❌ Plan uses `any` types and manual form state
-- ✅ Plan enforces `implement-frontend`: no `any`, uses React Hook Form
+- Bad: Plan uses `any` types and manual form state
+- Good: Plan enforces `implement-frontend`: no `any`, uses React Hook Form
 
 ## Quick checks
 

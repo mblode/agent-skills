@@ -27,7 +27,7 @@ Use this reference for routing, tenant resolution, data isolation, content patte
 
 ## Tenant context passing
 
-- Middleware sets response headers: `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan`.
+- Middleware resolves tenant and sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` on the forwarded request headers (for rewrite/next), not on final response headers.
 - Server Components read tenant from `headers()`; no prop drilling through layouts.
 - API routes read tenant from `request.headers.get('x-tenant-id')`.
 - Middleware is the single authority for tenant identity; never trust client-supplied values.
@@ -50,7 +50,7 @@ Use this reference for routing, tenant resolution, data isolation, content patte
 ## Per-tenant static files
 
 - `robots.txt`, `sitemap.xml`, `llms.txt` must vary by tenant; do not use `/public`.
-- Use route handlers at `app/[domain]/robots.txt/route.ts` that read tenant from params and return tenant-specific content.
+- Use route handlers at `app/domains/[domain]/robots.txt/route.ts`, `app/domains/[domain]/sitemap.xml/route.ts`, and `app/domains/[domain]/llms.txt/route.ts` to read tenant from params and return tenant-specific content.
 - Set `Content-Type` headers explicitly (`text/plain`, `application/xml`).
 - Cache with `CDN-Cache-Control: s-maxage=3600`; invalidate when tenant content changes.
 

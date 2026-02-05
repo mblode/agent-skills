@@ -1,56 +1,82 @@
 ---
 name: review-pr
-description: High-signal PR review for bugs and CLAUDE.md compliance. Use before creating PRs or when reviewing changes.
+version: 0.1.0
+description: High-signal review of pull requests and code diffs for concrete bugs and CLAUDE.md compliance. Use when asked to review a PR, branch diff, or pre-merge changes and report only certain, actionable findings.
 ---
 
 # PR Review
 
-Systematic PR review with actionable, validated feedback only.
+Perform systematic review with actionable, validated feedback only.
 
 ## Scope
-- Use before creating PRs or when reviewing existing PRs
-- Skip trivial changes, drafts, and bot PRs
+- Use for PR review, branch or diff review, and pre-merge checks
+- Skip closed or already-reviewed PRs, draft PRs unless explicitly requested, and trivial bot-only updates
 
 ## Workflow
 
-1. **Validate**: Skip if closed, already reviewed, or trivial
-2. **Context**: Get PR intent, changed files, and relevant CLAUDE.md files
-3. **Review** (4 parallel agents):
-   - 2 agents: CLAUDE.md compliance (in-scope rules only, unambiguous violations)
-   - 2 agents: Bugs (compile errors, logic errors, security issues)
-4. **Validate issues**: Secondary agent verifies each flagged issue
-5. **Post**: Inline comments with reasoning, or "No issues found" summary
+1. **Validate target**:
+   - Confirm repo, base or head, and requested review scope
+   - Skip and explain briefly when the target is out of scope
+2. **Gather context**:
+   - Capture PR intent, changed files, and relevant CLAUDE.md files
+   - Apply only in-scope CLAUDE.md rules for the changed paths
+3. **Choose review shape by size**:
+   - Small change: one pass covering bugs and CLAUDE.md compliance
+   - Medium change: two parallel passes (bugs, CLAUDE.md)
+   - Large change: shard by subsystem and run parallel passes per shard
+4. **Validate issues**:
+   - Re-check exact lines before reporting
+   - Keep only certain findings; remove speculative or duplicate items
+5. **Post**:
+   - Preferred: inline comments with reasoning
+   - Fallback: same issue format in chat when inline tooling is unavailable
+   - If no issues remain, post the no-issues summary
 
 ## High signal only
 
 Flag only when certain:
 - Code will fail to compile (syntax, types, imports)
-- Code will produce wrong results (clear logic errors)
+- Code will produce incorrect behavior (clear logic or state errors)
+- Code introduces a concrete security risk with direct exploit path
 - Unambiguous CLAUDE.md violation (quote rule, verify scope)
 
 Never flag:
 - Style, quality, or subjective preferences
-- Pre-existing issues or linter-catchable problems
-- Potential issues dependent on inputs
+- Pre-existing issues unrelated to the change
+- Potential issues dependent on unknown inputs
+- Linter-only issues likely caught automatically
 - Explicitly silenced violations
 
 ## Output format
 
-**Inline comments** (use `mcp__github_inline_comment__create_inline_comment`):
-- Issue description with reasoning
-- Link to rule (CLAUDE.md) or code with full SHA: `https://github.com/owner/repo/blob/[40-char-sha]/file.ts#L4-L7`
-- Committable suggestion for small fixes (< 6 lines); description for larger changes
-- One comment per unique issue
+Use `mcp__github_inline_comment__create_inline_comment` when available.
+
+For each unique issue, use this structure:
+```markdown
+[<severity>] <short factual title>
+
+Why this is a bug or violation:
+<one to three sentences with concrete impact>
+
+Evidence:
+- Rule or code reference
+- Full-SHA link: https://github.com/owner/repo/blob/[40-char-sha]/path/to/file.ts#L10-L18
+
+Suggested fix:
+<committable patch snippet if <= 6 lines; otherwise clear implementation guidance>
+```
+
+When inline tooling is unavailable, return the same structure in chat and include `path:line` for each issue.
 
 **Summary** (if no issues):
 ```
 ## Code review
-No issues found. Checked for bugs and CLAUDE.md compliance.
+No issues found. Checked for concrete bugs and CLAUDE.md compliance.
 ```
 
 ## Anti-patterns
-- ❌ "This might cause issues" → ✅ "Variable `x` undefined at line 45, will throw ReferenceError"
-- ❌ "Consider refactoring" → ✅ "Violates CLAUDE.md: 'Max 50 lines' (currently 67)"
-- ❌ Multiple comments for same issue → ✅ One comment linking all locations
+- "This might cause issues" -> "Variable `x` is undefined at `src/foo.ts:45`, causing `ReferenceError` at runtime."
+- "Consider refactoring" -> "Violates CLAUDE.md rule '<quoted rule>' in scoped file `src/foo.ts`."
+- Multiple comments for the same root cause -> one comment linking all affected locations
 
 Every flagged issue should be something a senior engineer would catch.

@@ -1,5 +1,6 @@
 ---
 name: multi-tenant-platform-architecture
+version: 0.1.0
 description: Architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, custom domains, and plan/limit mapping.
 ---
 
@@ -11,6 +12,7 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 - **Cloudflare**: Workers for Platforms + dispatch namespaces for per-tenant code isolation; best when tenants run untrusted code or you need edge-first compute with D1/KV/DO primitives.
 - **Vercel**: Next.js App Router + Middleware for shared-app multi-tenancy; best when tenants share one codebase and you need ISR, React Server Components, and managed deployment.
 - Pick one; do not mix hosting. The remaining steps apply to both with platform-specific guidance in reference files.
+- After choosing, load only the references for that platform unless you are explicitly comparing Cloudflare vs Vercel.
 
 1. Choose domain strategy
 - Use a dedicated tenant domain (separate from the brand domain) for all subdomains/custom hostnames. Reputation does not isolate; a phishing site on `random.acme.com` damages the whole domain.
@@ -35,7 +37,7 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 
 5. Pass tenant context through the stack
 - **Cloudflare**: Platform Worker resolves tenant and injects headers or bindings before dispatching to tenant Worker.
-- **Vercel**: Middleware sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` headers. Server Components read via `headers()`; API routes read from request headers.
+- **Vercel**: Middleware sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` on forwarded request headers. Server Components read via `headers()`; API routes read from request headers.
 - Middleware/platform Worker is the single authority; never trust client-supplied tenant identity.
 
 6. Bind only what is needed
@@ -56,7 +58,8 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 9. Surface limits as plans
 - Map platform limits to pricing tiers; expose in API + UI.
 - Do not run long jobs in requests; use queues/workflows.
-- See `references/limits-and-quotas.md` for current limits on both platforms.
+- See `references/limits-and-quotas.md` for limits snapshots and source links.
+- Re-check limits in official docs before final architecture or pricing decisions.
 
 10. Make the API the product
 - Everything works over HTTP; UI is for ops/incident/billing.
@@ -81,11 +84,11 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 
 ## References to load
 
-- PSL submission and cookie isolation: `references/psl.md`
-- Cloudflare platform primitives and routing: `references/cloudflare-platform.md`
-- Vercel platform primitives and routing: `references/vercel-platform.md`
-- Vercel domain management and SSL: `references/vercel-domains.md`
-- Platform limits and plan mapping: `references/limits-and-quotas.md`
+- Always load PSL submission and cookie isolation guidance: `references/psl.md`
+- If platform is Cloudflare, load platform primitives and routing: `references/cloudflare-platform.md`
+- If platform is Vercel, load platform primitives and routing: `references/vercel-platform.md`
+- If platform is Vercel, load domain management and SSL: `references/vercel-domains.md`
+- Load platform limits and plan mapping last: `references/limits-and-quotas.md`
 
 ## Pre-commit checklist
 
@@ -98,3 +101,4 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 - Custom domain onboarding defined with DNS target, verification, and cert provisioning
 - Per-tenant static files (robots.txt, sitemap.xml) served dynamically
 - Limits tied to billing; API parity with UI
+- Limits snapshot refreshed from official docs and dated in planning notes

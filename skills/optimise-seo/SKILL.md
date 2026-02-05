@@ -1,5 +1,6 @@
 ---
 name: optimise-seo
+version: 0.1.0
 description: This skill should be used when the user asks to "improve SEO", "add sitemap.xml", "fix meta tags", "add structured data", "set canonical URLs", "improve Core Web Vitals", "audit SEO", "programmatic SEO", or "build SEO pages at scale" in a Next.js App Router app. Perform no visual redesigns.
 ---
 
@@ -42,8 +43,8 @@ Practical SEO improvements for Next.js App Router without visual redesign.
 - Provide validation results and remaining issues
 
 ## Resources
-- `nextjs-implementation.md` for code examples
-- `seo-checklist.md` for launch checklist
+- `nextjs-implementation.md` when implementing steps 2-4 (metadata, sitemap/robots, JSON-LD, OG images, performance)
+- `seo-checklist.md` during step 5 to record pass/fail status before final handoff
 
 ## Don't
 - Duplicate or missing titles/descriptions
@@ -58,6 +59,17 @@ Practical SEO improvements for Next.js App Router without visual redesign.
 
 ## Validation
 ```bash
+# Crawl and index foundations
+curl -I https://site.com
+curl -s https://site.com/robots.txt
+curl -s https://site.com/sitemap.xml | head -n 20
+
+# Verify page-level tags on representative URLs
+curl -s https://site.com/page | rg -n 'rel="canonical"|property="og:|name="twitter:'
+
+# CWV/SEO baseline
 lighthouse https://site.com --output=json --output-path=report.json
 cat report.json | jq '.categories.seo.score * 100'  # Target: 90+
 ```
+- Validate JSON-LD with Rich Results Test and note pass/fail by URL.
+- Report remaining blockers with exact URLs and owner/action.

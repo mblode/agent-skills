@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multi-tenant Platform Architecture"
+  short_description: "Plan Cloudflare or Vercel tenant architecture"
+  default_prompt: "Use $multi-tenant-platform-architecture to design a multi-tenant platform, including domains, routing, tenant isolation, and limits-to-pricing mapping."

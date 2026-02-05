@@ -26,7 +26,9 @@ export const metadata: Metadata = {
 
 Dynamic metadata:
 ```tsx
-export async function generateMetadata({ params }): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
   const post = await getPost(params.slug)
   return {
     title: `${post.title} - Blog`,
@@ -71,7 +73,7 @@ export default function robots(): MetadataRoute.Robots {
 
 ```tsx
 // components/JsonLd.tsx
-export function JsonLd({ data }: { data: Record<string, any> }) {
+export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
     <script
       type="application/ld+json"
@@ -133,7 +135,9 @@ import { ImageResponse } from 'next/og'
 
 export const size = { width: 1200, height: 630 }
 
-export default async function Image({ params }) {
+export default async function Image(
+  { params }: { params: { slug: string } }
+) {
   const post = await getPost(params.slug)
   return new ImageResponse(
     <div style={{

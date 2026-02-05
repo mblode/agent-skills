@@ -1,5 +1,6 @@
 ---
 name: ui-animation
+version: 0.1.0
 description: Guidelines and examples for UI motion and animation. Use when designing, implementing, or reviewing motion, easing, timing, and reduced-motion behaviour.
 ---
 
@@ -15,9 +16,10 @@ Use these core rules for consistent motion and animation decisions.
 - Honor `prefers-reduced-motion` (reduce or disable).
 
 ## What to animate
-- Only `transform` and `opacity`.
+- For movement and spatial change, animate only `transform` and `opacity`.
+- For simple state feedback, `color`, `background-color`, and `opacity` transitions are acceptable.
 - Never animate layout properties; never use `transition: all`.
-- Avoid blur > 20px.
+- Avoid `filter` animation for core interactions; if unavoidable, keep blur <= 20px.
 - SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`.
 - Disable transitions during theme switches.
 
@@ -27,9 +29,9 @@ Use these core rules for consistent motion and animation decisions.
 - Stagger reveals <= 50ms.
 
 ## Easing defaults
-- Enter/hover: `cubic-bezier(0.22, 1, 0.36, 1)`.
+- Enter and transform-based hover: `cubic-bezier(0.22, 1, 0.36, 1)`.
 - Move: `cubic-bezier(0.25, 1, 0.5, 1)`.
-- Simple hover colour/opacity: `200ms ease`.
+- Simple hover colour/background/opacity: `200ms ease`.
 
 ## Accessibility
 - If `transform` is used, disable it in `prefers-reduced-motion`.

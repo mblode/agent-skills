@@ -1,78 +1,45 @@
 ---
 name: implement-frontend
-description: Implementation standards for React/TypeScript/Next.js. Use when writing or reviewing frontend code, especially forms, state, hooks/components, and type safety.
+version: 0.1.0
+description: Standards for implementing and reviewing React/TypeScript/Next.js features in codebases that use React Hook Form, Zod, React Query or Connect Query, and proto-generated API types. Use when building frontend forms, hooks/components, state flows, and type-safe UI mappings in this stack.
 ---
 
 # Implement Frontend
 
-Use this as the baseline for all frontend code. Fix violations.
+Apply this skill when the repository already follows this stack:
 
-## Core rules
-- Keep a single source of truth for any data or state.
-- Enforce type safety: no `any`, no `as` casting, no ts-ignore.
-- Use React Hook Form for every form. No manual form state.
-- Use proto types as the contract; do not duplicate API types.
-- Components render; hooks own data fetching and business logic.
+- React + TypeScript + Next.js
+- React Hook Form + Zod
+- React Query or Connect Query
+- Proto-generated API types (when present)
 
-## Code quality (baseline)
-- Use active verb names; use one word per concept.
-- Keep functions small, do one thing, and stay at one abstraction level.
-- Minimize arguments; avoid boolean flags; avoid negative conditionals.
-- Use else-if for multi-way decisions.
-- Replace magic numbers with named constants.
-- Comment intent, warnings, examples, or TODOs; never contradict code.
-- Remove commented-out or unused code.
-- Guard against hidden side effects.
+If local conventions differ, preserve existing project standards and apply only the transferable principles.
 
-## Critical anti-patterns
-- Duplicate state or syncing state via `useEffect`.
-- API calls or business logic inside components.
-- `zodResolver(schema as any)` or other type escapes.
-- Form object in dependency arrays (use only formState fields).
+## Core workflow
+1. Set ownership boundaries before editing.
+   - Keep render-only concerns in components.
+   - Keep fetching, mapping, and business rules in hooks.
+   - Keep server state in query cache, form state in RHF, and UI-only state in `useState`.
+2. Implement with strict typing and explicit mappings.
+   - Avoid type escapes such as `any`, `as any`, and ignore directives.
+   - Map API models to UI models in mappers instead of casting.
+3. Verify reliability and UX before finishing.
+   - Cover loading, error, and empty states.
+   - Add cancellation and cleanup for async work when race conditions are possible.
+   - Preserve keyboard accessibility and focus behavior.
+
+## Non-negotiable checks
+- Remove duplicate state and `useEffect` sync loops.
+- Keep API calls and business logic out of render components.
+- Invalidate or update only affected query keys.
+- Use rollback-safe optimistic updates only.
+- Remove `console.*`, `debugger`, dead code, and unused imports.
+
+## Stack guardrails
+- If the repo uses RHF + Zod, use `createZodResolver`; avoid `zodResolver(schema as any)`.
+- If using RHF, avoid putting the entire `form` object in dependency arrays.
+- Keep proto-to-UI transforms in a dedicated mapper file (for example `utils/proto-mappers.ts`) when proto contracts are used.
 
 ## References
-- See `typescript-patterns.md` for TypeScript and proto guidance.
-- See `react-patterns.md` for forms, hooks, and state.
-
-## Quick checks
-- Remove `console.*`, `debugger`, commented code, unused imports.
-- Use `useId` for IDs; avoid hardcoded IDs.
-- Zod v4 + `createZodResolver`.
-- React Query/Connect Query owns server state; RHF owns form state; `useState` only for UI.
-
-## Reliability & data fetching (required)
-- Optimistic updates must snapshot previous cache state and rollback on error.
-- Only optimistic-update for operations with a safe rollback; avoid for destructive actions unless server supports undo.
-- Retries are only for idempotent requests. Use exponential backoff with full jitter and cap attempts/time.
-- Always use `AbortController` for in-flight requests to prevent race conditions on unmount or rapid input.
-
-## Cache & invalidation (required)
-- React Query/Connect Query is the source of truth for server state; never copy server data into `useState`.
-- Mutations must invalidate or update only the affected queries; do not refetch everything.
-- `setQueryData` is allowed only for optimistic updates or small, scoped edits.
-
-## Performance & UX (required)
-- Follow `audit-ui` for accessibility and UX checklist items; use `ui-animation` for motion.
-- Lazy-load heavy UI (charts, editors, modals) with dynamic import and suspense fallback.
-- Reserve image sizes to avoid layout shift; use `next/image` when applicable.
-- Enforce bundle budgets in CI (document the budgets in the repo).
-
-## Observability (required)
-- Add error boundaries at route/layout level; report exceptions to Sentry (or project standard).
-- Tag client errors with `userId`/`orgId` and `release` (commit/semantic version), scrub PII.
-
-## Required structure (per feature)
-```
-components/<feature>/
-  *.tsx
-  hooks/                 # feature hooks only
-  types/                 # schemas + UI types
-  utils/
-    proto-mappers.ts     # proto -> UI transforms
-  constants.ts
-```
-
-## Naming
-- Files: kebab-case. Components: PascalCase. Functions: camelCase. Constants: UPPER_SNAKE_CASE.
-
-Every file should be ready to ship.
+- Use `react-patterns.md` for forms, hooks, state ownership, query usage, and accessibility.
+- Use `typescript-patterns.md` for type hygiene, proto typing, and code organization.

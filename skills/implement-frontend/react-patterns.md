@@ -1,9 +1,9 @@
 # React Patterns
 
 ## Forms
-- React Hook Form is required for all forms; no `useState` for form fields.
-- Use Zod v4 + `createZodResolver` from `@/lib/utils/zod-resolver`.
-- Define schemas in `types/index.ts`.
+- Prefer React Hook Form for non-trivial forms. If the repository uses another form library, follow that standard consistently.
+- If using Zod v4, use the project-standard `createZodResolver` helper.
+- Keep schemas in feature-local `types/` modules (commonly `types/index.ts`).
 - Keep Zod for client-side validation; backend validation is separate.
 - Use `form.watch`/`setValue`; do not duplicate state.
 - Keep submit enabled until request starts; then disable with spinner and keep the label.
@@ -20,7 +20,7 @@
 - Only depend on `form.formState.*` when needed.
 
 ## State ownership
-- Form state: RHF. Server state: React Query/Connect Query. UI state: `useState`. Global: MobX only when necessary.
+- Form state: form library. Server state: query cache (React Query/Connect Query). UI state: `useState`. Global: use project standard only when necessary.
 - Red flags: syncing state with `useEffect`, storing server data in `useState`.
 
 ## Components vs hooks
@@ -33,10 +33,10 @@
 - `hooks/use-*-state.ts`: complex UI state.
 
 ## API client
-- Use ConnectRPC + `@connectrpc/connect-query`; no raw fetch on client.
-- Use `useQuery` for reads, `useMutation` for writes.
-- Invalidate with `createConnectQueryKey` and the exact key.
-- Handle `ConnectError` with user-facing messages.
+- When ConnectRPC exists in the project, use `@connectrpc/connect-query`; otherwise use the project's standard client/query integration.
+- Use query hooks for reads and mutation hooks for writes.
+- Invalidate or update the exact affected key(s) only.
+- Handle transport/client errors with user-facing messages.
 - No direct DB/server imports in client.
 
 ## Interaction basics
@@ -51,6 +51,7 @@
 - Virtualize long lists.
 - Use stable keys; avoid index keys.
 - Keep `useEffect` deps correct; clean up.
+- Add cancellation for in-flight async work (for example `AbortController` with `fetch`) when race conditions are possible.
 - No layout reads in render (`getBoundingClientRect`, `offsetHeight`, `offsetWidth`, `scrollTop`); batch DOM reads/writes.
 - Prefer uncontrolled inputs; controlled inputs must be cheap per keystroke.
 
@@ -62,4 +63,4 @@
 - Detect language via `Accept-Language` / `navigator.languages`, not IP geolocation.
 
 ## Final check
-- No duplicate state, no manual form state, no logic in components, no `form` in deps.
+- No duplicate state, no manual form state in RHF projects, no logic in components, no full `form` object in deps.

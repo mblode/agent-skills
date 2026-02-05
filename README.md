@@ -16,8 +16,10 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 - Architecture setup (project start): `define-architecture` for repo shape, backend patterns, and workflow.
 - Visual direction (design phase): `design-ui` for product vs marketing look/feel.
 - Implementation (build phase): `implement-frontend` for React/TypeScript/Next standards.
-- UI QA (pre‑ship): `audit-ui` for typography, accessibility, and final craft pass.
+- UI QA (pre‑ship): `audit-ui` for accessibility and final craft pass.
+- Typography (design/dev): `audit-typography` for punctuation, font selection, sizing, spacing, and typographic quality.
 - Motion/animation: `ui-animation` for easing, timing, and reduced-motion rules.
+- Instruction-file hygiene: `agents-md` for AGENTS.md/CLAUDE.md audits, pruning, and maintenance.
 - Review (pre‑merge): `review-pr` for bug and CLAUDE.md compliance checks.
 - Launch/SEO (pre‑launch and audits): `optimise-seo` for metadata, structure, and Core Web Vitals.
 
@@ -51,9 +53,17 @@ Guidelines and examples for UI motion and animation. Use when designing, impleme
 
 High-signal pull request review focused on bugs and CLAUDE.md compliance. Use before creating PRs or when reviewing changes to catch issues early.
 
+### agents-md
+
+Audit and improve AGENTS.md and CLAUDE.md files with an execution-first standard. Use when instruction files are bloated, stale, generic, or missing the commands, gotchas, and conventions agents need.
+
 ### optimise-seo
 
 Optimize SEO for Next.js applications including sitemaps, meta tags, structured data, and Core Web Vitals. Use for pre-launch audits and ongoing SEO improvements.
+
+### audit-typography
+
+Comprehensive web typography rules covering punctuation, font selection, sizing, spacing, OpenType features, hierarchy, layout, typeface pairing, brand identity, and display type. Use when auditing or implementing typography for web projects.
 
 ### multi-tenant-platform-architecture
 

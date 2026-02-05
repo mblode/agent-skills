@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review PR"
+  short_description: "High-signal PR and diff bug/compliance review"
+  default_prompt: "Use $review-pr to review this pull request or diff for concrete bugs and CLAUDE.md compliance, and report only certain actionable findings."

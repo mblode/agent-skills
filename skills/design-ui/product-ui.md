@@ -17,14 +17,16 @@ Use for dashboards, admin tools, and data-dense workflows.
 - Keep surface treatment consistent across cards, even if internal layouts differ.
 
 ## Controls
-- Build custom selects/date pickers for styled UIs; avoid native styled controls.
+- Prefer native selects/date inputs by default for accessibility and mobile UX.
+- Use custom controls only when product requirements justify the added complexity.
+- Preserve keyboard navigation, semantics, and screen-reader support when custom controls are necessary.
 - For select triggers, use `inline-flex` + `white-space: nowrap`.
 
 ## Type and data
 - Create a clear hierarchy (headline, body, label).
 - Use tabular numbers or monospace for data tables and IDs.
 - Icons must add meaning; remove decorative icons.
-- Use sentence case and British/Australian spelling in UI copy.
+- Use sentence case and follow the project locale/style guide.
 
 ## Colour and contrast
 - Use a 4-level contrast hierarchy (primary, secondary, muted, faint).
