@@ -1,106 +1,108 @@
 ---
 name: define-architecture
-version: 0.1.0
-description: Define repo layout, workflow, and full-stack architecture patterns for TypeScript apps. Use at project start or when setting conventions or designing backend services and middleware.
+description: Defines repo layout, workflow, and full-stack architecture patterns for TypeScript applications. Use when starting a project, setting team conventions, or designing backend modules, request context, middleware, and frontend/backend boundaries.
 ---
 
 # Define Architecture
 
-Define workflow, repo shape, and backend/frontend architecture patterns.
+Define durable, easy-to-change architecture defaults for TypeScript apps.
 
-## Workflow
+## How to use this skill
 
-- Build frontend first: mock UI -> proto contract -> backend (TDD) -> integrate.
-- Let unblocker infra (auth/middleware/schema) come first when needed.
-- Ship small and reversible changes; rollback faster than you debate.
-- Add structure only when customers pay, multiple contributors exist, or bugs cost real money/time.
-- Use `references/shipping-practices.md` for rollout, flags, and feedback loops.
+1. Determine context:
+   - New codebase: follow `Architecture setup workflow`.
+   - Existing codebase: follow `Adoption workflow`.
+2. Produce an architecture brief using `Output template`.
+3. Run `Validation loop` before finalizing.
+
+Load references only when needed:
+- Stack defaults: [references/stack-defaults.md](references/stack-defaults.md)
+- Shipping and rollout: [references/shipping-practices.md](references/shipping-practices.md)
+- Engineering quality checklists: [references/craftsmanship.md](references/craftsmanship.md)
+
+## Architecture setup workflow
+
+1. Define constraints first:
+   - Product scope, team size, compliance/security needs, expected scale.
+   - Deployment targets and required integrations.
+2. Choose repo shape:
+   - Use `apps/` for deployable surfaces (`api`, `web`, `admin`).
+   - Use `packages/` for shared libraries (`shared`, `ui`, `icons`, `auth`, `proto`).
+3. Define backend module contracts:
+   - `handler`: transport only.
+   - `service`: business orchestration.
+   - `dao`: database access only.
+   - `mapper`: DB/proto/domain transformations.
+   - `constants` and `types`: module-local contracts.
+4. Define request context and middleware:
+   - Use AsyncLocalStorage-backed `RequestContext`.
+   - Initialize context in every entrypoint (RPC, HTTP, jobs, CLI).
+   - Read context via `getContext()`; do not thread context params through business functions.
+   - Require route policy per RPC method and register services through `registerServiceWithPolicies`.
+   - Keep auth, logging, errors, and context in shared middleware.
+5. Define frontend boundaries:
+   - Default to Server Components; add `"use client"` only for client-only behavior.
+   - Use TanStack/Connect Query for server state.
+   - Use MobX only for cross-cutting client state that cannot live in component state.
+   - Apply `implement-frontend` for forms, hooks, and type-safe UI mappings.
+6. Define testing and release expectations:
+   - Backend TDD loop: Red -> Green -> Refactor.
+   - Unit tests stay DB-free; integration and E2E tests run in parallel with dynamic IDs.
+   - Release in small, reversible steps with a rollback plan.
+
+## Adoption workflow (existing codebase)
+
+1. Map current architecture and pain points.
+2. Select the smallest set of changes that enforce clear module boundaries.
+3. Migrate one vertical slice first.
+4. Add guardrails (lint/type/test checks) to prevent regression.
+5. Roll out module-by-module.
 
 ## Stack defaults
 
-- Start from `references/stack-defaults.md` and adjust per project constraints.
+Use [references/stack-defaults.md](references/stack-defaults.md) as the default baseline. Deviate only when constraints require it.
 
-## Monorepo shape (example)
+## Validation loop
 
-- Use `apps/` for api, web, admin (adapt names to product domains).
-- Use `packages/` for shared, ui, icons, auth.
+Run this loop before finalizing architecture decisions:
 
-## Backend module pattern
+1. Verify consistency:
+   - Naming, module boundaries, and middleware rules are applied the same way across services.
+2. Verify quality gates:
+   - `npm run lint`
+   - `npm run check-types`
+   - `npm run test --workspace=<pkg>` (or equivalent targeted tests)
+3. Verify operability:
+   - Observability, health checks, and rollback path are defined.
+4. If any check fails:
+   - Fix the architecture brief or conventions.
+   - Re-run the loop.
 
-Split modules into:
+## Output template
 
-- Handler: transport only.
-- Service: business orchestration.
-- DAO: DB access only (class with explicit methods).
-- Mapper: DB/Proto/Domain transforms.
-- Constants/types: module-level.
+Use this structure for architecture recommendations:
 
-Follow DAO rules:
+```markdown
+# Architecture brief
 
-- Use explicit input/return types.
-- Use Prisma select const pattern for DRY types.
-- Audit log all Create/Update/Delete.
+## Context and constraints
+## Repo shape
+## Backend module contracts
+## Request context and middleware policy
+## Frontend boundaries
+## Testing strategy
+## Rollout and rollback plan
+## Open risks and follow-ups
+```
 
-## Backend request context
+## Skill handoffs
 
-- Use AsyncLocalStorage-backed `RequestContext`.
-- Initialize context in every entrypoint (RPC, HTTP, jobs, CLI).
-- Access via `getContext()`; no explicit context params.
-- Let loggers read context automatically.
-
-## ConnectRPC middleware rules
-
-- Define a route policy for every method.
-- Use shared middleware for auth, errors, logging, and context.
-- No manual auth calls inside handlers.
-- No try/catch for business logic; let error middleware handle.
-- Use auth helpers (`requireUserAuth`, `requireStaffAuth`, `requireVenueAccess`, `getAuthContext`).
-- Register services via `registerServiceWithPolicies`.
-
-## Frontend architecture
-
-- Server Components by default; "use client" only when needed.
-- TanStack/Connect Query for server state; MobX only for global client state.
-- Use `implement-frontend` for forms, hooks, and type safety.
-- Use `audit-ui` for UI polish; use `ui-animation` for motion rules.
-
-## Commands (common)
-
-- Run `npm run dev` / `npm run dev --workspace=<pkg>`.
-- Run `npm run build`, `npm run lint`, `npm run check-types`.
-- Run `npm run test --workspace=<pkg>`, `npm run test:coverage --workspace=<pkg>`.
-- Run `npm run codegen --workspace=packages/proto`.
-- Run `npm run migrate:dev --workspace=apps/api`.
-
-## Testing
-
-- Require backend TDD: Red -> Green -> Refactor.
-- Keep unit tests DB-free; run in parallel; mock dependencies.
-- Run Integration/E2E in parallel with dynamic IDs.
-- Use Vitest/jsdom for frontend tests as needed.
-
-## Craftsmanship reference
-
-- Use `references/craftsmanship.md` for debugging, testing, performance, portability, and professionalism checklists.
-- Apply these when setting org-wide standards or reviewing architecture decisions.
+- Use `implement-frontend` when implementing forms, hooks, and typed UI mappings.
+- Use `audit-ui` for final UI quality checks.
+- Use `ui-animation` for motion-specific guidance.
 
 ## Conventions
 
-- Prefer `interface` over `type`; use `interface extends` instead of `type &` (flat cached types vs recursive merge).
+- Prefer `interface` over `type` for object contracts.
 - Use `import type` for types.
-- Configure Biome: 2-space indent, double quotes, semicolons, 100 char width.
-
-## Commits and PRs
-
-- Write commit subjects in imperative mood.
-- Require green lint/type/tests, document migrations, and UI screenshots in PRs.
-- Default to small changes, frequent merges, and a rollback plan. Use PRs as broadcast, not permission.
-
-## Production readiness (priority order)
-
-Prioritize in order:
-
-- Security: rotate secrets, CORS, rate limits, headers, dependency scanning.
-- Architecture: modular services, auth/error middleware, strict typing, and conventional/boring stacks.
-- Infra: integration tests, health checks, automated deploys.
-- Observability: tracing, audit logs, alerting.
+- Keep formatting consistent (2-space indentation, double quotes, semicolons, 100-character line width).

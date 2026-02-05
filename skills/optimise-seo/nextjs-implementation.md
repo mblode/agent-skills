@@ -1,6 +1,13 @@
 # Next.js SEO Implementation
 
-Essential patterns for Next.js App Router.
+Patterns for Next.js App Router.
+
+## Contents
+- Metadata (static and dynamic)
+- Sitemap and robots
+- Structured data (JSON-LD)
+- OG images
+- File structure
 
 ## Metadata
 
@@ -27,13 +34,14 @@ export const metadata: Metadata = {
 Dynamic metadata:
 ```tsx
 export async function generateMetadata(
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
-  const post = await getPost(params.slug)
+  const { slug } = await params
+  const post = await getPost(slug)
   return {
     title: `${post.title} - Blog`,
     description: post.excerpt,
-    alternates: { canonical: `https://example.com/blog/${params.slug}` },
+    alternates: { canonical: `https://example.com/blog/${slug}` },
   }
 }
 ```
@@ -42,7 +50,7 @@ export async function generateMetadata(
 
 ```tsx
 // app/sitemap.ts
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPosts()
@@ -59,7 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 ```tsx
 // app/robots.ts
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -83,8 +91,10 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 }
 ```
 
+Note: `JSON.stringify` on schema objects produces safe output — no user-supplied HTML.
+
 ```tsx
-// app/layout.tsx - Organization & WebSite
+// app/layout.tsx — Organization & WebSite
 <JsonLd data={{
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -136,9 +146,10 @@ import { ImageResponse } from 'next/og'
 export const size = { width: 1200, height: 630 }
 
 export default async function Image(
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const post = await getPost(params.slug)
+  const { slug } = await params
+  const post = await getPost(slug)
   return new ImageResponse(
     <div style={{
       width: '100%', height: '100%', display: 'flex',
@@ -150,27 +161,6 @@ export default async function Image(
     </div>
   )
 }
-```
-
-## Performance
-
-```tsx
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
-
-// In layout
-<html className={inter.className}>
-
-// In components
-<Image
-  src="/hero.jpg"
-  alt="Descriptive alt text"
-  width={1200}
-  height={630}
-  priority  // For LCP image
-/>
 ```
 
 ## File Structure
@@ -188,12 +178,4 @@ app/
 
 components/
 └── JsonLd.tsx
-```
-
-## Validation
-
-```bash
-npm install -g lighthouse
-lighthouse https://site.com --output=json --output-path=report.json
-cat report.json | jq '.categories.seo.score * 100'  # Target: 90+
 ```

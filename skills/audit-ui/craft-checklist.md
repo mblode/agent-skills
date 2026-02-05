@@ -2,6 +2,20 @@
 
 Use this as a final polish pass.
 
+## Contents
+- Legibility and typography
+- Motion
+- Keyboard, focus, and targets
+- Forms and input behaviour
+- Navigation and feedback
+- Resilience and layout
+- Performance
+- Accessibility and theming
+- Extra polish
+- Content and copy
+- Anti-patterns (flag these)
+- Resources
+
 ## Legibility and typography
 - Use correct punctuation (quotes, apostrophes, dashes); use `&hellip;` for ellipsis.
 - Keep sentence case; avoid underlines except links.

@@ -1,57 +1,18 @@
 # UI Animation Examples
 
-Use these snippets and tips when implementing the core rules in `SKILL.md`.
+Snippets and tips for the core rules in `SKILL.md`.
 
 ## Table of contents
-- [Principles examples](#principles-examples)
-- [What to animate examples](#what-to-animate-examples)
+- [Enter and exit](#enter-and-exit)
 - [Spatial rules and stagger](#spatial-rules-and-stagger)
-- [Easing reference](#easing-reference)
+- [Drawer (move easing)](#drawer-move-easing)
 - [Hover transitions](#hover-transitions)
-- [Accessibility and reduced motion](#accessibility-and-reduced-motion)
+- [Reduced motion](#reduced-motion)
 - [Origin-aware animations](#origin-aware-animations)
 - [Performance recipes](#performance-recipes)
 - [Practical tips](#practical-tips)
 
-## Principles examples
-```css
-/* Panel.module.css */
-.panel {
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .panel {
-    transform: none;
-    transition: none;
-  }
-}
-```
-
-```tsx
-// app/components/Panel.tsx
-"use client";
-import { motion, useReducedMotion } from "framer-motion";
-import styles from "./Panel.module.css";
-
-export function Panel() {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.div
-      className={styles.panel}
-      whileHover={reduceMotion ? undefined : { scale: 1.02 }}
-      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-      transition={
-        reduceMotion ? { duration: 0 } : { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
-      }
-    />
-  );
-}
-```
-
-## What to animate examples
+## Enter and exit
 ```css
 /* Toast.module.css */
 .toast {
@@ -72,16 +33,21 @@ export function Panel() {
 ```
 
 ```tsx
-// app/components/Toast.tsx
+// app/components/Panel.tsx
 "use client";
-import clsx from "clsx";
-import styles from "./Toast.module.css";
+import { motion, useReducedMotion } from "framer-motion";
 
-export function Toast({ open }: { open: boolean }) {
+export function Panel() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <div className={clsx(styles.toast)} data-open={open}>
-      Saved
-    </div>
+    <motion.div
+      whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+      transition={
+        reduceMotion ? { duration: 0 } : { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
+      }
+    />
   );
 }
 ```
@@ -114,13 +80,7 @@ const listVariants = {
 };
 ```
 
-## Easing reference
-- Enter: `cubic-bezier(0.22, 1, 0.36, 1)`.
-- Move: `cubic-bezier(0.25, 1, 0.5, 1)`.
-- Simple hover colour/background/opacity: `200ms ease`.
-- Avoid `ease-in` for UI (feels slow).
-
-### Drawer example
+## Drawer (move easing)
 ```css
 .drawer {
   transition: transform 240ms cubic-bezier(0.25, 1, 0.5, 1);
@@ -137,9 +97,6 @@ const listVariants = {
 ```
 
 ## Hover transitions
-- Use `ease` with `200ms` for simple hover transitions (`color`, `background-color`, `opacity`).
-- Disable hover transitions on touch devices via `@media (hover: hover) and (pointer: fine)`.
-
 ```css
 /* Link.module.css */
 @media (hover: hover) and (pointer: fine) {
@@ -152,9 +109,7 @@ const listVariants = {
 }
 ```
 
-## Accessibility and reduced motion
-- If `transform` is used, disable it in `prefers-reduced-motion`.
-
+## Reduced motion
 ```css
 @media (prefers-reduced-motion: reduce) {
   .menu,
@@ -189,27 +144,9 @@ export function AnimatedCard() {
 ```
 
 ## Performance recipes
-- Pause looping animations off-screen.
-- Do not animate drag gestures using CSS variables.
-- Toggle `will-change` only during heavy animations.
-- Only use `will-change` for `transform` and `opacity`.
-- In Motion/Framer Motion, prefer transform-based movement (`x`/`y` or `transform`) over layout props (`top`/`left`).
-- Use springs by default; avoid bouncy springs unless dragging.
 
-```css
-.animating {
-  will-change: transform, opacity;
-}
-```
-
-```tsx
-<motion.div
-  animate={{ transform: "translate3d(0, 0, 0)" }}
-  transition={{ type: "spring", stiffness: 500, damping: 40 }}
-/>
-```
-
-```js
+### Pause looping animations off-screen
+```ts
 // app/hooks/usePauseOffscreen.ts
 "use client";
 import { useEffect, useRef } from "react";
@@ -229,24 +166,34 @@ export function usePauseOffscreen<T extends HTMLElement>() {
 }
 ```
 
+### Toggle will-change during animation
+```css
+.animating {
+  will-change: transform, opacity;
+}
+```
+
+### Spring defaults (framer-motion)
+```tsx
+<motion.div
+  animate={{ transform: "translate3d(0, 0, 0)" }}
+  transition={{ type: "spring", stiffness: 500, damping: 40 }}
+/>
+```
+
 ## Practical tips
 
 ### Record your animations
-When something feels off but you cannot identify why, record the animation and play it back frame by frame.
+When something feels off, record the animation and play it back frame by frame.
 
-### Fix shaky animations
-Elements can shift by 1px at the start/end of CSS transforms due to GPU/CPU handoff.
-
-```css
-.element {
-  will-change: transform;
-}
-```
+### Fix shaky 1px shifts
+Elements can shift by 1px at the start/end of CSS transforms due to GPU/CPU handoff. Apply `will-change: transform` during the animation (not permanently) to keep compositing on the GPU.
 
 ### Scale buttons on press
 ```css
 button:active {
   transform: scale(0.97);
+  opacity: 0.9;
 }
 ```
 
@@ -275,28 +222,13 @@ button:active {
   opacity: 0;
   transform: scale(0.97);
 }
-/* Skip animation for subsequent tooltips */
 .tooltip[data-instant] {
   transition-duration: 0ms;
 }
 ```
 
-### Keep animations fast
-UI motion should stay under 300ms for core interactions.
-
-### Do not animate keyboard interactions
-Never animate:
-- List navigation with arrow keys
-- Keyboard shortcut responses
-- Tab/focus movements
-
 ### Fix hover flicker
-```html
-<div class="box">
-  <div class="box-inner"></div>
-</div>
-```
-
+Apply the hover effect on a parent, animate the child:
 ```css
 .box:hover .box-inner {
   transform: translateY(-20%);
@@ -305,55 +237,3 @@ Never animate:
   transition: transform 200ms ease;
 }
 ```
-
-### Disable hover on touch devices
-```css
-@media (hover: hover) and (pointer: fine) {
-  .card:hover {
-    transform: scale(1.05);
-  }
-}
-```
-
-### Ensure appropriate target areas
-Minimum target size is 44px (Apple and WCAG recommendation).
-
-```css
-@utility touch-hitbox {
-  position: relative;
-}
-@utility touch-hitbox::before {
-  content: "";
-  position: absolute;
-  display: block;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  min-height: 44px;
-  min-width: 44px;
-  z-index: 9999;
-}
-```
-
-```jsx
-<button className="touch-hitbox">
-  <BellIcon />
-</button>
-```
-
-### Use opacity as a fallback
-```css
-.button-transition {
-  transition:
-    transform 150ms ease-out,
-    opacity 150ms ease-out;
-}
-.button-transition:active {
-  transform: scale(0.97);
-  opacity: 0.9;
-}
-```
-
-Prefer this over `filter`-based effects for core interactions.

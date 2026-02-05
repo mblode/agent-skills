@@ -1,7 +1,6 @@
 ---
 name: review-pr
-version: 0.1.0
-description: High-signal review of pull requests and code diffs for concrete bugs and CLAUDE.md compliance. Use when asked to review a PR, branch diff, or pre-merge changes and report only certain, actionable findings.
+description: Reviews pull requests and code diffs for concrete bugs and CLAUDE.md compliance. Use when asked to review a PR, branch diff, or pre-merge changes. Reports only high-confidence, actionable issues.
 ---
 
 # PR Review
@@ -26,7 +25,7 @@ Perform systematic review with actionable, validated feedback only.
    - Large change: shard by subsystem and run parallel passes per shard
 4. **Validate issues**:
    - Re-check exact lines before reporting
-   - Keep only certain findings; remove speculative or duplicate items
+   - Keep only high-confidence issues; drop speculative or duplicate items
 5. **Post**:
    - Preferred: inline comments with reasoning
    - Fallback: same issue format in chat when inline tooling is unavailable
@@ -49,7 +48,7 @@ Never flag:
 
 ## Output format
 
-Use `mcp__github_inline_comment__create_inline_comment` when available.
+Use `github_inline_comment:create_inline_comment` when available.
 
 For each unique issue, use this structure:
 ```markdown

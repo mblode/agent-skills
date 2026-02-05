@@ -1,10 +1,11 @@
-# 46-Point Quality Checklist
+# Checklist (File 44 + Audit 2)
 
-Score each AGENTS.md / CLAUDE.md root file with this yes/no checklist.
+Score each AGENTS.md / CLAUDE.md root file with this checklist.
 
-- `Yes` = 1 point
-- `No` = 0 points
-- Maximum = 46 points
+Scoring:
+- File quality (`1-44`): `Yes` = 1, `No` = 0, `N/A` = excluded from denominator
+- Audit execution (`45-46`): score only when producing a report/edit proposal
+- File grade uses `earned / applicable`
 
 Use this when auditing from first principles: the file should help an agent execute correctly with minimal context.
 
@@ -49,7 +50,7 @@ Use this when auditing from first principles: the file should help an agent exec
 
 ## D. Signal-to-noise and bloat control (8)
 
-31. Root file stays concise (typically 60-150 lines)
+31. Root file stays concise for repo complexity (60-150 lines is common for active app repos)
 32. No full framework documentation pasted inline
 33. No copy-pasted full AGENTS.md templates
 34. No exhaustive file tree or "every file" inventory
@@ -58,24 +59,31 @@ Use this when auditing from first principles: the file should help an agent exec
 37. Removes duplicate guidance repeated across sections
 38. Each section provides operational value (not filler)
 
-## E. Currency and validation (8)
+## E. Currency and validation (6)
 
 39. Referenced file paths exist
 40. Referenced tools/dependencies are currently used
-41. Commands have been run or mechanically verified
+41. Commands have been run (or limitations are explicitly documented when run is not possible)
 42. Removed references to deleted folders/APIs
 43. Version-sensitive guidance is date/version scoped where needed
 44. Includes a clear maintenance loop (how to keep file current)
+
+## F. Audit execution checks (2)
+
 45. Post-change report includes concrete issues and resulting score
 46. Suggested edits are minimal and traceable (diff-first)
 
-## Grade mapping
+## Grade mapping (file quality only)
 
-- A: 42-46
-- B: 35-41
-- C: 27-34
-- D: 18-26
-- F: 0-17
+Use `earned / applicable` percentage:
+
+- A: >= 91%
+- B: 76% to < 91%
+- C: 59% to < 76%
+- D: 39% to < 59%
+- F: < 39%
+
+Example: `36/40 = 90%` -> Grade `B`.
 
 ## Automatic fails
 

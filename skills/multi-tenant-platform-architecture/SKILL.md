@@ -1,7 +1,6 @@
 ---
 name: multi-tenant-platform-architecture
-version: 0.1.0
-description: Architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, custom domains, and plan/limit mapping.
+description: Provides architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, custom domains, and plan/limit mapping.
 ---
 
 # Multi-Tenant Platform Architecture (Cloudflare · Vercel)
@@ -17,7 +16,7 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 1. Choose domain strategy
 - Use a dedicated tenant domain (separate from the brand domain) for all subdomains/custom hostnames. Reputation does not isolate; a phishing site on `random.acme.com` damages the whole domain.
 - Register a separate TLD for tenant workloads (e.g. `acme.app` for tenants, `acme.com` for brand).
-- Consider PSL for browser cookie isolation; it does not protect reputation. See `references/psl.md`.
+- Consider PSL for browser cookie isolation; it does not protect reputation. See [psl.md](references/psl.md).
 - Start PSL submission early; review can take weeks.
 
 2. Choose tenant identification strategy
@@ -46,19 +45,19 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 
 7. Support custom domains
 - Provide DNS target, verify ownership, store mapping, and route by hostname.
-- **Cloudflare**: Cloudflare for SaaS custom hostnames + managed certs. See `references/cloudflare-platform.md`.
-- **Vercel**: Vercel Domains API via `@vercel/sdk` for programmatic domain CRUD + automatic Let's Encrypt SSL. Wildcard subdomains require Vercel nameservers. See `references/vercel-domains.md`.
+- **Cloudflare**: Cloudflare for SaaS custom hostnames + managed certs. See [cloudflare-platform.md](references/cloudflare-platform.md).
+- **Vercel**: Vercel Domains API via `@vercel/sdk` for programmatic domain CRUD + automatic Let's Encrypt SSL. Wildcard subdomains require Vercel nameservers. See [vercel-domains.md](references/vercel-domains.md).
 - Custom domains shift reputation to the tenant and create natural user segments (casual on platform domain, serious on own domain).
 
 8. Serve per-tenant static files
 - `robots.txt`, `sitemap.xml`, `llms.txt` must vary by tenant; do not serve from `/public`.
 - **Cloudflare**: Generate per-tenant responses in the tenant Worker.
-- **Vercel**: Use route handlers per domain segment. See `references/vercel-platform.md`.
+- **Vercel**: Use route handlers per domain segment. See [vercel-platform.md](references/vercel-platform.md).
 
 9. Surface limits as plans
 - Map platform limits to pricing tiers; expose in API + UI.
 - Do not run long jobs in requests; use queues/workflows.
-- See `references/limits-and-quotas.md` for limits snapshots and source links.
+- See [limits-and-quotas.md](references/limits-and-quotas.md) for limits snapshots and source links.
 - Re-check limits in official docs before final architecture or pricing decisions.
 
 10. Make the API the product
@@ -84,21 +83,21 @@ description: Architecture guidance for multi-tenant platforms on Cloudflare or V
 
 ## References to load
 
-- Always load PSL submission and cookie isolation guidance: `references/psl.md`
-- If platform is Cloudflare, load platform primitives and routing: `references/cloudflare-platform.md`
-- If platform is Vercel, load platform primitives and routing: `references/vercel-platform.md`
-- If platform is Vercel, load domain management and SSL: `references/vercel-domains.md`
-- Load platform limits and plan mapping last: `references/limits-and-quotas.md`
+- Always load PSL submission and cookie isolation guidance: [psl.md](references/psl.md)
+- If platform is Cloudflare, load platform primitives and routing: [cloudflare-platform.md](references/cloudflare-platform.md)
+- If platform is Vercel, load platform primitives and routing: [vercel-platform.md](references/vercel-platform.md)
+- If platform is Vercel, load domain management and SSL: [vercel-domains.md](references/vercel-domains.md)
+- Load platform limits and plan mapping last: [limits-and-quotas.md](references/limits-and-quotas.md)
 
 ## Pre-commit checklist
 
-- Platform chosen with clear rationale documented
-- Tenant workloads off the brand domain; PSL decision + timeline set
-- Tenant identification strategy chosen; custom domain upgrade path defined
-- Isolation model defined: per-tenant Workers (Cloudflare) or shared-app + RLS (Vercel)
-- Routing authoritative and tenant-blind; dispatch or middleware handles all traffic
-- Tenant context flows through middleware/platform Worker only; no client-supplied identity trusted
-- Custom domain onboarding defined with DNS target, verification, and cert provisioning
-- Per-tenant static files (robots.txt, sitemap.xml) served dynamically
-- Limits tied to billing; API parity with UI
-- Limits snapshot refreshed from official docs and dated in planning notes
+- [ ] Platform chosen with clear rationale documented
+- [ ] Tenant workloads off the brand domain; PSL decision + timeline set
+- [ ] Tenant identification strategy chosen; custom domain upgrade path defined
+- [ ] Isolation model defined: per-tenant Workers (Cloudflare) or shared-app + RLS (Vercel)
+- [ ] Routing authoritative and tenant-blind; dispatch or middleware handles all traffic
+- [ ] Tenant context flows through middleware/platform Worker only; no client-supplied identity trusted
+- [ ] Custom domain onboarding defined with DNS target, verification, and cert provisioning
+- [ ] Per-tenant static files (robots.txt, sitemap.xml) served dynamically
+- [ ] Limits tied to billing; API parity with UI
+- [ ] Limits snapshot refreshed from official docs and dated in planning notes

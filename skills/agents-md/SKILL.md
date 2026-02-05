@@ -1,29 +1,29 @@
 ---
 name: agents-md
-description: Audit and improve AGENTS.md and CLAUDE.md files using a minimal, execution-first standard. Use for instruction-file reviews, bloat reduction, stale-command cleanup, and codifying repeated agent mistakes.
+description: Audits and improves AGENTS.md and CLAUDE.md instruction files using a minimal, execution-first standard. Use when users ask to audit, review, rewrite, score, or refactor agent instruction files, reduce bloat, fix stale commands, or codify repeated mistakes after PR feedback.
 ---
 
 # AGENTS.md / CLAUDE.md Audit
 
-AGENTS.md is an execution contract, not a knowledge base.
+AGENTS.md and CLAUDE.md are execution contracts, not knowledge bases.
 
-Keep root files focused on:
-- Commands to run
-- Project gotchas
-- Repeated agent mistakes
-- Team conventions that change implementation choices
+## How to use this skill
 
-Avoid:
-- Full framework docs
-- Copy-pasted templates
-- Exhaustive file listings
-- Generic advice ("write clean code")
+Default path:
+- Start with `Quick audit` using `references/quick-checklist.md` (10 checks).
+- Escalate to `Full audit` (`references/quality-criteria.md`) only when quick audit fails, the file is high-risk/critical, or the user asks for full scoring.
+- Apply edits only after reporting findings and getting confirmation.
 
-## When to use
+Load references progressively:
+- Always load the checklist for the selected mode.
+- Load `references/refactor-workflow.md` only for low-signal files (below target score, stale commands/rules, or root file over ~150 lines).
+- Load `references/templates.md` only when drafting a new file or rebuilding from scratch.
+- Load `references/root-content-guidance.md` only when deciding what stays in root vs moved out.
 
-- User asks to audit, rewrite, score, or refactor AGENTS.md / CLAUDE.md
-- User says the file is bloated, stale, generic, or ignored by agents
-- User wants to capture new gotchas after PR feedback
+Authoring guardrails:
+- Keep this `SKILL.md` concise (well under 500 lines).
+- Keep references one level deep from `SKILL.md`.
+- Use forward-slash paths in all file references.
 
 ## Workflow
 
@@ -32,20 +32,18 @@ Avoid:
 Run:
 
 ```bash
-find . \( -name "AGENTS.md" -o -name "CLAUDE.md" -o -name ".claude.md" -o -name ".claude.local.md" \) 2>/dev/null | head -50
+find . \( -name "AGENTS.md" -o -name "CLAUDE.md" -o -name ".claude.md" -o -name ".claude.local.md" \) 2>/dev/null | sort
 ```
 
 For monorepos, include workspace-level instruction files.
+If output is long, page it for display, but audit the full result set.
 
-### 2. Audit from first principles
+### 2. Audit
 
-Score each root file with [references/quality-criteria.md](references/quality-criteria.md).
-Target: **42/46 or higher**.
-
-Key checks:
-- Can an agent execute core workflows with only this file?
-- Does each section prevent a real, repeated mistake?
-- Should any long section be moved to a linked reference file?
+- Quick mode target: **>= 8/10** checks from `references/quick-checklist.md`.
+- Full mode file-quality target: **>= 91% of applicable points** from `references/quality-criteria.md`.
+- Full mode audit-execution target: **2/2** when producing an edit proposal.
+- Score each root/workspace instruction file independently.
 
 ### 3. Report findings first
 
@@ -54,57 +52,27 @@ Output a concise report before edits:
 ```markdown
 ## AGENTS.md Quality Report
 
-| File | Lines | Score | Grade | Key Issues |
-|------|-------|-------|-------|------------|
-| ./AGENTS.md | 182 | 34/46 | C | Missing test command, stale path, doc-heavy section |
+| File | Mode | Score | Grade | Key Issues |
+|------|------|-------|-------|------------|
+| ./AGENTS.md | Quick | 6/10 | Fail | Missing test command, stale path, doc-heavy section |
 ```
 
 ### 4. Propose minimal diffs
 
-- Add missing commands, gotchas, and conventions
-- Delete generic or redundant lines
-- Move deep detail into `.claude/` or `references/`
-- Keep rewrites incremental and preserve useful wording when possible
+- Fix broken/stale commands first.
+- Remove generic, duplicate, or obsolete guidance.
+- Move deep detail into `.claude/` or reference files.
+- Keep rewrites incremental and preserve useful wording when possible.
 
 Show each proposed change with rationale and a diff snippet.
 
 ### 5. Validate
 
-- Run listed commands, or verify they exist in scripts/package files
-- Check that linked paths resolve
-- Confirm no contradictory rules remain
-- Keep root file concise (target: 60-150 lines)
+- Run smoke checks for core commands (`dev`, `test`, `build`, `lint/typecheck`) when applicable. If one cannot be run, verify script existence and note the limitation.
+- Check that linked paths resolve.
+- Confirm no contradictory rules remain.
 
 ### 6. Apply and garden
 
-- Apply approved edits
-- Recommend ongoing maintenance: after each PR, add one gotcha only if it prevented or fixed a real mistake
-
-## Include in root
-
-- Copy-paste commands (`dev`, `test`, `build`, `lint`, deploy/migrate where relevant)
-- High-frequency failure modes ("agent keeps doing X; do Y instead")
-- Non-obvious conventions that affect code changes
-- Required environment/setup facts needed to execute tasks
-- Pointers to deeper docs (`.claude/*.md`) when detail is needed
-
-## Exclude from root
-
-- Full documentation or architecture deep dives
-- Copy-pasted AGENTS.md templates
-- "Every file in the repo" inventories
-- Generic engineering advice not tied to this codebase
-- Duplicated rules already enforced by linters or CI defaults
-
-## Next.js-inspired guidance
-
-- Do not paste framework docs into AGENTS.md.
-- If framework behavior causes repeated mistakes, add a short gotcha plus the exact command/link that resolves it.
-- For Next.js repos, mention `npx @next/codemod@canary agents-md` when bootstrapping or repairing an instruction file.
-
-## Anti-patterns
-
-- "Follow best practices." -> Replace with explicit commands or rules.
-- "Use TypeScript." in an all-TypeScript repo -> Remove.
-- 300+ line monolith with no links -> Split with progressive disclosure.
-- Commands copied from stale CI config -> Verify or delete.
+- Apply approved edits.
+- After each PR, add at most one new gotcha only if it prevented or fixed a real mistake.

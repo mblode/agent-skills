@@ -1,7 +1,6 @@
 ---
 name: plan-feature
-version: 0.1.0
-description: Create implementation-ready plans and specs for complex changes without writing code. Use when the user asks for a plan/spec/roadmap, requests a detailed plan, or when a change spans multiple files/systems and needs discovery, sequencing, or architecture decisions.
+description: Creates implementation-ready plans and specs for complex changes without writing code. Use when the user asks for a plan/spec/roadmap, requests a detailed plan, or when a change spans multiple files/systems and needs discovery, sequencing, or architecture decisions.
 ---
 
 # Feature Planning
@@ -39,7 +38,7 @@ Critical questions:
 
 ### 2. Analysis
 Explore the codebase systematically:
-- Locate relevant files (prefer `rg --files` and `rg`; document paths with line numbers)
+- Locate relevant files (document paths with line numbers)
 - Map existing patterns (architecture, naming, data flow)
 - Identify dependencies (what will be affected by changes)
 - Find similar implementations (to maintain consistency)
@@ -97,16 +96,6 @@ Explicitly note which standards apply:
 
 Format: "This plan must follow `implement-frontend` for forms and type safety."
 
-### 5. Validation checklist
-Before finalizing, verify the plan includes:
-- [ ] Clear goal statement
-- [ ] Specific file paths with line numbers
-- [ ] Ordered steps (dependencies clear)
-- [ ] Acceptance criteria
-- [ ] Edge cases considered
-- [ ] Relevant skill standards referenced
-- [ ] No ambiguous language ("update", "improve", "enhance" without specifics)
-
 ## Anti-patterns
 
 Avoid vague plans:
@@ -129,16 +118,13 @@ Avoid ignoring standards:
 - Bad: Plan uses `any` types and manual form state
 - Good: Plan enforces `implement-frontend`: no `any`, uses React Hook Form
 
-## Quick checks
+## Validation checklist
 
-Before handing off the plan:
-- Can someone implement this without asking questions?
-- Are all file paths valid and line numbers approximate?
-- Are dependencies between steps clear?
-- Are acceptance criteria testable?
-- Are relevant skill standards explicitly referenced?
-- Is every decision justified (the "why")?
-
-## Output format
-
-Deliver the plan as a formatted markdown document that serves as a complete implementation specification. The implementer should not need to make architectural decisions.
+Before handing off the plan, verify:
+- [ ] Someone can implement without asking questions
+- [ ] File paths are valid with approximate line numbers
+- [ ] Steps are ordered with clear dependencies
+- [ ] Acceptance criteria are testable
+- [ ] Relevant skill standards explicitly referenced
+- [ ] Every decision is justified (the "why")
+- [ ] No ambiguous language ("update", "improve", "enhance" without specifics)

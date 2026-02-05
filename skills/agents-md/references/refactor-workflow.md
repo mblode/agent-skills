@@ -23,6 +23,7 @@ Everything else is candidate for linked references or deletion.
 ## Step 2: Remove bloat fast
 
 Delete first, then add back only what earns its place.
+For every removed line/section, record one reason: `generic`, `duplicate`, `stale`, or `moved` (to a linked reference).
 
 Remove:
 - Full documentation and tutorial-style prose
@@ -53,19 +54,20 @@ Rule: if guidance is needed in fewer than ~30% of tasks, move it out of root.
 ## Step 5: Validate before finalizing
 
 Run or verify:
-- Commands are executable from documented location
+- Core commands are runnable from documented location (or explicitly marked as not runnable in the current environment)
 - Linked files exist
 - No contradictory rules remain
 - Root file stays concise and operational
+- Removed guidance did not include rare-but-critical constraints (security, migration, release, incident flows)
 
 ## Step 6: Publish an audit summary
 
 Use a concise summary table:
 
 ```markdown
-| File | Before | After | Score | Key wins |
-|------|--------|-------|-------|----------|
-| ./AGENTS.md | 240 lines | 96 lines | 29/46 -> 43/46 | Added commands, removed doc dump, fixed stale paths |
+| File | Before | After | File quality | Audit execution | Key wins |
+|------|--------|-------|--------------|-----------------|----------|
+| ./AGENTS.md | 240 lines | 96 lines | 26/42 -> 40/42 | 0/2 -> 2/2 | Added commands, removed doc dump, fixed stale paths |
 ```
 
 ## Pitfalls

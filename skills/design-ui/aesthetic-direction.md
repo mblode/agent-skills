@@ -29,20 +29,16 @@ Goal: make the UI look human-designed, not AI-default.
 - Typography sources: Typewolf, Fonts In Use, commercial foundries.
 - Animation study: animations.dev, devouringdetails.com.
 
-## Extra polish
+## Polish details
 - Match box-shadows to references.
 - Dark-mode aware SVG favicon.
-- Dynamic OG images and SEO metadata.
 - Intentional hover/active states and loading/error/empty states.
 
-## Craft baseline (non-negotiable)
-- Full keyboard support; visible focus rings; manage focus in dialogs/menus.
-- Hit targets >= 24px (>= 44px on mobile); hover styles gated by `@media (hover: hover)`.
-- Forms: labels wired to inputs; Enter submits; textarea uses Cmd/Ctrl+Enter; keep submit enabled until request starts, then disable with spinner.
-- Never block paste/typing; inline errors; focus first error; inputs with `value` include `onChange`.
-- Follow `ui-animation` motion rules and reduced-motion behaviour.
-- Respect safe areas; handle long content with truncation; design empty/error states.
-- Locale-aware formatting (`Intl.*`); use `&hellip;` and non-breaking spaces for glued terms.
+## Craft baseline
+- Full keyboard support with visible focus rings.
+- Hit targets >= 24px (>= 44px mobile).
+- Accessible forms: labels, Enter-to-submit, inline errors.
+- See `audit-ui` for complete interaction and accessibility standards.
 
 ## Standard
 Distinctive, contextual, refined, and memorable.

@@ -3,7 +3,13 @@
 Use this checklist to implement or review typography in UI/web work. Apply only the items that are relevant to the target surface.
 
 ## Contents
+- How to apply
 - Checklist
+
+## How to apply
+1. Scope the typography surfaces being changed (body text, headings, links, data tables, forms).
+2. Run relevant checklist items and record findings with file locations.
+3. Apply fixes, then rerun the same checklist subset before finalizing.
 
 ## Checklist
 - [ ] Replace straight quotes/apostrophes with smart quotes; ensure UTF-8; normalise content at build/render time.

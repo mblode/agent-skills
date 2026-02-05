@@ -31,4 +31,4 @@ Deliver working code with a clear aesthetic point of view. Avoid generic AI aest
 - Make every decision context-specific and intentional.
 
 ## Reference
-- See `aesthetic-direction.md` for deeper guidance and examples.
+- See [aesthetic-direction.md](aesthetic-direction.md) for deeper guidance and examples.

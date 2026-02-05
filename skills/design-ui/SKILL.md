@@ -1,21 +1,24 @@
 ---
 name: design-ui
-version: 0.1.0
-description: Design direction and visual system for web UI. Use to choose layout, typography, colour, and overall aesthetic for product (SaaS/admin/data-heavy) or marketing/brand experiences.
+description: Provides design direction and visual system for web UI. Defines layout, typography, colour, and overall aesthetic for product (SaaS/admin/data-heavy) or marketing/brand experiences. Use when choosing visual direction, selecting colour palettes and fonts, establishing layout patterns, or starting a new UI design system.
 ---
 
 # UI Design
 
 Choose the right track and follow its guidance.
 
-## Pick a track
-- Product UI (SaaS/admin/data-heavy): read `product-ui.md`.
-- Marketing/brand/creative: read `marketing-ui.md`.
+## Tracks
 
-## Cross-skill baselines
-- Use `ui-animation` for motion; use `audit-ui` for accessibility and final QA.
-- Use `implement-frontend` for React/TypeScript implementation standards.
+- **Product UI** (SaaS/admin/data-heavy): See [product-ui.md](product-ui.md)
+- **Marketing/brand/creative**: See [marketing-ui.md](marketing-ui.md)
 
-## Local references
-- Use `design-in-code.md` for low-fi planning and layout-first workflow.
-- Use `aesthetic-direction.md` for anti-pattern signals and aesthetic calibration.
+## References
+
+- **Low-fi planning**: See [design-in-code.md](design-in-code.md)
+- **Anti-patterns and calibration**: See [aesthetic-direction.md](aesthetic-direction.md)
+
+## Related skills
+
+- `ui-animation` for motion timing, easing, and reduced-motion behaviour
+- `audit-ui` for accessibility and final QA
+- `implement-frontend` for React/TypeScript implementation standards
