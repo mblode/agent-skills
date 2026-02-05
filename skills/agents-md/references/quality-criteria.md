@@ -1,8 +1,20 @@
-# Checklist (File 44 + Audit 2)
+# Full Quality Criteria (File 44 + Audit 2)
 
 Score each AGENTS.md / CLAUDE.md root file with this checklist.
 
-Scoring:
+## Contents
+- A. Commands and execution readiness (12 checks)
+- B. Gotchas and repeated mistakes (10 checks)
+- C. Conventions and decision boundaries (8 checks)
+- D. Signal-to-noise and bloat control (8 checks)
+- E. Currency and validation (6 checks)
+- F. Audit execution checks (2 checks)
+- Grade mapping and automatic fails
+
+**Target:** >= 91% of applicable points for grade A
+
+## Scoring
+
 - File quality (`1-44`): `Yes` = 1, `No` = 0, `N/A` = excluded from denominator
 - Audit execution (`45-46`): score only when producing a report/edit proposal
 - File grade uses `earned / applicable`

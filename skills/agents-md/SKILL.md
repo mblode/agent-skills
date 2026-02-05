@@ -1,33 +1,59 @@
 ---
 name: agents-md
-description: Audits and improves AGENTS.md and CLAUDE.md instruction files using a minimal, execution-first standard. Use when users ask to audit, review, rewrite, score, or refactor agent instruction files, reduce bloat, fix stale commands, or codify repeated mistakes after PR feedback.
+description: Audits AGENTS.md and CLAUDE.md files using execution-first standards. Checks commands, gotchas, and signal-to-noise ratio. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, or reduce bloat.
 ---
 
 # AGENTS.md / CLAUDE.md Audit
 
 AGENTS.md and CLAUDE.md are execution contracts, not knowledge bases.
 
-## How to use this skill
+## Reference Files
+
+| File | Read When |
+|------|-----------|
+| `references/quick-checklist.md` | Default: fast triage (10 checks, target >= 8/10) |
+| `references/quality-criteria.md` | Full audit mode or when quick audit fails |
+| `references/refactor-workflow.md` | File is bloated (>150 lines) or low-signal |
+| `references/root-content-guidance.md` | Deciding what stays in root vs separate files |
+| `references/templates.md` | Drafting new file or rebuilding from scratch |
+
+## Quick Example
+
+**Input:** AGENTS.md with stale commands and generic advice
+**Quick audit result:** 5/10 (Fail)
+**Key issues:** Missing test command, generic "follow best practices" advice, dead link to deleted folder
+**Fix:** Add `npm test`, replace generic advice with specific gotcha, remove dead link
+**After:** 9/10 (Pass)
+
+## How to Use
 
 Default path:
-- Start with `Quick audit` using `references/quick-checklist.md` (10 checks).
-- Escalate to `Full audit` (`references/quality-criteria.md`) only when quick audit fails, the file is high-risk/critical, or the user asks for full scoring.
-- Apply edits only after reporting findings and getting confirmation.
+- Start with quick audit using `references/quick-checklist.md` (10 checks)
+- Escalate to full audit (`references/quality-criteria.md`) only when quick audit fails, file is high-risk, or user requests it
+- Apply edits only after reporting findings and getting confirmation
 
-Load references progressively:
-- Always load the checklist for the selected mode.
-- Load `references/refactor-workflow.md` only for low-signal files (below target score, stale commands/rules, or root file over ~150 lines).
-- Load `references/templates.md` only when drafting a new file or rebuilding from scratch.
-- Load `references/root-content-guidance.md` only when deciding what stays in root vs moved out.
+Progressive loading:
+- Always load the checklist for the selected audit mode
+- Load `references/refactor-workflow.md` only for low-signal files (below target score, stale commands, or root file over ~150 lines)
+- Load `references/templates.md` only when drafting a new file or rebuilding from scratch
+- Load `references/root-content-guidance.md` only when deciding what stays in root vs moved out
 
-Authoring guardrails:
-- Keep this `SKILL.md` concise (well under 500 lines).
-- Keep references one level deep from `SKILL.md`.
-- Use forward-slash paths in all file references.
+## Audit Workflow
 
-## Workflow
+Copy this checklist to track progress:
 
-### 1. Discover files
+```
+Audit Progress:
+- [ ] Step 1: Discover files
+- [ ] Step 2: Select audit mode (quick or full)
+- [ ] Step 3: Run audit against checklist
+- [ ] Step 4: Report findings with score table
+- [ ] Step 5: Propose minimal diffs
+- [ ] Step 6: Validate changes
+- [ ] Step 7: Apply and verify
+```
+
+### Step 1: Discover files
 
 Run:
 
@@ -38,14 +64,19 @@ find . \( -name "AGENTS.md" -o -name "CLAUDE.md" -o -name ".claude.md" -o -name 
 For monorepos, include workspace-level instruction files.
 If output is long, page it for display, but audit the full result set.
 
-### 2. Audit
+### Step 2: Select audit mode
 
-- Quick mode target: **>= 8/10** checks from `references/quick-checklist.md`.
-- Full mode file-quality target: **>= 91% of applicable points** from `references/quality-criteria.md`.
-- Full mode audit-execution target: **2/2** when producing an edit proposal.
-- Score each root/workspace instruction file independently.
+- **Quick audit:** Default for most files (10 checks, target >= 8/10)
+- **Full audit:** When quick audit fails, file is high-risk, or user requests full scoring
 
-### 3. Report findings first
+### Step 3: Run audit
+
+- Quick audit target: **>= 8/10** checks from `references/quick-checklist.md`
+- Full audit file-quality target: **>= 91% of applicable points** from `references/quality-criteria.md`
+- Full audit execution target: **2/2** when producing an edit proposal
+- Score each root file independently
+
+### Step 4: Report findings
 
 Output a concise report before edits:
 
@@ -57,22 +88,27 @@ Output a concise report before edits:
 | ./AGENTS.md | Quick | 6/10 | Fail | Missing test command, stale path, doc-heavy section |
 ```
 
-### 4. Propose minimal diffs
+### Step 5: Propose minimal diffs
 
-- Fix broken/stale commands first.
-- Remove generic, duplicate, or obsolete guidance.
-- Move deep detail into `.claude/` or reference files.
-- Keep rewrites incremental and preserve useful wording when possible.
+- Fix broken/stale commands first
+- Remove generic, duplicate, or obsolete guidance
+- Move deep detail into `.claude/` or reference files
+- Keep rewrites incremental and preserve useful wording when possible
 
 Show each proposed change with rationale and a diff snippet.
 
-### 5. Validate
+### Step 6: Validate changes
 
-- Run smoke checks for core commands (`dev`, `test`, `build`, `lint/typecheck`) when applicable. If one cannot be run, verify script existence and note the limitation.
-- Check that linked paths resolve.
-- Confirm no contradictory rules remain.
+Validation loop:
+1. Run smoke checks for core commands (`dev`, `test`, `build`, `lint/typecheck`) when applicable
+2. If commands cannot be run, verify script existence and note the limitation
+3. Check that linked paths resolve
+4. Confirm no contradictory rules remain
+5. If issues found → revise → validate again
+6. Only proceed when validation passes
 
-### 6. Apply and garden
+### Step 7: Apply and verify
 
-- Apply approved edits.
-- After each PR, add at most one new gotcha only if it prevented or fixed a real mistake.
+- Apply approved edits
+- After each PR, add at most one new gotcha only if it prevented or fixed a real mistake
+- Verify changes by re-running relevant commands

@@ -4,6 +4,49 @@ Use these as structure starters only. Fill with project-specific commands, gotch
 
 Do not ship these verbatim.
 
+## Before/After Examples
+
+### Bad Example (Generic Template)
+
+```markdown
+# My Project
+
+This is a TypeScript project. Follow best practices.
+
+## Getting Started
+Install dependencies and run the app.
+
+## Code Style
+Write clean code. Use TypeScript properly.
+```
+
+**Issues:** No commands, generic advice, no gotchas, no actionable guidance
+
+### Good Example (Execution-First)
+
+```markdown
+# payments-api
+
+REST API for payment processing.
+
+## Commands
+- `npm run dev` - Start local server (port 3000)
+- `npm test` - Run test suite
+- `npm run typecheck` - Type check without building
+- `npm run db:migrate` - Run database migrations
+
+## Gotchas
+- Use `PaymentIntent.create()`, not `Charge.create()` (Stripe v3 deprecation)
+- Always validate webhook signatures with `stripe.webhooks.constructEvent()`
+- Run migrations before tests: `npm run db:migrate && npm test`
+
+## Conventions
+- Payment amounts are in cents, not dollars
+- Use `createPaymentIntent()` helper for all payment creation
+```
+
+**Wins:** Copy-paste commands, specific gotchas with fixes, implementation-affecting conventions
+
 ## Root file skeleton (single project)
 
 ```markdown
