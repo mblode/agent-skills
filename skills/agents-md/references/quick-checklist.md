@@ -14,10 +14,10 @@ Scoring:
 4. At least one project-specific gotcha is documented
 5. Gotchas include corrective action (what to do instead)
 6. Conventions that change implementation choices are explicit
-7. Root file avoids generic advice
+7. Every line passes the litmus test: removing it would cause the agent to make mistakes
 8. Root file avoids framework doc dumps/templates
 9. Linked paths and commands are current (not stale/dead)
-10. Maintenance loop exists (how to keep file current)
+10. Non-universal detail is linked out (via `@import` or child files), not inlined
 
 Quick grade:
 - Pass: >= 8

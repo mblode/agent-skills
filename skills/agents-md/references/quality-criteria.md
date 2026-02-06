@@ -1,4 +1,4 @@
-# Full Quality Criteria (File 44 + Audit 2)
+# Full Quality Criteria (File 45 + Audit 2)
 
 Score each AGENTS.md / CLAUDE.md root file with this checklist.
 
@@ -7,7 +7,7 @@ Score each AGENTS.md / CLAUDE.md root file with this checklist.
 - B. Gotchas and repeated mistakes (10 checks)
 - C. Conventions and decision boundaries (8 checks)
 - D. Signal-to-noise and bloat control (8 checks)
-- E. Currency and validation (6 checks)
+- E. Currency and validation (7 checks)
 - F. Audit execution checks (2 checks)
 - Grade mapping and automatic fails
 
@@ -15,8 +15,8 @@ Score each AGENTS.md / CLAUDE.md root file with this checklist.
 
 ## Scoring
 
-- File quality (`1-44`): `Yes` = 1, `No` = 0, `N/A` = excluded from denominator
-- Audit execution (`45-46`): score only when producing a report/edit proposal
+- File quality (`1-45`): `Yes` = 1, `No` = 0, `N/A` = excluded from denominator
+- Audit execution (`46-47`): score only when producing a report/edit proposal
 - File grade uses `earned / applicable`
 
 Use this when auditing from first principles: the file should help an agent execute correctly with minimal context.
@@ -54,11 +54,11 @@ Use this when auditing from first principles: the file should help an agent exec
 23. States conventions that materially change implementation choices
 24. States naming/path conventions when CI/tooling depends on them
 25. States test strategy conventions (unit/e2e boundaries) when relevant
-26. States when to use linked references instead of adding root-file detail
+26. Uses `@import` syntax or links for non-universal detail instead of inlining in root
 27. Marks scope boundaries for monorepo root vs workspace instruction files
 28. Avoids restating obvious defaults known by modern coding agents
 29. Uses precise language (specific verbs, explicit conditions)
-30. Avoids contradictory instructions
+30. Uses emphasis markers (IMPORTANT, NEVER, YOU MUST) sparingly on critical rules that agents tend to skip
 
 ## D. Signal-to-noise and bloat control (8)
 
@@ -69,9 +69,9 @@ Use this when auditing from first principles: the file should help an agent exec
 35. No long architecture deep dives in root file
 36. Uses links to detail files for non-universal guidance
 37. Removes duplicate guidance repeated across sections
-38. Each section provides operational value (not filler)
+38. Each section passes the litmus test: removing it would cause the agent to make mistakes
 
-## E. Currency and validation (6)
+## E. Currency and validation (7)
 
 39. Referenced file paths exist
 40. Referenced tools/dependencies are currently used
@@ -79,11 +79,12 @@ Use this when auditing from first principles: the file should help an agent exec
 42. Removed references to deleted folders/APIs
 43. Version-sensitive guidance is date/version scoped where needed
 44. Includes a clear maintenance loop (how to keep file current)
+45. CLAUDE.local.md used for personal/gitignored overrides (not mixed into shared CLAUDE.md)
 
 ## F. Audit execution checks (2)
 
-45. Post-change report includes concrete issues and resulting score
-46. Suggested edits are minimal and traceable (diff-first)
+46. Post-change report includes concrete issues and resulting score
+47. Suggested edits are minimal and traceable (diff-first)
 
 ## Grade mapping (file quality only)
 

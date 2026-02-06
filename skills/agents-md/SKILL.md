@@ -7,6 +7,8 @@ description: Audits AGENTS.md and CLAUDE.md files using execution-first standard
 
 AGENTS.md and CLAUDE.md are execution contracts, not knowledge bases.
 
+**Litmus test for every line:** "Would removing this cause the agent to make a mistake?" If no, cut it. Bloated instruction files cause agents to ignore actual rules.
+
 ## Reference Files
 
 | File | Read When |
@@ -58,11 +60,14 @@ Audit Progress:
 Run:
 
 ```bash
-find . \( -name "AGENTS.md" -o -name "CLAUDE.md" -o -name ".claude.md" -o -name ".claude.local.md" \) 2>/dev/null | sort
+find . \( -name "AGENTS.md" -o -name "CLAUDE.md" -o -name "CLAUDE.local.md" \) 2>/dev/null | sort
 ```
 
+Also check for a home-level file: `~/.claude/CLAUDE.md` (applies to all sessions).
+
+CLAUDE.md files can exist at multiple levels — project root, parent directories, and child directories are all loaded automatically. `CLAUDE.local.md` is the gitignored personal variant. Audit each level independently.
+
 For monorepos, include workspace-level instruction files.
-If output is long, page it for display, but audit the full result set.
 
 ### Step 2: Select audit mode
 
@@ -92,7 +97,8 @@ Output a concise report before edits:
 
 - Fix broken/stale commands first
 - Remove generic, duplicate, or obsolete guidance
-- Move deep detail into `.claude/` or reference files
+- Move deep detail into linked files using `@path/to/file.md` import syntax
+- Use emphasis ("IMPORTANT:", "YOU MUST") on critical rules that agents tend to skip
 - Keep rewrites incremental and preserve useful wording when possible
 
 Show each proposed change with rationale and a diff snippet.

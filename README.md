@@ -10,64 +10,22 @@ npx skills add mblode/agent-skills
 
 Supports OpenCode, Claude Code, Codex, and Cursor.
 
-## Lifecycle Chooser
+## Skills
 
-- Plan (before coding): `plan-feature` for a full implementation plan/spec.
-- Architecture setup (project start): `define-architecture` for repo shape, backend patterns, and workflow.
-- Visual direction (design phase): `design-ui` for product vs marketing look/feel.
-- Implementation (build phase): `implement-frontend` for React/TypeScript/Next standards.
-- UI QA (pre‑ship): `audit-ui` for accessibility and final craft pass.
-- Typography (design/dev): `audit-typography` for punctuation, font selection, sizing, spacing, and typographic quality.
-- Motion/animation: `ui-animation` for easing, timing, and reduced-motion rules.
-- Instruction-file hygiene: `agents-md` for AGENTS.md/CLAUDE.md audits, pruning, and maintenance.
-- Review (pre‑merge): `review-pr` for bug and CLAUDE.md compliance checks.
-- Launch/SEO (pre‑launch and audits): `optimise-seo` for metadata, structure, and Core Web Vitals.
-
-## Skills Included
-
-### plan-feature
-
-Create detailed implementation plans and specifications before coding. Use when you need a full technical spec with step-by-step implementation details.
-
-### define-architecture
-
-Set up repository structure, backend patterns, and development workflow. Use at project start or when establishing conventions for full-stack TypeScript applications.
-
-### design-ui
-
-Define visual direction and design system for web interfaces. Choose between product (SaaS/admin/data-heavy) or marketing/brand experiences with appropriate layout, typography, and color systems.
-
-### implement-frontend
-
-Implementation standards and best practices for React/TypeScript/Next.js. Use when writing or reviewing frontend code, especially forms, state management, hooks/components, and type safety.
-
-### audit-ui
-
-Final quality audit for typography, accessibility, and UX polish. Use when reviewing or refining UI before release to ensure professional craft and compliance.
-
-### ui-animation
-
-Guidelines and examples for UI motion and animation. Use when designing, implementing, or reviewing motion, easing, timing, and reduced-motion behaviour.
-
-### review-pr
-
-High-signal pull request review focused on bugs and CLAUDE.md compliance. Use before creating PRs or when reviewing changes to catch issues early.
-
-### agents-md
-
-Audit and improve AGENTS.md and CLAUDE.md files with an execution-first standard. Use when instruction files are bloated, stale, generic, or missing the commands, gotchas, and conventions agents need.
-
-### optimise-seo
-
-Optimize SEO for Next.js applications including sitemaps, meta tags, structured data, and Core Web Vitals. Use for pre-launch audits and ongoing SEO improvements.
-
-### audit-typography
-
-Comprehensive web typography rules covering punctuation, font selection, sizing, spacing, OpenType features, hierarchy, layout, typeface pairing, brand identity, and display type. Use when auditing or implementing typography for web projects.
-
-### multi-tenant-platform-architecture
-
-Architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use for domain strategy, tenant isolation, routing, custom domains, and plan/limit mapping.
+| Skill | Phase | What it does |
+|-------|-------|-------------|
+| `plan-feature` | Before coding | Implementation plans and technical specs |
+| `define-architecture` | Project start | Repo structure, backend patterns, workflow conventions |
+| `design-ui` | Design | Visual direction for product or marketing UI |
+| `implement-frontend` | Build | React/TypeScript/Next.js standards for forms, state, and type safety |
+| `audit-ui` | Pre-ship | Accessibility, typography, and UX polish audit |
+| `audit-typography` | Design/dev | Punctuation, font selection, sizing, spacing, and typographic quality |
+| `ui-animation` | Design/dev | Motion easing, timing, and reduced-motion rules |
+| `creating-presentations` | Design/dev | Bold, minimal, dark-first slide decks and pitch decks |
+| `agents-md` | Maintenance | AGENTS.md/CLAUDE.md audits, pruning, and hygiene |
+| `review-pr` | Pre-merge | Bug detection and CLAUDE.md compliance checks |
+| `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
+| `multi-tenant-platform-architecture` | Architecture | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel |
 
 ## Contributing
 

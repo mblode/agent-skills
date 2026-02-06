@@ -18,14 +18,39 @@ Use this when deciding what stays in root instruction files.
 - Generic advice not tied to this codebase
 - Rules already enforced by linters/CI defaults
 
+Use `@path/to/file.md` import syntax to link detail files from root:
+
+```markdown
+# Additional context
+- Architecture: @docs/architecture.md
+- Git workflow: @docs/git-instructions.md
+- Personal overrides: @~/.claude/my-project-instructions.md
+```
+
 ## Framework note
 
 - Do not paste framework docs into AGENTS.md.
 - If framework behavior causes repeated mistakes, add one short gotcha plus the command/link that resolves it.
 
+## File placement hierarchy
+
+CLAUDE.md files are loaded from multiple locations:
+
+- **`~/.claude/CLAUDE.md`** — applies to all sessions (personal defaults)
+- **Project root `./CLAUDE.md`** — shared with team via git
+- **`./CLAUDE.local.md`** — gitignored personal overrides at project level
+- **Parent directories** — inherited in monorepos (root + child both load)
+- **Child directories** — loaded on demand when working in that directory
+
+Audit each level independently. Root should contain only universal rules; child files should contain directory-specific rules.
+
+## Emphasis for critical rules
+
+Use emphasis markers ("IMPORTANT:", "YOU MUST", "NEVER") on rules that agents tend to skip. This improves adherence for high-stakes constraints (security, data loss, deployment). Do not overuse — if everything is "IMPORTANT", nothing is.
+
 ## Common anti-patterns
 
 - "Follow best practices." -> replace with explicit commands/rules
 - "Use TypeScript." in an all-TypeScript repo -> remove
-- 300+ line root file with no links -> split with progressive disclosure
+- 300+ line root file with no links -> split with `@import` progressive disclosure
 - Commands copied from stale CI config -> verify or delete

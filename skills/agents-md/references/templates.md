@@ -68,7 +68,8 @@ One-line description.
 - `<project-specific convention that changes implementation choices>`
 
 ## References
-- `<path/to/deep-detail.md>`
+- @docs/architecture.md
+- @.claude/testing.md
 ```
 
 ## Root file skeleton (monorepo)
@@ -81,11 +82,15 @@ One-line description.
 
 ## Scope
 - Root file: shared rules only
-- `apps/<app>/AGENTS.md`: app-specific rules
-- `packages/<pkg>/AGENTS.md`: package-specific rules
+- `apps/<app>/CLAUDE.md`: app-specific rules
+- `packages/<pkg>/CLAUDE.md`: package-specific rules
 
 ## Cross-workspace gotchas
 - `<workspace failure mode> -> <fix>`
+
+## References
+- @docs/deployment.md
+- @docs/shared-conventions.md
 ```
 
 ## Bad vs good

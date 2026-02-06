@@ -49,6 +49,13 @@ Create or update supporting files for non-universal detail:
 - `.claude/code-style.md`
 - workspace-specific `AGENTS.md`/`CLAUDE.md` files in monorepos
 
+Link from root using `@import` syntax:
+
+```markdown
+- Testing details: @.claude/testing.md
+- Architecture: @docs/architecture.md
+```
+
 Rule: if guidance is needed in fewer than ~30% of tasks, move it out of root.
 
 ## Step 5: Validate before finalizing
@@ -67,7 +74,7 @@ Use a concise summary table:
 ```markdown
 | File | Before | After | File quality | Audit execution | Key wins |
 |------|--------|-------|--------------|-----------------|----------|
-| ./AGENTS.md | 240 lines | 96 lines | 26/42 -> 40/42 | 0/2 -> 2/2 | Added commands, removed doc dump, fixed stale paths |
+| ./AGENTS.md | 240 lines | 96 lines | 26/45 -> 42/45 | 0/2 -> 2/2 | Added commands, removed doc dump, fixed stale paths |
 ```
 
 ## Pitfalls
