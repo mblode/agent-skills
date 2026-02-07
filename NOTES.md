@@ -26,3 +26,11 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - All 9 category prefixes and rule counts cross-check correctly between SKILL.md table and _sections.md
 - Frontmatter passes all CLAUDE.md constraints (name 12 chars, description ~382 chars, third-person voice, no forbidden words)
 - No critical issues found; Phase 1 is ready for Phase 2 rule authoring after the three minor template/format fixes
+
+## Phase 1 Review Fixes Applied
+
+- Fixed pass marker in SKILL.md output contract: `- pass` changed to `- ✓ pass` on line 74 and `pass` changed to `✓ pass` in the instruction on line 80, matching audit-typography pattern
+- Added descriptive parentheticals to _template.md labels: `**Incorrect:**` became `**Incorrect (description of what's wrong):**` and `**Correct:**` became `**Correct (description of what's right):**`
+- Added `Reference:` link placeholder to the bottom of _template.md, matching audit-typography's template structure
+- REVIEW.md deleted after all three minor issues resolved; no critical issues were found
+- SKILL.md remains at 81 lines after fix; _template.md grew from 22 to 24 lines — both well within limits

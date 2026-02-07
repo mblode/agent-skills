@@ -8,14 +8,16 @@ tags: tag1, tag2
 
 Brief explanation of the rule and why it matters for documentation quality, readability, or discoverability.
 
-**Incorrect:**
+**Incorrect (description of what's wrong):**
 
 ```markdown
 Bad documentation example showing the problem.
 ```
 
-**Correct:**
+**Correct (description of what's right):**
 
 ```markdown
 Good documentation example showing the solution.
 ```
+
+Reference: [Link to documentation or resource](https://example.com)

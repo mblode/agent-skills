@@ -71,10 +71,10 @@ Report findings in this format:
   - Fix: Rewrite "The configuration is loaded by the server" as "The server loads the configuration."
 
 ### path/to/clean-file.md
-- pass
+- ✓ pass
 ```
 
 - Group findings by file.
 - Use `file:line` when line numbers are available.
 - State issue and propose a concrete fix.
-- Include clean files as `pass`.
+- Include clean files as `✓ pass`.
