@@ -139,3 +139,18 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - All three example rule filenames in the Quick Reference section (voice-defaults.md, structure-diataxis.md, clarity-defaults.md) exist as actual files -- verified
 - Description length is 381 characters, well under the 1024-character limit
 - Phase 5 NOTES entry claimed "57 existing + 17 new = 74 rules" but the corrected total is 58 rules (not 74) -- the Phase 5 entry was written before Phase 5 rules were consolidated or the counts were never updated after Phase 5 completion. The actual file count of 58 is authoritative
+
+## Phase 5 Review Observations
+
+- Applied the "does Claude already know this?" test to all 17 Phase 5 rules; 10 of 17 pass, 7 are generic advice or process guidance
+- 3 critical overlaps found: (1) scan-descriptive-headings is a near-duplicate of nav-searchable-headings -- both ban "Overview"/"More info" generics with overlapping Incorrect examples, (2) scan-front-load restates structure-bluf's inverted pyramid at the sentence level, (3) scan-white-space overlaps clarity-defaults "short paragraphs" checklist item
+- 1 minor overlap: review-edit-ruthlessly ("cut redundancies") repeats clarity-defaults "cut filler"
+- Recommend creating scan-defaults.md (merging scan-front-load, scan-white-space, scan-vary-sentence-length, scan-visual-aids) and review-defaults.md (merging review-reader-test, review-edit-ruthlessly, review-accuracy-check) -- same defaults-checklist pattern used in Phase 2 (voice) and Phase 3 (clarity)
+- scan-descriptive-headings should be removed or merged into nav-searchable-headings to eliminate the near-duplicate
+- All 17 files pass format compliance: YAML frontmatter, descriptive parentheticals, Reference links, 1-2 sentence explanations
+- Line range 26-39 is the tightest of any phase; no trimming needed
+- Hygiene rules (all 6) are the strongest category in Phase 5 -- every rule codifies a project-specific policy that cannot be inferred (docs/ directory convention, temporal content ban, PLANNED markers, experimental labels, metadata requirements, deletion-over-annotation)
+- scan-visual-aids Correct example is weak: text arrow diagram is barely more visual than the Incorrect prose example
+- hygiene-experimental-label and hygiene-retcon-label share the same Incorrect example scenario (batch processing endpoint) -- different scenarios would make them more distinct
+- Rule count verified at 58 across 9 categories, matching SKILL.md (already corrected in Phase 6)
+- Net effect of recommended merges: scan 6->3, review 5->3, nav gains scan-descriptive-headings content or it is removed; total would drop from 58 to 52-53
