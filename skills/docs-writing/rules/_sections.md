@@ -38,7 +38,7 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 7. Scanability & Readability (scan)
 
 **Impact:** MEDIUM
-**Description:** Readers scan before they read. Descriptive headings, visual aids, white space, and front-loaded sentences help readers find what they need fast.
+**Description:** Readers scan before they read. 2 rules: scan defaults (front-load key information, use white space, replace prose with diagrams/tables, vary sentence length) and three-column API reference layout.
 
 ## 8. Content Hygiene (hygiene)
 
@@ -48,4 +48,4 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 9. Review & Testing (review)
 
 **Impact:** LOW-MEDIUM
-**Description:** Documentation that works for the author may not work for the reader. Test with fresh eyes, verify links, check accuracy against implementation, and measure readability.
+**Description:** Documentation that works for the author may not work for the reader. 3 rules: review defaults (fresh reader test, read aloud and cut, verify against implementation), verify links, and readability score.

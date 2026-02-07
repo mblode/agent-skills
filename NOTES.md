@@ -154,3 +154,14 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - hygiene-experimental-label and hygiene-retcon-label share the same Incorrect example scenario (batch processing endpoint) -- different scenarios would make them more distinct
 - Rule count verified at 58 across 9 categories, matching SKILL.md (already corrected in Phase 6)
 - Net effect of recommended merges: scan 6->3, review 5->3, nav gains scan-descriptive-headings content or it is removed; total would drop from 58 to 52-53
+
+## Phase 5 Review Triage
+
+- Merged 4 generic scan rules (scan-front-load, scan-white-space, scan-visual-aids, scan-vary-sentence-length) into scan-defaults.md checklist -- same defaults-checklist pattern used in Phase 2 (voice), Phase 3 (clarity). These codified standard writing/readability advice Claude already follows (~120 lines total, now ~30 lines)
+- Merged scan-descriptive-headings into nav-searchable-headings -- the two rules were near-duplicates (both banned "Overview"/"More info" generics with overlapping examples). Added "describe section content" concern to nav-searchable-headings explanation. scan-descriptive-headings deleted
+- Merged 3 generic review rules (review-reader-test, review-edit-ruthlessly, review-accuracy-check) into review-defaults.md checklist -- these were process advice and generic QA that Claude already follows (~95 lines total, now ~25 lines)
+- Scan rule count reduced from 6 to 2: scan-defaults, scan-three-column-api
+- Review rule count reduced from 5 to 3: review-defaults, review-verify-links, review-readability-score
+- Total rule count reduced from 58 to 52 (deleted 4 scan files + 1 scan-descriptive-headings + 3 review files = -8, created scan-defaults + review-defaults = +2, net -6)
+- Updated SKILL.md (rule counts in frontmatter description, header, table), _sections.md (scan and review descriptions), and deleted REVIEW.md
+- This is the third application of the defaults-checklist merge pattern -- Phase 2 (voice: 8->4), Phase 3 (clarity: 10->6, code: 8->7), Phase 5 (scan: 6->2, review: 5->3). The pattern consistently identifies ~50% of rules in lower-priority categories as generic advice that belongs in a compact checklist
