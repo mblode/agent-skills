@@ -54,3 +54,13 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - Added Reference links to 6 structure files that were missing them: structure-heading-overview, structure-hierarchical-headings, structure-conditions-first, structure-numbered-vs-bullets, structure-one-idea-per-section, structure-next-steps
 - Trimmed structure-quick-start from 60 lines to 49 lines (under 50-line target) by tightening explanation and shortening the Incorrect example
 - Updated SKILL.md (rule counts, example references), _sections.md (Voice & Tone description), and deleted REVIEW.md
+
+## Phase 3 Observations
+
+- Created 18 HIGH rule files: 10 clarity-* and 8 code-* -- all follow the _template.md format with YAML frontmatter (title, impact, tags), 1-2 sentence explanation, Incorrect/Correct examples with descriptive parentheticals, and Reference links
+- Clarity rules range from 25-36 lines; code rules range from 27-45 lines -- code examples trend longer because nested fenced blocks (````markdown wrapping ```javascript) require extra lines for syntax
+- Three code-* files (code-context-ratio at 44, code-isolated-to-full at 45, code-multiple-languages at 43) slightly exceed 40 lines but are within the 20-50 range established in Phase 2
+- All clarity rules use `markdown` fenced blocks; code rules use `javascript`, `python`, `bash`, or `markdown` as appropriate to each rule's domain
+- clarity-meaningful-names and code-descriptive-variables cover related ground (realistic names vs. descriptive variables) but from different angles -- one targets prose examples, the other targets code examples in documentation
+- code-runnable-examples uses quadruple-backtick nesting (````markdown wrapping ```javascript) to show complete copy-paste blocks; this pattern also appears in code-context-ratio, code-isolated-to-full, and code-multiple-languages
+- All 18 rules follow the "only add context Claude doesn't already have" principle -- each codifies a specific standard or threshold (25-word max, serial comma, 40% vs 90% code ratio) rather than generic writing advice
