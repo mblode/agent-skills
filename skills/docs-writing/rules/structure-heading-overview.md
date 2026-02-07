@@ -6,9 +6,7 @@ tags: structure, headings, introductions
 
 ## Every heading needs an intro paragraph
 
-Never follow a heading directly with a subheading, list, or code block. Add at least one sentence explaining what the section covers and why the reader should care. This brief introduction provides context so readers can decide whether to keep reading or skip ahead.
-
-Without an intro, sections feel like bare outlines. A single sentence is enough to orient the reader.
+Never follow a heading directly with a subheading, list, or code block. Add at least one sentence explaining what the section covers and why the reader should care. A single sentence is enough to orient the reader.
 
 **Incorrect (heading jumps straight to a list):**
 
@@ -33,4 +31,6 @@ variables in your `.env` file.
 - `DB_NAME`: The database name
 ```
 
-This also applies when a heading is followed by a subheading. Add a sentence between them to explain the relationship.
+This also applies when a heading is followed by a subheading -- add a sentence between them.
+
+Reference: [Google developer documentation style guide — Headings](https://developers.google.com/style/headings)

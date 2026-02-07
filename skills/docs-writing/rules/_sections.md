@@ -8,7 +8,7 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 1. Voice & Tone (voice)
 
 **Impact:** CRITICAL
-**Description:** Consistent reader-centric voice is the foundation of trustworthy documentation. Address the reader as "you," use active voice and present tense, and maintain a professional but friendly tone throughout.
+**Description:** Consistent reader-centric voice is the foundation of trustworthy documentation. 4 rules: voice defaults (active voice, contractions, second person, professional tone, reader-centric framing), no jargon, no anthropomorphism, and requirements language.
 
 ## 2. Structure & Organization (structure)
 

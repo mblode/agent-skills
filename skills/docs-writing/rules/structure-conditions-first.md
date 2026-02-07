@@ -6,9 +6,7 @@ tags: structure, conditions, order, procedures
 
 ## Put conditions before instructions
 
-State where to be, what to have, or what to check before telling the reader what to do. If you put the instruction first and the condition second, readers may perform the action in the wrong context, then have to undo it. Conditions-first prevents wasted effort and errors.
-
-This applies to prerequisites, UI navigation, and conditional branches.
+State where to be, what to have, or what to check before telling the reader what to do. If the instruction comes first and the condition second, readers may act in the wrong context and have to undo it. Applies to prerequisites, UI navigation, and conditional branches.
 
 **Incorrect (instruction before condition):**
 
@@ -33,3 +31,5 @@ field, enter your API key.
 ```
 
 Tip: Look for the words "if," "when," "on," and "in" buried at the end of a sentence. Move them to the front.
+
+Reference: [Microsoft Writing Style Guide — Procedures and instructions](https://learn.microsoft.com/en-us/style-guide/procedures-instructions/)

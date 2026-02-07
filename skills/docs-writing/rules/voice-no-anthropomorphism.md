@@ -6,9 +6,7 @@ tags: voice, anthropomorphism, precision
 
 ## Don't give software human qualities
 
-Software doesn't think, want, know, try, remember, or decide. Anthropomorphic language is imprecise and can mislead readers about what the system actually does. "The server thinks the request is invalid" suggests reasoning; "the server rejects the request" describes the actual behavior.
-
-Use precise technical verbs: returns, sends, rejects, creates, deletes, validates, stores, triggers.
+Software doesn't think, want, know, try, remember, or decide. Anthropomorphic language is imprecise and can mislead readers about what the system actually does. Use precise technical verbs instead: returns, sends, rejects, creates, deletes, validates, stores, triggers.
 
 **Incorrect (anthropomorphic language):**
 

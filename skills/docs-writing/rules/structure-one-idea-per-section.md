@@ -6,9 +6,7 @@ tags: structure, sections, focus, organization
 
 ## One topic per section
 
-Each section should advance one concept, feature, or step. When a section covers two topics, readers looking for one of them have to skim through the other. Splitting keeps each section focused, scannable, and individually linkable.
-
-A good test: if you can't summarize the section in one sentence, it probably covers too much.
+Each section should advance one concept, feature, or step. Splitting keeps sections focused, scannable, and individually linkable. Test: if you can't summarize a section in one sentence, it covers too much.
 
 **Incorrect (two topics merged into one section):**
 
@@ -44,3 +42,5 @@ If authentication fails, check these common issues:
 - **Clock skew**: Ensure your server time is within 5 minutes of UTC.
 - **IP allowlist**: Verify your server IP is on the allowlist.
 ```
+
+Reference: [Write the Docs — Content organization](https://www.writethedocs.org/guide/writing/style-guides/)

@@ -6,9 +6,7 @@ tags: structure, bluf, introduction, purpose
 
 ## Start with the bottom line
 
-The first paragraph should tell readers what the document covers and what they'll be able to do after reading it. This is the "bottom line up front" (BLUF) principle from military communication. Readers shouldn't have to scroll past background or history to find the point.
-
-If the document solves a problem, state the problem and the outcome in the opening paragraph. Save the backstory for later, or put it in a separate explanation doc.
+The first paragraph should tell readers what the document covers and what they'll be able to do after reading it ("bottom line up front"). State the problem and the outcome in the opening paragraph. Save backstory for later or put it in a separate explanation doc.
 
 **Incorrect (buries the purpose under background):**
 

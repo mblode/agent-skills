@@ -6,9 +6,7 @@ tags: structure, lists, numbered, bullets
 
 ## Numbered for sequential, bullets for non-sequential
 
-Use numbered lists only when order matters: step-by-step procedures, ranked results, or sequences where step 2 depends on step 1. Use bullet lists for everything else: feature lists, options, requirements, supported platforms. Numbering a non-sequential list falsely implies priority or order.
-
-Avoid mixing sequential and non-sequential items in the same list.
+Use numbered lists only when order matters (procedures, ranked results, dependent sequences). Use bullet lists for everything else (features, options, requirements, platforms). Numbering a non-sequential list falsely implies priority or order.
 
 **Incorrect (numbered list where order doesn't matter):**
 
@@ -43,3 +41,5 @@ Avoid mixing sequential and non-sequential items in the same list.
 2. Move it to a directory in your `PATH`.
 3. Run `acme --version` to verify the installation.
 ```
+
+Reference: [Google developer documentation style guide — Lists](https://developers.google.com/style/lists)

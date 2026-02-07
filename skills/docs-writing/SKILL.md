@@ -1,11 +1,11 @@
 ---
 name: docs-writing
-description: Writes and audits technical documentation using Diataxis, Stripe-style clarity, and the Eight Rules. 67 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, creating READMEs, documenting APIs, writing tutorials, building a docs site, or auditing documentation quality.
+description: Writes and audits technical documentation using Diataxis, Stripe-style clarity, and the Eight Rules. 62 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, creating READMEs, documenting APIs, writing tutorials, building a docs site, or auditing documentation quality.
 ---
 
 # Documentation Writing
 
-67 rules across 9 categories for documentation quality. Focuses on concrete issues with concrete fixes.
+62 rules across 9 categories for documentation quality. Focuses on concrete issues with concrete fixes.
 
 ## Doc Writing/Audit Workflow
 
@@ -30,7 +30,7 @@ Doc writing/audit progress:
 
 | Priority | Category | Impact | Prefix | Rules |
 |----------|----------|--------|--------|-------|
-| 1 | Voice & Tone | CRITICAL | `voice-` | 8 |
+| 1 | Voice & Tone | CRITICAL | `voice-` | 4 |
 | 2 | Structure & Organization | CRITICAL | `structure-` | 10 |
 | 3 | Clarity & Language | HIGH | `clarity-` | 10 |
 | 4 | Code Examples | HIGH | `code-` | 8 |
@@ -49,7 +49,7 @@ Read only what is needed for the current scope:
 Example rule files:
 
 ```
-rules/voice-active-voice.md
+rules/voice-defaults.md
 rules/structure-diataxis.md
 rules/clarity-plain-words.md
 ```
@@ -67,7 +67,7 @@ Report findings in this format:
 ## Documentation Audit Findings
 
 ### path/to/file.md
-- [CRITICAL] `voice-active-voice`: Passive voice obscures who performs the action.
+- [CRITICAL] `voice-defaults`: Passive voice obscures who performs the action.
   - Fix: Rewrite "The configuration is loaded by the server" as "The server loads the configuration."
 
 ### path/to/clean-file.md

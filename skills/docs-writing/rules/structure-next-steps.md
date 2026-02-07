@@ -6,9 +6,7 @@ tags: structure, navigation, next-steps, links
 
 ## End with next steps
 
-When a document has natural follow-up actions, end with a "Next steps" section linking to related guides or logical next actions. Readers who just completed a tutorial or how-to need a clear path forward. Without next steps, they're left guessing what to do or where to go.
-
-Keep the list short (2-4 items) and describe what each link helps the reader do, not just where it goes.
+End tutorials and how-to guides with a "Next steps" section linking to 2-4 related guides or logical next actions. Describe what each link helps the reader do, not just where it goes.
 
 **Incorrect (ends abruptly after the last step):**
 
@@ -41,3 +39,5 @@ You should see `{"status": "ok"}` in the response.
   health check fails.
 - [Enable auto-scaling](auto-scaling.md) to handle traffic spikes.
 ```
+
+Reference: [Diataxis — How-to guides](https://diataxis.fr/how-to-guides/)

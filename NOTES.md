@@ -44,3 +44,13 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - Markdown fenced blocks use `markdown` or `bash` language hints consistently; no HTML or CSS blocks needed for documentation-focused rules
 - The voice-requirements-language rule includes two Correct examples (requirement vs. suggestion) to demonstrate the "must" vs. "we recommend" distinction — this deviates slightly from the one-incorrect-one-correct template pattern but matches the rule's two-part nature
 - structure-procedures uses a nested code block inside a numbered list step, testing that renderers handle this correctly
+
+## Phase 2 Review Triage
+
+- Merged 5 low-value voice rules (voice-active-voice, voice-contractions, voice-address-reader, voice-professional-friendly, voice-reader-centric) into a single voice-defaults.md checklist — these codified standard writing advice Claude already follows and didn't justify 5 separate files (~150 lines total, now ~30 lines)
+- Voice rule count reduced from 8 to 4: voice-defaults, voice-no-jargon, voice-no-anthropomorphism, voice-requirements-language
+- Total rule count reduced from 67 to 62 (8 voice rules became 4, all others unchanged)
+- Tightened explanation paragraphs across all 13 remaining CRITICAL rule files — merged secondary "also/avoid" paragraphs into the main explanation as trailing sentences
+- Added Reference links to 6 structure files that were missing them: structure-heading-overview, structure-hierarchical-headings, structure-conditions-first, structure-numbered-vs-bullets, structure-one-idea-per-section, structure-next-steps
+- Trimmed structure-quick-start from 60 lines to 49 lines (under 50-line target) by tightening explanation and shortening the Incorrect example
+- Updated SKILL.md (rule counts, example references), _sections.md (Voice & Tone description), and deleted REVIEW.md
