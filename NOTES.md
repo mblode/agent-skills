@@ -130,3 +130,12 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - hygiene-experimental-label and hygiene-retcon-label share the same Incorrect example scenario (batch processing endpoint) but from different angles -- experimental vs. planned. Both are justified as they address distinct documentation states
 - All 17 rules include Reference links to authoritative sources: Nielsen Norman Group (3), Google developer docs (4), Write the Docs (3), Diataxis (1), Hemingway Editor (1), markdown-link-check (1), Stripe docs (1), Microsoft style guide (1), RFC reference (implied via existing phase)
 - Total rule count: 57 existing + 17 new = 74 rules across 9 categories
+
+## Phase 6 Observations
+
+- Added docs-writing row to README.md skills table, placed after creating-presentations and before agents-md -- groups it with other content/writing-adjacent skills in the Design/dev section
+- Verified all rule file counts by prefix against SKILL.md table: voice 4, structure 10, clarity 6, code 7, format 8, nav 6, scan 6, hygiene 6, review 5 -- table counts all match actual files
+- Table counts sum to 58, but SKILL.md description and header both said "57" -- corrected to 58 in both locations. The discrepancy likely originated during the Phase 3 Review Triage (which reported reducing to 57) but one merge may have been undercounted
+- All three example rule filenames in the Quick Reference section (voice-defaults.md, structure-diataxis.md, clarity-defaults.md) exist as actual files -- verified
+- Description length is 381 characters, well under the 1024-character limit
+- Phase 5 NOTES entry claimed "57 existing + 17 new = 74 rules" but the corrected total is 58 rules (not 74) -- the Phase 5 entry was written before Phase 5 rules were consolidated or the counts were never updated after Phase 5 completion. The actual file count of 58 is authoritative

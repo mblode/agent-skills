@@ -22,6 +22,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `audit-typography` | Design/dev | Punctuation, font selection, sizing, spacing, and typographic quality |
 | `ui-animation` | Design/dev | Motion easing, timing, and reduced-motion rules |
 | `creating-presentations` | Design/dev | Bold, minimal, dark-first slide decks and pitch decks |
+| `docs-writing` | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation |
 | `agents-md` | Maintenance | AGENTS.md/CLAUDE.md audits, pruning, and hygiene |
 | `review-pr` | Pre-merge | Bug detection and CLAUDE.md compliance checks |
 | `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
