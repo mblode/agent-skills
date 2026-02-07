@@ -22,4 +22,6 @@ const response = fetchUserProfile(userId);
 const invoice = generateInvoice(response, billingPlan);
 ```
 
+See also: `code-descriptive-variables.md` for code-specific naming in standalone examples.
+
 Reference: [Google Technical Writing — Clear sentences](https://developers.google.com/tech-writing/one/clear-sentences)

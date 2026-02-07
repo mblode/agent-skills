@@ -1,11 +1,11 @@
 ---
 name: docs-writing
-description: Writes and audits technical documentation using Diataxis, Stripe-style clarity, and the Eight Rules. 62 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, creating READMEs, documenting APIs, writing tutorials, building a docs site, or auditing documentation quality.
+description: Writes and audits technical documentation using Diataxis, Stripe-style clarity, and the Eight Rules. 57 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, creating READMEs, documenting APIs, writing tutorials, building a docs site, or auditing documentation quality.
 ---
 
 # Documentation Writing
 
-62 rules across 9 categories for documentation quality. Focuses on concrete issues with concrete fixes.
+57 rules across 9 categories for documentation quality. Focuses on concrete issues with concrete fixes.
 
 ## Doc Writing/Audit Workflow
 
@@ -32,8 +32,8 @@ Doc writing/audit progress:
 |----------|----------|--------|--------|-------|
 | 1 | Voice & Tone | CRITICAL | `voice-` | 4 |
 | 2 | Structure & Organization | CRITICAL | `structure-` | 10 |
-| 3 | Clarity & Language | HIGH | `clarity-` | 10 |
-| 4 | Code Examples | HIGH | `code-` | 8 |
+| 3 | Clarity & Language | HIGH | `clarity-` | 6 |
+| 4 | Code Examples | HIGH | `code-` | 7 |
 | 5 | Formatting & Syntax | MEDIUM-HIGH | `format-` | 8 |
 | 6 | Navigation & Linking | MEDIUM-HIGH | `nav-` | 6 |
 | 7 | Scanability & Readability | MEDIUM | `scan-` | 6 |
@@ -51,7 +51,7 @@ Example rule files:
 ```
 rules/voice-defaults.md
 rules/structure-diataxis.md
-rules/clarity-plain-words.md
+rules/clarity-defaults.md
 ```
 
 Each rule file contains:

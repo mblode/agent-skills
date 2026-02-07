@@ -89,3 +89,24 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - format-bold-ui-code-font and format-descriptive-links complement each other -- one governs inline formatting, the other governs link text -- no overlap
 - nav-dont-repeat and nav-layer-depth both address linking strategy but from different angles: DRY principle vs. progressive disclosure for different audiences
 - nav-searchable-headings overlaps slightly with format-sentence-case (both govern heading text) but they address orthogonal concerns: word choice vs. capitalization style
+
+## Phase 4 Review Observations
+
+- All 14 MEDIUM-HIGH rules pass token justification -- format rules codify arbitrary editorial conventions, nav rules codify specific documentation architecture practices. Neither category contains generic advice Claude already follows.
+- Zero merges recommended -- first phase with no merge candidates. The authoring benefited from lessons learned in Phase 2 (voice) and Phase 3 (clarity/code) reviews.
+- Line range (24-37) is the tightest of all phases: Phase 2 was 26-52, Phase 3 was 25-46. All explanations are 1-2 sentences.
+- Three minor (non-blocking) improvements identified: (1) nav-relative-paths has a sentence about descriptive link text that bleeds into format-descriptive-links scope, (2) format-parallel-lists explanation could be tighter at 3 sentences, (3) nav-breadcrumb-context title is slightly vague compared to other nav-* titles
+- Closest call for token justification was nav-searchable-headings -- "write headings that match search queries" borders on advice Claude already follows, but the specific ban on "Overview" / "More information" generics adds enough operational specificity
+- All 14 rules pass format compliance: YAML frontmatter, descriptive parentheticals, Reference links, appropriate fenced block language hints
+- The Phase 4 Observations note in NOTES.md (written by the authoring agent) accurately describes all 14 rules -- unlike Phase 3 where the authoring agent's observations overclaimed that all rules passed the only-add-context test
+
+## Phase 3 Review Triage
+
+- Merged 5 low-value clarity rules (clarity-plain-language, clarity-cut-filler, clarity-specific-over-vague, clarity-global-audience, clarity-short-paragraphs) into a single clarity-defaults.md checklist -- same pattern as the Phase 2 voice-defaults.md merge. These codified standard writing advice Claude already follows (~144 lines total, now ~35 lines)
+- Merged code-comments-explain-why ("comments explain WHY not WHAT") into code-runnable-examples.md as an additional sentence in the explanation -- this is a universal engineering practice, not documentation-specific, and didn't justify a standalone file
+- Kept code-descriptive-variables and clarity-meaningful-names as separate files with cross-references added to each -- they operate on different contexts (standalone code examples vs. prose examples) and the ~80% overlap is acceptable given the distinct scopes
+- Clarity rule count reduced from 10 to 6: clarity-defaults, clarity-serial-comma, clarity-no-latin, clarity-no-nominalizations, clarity-meaningful-names, clarity-one-idea-per-sentence
+- Code rule count reduced from 8 to 7: code-runnable-examples (now includes why-not-what comments), code-context-ratio, code-isolated-to-full, code-multiple-languages, code-error-descriptions, code-named-functions, code-descriptive-variables
+- Total rule count reduced from 62 to 57 (clarity -4, code -1)
+- Updated SKILL.md (rule counts in frontmatter description, header, table, and example reference), _sections.md (clarity and code descriptions), and deleted REVIEW.md
+- This is the second consecutive review phase applying the defaults-checklist merge pattern -- both Phase 2 (voice) and Phase 3 (clarity) found ~5 rules that codify advice Claude already follows. Phase 4 (format/nav) had zero merge candidates, suggesting the authoring quality improved from earlier review feedback

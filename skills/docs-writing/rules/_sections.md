@@ -18,12 +18,12 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 3. Clarity & Language (clarity)
 
 **Impact:** HIGH
-**Description:** Clear language removes barriers between readers and information. Use plain words, cut filler, write one idea per sentence, and be specific rather than vague.
+**Description:** Clear language removes barriers between readers and information. 6 rules: clarity defaults (plain language, cut filler, be specific, global audience, short paragraphs), serial comma, no Latin abbreviations, no nominalizations, meaningful names, and one idea per sentence.
 
 ## 4. Code Examples (code)
 
 **Impact:** HIGH
-**Description:** Real, runnable examples are the most valuable part of technical documentation. Use descriptive variable names, explain why not what in comments, and layer from isolated snippets to full context.
+**Description:** Real, runnable examples are the most valuable part of technical documentation. 7 rules: runnable examples (with why-not-what comments), context ratio, isolated-to-full layering, multiple languages, error descriptions, named functions, and descriptive variables.
 
 ## 5. Formatting & Syntax (format)
 
