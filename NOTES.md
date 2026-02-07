@@ -64,3 +64,16 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - clarity-meaningful-names and code-descriptive-variables cover related ground (realistic names vs. descriptive variables) but from different angles -- one targets prose examples, the other targets code examples in documentation
 - code-runnable-examples uses quadruple-backtick nesting (````markdown wrapping ```javascript) to show complete copy-paste blocks; this pattern also appears in code-context-ratio, code-isolated-to-full, and code-multiple-languages
 - All 18 rules follow the "only add context Claude doesn't already have" principle -- each codifies a specific standard or threshold (25-word max, serial comma, 40% vs 90% code ratio) rather than generic writing advice
+
+## Phase 3 Review Observations
+
+- Applied same "does Claude already know this?" scrutiny used in Phase 2 voice review
+- 5 clarity rules identified as generic writing advice Claude already follows: clarity-plain-language, clarity-cut-filler, clarity-specific-over-vague, clarity-global-audience, clarity-short-paragraphs -- recommend merging into clarity-defaults.md checklist (same pattern as voice-defaults.md)
+- 5 clarity rules justified as standalone: clarity-serial-comma (project standard), clarity-no-latin (specific ban), clarity-no-nominalizations (specific technique), clarity-meaningful-names (specific ban on foo/bar), clarity-one-idea-per-sentence (25-word threshold)
+- 6 code rules justified as standalone: code-runnable-examples, code-context-ratio (specific thresholds), code-isolated-to-full, code-multiple-languages (policy decision), code-error-descriptions (three-part structure), code-named-functions
+- code-comments-explain-why is a universal engineering practice, not documentation-specific -- recommend merge or removal
+- code-descriptive-variables overlaps ~80% with clarity-meaningful-names but operates on different contexts (code blocks vs prose examples) -- recommend cross-reference rather than merge
+- All 18 rules pass format compliance: YAML frontmatter, descriptive parentheticals on examples, Reference links, 1-2 sentence explanations
+- Phase 3 rules are more consistently concise than Phase 2 was before review tightening -- no files needed explanation paragraph edits
+- If clarity merge is applied: clarity drops from 10 to 6 (net -4), code drops from 8 to 7 (net -1), total rules from 62 to 57
+- The NOTES.md Phase 3 Observations claim that "all 18 rules follow the only-add-context principle" but review found 5 clarity rules and 1 code rule that don't pass this test -- the observation was written by the authoring agent, not the reviewer
