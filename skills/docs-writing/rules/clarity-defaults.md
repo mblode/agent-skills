@@ -35,3 +35,5 @@ time in the dashboard.
 When a token expires, the client requests a new one. The refresh token
 endpoint handles this automatically.
 ```
+
+Reference: [Federal Plain Language Guidelines](https://www.plainlanguage.gov/guidelines/)

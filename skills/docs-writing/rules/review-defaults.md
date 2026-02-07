@@ -27,3 +27,5 @@ Create a configuration file in the project root.
 
 Run the CLI with the `--debug` flag to enable logging.
 ```
+
+Reference: [Write the Docs — Documentation review guide](https://www.writethedocs.org/guide/docs-as-code/)

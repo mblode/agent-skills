@@ -27,4 +27,4 @@ Configure a webhook to receive event callbacks. For setup
 details, see [Configure webhooks](../reference/webhooks.md).
 ```
 
-Reference: [Diátaxis — Reference documentation](https://diataxis.fr/reference/)
+Reference: [Diataxis — Reference documentation](https://diataxis.fr/reference/)

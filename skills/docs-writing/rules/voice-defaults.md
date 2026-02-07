@@ -27,3 +27,5 @@ The system creates a configuration file when the application starts.
 You don't need to redeploy. Run up to 16 tasks in parallel to finish
 builds faster.
 ```
+
+Reference: [Google developer documentation style guide](https://developers.google.com/style)

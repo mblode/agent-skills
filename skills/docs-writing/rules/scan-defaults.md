@@ -33,3 +33,5 @@ Use Option B for most deployments.
 | B      | Medium| Low  | High        |
 | C      | Slow  | Low  | High        |
 ```
+
+Reference: [Nielsen Norman Group — How Users Read on the Web](https://www.nngroup.com/articles/how-users-read-on-the-web/)
