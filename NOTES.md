@@ -119,3 +119,14 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - Sharpened nav-breadcrumb-context.md title from "Provide clear location context in documentation" to "Establish page location with an opening link or breadcrumb" -- now matches the specificity of other nav-* titles and describes the concrete technique
 - Total rule count unchanged at 57; no structural changes to SKILL.md or _sections.md needed
 - Phase 4 is fully triaged with zero critical issues across all four review phases -- the docs-writing skill's rule set is stable and ready for remaining phases (MEDIUM/LOW rules if planned)
+
+## Phase 5 Observations
+
+- Created 17 rule files: 6 scan-* (MEDIUM), 6 hygiene-* (MEDIUM), 5 review-* (LOW-MEDIUM) -- all follow the _template.md format with YAML frontmatter (title, impact, tags), 1-2 sentence explanation, Incorrect/Correct examples with descriptive parentheticals, and Reference links
+- Line range is 26-39 across all 17 files -- the tightest range of any phase. The 20-40 line target was hit precisely, benefiting from lessons learned in Phase 2-4 about keeping explanations to 1-2 sentences
+- Scan rules codify specific visual/structural techniques (front-loading, white space grouping, three-column API layout) rather than generic readability advice -- each describes a concrete pattern with a clear before/after
+- Hygiene rules target documentation maintenance practices that are project-policy decisions (directory structure, temporal content ban, PLANNED markers, experimental labels) -- these are operational standards that vary by team and can't be inferred
+- Review rules cover verification processes (fresh reader testing, link checking, accuracy verification, readability scoring) -- the Flesch-Kincaid rule specifies grade 8-10 as a concrete threshold
+- hygiene-experimental-label and hygiene-retcon-label share the same Incorrect example scenario (batch processing endpoint) but from different angles -- experimental vs. planned. Both are justified as they address distinct documentation states
+- All 17 rules include Reference links to authoritative sources: Nielsen Norman Group (3), Google developer docs (4), Write the Docs (3), Diataxis (1), Hemingway Editor (1), markdown-link-check (1), Stripe docs (1), Microsoft style guide (1), RFC reference (implied via existing phase)
+- Total rule count: 57 existing + 17 new = 74 rules across 9 categories
