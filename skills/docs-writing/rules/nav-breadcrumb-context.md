@@ -1,10 +1,10 @@
 ---
-title: Provide clear location context in documentation
+title: Establish page location with an opening link or breadcrumb
 impact: MEDIUM-HIGH
 tags: navigation, breadcrumbs, wayfinding
 ---
 
-## Provide clear location context in documentation
+## Establish page location with an opening link or breadcrumb
 
 Readers arrive at docs pages from search, deep links, and bookmarks -- not always from the top. Each page must help readers understand where they are in the docs hierarchy without requiring them to navigate there manually.
 

@@ -6,7 +6,7 @@ tags: lists, parallelism, consistency
 
 ## Keep list items parallel in structure
 
-Every item in a list must follow the same grammatical pattern. If one item starts with a verb, all items start with verbs. If one is a noun phrase, all are noun phrases. Mixed structures force the reader to re-parse each item.
+Every item in a list must follow the same grammatical pattern. If one item starts with a verb, all items start with verbs; if one is a noun phrase, all are noun phrases -- mixed structures force the reader to re-parse each item.
 
 **Incorrect (mixed grammatical patterns):**
 

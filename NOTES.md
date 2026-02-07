@@ -110,3 +110,12 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - Total rule count reduced from 62 to 57 (clarity -4, code -1)
 - Updated SKILL.md (rule counts in frontmatter description, header, table, and example reference), _sections.md (clarity and code descriptions), and deleted REVIEW.md
 - This is the second consecutive review phase applying the defaults-checklist merge pattern -- both Phase 2 (voice) and Phase 3 (clarity) found ~5 rules that codify advice Claude already follows. Phase 4 (format/nav) had zero merge candidates, suggesting the authoring quality improved from earlier review feedback
+
+## Phase 4 Review Triage
+
+- Applied three minor fixes from Phase 4 review -- all non-blocking, no merges or removals needed
+- Removed scope-bleed sentence from nav-relative-paths.md: "Always add context text that tells the reader what they'll find at the destination" overlapped with format-descriptive-links.md, which already covers descriptive link text. Explanation now stays focused on relative vs. absolute path format.
+- Folded third sentence in format-parallel-lists.md into the second using a semicolon and em-dash continuation -- explanation stays at 2 sentences, reads more tightly
+- Sharpened nav-breadcrumb-context.md title from "Provide clear location context in documentation" to "Establish page location with an opening link or breadcrumb" -- now matches the specificity of other nav-* titles and describes the concrete technique
+- Total rule count unchanged at 57; no structural changes to SKILL.md or _sections.md needed
+- Phase 4 is fully triaged with zero critical issues across all four review phases -- the docs-writing skill's rule set is stable and ready for remaining phases (MEDIUM/LOW rules if planned)

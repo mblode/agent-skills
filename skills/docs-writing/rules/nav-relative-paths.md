@@ -6,7 +6,7 @@ tags: links, paths, relative
 
 ## Use relative paths for internal doc links
 
-Use relative paths for links between documentation files. Absolute paths break when docs are hosted at different base URLs or built into subfolders. Always add context text that tells the reader what they'll find at the destination.
+Use relative paths for links between documentation files. Absolute paths break when docs are hosted at different base URLs or built into subfolders.
 
 **Incorrect (absolute path with vague link text):**
 
