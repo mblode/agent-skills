@@ -77,3 +77,15 @@ Cross-agent notes for the docs-writing skill implementation. Read before startin
 - Phase 3 rules are more consistently concise than Phase 2 was before review tightening -- no files needed explanation paragraph edits
 - If clarity merge is applied: clarity drops from 10 to 6 (net -4), code drops from 8 to 7 (net -1), total rules from 62 to 57
 - The NOTES.md Phase 3 Observations claim that "all 18 rules follow the only-add-context principle" but review found 5 clarity rules and 1 code rule that don't pass this test -- the observation was written by the authoring agent, not the reviewer
+
+## Phase 4 Observations
+
+- Created 14 MEDIUM-HIGH rule files: 8 format-* and 6 nav-* -- all follow the _template.md format with YAML frontmatter (title, impact, tags), 1-2 sentence explanation, Incorrect/Correct examples with descriptive parentheticals, and Reference links
+- Format rules range from 25-29 lines; nav rules range from 23-37 lines -- all within the 20-40 line target, tighter than Phase 2 and Phase 3
+- nav-layer-depth at 37 lines is the longest due to showing two Incorrect examples (too shallow and too deep) before the Correct example -- this three-example pattern is justified because the rule addresses a two-sided problem
+- format-semantic-html is the only rule using `html` fenced blocks instead of `markdown` -- appropriate since the rule specifically addresses HTML element choice
+- format-periods-inside-quotes includes a note about using code font for literal strings where punctuation accuracy matters -- this avoids a conflict with code-* rules that use backtick-delimited strings
+- All 14 rules include Reference links to authoritative sources: Google developer docs (5), W3C/MDN (4), Microsoft style guide (2), Nielsen Norman Group (2), Diataxis (1)
+- format-bold-ui-code-font and format-descriptive-links complement each other -- one governs inline formatting, the other governs link text -- no overlap
+- nav-dont-repeat and nav-layer-depth both address linking strategy but from different angles: DRY principle vs. progressive disclosure for different audiences
+- nav-searchable-headings overlaps slightly with format-sentence-case (both govern heading text) but they address orthogonal concerns: word choice vs. capitalization style
