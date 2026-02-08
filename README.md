@@ -27,6 +27,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `review-pr` | Pre-merge | Bug detection and CLAUDE.md compliance checks |
 | `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
 | `multi-tenant-platform-architecture` | Architecture | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel |
+| `agent-skills-creator` | Authoring | Best-practice skill creation following the open format specification |
 
 ## Contributing
 
