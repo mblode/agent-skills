@@ -39,9 +39,9 @@ Collect from the user (ask only what was not provided):
 |----------|---------|---------|---------|
 | `{{name}}` | `acme-web` | -- (required) | Root package.json, directory name, README |
 | `{{description}}` | `Marketing site for Acme` | -- (required) | App package.json, README |
-| `{{repo}}` | `acme-corp/acme-web` | `mblode/{{name}}` | GitHub remote URL, CI workflow |
-| `{{domain}}` | `acme.com` | -- (ask if not provided) | Vercel custom domain, metadataBase |
-| `{{author}}` | `Matthew Blode` | `Matthew Blode` | package.json author |
+| `{{repo}}` | `acme-corp/acme-web` | — (required) | GitHub remote URL, CI workflow |
+| `{{domain}}` | `acme.com` | — (ask if not provided) | Vercel custom domain, metadataBase |
+| `{{author}}` | `Your Name` | — (required) | package.json author |
 | `{{year}}` | `2026` | current year | LICENSE |
 
 ### Phase 2: Create Next.js app

@@ -39,8 +39,8 @@ Collect from the user (ask only what was not provided):
 | `{{name}}` | `md-tools` | — (required) | package.json name, README title |
 | `{{description}}` | `CLI tool to convert content to markdown` | — (required) | package.json, README, SKILL.md |
 | `{{bin}}` | `md` | same as `{{name}}` | package.json bin field, CLI examples |
-| `{{repo}}` | `mblode/md-tools` | `mblode/{{name}}` | package.json repository, badges |
-| `{{author}}` | `Matthew Blode` | `Matthew Blode` | package.json, LICENSE |
+| `{{repo}}` | `acme/md-tools` | — (required) | package.json repository, badges |
+| `{{author}}` | `Your Name` | — (required) | package.json, LICENSE |
 | `{{year}}` | `2026` | current year | LICENSE |
 
 ### Step 2: Create directory structure
