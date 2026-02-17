@@ -11,7 +11,7 @@ Scaffold a production-ready TypeScript CLI project (Node 22+) with ESM modules, 
 
 | File | Read When |
 |------|-----------|
-| `references/scaffold-configs.md` | Default: templates for package.json, tsconfig, tsdown, biome, prek, gitignore, license, changeset config, GitHub Actions |
+| `references/scaffold-configs.md` | Default: templates for package.json, tsconfig, tsdown, biome, gitignore, license, changeset config, GitHub Actions |
 | `references/scaffold-source.md` | Default: templates for src/cli.ts, src/index.ts, src/types.ts, AGENTS.md, README.md, skills/SKILL.md |
 | `references/post-scaffold.md` | After generating files: post-scaffold commands and validation checklist |
 
@@ -58,7 +58,7 @@ Collect from the user (ask only what was not provided):
 
 Load `references/scaffold-configs.md`. Generate all config files, replacing every `{{placeholder}}` with actual values.
 
-Files: `package.json`, `tsconfig.json`, `tsdown.config.ts`, `biome.jsonc`, `prek.toml`, `.gitignore`, `LICENSE.md`, `.changeset/config.json`, `.changeset/README.md`, `.github/workflows/ci.yml`, `.github/workflows/npm-publish.yml`
+Files: `package.json`, `tsconfig.json`, `tsdown.config.ts`, `biome.jsonc`, `.gitignore`, `LICENSE.md`, `.changeset/config.json`, `.changeset/README.md`, `.github/workflows/ci.yml`, `.github/workflows/npm-publish.yml`
 
 ### Step 4: Generate source files
 
@@ -115,5 +115,5 @@ All templates use `{{variable}}` syntax. Do a final sweep to catch any missed pl
 - Do not create test files in the scaffold — let the user add tests for their specific features
 - Do not merge the dual tsdown builds — CLI (with shebang) and library (with dts) must stay separate
 - Do not call biome directly — always use `ultracite fix` or `ultracite check`
-- Do not use husky for git hooks — use prek with `prek.toml` and `prek install`
+- Do not configure git hooks manually — ultracite sets up husky and lint-staged automatically
 - Do not add chalk or ora — use `node:util` styleText for colors and `@clack/prompts` spinner

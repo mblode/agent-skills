@@ -6,7 +6,6 @@
 - [tsconfig.json](#tsconfigjson)
 - [tsdown.config.ts](#tsdownconfigts)
 - [biome.jsonc](#biomejsonc)
-- [prek.toml](#prektoml)
 - [.gitignore](#gitignore)
 - [LICENSE.md](#licensemd)
 - [.changeset/config.json](#changesetconfigjson)
@@ -143,27 +142,6 @@ export default defineConfig([
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite/biome/core"]
 }
-```
-
-## prek.toml
-
-```toml
-[[repos]]
-repo = "https://github.com/pre-commit/pre-commit-hooks"
-rev = "v6.0.0"
-hooks = [
-  { id = "trailing-whitespace" },
-  { id = "end-of-file-fixer" },
-  { id = "check-yaml" },
-  { id = "check-json" },
-  { id = "check-merge-conflict" },
-]
-
-[[repos]]
-repo = "local"
-hooks = [
-  { id = "ultracite", name = "ultracite fix", entry = "npx ultracite fix", language = "system", types = ["javascript", "jsx", "ts", "tsx", "json", "css", "markdown"] },
-]
 ```
 
 ## .gitignore

@@ -10,7 +10,6 @@
 - [.changeset/README.md](#changesetreadmemd)
 - [.github/workflows/ci.yml](#githubworkflowsciyml)
 - [knip.json](#knipjson)
-- [prek.toml](#prektoml)
 - [apps/web/package.json scripts](#appswebpackagejson-scripts)
 - [apps/web/next.config.ts](#appswebnextconfigts)
 
@@ -224,26 +223,6 @@ Create at `{{name}}/knip.json`:
 ```
 
 Add workspace-specific entry points as needed (e.g. for CLI apps or docs sites with custom entry files).
-
-## prek.toml
-
-Create at `{{name}}/prek.toml`:
-
-```toml
-[[repos]]
-repo = "local"
-
-[[repos.hooks]]
-id = "ultracite-fix"
-name = "Ultracite Fix"
-entry = "npx ultracite fix"
-language = "system"
-pass_filenames = false
-always_run = true
-stages = ["pre-commit"]
-```
-
-After creating, install hooks with `prek install`. This replaces Husky with prek for git hook management.
 
 ## apps/web/package.json scripts
 

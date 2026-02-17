@@ -62,7 +62,6 @@ npm run test             # vitest run
 npm run typecheck        # tsc --noEmit
 npm exec -- ultracite fix   # format + lint autofix
 npm exec -- ultracite check # lint check (CI)
-prek run --all-files        # run all git hooks manually
 \`\`\`
 
 ## Architecture
@@ -79,7 +78,7 @@ src/
 - **ESM only**: This project uses `"type": "module"`. Use `.js` extensions in imports (e.g., `import { foo } from "./foo.js"`).
 - **Dual build**: `tsdown.config.ts` produces two entry points — `cli.js` (with shebang) and `index.js` (with .d.ts). Do not merge them.
 - **Biome via ultracite**: Run `npm exec -- ultracite fix` instead of calling biome directly.
-- **Git hooks via prek**: `prek.toml` configures pre-commit hooks. Run `prek install` after cloning to wire them into git. Do not use husky.
+- **Git hooks via ultracite**: Ultracite sets up husky and lint-staged for pre-commit hooks. Run `npx ultracite init` after cloning to wire them into git.
 - **No chalk/ora**: Use `import { styleText } from "node:util"` for colors (stable in Node 22.13+) and `@clack/prompts` spinner for progress indicators.
 ```
 

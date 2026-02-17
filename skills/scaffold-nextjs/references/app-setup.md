@@ -5,7 +5,7 @@
 - [Phase 2: Create Next.js app](#phase-2-create-nextjs-app)
 - [Phase 3: Install shadcn/ui](#phase-3-install-shadcnui)
 - [Phase 4: Install Agentation](#phase-4-install-agentation)
-- [Phase 5: Install Ultracite and prek](#phase-5-install-ultracite-and-prek)
+- [Phase 5: Install Ultracite](#phase-5-install-ultracite)
 - [Phase 6 prep: Move into apps/web/](#phase-6-prep-move-into-appsweb)
 
 ---
@@ -94,7 +94,7 @@ export default function RootLayout({
 }
 ```
 
-## Phase 5: Install Ultracite and prek
+## Phase 5: Install Ultracite
 
 1. Delete the Biome config created by create-next-app:
 
@@ -110,40 +110,8 @@ npx ultracite@latest init
 
 This sets up:
 - `biome.jsonc` — extending ultracite presets
-- Husky pre-commit hook and lint-staged (will be replaced by prek)
-
-3. Remove Husky and lint-staged:
-
-```bash
-rm -rf .husky
-npm uninstall husky lint-staged
-```
-
-Also remove the `lint-staged` config from `package.json` if Ultracite added one.
-
-4. Create `prek.toml` in the project root:
-
-```toml
-[[repos]]
-repo = "local"
-
-[[repos.hooks]]
-id = "ultracite-fix"
-name = "Ultracite Fix"
-entry = "npx ultracite fix"
-language = "system"
-pass_filenames = false
-always_run = true
-stages = ["pre-commit"]
-```
-
-5. Install prek hooks:
-
-```bash
-prek install
-```
-
-This wires prek into git hooks so they run on every commit. If prek is not installed, see https://prek.dev.
+- Husky pre-commit hook (`.husky/pre-commit`)
+- lint-staged config in `package.json`
 
 ## Phase 6 prep: Move into apps/web/
 
