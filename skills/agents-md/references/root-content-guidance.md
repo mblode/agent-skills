@@ -13,7 +13,7 @@ Use this when deciding what stays in root instruction files.
 ## Move out of root
 
 - Framework documentation and architecture deep dives
-- Copy-pasted AGENTS.md templates
+- Copy-pasted templates
 - Exhaustive file inventories
 - Generic advice not tied to this codebase
 - Rules already enforced by linters/CI defaults
@@ -34,15 +34,21 @@ Use `@path/to/file.md` import syntax to link detail files from root:
 
 ## File placement hierarchy
 
-CLAUDE.md files are loaded from multiple locations:
+AGENTS.md is the source of truth. CLAUDE.md should be a symlink to AGENTS.md:
+
+```bash
+ln -s AGENTS.md CLAUDE.md
+```
+
+Instruction files are loaded from multiple locations:
 
 - **`~/.claude/CLAUDE.md`** — applies to all sessions (personal defaults)
-- **Project root `./CLAUDE.md`** — shared with team via git
+- **Project root `./AGENTS.md`** — shared with team via git (symlink `CLAUDE.md` -> `AGENTS.md`)
 - **`./CLAUDE.local.md`** — gitignored personal overrides at project level
 - **Parent directories** — inherited in monorepos (root + child both load)
 - **Child directories** — loaded on demand when working in that directory
 
-Audit each level independently. Root should contain only universal rules; child files should contain directory-specific rules.
+Always write to AGENTS.md, never to CLAUDE.md directly. Audit each level independently. Root should contain only universal rules; child files should contain directory-specific rules.
 
 ## Emphasis for critical rules
 

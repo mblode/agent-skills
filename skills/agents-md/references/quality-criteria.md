@@ -1,6 +1,6 @@
 # Full Quality Criteria (File 45 + Audit 2)
 
-Score each AGENTS.md / CLAUDE.md root file with this checklist.
+Score each AGENTS.md root file with this checklist.
 
 ## Contents
 - A. Commands and execution readiness (12 checks)
@@ -64,7 +64,7 @@ Use this when auditing from first principles: the file should help an agent exec
 
 31. Root file stays concise for repo complexity (60-150 lines is common for active app repos)
 32. No full framework documentation pasted inline
-33. No copy-pasted full AGENTS.md templates
+33. No copy-pasted full templates
 34. No exhaustive file tree or "every file" inventory
 35. No long architecture deep dives in root file
 36. Uses links to detail files for non-universal guidance
@@ -79,7 +79,7 @@ Use this when auditing from first principles: the file should help an agent exec
 42. Removed references to deleted folders/APIs
 43. Version-sensitive guidance is date/version scoped where needed
 44. Includes a clear maintenance loop (how to keep file current)
-45. CLAUDE.local.md used for personal/gitignored overrides (not mixed into shared CLAUDE.md)
+45. CLAUDE.local.md used for personal/gitignored overrides (not mixed into shared AGENTS.md)
 
 ## F. Audit execution checks (2)
 

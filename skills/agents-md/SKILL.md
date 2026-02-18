@@ -1,11 +1,17 @@
 ---
 name: agents-md
-description: Audits AGENTS.md and CLAUDE.md files using execution-first standards. Checks commands, gotchas, and signal-to-noise ratio. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, or reduce bloat.
+description: Audits and writes AGENTS.md files using execution-first standards. Checks commands, gotchas, and signal-to-noise ratio. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, or reduce bloat.
 ---
 
-# AGENTS.md / CLAUDE.md Audit
+# AGENTS.md Audit
 
-AGENTS.md and CLAUDE.md are execution contracts, not knowledge bases.
+AGENTS.md is the source of truth for agent instructions. Always write to AGENTS.md, never directly to CLAUDE.md. Symlink CLAUDE.md so Claude Code loads it:
+
+```bash
+ln -s AGENTS.md CLAUDE.md
+```
+
+AGENTS.md files are execution contracts, not knowledge bases.
 
 **Litmus test for every line:** "Would removing this cause the agent to make a mistake?" If no, cut it. Bloated instruction files cause agents to ignore actual rules.
 
@@ -65,9 +71,16 @@ find . \( -name "AGENTS.md" -o -name "CLAUDE.md" -o -name "CLAUDE.local.md" \) 2
 
 Also check for a home-level file: `~/.claude/CLAUDE.md` (applies to all sessions).
 
-CLAUDE.md files can exist at multiple levels — project root, parent directories, and child directories are all loaded automatically. `CLAUDE.local.md` is the gitignored personal variant. Audit each level independently.
+AGENTS.md is the source of truth. If a project has a CLAUDE.md that is not a symlink to AGENTS.md, recommend renaming it to AGENTS.md and creating the symlink:
 
-For monorepos, include workspace-level instruction files.
+```bash
+mv CLAUDE.md AGENTS.md
+ln -s AGENTS.md CLAUDE.md
+```
+
+Instruction files can exist at multiple levels — project root, parent directories, and child directories are all loaded automatically. `CLAUDE.local.md` is the gitignored personal variant. Audit each level independently.
+
+For monorepos, include workspace-level AGENTS.md files.
 
 ### Step 2: Select audit mode
 
@@ -86,7 +99,7 @@ For monorepos, include workspace-level instruction files.
 Output a concise report before edits:
 
 ```markdown
-## AGENTS.md Quality Report
+## AGENTS.md Audit Report
 
 | File | Mode | Score | Grade | Key Issues |
 |------|------|-------|-------|------------|

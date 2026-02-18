@@ -82,8 +82,8 @@ One-line description.
 
 ## Scope
 - Root file: shared rules only
-- `apps/<app>/CLAUDE.md`: app-specific rules
-- `packages/<pkg>/CLAUDE.md`: package-specific rules
+- `apps/<app>/AGENTS.md`: app-specific rules
+- `packages/<pkg>/AGENTS.md`: package-specific rules
 
 ## Cross-workspace gotchas
 - `<workspace failure mode> -> <fix>`

@@ -1,6 +1,6 @@
 # Refactor Workflow
 
-Use this when AGENTS.md / CLAUDE.md is bloated, stale, or low-signal.
+Use this when AGENTS.md is bloated, stale, or low-signal.
 
 ## Trigger conditions
 
@@ -47,7 +47,7 @@ Create or update supporting files for non-universal detail:
 - `.claude/testing.md`
 - `.claude/architecture.md`
 - `.claude/code-style.md`
-- workspace-specific `AGENTS.md`/`CLAUDE.md` files in monorepos
+- workspace-specific `AGENTS.md` files in monorepos
 
 Link from root using `@import` syntax:
 
