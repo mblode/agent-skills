@@ -45,12 +45,10 @@ No visual redesigns or layout changes. Allowed: metadata, structured data, seman
 - [seo-checklist.md](seo-checklist.md) — pass/fail validation during step 5
 
 ## Validation
-```bash
-curl -I https://site.com
-curl -s https://site.com/robots.txt
-curl -s https://site.com/sitemap.xml | head -n 20
-curl -s https://site.com/page | rg -n 'rel="canonical"|property="og:|name="twitter:'
-lighthouse https://site.com --output=json --output-path=report.json
-```
-- Validate JSON-LD with Rich Results Test per URL.
-- Report remaining blockers with exact URLs and owner/action.
+- Check HTTP response headers for correct status codes and redirects
+- Confirm `robots.txt` has correct crawl directives
+- Confirm `sitemap.xml` lists all indexed routes with valid URLs
+- Verify pages include canonical, OpenGraph, and Twitter Card tags in source HTML
+- Run a Lighthouse audit and confirm performance scores meet targets
+- Validate JSON-LD with Rich Results Test per URL
+- Report remaining blockers with exact URLs and owner/action

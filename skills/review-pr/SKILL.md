@@ -59,7 +59,7 @@ Why this is a bug or violation:
 
 Evidence:
 - Rule or code reference
-- Full-SHA link: https://github.com/owner/repo/blob/[40-char-sha]/path/to/file.ts#L10-L18
+- Permalink to the exact file and line range using the full commit SHA
 
 Suggested fix:
 <committable patch snippet if <= 6 lines; otherwise clear implementation guidance>

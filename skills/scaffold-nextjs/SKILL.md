@@ -48,7 +48,7 @@ Collect from the user (ask only what was not provided):
 
 Load `references/app-setup.md`.
 
-Run `npx create-next-app@latest` with flags: `--typescript --tailwind --biome --react-compiler --app --no-src-dir --import-alias "@/*" --use-npm`.
+Follow the create-next-app setup in `references/app-setup.md`.
 
 Confirm the app runs with `npm run dev`.
 
@@ -56,23 +56,19 @@ Confirm the app runs with `npm run dev`.
 
 Load `references/app-setup.md`.
 
-Run `npx shadcn@latest init`, then:
-- `npx shadcn@latest registry add @blode=https://ui.blode.co/r/{name}.json`
-- `npx shadcn@latest add @blode/button`
-
-Use `blode-icons-react` for icon imports (never `lucide-react`).
+Initialize shadcn and register the Blode UI component library as described in the reference. Always use `blode-icons-react` for icon imports (never `lucide-react`).
 
 ### Phase 4: Install Agentation
 
 Load `references/app-setup.md`.
 
-Install the package and patch `app/layout.tsx` with the dev-only `<Agentation />` component. Optionally add Google Analytics using `@next/third-parties` (`npm install @next/third-parties@latest`) in the same file.
+Install the package and patch `app/layout.tsx` with the dev-only `<Agentation />` component as described in the reference. Optionally add Google Analytics using `@next/third-parties`.
 
 ### Phase 5: Install Ultracite
 
 Load `references/app-setup.md`.
 
-Delete `biome.json` (created by create-next-app), then run `npx ultracite@latest init` to set up biome config, husky, and lint-staged.
+Remove the default biome config and initialize Ultracite as described in the reference.
 
 ### Phase 6: Convert to Turborepo
 
@@ -98,13 +94,13 @@ Load `references/turbo-configs.md`.
 
 Load `references/deploy-and-launch.md`.
 
-GitHub: init, add, commit, push. Vercel: connect repo, deploy, add custom domain.
+Follow the GitHub and Vercel setup steps in the reference.
 
 ### Phase 8: Pre-launch checklist
 
 Load `references/deploy-and-launch.md`.
 
-Generate favicon via https://realfavicongenerator.net/, add OG images, then hand off to other skills.
+Generate a favicon package using RealFaviconGenerator, add OG images, then hand off to other skills.
 
 ## Placeholder Reference
 
@@ -126,7 +122,7 @@ All templates use `{{variable}}` syntax. Do a final sweep to catch missed placeh
 - Do not call biome directly -- use `ultracite fix` or `ultracite check`
 - Do not configure git hooks manually -- Ultracite sets up husky and lint-staged automatically
 - Do not put app dependencies in root package.json -- only devDependencies (turbo, ultracite)
-- Do not skip `shadcn registry add @blode=https://ui.blode.co/r/{name}.json` before adding Blode components
+- Do not skip the Blode registry setup step (see `references/app-setup.md`) before adding Blode components
 - Do not use `lucide-react` in scaffolded UI code -- use `blode-icons-react`
 - Do not create apps/web manually -- create-next-app first, then move
 
