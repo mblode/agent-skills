@@ -6,9 +6,6 @@
 - [turbo.json](#turbojson)
 - [Root biome.jsonc](#root-biomejsonc)
 - [Root .gitignore](#root-gitignore)
-- [.changeset/config.json](#changesetconfigjson)
-- [.changeset/README.md](#changesetreadmemd)
-- [.github/workflows/ci.yml](#githubworkflowsciyml)
 - [knip.json](#knipjson)
 - [apps/web/package.json scripts](#appswebpackagejson-scripts)
 - [apps/web/next.config.ts](#appswebnextconfigts)
@@ -36,13 +33,9 @@ Create at `{{name}}/package.json`:
     "format:check": "turbo format:check",
     "check-types": "turbo check-types",
     "check": "ultracite check",
-    "fix": "ultracite fix",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "changeset publish"
+    "fix": "ultracite fix"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.0",
     "turbo": "^2",
     "ultracite": "^7.1.5"
   }
@@ -133,82 +126,6 @@ logs
 .claude/
 .cursor/
 .vscode/
-```
-
-## .changeset/config.json
-
-Create at `{{name}}/.changeset/config.json`:
-
-```json
-{
-  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": "@changesets/cli/changelog",
-  "commit": false,
-  "fixed": [],
-  "linked": [],
-  "access": "public",
-  "baseBranch": "main",
-  "updateInternalDependencies": "patch",
-  "ignore": ["web"]
-}
-```
-
-The `"ignore": ["web"]` entry excludes the private web app from changeset versioning. Remove this if you later add publishable packages.
-
-## .changeset/README.md
-
-Create at `{{name}}/.changeset/README.md`:
-
-```markdown
-# Changesets
-
-Run `npm run changeset` to add a changeset when making changes to {{name}}.
-
-This generates a changeset file that describes the change and its semver bump type (patch, minor, or major). Changesets are consumed during release to update the version and generate changelog entries.
-```
-
-## .github/workflows/ci.yml
-
-Create at `{{name}}/.github/workflows/ci.yml`:
-
-```yaml
-name: CI
-
-on:
-  pull_request:
-    paths-ignore:
-      - "**/*.md"
-  push:
-    branches: [main]
-    paths-ignore:
-      - "**/*.md"
-
-jobs:
-  checks:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v6
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Check formatting
-        if: matrix.os == 'ubuntu-latest'
-        run: npm run check
 ```
 
 ## knip.json

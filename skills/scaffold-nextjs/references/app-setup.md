@@ -3,8 +3,9 @@
 ## Contents
 
 - [Phase 2: Create Next.js app](#phase-2-create-nextjs-app)
-- [Phase 3: Install shadcn/ui](#phase-3-install-shadcnui)
+- [Phase 3: Install Blode UI components](#phase-3-install-blode-ui-components)
 - [Phase 4: Install Agentation](#phase-4-install-agentation)
+- [Phase 4.1: Add Google Analytics (optional)](#phase-41-add-google-analytics-optional)
 - [Phase 5: Install Ultracite](#phase-5-install-ultracite)
 - [Phase 6 prep: Move into apps/web/](#phase-6-prep-move-into-appsweb)
 
@@ -38,18 +39,23 @@ npm run dev
 
 Confirm the app loads at `http://localhost:3000`.
 
-## Phase 3: Install shadcn/ui
+## Phase 3: Install Blode UI components
 
 ```bash
 npx shadcn@latest init
-npx shadcn@latest add --all
+npx shadcn@latest registry add @blode=https://ui.blode.co/r/{name}.json
+npx shadcn@latest add @blode/button
 ```
 
 This creates:
-- `components.json` — shadcn configuration
+- `components.json` — shadcn configuration + Blode registry mapping
 - `lib/utils.ts` — `cn()` helper (clsx + tailwind-merge)
-- `components/ui/` — all component files
+- `components/ui/button.tsx` — button from the `ui.blode.co` registry
 - CSS variable updates in `app/globals.css`
+
+Icon library requirement:
+- Use `blode-icons-react` for all icon imports.
+- If any generated file imports `lucide-react`, replace import paths with `blode-icons-react`.
 
 ## Phase 4: Install Agentation
 
@@ -93,6 +99,39 @@ export default function RootLayout({
   );
 }
 ```
+
+## Phase 4.1: Add Google Analytics (optional)
+
+```bash
+npm install @next/third-parties@latest
+```
+
+Patch `app/layout.tsx`:
+
+```tsx
+import { Agentation } from "agentation";
+import { GoogleAnalytics } from "@next/third-parties/google";
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
+        {process.env.NODE_ENV === "development" && <Agentation />}
+      </body>
+      <GoogleAnalytics gaId="G-XYZ" />
+    </html>
+  );
+}
+```
+
+Replace `"G-XYZ"` with your GA4 measurement ID.
 
 ## Phase 5: Install Ultracite
 

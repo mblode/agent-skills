@@ -43,15 +43,9 @@ Verify: `https://{{domain}}` loads the default Next.js page.
 
 ### Favicon
 
-Generate via [RealFaviconGenerator](https://realfavicongenerator.net/).
-
-Tell the generator:
-
-> I have generated my favicon with RealFaviconGenerator. Now I want to install it in my Next.js app.
->
-> The `app` folder is at `apps/web/app`.
->
-> Please download and place the generated files in `apps/web/app/`.
+1. Open [RealFaviconGenerator](https://realfavicongenerator.net/).
+2. Generate a favicon package from your source image.
+3. Place the generated files in `apps/web/app/`.
 
 ### OG images
 
