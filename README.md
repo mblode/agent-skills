@@ -24,13 +24,19 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `audit-typography` | Design/dev | Punctuation, font selection, sizing, spacing, and typographic quality |
 | `ui-animation` | Design/dev | Motion easing, timing, and reduced-motion rules |
 | `creating-presentations` | Design/dev | Bold, minimal, dark-first slide decks and pitch decks |
+| `mind-map` | Design/dev | Mermaid mindmap diagrams from codebases, topics, files, or conversations |
+| `briefing-document` | Writing/audit | Executive briefing documents synthesizing source materials |
+| `study-guide` | Writing/audit | Study guides with quiz questions, essay prompts, and glossaries from sources |
+| `blog-post` | Writing/audit | Engaging listicle-style blog posts from source insights |
 | `docs-writing` | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation |
 | `readme-creator` | Writing/audit | Writes or rewrites README.md files tailored to the project type |
 | `agents-md` | Maintenance | AGENTS.md/CLAUDE.md audits, pruning, and hygiene |
 | `review-pr` | Pre-merge | Bug detection and CLAUDE.md compliance checks |
 | `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
 | `multi-tenant-platform-architecture` | Architecture | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel |
+| `quiz` | Learning | Interactive codebase quizzes with configurable difficulty and card count |
 | `done` | Post-session | Captures decisions, questions, and context at end of session |
+| `anki` | Learning | Anki flashcard generation from source material with configurable quantity and difficulty |
 | `agent-skills-creator` | Authoring | Best-practice skill creation following the open format specification |
 
 ## Contributing
