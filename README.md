@@ -35,7 +35,6 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
 | `multi-tenant-platform-architecture` | Architecture | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel |
 | `quiz` | Learning | Interactive codebase quizzes with configurable difficulty and card count |
-| `done` | Post-session | Captures decisions, questions, and context at end of session |
 | `anki` | Learning | Anki flashcard generation from source material with configurable quantity and difficulty |
 | `agent-skills-creator` | Authoring | Best-practice skill creation following the open format specification |
 
