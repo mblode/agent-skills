@@ -32,6 +32,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `readme-creator` | Writing/audit | Writes or rewrites README.md files tailored to the project type |
 | `agents-md` | Maintenance | AGENTS.md/CLAUDE.md audits, pruning, and hygiene |
 | `review-pr` | Pre-merge | Bug detection and CLAUDE.md compliance checks |
+| `pr-comments` | Pre-merge | PR review comment triage and resolution from humans and bots |
 | `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
 | `multi-tenant-platform-architecture` | Architecture | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel |
 | `quiz` | Learning | Interactive codebase quizzes with configurable difficulty and card count |
