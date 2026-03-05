@@ -34,6 +34,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `review-pr` | Pre-merge | Bug detection and CLAUDE.md compliance checks |
 | `pr-comments` | Pre-merge | PR review comment triage and resolution from humans and bots |
 | `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
+| `agent-native` | Architecture | Designs agent-native apps with tool parity, atomic primitives, completion signals, and context injection |
 | `multi-tenant-platform-architecture` | Architecture | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel |
 | `quiz` | Learning | Interactive codebase quizzes with configurable difficulty and card count |
 | `anki` | Learning | Anki flashcard generation from source material with configurable quantity and difficulty |
