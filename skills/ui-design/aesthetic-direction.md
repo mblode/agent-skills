@@ -12,6 +12,9 @@ Goal: make the UI look human-designed, not AI-default.
 ## Philosophy
 
 - Delete aggressively; clarity over decoration.
+- Do not compete for attention you have not earned.
+- Structure should be felt, not seen.
+- Prune extra icons, controls, and separators before styling what remains.
 - Restraint plus hierarchy beats noise.
 
 ## Study references

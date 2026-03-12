@@ -41,6 +41,8 @@ Confirm the app loads at `http://localhost:3000`.
 
 ## Phase 3: Install Blode UI components
 
+Blode UI is a third-party shadcn/ui registry hosted at `ui.blode.co`. Use the hosted `@blode` namespace flow by default.
+
 ```bash
 npx shadcn@latest init
 npx shadcn@latest registry add @blode=https://ui.blode.co/r/{name}.json

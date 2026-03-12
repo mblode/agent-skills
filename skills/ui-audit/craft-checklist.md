@@ -67,6 +67,9 @@ Use this as a final polish pass.
 
 ## Navigation and feedback
 - Use `<a>`/`<Link>` for navigation; preserve URL state; Back/Forward restores scroll.
+- Supporting chrome should recede beneath the current task; sidebars, tabs, and secondary bars must be quieter than the main content.
+- Shared header actions should stay in consistent slots across comparable screens.
+- Prefer compact tab groups over full-width bars when they communicate the same state.
 - Confirm destructive actions or provide undo.
 - Use polite `aria-live` for toasts/validation.
 - Add a short show-delay (150-300ms) and minimum duration (300-500ms) for spinners/skeletons to avoid flicker.
@@ -105,6 +108,8 @@ Use this as a final polish pass.
 
 ## Extra polish
 - Match box-shadows and motion to high-quality references.
+- Remove redundant icons and coloured icon backgrounds when labels or grouping already carry the meaning.
+- Every border and separator should justify itself; avoid stacked dividers and high-contrast grid noise.
 - Add SEO metadata and dynamic OG images.
 - Add keyboard shortcuts where useful.
 
@@ -130,6 +135,8 @@ Use this as a final polish pass.
 - Icon buttons without `aria-label`.
 - Hardcoded date/number formats (use `Intl.*`).
 - `autoFocus` without clear justification.
+- Navigation chrome that is as loud as the primary work surface.
+- Headers or cards with stacked high-contrast borders that do not clarify meaning.
 
 ## Resources
 - Devouring Details, Sanding UI, Paul Graham on Taste, Typewolf checklist.

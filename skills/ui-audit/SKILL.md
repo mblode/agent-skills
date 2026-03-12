@@ -13,6 +13,7 @@ Use this skill when:
 - The user asks for a UI quality audit, design QA, polish pass, or pre-release review
 - The task requires accessibility, keyboard, form usability, typography, or interaction checks
 - The request includes loading/error/empty states, responsiveness, or visual stability checks
+- The request mentions visual hierarchy, dense product chrome, headers, tabs, sidebars, icons, or separator cleanup
 
 ## Audit Workflow
 
@@ -31,6 +32,7 @@ Audit progress:
 2. Prioritize `CRITICAL` and `HIGH` findings before medium-priority polish.
 3. For motion behavior, also apply `ui-animation` for timing/easing/reduced-motion details.
 4. After fixes, rerun the relevant rules before finalizing.
+5. When hierarchy or chrome cleanup is in scope, use the navigation, layout, and extra-polish sections in `craft-checklist.md` before reporting.
 
 ## Rule Categories by Priority
 

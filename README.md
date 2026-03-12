@@ -16,7 +16,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | --------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `define-architecture`       | Project start | Repo structure, backend patterns, workflow conventions                                                                                           |
 | `scaffold-cli`              | Project start | TypeScript CLI scaffold with ESM, tsdown, vitest, biome, changesets, and GitHub Actions                                                          |
-| `scaffold-nextjs`           | Project start | Next.js turborepo scaffold with TypeScript, Tailwind, shadcn + Blode UI registry components, blode-icons-react, Ultracite, and Vercel deployment |
+| `scaffold-nextjs`           | Project start | Next.js turborepo scaffold with TypeScript, Tailwind, shadcn/ui + ui.blode.co registry components, blode-icons-react, Ultracite, and Vercel deployment |
 | `ui-design`                 | Design        | Visual direction for product or marketing UI                                                                                                     |
 | `ui-audit`                  | Pre-ship      | Accessibility, typography, and UX polish audit                                                                                                   |
 | `typography-audit`          | Design/dev    | Punctuation, font selection, sizing, spacing, and typographic quality                                                                            |

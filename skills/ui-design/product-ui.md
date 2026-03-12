@@ -18,6 +18,15 @@ Use for dashboards, admin tools, and data-dense workflows.
 - Choose one depth strategy: borders-only, subtle shadow, layered shadow, or surface tint.
 - Keep surface treatment consistent across cards, even if internal layouts differ.
 
+## Calm dense interfaces
+
+- Make the work surface dominant; navigation and orientation chrome should recede after the user arrives.
+- Separate location/context, view controls, and page actions so each bar has one job.
+- Keep shared header actions in predictable slots across comparable views.
+- Use compact tabs and secondary bars; avoid full-width chrome when a smaller group communicates the same state.
+- Reduce brightness, saturation, and icon size on supporting chrome before shrinking the content area itself.
+- Audit every border, icon, and tint. If it does not clarify meaning, remove or soften it.
+
 ## Controls
 
 - Prefer native selects/date inputs by default for accessibility and mobile UX.
@@ -29,17 +38,19 @@ Use for dashboards, admin tools, and data-dense workflows.
 
 - Create a clear hierarchy (headline, body, label).
 - Use tabular numbers or monospace for data tables and IDs.
-- Icons must add meaning; remove decorative icons.
+- Icons must add meaning; remove decorative icons and unnecessary icon backgrounds.
 - Use sentence case and follow the project locale/style guide.
 
 ## Colour and contrast
 
 - Use a 4-level contrast hierarchy (primary, secondary, muted, faint).
 - Use colour only for meaning (status, action).
+- Prefer restrained neutrals for core surfaces; keep warm or cool bias subtle.
 
 ## Navigation context
 
 - Show navigation, page location, and user/workspace context.
+- Keep supporting bars and inactive navigation a step quieter than the main surface.
 - In dark mode, prefer borders over shadows; adjust semantic colours.
 
 ## Motion

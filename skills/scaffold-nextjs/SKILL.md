@@ -1,6 +1,6 @@
 ---
 name: scaffold-nextjs
-description: Scaffolds a production-ready Next.js turborepo with TypeScript, Tailwind CSS, shadcn CLI, Blode UI components from ui.blode.co, blode-icons-react, Biome, Ultracite, and Vercel deployment. Use when creating a new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new website, or asking "create a Next.js project."
+description: Scaffolds a production-ready Next.js turborepo with TypeScript, Tailwind CSS, the shadcn/ui CLI, Blode UI components from the ui.blode.co registry, blode-icons-react, Biome, Ultracite, and Vercel deployment. Use when creating a new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new website, or asking "create a Next.js project."
 ---
 
 # Scaffold Next.js
@@ -56,7 +56,7 @@ Confirm the app runs with `npm run dev`.
 
 Load `references/app-setup.md`.
 
-Initialize shadcn and register the Blode UI component library as described in the reference. Always use `blode-icons-react` for icon imports (never `lucide-react`).
+Initialize shadcn/ui and register the Blode UI component library from `ui.blode.co` as described in the reference. Always use `blode-icons-react` for icon imports (never `lucide-react`).
 
 ### Phase 4: Install Agentation
 
