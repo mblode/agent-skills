@@ -31,7 +31,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `docs-writing` | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation |
 | `readme-creator` | Writing/audit | Writes or rewrites README.md files tailored to the project type |
 | `agents-md` | Maintenance | AGENTS.md/CLAUDE.md audits, pruning, and hygiene |
-| `review-pr` | Pre-merge | Bug detection and CLAUDE.md compliance checks |
+| `review-pr` | Pre-merge | Runs a local end-of-session review of the current diff for high-confidence bugs and instruction-file compliance before commit, push, or handoff |
 | `pr-comments` | Pre-merge | PR review comment triage and resolution from humans and bots |
 | `optimise-seo` | Pre-launch | Metadata, structured data, sitemaps, and Core Web Vitals |
 | `agent-native` | Architecture | Designs agent-native apps with tool parity, atomic primitives, completion signals, and context injection |
