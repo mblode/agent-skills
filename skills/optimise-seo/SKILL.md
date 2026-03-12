@@ -15,11 +15,24 @@ No visual redesigns or layout changes. Allowed: metadata, structured data, seman
 5. Validate with [seo-checklist.md](seo-checklist.md) and document changes
 
 ## Must-have
-- Sitemap (`app/sitemap.ts`) and robots (`app/robots.ts`)
+- Sitemap (`app/sitemap.ts`) and robots (`app/robots.ts`):
+  ```ts
+  // app/sitemap.ts
+  import type { MetadataRoute } from "next";
+  export default function sitemap(): MetadataRoute.Sitemap {
+    return [{ url: "https://example.com", lastModified: new Date() }];
+  }
+  ```
 - Canonicals consistent on every page
-- Unique titles + descriptions
+- Unique titles + descriptions via `metadata` or `generateMetadata`
 - OpenGraph + Twitter Card tags
-- JSON-LD: Organization, WebSite, BreadcrumbList (+ Article/Product/FAQ as needed)
+- JSON-LD: Organization, WebSite, BreadcrumbList (+ Article/Product/FAQ as needed):
+  ```tsx
+  <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+    "@context": "https://schema.org", "@type": "Organization",
+    name: "Example", url: "https://example.com"
+  }) }} />
+  ```
 - One h1 and logical heading hierarchy
 - Alt text, internal links, CWV targets, mobile/desktop parity
 

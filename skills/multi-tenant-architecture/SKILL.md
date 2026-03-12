@@ -1,6 +1,6 @@
 ---
 name: multi-tenant-architecture
-description: Provides architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, custom domains, and plan/limit mapping.
+description: Provides architecture guidance for multi-tenant SaaS platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, subdomain routing, custom domains, white-label setup, tenant separation, plan/limit mapping, or building a multi-tenant application.
 ---
 
 # Multi-Tenant Platform Architecture (Cloudflare · Vercel)
@@ -36,7 +36,18 @@ description: Provides architecture guidance for multi-tenant platforms on Cloudf
 
 5. Pass tenant context through the stack
 - **Cloudflare**: Platform Worker resolves tenant and injects headers or bindings before dispatching to tenant Worker.
-- **Vercel**: Middleware sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` on forwarded request headers. Server Components read via `headers()`; API routes read from request headers.
+- **Vercel**: Middleware sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` on forwarded request headers. Server Components read via `headers()`; API routes read from request headers:
+  ```ts
+  // middleware.ts
+  import { NextRequest, NextResponse } from "next/server";
+  export function middleware(request: NextRequest) {
+    const hostname = request.headers.get("host") ?? "";
+    const tenant = hostname.split(".")[0]; // resolve from DB/Edge Config in production
+    const response = NextResponse.next();
+    response.headers.set("x-tenant-id", tenant);
+    return response;
+  }
+  ```
 - Middleware/platform Worker is the single authority; never trust client-supplied tenant identity.
 
 6. Bind only what is needed

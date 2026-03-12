@@ -51,11 +51,8 @@ Load `references/bot-patterns.md` for detection and parsing rules.
 
 For each item across all three sources:
 
-1. **Identify author type** — human or bot. For bots, classify by **content first, then username**:
-   - `github-actions[bot]` is a shared identity — match on DangerJS markers, schema compatibility tables, or other patterns to determine if actionable
-   - `devin-ai-integration[bot]` is an active reviewer — but "No Issues Found" reviews are noise
-   - `linear[bot]` is always noise (project linkback)
-2. **Skip noise** — auto-classify noise items (linear linkbacks, vercel deployments, Devin "no issues" reviews, changeset releases, event-lib triggers)
+1. **Identify author type** — human or bot. For bots, classify by **content first, then username**. See `references/bot-patterns.md` for detection rules, severity parsing, and false positive patterns
+2. **Skip noise** — auto-classify noise items per bot-patterns reference (linear linkbacks, vercel deployments, Devin "no issues" reviews, changeset releases, event-lib triggers)
 3. **Parse severity** — extract from bot-specific format (emoji, SVG, HTML tables). Human comments: default to Major for `CHANGES_REQUESTED`, Minor for `APPROVED` + question
 4. **Deduplicate** — group inline comments on the same file within a 3-line range. Keep the highest-severity, most-actionable comment. Mark others as `ignore-duplicate`
 5. **Classify** each remaining item:

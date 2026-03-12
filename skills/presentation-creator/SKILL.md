@@ -20,7 +20,11 @@ Bold, minimal, dark-first presentations designed for live presenting.
 
 - **Dark-first, high contrast** — black/zinc-900 backgrounds, white text, colored accents
 - **One message per slide** — if it takes more than 5 seconds to read, cut it
-- **Headlines do the work** — bold statements, not explanations
+- **Headlines do the work** — bold statements, not explanations:
+  ```
+  Before: "An Overview of Our Q3 Performance Metrics and Results"
+  After:  "Q3: Revenue Up 40%. Here's How."
+  ```
 - **Section colors create rhythm** — each major section gets its own accent color
 - **Notes guide, not script** — scannable prompts for riffing, not paragraphs to read
 

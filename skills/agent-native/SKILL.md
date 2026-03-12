@@ -21,6 +21,14 @@ Agent-native applications treat agents as first-class users. Whatever a human ca
 
 - **Parity** — Agent can achieve anything users can do through the UI. Build a capability map; close every gap.
 - **Granularity** — Tools are atomic primitives. Judgment and decision logic live in prompts, not tool implementations. To change behavior, edit prose, not code.
+  ```
+  # Anti-pattern: workflow-shaped tool
+  analyze_and_organize(folder)  # bundles judgment into code
+
+  # Agent-native: atomic primitives
+  list_files(folder) → read_file(path) → move_file(src, dst) → write_file(path, content)
+  # The agent decides what to move and where — judgment stays in the prompt
+  ```
 - **Composability** — New features = new prompts. With atomic tools and parity, you describe an outcome and the agent loops until it's achieved.
 - **Emergent capability** — The agent handles requests you didn't design for. Observe what users ask; formalize patterns that emerge.
 - **Improvement over time** — State persists via context files. Prompts can be updated for all users without shipping code.

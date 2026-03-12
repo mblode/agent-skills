@@ -1,6 +1,6 @@
 ---
 name: ui-animation
-description: Guidelines and examples for UI motion and animation. Use when designing, implementing, or reviewing motion, easing, timing, reduced-motion behaviour, CSS transitions, keyframes, framer-motion, or spring animations.
+description: Creates, reviews, and debugs UI motion and animation implementations. Use when designing, implementing, or reviewing motion, easing, timing, reduced-motion behaviour, CSS transitions, keyframes, framer-motion, or spring animations.
 ---
 
 # UI Animation
@@ -49,3 +49,8 @@ description: Guidelines and examples for UI motion and animation. Use when desig
 1. Start with the core rules, then pick a reference snippet from [examples.md](examples.md).
 2. Keep motion functional; honor `prefers-reduced-motion`.
 3. When reviewing, cite file paths and line numbers and propose concrete fixes.
+4. Validate:
+   - Test with `prefers-reduced-motion: reduce` enabled — animations must degrade gracefully.
+   - Verify no layout property animations (`width`, `height`, `top`, `left`).
+   - Check that looping animations pause off-screen.
+   - Confirm `will-change` is toggled only during animation, not permanently set.
