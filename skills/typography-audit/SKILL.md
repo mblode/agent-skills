@@ -1,9 +1,9 @@
 ---
-name: audit-typography
+name: typography-audit
 description: Audits web typography for punctuation, font selection, sizing, spacing, OpenType features, hierarchy, layout, typeface pairing, brand identity, and display type. Use when writing CSS/HTML for text, selecting or pairing typefaces, reviewing typography in web designs, configuring font-feature-settings, building a type system, or auditing typographic quality. Triggers on tasks involving font-family, font-size, line-height, letter-spacing, @font-face, font pairing, or typographic correctness.
 ---
 
-# Audit Typography
+# Typography Audit
 
 89 rules across 10 categories for web typography quality. Focuses on concrete issues with concrete fixes.
 

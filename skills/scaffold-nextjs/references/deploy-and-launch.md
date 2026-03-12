@@ -60,7 +60,7 @@ Next.js App Router automatically serves these as OG and Twitter card images via 
 Run these skills in order after deployment:
 
 1. `optimise-seo` — metadata, structured data, sitemap, robots, Core Web Vitals
-2. `audit-ui` — accessibility, typography, interaction quality, craft polish
+2. `ui-audit` — accessibility, typography, interaction quality, craft polish
 3. `ui-animation` — motion easing, timing, reduced-motion rules
 
 ## Validation checklist

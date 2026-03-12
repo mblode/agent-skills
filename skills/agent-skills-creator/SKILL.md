@@ -19,10 +19,10 @@ Create skills that follow the Agent Skills open format. Covers the full lifecycl
 
 | Pattern | When to use | Example | Key files |
 |---------|-------------|---------|-----------|
-| Simple/hub | Dispatch to 2-5 focused files by track | `design-ui` | SKILL.md + track files |
-| Workflow | Multi-step process with progressive loading | `agents-md`, `plan-feature` | SKILL.md + `references/` |
-| Rules-based | Audit/lint with categorized rules | `audit-typography`, `docs-writing` | SKILL.md + `rules/` |
-| Mixed | Workflow with conditional references | `multi-tenant-platform-architecture` | SKILL.md + `references/` |
+| Simple/hub | Dispatch to 2-5 focused files by track | `ui-design` | SKILL.md + track files |
+| Workflow | Multi-step process with progressive loading | `agents-md`, `review-pr` | SKILL.md + `references/` |
+| Rules-based | Audit/lint with categorized rules | `typography-audit`, `docs-writing` | SKILL.md + `rules/` |
+| Mixed | Workflow with conditional references | `multi-tenant-architecture` | SKILL.md + `references/` |
 
 Decision guide:
 - Auditing or linting against a checklist: **rules-based**
@@ -180,4 +180,3 @@ Include a table mapping categories to prefixes and rule counts:
 
 - `agents-md` for auditing AGENTS.md/CLAUDE.md instruction files
 - `docs-writing` for documentation quality rules
-- `plan-feature` for planning implementation before coding

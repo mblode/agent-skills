@@ -46,7 +46,7 @@ Goal: make the UI look human-designed, not AI-default.
 - Full keyboard support with visible focus rings.
 - Hit targets >= 24px (>= 44px mobile).
 - Accessible forms: labels, Enter-to-submit, inline errors.
-- See `audit-ui` for complete interaction and accessibility standards.
+- See `ui-audit` for complete interaction and accessibility standards.
 
 ## Standard
 

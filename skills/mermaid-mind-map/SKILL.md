@@ -1,9 +1,9 @@
 ---
-name: mind-map
-description: Generates Mermaid mindmap diagrams from codebases, topics, files, or conversations. Visually summarizes source material showing main topics and related ideas as branching diagrams. Use when asked to create a mind map, visualize a topic, map out a codebase, summarize a file as a diagram, generate a concept map, or create a visual overview.
+name: mermaid-mind-map
+description: Generates Mermaid mindmap diagrams from codebases, topics, files, or conversations. Visually summarizes source material as branching diagrams. Use when asked to create a Mermaid mind map, visualize a topic, map out a codebase, summarize a file as a diagram, generate a concept map, or create a visual overview.
 ---
 
-# Mind Map
+# Mermaid Mind Map
 
 Analyze source material and produce a Mermaid `mindmap` diagram with 2-4 levels of branching hierarchy.
 
@@ -105,6 +105,5 @@ If the user requests a file, write to a `.md` file containing the fenced block.
 
 ## Related skills
 
-- `creating-presentations` for slide decks that complement visual overviews
-- `plan-feature` for implementation plans when a mind map reveals feature scope
+- `presentation-creator` for slide decks that complement visual overviews
 - `define-architecture` for detailed architecture decisions beyond visual mapping

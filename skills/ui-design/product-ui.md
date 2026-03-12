@@ -49,7 +49,7 @@ Use for dashboards, admin tools, and data-dense workflows.
 
 ## Interaction baseline
 
-- Use `audit-ui` for UX/a11y polish and QA.
+- Use `ui-audit` for UX/a11y polish and QA.
 
 ## Anti-patterns
 

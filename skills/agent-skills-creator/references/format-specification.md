@@ -60,8 +60,8 @@ description: What the skill does. Use when...
 | Skill | Description pattern |
 |-------|-------------------|
 | `agents-md` | "Audits X using Y standards. Checks A, B, and C. Use when asked to audit, review, score, refactor, or improve..." |
-| `audit-typography` | "Audits X for A, B, C, D, E, F, G, H, I, and J. Use when writing CSS/HTML for text, selecting or pairing typefaces..." |
-| `plan-feature` | "Creates X for Y without Z. Use when the user asks for A, requests B, or when C spans D and needs E." |
+| `typography-audit` | "Audits X for A, B, C, D, E, F, G, H, I, and J. Use when writing CSS/HTML for text, selecting or pairing typefaces..." |
+| `readme-creator` | "Writes or rewrites X tailored to Y. Use when creating A, writing B from scratch, rewriting C, or bootstrapping documentation." |
 
 **Pattern:** `[Does what] for/using [domain]. [Checks/covers what]. Use when [specific trigger phrases with keywords].`
 

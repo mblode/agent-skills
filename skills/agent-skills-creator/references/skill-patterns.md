@@ -42,7 +42,7 @@ Choose the right track and follow its guidance.
 - `skill-name` for related concern
 ```
 
-**Example:** `design-ui` (24 lines, dispatches to product-ui.md and marketing-ui.md)
+**Example:** `ui-design` (24 lines, dispatches to product-ui.md and marketing-ui.md)
 
 ## Workflow Pattern
 
@@ -147,7 +147,7 @@ Report findings in this format:
 [finding format template with severity, rule ID, issue, fix]
 ```
 
-**Example:** `audit-typography` (81 lines, 89 rules in 10 categories)
+**Example:** `typography-audit` (81 lines, 89 rules in 10 categories)
 
 ## Mixed Pattern
 
@@ -186,4 +186,4 @@ Load only the reference matching your context:
 - **Context B**: [references/b.md](references/b.md)
 ```
 
-**Example:** `multi-tenant-platform-architecture` (103 lines, 5 platform-specific references)
+**Example:** `multi-tenant-architecture` (103 lines, 5 platform-specific references)

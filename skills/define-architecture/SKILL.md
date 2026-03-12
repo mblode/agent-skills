@@ -44,7 +44,7 @@ Load references only when needed:
    - Default to Server Components; add `"use client"` only for client-only behavior.
    - Use TanStack/Connect Query for server state.
    - Use MobX only for cross-cutting client state that cannot live in component state.
-   - Apply `implement-frontend` for forms, hooks, and type-safe UI mappings.
+   - Keep forms, hooks, and UI mappings type-safe and implementation-focused.
 6. Define testing and release expectations:
    - Backend TDD loop: Red -> Green -> Refactor.
    - Unit tests stay DB-free; integration and E2E tests run in parallel with dynamic IDs.
@@ -97,8 +97,7 @@ Use this structure for architecture recommendations:
 
 ## Skill handoffs
 
-- Use `implement-frontend` when implementing forms, hooks, and typed UI mappings.
-- Use `audit-ui` for final UI quality checks.
+- Use `ui-audit` for final UI quality checks.
 - Use `ui-animation` for motion-specific guidance.
 
 ## Conventions

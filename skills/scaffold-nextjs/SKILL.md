@@ -131,5 +131,5 @@ All templates use `{{variable}}` syntax. Do a final sweep to catch missed placeh
 | When | Run |
 |------|-----|
 | After deployment, optimise SEO | `optimise-seo` |
-| Before launch, audit UI quality | `audit-ui` |
+| Before launch, audit UI quality | `ui-audit` |
 | Before launch, add motion and animation | `ui-animation` |

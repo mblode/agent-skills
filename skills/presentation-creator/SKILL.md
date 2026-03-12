@@ -1,9 +1,9 @@
 ---
-name: creating-presentations
+name: presentation-creator
 description: Creates bold, minimal, dark-first presentations with structured narrative arcs, punchy slide copy, high-contrast visual design, and conversational speaker notes. Adapts for live talks or async investor pitch decks. Use when creating a presentation, structuring a deck, writing slides, asking "outline a presentation about...", "write slides for...", "design a deck for...", or building a pitch deck for investors.
 ---
 
-# Creating Presentations
+# Presentation Creator
 
 Bold, minimal, dark-first presentations designed for live presenting.
 

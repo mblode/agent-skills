@@ -158,4 +158,3 @@ Do NOT touch unrelated code.
 ## Related skills
 
 - `review-pr` for reviewing PRs and posting comments (outbound — complementary to this skill)
-- `plan-feature` for complex feature planning when a PR comment requires significant rework

@@ -73,5 +73,4 @@ Before shipping, verify:
 ## Related Skills
 
 - `define-architecture` — repo structure and module boundaries before going agent-native
-- `plan-feature` — implementation plans when adding agent capabilities
 - `agents-md` — audit CLAUDE.md / AGENTS.md for agent instruction quality

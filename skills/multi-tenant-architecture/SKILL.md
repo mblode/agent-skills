@@ -1,5 +1,5 @@
 ---
-name: multi-tenant-platform-architecture
+name: multi-tenant-architecture
 description: Provides architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, custom domains, and plan/limit mapping.
 ---
 

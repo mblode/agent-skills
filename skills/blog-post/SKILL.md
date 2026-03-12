@@ -213,6 +213,6 @@ Under 60 characters for SEO. Sentence case, no trailing period. Must deliver on 
 | When | Run |
 |------|-----|
 | After blog post is written, audit prose quality | `docs-writing` |
-| If post needs to become a presentation | `creating-presentations` |
+| If post needs to become a presentation | `presentation-creator` |
 | Edit and polish the copy | `copy-editing` |
 | Optimize SEO beyond basics | `optimise-seo` |

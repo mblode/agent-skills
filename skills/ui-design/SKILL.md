@@ -1,5 +1,5 @@
 ---
-name: design-ui
+name: ui-design
 description: Provides design direction and visual system for web UI. Defines layout, typography, colour, and overall aesthetic for product (SaaS/admin/data-heavy) or marketing/brand experiences. Use when choosing visual direction, selecting colour palettes and fonts, establishing layout patterns, or starting a new UI design system.
 ---
 
@@ -20,5 +20,4 @@ Choose the right track and follow its guidance.
 ## Related skills
 
 - `ui-animation` for motion timing, easing, and reduced-motion behaviour
-- `audit-ui` for accessibility and final QA
-- `implement-frontend` for React/TypeScript implementation standards
+- `ui-audit` for accessibility and final QA

@@ -15,7 +15,7 @@ Deliver working code with a clear aesthetic point of view. Avoid generic AI aest
 - Hit targets >= 24px (>= 44px on mobile).
 - Keep forms accessible (labels, enter-to-submit, inline errors).
 - Handle loading/empty/error states and long content.
-- Follow `audit-ui` for full a11y and polish checks; use `ui-animation` for motion.
+- Follow `ui-audit` for full a11y and polish checks; use `ui-animation` for motion.
 
 ## Aesthetic rules
 

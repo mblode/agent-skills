@@ -1,4 +1,0 @@
-interface:
-  display_name: "Implement Frontend"
-  short_description: "React/TS standards for forms, state, and hooks"
-  default_prompt: "Use $implement-frontend to implement this React/TypeScript/Next.js feature with clean ownership of forms, server state, and business logic."

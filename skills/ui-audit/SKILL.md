@@ -1,5 +1,5 @@
 ---
-name: audit-ui
+name: ui-audit
 description: Audits web UI quality across accessibility, interaction, forms, typography, navigation, layout, performance, motion, and microcopy. Use when reviewing or refining frontend UI before merge or release, or when the user asks for a UI, UX, or accessibility audit.
 ---
 
