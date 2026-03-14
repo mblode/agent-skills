@@ -1,6 +1,6 @@
 ---
 name: scaffold-nextjs
-description: Scaffolds a production-ready Next.js turborepo with TypeScript, Tailwind CSS, the shadcn/ui CLI, Blode UI components from the ui.blode.co registry, blode-icons-react, Biome, Ultracite, and Vercel deployment. Use when creating a new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new website, or asking "create a Next.js project."
+description: Scaffolds a production-ready Next.js turborepo with TypeScript, Tailwind CSS, the shadcn/ui CLI, Blode UI components from the ui.blode.co registry, blode-icons-react, Oxlint, Oxfmt, Ultracite, and Vercel deployment. Use when creating a new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new website, or asking "create a Next.js project."
 ---
 
 # Scaffold Next.js
@@ -12,7 +12,7 @@ Scaffold a Next.js turborepo with full tooling, GitHub, and Vercel deployment.
 | File | Read When |
 |------|-----------|
 | `references/app-setup.md` | Default: create-next-app flags, shadcn + Blode registry setup, Agentation, Ultracite commands and code patches |
-| `references/turbo-configs.md` | Default: root package.json, turbo.json, biome.jsonc, .gitignore, knip.json, next.config.ts |
+| `references/turbo-configs.md` | Default: root package.json, turbo.json, .gitignore, knip.json, next.config.ts |
 | `references/deploy-and-launch.md` | After Phase 6: GitHub setup, Vercel deployment, favicon, OG images, pre-launch checklist |
 
 ## Scaffold Workflow
@@ -75,14 +75,14 @@ Remove the default biome config and initialize Ultracite as described in the ref
 Load `references/turbo-configs.md`.
 
 1. Create root directory structure and move the app into `apps/web/`.
-2. Generate root `package.json`, `turbo.json`, `biome.jsonc`.
+2. Generate root `package.json`, `turbo.json`.
 3. Generate `knip.json`.
 4. Generate root `.gitignore`.
 5. Ensure `apps/web/package.json` has these scripts:
-    - `"lint": "biome check ."`
-    - `"lint:fix": "biome check --write ."`
-    - `"format": "biome format --write ."`
-    - `"format:check": "biome format ."`
+    - `"lint": "oxlint ."`
+    - `"lint:fix": "oxlint --fix ."`
+    - `"format": "oxfmt --write ."`
+    - `"format:check": "oxfmt ."`
     - `"check-types": "tsc --noEmit"`
     - `"test": "vitest run"`
     - `"test:watch": "vitest"`
@@ -118,9 +118,9 @@ All templates use `{{variable}}` syntax. Do a final sweep to catch missed placeh
 ## Anti-patterns
 
 - Do not use src/ directory -- create-next-app flag disables it
-- Do not use ESLint -- Biome via Ultracite replaces it
-- Do not call biome directly -- use `ultracite fix` or `ultracite check`
-- Do not configure git hooks manually -- Ultracite sets up husky and lint-staged automatically
+- Do not use ESLint -- Oxlint via Ultracite replaces it
+- Do not call oxlint or oxfmt directly -- use `ultracite fix` or `ultracite check`
+- Do not configure git hooks manually -- Ultracite sets up lefthook automatically
 - Do not put app dependencies in root package.json -- only devDependencies (turbo, ultracite)
 - Do not skip the Blode registry setup step (see `references/app-setup.md`) before adding Blode components
 - Do not use `lucide-react` in scaffolded UI code -- use `blode-icons-react`

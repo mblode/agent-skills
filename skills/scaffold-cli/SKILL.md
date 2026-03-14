@@ -1,6 +1,6 @@
 ---
 name: scaffold-cli
-description: Scaffolds a production-ready TypeScript CLI project with ESM, tsdown, vitest, biome, changesets, GitHub Actions, and an agent skill definition. Use when creating a new CLI tool, bootstrapping a TypeScript project, scaffolding a node CLI, starting a new npm package, or asking "scaffold a CLI project."
+description: Scaffolds a production-ready TypeScript CLI project with ESM, tsdown, vitest, oxlint, oxfmt, changesets, GitHub Actions, and an agent skill definition. Use when creating a new CLI tool, bootstrapping a TypeScript project, scaffolding a node CLI, starting a new npm package, or asking "scaffold a CLI project."
 ---
 
 # Scaffold CLI
@@ -11,7 +11,7 @@ Scaffold a production-ready TypeScript CLI project (Node 22+) with ESM modules, 
 
 | File | Read When |
 |------|-----------|
-| `references/scaffold-configs.md` | Default: templates for package.json, tsconfig, tsdown, biome, gitignore, license, changeset config, GitHub Actions |
+| `references/scaffold-configs.md` | Default: templates for package.json, tsconfig, tsdown, gitignore, license, changeset config, GitHub Actions |
 | `references/scaffold-source.md` | Default: templates for src/cli.ts, src/index.ts, src/types.ts, AGENTS.md, README.md, skills/SKILL.md |
 | `references/post-scaffold.md` | After generating files: post-scaffold commands and validation checklist |
 
@@ -58,7 +58,7 @@ Collect from the user (ask only what was not provided):
 
 Load `references/scaffold-configs.md`. Generate all config files, replacing every `{{placeholder}}` with actual values.
 
-Files: `package.json`, `tsconfig.json`, `tsdown.config.ts`, `biome.jsonc`, `.gitignore`, `LICENSE.md`, `.changeset/config.json`, `.changeset/README.md`, `.github/workflows/ci.yml`, `.github/workflows/npm-publish.yml`
+Files: `package.json`, `tsconfig.json`, `tsdown.config.ts`, `.gitignore`, `LICENSE.md`, `.changeset/config.json`, `.changeset/README.md`, `.github/workflows/ci.yml`, `.github/workflows/npm-publish.yml`
 
 ### Step 4: Generate source files
 
@@ -103,7 +103,7 @@ All templates use `{{variable}}` syntax. Do a final sweep to catch any missed pl
 `@clack/prompts`, `commander`, `gray-matter`
 
 **Development:**
-`@biomejs/biome`, `@changesets/cli`, `@types/node`, `tsdown`, `typescript`, `ultracite`, `vitest`
+`@changesets/cli`, `@types/node`, `tsdown`, `typescript`, `ultracite`, `vitest`
 
 **Built-in (no install needed):**
 `node:util` styleText for colors (replaces chalk), `@clack/prompts` spinner for progress (replaces ora)
@@ -114,6 +114,6 @@ All templates use `{{variable}}` syntax. Do a final sweep to catch any missed pl
 - Do not skip AGENTS.md or `skills/` directory — every CLI project needs agent instructions
 - Do not create test files in the scaffold — let the user add tests for their specific features
 - Do not merge the dual tsdown builds — CLI (with shebang) and library (with dts) must stay separate
-- Do not call biome directly — always use `ultracite fix` or `ultracite check`
-- Do not configure git hooks manually — ultracite sets up husky and lint-staged automatically
+- Do not call oxlint or oxfmt directly — always use `ultracite fix` or `ultracite check`
+- Do not configure git hooks manually — ultracite sets up lefthook automatically
 - Do not add chalk or ora — use `node:util` styleText for colors and `@clack/prompts` spinner

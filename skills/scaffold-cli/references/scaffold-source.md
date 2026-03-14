@@ -77,8 +77,8 @@ src/
 
 - **ESM only**: This project uses `"type": "module"`. Use `.js` extensions in imports (e.g., `import { foo } from "./foo.js"`).
 - **Dual build**: `tsdown.config.ts` produces two entry points — `cli.js` (with shebang) and `index.js` (with .d.ts). Do not merge them.
-- **Biome via ultracite**: Run `npm exec -- ultracite fix` instead of calling biome directly.
-- **Git hooks via ultracite**: Ultracite sets up husky and lint-staged for pre-commit hooks. Run `npx ultracite init` after cloning to wire them into git.
+- **Linting via ultracite**: Run `npm exec -- ultracite fix` instead of calling oxlint or oxfmt directly.
+- **Git hooks via ultracite**: Ultracite sets up lefthook for pre-commit hooks. Run `npx ultracite init` after cloning to wire them into git.
 - **No chalk/ora**: Use `import { styleText } from "node:util"` for colors (stable in Node 22.13+) and `@clack/prompts` spinner for progress indicators.
 ```
 

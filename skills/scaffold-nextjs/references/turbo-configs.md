@@ -4,7 +4,6 @@
 
 - [Root package.json](#root-packagejson)
 - [turbo.json](#turbojson)
-- [Root biome.jsonc](#root-biomejsonc)
 - [Root .gitignore](#root-gitignore)
 - [knip.json](#knipjson)
 - [apps/web/package.json scripts](#appswebpackagejson-scripts)
@@ -77,21 +76,6 @@ Create at `{{name}}/turbo.json`:
 }
 ```
 
-## Root biome.jsonc
-
-Create at `{{name}}/biome.jsonc`:
-
-```jsonc
-{
-  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": [
-    "ultracite/biome/core",
-    "ultracite/biome/next",
-    "ultracite/biome/react"
-  ]
-}
-```
-
 ## Root .gitignore
 
 Create at `{{name}}/.gitignore`:
@@ -151,10 +135,10 @@ Update the `scripts` block in `apps/web/package.json` to include turbo-compatibl
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write .",
-    "format": "biome format --write .",
-    "format:check": "biome format .",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt .",
     "check-types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"

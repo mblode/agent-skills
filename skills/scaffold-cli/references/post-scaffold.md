@@ -17,7 +17,7 @@ git commit -m "Initial commit"
 ## Command Notes
 
 - `npm install` installs all dependencies from the generated package.json
-- `npx ultracite init` sets up biome config and husky/lint-staged git hooks — select "biome" when prompted
+- `npx ultracite init` sets up oxlint/oxfmt config and lefthook git hooks — select "Oxlint + Oxfmt" when prompted
 - The symlink ensures both AGENTS.md and CLAUDE.md point to the same file
 - The initial commit captures the clean scaffold state
 
@@ -41,7 +41,7 @@ Validation:
 
 ## Troubleshooting
 
-- If `ultracite init` fails, the `biome.jsonc` template is already correct — skip the init command
+- If `ultracite init` fails, the `.oxlintrc.json` template is already correct — skip the init command
 - If `ln -s` fails on Windows, copy AGENTS.md to CLAUDE.md instead
 - If `npm install` fails, verify Node >= 20 with `node --version`
 - If `npm run build` fails with import errors, check that all imports use `.js` extensions

@@ -23,7 +23,7 @@ Goal: make the UI look human-designed, not AI-default.
 
 ## Tools (table stakes)
 
-- shadcn/ui, Tailwind CSS, Motion, React, Biome/Ultracite.
+- shadcn/ui, Tailwind CSS, Motion, React, Ultracite.
 
 ## Copy to learn (not to ship)
 

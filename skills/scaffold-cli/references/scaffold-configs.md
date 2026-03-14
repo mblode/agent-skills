@@ -5,7 +5,6 @@
 - [package.json](#packagejson)
 - [tsconfig.json](#tsconfigjson)
 - [tsdown.config.ts](#tsdownconfigts)
-- [biome.jsonc](#biomejsonc)
 - [.gitignore](#gitignore)
 - [LICENSE.md](#licensemd)
 - [.changeset/config.json](#changesetconfigjson)
@@ -49,10 +48,10 @@
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "release": "npm run build && changeset publish",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write .",
-    "format": "biome format --write .",
-    "format:check": "biome format ."
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt ."
   },
   "keywords": [],
   "author": "{{author}}",
@@ -74,7 +73,6 @@
     "gray-matter": "^4.0.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.0",
     "@changesets/cli": "^2.29.0",
     "@types/node": "^22.19.11",
     "tsdown": "^0.12.0",
@@ -133,15 +131,6 @@ export default defineConfig([
     target: "node22",
   },
 ]);
-```
-
-## biome.jsonc
-
-```json
-{
-  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["ultracite/biome/core"]
-}
 ```
 
 ## .gitignore

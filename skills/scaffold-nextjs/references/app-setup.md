@@ -19,11 +19,11 @@ Run non-interactively with all flags:
 npx create-next-app@latest {{name}} --typescript --tailwind --biome --react-compiler --app --no-src-dir --import-alias "@/*" --use-npm
 ```
 
-This sets up: TypeScript, Tailwind CSS v4, Biome (not ESLint), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm as package manager.
+This sets up: TypeScript, Tailwind CSS v4, Biome (placeholder — will be replaced by Oxlint + Oxfmt via Ultracite), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm as package manager.
 
 If running interactively, select "No, customize settings" at the defaults prompt, then choose:
 - **TypeScript:** Yes
-- **Which linter:** Biome
+- **Which linter:** Biome (will be replaced by Oxlint + Oxfmt in Phase 5)
 - **React Compiler:** Yes
 - **Tailwind CSS:** Yes
 - **src/ directory:** No
@@ -137,22 +137,23 @@ Replace `"G-XYZ"` with your GA4 measurement ID.
 
 ## Phase 5: Install Ultracite
 
-1. Delete the Biome config created by create-next-app:
+1. Delete the Biome config and dependency created by create-next-app:
 
 ```bash
 rm biome.json
+npm uninstall @biomejs/biome
 ```
 
-2. Run Ultracite init:
+2. Run Ultracite init (select "Oxlint + Oxfmt" when prompted for linter):
 
 ```bash
 npx ultracite@latest init
 ```
 
 This sets up:
-- `biome.jsonc` — extending ultracite presets
-- Husky pre-commit hook (`.husky/pre-commit`)
-- lint-staged config in `package.json`
+- `.oxlintrc.json` — extending ultracite presets
+- `.oxfmtrc.jsonc` — formatting config
+- Lefthook pre-commit hook (`lefthook.yml`)
 
 ## Phase 6 prep: Move into apps/web/
 

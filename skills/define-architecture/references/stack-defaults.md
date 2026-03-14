@@ -9,6 +9,6 @@ Use these as a starting point and adjust per project constraints.
 - ConnectRPC + protobuf types.
 - Prisma + Postgres.
 - Supabase (auth/storage), Stripe (payments), Resend (email), Twilio (SMS).
-- Ultracite with Biome.
+- Ultracite with Oxlint + Oxfmt.
 - Vitest.
 - Deploy: Vercel (web) + Fly.io (API).
