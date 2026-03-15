@@ -48,9 +48,11 @@ Collect from the user (ask only what was not provided):
 
 Load `references/app-setup.md`.
 
-Follow the create-next-app setup in `references/app-setup.md`.
+```bash
+npx create-next-app@latest {{name}} --typescript --tailwind --app --no-src-dir --no-eslint --import-alias "@/*"
+```
 
-Confirm the app runs with `npm run dev`.
+Follow the remaining setup in `references/app-setup.md`. Confirm the app runs with `npm run dev`.
 
 ### Phase 3: Install Blode UI components
 

@@ -1,6 +1,6 @@
 ---
 name: define-architecture
-description: Defines repo layout, workflow, and full-stack architecture patterns for TypeScript applications. Use when starting a project, setting team conventions, or designing backend modules, request context, middleware, and frontend/backend boundaries.
+description: Generates folder structures, module contracts, middleware pipelines, and frontend/backend boundaries for TypeScript full-stack applications. Use when starting a project, setting up project structure, organizing a monorepo, configuring middleware, defining folder layout, designing backend modules, or establishing team conventions.
 ---
 
 # Define Architecture
@@ -35,7 +35,14 @@ Load references only when needed:
    - `mapper`: DB/proto/domain transformations.
    - `constants` and `types`: module-local contracts.
 4. Define request context and middleware:
-   - Use AsyncLocalStorage-backed `RequestContext`.
+   - Use AsyncLocalStorage-backed `RequestContext`:
+     ```ts
+     import { AsyncLocalStorage } from "node:async_hooks";
+     type RequestContext = { tenantId: string; userId: string; traceId: string };
+     const store = new AsyncLocalStorage<RequestContext>();
+     export const getContext = () => store.getStore()!;
+     export const runWithContext = (ctx: RequestContext, fn: () => void) => store.run(ctx, fn);
+     ```
    - Initialize context in every entrypoint (RPC, HTTP, jobs, CLI).
    - Read context via `getContext()`; do not thread context params through business functions.
    - Require route policy per RPC method and register services through `registerServiceWithPolicies`.

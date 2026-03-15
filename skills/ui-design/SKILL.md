@@ -1,16 +1,20 @@
 ---
 name: ui-design
-description: Provides design direction and visual system for web UI. Defines layout, typography, colour, and overall aesthetic for product (SaaS/admin/data-heavy) or marketing/brand experiences. Use when choosing visual direction, selecting colour palettes and fonts, establishing layout patterns, or starting a new UI design system.
+description: Defines visual systems, colour palettes, typography scales, and layout patterns for web UI. Produces design tokens and component styling for product dashboards (SaaS/admin/data-heavy) or marketing/brand landing pages. Use when choosing visual direction, selecting colour palettes and fonts, establishing layout patterns, starting a new UI design system, or theming a web application.
 ---
 
 # UI Design
 
-Choose the right track and follow its guidance.
+Choose the right track based on your project type and follow its guidance.
 
 ## Tracks
 
-- **Product UI** (SaaS/admin/data-heavy): See [product-ui.md](product-ui.md)
-- **Marketing/brand/creative**: See [marketing-ui.md](marketing-ui.md)
+Pick the track that matches the primary surface:
+
+- **Product UI** — dashboards, admin panels, data tables, settings pages, internal tools. See [product-ui.md](product-ui.md)
+- **Marketing** — landing pages, brand sites, promotional content, portfolios. See [marketing-ui.md](marketing-ui.md)
+
+If unsure: product UI prioritizes information density and efficiency; marketing prioritizes visual impact and storytelling.
 
 ## References
 
