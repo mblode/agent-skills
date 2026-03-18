@@ -24,7 +24,7 @@ Two modes: **one-shot** comment triage or **monitor** mode with periodic polling
 | `references/bot-patterns.md` | Comment triage: bot detection, severity parsing, deduplication, false positive rules |
 | `references/fix-plan-template.md` | Comment triage Phase 3: generating the fix plan document |
 | `references/monitoring-setup.md` | Monitor mode Phase 1: CronCreate configuration, state file format, schedule selection |
-| `references/ci-platforms.md` | Monitor mode Phase 3: `gh` CLI commands for GitHub Actions, Buildkite, Vercel, Fly.io checks |
+| `references/ci-platforms.md` | Monitor mode Phase 3: `gh` for GitHub, `bk`/`vercel`/`flyctl` for platform-specific logs and retries |
 | `references/merge-conflicts.md` | Monitor mode Phase 2: detecting and resolving merge conflicts |
 
 ---
@@ -194,7 +194,7 @@ Load `references/ci-platforms.md` for `gh` CLI commands per platform.
 3. **If all passing** → proceed to Phase 4
 4. **If any failing** → diagnose:
    - Identify platform from check name (see reference for patterns)
-   - Fetch logs via `gh run view --log-failed` (GitHub Actions) or `detailsUrl` (Buildkite, Vercel, Fly.io)
+   - Fetch logs via `gh run view --log-failed` (GitHub Actions), `bk` (Buildkite), `vercel logs` (Vercel), `flyctl logs` (Fly.io)
    - Classify failure: flaky test (re-run), code error (fix + push), infrastructure (notify user), dependency issue (update lockfile)
    - Fix and push if possible
 5. **Compare with previous state** — flag regressions (previously passing, now failing)
