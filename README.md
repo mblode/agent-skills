@@ -28,7 +28,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `readme-creator`            | Writing/audit | Writes or rewrites README.md files tailored to the project type                                                                                  |
 | `agents-md`                 | Maintenance   | AGENTS.md/CLAUDE.md audits, pruning, and hygiene                                                                                                 |
 | `review-pr`                 | Pre-merge     | Runs a local end-of-session review of the current diff for high-confidence bugs and instruction-file compliance before commit, push, or handoff  |
-| `pr-comments`               | Pre-merge     | PR review comment triage and resolution from humans and bots                                                                                     |
+| `babysit-pr`                | Pre-merge     | Monitors PR health on a schedule — merge conflicts, CI/CD failures, review comment triage, and merge readiness. Also runs as one-shot comment triage |
 | `optimise-seo`              | Pre-launch    | Metadata, structured data, sitemaps, and Core Web Vitals                                                                                         |
 | `agent-native`              | Architecture  | Designs agent-native apps with tool parity, atomic primitives, completion signals, and context injection                                         |
 | `multi-tenant-architecture` | Architecture  | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel                                                                        |

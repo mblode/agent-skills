@@ -132,6 +132,6 @@ If the user explicitly points at an existing PR, adapt the same validated findin
 ## Related skills
 
 - `done` for session capture after the review is complete
-- `pr-comments` for triaging and resolving inbound review threads after feedback has been left
+- `babysit-pr` for triaging and resolving inbound review threads after feedback has been left
 
 Every flagged issue should be something a senior engineer would catch.
