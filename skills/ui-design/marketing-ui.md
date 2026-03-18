@@ -27,7 +27,7 @@ Deliver working code with a clear aesthetic point of view. Avoid generic AI aest
 
 ## Motion
 
-- Follow `ui-animation` guidelines for timing, easing, and reduced-motion behaviour.
+- Follow `ui-animation` guidelines for timing, easing, and motion review.
 
 ## Avoid AI slop
 

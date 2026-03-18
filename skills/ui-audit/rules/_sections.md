@@ -43,7 +43,7 @@ The section ID in parentheses is the filename prefix used to group rules.
 ## 8. Motion and Theme Behavior (motion)
 
 **Impact:** HIGH  
-**Description:** Motion should support comprehension, respect reduced-motion preferences, and avoid visual jank.
+**Description:** Motion should support comprehension, preserve responsiveness, and avoid visual jank.
 
 ## 9. Content and Microcopy (copy)
 

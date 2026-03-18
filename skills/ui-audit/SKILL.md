@@ -30,7 +30,7 @@ Audit progress:
 
 1. Audit only changed pages/components unless a full sweep is requested.
 2. Prioritize `CRITICAL` and `HIGH` findings before medium-priority polish.
-3. For motion behavior, also apply `ui-animation` for timing/easing/reduced-motion details.
+3. For motion behavior, also apply `ui-animation` for timing, easing, gesture, and review details.
 4. After fixes, rerun the relevant rules before finalizing.
 5. When hierarchy or chrome cleanup is in scope, use the navigation, layout, and extra-polish sections in `craft-checklist.md` before reporting.
 

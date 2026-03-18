@@ -1,66 +1,120 @@
 ---
 name: ui-animation
-description: Creates, reviews, and debugs UI motion and animation implementations. Use when designing, implementing, or reviewing motion, easing, timing, reduced-motion behaviour, CSS transitions, keyframes, framer-motion, spring animations, asking "add animations to", or "make this feel smooth".
+description: Creates, reviews, and debugs UI motion and animation implementations. Covers springs, gestures, drag interactions, clip-path reveals, easing, timing, and animation review. Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, asking "add animations to", "make this feel smooth", "review my animations", "should this animate", or "add a swipe gesture".
 ---
 
 # UI Animation
 
+## Reference files
+
+| File | Read when |
+|---|---|
+| [references/decision-framework.md](references/decision-framework.md) | Default: animation decisions, easing, and duration |
+| [references/spring-animations.md](references/spring-animations.md) | Using spring physics, framer-motion useSpring, configuring spring params |
+| [references/component-patterns.md](references/component-patterns.md) | Building buttons, popovers, tooltips, drawers, modals, toasts with animation |
+| [references/clip-path-techniques.md](references/clip-path-techniques.md) | Using clip-path for reveals, tabs, hold-to-delete, comparison sliders |
+| [references/gesture-drag.md](references/gesture-drag.md) | Implementing drag, swipe-to-dismiss, momentum, pointer capture |
+| [references/performance-deep-dive.md](references/performance-deep-dive.md) | Debugging jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
+| [references/review-format.md](references/review-format.md) | Reviewing animation code — Before/After/Why table and issue checklist |
+
 ## Core rules
-- Animate to clarify cause/effect or add deliberate delight.
-- Keep interactions fast (200-300ms; up to 1s only for illustrative motion).
-- Never animate keyboard interactions (arrow-key navigation, shortcut responses, tab/focus).
-- Prefer CSS; use WAAPI or JS only when needed.
+
+- Animate for feedback, orientation, continuity, or deliberate delight.
+- Never animate keyboard-initiated actions (shortcuts, arrow navigation, tab/focus).
+- Prefer CSS transitions for interruptible UI; use keyframes only for predetermined sequences.
+- CSS transitions > WAAPI > CSS keyframes > JS (requestAnimationFrame).
 - Make animations interruptible and input-driven.
-- Honor `prefers-reduced-motion` (reduce or disable).
+- Asymmetric timing: enter can be slightly slower; exit should be fast.
+- Use `@starting-style` for DOM entry animations; fall back to `data-mounted`.
+- A small `filter: blur(2px)` can hide rough crossfades.
 
 ## What to animate
-- For movement and spatial change, animate only `transform` and `opacity`.
-- For simple state feedback, `color`, `background-color`, and `opacity` transitions are acceptable.
-- Never animate layout properties; never use `transition: all`.
-- Avoid `filter` animation for core interactions; if unavoidable, keep blur <= 20px.
-- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`.
-- Disable transitions during theme switches.
 
-## Spatial and sequencing
-- Set `transform-origin` at the trigger point.
-- For dialogs/menus, start around `scale(0.85-0.9)`; avoid `scale(0)`.
-- Stagger reveals <= 50ms.
+- Movement: `transform` and `opacity` only.
+- State feedback: `color`, `background-color`, and `opacity` are acceptable.
+- Never animate layout properties (`width`, `height`, `top`, `left`); never use `transition: all`.
+- Avoid `filter` animation for core interactions; keep blur <= 20px if unavoidable.
+- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`.
+- Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`).
 
 ## Easing defaults
-- Enter and transform-based hover: `cubic-bezier(0.22, 1, 0.36, 1)`.
-- Move: `cubic-bezier(0.25, 1, 0.5, 1)`.
-- Simple hover colour/background/opacity: `200ms ease`.
-- Avoid `ease-in` for UI (feels slow).
+
+| Element | Duration | Easing |
+|---|---|---|
+| Button press feedback | 100–160ms | `cubic-bezier(0.22, 1, 0.36, 1)` |
+| Tooltips, small popovers | 125–200ms | `ease-out` or enter curve |
+| Dropdowns, selects | 150–250ms | `cubic-bezier(0.22, 1, 0.36, 1)` |
+| Modals, drawers | 200–350ms | `cubic-bezier(0.22, 1, 0.36, 1)` |
+| Move/slide on screen | 200–300ms | `cubic-bezier(0.25, 1, 0.5, 1)` |
+| Simple hover (colour/opacity) | 200ms | `ease` |
+| Illustrative/marketing | Up to 1000ms | Spring or custom |
+
+**Named curves**
+- **Enter:** `cubic-bezier(0.22, 1, 0.36, 1)` — entrances and transform-based hover
+- **Move:** `cubic-bezier(0.25, 1, 0.5, 1)` — slides, drawers, panels
+- **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)`
+
+Avoid `ease-in` for UI. Prefer custom curves from [easing.dev](https://easing.dev/).
+
+## Spatial and sequencing
+
+- Set `transform-origin` at the trigger point for popovers; keep `center` for modals.
+- For dialogs/menus, start around `scale(0.85–0.9)`. Never `scale(0)`.
+- Stagger reveals at 30–50ms per item; total stagger under 300ms.
 
 ## Accessibility
-- If `transform` is used, disable it in `prefers-reduced-motion`.
-- Disable hover transitions on touch devices via `@media (hover: hover) and (pointer: fine)`.
+
+- Gate hover animations behind `@media (hover: hover) and (pointer: fine)` to avoid false positives on touch.
+- During direct manipulation, keep the element locked to the pointer. Add easing only after release.
 
 ## Performance
-- Pause looping animations off-screen.
-- Toggle `will-change` only during heavy motion and only for `transform`/`opacity`.
-- Prefer `transform` over positional props in animation libraries.
-- Do not animate drag gestures using CSS variables.
+
+- Only animate `transform` and `opacity` — these skip layout and paint.
+- Pause looping animations off-screen with `IntersectionObserver`.
+- Toggle `will-change` only during heavy motion and only for `transform`/`opacity` — remove after.
+- Do not animate drag gestures using CSS variables (triggers recalc on all children).
+- Motion `x`/`y` values are the normal choice for axis-based movement and drag. Use full `transform` strings when you need one transform owner for combined transforms or interop.
+- See [references/performance-deep-dive.md](references/performance-deep-dive.md) for WAAPI, compositing layers, and CSS vs JS comparison.
 
 ## Anti-patterns
 
-- Using `transition: all` instead of targeting specific properties — triggers layout recalc and animates things you did not intend.
-- Animating layout properties (`width`, `height`, `top`, `left`) for interactive feedback — use `transform` and `opacity` instead.
-- Forgetting `prefers-reduced-motion` on any new animation — every animation needs a reduced-motion path.
-- Using `ease-in` for UI entrances — feels sluggish; use the enter easing curve instead.
-- Animating on mount without user trigger — unexpected motion is disorienting, especially for screen reader users.
-- Using `will-change` as a permanent style — toggle it only during heavy motion, then remove it.
-- Using CSS variables for drag gesture animation — causes repaints on every frame; use transform directly.
-
-## Reference
-- Snippets and practical tips: [examples.md](examples.md)
+- `transition: all` — triggers layout recalc and animates unintended properties.
+- Animating layout properties (`width`, `height`, `top`, `left`) for interactive feedback.
+- Using `ease-in` for UI entrances — feels sluggish.
+- Animating from `scale(0)` — nothing in the real world appears from nothing. Use `scale(0.85–0.95)`.
+- Animating on mount without user trigger — unexpected motion is disorienting.
+- Permanent `will-change` — toggle it only during heavy motion.
+- CSS variables for drag gesture animation — repaints every frame.
+- Symmetric enter/exit timing — exit should be faster (user expects instant response).
+- Hard stops on drag boundaries — use friction/damping instead.
+- Mixing Motion `x`/`y` props with a handwritten `transform` string on the same element.
+- Keyframes on rapidly-triggered elements — use CSS transitions for interruptibility.
 
 ## Workflow
-1. Start with the core rules, then pick a reference snippet from [examples.md](examples.md).
-2. Keep motion functional; honor `prefers-reduced-motion`.
-3. When reviewing, cite file paths and line numbers and propose concrete fixes.
-4. Validate:
-   - Test with `prefers-reduced-motion: reduce` enabled — animations must degrade gracefully.
-   - Verify no layout property animations (`width`, `height`, `top`, `left`).
-   - Check that looping animations pause off-screen.
-   - Confirm `will-change` is toggled only during animation, not permanently set.
+
+Copy and track this checklist:
+
+```text
+Animation progress:
+- [ ] Step 1: Decide whether the interaction should animate
+- [ ] Step 2: Choose purpose, easing, and duration
+- [ ] Step 3: Pick the implementation style
+- [ ] Step 4: Load the relevant component or technique reference
+- [ ] Step 5: Validate timing, interruption, and device behavior
+```
+
+1. Answer the four questions from [references/decision-framework.md](references/decision-framework.md): should it animate? What purpose? What easing? What speed?
+2. Pick duration from the easing defaults table above.
+3. Choose implementation: CSS transition > WAAPI > spring > keyframe > JS.
+4. Load the relevant reference for your component type or technique.
+5. When reviewing, use the Before/After/Why table format from [references/review-format.md](references/review-format.md).
+
+## Validation
+
+- Verify no layout property animations (`width`, `height`, `top`, `left`).
+- Check that looping animations pause off-screen.
+- Confirm `will-change` is toggled only during animation, not permanently set.
+- Retoggle components quickly to confirm transitions retarget cleanly instead of restarting from zero.
+- Slow animations to 0.1x in DevTools to catch timing issues invisible at full speed.
+- Record and play back frame-by-frame for coordinated property timing.
+- Test touch interactions on real devices (not just simulators).

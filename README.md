@@ -20,7 +20,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `ui-design`                 | Design        | Visual direction for product or marketing UI                                                                                                     |
 | `ui-audit`                  | Pre-ship      | Accessibility, typography, and UX polish audit                                                                                                   |
 | `typography-audit`          | Design/dev    | Punctuation, font selection, sizing, spacing, and typographic quality                                                                            |
-| `ui-animation`              | Design/dev    | Motion easing, timing, and reduced-motion rules                                                                                                  |
+| `ui-animation`              | Design/dev    | Motion design, springs, gestures, clip-path, and animation review                                                                                |
 | `presentation-creator`      | Design/dev    | Bold, minimal, dark-first slide decks and pitch decks                                                                                            |
 | `mermaid-mind-map`          | Design/dev    | Mermaid mindmap diagrams from codebases, topics, files, or conversations                                                                         |
 | `blog-post`                 | Writing/audit | Engaging listicle-style blog posts from source insights                                                                                          |

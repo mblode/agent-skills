@@ -61,7 +61,7 @@ Run these skills in order after deployment:
 
 1. `optimise-seo` — metadata, structured data, sitemap, robots, Core Web Vitals
 2. `ui-audit` — accessibility, typography, interaction quality, craft polish
-3. `ui-animation` — motion easing, timing, reduced-motion rules
+3. `ui-animation` — motion easing, timing, gestures, and review rules
 
 ## Validation checklist
 

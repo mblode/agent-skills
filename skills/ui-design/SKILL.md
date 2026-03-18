@@ -23,5 +23,5 @@ If unsure: product UI prioritizes information density and efficiency; marketing 
 
 ## Related skills
 
-- `ui-animation` for motion timing, easing, and reduced-motion behaviour
+- `ui-animation` for motion timing, easing, and animation review
 - `ui-audit` for accessibility and final QA
