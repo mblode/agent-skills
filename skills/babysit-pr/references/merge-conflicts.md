@@ -2,6 +2,15 @@
 
 Detection, resolution strategies, and safety guardrails for keeping a PR branch up to date.
 
+## Contents
+
+- [Conflict Detection](#conflict-detection)
+- [Resolution Strategy](#resolution-strategy)
+- [Rebase Workflow](#rebase-workflow)
+- [Auto-Resolvable Conflicts](#auto-resolvable-conflicts)
+- [Do NOT Auto-Resolve](#do-not-auto-resolve)
+- [Safety Guardrails](#safety-guardrails)
+
 ## Conflict Detection
 
 ```bash

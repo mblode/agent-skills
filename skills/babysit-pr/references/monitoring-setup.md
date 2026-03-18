@@ -2,6 +2,15 @@
 
 CronCreate configuration, state file format, and poll lifecycle for monitor mode.
 
+## Contents
+
+- [Schedule Patterns](#schedule-patterns)
+- [CronCreate Prompt Template](#croncreate-prompt-template)
+- [State File Format](#state-file-format)
+- [Setup Questions](#setup-questions)
+- [Stopping](#stopping)
+- [Session Lifecycle](#session-lifecycle)
+
 ## Schedule Patterns
 
 | User intent | Cron expression | Notes |
