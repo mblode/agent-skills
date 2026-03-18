@@ -1,6 +1,6 @@
 ---
 name: define-architecture
-description: Generates folder structures, module contracts, middleware pipelines, and frontend/backend boundaries for TypeScript full-stack applications. Use when starting a project, setting up project structure, organizing a monorepo, configuring middleware, defining folder layout, designing backend modules, or establishing team conventions.
+description: Generates folder structures, module contracts, middleware pipelines, and frontend/backend boundaries for TypeScript full-stack applications. Use when starting a project, setting up project structure, organizing a monorepo, configuring middleware, defining folder layout, designing backend modules, establishing team conventions, or asking "how should I structure this app", "design the folder structure", or "set up the architecture".
 ---
 
 # Define Architecture
@@ -107,8 +107,11 @@ Use this structure for architecture recommendations:
 - Use `ui-audit` for final UI quality checks.
 - Use `ui-animation` for motion-specific guidance.
 
-## Conventions
+## Gotchas
 
-- Prefer `interface` over `type` for object contracts.
-- Use `import type` for types.
-- Keep formatting consistent (2-space indentation, double quotes, semicolons, 100-character line width).
+- Don't default to microservices for teams under 5 — start with a modular monorepo and split later when boundaries are proven.
+- Don't put app-level dependencies in root `package.json` in a monorepo — each app owns its deps.
+- Don't skip the adoption workflow for existing codebases — big-bang rewrites fail; migrate one vertical slice first.
+- Don't define module contracts (handler/service/dao) without enforcing them via lint rules or type checks — unenforced contracts decay immediately.
+- Don't over-abstract shared packages early — wait until three or more apps need the same code before extracting to `packages/`.
+- Don't skip the rollback plan — every architecture decision should be reversible or have a documented fallback.

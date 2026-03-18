@@ -1,6 +1,6 @@
 ---
 name: docs-writing
-description: Writes and audits technical documentation using Diataxis, Stripe-style clarity, and the Eight Rules. 52 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, creating READMEs, documenting APIs, writing tutorials, building a docs site, or auditing documentation quality.
+description: Writes and audits technical documentation using Diataxis, Stripe-style clarity, and the Eight Rules. 52 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, creating READMEs, documenting APIs, writing tutorials, building a docs site, auditing documentation quality, or asking "review my docs", "improve this documentation", or "write docs for this".
 ---
 
 # Documentation Writing

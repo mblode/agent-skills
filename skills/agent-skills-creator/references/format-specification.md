@@ -2,6 +2,16 @@
 
 Hard constraints for the Agent Skills format. Every skill must follow these rules.
 
+## Contents
+
+- Directory structure
+- Frontmatter (required)
+- Description examples
+- SKILL.md body rules
+- Reference and rule files
+- Naming conventions
+- Advanced skill features
+
 ## Directory Structure
 
 ```
@@ -12,6 +22,10 @@ skills/<name>/
 │   ├── _sections.md       (category map)
 │   ├── _template.md       (rule file template)
 │   └── <prefix>-<slug>.md (individual rules)
+├── scripts/               (optional, executable utilities)
+├── assets/                (optional, templates for output files)
+├── examples/              (optional, usage examples and code snippets)
+├── config.json            (optional, user-specific setup context)
 └── <track>.md             (optional, for hub-style skills)
 ```
 
@@ -88,3 +102,23 @@ description: What the skill does. Use when...
 | Reference files | kebab-case | `format-specification.md` |
 | Rule files | `<prefix>-<slug>.md` | `punct-smart-quotes.md` |
 | Section prefixes | Short, lowercase | `punct-`, `a11y-`, `voice-` |
+
+## Advanced Skill Features
+
+Optional features for skills that need persistent state, executable code, or session hooks.
+
+### `config.json`
+
+For skills that need user-specific context (Slack channel, project name, author). Include a template `config.json` in the skill folder. The skill's first step should check for config and gather missing values via AskUserQuestion.
+
+### `${CLAUDE_PLUGIN_DATA}`
+
+Stable storage path for persistent data that survives skill upgrades. Use this instead of storing data in the skill directory itself. Supports log files, JSON state, and SQLite databases.
+
+### Script files
+
+Executable scripts (`.sh`, `.py`, `.ts`) in a `scripts/` folder give Claude composable utilities. Document invocation instructions in SKILL.md. Claude can generate wrapper scripts that compose these helpers.
+
+### On-demand hooks
+
+Skills can define PreToolUse and PostToolUse hooks that activate only when the skill is invoked and last for the session. Use for safety gates (block destructive commands) or observation (log tool usage). Define hook instructions in SKILL.md.

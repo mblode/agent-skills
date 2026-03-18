@@ -33,3 +33,12 @@ Bold, minimal, dark-first presentations designed for live presenting.
 - **Internal (team/company)**: assume shared context, be direct, reference history
 - **External (conference/client)**: more setup, clearer transitions, define terms
 - **Recorded/async**: tighter copy, stronger signposting, notes clarify what slides don't
+
+## Anti-patterns
+
+- Putting paragraphs on slides — if it takes more than 5 seconds to read, cut it.
+- Using more than 3 accent colors across the deck — creates visual noise instead of rhythm.
+- Writing speaker notes as a full script — notes should be scannable prompts for riffing, not paragraphs to memorize.
+- Starting without understanding the audience context — internal, external, and async decks need fundamentally different approaches.
+- Making every slide the same layout — uniform layouts kill rhythm. Alternate between headline-only, image+text, and data slides.
+- Skipping the outline step — jumping straight to slides produces a deck without a narrative arc.

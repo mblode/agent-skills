@@ -1,6 +1,6 @@
 ---
 name: agents-md
-description: Audits and writes AGENTS.md files using execution-first standards. Checks commands, gotchas, and signal-to-noise ratio. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, or reduce bloat.
+description: Audits and writes AGENTS.md files using execution-first standards. Checks commands, gotchas, and signal-to-noise ratio. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, reduce bloat, or asking "my AGENTS.md is bad", "help me write a CLAUDE.md", or "improve my agent instructions".
 ---
 
 # AGENTS.md Audit
@@ -131,3 +131,11 @@ Validation loop:
 - Apply approved edits
 - After each PR, add at most one new gotcha only if it prevented or fixed a real mistake
 - Verify changes by re-running relevant commands
+
+## Gotchas
+
+- Don't rewrite the entire file when targeted edits would pass audit — incremental fixes preserve useful wording and reduce review burden.
+- Don't add gotchas that aren't grounded in a real failure — hypothetical warnings become noise the agent learns to ignore.
+- Don't audit CLAUDE.local.md the same way as AGENTS.md — local files are personal and not committed, so enforce less strictly.
+- Don't remove emphasis markers (IMPORTANT, YOU MUST) from rules agents consistently skip — these exist because the default phrasing was not enough.
+- Don't treat a high quick-audit score as permission to skip validation — stale commands can hide behind passing checklists.

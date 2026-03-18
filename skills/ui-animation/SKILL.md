@@ -1,6 +1,6 @@
 ---
 name: ui-animation
-description: Creates, reviews, and debugs UI motion and animation implementations. Use when designing, implementing, or reviewing motion, easing, timing, reduced-motion behaviour, CSS transitions, keyframes, framer-motion, or spring animations.
+description: Creates, reviews, and debugs UI motion and animation implementations. Use when designing, implementing, or reviewing motion, easing, timing, reduced-motion behaviour, CSS transitions, keyframes, framer-motion, spring animations, asking "add animations to", or "make this feel smooth".
 ---
 
 # UI Animation
@@ -41,6 +41,16 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 - Toggle `will-change` only during heavy motion and only for `transform`/`opacity`.
 - Prefer `transform` over positional props in animation libraries.
 - Do not animate drag gestures using CSS variables.
+
+## Anti-patterns
+
+- Using `transition: all` instead of targeting specific properties — triggers layout recalc and animates things you did not intend.
+- Animating layout properties (`width`, `height`, `top`, `left`) for interactive feedback — use `transform` and `opacity` instead.
+- Forgetting `prefers-reduced-motion` on any new animation — every animation needs a reduced-motion path.
+- Using `ease-in` for UI entrances — feels sluggish; use the enter easing curve instead.
+- Animating on mount without user trigger — unexpected motion is disorienting, especially for screen reader users.
+- Using `will-change` as a permanent style — toggle it only during heavy motion, then remove it.
+- Using CSS variables for drag gesture animation — causes repaints on every frame; use transform directly.
 
 ## Reference
 - Snippets and practical tips: [examples.md](examples.md)

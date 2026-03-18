@@ -2,6 +2,8 @@
 
 Structural templates for the four skill patterns. Pick one and adapt.
 
+These patterns describe **how** a skill is organized. For **what type of problem** a skill solves, see `skill-categories.md`.
+
 ## Contents
 
 - Simple/hub pattern
@@ -43,6 +45,8 @@ Choose the right track and follow its guidance.
 ```
 
 **Example:** `ui-design` (24 lines, dispatches to product-ui.md and marketing-ui.md)
+
+**Category affinity:** Library & API Reference, Business Process Automation
 
 ## Workflow Pattern
 
@@ -91,6 +95,8 @@ Copy this checklist to track progress:
 ```
 
 **Example:** `agents-md` (120 lines, 5 references with conditional loading)
+
+**Category affinity:** Most categories use this pattern — Scaffolding, CI/CD, Verification, Runbooks, Infrastructure Operations
 
 ## Rules-Based Pattern
 
@@ -149,6 +155,8 @@ Report findings in this format:
 
 **Example:** `typography-audit` (81 lines, 89 rules in 10 categories)
 
+**Category affinity:** Code Quality & Review
+
 ## Mixed Pattern
 
 **When:** Workflow steps with conditional or platform-specific references.
@@ -187,3 +195,5 @@ Load only the reference matching your context:
 ```
 
 **Example:** `multi-tenant-architecture` (103 lines, 5 platform-specific references)
+
+**Category affinity:** Data Fetching & Analysis, Runbooks, Infrastructure Operations

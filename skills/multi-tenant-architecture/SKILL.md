@@ -1,6 +1,6 @@
 ---
 name: multi-tenant-architecture
-description: Provides architecture guidance for multi-tenant SaaS platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, subdomain routing, custom domains, white-label setup, tenant separation, plan/limit mapping, or building a multi-tenant application.
+description: Provides architecture guidance for multi-tenant SaaS platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, subdomain routing, custom domains, white-label setup, tenant separation, plan/limit mapping, building a multi-tenant application, or asking "how do I support multiple tenants" or "build a white-label platform".
 ---
 
 # Multi-Tenant Platform Architecture (Cloudflare · Vercel)
@@ -79,6 +79,15 @@ description: Provides architecture guidance for multi-tenant SaaS platforms on C
 11. Extend without breaking boundaries
 - Add queues/workflows/containers as optional modes.
 - Keep routing explicit and isolation intact.
+
+## Gotchas
+
+- Don't use the brand domain for tenant subdomains — a phishing site on `random.acme.com` damages the entire `acme.com` reputation. Use a separate TLD for tenant workloads.
+- Don't skip PSL submission — review takes weeks, not days. Start early or your cookie isolation timeline slips.
+- Don't trust client-supplied tenant identity even behind auth — middleware/platform Worker is the single authority for tenant resolution.
+- Don't mix hosting platforms — pick Cloudflare or Vercel and commit. Hybrid setups create routing complexity that compounds.
+- Don't start with path-based tenancy if custom domains are on the roadmap — migrating from path-based to subdomain/custom-domain later requires URL rewrites, cookie changes, and DNS migration.
+- Don't share database connections across tenants without RLS or tenant_id scoping — a missing WHERE clause leaks data.
 
 ## Deliverables
 
