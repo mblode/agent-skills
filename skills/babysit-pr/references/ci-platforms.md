@@ -1,19 +1,37 @@
 # CI/CD Platforms
 
-Platform-specific commands for checking status, fetching logs, and re-running builds.
+All monitoring uses `gh` CLI. Platform-specific CLIs are not required.
 
 ## Contents
 
-- [Detecting platforms from check names](#detecting-platforms-from-check-names)
+- [Universal status check](#universal-status-check)
 - [GitHub Actions](#github-actions)
 - [Buildkite](#buildkite)
 - [Vercel](#vercel)
 - [Fly.io](#flyio)
 - [Failure classification](#failure-classification)
 
-## Detecting platforms from check names
+## Universal status check
 
-Run `gh pr checks --json name,state,conclusion,detailsUrl` and match check names:
+All CI/CD platforms register as GitHub checks. One command covers everything:
+
+```bash
+gh pr checks --json name,state,conclusion,detailsUrl
+```
+
+Watch all checks until they complete:
+
+```bash
+gh pr checks --watch
+```
+
+Wait for only required checks:
+
+```bash
+gh pr checks --watch --required
+```
+
+Identify the platform from the check name:
 
 | Pattern | Platform |
 |---------|----------|
@@ -74,23 +92,25 @@ gh run cancel {run_id}
 
 ## Buildkite
 
-Buildkite registers as GitHub checks with a `buildkite/` prefix. Primary monitoring is through `gh pr checks`.
+Buildkite registers as GitHub checks with a `buildkite/` prefix.
 
 **Check status:**
 
-Status appears in `gh pr checks` output. The `detailsUrl` links to the Buildkite build page.
+```bash
+gh pr checks --json name,state,conclusion,detailsUrl | jq '.[] | select(.name | startswith("buildkite/"))'
+```
 
 **Fetch logs:**
 
-Buildkite does not expose logs via a simple CLI command. Options:
-
-1. If `bk` CLI is installed: `bk build view --pipeline {pipeline} --branch {branch}`
-2. Otherwise: provide the `detailsUrl` to the user — "Check Buildkite logs at {url}"
+Buildkite does not expose logs through `gh`. Use the `detailsUrl` from the check output — it links directly to the Buildkite build page. Provide it to the user: "Check Buildkite logs at {detailsUrl}"
 
 **Retry a build:**
 
-1. If `bk` CLI is installed: `bk build retry --pipeline {pipeline} --number {build_number}`
-2. Otherwise: use the Buildkite REST API or direct the user to the web UI
+No `gh` command to retry Buildkite builds. Push a new commit or empty commit to trigger a re-run:
+
+```bash
+git commit --allow-empty -m "ci: retry buildkite" && git push
+```
 
 **Extracting pipeline and build info from check name:**
 
@@ -102,90 +122,58 @@ Vercel posts deployment status as GitHub checks and issue-level comments.
 
 **Check deployment status:**
 
-Status appears in `gh pr checks`. The `detailsUrl` links to the Vercel deployment.
-
-**Inspect a deployment (if Vercel CLI installed):**
-
 ```bash
-vercel inspect {deployment_url}
+gh pr checks --json name,state,conclusion,detailsUrl | jq '.[] | select(.name | test("vercel|Vercel"; "i"))'
 ```
 
-**View build logs:**
+**Get deployment URL from PR comments:**
+
+Vercel bot posts deployment links as issue comments:
 
 ```bash
-vercel logs {deployment_url}
+gh pr view --json comments --jq '.comments[] | select(.author.login == "vercel[bot]") | .body' | head -1
 ```
 
-**Stream live logs:**
+**View deployment details via API:**
 
 ```bash
-vercel logs {deployment_url} --follow
+gh api repos/{owner}/{repo}/deployments --jq '.[0] | {environment, state, description, created_at}'
 ```
 
-**List recent deployments:**
+**List deployment statuses:**
 
 ```bash
-vercel ls --limit 5
-```
-
-**Force redeploy:**
-
-```bash
-vercel --force
+gh api repos/{owner}/{repo}/deployments/{deployment_id}/statuses
 ```
 
 **Common Vercel failures:**
-- Build errors — read logs for compilation/bundling errors
-- Environment variable missing — check `vercel env ls`
+- Build errors — check the `detailsUrl` from `gh pr checks` for build logs
+- Environment variable missing — notify user
 - Timeout — notify user (infrastructure issue)
 
 ## Fly.io
 
-**Check app status:**
+Fly.io may register as a GitHub check if configured via GitHub Actions.
+
+**Check status:**
 
 ```bash
-flyctl status --app {app_name}
+gh pr checks --json name,state,conclusion,detailsUrl | jq '.[] | select(.name | test("fly"; "i"))'
 ```
 
-**View logs:**
+**View deployment workflow logs:**
+
+If Fly deploys via GitHub Actions, fetch the run logs:
 
 ```bash
-flyctl logs --app {app_name} --no-tail
-```
-
-**Stream live logs:**
-
-```bash
-flyctl logs --app {app_name}
-```
-
-**View recent releases:**
-
-```bash
-flyctl releases --app {app_name}
-```
-
-**Trigger deployment:**
-
-```bash
-flyctl deploy --app {app_name}
-```
-
-**Check health:**
-
-```bash
-flyctl checks list --app {app_name}
+gh run list --branch {branch} --json databaseId,name,conclusion | jq '.[] | select(.name | test("fly|deploy"; "i"))'
+gh run view {run_id} --log-failed
 ```
 
 **Common Fly failures:**
-- Health check failure — check logs for crash/startup errors
-- OOM — notify user (increase memory in `fly.toml`)
-- Migration error — read logs, may need manual intervention
-
-**Discovering the app name:**
-
-1. Check `fly.toml` in the repo root for `app = "name"`
-2. If not found, ask the user
+- Health check failure — check workflow logs for crash/startup errors
+- OOM — notify user (needs `fly.toml` config change)
+- Migration error — check workflow logs, may need manual intervention
 
 ## Failure classification
 
