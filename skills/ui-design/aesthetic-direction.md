@@ -51,6 +51,16 @@ Goal: make the UI look human-designed, not AI-default.
 - Accessible forms: labels, Enter-to-submit, inline errors.
 - See `ui-audit` for complete interaction and accessibility standards.
 
+## Reject these failures
+
+- Generic SaaS card grid as the first impression.
+- Beautiful image with weak brand presence.
+- Strong headline with no clear action.
+- Busy imagery behind text.
+- Sections that repeat the same mood statement.
+- Carousel with no narrative purpose.
+- App UI made of stacked cards instead of layout.
+
 ## Standard
 
 Distinctive, contextual, refined, and memorable.

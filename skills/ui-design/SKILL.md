@@ -1,6 +1,6 @@
 ---
 name: ui-design
-description: Defines visual systems, colour palettes, typography scales, and layout patterns for web UI. Produces design tokens and component styling for product dashboards (SaaS/admin/data-heavy) or marketing/brand landing pages. Use when choosing visual direction, selecting colour palettes and fonts, establishing layout patterns, starting a new UI design system, theming a web application, or asking "make this look good", "design the UI for", or "pick a visual style".
+description: Defines visual systems, colour palettes, typography scales, and layout patterns for web UI. Produces design tokens and component styling for product dashboards (SaaS/admin/data-heavy) or marketing/brand landing pages. Use when choosing visual direction, designing a landing page, building a hero section, selecting colour palettes and fonts, establishing layout patterns, starting a new UI design system, theming a web application, or asking "make this look good", "make this look premium", "design the UI for", "full-bleed hero", or "pick a visual style".
 ---
 
 # UI Design
