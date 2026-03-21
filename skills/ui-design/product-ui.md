@@ -20,12 +20,15 @@ Use for dashboards, admin tools, and data-dense workflows.
 
 ## Calm dense interfaces
 
+Default to Linear-style restraint: calm surface hierarchy, strong typography and spacing, few colors, dense but readable information, minimal chrome. Cards only when the card is the interaction.
+
 - Make the work surface dominant; navigation and orientation chrome should recede after the user arrives.
 - Separate location/context, view controls, and page actions so each bar has one job.
 - Keep shared header actions in predictable slots across comparable views.
 - Use compact tabs and secondary bars; avoid full-width chrome when a smaller group communicates the same state.
 - Reduce brightness, saturation, and icon size on supporting chrome before shrinking the content area itself.
 - Audit every border, icon, and tint. If it does not clarify meaning, remove or soften it.
+- If a panel can become plain layout without losing meaning, remove the card treatment.
 
 ## Controls
 
@@ -62,9 +65,26 @@ Use for dashboards, admin tools, and data-dense workflows.
 
 - Use `ui-audit` for UX/a11y polish and QA.
 
+## Utility copy
+
+When the work is a dashboard, app surface, admin tool, or operational workspace, default to utility copy over marketing copy.
+
+- Prioritize orientation, status, and action over promise, mood, or brand voice.
+- Start with the working surface itself: KPIs, charts, filters, tables, status, or task context. Do not introduce a hero section unless explicitly requested.
+- Section headings should say what the area is or what the user can do there (e.g., "Selected KPIs", "Plan status", "Search metrics", "Last sync").
+- Avoid aspirational hero lines, metaphors, or campaign-style language on product surfaces.
+- Supporting text should explain scope, behavior, freshness, or decision value in one sentence.
+- If a sentence could appear in a homepage hero or ad, rewrite it until it sounds like product UI.
+- Litmus check: if an operator scans only headings, labels, and numbers, can they understand the page immediately?
+
 ## Anti-patterns
 
-- Heavy shadows, large radii on small controls, thick borders, gradients for decoration, multiple accents, glowing borders, excessive spacing, visual noise.
+- Heavy shadows, large radii on small controls, thick borders, gradients for decoration, glowing borders, excessive spacing, visual noise.
+- Dashboard-card mosaics as the primary layout strategy.
+- Decorative gradients behind routine product UI.
+- Multiple competing accent colors.
+- Ornamental icons that do not improve scanning.
+- Stacked cards instead of plain layout when the card boundary adds no meaning.
 
 ## Standard
 
