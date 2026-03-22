@@ -1,6 +1,6 @@
 ---
 name: babysit-pr
-description: Monitors PR health on a recurring schedule — merge conflicts, CI/CD failures across GitHub Actions, Buildkite, Vercel, and Fly.io, review comment triage and resolution, and merge readiness notifications. Also runs as one-shot comment triage. Use when asked to babysit a PR, watch a PR, monitor CI, fix PR comments, resolve review feedback, triage review threads, keep a PR green, handle merge conflicts, or poll PR status.
+description: Monitors PR health on a recurring schedule — merge conflicts, CI/CD failures across GitHub Actions, Buildkite, Vercel, and Fly.io, review comment triage and resolution, and merge readiness notifications. Also runs as one-shot comment triage. Use when asked to babysit a PR, watch a PR, monitor CI, fix PR comments, resolve review feedback, triage review threads, keep a PR green, handle merge conflicts, or poll PR status
 ---
 
 # PR Babysitter
@@ -18,14 +18,14 @@ Two modes: **one-shot** comment triage or **monitor** mode with periodic polling
 
 ## Reference Files
 
-| File | Read When |
-|------|-----------|
-| `references/github-api.md` | Default: GraphQL queries for fetching, replying, and resolving threads |
-| `references/bot-patterns.md` | Comment triage: bot detection, severity parsing, deduplication, false positive rules |
-| `references/fix-plan-template.md` | Comment triage Phase 3: generating the fix plan document |
-| `references/monitoring-setup.md` | Monitor mode Phase 1: CronCreate configuration, state file format, schedule selection |
-| `references/ci-platforms.md` | Monitor mode Phase 3: `gh` for GitHub, `bk`/`vercel`/`flyctl` for platform-specific logs and retries |
-| `references/merge-conflicts.md` | Monitor mode Phase 2: detecting and resolving merge conflicts |
+| File                              | Read When                                                                                            |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `references/github-api.md`        | Default: GraphQL queries for fetching, replying, and resolving threads                               |
+| `references/bot-patterns.md`      | Comment triage: bot detection, severity parsing, deduplication, false positive rules                 |
+| `references/fix-plan-template.md` | Comment triage Phase 3: generating the fix plan document                                             |
+| `references/monitoring-setup.md`  | Monitor mode Phase 1: CronCreate configuration, state file format, schedule selection                |
+| `references/ci-platforms.md`      | Monitor mode Phase 3: `gh` for GitHub, `bk`/`vercel`/`flyctl` for platform-specific logs and retries |
+| `references/merge-conflicts.md`   | Monitor mode Phase 2: detecting and resolving merge conflicts                                        |
 
 ---
 
@@ -103,10 +103,12 @@ After user approval, re-read `.claude/scratchpad/pr-{N}-review-plan.md` in case 
 **4a. Resolve ignored threads:**
 
 For each ignored item that has a thread ID:
+
 1. Post a brief reply explaining the decision
 2. Resolve the thread via GraphQL mutation
 
 Use concise, specific reasons:
+
 - "Duplicate of thread addressing the same finding — resolving."
 - "Contradicts project convention (see CLAUDE.md) — resolving."
 - "Outdated thread — code has been refactored. Resolving."
@@ -117,6 +119,7 @@ For ignored noise without a thread ID (issue-level bot comments), do nothing —
 **4b. Fix real issues:**
 
 Group fixes by commit group label from the plan. For each group:
+
 - If fixes touch independent files, launch parallel subagents (one per file group)
 - If fixes touch the same file or overlapping lines, execute sequentially
 - Each subagent reads the file, applies the fix, and verifies correctness
