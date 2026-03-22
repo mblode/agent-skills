@@ -1,21 +1,21 @@
 ---
 name: ui-animation
-description: Creates, reviews, and debugs UI motion and animation implementations. Covers springs, gestures, drag interactions, clip-path reveals, easing, timing, and animation review. Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, asking "add animations to", "make this feel smooth", "review my animations", "should this animate", or "add a swipe gesture".
+description: Creates, reviews, and debugs UI motion and animation implementations. Covers springs, gestures, drag interactions, clip-path reveals, easing, timing, and animation review. Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, asking "add animations to", "make this feel smooth", "review my animations", "should this animate", or "add a swipe gesture"
 ---
 
 # UI Animation
 
 ## Reference files
 
-| File | Read when |
-|---|---|
-| [references/decision-framework.md](references/decision-framework.md) | Default: animation decisions, easing, and duration |
-| [references/spring-animations.md](references/spring-animations.md) | Using spring physics, framer-motion useSpring, configuring spring params |
-| [references/component-patterns.md](references/component-patterns.md) | Building buttons, popovers, tooltips, drawers, modals, toasts with animation |
-| [references/clip-path-techniques.md](references/clip-path-techniques.md) | Using clip-path for reveals, tabs, hold-to-delete, comparison sliders |
-| [references/gesture-drag.md](references/gesture-drag.md) | Implementing drag, swipe-to-dismiss, momentum, pointer capture |
-| [references/performance-deep-dive.md](references/performance-deep-dive.md) | Debugging jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
-| [references/review-format.md](references/review-format.md) | Reviewing animation code — Before/After/Why table and issue checklist |
+| File                                                                       | Read when                                                                    |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [references/decision-framework.md](references/decision-framework.md)       | Default: animation decisions, easing, and duration                           |
+| [references/spring-animations.md](references/spring-animations.md)         | Using spring physics, framer-motion useSpring, configuring spring params     |
+| [references/component-patterns.md](references/component-patterns.md)       | Building buttons, popovers, tooltips, drawers, modals, toasts with animation |
+| [references/clip-path-techniques.md](references/clip-path-techniques.md)   | Using clip-path for reveals, tabs, hold-to-delete, comparison sliders        |
+| [references/gesture-drag.md](references/gesture-drag.md)                   | Implementing drag, swipe-to-dismiss, momentum, pointer capture               |
+| [references/performance-deep-dive.md](references/performance-deep-dive.md) | Debugging jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats  |
+| [references/review-format.md](references/review-format.md)                 | Reviewing animation code — Before/After/Why table and issue checklist        |
 
 ## Core rules
 
@@ -48,17 +48,18 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 
 ## Easing defaults
 
-| Element | Duration | Easing |
-|---|---|---|
-| Button press feedback | 100–160ms | `cubic-bezier(0.22, 1, 0.36, 1)` |
-| Tooltips, small popovers | 125–200ms | `ease-out` or enter curve |
-| Dropdowns, selects | 150–250ms | `cubic-bezier(0.22, 1, 0.36, 1)` |
-| Modals, drawers | 200–350ms | `cubic-bezier(0.22, 1, 0.36, 1)` |
-| Move/slide on screen | 200–300ms | `cubic-bezier(0.25, 1, 0.5, 1)` |
-| Simple hover (colour/opacity) | 200ms | `ease` |
-| Illustrative/marketing | Up to 1000ms | Spring or custom |
+| Element                       | Duration     | Easing                           |
+| ----------------------------- | ------------ | -------------------------------- |
+| Button press feedback         | 100–160ms    | `cubic-bezier(0.22, 1, 0.36, 1)` |
+| Tooltips, small popovers      | 125–200ms    | `ease-out` or enter curve        |
+| Dropdowns, selects            | 150–250ms    | `cubic-bezier(0.22, 1, 0.36, 1)` |
+| Modals, drawers               | 200–350ms    | `cubic-bezier(0.22, 1, 0.36, 1)` |
+| Move/slide on screen          | 200–300ms    | `cubic-bezier(0.25, 1, 0.5, 1)`  |
+| Simple hover (colour/opacity) | 200ms        | `ease`                           |
+| Illustrative/marketing        | Up to 1000ms | Spring or custom                 |
 
 **Named curves**
+
 - **Enter:** `cubic-bezier(0.22, 1, 0.36, 1)` — entrances and transform-based hover
 - **Move:** `cubic-bezier(0.25, 1, 0.5, 1)` — slides, drawers, panels
 - **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)`
