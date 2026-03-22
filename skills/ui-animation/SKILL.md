@@ -28,6 +28,15 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 - Use `@starting-style` for DOM entry animations; fall back to `data-mounted`.
 - A small `filter: blur(2px)` can hide rough crossfades.
 
+## Motion design principles
+
+- **Continuity over teleportation.** Elements visible in both states transition in place. Never duplicate a persistent element or hard-cut between views that share components.
+- **Directional motion matches position.** Tab and carousel transitions animate in the direction matching spatial layout (left-to-right for forward, right-to-left for back).
+- **Emerge from the trigger.** Overlays, trays, and panels animate outward from the element that opened them. Generic centre-screen entrances break spatial orientation.
+- **Consistent polish everywhere.** Under-animated areas make the entire product feel unpolished. Motion quality must be uniform across all surfaces.
+- **Delight scales inversely with frequency.** Rarer interactions have more room for personality and surprise. High-frequency actions must be invisible.
+- **Motion enhances perceived speed.** Smooth transitions between states feel faster than hard cuts, even at identical load times.
+
 ## What to animate
 
 - Movement: `transform` and `opacity` only.
@@ -89,6 +98,9 @@ Avoid `ease-in` for UI. Prefer custom curves from [easing.dev](https://easing.de
 - Hard stops on drag boundaries — use friction/damping instead.
 - Mixing Motion `x`/`y` props with a handwritten `transform` string on the same element.
 - Keyframes on rapidly-triggered elements — use CSS transitions for interruptibility.
+- Static cuts between related views — if views share elements, hard cuts lose spatial context. Transition shared elements in place.
+- Duplicating persistent elements across states — animate the same element from its current position to its next, rather than hiding one and showing another.
+- Generic centre-screen entrance for contextual content — overlays and trays should emerge from their trigger, not fade in from nowhere.
 
 ## Workflow
 

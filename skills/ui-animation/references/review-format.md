@@ -29,6 +29,8 @@ Use a markdown table. One row per issue.
 | Animation on keyboard action | Remove animation entirely |
 | Duration > 300ms on UI element | Reduce to 150–250ms |
 | Keyframes on rapidly-triggered element | Use CSS transitions for interruptibility |
+| Hard cut between views sharing elements | Add shared-element transition; animate persistent components in place |
+| Contextual overlay enters from centre | Set `transform-origin` to trigger; animate outward from source element |
 | Elements all appear at once | Add stagger delay (30–50ms between items) |
 
 ## Component design principles
