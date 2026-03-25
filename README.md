@@ -32,6 +32,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `optimise-seo`              | Pre-launch    | Metadata, structured data, sitemaps, and Core Web Vitals                                                                                         |
 | `agent-native`              | Architecture  | Designs agent-native apps with tool parity, atomic primitives, completion signals, and context injection                                         |
 | `multi-tenant-architecture` | Architecture  | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel                                                                        |
+| `autoship`                  | Release       | Automates npm releases: changesets, changelogs, quality gates, CI monitoring, Version Packages PR merge, and npm-publish watch                   |
 | `agent-skills-creator`      | Authoring     | Best-practice skill creation following the open format specification                                                                             |
 
 ## License
