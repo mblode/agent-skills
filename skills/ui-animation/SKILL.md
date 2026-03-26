@@ -16,6 +16,7 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 | [references/gesture-drag.md](references/gesture-drag.md)                   | Implementing drag, swipe-to-dismiss, momentum, pointer capture               |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Debugging jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats  |
 | [references/review-format.md](references/review-format.md)                 | Reviewing animation code — Before/After/Why table and issue checklist        |
+| [references/contextual-animations.md](references/contextual-animations.md) | Implementing contextual icon swaps, word-level stagger entrances, or fixed-offset exit animations |
 
 ## Core rules
 

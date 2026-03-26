@@ -15,7 +15,24 @@ Use for dashboards, admin tools, and data-dense workflows.
 - Use a 4px spacing grid.
 - Keep padding symmetrical unless there is a clear visual reason.
 - Choose one radius system and use it everywhere.
-- Choose one depth strategy: borders-only, subtle shadow, layered shadow, or surface tint.
+- **Concentric border radius:** `outer-radius = inner-radius + padding`. Mismatched radii on nested elements (a card containing an inner component, a button containing an icon badge) are the most common unnoticed visual error in production UIs.
+- Choose one depth strategy: borders-only, subtle shadow, layered shadow, or surface tint. When elements sit on non-white backgrounds, prefer `box-shadow` over `border` — rgba transparency adapts to any surface; solid colors don't.
+- **Layered shadow formula** for cards, inputs, and containers:
+  ```css
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 1px 2px -1px rgba(0, 0, 0, 0.06),
+    0 2px 4px 0 rgba(0, 0, 0, 0.04);
+  ```
+  Hover state: increase each opacity by `0.02`. Transition with `transition: box-shadow 200ms ease`.
+- **Image outlines:** add a 1px inset outline to images for depth. Use `outline` (not `border`) so layout dimensions are unaffected:
+  ```css
+  img {
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: -1px;
+  }
+  .dark img { outline-color: rgba(255, 255, 255, 0.1); }
+  ```
 - Keep surface treatment consistent across cards, even if internal layouts differ.
 
 ## Calm dense interfaces

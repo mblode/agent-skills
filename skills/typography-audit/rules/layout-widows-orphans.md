@@ -30,10 +30,14 @@ Also use `&nbsp;` for:
 - Brand names: `New&nbsp;York`
 - Short phrases on homepage hero text
 
-CSS `text-wrap: balance` (supported in modern browsers) can also help balance short text blocks:
+CSS `text-wrap` (supported in modern browsers) can also help. Use `balance` for headings and short UI copy — it distributes text evenly across all lines. Use `pretty` for body paragraphs — it avoids orphaned last words with a cheaper algorithm that only adjusts the final lines.
 
 ```css
 h1, h2, h3 {
   text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 ```

@@ -110,6 +110,9 @@ Use this as a final polish pass.
 - Match box-shadows and motion to high-quality references.
 - Remove redundant icons and coloured icon backgrounds when labels or grouping already carry the meaning.
 - Every border and separator should justify itself; avoid stacked dividers and high-contrast grid noise.
+- **Concentric border radius:** check that `outer-radius = inner-radius + padding` on nested elements (cards with inner panels, buttons with icon badges). Mismatched radii are the most common unnoticed visual error.
+- **Optical alignment:** for icon+text buttons, use slightly less padding on the icon side. For icon-only buttons, verify the icon is optically centred — triangular and asymmetric shapes sit off-centre geometrically. Fix in the SVG first; use `margin` or `padding` adjustments if you can't change the SVG.
+- **Image outlines:** images on white or near-white backgrounds benefit from `outline: 1px solid rgba(0,0,0,0.1); outline-offset: -1px` to anchor them to the layout. Add `.dark` variant with `rgba(255,255,255,0.1)`. Use `outline` not `border` to avoid layout shift.
 - Add SEO metadata and dynamic OG images.
 - Add keyboard shortcuts where useful.
 
