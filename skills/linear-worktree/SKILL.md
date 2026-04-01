@@ -9,14 +9,16 @@ Creates a git worktree from `main` for a Linear issue at `<repos_base>/<repo>-<i
 
 ## Setup
 
-Check `config.json` for `repos_base` (default: `~/Code`). If the user's repos live elsewhere, ask and update it.
+Determine `repos_base` (where local repos live) by checking in order:
+1. Current working directory — if already inside a repo, use its parent
+2. Ask the user: "Where do your repos live? (e.g. `~/Code`)"
 
 ## Inputs
 
 The user provides one of:
 
-- **Linear URL**: `https://linear.app/myteam/issue/ABC-58/change-placeholder-on-input`
-- **Copy as prompt**: `ABC-58 Change placeholder on input to \`Ask Linktree...\``
+- **Linear URL**: `https://linear.app/myteam/issue/ABC-58/add-dark-mode-toggle`
+- **Copy as prompt**: `ABC-58 Add dark mode toggle to settings page`
 - **Issue ID only**: `ABC-58` (plus context from conversation)
 
 ## Parsing
@@ -38,8 +40,8 @@ The user provides one of:
    - Remove leading/trailing hyphens
 3. Branch name: `<id>-<slugified-title>`
 
-**Example:** `ABC-58 Change placeholder to \`Ask Linktree...\` (don't mention "coach")`
-→ `abc-58-change-placeholder-to-ask-linktree-dont-mention-coach`
+**Example:** `ABC-58 Add dark mode toggle to settings (don't break "light" default)`
+→ `abc-58-add-dark-mode-toggle-to-settings-dont-break-light-default`
 
 ## Repo Disambiguation
 
@@ -62,7 +64,7 @@ git -C <repos_base>/<repo> worktree add \
   main
 ```
 
-- **Worktree path**: `<repos_base>/<repo>-<id>` (e.g. `~/Code/<repo>-abc-58`)
+- **Worktree path**: `<repos_base>/<repo>-<id>` (e.g. `~/Code/myrepo-abc-58`) — sibling of the main repo clone
 - **Branch**: `<id>-<slug>` (e.g. `abc-58-change-placeholder-on-...`)
 - **Base**: always `main`
 
