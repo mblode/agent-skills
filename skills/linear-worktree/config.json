@@ -1,0 +1,4 @@
+{
+  "repos_base": "",
+  "_note": "Optional. Set to override the default (parent of current repo). Example: ~/Code"
+}
