@@ -23,6 +23,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `ui-animation`              | Design/dev    | Motion design, springs, gestures, clip-path, and animation review                                                                                |
 | `presentation-creator`      | Design/dev    | Bold, minimal, dark-first slide decks and pitch decks                                                                                            |
 | `mermaid-mind-map`          | Design/dev    | Mermaid mindmap diagrams from codebases, topics, files, or conversations                                                                         |
+| `copywriting`               | Writing/audit | Writes and edits product copy — persuasion frameworks, AI-ism removal, seven-sweep audit, page-specific guidance, and before/after diffs        |
 | `blog-post`                 | Writing/audit | Engaging listicle-style blog posts from source insights                                                                                          |
 | `docs-writing`              | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation                                             |
 | `readme-creator`            | Writing/audit | Writes or rewrites README.md files tailored to the project type                                                                                  |
