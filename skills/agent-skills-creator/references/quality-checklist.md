@@ -16,46 +16,57 @@ Scoring: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable
 5. Under 500 lines
 6. Only adds context Claude does not already have
 7. Uses consistent terminology throughout (one term per concept)
-8. Forward slashes in all file paths
+8. Forward slashes in all file paths (no Windows-style backslashes)
 9. Includes copyable progress checklist (if multi-step workflow)
 10. Includes validation/feedback loop (if quality-critical)
 11. No time-sensitive content
 12. Every reference file is explicitly linked with loading guidance
 
-## Content Quality (5 checks)
+## Content Quality (7 checks)
 
 13. Gotchas/anti-patterns section present for skills with known failure modes
 14. Description optimized as model trigger with "Use when..." phrases (not a human summary)
 15. No railroading: outcomes specified where flexibility is appropriate, prescriptive only for format/safety
-16. Setup/config pattern used if skill requires user-specific context across sessions
-17. Only non-obvious guidance included (passes "would Claude do this anyway?" test)
+16. Degrees of freedom match task fragility (low for destructive/fragile ops, high for open-ended tasks)
+17. Common content patterns applied where relevant (template for fixed output, examples for format-sensitive output, conditional for decision points)
+18. Setup/config pattern used if skill requires user-specific context across sessions
+19. Only non-obvious guidance included (passes "would Claude do this anyway?" test)
 
 ## Reference Files (5 checks)
 
-18. All references are one level deep from SKILL.md (no chains)
-19. No reference-to-reference chains
-20. Files over 100 lines have a table of contents at the top
-21. File names are kebab-case
-22. Each reference adds focused value (not duplicating SKILL.md content)
+20. All references are one level deep from SKILL.md (no chains)
+21. No reference-to-reference chains
+22. Files over 100 lines have a table of contents at the top
+23. File names are kebab-case
+24. Each reference adds focused value (not duplicating SKILL.md content)
 
 ## Rules Folder (4 checks, rules-based skills only)
 
-23. `_sections.md` present with numbered categories, impact levels, and prefix mapping
-24. `_template.md` present with YAML frontmatter (title, impact, tags) and incorrect/correct examples
-25. Each rule file named `<prefix>-<slug>.md` matching a section prefix
-26. Each rule file has YAML frontmatter and follows the template structure
+25. `_sections.md` present with numbered categories, impact levels, and prefix mapping
+26. `_template.md` present with YAML frontmatter (title, impact, tags) and incorrect/correct examples
+27. Each rule file named `<prefix>-<slug>.md` matching a section prefix
+28. Each rule file has YAML frontmatter and follows the template structure
 
 ## Repository Integration (3 checks)
 
-27. README.md updated with new skill row (backticked name, phase, one-line description)
-28. Folder name matches `name` field in frontmatter exactly
-29. Smoke-test passes: install and confirm files appear in target directory
+29. README.md updated with new skill row (backticked name, phase, one-line description)
+30. Folder name matches `name` field in frontmatter exactly
+31. Smoke-test passes: install and confirm files appear in target directory
 
-## Advanced Features (3 checks, only when applicable)
+## Evaluation and Testing (2 checks)
 
-30. `${CLAUDE_PLUGIN_DATA}` used for persistent data (not hardcoded absolute paths)
-31. Hook definitions follow PreToolUse/PostToolUse schema if skill includes hooks
-32. Script files have clear invocation instructions in SKILL.md
+32. At least 3 evaluation scenarios documented covering representative tasks
+33. Skill tested with all target models (Haiku, Sonnet, Opus as applicable)
+
+## Executable Code and MCP (7 checks, only when applicable)
+
+34. `${CLAUDE_PLUGIN_DATA}` used for persistent data (not hardcoded absolute paths)
+35. Hook definitions follow PreToolUse/PostToolUse schema if skill includes hooks
+36. Script files have clear invocation instructions in SKILL.md (execute vs. read as reference)
+37. Scripts handle recoverable errors explicitly (no punting raw exceptions to Claude)
+38. Script constants justified with comments (no voodoo numbers)
+39. MCP tool references use fully qualified `ServerName:tool_name` format
+40. Required packages listed in SKILL.md and available in target runtime
 
 ## Automatic Fail
 

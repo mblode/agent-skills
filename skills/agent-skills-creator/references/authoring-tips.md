@@ -7,7 +7,8 @@ Practical guidance for writing high-signal skill content. These complement the f
 - Don't State the Obvious
 - Build a Gotchas Section
 - Use the File System for Progressive Disclosure
-- Avoid Railroading
+- Degrees of Freedom
+- Common Content Patterns
 - The Description Field Is For the Model
 - Think Through the Setup
 - Memory and Storing Data
@@ -51,17 +52,78 @@ A skill is a folder, not just a markdown file. Think of the entire file system a
 
 The simplest form of progressive disclosure is pointing to other markdown files. Split detailed function signatures, API docs, or usage examples into separate files and tell Claude when to load them.
 
-## Avoid Railroading
+## Degrees of Freedom
 
-Claude will generally stick to your instructions, so overly specific instructions reduce adaptability. Give Claude the information it needs but flexibility to adapt to the situation.
+Match specificity to how fragile the task is. Over-constraining open-ended tasks makes the skill brittle; under-constraining fragile tasks loses determinism.
 
-- Specify outcomes and constraints, not exact implementation steps (where possible)
-- When to be prescriptive: format contracts, safety constraints, naming conventions, API schemas
-- When to be flexible: implementation approach, code structure, tool selection
-- Rigid workflows are justified for scaffolding (reproducibility matters) and safety-critical operations
+Analogy: Claude is a robot crossing a landscape. On a narrow bridge with cliffs on either side, hand it exact steps. In an open field, point in a direction and let it choose the path.
 
-**Railroading:** "Use exactly this function signature: `async function fetchUser(id: string): Promise<User>`"
-**Flexible:** "Fetch functions return typed promises and accept string IDs"
+**High freedom** — multiple valid approaches; context determines best path. Use prose instructions:
+
+```markdown
+Review the code for bugs, readability, and adherence to project conventions.
+```
+
+**Medium freedom** — a preferred pattern exists but variation is acceptable. Use pseudocode or parameterized scripts:
+
+```python
+def generate_report(data, format="markdown", include_charts=True):
+    ...
+```
+
+**Low freedom** — fragile, consistency-critical, or destructive. Use specific commands with few parameters:
+
+```bash
+python scripts/migrate.py --verify --backup
+```
+
+When to be prescriptive: format contracts, safety constraints, naming conventions, API schemas, migrations. When to be flexible: implementation approach, code structure, tool selection.
+
+**Railroading anti-pattern:** "Use exactly this signature: `async function fetchUser(id: string): Promise<User>`"
+**Flexible alternative:** "Fetch functions return typed promises and accept string IDs"
+
+## Common Content Patterns
+
+Three patterns recur across skills. Name them explicitly when reaching for one.
+
+### Template pattern
+
+Provide a fixed or flexible output format so Claude produces consistent results. Use **strict** phrasing when the format is a contract ("ALWAYS use this exact template"), **flexible** phrasing when it's a starting point ("Here is a sensible default; adjust sections as needed").
+
+```markdown
+# [Title]
+
+## Executive summary
+[One paragraph]
+
+## Key findings
+- Finding 1
+- Finding 2
+```
+
+### Examples pattern
+
+When output quality depends on style (commit messages, copy, changelog entries), provide 2-3 input/output pairs. Examples convey tone and level of detail more efficiently than description.
+
+```
+Input: Added user authentication with JWT tokens
+Output:
+feat(auth): implement JWT-based authentication
+
+Add login endpoint and token validation middleware
+```
+
+### Conditional workflow pattern
+
+Route Claude through decision points instead of listing every path upfront.
+
+```markdown
+Determine modification type:
+- Creating new content? → Follow "Creation workflow" below
+- Editing existing content? → Follow "Editing workflow" below
+```
+
+Push large branches into separate reference files so the main SKILL.md stays scannable.
 
 ## The Description Field Is For the Model
 
@@ -109,6 +171,8 @@ One of the most powerful tools you can give Claude is code. Scripts and librarie
 - Give Claude helper functions to compose rather than regenerate each time
 - Pattern: `scripts/` folder holds utilities, Claude generates wrapper scripts on the fly
 - Example: data skill includes `fetch_events()`, `fetch_users()`, `run_query()` — Claude composes these for complex analysis
+
+For error handling, constants, plan-validate-execute, runtime environment, package dependencies, and MCP tool references, see `executable-code.md` (linked from SKILL.md).
 
 ## On-Demand Hooks
 

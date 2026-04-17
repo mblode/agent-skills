@@ -1,6 +1,6 @@
 ---
 name: agent-skills-creator
-description: Guides creation of best-practice agent skills following the open format specification. Covers frontmatter, directory structure, progressive disclosure, reference files, rules folders, and validation. Use when creating a new skill, authoring SKILL.md, setting up a rules-based audit skill, structuring a skill bundle, or asking "how to write a skill."
+description: Guides creation of best-practice agent skills following the open format specification. Covers frontmatter, directory structure, progressive disclosure, reference files, rules folders, degrees of freedom, content patterns, executable scripts, MCP tool references, evaluations, and cross-model testing. Use when creating a new skill, authoring SKILL.md, setting up a rules-based audit skill, structuring a skill bundle, writing scripts inside a skill, evaluating a skill, or asking "how to write a skill."
 ---
 
 # Agent Skills Creator
@@ -14,7 +14,9 @@ Create skills that follow the Agent Skills open format. Covers the full lifecycl
 | `references/format-specification.md` | Default: frontmatter constraints, directory structure, naming rules, advanced features |
 | `references/skill-categories.md` | Choosing what type of skill to build (Step 1) |
 | `references/skill-patterns.md` | Choosing a structural pattern or need a template for a specific skill type |
-| `references/authoring-tips.md` | Writing high-signal content, gotchas sections, setup patterns, storage, hooks |
+| `references/authoring-tips.md` | Writing high-signal content, degrees of freedom, content patterns, setup, storage, hooks |
+| `references/executable-code.md` | Skill includes scripts, depends on packages, or invokes MCP tools |
+| `references/evaluation-and-iteration.md` | Designing evaluations, testing across models, iterating on a shipped skill |
 | `references/quality-checklist.md` | Final validation before shipping |
 
 ## Choose a Skill Category
@@ -65,6 +67,7 @@ Skill creation progress:
 - [ ] Step 5: Validate with quality checklist
 - [ ] Step 6: Update README.md
 - [ ] Step 7: Smoke-test installation
+- [ ] Step 8: Evaluate and iterate
 ```
 
 ### Step 1: Choose skill category and pattern
@@ -85,10 +88,12 @@ Load `references/format-specification.md` for hard constraints.
 - Keep under 500 lines; split into reference files if longer
 - Only add context Claude does not already have (see "Don't State the Obvious" in `references/authoring-tips.md`)
 - Use consistent terminology throughout
+- Match degrees of freedom to task fragility — prose for open-ended work, specific scripts for fragile or destructive operations (see "Degrees of Freedom" in `references/authoring-tips.md`)
+- Reach for named content patterns when they fit: template for fixed output, examples for format-sensitive output, conditional for decision points
 - Include a copyable progress checklist for multi-step workflows
 - Include validation/feedback loops for quality-critical tasks
 - Build a Gotchas/Anti-patterns section from observed failure points — this is the highest-signal content
-- Load `references/authoring-tips.md` for content strategy guidance on voice, railroading, descriptions, and more
+- Load `references/authoring-tips.md` for content strategy guidance on voice, degrees of freedom, content patterns, descriptions, and more
 
 ### Step 4: Add reference or rule files
 
@@ -104,7 +109,7 @@ Key constraints:
 - Files are only loaded when explicitly listed in SKILL.md
 
 Advanced options:
-- Include executable scripts in `scripts/` for Claude to compose (see `references/authoring-tips.md`)
+- Include executable scripts in `scripts/` for Claude to compose — load `references/executable-code.md` for error handling, constants, plan-validate-execute, runtime environment, package deps, and MCP tool naming
 - Add `config.json` for skills needing user-specific setup context across sessions
 - Define on-demand hooks (PreToolUse/PostToolUse) for safety gates or observation
 
@@ -130,6 +135,10 @@ Install and confirm files appear in the target directory:
 cp -R skills/<name> ~/.claude/skills/
 ls ~/.claude/skills/<name>/
 ```
+
+### Step 8: Evaluate and iterate
+
+Load `references/evaluation-and-iteration.md`. Define 3+ evaluation scenarios, test on each target model, and iterate based on observed Claude behavior — not assumptions about what Claude should need.
 
 ## Rules Folder Structure
 
@@ -207,6 +216,9 @@ Include a table mapping categories to prefixes and rule counts:
 - Skipping a Gotchas/Anti-patterns section for skills with known failure modes
 - Hardcoding absolute paths for persistent data instead of using `${CLAUDE_PLUGIN_DATA}`
 - Storing persistent data in the skill directory itself (gets deleted on upgrade)
+- Referencing MCP tools without the server prefix (`bigquery_schema` instead of `BigQuery:bigquery_schema`)
+- Magic numbers in scripts with no justifying comment (voodoo constants)
+- Shipping a skill without testing it on every target model — what reads well to Opus may underspecify for Haiku
 
 ## Related Skills
 
