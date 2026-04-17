@@ -2,6 +2,20 @@
 
 Use for dashboards, admin tools, and data-dense workflows.
 
+## Contents
+
+- Commit to a direction
+- Core craft rules
+- Calm dense interfaces
+- Controls
+- Type and data
+- Colour and contrast
+- Navigation context
+- Motion
+- Interaction baseline
+- Utility copy
+- Anti-patterns
+
 ## Commit to a direction
 
 - Define product context, user type, and emotional goal.

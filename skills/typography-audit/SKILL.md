@@ -79,3 +79,12 @@ Report findings in this format:
 - Use `file:line` when line numbers are available.
 - State issue and propose a concrete fix.
 - Include clean files as `✓ pass`.
+
+## Gotchas
+
+- Don't load all 89 rules up front — load progressively by category prefix in scope.
+- Don't report findings without `file:line` and a concrete fix — incomplete findings waste the reader's time.
+- Don't audit unchanged files when a full sweep wasn't requested.
+- Don't treat MEDIUM/LOW polish as equal priority to CRITICAL punctuation or font-setup issues — order findings by impact.
+- Don't suggest typography redesigns (new font pairings, new scales) in an audit. Audits report issues with fixes; redesigns are a separate ask.
+- Don't flag OpenType features as missing without checking whether the loaded font actually ships them.

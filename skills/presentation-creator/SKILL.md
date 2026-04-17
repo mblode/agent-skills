@@ -9,6 +9,16 @@ Bold, minimal, dark-first presentations designed for live presenting.
 
 ## Workflow
 
+Copy and track this checklist:
+
+```text
+Presentation progress:
+- [ ] Step 1: Outline structure and narrative arc (outline-structure.md)
+- [ ] Step 2: Write bold, minimal slide copy (writing-slides.md)
+- [ ] Step 3: Design visual layout and composition (visual-design.md)
+- [ ] Step 4: Add speaker notes for delivery (speaker-notes.md)
+```
+
 1. **Outline** the structure and narrative arc → [outline-structure.md](outline-structure.md)
 2. **Write** bold, minimal slide copy → [writing-slides.md](writing-slides.md)
 3. **Design** the visual layout and composition → [visual-design.md](visual-design.md)

@@ -78,3 +78,12 @@ Report findings in this format:
 - Use `file:line` when line numbers are available.
 - State issue and propose a concrete fix.
 - Include clean files as `✓ pass`.
+
+## Gotchas
+
+- Don't audit files that weren't changed unless a full sweep was explicitly requested — scope creep drowns the real findings.
+- Don't skip doc-type identification. Tutorial rules applied to reference content (or vice versa) produces wrong-shaped feedback.
+- Don't report MEDIUM/LOW polish before surfacing CRITICAL/HIGH findings — the reader fixes what they see first.
+- Don't load every `rules/<prefix>-*.md` file up front. Load progressively by category in scope.
+- Don't report findings without `file:line` and a concrete fix — the Review Output Contract requires both.
+- Don't rewrite content you were asked to review unless the user asked for edits — report issues, propose fixes, let the author apply them.

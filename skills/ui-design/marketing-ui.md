@@ -2,6 +2,19 @@
 
 Deliver working code with a clear aesthetic point of view. Avoid generic AI aesthetics.
 
+## Contents
+
+- Working model
+- Beautiful defaults
+- Landing page default sequence (Hero rules, Viewport budget)
+- Imagery
+- Copy
+- UX baseline
+- Aesthetic rules
+- Motion
+- Hard rules
+- Litmus checks
+
 ## Working model (before building)
 
 Write three things before touching code:
@@ -111,6 +124,3 @@ If deleting 30 percent of the copy improves the page, keep deleting.
 - Does motion improve hierarchy or atmosphere?
 - Would the design still feel premium if all decorative shadows were removed?
 
-## Reference
-
-- See [aesthetic-direction.md](aesthetic-direction.md) for deeper guidance and examples.

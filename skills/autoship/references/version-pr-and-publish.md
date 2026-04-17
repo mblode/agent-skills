@@ -1,5 +1,7 @@
 # Version Packages PR and npm Publish
 
+> **Companion reference:** this file points to reusable Monitor snippets in `references/ci-polling.md` (sections "Waiting for the Version Packages PR to Appear" and "Watching the Publish Workflow"). Load `ci-polling.md` alongside this file whenever you work through autoship Steps 4 or 5.
+
 ## Table of Contents
 
 - [The `changesets/action` Workflow](#the-changesetsaction-workflow)

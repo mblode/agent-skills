@@ -16,10 +16,10 @@ Pick the track that matches the primary surface:
 
 If unsure: product UI prioritizes information density and efficiency; marketing prioritizes visual impact and storytelling.
 
-## References
+## Always load alongside the track
 
-- **Low-fi planning**: See [design-in-code.md](design-in-code.md)
-- **Anti-patterns and calibration**: See [aesthetic-direction.md](aesthetic-direction.md)
+- [aesthetic-direction.md](aesthetic-direction.md) — anti-patterns, AI-slop signals, and calibration. Read after picking a track.
+- [design-in-code.md](design-in-code.md) — low-fi planning before visual polish.
 
 ## Related skills
 

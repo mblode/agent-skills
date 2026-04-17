@@ -88,3 +88,12 @@ Report findings in this format:
 - Use `file:line` when line numbers are available.
 - State issue and propose a concrete fix.
 - Include clean files as `✓ pass`.
+
+## Gotchas
+
+- Do not dump every rule file into context. Load only the category prefixes relevant to the current scope (`rules/<prefix>-*.md`).
+- Do not invent rule IDs in findings. Cite only ids that exist under `rules/`; if no rule fits, describe the issue without an id.
+- Do not audit beyond the scope the user requested. Default is changed surfaces only; a full sweep must be explicit.
+- Do not skip `CRITICAL` categories (a11y, interaction, forms) to reach visual polish faster. The priority order in the rule-category table is load-bearing.
+- Do not report passes without checking. `✓ pass` means the file was actually read against the loaded rules, not assumed clean.
+- The anti-patterns in `craft-checklist.md` apply to UI code being audited, not to this skill's execution — do not mix the two when reporting findings.

@@ -9,6 +9,17 @@ Define durable, easy-to-change architecture defaults for TypeScript apps.
 
 ## How to use this skill
 
+Copy and track this checklist:
+
+```text
+Architecture progress:
+- [ ] Step 1: Determine context (new vs existing codebase) and pick workflow
+- [ ] Step 2: Run the chosen workflow end-to-end
+- [ ] Step 3: Produce architecture brief using Output template
+- [ ] Step 4: Run Validation loop (consistency, quality gates, operability)
+- [ ] Step 5: Address any failed checks and re-run Validation loop
+```
+
 1. Determine context:
    - New codebase: follow `Architecture setup workflow`.
    - Existing codebase: follow `Adoption workflow`.

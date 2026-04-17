@@ -16,6 +16,7 @@ Create skills that follow the Agent Skills open format. Covers the full lifecycl
 | `references/skill-patterns.md` | Choosing a structural pattern or need a template for a specific skill type |
 | `references/authoring-tips.md` | Writing high-signal content, degrees of freedom, content patterns, setup, storage, hooks |
 | `references/executable-code.md` | Skill includes scripts, depends on packages, or invokes MCP tools |
+| `references/rules-folder-structure.md` | Building a rules-based audit/lint skill with categorized rule files |
 | `references/evaluation-and-iteration.md` | Designing evaluations, testing across models, iterating on a shipped skill |
 | `references/quality-checklist.md` | Final validation before shipping |
 
@@ -92,14 +93,14 @@ Load `references/format-specification.md` for hard constraints.
 - Reach for named content patterns when they fit: template for fixed output, examples for format-sensitive output, conditional for decision points
 - Include a copyable progress checklist for multi-step workflows
 - Include validation/feedback loops for quality-critical tasks
-- Build a Gotchas/Anti-patterns section from observed failure points — this is the highest-signal content
+- Build a Gotchas section from observed failure points — this is the highest-signal content
 - Load `references/authoring-tips.md` for content strategy guidance on voice, degrees of freedom, content patterns, descriptions, and more
 
 ### Step 4: Add reference or rule files
 
 **Workflow/mixed pattern**: add `references/` folder with focused files. Link each from SKILL.md with "Read when..." guidance in a table.
 
-**Rules-based pattern**: add `rules/` folder. See the rules folder section below.
+**Rules-based pattern**: add `rules/` folder. Load `references/rules-folder-structure.md` for the `_sections.md`, `_template.md`, file-naming, and priority-table layout.
 
 **Simple/hub pattern**: add track files alongside SKILL.md. Link from a tracks table.
 
@@ -140,68 +141,6 @@ ls ~/.claude/skills/<name>/
 
 Load `references/evaluation-and-iteration.md`. Define 3+ evaluation scenarios, test on each target model, and iterate based on observed Claude behavior — not assumptions about what Claude should need.
 
-## Rules Folder Structure
-
-For rules-based skills (audits, lints, checklists), create a `rules/` folder with:
-
-### `rules/_sections.md`
-
-Category map with impact levels. Format:
-
-```markdown
-# Sections
-
-This file defines all sections, their ordering, impact levels, and descriptions.
-The section ID (in parentheses) is the filename prefix used to group rules.
-
----
-
-## 1. Category Name (prefix)
-
-**Impact:** CRITICAL | HIGH | MEDIUM-HIGH | MEDIUM | LOW-MEDIUM
-**Description:** One sentence explaining why this category matters.
-```
-
-### `rules/_template.md`
-
-Template for individual rule files:
-
-```markdown
----
-title: Rule Title Here
-impact: MEDIUM
-tags: tag1, tag2
----
-
-## Rule Title Here
-
-Brief explanation of the rule and why it matters.
-
-**Incorrect (description of what's wrong):**
-
-[code block with bad example]
-
-**Correct (description of what's right):**
-
-[code block with good example]
-```
-
-### Individual rule files
-
-- Named `<prefix>-<slug>.md` where prefix matches the section ID
-- One rule per file
-- Each file follows the `_template.md` structure
-
-### SKILL.md priority table
-
-Include a table mapping categories to prefixes and rule counts:
-
-```markdown
-| Priority | Category | Impact | Prefix | Rules |
-|----------|----------|--------|--------|-------|
-| 1 | Category Name | CRITICAL | `prefix-` | N |
-```
-
 ## Anti-patterns
 
 - Dumping full specification into SKILL.md body (use reference files)
@@ -213,7 +152,7 @@ Include a table mapping categories to prefixes and rule counts:
 - Dropping files in folders without linking them from SKILL.md
 - Over-constraining Claude's approach when specifying outcomes would suffice (railroading)
 - Writing the description as a human summary instead of a model trigger with "Use when..." phrases and quoted user phrases
-- Skipping a Gotchas/Anti-patterns section for skills with known failure modes
+- Skipping a Gotchas section for skills with known failure modes
 - Hardcoding absolute paths for persistent data instead of using `${CLAUDE_PLUGIN_DATA}`
 - Storing persistent data in the skill directory itself (gets deleted on upgrade)
 - Referencing MCP tools without the server prefix (`bigquery_schema` instead of `BigQuery:bigquery_schema`)

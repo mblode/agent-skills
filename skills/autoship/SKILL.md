@@ -86,7 +86,7 @@ Autoship progress:
 
 ### Step 5: Watch the publish run to completion
 
-- Load `references/version-pr-and-publish.md`.
+- Load `references/version-pr-and-publish.md` and `references/ci-polling.md`.
 - Merging the Version Packages PR triggers the SAME release workflow again. Because no pending changesets remain, `changesets/action` now executes the `publish:` script (`changeset publish`).
 - Identify the workflow file (commonly `release.yml`, `npm-publish.yml`, or `publish.yml`) in `.github/workflows/`.
 - Start a `Monitor` watch on that workflow's latest run on `main`, emitting a line when it reaches a terminal state.

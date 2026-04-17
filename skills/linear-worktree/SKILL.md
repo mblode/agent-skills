@@ -7,6 +7,17 @@ description: Creates a git worktree from main for a Linear issue. Use when the u
 
 Creates a git worktree from `main` for a Linear issue as a sibling directory of the current repo.
 
+Copy and track this checklist:
+
+```text
+Worktree creation progress:
+- [ ] Step 1: Resolve REPO_ROOT / REPO_NAME / REPOS_BASE
+- [ ] Step 2: Parse input into ISSUE_ID and BRANCH
+- [ ] Step 3: git fetch origin main
+- [ ] Step 4: git worktree add at $REPOS_BASE/$REPO_NAME-$ISSUE_ID
+- [ ] Step 5: Report worktree path, branch, and cd command with resolved paths
+```
+
 ## Setup
 
 Resolve three variables:

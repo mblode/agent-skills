@@ -8,6 +8,18 @@ description: Optimises SEO for Next.js App Router apps including sitemaps, meta 
 No visual redesigns or layout changes. Allowed: metadata, structured data, semantic HTML, internal links, alt text, sitemap/robots, performance tuning.
 
 ## Workflow
+
+Copy and track this checklist:
+
+```text
+SEO progress:
+- [ ] Step 1: Inventory routes and index intent
+- [ ] Step 2: Fix crawl/index foundations
+- [ ] Step 3: Implement metadata + structured data
+- [ ] Step 4: Improve semantics, links, and CWV
+- [ ] Step 5: Validate with seo-checklist.md and document changes
+```
+
 1. Inventory routes and index intent
 2. Fix crawl/index foundations
 3. Implement metadata + structured data
@@ -47,11 +59,13 @@ No visual redesigns or layout changes. Allowed: metadata, structured data, seman
 2. Technical: HTTPS, CWV, mobile parity
 3. On-page/content: titles/H1, internal links, remove or noindex thin pages
 
-## Don't
-- Over-generate thin pages or doorway pages
-- Omit or conflict canonicals
-- Block crawlers unintentionally
-- Rely on JS-only rendering without SSR/SSG
+## Gotchas
+- Don't over-generate thin or doorway pages — indexation drops and quality signals suffer.
+- Don't omit canonicals or let them conflict across variants (trailing slash, www, uppercase) — search engines split ranking signal.
+- Don't block crawlers unintentionally via `robots.txt`, `noindex`, or auth walls on routes meant to be indexed.
+- Don't rely on JS-only rendering without SSR/SSG for indexable content.
+- Don't change URLs without 301 redirects — link equity and crawl budget are lost.
+- Don't add JSON-LD that doesn't match visible page content — Google treats this as spam and may demote the page.
 
 ## Resources
 - [nextjs-implementation.md](nextjs-implementation.md) — implementation patterns for steps 2-4
