@@ -2,22 +2,48 @@
 
 ## Table of Contents
 
-- [How Version Packages PR Gets Created](#how-version-packages-pr-gets-created)
+- [The `changesets/action` Workflow](#the-changesetsaction-workflow)
 - [Finding the Version Packages PR](#finding-the-version-packages-pr)
 - [Verifying CI Before Merge](#verifying-ci-before-merge)
 - [Merging the Version Packages PR](#merging-the-version-packages-pr)
-- [Watching the npm-publish Workflow](#watching-the-npm-publish-workflow)
+- [Watching the Publish Run](#watching-the-publish-run)
 - [Cleanup](#cleanup)
 
-## How Version Packages PR Gets Created
+## The `changesets/action` Workflow
 
-After a changeset is merged to the default branch, the changesets GitHub Action automatically:
+A single workflow (commonly `release.yml` or `npm-publish.yml`) handles both versioning and publishing. It runs on pushes to the default branch and uses `changesets/action@v1` with a `publish:` input pointing at an npm script that calls `changeset publish` (typically `npm run release`).
 
-1. Detects pending changesets in `.changeset/`
-2. Runs `changeset version` to bump versions and update changelogs
-3. Creates (or updates) a PR titled "Version Packages" on branch `changeset-release/main`
+The action has two modes, chosen automatically by state on `main`:
 
-This may take 1-5 minutes after the merge.
+1. **Pending changesets present** → it runs `changeset version` internally, then opens or updates a PR titled "Version Packages" on branch `changeset-release/main` containing the version bump and `CHANGELOG.md` updates. No publish yet.
+2. **No pending changesets (Version Packages PR just merged)** → it runs the `publish:` script, which calls `changeset publish` to push tags and publish to npm.
+
+So the SAME workflow run that opens the Version Packages PR does not publish; a second run of the SAME workflow, triggered by merging that PR, publishes. When monitoring, you are watching two successive runs of one workflow — not two different workflows.
+
+Reference best-practice `release.yml` shape (OIDC trusted publishing):
+
+```yaml
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+steps:
+  - uses: actions/checkout@v4
+    with: { fetch-depth: 0 }
+  - uses: actions/setup-node@v4
+    with: { node-version: 22, registry-url: https://registry.npmjs.org, cache: npm }
+  - run: npm ci
+  - uses: changesets/action@v1
+    with:
+      publish: npm run release
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_CONFIG_PROVENANCE: "true"
+```
+
+The `release` script is typically `changeset publish` (optionally preceded by a build). The `changeset:version` npm script, if present, is invoked by the action, **never locally**.
+
+`.changeset/config.json` should have `"commit": false` so the action controls commits via the PR.
 
 ## Finding the Version Packages PR
 
@@ -67,24 +93,26 @@ gh pr merge <pr-number> --squash --delete-branch
 
 Prefer `--squash` for clean history. Use `--merge` if the project convention requires merge commits.
 
-## Watching the npm-publish Workflow
+## Watching the Publish Run
 
-After merging, the push to the default branch triggers the `npm-publish.yml` (or similarly named) workflow.
+After merging the Version Packages PR, the push to the default branch triggers the SAME release workflow again. This second run detects there are no pending changesets and executes the `publish:` script (`changeset publish`).
 
 ### Detecting the Workflow Run
 
-```bash
-# Find the publish workflow
-gh run list --workflow npm-publish.yml --branch main --limit 3 --json status,conclusion,databaseId,createdAt
+Find the workflow file by inspecting `.github/workflows/` — common names are `release.yml`, `npm-publish.yml`, `publish.yml`. Then:
 
-# If the workflow name differs, list all recent runs
+```bash
+# Replace release.yml with the actual file name
+gh run list --workflow release.yml --branch main --limit 3 --json status,conclusion,databaseId,createdAt
+
+# Or list all recent runs and identify by name
 gh run list --branch main --limit 5 --json workflowName,status,conclusion,databaseId
 ```
 
 ### Polling for Completion
 
 ```
-/loop 1m Check npm-publish workflow status and report progress
+/loop 1m Check release workflow status and report progress
 ```
 
 Terminal conditions:

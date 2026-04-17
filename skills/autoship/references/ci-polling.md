@@ -59,6 +59,17 @@ When a check fails:
 - Keep polling until all required workflow runs show `completed` status.
 - Only stop when: all checks pass, a failure needs user intervention, or the user cancels.
 
+## The `Changeset Status` PR Check
+
+Changesets repos typically run `npx changeset status --since origin/<baseBranch>` on every PR (often as a step in the main CI job). This check verifies that a PR modifying publishable code includes a pending `.changeset/*.md` file.
+
+Common failure modes:
+
+- **"no changeset found"** — the PR touches code but adds no changeset. Fix: run Step 1 of autoship to add one.
+- **"changeset consumed"** — a local `npx changeset version` was run; the changeset file is gone and `package.json` version has already been bumped. Fix: revert the version bump + `CHANGELOG.md` edit, re-add the changeset file, force-push. Do NOT retry CI — the state is broken at the commit level.
+
+This check is what you read first when a release PR fails CI.
+
 ## Rate Limit Awareness
 
 Check rate limit status if polling frequently:
