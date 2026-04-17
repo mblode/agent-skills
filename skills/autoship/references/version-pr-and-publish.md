@@ -59,13 +59,7 @@ gh pr list --head changeset-release/main --state open --json number,title,status
 
 ### If the PR Does Not Exist Yet
 
-The changesets bot may take a few minutes. Set up a polling loop:
-
-```
-/loop 1m Search for open "Version Packages" PR and report if found
-```
-
-Poll for up to 10 minutes. If still not found, check:
+The changesets bot may take a few minutes. Use the `Monitor` tool to watch for the PR (see the "Waiting for the Version Packages PR to Appear" snippet in `references/ci-polling.md`). Cap the watch at 10 minutes. If the watch times out, check:
 
 - Are there pending changesets on the default branch?
 - Is the changesets GitHub Action configured in `.github/workflows/`?
@@ -81,17 +75,31 @@ gh pr checks <pr-number> --json name,state,conclusion
 
 All checks must show `state: completed` and `conclusion: success`.
 
-If checks are still running, use `/loop` to poll until they complete.
+If checks are still running, use the `Monitor` tool (see `references/ci-polling.md`) to wait for them to complete.
 
 ## Merging the Version Packages PR
 
-This is a RED-tier operation -- confirm with the user before merging.
+YELLOW-tier within autoship: invoking the skill is standing consent for the merge. Do not prompt for re-confirmation. Gate the merge with these objective preconditions instead.
+
+Preconditions (all must hold):
+
+- PR title is exactly "Version Packages" OR head branch is `changeset-release/main`. Never merge a PR that does not match.
+- All checks on the PR show `state: completed` and `conclusion: success` (verify with `gh pr checks <pr-number> --json name,state,conclusion`).
+- PR is mergeable: `mergeable: MERGEABLE` (not `CONFLICTING` or `UNKNOWN`). If `UNKNOWN`, wait briefly and re-query.
+
+Announce in one short line, then execute:
+
+```text
+Merging Version Packages PR #<n> — <package>@<version>
+```
 
 ```bash
 gh pr merge <pr-number> --squash --delete-branch
 ```
 
 Prefer `--squash` for clean history. Use `--merge` if the project convention requires merge commits.
+
+If any precondition fails, stop and report to the user. Do not attempt to fix mergeability or override failing checks.
 
 ## Watching the Publish Run
 
@@ -109,11 +117,9 @@ gh run list --workflow release.yml --branch main --limit 3 --json status,conclus
 gh run list --branch main --limit 5 --json workflowName,status,conclusion,databaseId
 ```
 
-### Polling for Completion
+### Watching for Completion
 
-```
-/loop 1m Check release workflow status and report progress
-```
+Start a `Monitor` watch on the release workflow's latest run on `main`. See the "Watching the Publish Workflow" snippet in `references/ci-polling.md` for a ready-to-use script. The Monitor exits on the first `TERMINAL:` line.
 
 Terminal conditions:
 
@@ -134,5 +140,5 @@ Compare with the version in `package.json` to confirm the publish was successful
 ## Cleanup
 
 - The `--delete-branch` flag on merge handles branch cleanup
-- Cancel any remaining scheduled polling tasks
+- Stop any `Monitor` watches that are still running
 - Report the final published version to the user
