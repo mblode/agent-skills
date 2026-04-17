@@ -6,8 +6,7 @@ Run these commands in order after all files are generated.
 
 ```bash
 cd {{name}}
-npm install
-npx ultracite init
+npx ultracite@latest init --linter oxlint --integrations lefthook --pm npm --quiet
 ln -s AGENTS.md CLAUDE.md
 git init
 git add .
@@ -16,8 +15,7 @@ git commit -m "Initial commit"
 
 ## Command Notes
 
-- `npm install` installs all dependencies from the generated package.json
-- `npx ultracite init` sets up oxlint/oxfmt config and lefthook git hooks — select "Oxlint + Oxfmt" when prompted
+- `npx ultracite init` runs `npm install` itself, then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`/`fix`/`prepare: lefthook install` scripts and `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). Pass `--linter oxlint` to skip the interactive prompt; `--quiet` suppresses other prompts.
 - The symlink ensures both AGENTS.md and CLAUDE.md point to the same file
 - The initial commit captures the clean scaffold state
 
@@ -41,7 +39,7 @@ Validation:
 
 ## Troubleshooting
 
-- If `ultracite init` fails, the `.oxlintrc.json` template is already correct — skip the init command
+- If `ultracite init` fails, write `oxlint.config.ts` and `oxfmt.config.ts` manually (templates in `scaffold-configs.md`), then run `npm install` to pick up the deps
 - If `ln -s` fails on Windows, copy AGENTS.md to CLAUDE.md instead
 - If `npm install` fails, verify Node >= 20 with `node --version`
 - If `npm run build` fails with import errors, check that all imports use `.js` extensions

@@ -83,6 +83,8 @@
 }
 ```
 
+`ultracite init --linter oxlint --integrations lefthook` adds `oxlint`, `oxfmt`, `lefthook` to devDependencies and a `prepare: lefthook install` script — do not list them by hand here.
+
 ## tsconfig.json
 
 ```json

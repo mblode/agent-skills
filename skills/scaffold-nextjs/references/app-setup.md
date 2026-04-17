@@ -144,16 +144,38 @@ rm biome.json
 npm uninstall @biomejs/biome
 ```
 
-2. Run Ultracite init (select "Oxlint + Oxfmt" when prompted for linter):
+2. Run Ultracite init non-interactively for Oxlint + Oxfmt + Lefthook:
 
 ```bash
-npx ultracite@latest init
+npx ultracite@latest init \
+  --linter oxlint \
+  --frameworks next react \
+  --integrations lefthook \
+  --pm npm \
+  --skip-install \
+  --quiet
 ```
 
+Notes on the flags:
+- `--frameworks` takes space-separated values (`next react`), not commas. Comma-separated values fail validation.
+- `--skip-install` lets you review the generated `package.json` changes before installing.
+- Omit `--quiet` if you want to confirm the generated file list interactively.
+
 This sets up:
-- `.oxlintrc.json` — extending ultracite presets
-- `.oxfmtrc.jsonc` — formatting config
-- Lefthook pre-commit hook (`lefthook.yml`)
+- `oxlint.config.ts` — extends `ultracite/oxlint/{core,next,react}`
+- `oxfmt.config.ts` — extends `ultracite/oxfmt`
+- `lefthook.yml` — pre-commit hook running `npx ultracite fix` on staged JS/TS/JSON/CSS with `stage_fixed: true`
+- Adds `oxlint`, `oxfmt`, `lefthook` to devDependencies and `prepare: lefthook install` to scripts
+
+3. Install and verify:
+
+```bash
+npm install
+npm run fix     # oxfmt --write + oxlint --fix
+npm run check   # oxfmt --check + oxlint
+```
+
+Both pass with zero errors and the generated `oxlint.config.ts` needs no tuning. AGENTS.md is generated automatically with the Ultracite code-standards reference; create `CLAUDE.md` as a symlink or one-line `@AGENTS.md` reference.
 
 ## Phase 6 prep: Move into apps/web/
 
