@@ -22,7 +22,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `typography-audit`          | Design/dev    | Punctuation, font selection, sizing, spacing, and typographic quality                                                                            |
 | `ui-animation`              | Design/dev    | Motion design, springs, gestures, clip-path, and animation review                                                                                |
 | `presentation-creator`      | Design/dev    | Bold, minimal, dark-first slide decks and pitch decks                                                                                            |
-| `mermaid-mind-map`          | Design/dev    | Mermaid mindmap diagrams from codebases, topics, files, or conversations                                                                         |
+| `mermaid`                   | Design/dev    | Mermaid diagrams — flowcharts, sequence, class, state, ER, C4, mindmap, Gantt, timeline, journey, gitGraph, pie, quadrant, requirement, and beta types |
 | `copywriting`               | Writing/audit | Writes and edits product copy — persuasion frameworks, AI-ism removal, seven-sweep audit, page-specific guidance, and before/after diffs        |
 | `blog-post`                 | Writing/audit | Engaging listicle-style blog posts from source insights                                                                                          |
 | `docs-writing`              | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation                                             |
