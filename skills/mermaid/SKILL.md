@@ -33,35 +33,22 @@ Mermaid progress:
 
 ### Step 1: Pick diagram type
 
-If the user named a type (e.g. "sequence diagram"), use it. Otherwise pick the type that fits the content using `references/diagram-selection.md`:
+If the user named a type (e.g. "sequence diagram"), use it. Otherwise load `references/diagram-selection.md` and pick from its matrix. Common defaults:
 
 | Content | Diagram |
 |---------|---------|
 | Process with decisions, branching logic | `flowchart` |
 | Messages between actors/systems over time | `sequenceDiagram` |
-| Classes, inheritance, object model | `classDiagram` |
 | States and transitions (order lifecycle, workflow) | `stateDiagram-v2` |
-| Database or domain entities with relationships | `erDiagram` |
-| System architecture (context / container / component) | `C4Context` / `C4Container` / `C4Component` |
-| Concept hierarchy, brainstorm, topic overview | `mindmap` |
-| Project schedule with dependencies | `gantt` |
-| Milestones in chronological order | `timeline` |
-| User experience per step with scores | `journey` |
-| Git branches, merges, tags | `gitGraph` |
-| Proportions | `pie` |
-| Two-axis categorization | `quadrantChart` |
-| Requirements with verification links | `requirementDiagram` |
+| Database / domain entities with relationships | `erDiagram` |
+| System architecture by level | `C4Context` / `C4Container` / `C4Component` |
+| Concept hierarchy, brainstorm, overview | `mindmap` |
 
 Ask the user to confirm only if two types fit equally well.
 
 ### Step 2: Gather source material
 
-Identify the source and do the minimum discovery needed:
-
-- **Codebase**: Read `package.json`, config files, and relevant entry points. Map modules, handlers, or state machines.
-- **File/document**: Read the target file. Extract entities, flows, or sections.
-- **Topic or spec**: Use the description as-is. Ask one clarifying question if scope is ambiguous.
-- **Conversation/requirements**: Extract actors, steps, and outcomes from what's already in the thread.
+For topics or specs, ask one clarifying question if scope is ambiguous (e.g., "overview or detailed breakdown?"), then commit. For codebases, files, or conversations, pull only what's needed to name the nodes and relationships — don't scan more than needed.
 
 ### Step 3: Draft structure
 
@@ -94,6 +81,64 @@ Common checks:
 Output the diagram in a fenced `mermaid` code block. Note where it renders: GitHub/GitLab markdown, Mermaid Live Editor (`mermaid.live`), Notion, Obsidian, VS Code with a Mermaid preview extension.
 
 If the user requests a file, write to a `.md` file containing the fenced block. For image export, point them to Mermaid Live Editor or `@mermaid-js/mermaid-cli` (see `references/styling-and-output.md`).
+
+## Translation examples
+
+How to turn typical source material into a diagram. Pattern: identify the type first, then extract nouns (nodes) and verbs (edges / transitions).
+
+### Prose → sequenceDiagram
+
+Source: "User hits Checkout. Server validates the cart, reserves stock, and charges Stripe. On success, the order is saved and a confirmation email is queued."
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Server
+    participant Stripe
+    participant Email
+    User->>+Server: POST /checkout
+    Server->>Server: Validate cart
+    Server->>Server: Reserve stock
+    Server->>+Stripe: Charge
+    Stripe-->>-Server: Success
+    Server->>Server: Save order
+    Server->>+Email: Queue confirmation
+    Email-->>-Server: Queued
+    Server-->>-User: 200 Order confirmed
+```
+
+### Spec → stateDiagram
+
+Source: "Orders start as Pending. Payment success moves to Paid; failure moves to Cancelled. Paid orders ship, then complete. Cancelled orders are terminal."
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending
+    Pending --> Paid : payment success
+    Pending --> Cancelled : payment failed
+    Paid --> Shipped : ship
+    Shipped --> Completed : deliver
+    Completed --> [*]
+    Cancelled --> [*]
+```
+
+### Scoring matrix → quadrantChart
+
+Source: "Rate campaigns on reach (low/high) and engagement (low/high). A is high-reach, mid-engagement. B is low-reach, low-engagement. C is high-reach, high-engagement."
+
+```mermaid
+quadrantChart
+    title Campaign reach vs engagement
+    x-axis Low Reach --> High Reach
+    y-axis Low Engagement --> High Engagement
+    quadrant-1 Expand
+    quadrant-2 Promote
+    quadrant-3 Re-evaluate
+    quadrant-4 Improve
+    A: [0.8, 0.5]
+    B: [0.2, 0.2]
+    C: [0.8, 0.8]
+```
 
 ## Anti-patterns
 
