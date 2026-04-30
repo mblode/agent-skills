@@ -1,18 +1,35 @@
 ---
 name: ux-audit
-description: Audits UI against the 30 Laws of UX with mechanical pass/warn/fail checks. Every law is either programmatic (20 rules — count nav items, parse hit-target px, regex input patterns) or rubric-based (10 rules — 1-5 anchored scoring). Emits a verdict (PASS / CONDITIONAL PASS / FAIL), a letter grade (A-F), and structured JSON findings with file:line, observed vs expected, reproduce steps, suspected location, severity, effort, and a concrete fix. Use when reviewing a flow for cognitive friction, sizing tap targets, ordering navigation items, auditing a checkout for choice overload, scoring onboarding for goal-gradient, scoring an error state for Postel's Law, or asking "is this UX sound?" Triggers on phrases like "audit this UI", "Laws of UX", "Hick's Law", "Fitts's Law", "is this accessible enough", "review for cognitive overhead", "score this design", or "audit my checkout."
+description: Feature-level UX audit for React/Next.js code. Catches what Lighthouse, axe, ESLint, and Storybook miss — state coverage gaps (missing loading/empty/error), form data loss on validation, broken focus management, optimistic UI without rollback, skeleton-induced layout shift, vague microcopy, and 25+ other modern frontend UX bugs. Diff-aware (audits changed files only) and produces a 3-tier ship-readiness verdict (release-blocker / fix-this-sprint / backlog) grouped by surface, with concrete fixes using modern React 19 APIs (useActionState, useFormStatus, useOptimistic, useTransition, Suspense). Use before merging a frontend PR, before shipping a feature, or when asked "is this checkout/onboarding/dashboard ready?", "review this PR for UX bugs", "audit this component", "what would break in production?", "is this ready to ship?"
 ---
 
 # UX Audit
 
-30 Laws of UX as mechanical audit checks. Every rule produces a discrete pass / warn / fail outcome — programmatic rules return numbers (count, px, ms); observational rules return a 1-5 score with a quoted rubric anchor. No vibes-based findings.
+Static UX-quality reviewer for React/Next.js code. Operates at the **feature level** (a checkout flow, an onboarding flow, a dashboard) — not the principle level. Answers one question for a frontend dev with a PR open: "**which of these will hurt users in production, and which are nice-to-haves?**"
 
-## Distinction from `ui-audit`
+## What this skill IS
 
-- `ui-audit` covers accessibility, typography, microcopy, and visible polish — *what the UI looks and reads like*.
-- `ux-audit` covers cognitive, perceptual, decision, memory, and interaction principles — *how the UI behaves in the user's head*.
+- A diff-aware reviewer that audits changed files in a PR
+- A feature-level checklist runner: detects "this is a sign-in flow" / "this is a checkout" / "this is a modal" and runs the right playbook
+- A ship-readiness verdict generator: every finding gets `release-blocker | fix-this-sprint | backlog`
+- A concrete-fix advisor that uses modern React 19 APIs (`useActionState`, `useFormStatus`, `useOptimistic`, `useTransition`, `<Suspense>`, error boundaries)
 
-Run them sequentially, not in place of each other.
+## What this skill IS NOT
+
+Defer to the right tool. **Do not duplicate** what these already do well:
+
+| Concern | Use this tool instead | Why |
+|---|---|---|
+| Core Web Vitals (LCP, CLS, INP) | Lighthouse + web-vitals + Vercel Agent | Field + lab measurement, not static |
+| WCAG rule violations | axe-core / jsx-a11y | Authoritative rule list, structured violations |
+| a11y prevention at write time | eslint-plugin-jsx-a11y | Lint catches before runtime |
+| Visual regression | Chromatic / Percy | Pixel-level diffs |
+| Bundle size budget | size-limit / bundle-analyzer | Continuous budget tracking |
+| Generic bug review | CodeRabbit / Vercel Agent | LLM bug review of the whole diff |
+
+When a finding overlaps any of the above, link out — don't restate.
+
+See `references/defer-to-other-tools.md` for the full inventory.
 
 ## Audit Workflow
 
@@ -20,157 +37,147 @@ Copy and track this checklist:
 
 ```text
 UX Audit progress:
-- [ ] Step 1: Gather inputs (file paths or globs; optional surface name)
-- [ ] Step 2: Detect in-scope surfaces (nav, form, modal, list, error, dashboard, hero, pricing, empty, search-results, loading)
-- [ ] Step 3: For each surface, run its playbook from references/surface-playbooks.md
-- [ ] Step 4: For each rule in the playbook, load rules/<rule>.md and run its Check or Rubric procedure
-- [ ] Step 5: Emit findings to the JSON schema in references/output-schema.md, then render to markdown
+- [ ] Step 1: Determine scope (PR diff via `git diff --name-only main` OR explicit file/folder)
+- [ ] Step 2: Detect features in scope (sign-in / checkout / form / modal / list / dashboard / etc.)
+- [ ] Step 3: For each feature, run its playbook from references/feature-playbooks.md
+- [ ] Step 4: For each check, load the matching rule (rules-modern/ for state/form/focus bugs; rules/ for Laws of UX)
+- [ ] Step 5: Assign each finding a ship tier per references/ship-readiness.md
+- [ ] Step 6: Group findings by surface, render with the chosen output adapter
+- [ ] Step 7: Verify the audit-self-check before reporting
 ```
 
-1. Audit only changed files unless a full sweep is requested.
-2. Detect surfaces from element semantics (`<nav>`, `<form>`, `role="dialog"`, `<ul>` of `<li>`, `[role="alert"]`, `<header>` with marketing markup) — not from filenames.
-3. Run the surface playbook in order. Each playbook lists rules; do not skip rules even if you expect them to pass.
-4. For each rule, the procedure in its `## Check` or `## Rubric` section is the source of truth. Don't paraphrase — execute it.
-5. If you cannot find evidence (e.g. you have JSX but no runtime latency data), emit `result: "unknown"` with a reason. Do not fabricate measurements.
+1. **Scope.** Default to `git diff --name-only main` if in a git repo with uncommitted changes; otherwise audit the explicit scope the user passes. Don't audit the whole codebase by default — noise floor is too high.
+2. **Detect features.** Match on element semantics + filenames + route paths. A `<form>` with email + password = sign-in. A `<form>` with a multi-step indicator = onboarding. A `role="dialog"` = modal. See `references/feature-playbooks.md` for detection heuristics per feature.
+3. **Run playbook.** Each feature has 5-7 ordered checks. Don't skip checks even when you expect them to pass; each pass goes into the audit-self-check.
+4. **Load rules.** Two layers:
+   - **`rules-modern/`** (Layer 2) — modern frontend UX failure modes (state coverage, form preservation, focus mgmt, optimistic rollback, CLS, microcopy). This is where most findings come from.
+   - **`rules/`** (Layer 3) — Laws of UX (Hick's, Fitts's, Miller's, etc.). Used for cognitive/perceptual reasoning when Layer 2 doesn't apply.
+5. **Ship tier.** Every finding gets one of three tiers (see `references/ship-readiness.md`):
+   - `release-blocker` — fix before merge (data loss, broken auth, missing critical-path error state, dark patterns, focus traps that don't restore)
+   - `fix-this-sprint` — merge but log issue (sub-44 px target on touch, missing skeleton, vague error, missing empty CTA)
+   - `backlog` — track, ship (dark-mode untested, RTL not verified, microcopy nits)
+6. **Group + render.** Group by surface (component file or page). Render with one of the three adapters in `references/output-adapters.md`.
+7. **Self-check.** Verify the audit was actually run (rules executed > rules planned, file:line cited on every finding, fix snippet on every finding).
 
-## Rule Categories
+## Three audit layers
 
-| Priority | Category | Impact | Prefix | Rules | Tier 1 (programmatic) | Tier 3 (rubric) |
-|----------|----------|--------|--------|-------|------------------------|------------------|
-| 1 | Cognitive load | CRITICAL | `cognitive-` | 5 | 3 | 2 |
-| 2 | Decision-making | HIGH | `decision-` | 8 | 5 | 3 |
-| 3 | Perception | HIGH | `perception-` | 7 | 5 | 2 |
-| 4 | Memory & expectation | MEDIUM-HIGH | `memory-` | 6 | 5 | 1 |
-| 5 | Interaction | MEDIUM-HIGH | `interaction-` | 4 | 2 | 2 |
+```
+Layer 1 — Feature playbooks  (the entry point)
+  references/feature-playbooks.md
+  12 features × 5-7 ordered checks → pulls rules from Layers 2 and 3
 
-Total: 30 rules — 20 programmatic, 10 rubric-based.
+Layer 2 — Modern frontend failure modes  (the high-leverage layer)
+  rules-modern/<category>-<slug>.md
+  30 rules covering state coverage, form preservation, focus mgmt,
+  async/optimistic, CLS pairings, microcopy, dark mode, i18n, mobile.
+  Detection recipes use React 19 APIs.
 
-## Surface Playbooks
+Layer 3 — Laws of UX  (the cognitive/perceptual reserve)
+  rules/<prefix>-<slug>.md
+  30 rules for Hick's, Fitts's, Miller's, etc. Invoked when feature
+  playbooks need cognitive load / decision / perception reasoning.
+  Usually 1-2 of these per audit; not all 30.
+```
 
-For each common surface, run the rules below in this order. Full playbooks (with per-rule loading order and skip conditions) live in `references/surface-playbooks.md`.
+## Diff-aware mode
 
-| Surface | Playbook (rules in order) |
-|---|---|
-| Primary navigation | `decision-hicks-law` → `cognitive-millers-law` → `memory-jakobs-law` → `memory-serial-position` → `interaction-fittss-law` → `perception-von-restorff` |
-| Form (multi-field) | `cognitive-chunking` → `decision-teslers-law` → `decision-postels-law` → `cognitive-cognitive-load` |
-| Modal / dialog | `decision-hicks-law` → `interaction-fittss-law` → `memory-zeigarnik` → `interaction-flow` |
-| List or feed | `memory-serial-position` → `cognitive-chunking` → `perception-similarity` → `perception-common-region` |
-| Error / validation state | `decision-postels-law` → `memory-peak-end-rule` → `interaction-doherty-threshold` |
-| Search results | `decision-hicks-law` → `perception-von-restorff` → `memory-serial-position` |
-| Dashboard | `cognitive-cognitive-load` → `perception-proximity` → `perception-similarity` → `cognitive-millers-law` |
-| Marketing hero | `interaction-aesthetic-usability` → `perception-von-restorff` → `cognitive-cognitive-load` |
-| Pricing / plan selection | `decision-hicks-law` → `decision-choice-overload` → `perception-von-restorff` |
-| Empty state | `memory-zeigarnik` → `memory-goal-gradient` → `interaction-aesthetic-usability` |
-| Loading / async | `interaction-doherty-threshold` → `memory-zeigarnik` |
+Default scope is the PR diff. Detect with:
 
-## Programmatic vs Rubric Tiers
+```bash
+git diff --name-only main -- '*.tsx' '*.jsx' '*.ts' '*.js' '*.css' '*.module.css'
+```
 
-**Programmatic (Tier 1, 20 rules):** the `## Check` section gives a procedure (with grep/Read commands) that produces a number or boolean. Compare against `## Threshold` to get pass/warn/fail. Findings include `observed` and `expected` numeric fields.
+Audit only those files. Surface the base branch in the output: `Auditing: 8 files changed vs main`.
 
-**Rubric (Tier 3, 10 rules):** the `## Rubric` section gives a 1-5 scale with one concrete anchor description per score. Score the surface against the closest anchor. Findings include `score` and the verbatim anchor text used. Pass at ≥4, warn at 3, fail at ≤2. Cross-reference `references/observational-rubrics.md` for examples.
+For a quick local check (single component): `git diff --name-only HEAD -- src/Component.tsx`.
 
-If two rules apply to the same finding (e.g. Hick's Law + Miller's Law on a 14-item nav), emit both findings — the cross-law interactions in `rules/_sections.md` show which pairings are common.
+For a full sweep: explicit `--full src/` (rare; only when introducing the skill to a codebase).
 
-## Hard Gates
+## Ship-readiness verdict
 
-Some failures are decisive enough to downgrade the entire audit verdict regardless of overall score. Apply these gates after computing per-rule findings:
+Every audit emits a top-level verdict before per-finding details:
 
-| Gate | Condition | Verdict effect |
-|---|---|---|
-| Critical-category fails | ≥1 fail in `cognitive-*` rules | Downgrade to **CONDITIONAL PASS** at minimum |
-| Critical-category fails (severe) | ≥2 fails in `cognitive-*` rules | Downgrade to **FAIL** |
-| Foundational interaction fails | ≥1 fail in `interaction-fittss-law` OR `interaction-doherty-threshold` | Downgrade to **CONDITIONAL PASS** |
-| Convention break | `memory-jakobs-law` fails AND surface is a primary commerce/auth flow | Downgrade to **CONDITIONAL PASS** |
-| Dark-pattern rubric | `cognitive-cognitive-bias` scores ≤2 | Downgrade to **FAIL** (ethical floor) |
-| Insufficient evidence | >50% of run rules return `unknown` | **INCOMPLETE** verdict — re-audit needed |
+```text
+═══════════════════════════════════════════════════════════
+SHIP VERDICT: ❌ NOT READY (1 release-blocker)
+
+Surface count:           3 (CheckoutForm, PaymentStep, ConfirmStep)
+Findings:                7
+  Release blockers:      1   ⛔  Form data loss on validation (PaymentStep.tsx:42)
+  Fix this sprint:       3   ⚠️
+  Backlog:               3   📋
+
+Defer-to (not audited here):
+  Performance (CWV):     Run Lighthouse
+  Bundle size:           Run size-limit
+  WCAG violations:       Run axe-core
+═══════════════════════════════════════════════════════════
+```
 
 Verdict tiers:
-- **PASS** — score ≥85, no hard gates triggered.
-- **CONDITIONAL PASS** — score ≥70, ≤1 hard gate triggered.
-- **FAIL** — score <70, OR ≥2 hard gates triggered, OR severe-tier hard gate.
-- **INCOMPLETE** — too many `unknown` results to render a verdict.
+- ✅ **READY** — 0 release-blockers, ≤3 fix-this-sprint
+- ⚠️ **READY WITH FOLLOW-UP** — 0 release-blockers, ≥4 fix-this-sprint
+- ❌ **NOT READY** — ≥1 release-blocker
+- 🚫 **INCOMPLETE** — audit-self-check failed (re-run)
 
-## Output Contract
+## Output adapters
 
-Findings conform to the JSON schema in `references/output-schema.md`. Always emit JSON first, then render to markdown for the user.
+Three formats, all rendered from the same JSON. Pick based on context.
 
-### Markdown rendering
+| Adapter | When | Format |
+|---|---|---|
+| Terminal table | Local dev, fast scan | Tight 5-col table grouped by surface |
+| PR comment | GitHub / Vercel review | Markdown with `suggestion` blocks for inline diffs |
+| CI JSON | Pipelines, dashboards | Strict JSON per `references/output-schema.md` |
 
-Render in this order: verdict block first, then findings table, then audit-self-check.
+See `references/output-adapters.md` for verbatim templates and field mappings.
 
-```markdown
-## UX Audit — src/Header.tsx
+## Skip protocol
 
-═══════════════════════════════════════════════════════════
-VERDICT: CONDITIONAL PASS
-Grade:   B (78 / 100)
+A finding can be intentionally suppressed with an inline comment:
 
-Hard Gates:
-  Critical-category fails:        1   (cognitive-cognitive-load)
-  Foundational interaction fails: 1   (interaction-fittss-law)
-  Convention break:               0
-  Dark-pattern rubric:            n/a
-  Insufficient evidence:          0   (0 unknown of 9 rules run)
-
-Findings:  3 fail · 1 warn · 5 pass · 0 unknown
-Surfaces:  primary-nav, marketing-hero
-Rules run: 9 of 9 from playbook
-═══════════════════════════════════════════════════════════
-
-### Findings
-
-| Rule | Tier | Severity | Result | Observed | Expected | Effort | Fix |
-|---|---|---|---|---|---|---|---|
-| `decision-hicks-law` | programmatic | HIGH | fail | count=14 | ≤7 | hours | Group into 4 categories; move tertiary into mega-menu |
-| `interaction-fittss-law` | programmatic | HIGH | fail | size=24px @ Header.tsx:42 | ≥44px | hours | Increase hit target to h-11 w-11; keep glyph at 16 px |
-| `interaction-aesthetic-usability` | rubric | MEDIUM | warn | score=3 | ≥4 | days | Add type scale, replace flat shadows with elevation tokens |
-
-### Audit Self-Check
-
-- Rules run:                  9 / 9 in playbook
-- Evidence cited (file:line): 7 / 9 findings
-- Reproduce steps provided:   9 / 9 fail/warn findings
-- Unknowns:                   0
-- Median check time:          ~30 s/rule (acceptable)
+```tsx
+{/* ux-audit-ignore:focus-not-restored — intentional: parent owns focus */}
+<Dialog open={open} onClose={onClose}>
 ```
 
-Letter grade mapping: 90+ → **A**; 80-89 → **B**; 70-79 → **C**; 60-69 → **D**; <60 → **F**.
-
-Group by file. Cite `file:line` when available. Always state the literal fix. Mark clean files `✓ pass` with the rules that passed. Pass findings can be elided from the table but must remain in the JSON.
+Slug must match the rule slug. Suppressions are reported in the audit summary so reviewers can verify intent.
 
 ## Reference Files
 
 | File | Read when |
 |------|-----------|
-| `rules/_sections.md` | Need the category index, impact rationale, or cross-law pairings |
-| `rules/<prefix>-<slug>.md` | Running a specific check; one per rule |
-| `references/surface-playbooks.md` | Step 3 — selecting which rules to run for the detected surface |
-| `references/observational-rubrics.md` | Tier-3 rule fires; need the full 1-5 anchor descriptions with examples |
-| `references/output-schema.md` | Step 5 — formatting findings as JSON; defines all required fields |
+| `references/feature-playbooks.md` | Step 2-3 — detecting features and selecting their playbooks |
+| `references/modern-failure-modes.md` | Index of all 30 modern rules grouped by category |
+| `references/states-coverage.md` | Validating loading/empty/error/disabled coverage per component type |
+| `references/ship-readiness.md` | Step 5 — assigning each finding a ship tier with examples |
+| `references/output-adapters.md` | Step 6 — formatting findings for terminal / PR comment / JSON |
+| `references/defer-to-other-tools.md` | Recognizing concerns to delegate (CWV, WCAG, bundle, etc.) |
+| `references/output-schema.md` | Strict JSON schema for findings + verdict |
+| `references/observational-rubrics.md` | Layer 3 rubric rules (1-5 scoring with anchors) |
+| `rules-modern/<category>-<slug>.md` | Step 4 — running a Layer 2 modern frontend check |
+| `rules/<prefix>-<slug>.md` | Step 4 — running a Layer 3 Laws of UX check |
+| `rules-modern/_sections.md` and `rules/_sections.md` | Category index for either rule layer |
 
 ## Gotchas
 
-- Don't load all 30 rules up front — load progressively per the surface playbook.
-- Don't fabricate measurements. If you have static source but no runtime data (e.g. for `interaction-doherty-threshold`), use the static heuristic in the rule's Check section. If even that doesn't apply, emit `result: "unknown"` with a reason.
-- Don't paraphrase the rule's procedure when running it. Execute the steps verbatim. The procedure is the contract.
-- Don't skip the JSON output. Even when the user wants markdown, render from a complete JSON document — keeps findings auditable and merge-able across runs.
-- Don't pile on every law per screen. The surface playbook is exhaustive for that surface; if a rule outside the playbook fires, mention it in a footnote, don't promote it to a finding.
-- Don't cite a law without naming the violation. "Hick's Law applies here" is useless; "Hick's Law: 14 nav items exceeds 7-item ceiling — group into 4 categories" is actionable.
-- Don't treat Tier-3 rubric scores as mathematically meaningful. A 3 is not "1.5× a 2" — it is "matches the 3-anchor more closely than the 2 or 4."
-- Don't apply Gestalt laws (`perception-*`) without checking that grouping carries semantic meaning. Visual grouping that splits a logical group is worse than no grouping.
-- Don't use the Aesthetic-Usability Effect as license to skip usability work. The rubric scores polish; usability is audited by other rules.
-- Don't propose redesigns. Audits report issues with literal fixes. Redesigns are a separate ask.
-- Don't quote lawsofux.com verbatim — every rule paraphrases the source and links it.
+- **Don't audit the whole codebase by default.** Diff-aware mode is the default; full sweeps are explicit.
+- **Don't duplicate other tools.** If a finding is "LCP > 4s," that's Lighthouse — link, don't restate. If it's "missing alt text," that's axe — link, don't restate.
+- **Don't skip the feature-detection step.** Running every rule against every file produces noise; running the right playbook per feature produces signal.
+- **Don't assign every finding `release-blocker`.** Reserve that tier for genuine ship-blockers (data loss, broken critical path, dark patterns). Inflation kills the signal.
+- **Don't suggest fixes without modern React APIs when applicable.** "Add a loading state" is weak; "Wrap in `<Suspense fallback={<Skeleton />}>` and use `useTransition` for the trigger" is actionable.
+- **Don't render markdown without a JSON pass first.** Even when the user wants markdown, build the JSON document first to keep findings auditable across runs.
+- **Don't pile on Laws of UX findings.** Layer 3 is reserve. If a finding has both a Layer-2 framing ("missing error state") and a Layer-3 framing ("Postel's Law violation"), use Layer 2 — it's more specific and actionable.
+- **Don't quote the source verbatim.** Every rule paraphrases; lawsofux.com uses CC BY-NC-SA which would contaminate the skill.
+- **Don't fabricate detections.** If you can't grep the file or see the JSX, mark the finding `unknown` with a reason. Never claim a finding without evidence.
 
-### Audit-the-audit meta-check
+### Audit-self-check
 
-Self-flag the audit as **INCOMPLETE** if any of these are true (don't render PASS/FAIL):
+Self-flag the audit as `INCOMPLETE` if any of these are true:
 
-- Fewer rules were actually executed than the playbook lists for the detected surfaces.
-- More than 50% of run rules returned `unknown`.
-- No `file:line` evidence cited on any fail/warn finding (suggests no source was actually read).
-- No `reproduceSteps` provided on any fail finding (suggests the agent didn't gather concrete evidence).
-- Median apparent time-per-rule is implausibly short (no Read or Grep tool calls between findings, suggesting fabricated results).
-- All rules returned the same result (e.g. everything passed without showing observed values).
-
-If any of these trigger, emit `verdict: "INCOMPLETE"` with the failed self-check listed in `audit.selfCheck.failures`. Do not render a grade.
+- Fewer rules ran than the playbook's planned count
+- More than 30% of rules returned `unknown` (insufficient evidence)
+- No `file:line` cited on any fail/warn finding
+- No `reproduceSteps` or `fix` snippet provided
+- Median apparent time-per-rule was implausibly short (no Read or Grep tool calls between findings)
+- Every finding ended up in the same tier (suspect: blanket-assignment without judgment)

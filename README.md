@@ -19,7 +19,7 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `scaffold-nextjs`           | Project start | Next.js turborepo scaffold with TypeScript, Tailwind, shadcn/ui + ui.blode.co registry components, blode-icons-react, Ultracite, and Vercel deployment |
 | `ui-design`                 | Design        | Visual direction for product or marketing UI                                                                                                     |
 | `ui-audit`                  | Pre-ship      | Accessibility, typography, and UX polish audit                                                                                                   |
-| `ux-audit`                  | Pre-ship      | Audits UI against the 30 Laws of UX with mechanical pass/warn/fail checks (20 programmatic + 10 rubric), verdict, letter grade, and JSON findings |
+| `ux-audit`                  | Pre-ship      | Feature-level UX audit for React/Next.js. Diff-aware, ship-readiness verdict, 30 modern failure-mode rules + 30 Laws of UX, 12 feature playbooks  |
 | `typography-audit`          | Design/dev    | Punctuation, font selection, sizing, spacing, and typographic quality                                                                            |
 | `ui-animation`              | Design/dev    | Motion design, springs, gestures, clip-path, and animation review                                                                                |
 | `presentation-creator`      | Design/dev    | Bold, minimal, dark-first slide decks and pitch decks                                                                                            |
