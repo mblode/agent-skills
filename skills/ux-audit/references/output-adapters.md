@@ -2,6 +2,14 @@
 
 The same JSON document renders to three formats. Build the JSON first; then render to the format the user (or pipeline) wants.
 
+## Table of contents
+
+- [Adapter 1: Terminal table](#adapter-1-terminal-table)
+- [Adapter 2: PR comment (GitHub / Vercel review)](#adapter-2-pr-comment-github--vercel-review)
+- [Adapter 3: CI JSON](#adapter-3-ci-json)
+- [Choosing the adapter](#choosing-the-adapter)
+- [Common rendering rules](#common-rendering-rules)
+
 ## Adapter 1: Terminal table
 
 For local dev, fast scan in the agent transcript or piped output. Tight, monospace-aware.

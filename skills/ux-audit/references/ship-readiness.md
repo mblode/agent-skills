@@ -2,6 +2,14 @@
 
 Every finding gets exactly one of three tiers. The tier determines whether the PR can ship, must wait, or merges with follow-up.
 
+## Table of contents
+
+- [The three tiers](#the-three-tiers)
+- [Tier assignment rules](#tier-assignment-rules)
+- [Verdict logic](#verdict-logic)
+- [Anti-patterns](#anti-patterns)
+- [Examples](#examples)
+
 ## The three tiers
 
 ### ⛔ release-blocker — fix before merge

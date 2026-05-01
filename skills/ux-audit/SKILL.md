@@ -156,8 +156,9 @@ Slug must match the rule slug. Suppressions are reported in the audit summary so
 | `references/output-schema.md` | Strict JSON schema for findings + verdict |
 | `references/observational-rubrics.md` | Layer 3 rubric rules (1-5 scoring with anchors) |
 | `rules-modern/<category>-<slug>.md` | Step 4 — running a Layer 2 modern frontend check |
+| `rules-modern/_sections.md` | Category index for the modern rule layer |
 | `rules/<prefix>-<slug>.md` | Step 4 — running a Layer 3 Laws of UX check |
-| `rules-modern/_sections.md` and `rules/_sections.md` | Category index for either rule layer |
+| `rules/_sections.md` | Category index for the Laws of UX rule layer |
 
 ## Gotchas
 
@@ -171,7 +172,7 @@ Slug must match the rule slug. Suppressions are reported in the audit summary so
 - **Don't quote the source verbatim.** Every rule paraphrases; lawsofux.com uses CC BY-NC-SA which would contaminate the skill.
 - **Don't fabricate detections.** If you can't grep the file or see the JSX, mark the finding `unknown` with a reason. Never claim a finding without evidence.
 
-### Audit-self-check
+## Audit-self-check
 
 Self-flag the audit as `INCOMPLETE` if any of these are true:
 
