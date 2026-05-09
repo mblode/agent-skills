@@ -44,8 +44,9 @@ Review progress:
    - Record the current branch and changed files so the report is grounded in the local session
 2. **Gather context**:
    - Capture the change intent from the session, recent commits, or the user's request
-   - Load relevant repository instruction files (`AGENTS.md` / `CLAUDE.md` as applicable)
+   - Load relevant repository instruction files (`AGENTS.md` / `CLAUDE.md` as applicable, including any in nested package/MFE directories whose code is in the diff)
    - Apply only in-scope instruction-file rules for the changed paths
+   - Run the project's lint, type check, and test commands (from `package.json` scripts) to capture current status — note pre-existing failures so they are distinguishable from regressions caused by the change. Include the lint/type-check/test status in the report so the reader knows the baseline at review time
 3. **Choose the local review path**:
    - Local self-review is the default: current diff/branch with a local report in chat
    - Existing PR requests are secondary: apply the same validation bar, then produce a concise handoff summary instead of changing the main workflow
@@ -67,7 +68,8 @@ Flag only when certain:
 - Code will fail to compile (syntax, types, imports)
 - Code will produce incorrect behavior (clear logic or state errors)
 - Code introduces a concrete security risk with direct exploit path
-- Changed behavior is clearly missing a necessary regression or validation test
+- Changed behavior is clearly missing a necessary regression or validation test, including: a new component or hook shipped with no co-located test file, or an existing test where every assertion is a render-only presence check (`expect(getByText(...)).toBeInTheDocument()`) with no user interaction or branch coverage
+- Lint, type check, or tests fail as a result of the change (distinguish from pre-existing failures captured in step 2)
 - Unambiguous instruction-file violation (quote rule, verify scope)
 
 Never flag:
