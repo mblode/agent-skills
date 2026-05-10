@@ -30,6 +30,7 @@ Load references only when needed:
 - Stack defaults: [references/stack-defaults.md](references/stack-defaults.md)
 - Shipping and rollout: [references/shipping-practices.md](references/shipping-practices.md)
 - Engineering quality checklists: [references/craftsmanship.md](references/craftsmanship.md)
+- API and interface design: [references/api-design.md](references/api-design.md) — load when designing endpoints, module contracts, or reviewing API surface changes
 
 ## Architecture setup workflow
 

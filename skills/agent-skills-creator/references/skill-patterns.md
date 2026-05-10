@@ -197,3 +197,23 @@ Load only the reference matching your context:
 **Example:** `multi-tenant-architecture` (103 lines, 5 platform-specific references)
 
 **Category affinity:** Data Fetching & Analysis, Runbooks, Infrastructure Operations
+
+## Cross-Cutting: Anti-Rationalization Tables
+
+Any pattern above can include an anti-rationalization table — pre-written rebuttals to common excuses for skipping the workflow. Agents (and tired engineers) will produce plausible-sounding justifications for skipping steps. Anti-rationalization tables are the counter.
+
+**When to include:** Skills where steps are frequently skipped under time pressure (specs, tests, security review, code review).
+
+**Format:**
+
+```markdown
+## Anti-Rationalizations
+
+| Excuse | Rebuttal |
+|--------|----------|
+| "This task is too simple for a spec." | Acceptance criteria still apply. Five lines is fine. Zero lines is not. |
+| "I'll write tests later." | There is no later. Write the failing test first. |
+| "Tests pass, ship it." | Passing tests are evidence, not proof. Did you verify user-visible behavior? |
+```
+
+Place the table after the workflow section but before anti-patterns. Each row should be a specific excuse the agent might generate, paired with a concrete rebuttal that redirects to the workflow step being skipped.

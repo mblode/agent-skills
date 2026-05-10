@@ -16,6 +16,8 @@ Run it before `/done` when a coding session produced changes worth checking.
 | `references/severity-rubric.md` | Default: choosing severity labels and filtering weak findings |
 | `references/comment-examples.md` | Before producing a local review report |
 | `references/review-surfaces.md` | When deciding whether the work stays in local self-review or should hand off to PR-specific workflows |
+| `references/security-checklist.md` | When the diff touches auth, input handling, external APIs, file uploads, or environment configuration |
+| `references/performance-checklist.md` | When the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports |
 
 ## Scope
 - Default target: staged or uncommitted local changes
@@ -67,8 +69,11 @@ Review progress:
 Flag only when certain:
 - Code will fail to compile (syntax, types, imports)
 - Code will produce incorrect behavior (clear logic or state errors)
-- Code introduces a concrete security risk with direct exploit path
+- Code introduces a concrete security risk with direct exploit path — load `references/security-checklist.md` for the three-tier classification when the diff touches auth, input handling, external APIs, or environment configuration
+- Code introduces a measurable performance regression — load `references/performance-checklist.md` for common bottleneck patterns when the diff touches data fetching, rendering, images, or dependencies
 - Changed behavior is clearly missing a necessary regression or validation test, including: a new component or hook shipped with no co-located test file, or an existing test where every assertion is a render-only presence check (`expect(getByText(...)).toBeInTheDocument()`) with no user interaction or branch coverage
+- Bug fix without a failing test that reproduces it first (Prove-It Pattern: if the fix is correct, a test for the bug should fail before and pass after)
+- Test code over-abstracts shared setup to the point where individual tests are unreadable without tracing helpers (prefer DAMP — Descriptive And Meaningful Phrases — over DRY in test code)
 - Lint, type check, or tests fail as a result of the change (distinguish from pre-existing failures captured in step 2)
 - Unambiguous instruction-file violation (quote rule, verify scope)
 
