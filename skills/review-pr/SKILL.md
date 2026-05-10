@@ -76,6 +76,8 @@ Flag only when certain:
 - Test code over-abstracts shared setup to the point where individual tests are unreadable without tracing helpers (prefer DAMP — Descriptive And Meaningful Phrases — over DRY in test code)
 - Lint, type check, or tests fail as a result of the change (distinguish from pre-existing failures captured in step 2)
 - Unambiguous instruction-file violation (quote rule, verify scope)
+- YAGNI violation: code adds abstractions, config systems, or extension points not justified by a current requirement (three similar lines is better than a premature abstraction)
+- KISS violation: implementation is more complex than the problem demands — a simpler approach exists that achieves the same result
 
 Never flag:
 - Style, quality, or subjective preferences

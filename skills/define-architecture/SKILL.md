@@ -7,6 +7,14 @@ description: Generates folder structures, module contracts, middleware pipelines
 
 Define durable, easy-to-change architecture defaults for TypeScript apps.
 
+## Principles (ordered by priority)
+
+1. **KISS** — the simplest architecture that solves the problem. Complexity is a cost, not a feature.
+2. **YAGNI** — build what's needed now. Don't design for hypothetical futures.
+3. **Easier to change** — good design isolates concerns so future changes stay local.
+4. **Tracer bullet** — prove the approach with a minimum viable vertical slice before building layers.
+5. **Duplication over wrong abstraction** — wait until three or more consumers need the same code before extracting.
+
 ## How to use this skill
 
 Copy and track this checklist:

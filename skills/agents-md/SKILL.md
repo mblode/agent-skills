@@ -13,7 +13,7 @@ ln -s AGENTS.md CLAUDE.md
 
 AGENTS.md files are execution contracts, not knowledge bases.
 
-**Litmus test for every line:** "Would removing this cause the agent to make a mistake?" If no, cut it. Bloated instruction files cause agents to ignore actual rules.
+**Litmus test for every line:** "Would removing this cause the agent to make a mistake?" If no, cut it. Bloated instruction files cause agents to ignore actual rules. KISS applies to instruction files too — the simplest set of rules that prevents mistakes is the best set.
 
 ## Reference Files
 
