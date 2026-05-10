@@ -29,11 +29,9 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `docs-writing`              | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation                                             |
 | `readme-creator`            | Writing/audit | Writes or rewrites README.md files tailored to the project type                                                                                  |
 | `agents-md`                 | Maintenance   | AGENTS.md/CLAUDE.md audits, pruning, and hygiene                                                                                                 |
-| `review-pr`                 | Pre-merge     | Runs a local end-of-session review of the current diff for high-confidence bugs, security risks, and instruction-file compliance before commit, push, or handoff |
+| `review-pr`                 | Pre-merge     | Runs a local end-of-session review of the current diff for high-confidence bugs and instruction-file compliance before commit, push, or handoff  |
 | `babysit-pr`                | Pre-merge     | Monitors PR health on a schedule — merge conflicts, CI/CD failures, review comment triage, and merge readiness. Also runs as one-shot comment triage |
-| `performance-optimization`  | Pre-launch    | Measurement-driven performance optimization — Core Web Vitals, React rendering, bundle size, database queries, caching, and image optimization    |
 | `optimise-seo`              | Pre-launch    | Metadata, structured data, sitemaps, and Core Web Vitals                                                                                         |
-| `api-and-interface-design`  | Architecture  | Contract-first API design — REST conventions, TypeScript patterns, error semantics, boundary validation, and Hyrum's Law                          |
 | `agent-native`              | Architecture  | Designs agent-native apps with tool parity, atomic primitives, completion signals, and context injection                                         |
 | `multi-tenant-architecture` | Architecture  | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel                                                                        |
 | `autoship`                  | Release       | Automates npm releases: changesets, changelogs, quality gates, CI monitoring, Version Packages PR merge, and npm-publish watch                   |
