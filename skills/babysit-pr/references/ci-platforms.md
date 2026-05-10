@@ -92,34 +92,91 @@ gh run cancel {run_id}
 
 ## Buildkite
 
-Buildkite registers as GitHub checks with a `buildkite/` prefix. Use `gh pr checks` for status, `bk` CLI for logs and retries.
+Buildkite registers as GitHub checks with a `buildkite/` prefix. Status is always available via `gh pr checks`. Logs and retries require authenticated access — use the fallback chain below.
 
-**Check status:**
+### Status (always works)
 
 ```bash
 gh pr checks --json name,state,conclusion,detailsUrl | jq '.[] | select(.name | startswith("buildkite/"))'
 ```
 
-Check name format is typically `buildkite/{org}/{pipeline}`. The `detailsUrl` contains the build number.
+Check name format is typically `buildkite/{org}/{pipeline}`. The `detailsUrl` links directly to the Buildkite build page.
 
-**View build details:**
+### Auth Fallback Chain
+
+Try these in order. Stop at the first one that works.
+
+**1. `bk` CLI (if authenticated)**
+
+Test auth first:
+
+```bash
+bk auth status 2>&1
+```
+
+If this returns a 401, expired token, or any error — skip to option 2. Do not retry or prompt the user to re-authenticate during a monitor cycle.
+
+If auth is valid:
 
 ```bash
 bk build view --pipeline {pipeline} --branch {branch}
-```
-
-**Fetch logs:**
-
-```bash
 bk job log --pipeline {pipeline} --build {build_number} --job {job_id}
+bk build retry --pipeline {pipeline} --number {build_number}
 ```
 
-If `bk` CLI is not available, provide the `detailsUrl` to the user — it links directly to the Buildkite build page.
-
-**Retry a build:**
+**2. Buildkite REST API (if `BUILDKITE_API_TOKEN` is set)**
 
 ```bash
-bk build retry --pipeline {pipeline} --number {build_number}
+# List builds for the branch
+curl -sH "Authorization: Bearer $BUILDKITE_API_TOKEN" \
+  "https://api.buildkite.com/v2/organizations/{org}/pipelines/{pipeline}/builds?branch={branch}&per_page=1"
+
+# Get build details
+curl -sH "Authorization: Bearer $BUILDKITE_API_TOKEN" \
+  "https://api.buildkite.com/v2/organizations/{org}/pipelines/{pipeline}/builds/{build_number}"
+
+# Get job log
+curl -sH "Authorization: Bearer $BUILDKITE_API_TOKEN" \
+  "https://api.buildkite.com/v2/organizations/{org}/pipelines/{pipeline}/builds/{build_number}/jobs/{job_id}/log"
+
+# Retry a build
+curl -sH "Authorization: Bearer $BUILDKITE_API_TOKEN" \
+  -X PUT "https://api.buildkite.com/v2/organizations/{org}/pipelines/{pipeline}/builds/{build_number}/rebuild"
+```
+
+Extract org and pipeline from the check name: `buildkite/{org}/{pipeline}` maps to the API path `organizations/{org}/pipelines/{pipeline}`.
+
+**3. Fallback: `gh pr checks` + detailsUrl (always works)**
+
+If neither `bk` CLI nor `BUILDKITE_API_TOKEN` is available:
+
+- Use `gh pr checks` for pass/fail status (always available)
+- Provide the `detailsUrl` link for the user to check logs manually
+- Cannot retry builds without auth — notify the user: "Buildkite build failed. Unable to fetch logs (no Buildkite auth). See: {detailsUrl}"
+
+### BK CLI Auth Recovery
+
+If `bk auth status` fails and the user wants to fix it:
+
+1. The `bk` CLI stores tokens in the macOS Keychain as `bkua_*` entries — these expire or get revoked periodically
+2. Tell the user: "Run `! bk auth login` to re-authenticate. I'll use the fallback until then."
+3. Do not block the monitor cycle on auth recovery — continue with fallback options
+4. On the next cycle, re-test `bk auth status` to pick up restored auth
+
+### Parsing detailsUrl
+
+The `detailsUrl` from `gh pr checks` contains all the information needed:
+
+```
+https://buildkite.com/{org}/{pipeline}/builds/{build_number}
+```
+
+Parse with:
+
+```bash
+org=$(echo "$url" | sed -E 's|https://buildkite.com/([^/]+)/.*|\1|')
+pipeline=$(echo "$url" | sed -E 's|https://buildkite.com/[^/]+/([^/]+)/.*|\1|')
+build_number=$(echo "$url" | sed -E 's|.*/builds/([0-9]+).*|\1|')
 ```
 
 ## Vercel
@@ -219,7 +276,7 @@ flyctl checks list --app {app_name}
 **Discovering the app name:**
 
 1. Check `fly.toml` in the repo root for `app = "name"`
-2. If not found, ask the user
+2. If not found, notify the user that the app name could not be determined
 
 ## Failure classification
 

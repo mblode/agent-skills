@@ -7,7 +7,7 @@ CronCreate configuration, state file format, and poll lifecycle for monitor mode
 - [Schedule Patterns](#schedule-patterns)
 - [CronCreate Prompt Template](#croncreate-prompt-template)
 - [State File Format](#state-file-format)
-- [Setup Questions](#setup-questions)
+- [Auto-Detection Defaults](#auto-detection-defaults)
 - [Stopping](#stopping)
 - [Session Lifecycle](#session-lifecycle)
 
@@ -15,9 +15,10 @@ CronCreate configuration, state file format, and poll lifecycle for monitor mode
 
 | User intent | Cron expression | Notes |
 |-------------|-----------------|-------|
-| Every 5 minutes (default) | `*/5 * * * *` | Good balance of responsiveness and API usage |
-| Every 10 minutes | `*/10 * * * *` | Lower API usage for stable PRs |
-| Every 15 minutes | `*/15 * * * *` | Minimal polling |
+| Every 2 minutes (default) | `*/2 * * * *` | Default — responsive polling for active PRs |
+| Every 5 minutes | `*/5 * * * *` | Lower API usage for stable PRs |
+| Every 10 minutes | `*/10 * * * *` | Minimal polling |
+| Every 15 minutes | `*/15 * * * *` | Background monitoring |
 | Every hour | `7 * * * *` | Use off-minute (`:07`) to avoid jitter on `:00` |
 
 Prefer off-minute scheduling — CronCreate adds jitter to tasks at `:00` and `:30`. Pick a minute like `3`, `7`, or `13` for hourly+ intervals.
@@ -29,12 +30,12 @@ Recurring tasks auto-expire after 3 days. If the PR is still open, re-run `/baby
 ```
 Check PR #{N} in {owner}/{repo}. Run babysit-pr monitor phases 2-5:
 1. Check for merge conflicts (gh pr view --json mergeable) and resolve if possible
-2. Check CI/CD status (gh pr checks) and diagnose any failures
-3. Check for new review comments and triage if needed
+2. Check CI/CD status (gh pr checks) and diagnose any failures. Use Buildkite auth fallback chain if needed.
+3. Check for new review comments and triage autonomously if needed (no plan approval — fix and resolve directly)
 4. Evaluate merge readiness and notify me of any state changes
 State file: .claude/scratchpad/babysit-pr-{N}.md
-Auto-resolve noise: {yes|no}
-Auto-merge: {yes|no}
+Auto-resolve noise: yes
+Auto-merge: no
 ```
 
 ## State File Format
@@ -53,9 +54,9 @@ Write to `.claude/scratchpad/babysit-pr-{N}.md`. Create directory if needed.
 
 ## Preferences
 
-- Auto-resolve noise: {yes|no}
-- Auto-merge when ready: {yes|no}
-- Poll interval: {interval}
+- Auto-resolve noise: yes
+- Auto-merge when ready: no
+- Poll interval: every 2 minutes
 
 ## Current State
 
@@ -77,16 +78,19 @@ Write to `.claude/scratchpad/babysit-pr-{N}.md`. Create directory if needed.
 
 Keep the history log to the last 20 entries. Older entries can be dropped.
 
-## Setup Questions
+## Auto-Detection Defaults
 
-Ask the user during Phase 1:
+No setup questions. The monitor auto-detects and applies sensible defaults:
 
-1. **Confirm PR** — "Monitoring PR #{N}: {title}. Correct?"
-2. **Poll interval** — "How often should I check? (default: every 5 minutes)"
-3. **Auto-resolve noise** — "Auto-resolve noise bot comments (vercel, linear, changeset)? (default: no)"
-4. **Auto-merge** — "Auto-merge when all checks pass and reviews are approved? (default: no)"
+| Setting | Default | Override |
+|---------|---------|----------|
+| PR | Auto-detect from current branch | Pass PR number as argument |
+| Poll interval | Every 2 minutes (`*/2 * * * *`) | "Poll every 5 minutes" |
+| Auto-resolve noise | Yes | "Don't auto-resolve noise" |
+| Auto-merge | No | "Enable auto-merge" |
+| CI platforms | Auto-detected from `gh pr checks` | — |
 
-CI platforms are auto-detected from `gh pr checks` — no need to ask.
+Overrides can be given inline when invoking: "babysit PR #42, poll every 5 minutes, enable auto-merge."
 
 ## Stopping
 
