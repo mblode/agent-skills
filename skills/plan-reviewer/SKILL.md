@@ -39,7 +39,7 @@ Plan review progress:
 - [ ] Step 2: Triage — score dimensions and identify weakest areas
 - [ ] Step 3: Rubber duck dialogue (5-8 questions, max 2 pushes each)
 - [ ] Step 4: Gap summary (three-tier findings)
-- [ ] Step 5: Update the plan (opt-in)
+- [ ] Step 5: Update the plan file with resolved answers and unresolved annotations
 ```
 
 ### Step 1: Load the plan
@@ -102,14 +102,15 @@ Three tiers:
 
 Each finding references the plan section, states the concrete gap, and marks whether it was resolved during dialogue.
 
-### Step 5: Update the plan (opt-in)
+### Step 5: Update the plan
 
-Ask the user:
-- A) Update the plan file with resolved gaps and annotate unresolved ones
-- B) I'll update it myself
-- C) Plan is fine as-is
+After the gap summary, update the plan file directly:
 
-If A: edit the plan file to add resolved answers inline, add `<!-- UNRESOLVED: description -->` comments for gaps, and append a Review Notes section.
+- Add resolved answers inline where the gap was identified
+- Add `<!-- UNRESOLVED: description -->` comments for unresolved gaps
+- Append a Review Notes section with the triage scores and date
+
+Do not ask permission — updating the plan is the point of the review. If the plan was loaded from a file, edit that file. If the user objects, they can revert.
 
 ## Dialogue Protocol
 
@@ -129,7 +130,7 @@ If A: edit the plan file to add resolved answers inline, add `<!-- UNRESOLVED: d
 - Don't praise the plan before questioning it. Anti-sycophancy is critical here.
 - Don't push more than twice on the same question. Two pushes without specificity = unresolved gap.
 - Don't exceed 8 questions total. If the plan has more than 8 gaps, it needs rewriting, not more questions.
-- Don't edit the plan file without explicit user permission (Step 5 is opt-in).
+- Always update the plan file after review — that's the deliverable, not just the conversation.
 - Don't review code — use `review-pr` for that. This skill reviews plan documents only.
 - Don't generate a new plan. If the plan is too weak to salvage, say so and suggest rewriting.
 - Don't accept "we might need this later" as justification — YAGNI means build it when you need it, not before.
