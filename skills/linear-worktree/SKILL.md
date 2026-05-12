@@ -1,21 +1,24 @@
 ---
 name: linear-worktree
-description: Creates a git worktree from main for a Linear issue. Use when the user pastes a Linear URL (https://linear.app/.../issue/ABC-58/...), a Linear "copy as prompt" string, or just an issue ID like "ABC-58". Handles URL parsing, branch name derivation, and worktree creation as a sibling directory. Also use when asked to "make a worktree for ABC-58", "set up a branch for this issue", or "create a worktree".
+description: Creates a git worktree from main for a Linear issue and cd's into it. Use when the user pastes a Linear URL (https://linear.app/.../issue/ABC-58/...), a Linear "copy as prompt" string, or just an issue ID like "ABC-58" or "tig-232". When only an ID is provided, the skill fetches the ticket via the Linear MCP server to derive a descriptive branch slug and load ticket context. After creating the worktree, Claude cd's into it so follow-up work happens in the new directory. Also use when asked to "make a worktree for ABC-58", "set up a branch for this issue", or "create a worktree".
 ---
 
 # linear-worktree
 
-Creates a git worktree from `main` for a Linear issue as a sibling directory of the current repo.
+Creates a git worktree from `main` for a Linear issue as a sibling directory of the current repo, fetches the ticket via Linear MCP when only an ID is given, and `cd`s Claude's session into the new worktree.
 
 Copy and track this checklist:
 
 ```text
 Worktree creation progress:
 - [ ] Step 1: Resolve REPO_ROOT / REPO_NAME / REPOS_BASE
-- [ ] Step 2: Parse input into ISSUE_ID and BRANCH
-- [ ] Step 3: git fetch origin main
-- [ ] Step 4: git worktree add at $REPOS_BASE/$REPO_NAME-$ISSUE_ID
-- [ ] Step 5: Report worktree path, branch, and cd command with resolved paths
+- [ ] Step 2: Parse input into ISSUE_ID (and slug/title if provided inline)
+- [ ] Step 3: If only an ID was given, fetch issue via Linear MCP (title + description)
+- [ ] Step 4: Derive BRANCH from ISSUE_ID + slug
+- [ ] Step 5: git fetch origin main
+- [ ] Step 6: git worktree add at $REPOS_BASE/$REPO_NAME-$ISSUE_ID
+- [ ] Step 7: cd into the worktree (Bash tool, so subsequent tool calls run there)
+- [ ] Step 8: Report worktree path, branch, cd command, and a short ticket summary
 ```
 
 ## Setup
@@ -32,7 +35,7 @@ The user provides one of:
 
 - **Linear URL**: `https://linear.app/myteam/issue/ABC-58/add-dark-mode-toggle`
 - **Copy as prompt**: `ABC-58 Add dark mode toggle to settings page`
-- **Issue ID only**: `ABC-58`
+- **Issue ID only**: `ABC-58` or `tig-232`
 
 ## Parsing
 
@@ -54,7 +57,26 @@ All parsing produces two values: `ISSUE_ID` (lowercased) and `BRANCH` (id + slug
 
 ### From issue ID only
 
-Lowercase the ID → `ISSUE_ID` = `abc-58`. Slugify any description the user provides for the branch, otherwise `BRANCH` = `abc-58`.
+Lowercase the ID → `ISSUE_ID` = `abc-58`. Then run the MCP lookup below to fetch the title and derive the slug. If MCP is unavailable, `BRANCH` falls back to bare `abc-58`.
+
+## MCP Lookup
+
+Trigger this step when the input is a bare ID, or any time the user wants ticket context loaded.
+
+1. **Pick the first reachable Linear MCP tool.** Try in order:
+   - `mcp__claude_ai_Linear__get_issue`
+   - `mcp__claude_ai_Linear_2__get_issue`
+   - `mcp__linear-server__*` (whichever `get_issue` equivalent it exposes)
+
+   Don't hardcode one — different machines have different servers connected. If the chosen tool is a deferred tool, load it first with `ToolSearch` using `select:<tool_name>`.
+
+2. **Fetch the issue** by its ID (uppercased for the MCP call, e.g. `TIG-232`).
+
+3. **Derive the slug** from the issue title using the same slugify rules as the "copy as prompt" path. `BRANCH` = `<issue-id>-<slug>`.
+
+4. **Capture the description** (plain text, truncated to a few short paragraphs) for the post-setup summary so Claude is primed to work the ticket.
+
+5. **If MCP fails** (no server, auth expired, issue not found): do **not** block worktree creation. Fall back to bare-ID branch (`abc-58`), warn the user clearly, and suggest re-auth (e.g. `/login` for the relevant MCP server) if the cause was an SSO/auth error.
 
 ## Worktree Creation
 
@@ -71,13 +93,25 @@ This creates a worktree at `$REPOS_BASE/$REPO_NAME-$ISSUE_ID` (e.g. `/Users/you/
 
 ## After Creation
 
-Tell the user the worktree path, branch name, and `cd` command using actual resolved paths:
+1. **`cd` into the worktree via the Bash tool** so Claude's working directory persists for follow-up tool calls:
 
-```
-Worktree: /Users/you/Code/myrepo-abc-58
-Branch:   abc-58-add-dark-mode-toggle
-Run:      cd /Users/you/Code/myrepo-abc-58
-```
+   ```bash
+   cd $REPOS_BASE/$REPO_NAME-$ISSUE_ID
+   ```
+
+2. **Print a summary** using resolved paths:
+
+   ```
+   Worktree: /Users/you/Code/myrepo-abc-58
+   Branch:   abc-58-add-dark-mode-toggle
+   Claude is now working in this directory.
+   If you exit Claude: cd /Users/you/Code/myrepo-abc-58
+
+   Ticket: ABC-58 — Add dark mode toggle
+   <2–4 line description summary>
+   ```
+
+   Omit the ticket block if MCP lookup wasn't run or failed.
 
 ## Edge Cases and Gotchas
 
@@ -87,4 +121,6 @@ Run:      cd /Users/you/Code/myrepo-abc-58
 - **Always fetch first**: `git fetch origin main` before `git worktree add`, or the worktree gets a stale base.
 - **Sibling, not child**: worktree path is next to `$REPO_ROOT`, never inside it.
 - **"Create a branch" means worktree**: use `git worktree add`, not `git checkout -b`.
-- **Always end with `cd`**: the worktree is useless if the user stays in the original repo.
+- **Always `cd` via Bash so subsequent tool calls land in the worktree**; also print the path so the user can `cd` in their own shell if they exit Claude.
+- **Linear MCP failure is non-blocking**: if no Linear server is connected or auth has expired, fall back to a bare-ID branch and warn — don't abort the worktree.
+- **Pick the first reachable Linear MCP server**; do not hardcode a single one. Different machines connect different servers (`claude_ai_Linear`, `claude_ai_Linear_2`, `linear-server`, etc.).
