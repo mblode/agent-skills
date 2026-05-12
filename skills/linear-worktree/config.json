@@ -1,5 +1,5 @@
 {
   "repos_base": "",
   "default_repo": "",
-  "_note": "Optional. When invoked outside a git repo, set both values so REPO_ROOT becomes repos_base/default_repo. Example: repos_base=/Users/you/Code/linktree, default_repo=frontyard"
+  "_note": "Optional user defaults for use outside a git repo; leave blank to infer from cwd."
 }
