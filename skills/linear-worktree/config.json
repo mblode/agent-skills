@@ -1,4 +1,5 @@
 {
   "repos_base": "",
-  "_note": "Optional. Set to override the default (parent of current repo). Example: ~/Code"
+  "default_repo": "",
+  "_note": "Optional. When invoked outside a git repo, set both values so REPO_ROOT becomes repos_base/default_repo. Example: repos_base=/Users/you/Code/linktree, default_repo=frontyard"
 }
