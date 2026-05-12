@@ -1,5 +1,0 @@
-{
-  "repos_base": "",
-  "default_repo": "",
-  "_note": "Optional user defaults for use outside a git repo; leave blank to infer from cwd."
-}

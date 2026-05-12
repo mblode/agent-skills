@@ -37,7 +37,6 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `multi-tenant-architecture` | Architecture  | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel                                                                        |
 | `autoship`                  | Release       | Automates npm releases: changesets, changelogs, quality gates, CI monitoring, Version Packages PR merge, and npm-publish watch                   |
 | `agent-skills-creator`      | Authoring     | Best-practice skill creation following the open format specification                                                                             |
-| `linear-worktree`           | Development   | Creates a git worktree from the repo's default branch for a Linear issue — parses URLs, Linear copy-as-prompt text, or bare issue IDs, then sets up branch and worktree |
 
 ## License
 
