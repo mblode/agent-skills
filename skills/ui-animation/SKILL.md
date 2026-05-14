@@ -31,7 +31,7 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 
 ## Motion design principles
 
-- **Continuity over teleportation.** Elements visible in both states transition in place. Never duplicate a persistent element or hard-cut between views that share components.
+- **Continuity over teleportation.** Elements visible in both states transition in place. Use shared element transitions — expand from where elements sit rather than fading in a new instance. Never duplicate a persistent element or hard-cut between views that share components.
 - **Directional motion matches position.** Tab and carousel transitions animate in the direction matching spatial layout (left-to-right for forward, right-to-left for back).
 - **Emerge from the trigger.** Overlays, trays, and panels animate outward from the element that opened them. Generic centre-screen entrances break spatial orientation.
 - **Consistent polish everywhere.** Under-animated areas make the entire product feel unpolished. Motion quality must be uniform across all surfaces.
@@ -71,12 +71,34 @@ Avoid `ease-in` for UI. Prefer custom curves from [easing.dev](https://easing.de
 
 - Set `transform-origin` at the trigger point for popovers; keep `center` for modals.
 - For dialogs/menus, start around `scale(0.85–0.9)`. Never `scale(0)`.
-- Stagger reveals at 30–50ms per item; total stagger under 300ms.
+- Stagger reveals at 30–50ms per item; total stagger under 300ms. Vary timing by visual importance — the most important element should lead. Uniform stagger (identical delays between all items) removes hierarchy and feels mechanical.
+- **Paired elements rule:** Elements that animate together (modal + overlay, tooltip + arrow, FAB + label) must share the same easing curve and duration. Mismatched timing between paired elements is a common source of "something feels off" bugs.
 
 ## Accessibility
 
-- Gate hover animations behind `@media (hover: hover) and (pointer: fine)` to avoid false positives on touch.
+- Gate hover animations behind `@media (hover: hover) and (pointer: fine)` to avoid false positives on touch. Tailwind v4 `hover:` utilities apply this guard automatically — skip the manual media query in Tailwind v4 projects.
 - During direct manipulation, keep the element locked to the pointer. Add easing only after release.
+- Respect `prefers-reduced-motion: reduce`. Replace spatial movement (`translateY`, `scale`) with `opacity` crossfades — reduced motion means less spatial movement, not zero feedback. Keep `color` and `background-color` transitions.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+```
+
+- In Framer Motion, use the `useReducedMotion` hook to skip spatial `initial` values:
+
+```tsx
+const shouldReduceMotion = useReducedMotion();
+<motion.div
+  initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+/>
+```
 
 ## Performance
 
@@ -103,6 +125,7 @@ Avoid `ease-in` for UI. Prefer custom curves from [easing.dev](https://easing.de
 - Static cuts between related views — if views share elements, hard cuts lose spatial context. Transition shared elements in place.
 - Duplicating persistent elements across states — animate the same element from its current position to its next, rather than hiding one and showing another.
 - Generic centre-screen entrance for contextual content — overlays and trays should emerge from their trigger, not fade in from nowhere.
+- Animating both a container and staggering its children — pick one entrance per container. If the panel slides in, its content should already be visible when it arrives.
 
 ## Workflow
 

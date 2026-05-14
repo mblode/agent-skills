@@ -37,7 +37,7 @@ Springs feel more natural than duration-based animations because they simulate r
 | Gentle | 200 | 30 | Page transitions, large elements |
 | Stiff | 700 | 50 | Small precise movements |
 
-Keep bounce subtle (0.1–0.3) when used. Avoid bounce in most UI contexts.
+Bounce communicates brand personality. Default to zero — it is the safe choice. A finance dashboard should never bounce; a learning app or creative tool can use subtle bounce (0.1–0.2) to feel friendlier. The question is not "does it look better with bounce?" but "does this match the brand?"
 
 ## Interruptibility advantage
 

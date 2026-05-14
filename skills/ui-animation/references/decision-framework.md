@@ -1,5 +1,11 @@
 # Animation Decision Framework
 
+## Contents
+- [1. Should this animate at all?](#1-should-this-animate-at-all)
+- [2. What is the purpose?](#2-what-is-the-purpose)
+- [3. What easing should it use?](#3-what-easing-should-it-use)
+- [4. How fast should it be?](#4-how-fast-should-it-be)
+
 Before writing any animation code, answer these four questions in order.
 
 ## 1. Should this animate at all?
@@ -40,9 +46,31 @@ Follow this decision tree:
 - **Direct manipulation (drag)?** → no easing, follow the pointer
 - **Constant motion (marquee, spinner)?** → `linear`
 
-Use custom easing curves. Avoid `ease-in` for UI.
+Avoid `ease-in` for UI — it starts slow and feels sluggish. CSS's built-in named curves (`ease-out`, `ease`) have gentle acceleration that makes animations feel soft rather than decisive. Custom curves like `cubic-bezier(0.22, 1, 0.36, 1)` have steeper initial acceleration — the element covers most of its distance in the first third, so the same 200ms feels significantly faster.
 
 **Easing resources:** [easing.dev](https://easing.dev/) and [easings.co](https://easings.co/) for stronger custom variants.
+
+### Extended easing reference
+
+| Name | Curve | Character |
+|---|---|---|
+| ease-out-quad | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` | Gentle deceleration |
+| ease-out-cubic | `cubic-bezier(0.22, 0.61, 0.36, 1)` | Standard deceleration |
+| ease-out-quart | `cubic-bezier(0.165, 0.84, 0.44, 1)` | Strong deceleration |
+| ease-out-quint | `cubic-bezier(0.23, 1, 0.32, 1)` | Very strong deceleration |
+| ease-out-expo | `cubic-bezier(0.19, 1, 0.22, 1)` | Explosive start, soft land |
+| ease-out-circ | `cubic-bezier(0.075, 0.82, 0.165, 1)` | Circular deceleration |
+| ease-in-out-quad | `cubic-bezier(0.455, 0.03, 0.515, 0.955)` | Gentle symmetric |
+| ease-in-out-cubic | `cubic-bezier(0.645, 0.045, 0.355, 1)` | Standard symmetric |
+| ease-in-out-quart | `cubic-bezier(0.77, 0, 0.175, 1)` | Strong symmetric |
+
+Use weaker curves (quad, cubic) for small or frequent elements. Use stronger curves (quint, expo) for large or rare transitions.
+
+### Asymmetric vs symmetric curves
+
+Symmetric ease-in-out starts slow — there's a noticeable lag between the user's action and the element beginning to move. For interactive elements (drawers, panels, menus), use asymmetric curves that are steep at the start and settle slowly at the end. This preserves responsiveness while the slow deceleration adds quality.
+
+Duration and easing are inseparable. A steep curve can afford a longer duration because the movement is front-loaded — Vaul's drawer uses 500ms with `cubic-bezier(0.32, 0.72, 0, 1)`, but it doesn't feel slow because the drawer covers most of its distance in the first 200ms.
 
 ## 4. How fast should it be?
 
@@ -55,7 +83,7 @@ Use custom easing curves. Avoid `ease-in` for UI.
 | Page transitions | 250–400ms |
 | Illustrative / marketing | Up to 1000ms |
 
-**Rule: keep routine UI animation under 300ms.**
+**Rule: keep routine UI animation under 300ms.** Scale duration with distance traveled — a full-screen menu sliding from off-screen can exceed 300ms, while a 6px tooltip shift should be under 150ms.
 
 ### Perceived performance
 
