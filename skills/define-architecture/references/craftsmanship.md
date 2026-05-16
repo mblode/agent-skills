@@ -2,6 +2,18 @@
 
 Use these checklists when setting conventions or reviewing code quality.
 
+## Code style
+
+- Use active names for functions; names should say what they do.
+- Pick one word per concept — don't mix `get`/`fetch`/`retrieve`.
+- Keep functions small; do one thing well; one level of abstraction per function.
+- Prefer minimal arguments; avoid boolean flag parameters.
+- Avoid negative conditionals.
+- Delete commented-out code and unused code.
+- Give names to magic numbers.
+- Comments must not contradict the code; use them for intent, not description.
+- Be careful with side effects.
+
 ## Interfaces and errors
 
 - Hide implementation details; design small orthogonal primitives.
@@ -11,9 +23,10 @@ Use these checklists when setting conventions or reviewing code quality.
 
 ## Debugging checklist
 
+- Debug it now, not later; don't make the same mistake twice.
 - Reproduce the bug; read before typing; get a stack trace.
 - Inspect recent changes; look for patterns or failure numerology.
-- Explain the code to someone else; avoid repeating mistakes.
+- Explain the code to someone else.
 - Divide and conquer; localize with logging or output.
 - Draw pictures; use tools; keep records.
 - Write self-checking code and log files when needed.
@@ -46,6 +59,7 @@ Use these checklists when setting conventions or reviewing code quality.
 
 ## Professionalism and pragmatism
 
+- Design before writing code; be prepared and communicate early.
 - Avoid harmful changes; prefer reversible steps when risk is unclear.
 - Communicate requirements with a brief spec or acceptance criteria.
 - Create acceptance tests; leave the codebase cleaner than found.
