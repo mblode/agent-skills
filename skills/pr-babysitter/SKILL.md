@@ -1,6 +1,6 @@
 ---
-name: babysit-pr
-description: Autonomous PR monitor — polls every 2 minutes for merge conflicts, CI/CD failures across GitHub Actions, Buildkite, Vercel, and Fly.io, review comments, and merge readiness. Auto-detects PR from current branch, fixes what it can, notifies on state changes. No setup questions. Use when asked to babysit a PR, watch a PR, monitor CI, keep a PR green, handle merge conflicts, or poll PR status
+name: pr-babysitter
+description: Autonomous PR monitor — polls every 2 minutes for merge conflicts, CI/CD failures across GitHub Actions, Buildkite, Vercel, and Fly.io, review comments, and merge readiness. Auto-detects PR from current branch, fixes what it can, notifies on state changes. No setup questions. Use when asked to babysit a PR, watch a PR, monitor CI, keep a PR green, handle merge conflicts, poll PR status, or run `/pr-babysitter`
 ---
 
 # PR Babysitter
@@ -171,4 +171,4 @@ On stop, report a final summary: total polls, fixes applied, conflicts resolved,
 
 ## Related skills
 
-- `review-pr` for local self-review before pushing fixes
+- `pr-reviewer` for local self-review before pushing fixes

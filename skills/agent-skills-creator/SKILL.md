@@ -43,7 +43,7 @@ Load `references/skill-categories.md` for detailed guidance per category includi
 | Pattern | When to use | Example | Key files |
 |---------|-------------|---------|-----------|
 | Simple/hub | Dispatch to 2-5 focused files by track | `ui-design` | SKILL.md + track files |
-| Workflow | Multi-step process with progressive loading | `agents-md`, `review-pr` | SKILL.md + `references/` |
+| Workflow | Multi-step process with progressive loading | `agents-md`, `pr-reviewer` | SKILL.md + `references/` |
 | Rules-based | Audit/lint with categorized rules | `typography-audit`, `docs-writing` | SKILL.md + `rules/` |
 | Mixed | Workflow with conditional references | `multi-tenant-architecture` | SKILL.md + `references/` |
 

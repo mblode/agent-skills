@@ -131,7 +131,7 @@ Do not ask permission — updating the plan is the point of the review. If the p
 - Don't push more than twice on the same question. Two pushes without specificity = unresolved gap.
 - Don't exceed 8 questions total. If the plan has more than 8 gaps, it needs rewriting, not more questions.
 - Always update the plan file after review — that's the deliverable, not just the conversation.
-- Don't review code — use `review-pr` for that. This skill reviews plan documents only.
+- Don't review code — use `pr-reviewer` for that. This skill reviews plan documents only.
 - Don't generate a new plan. If the plan is too weak to salvage, say so and suggest rewriting.
 - Don't accept "we might need this later" as justification — YAGNI means build it when you need it, not before.
 - Don't let complexity slide because it's "elegant" — KISS beats clever every time.
@@ -139,5 +139,5 @@ Do not ask permission — updating the plan is the point of the review. If the p
 ## Related Skills
 
 - `office-hours` — idea exploration before a plan exists
-- `review-pr` — code review after implementation
+- `pr-reviewer` — code review after implementation
 - `define-architecture` — architectural decisions that feed into plans

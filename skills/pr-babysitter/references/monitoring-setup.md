@@ -23,12 +23,12 @@ CronCreate configuration, state file format, and poll lifecycle for monitor mode
 
 Prefer off-minute scheduling — CronCreate adds jitter to tasks at `:00` and `:30`. Pick a minute like `3`, `7`, or `13` for hourly+ intervals.
 
-Recurring tasks auto-expire after 3 days. If the PR is still open, re-run `/babysit-pr` to restart.
+Recurring tasks auto-expire after 3 days. If the PR is still open, re-run `/pr-babysitter` to restart.
 
 ## CronCreate Prompt Template
 
 ```
-Check PR #{N} in {owner}/{repo}. Run babysit-pr monitor phases 2-5:
+Check PR #{N} in {owner}/{repo}. Run pr-babysitter monitor phases 2-5:
 1. Check for merge conflicts (gh pr view --json mergeable) and resolve if possible
 2. Check CI/CD status (gh pr checks) and diagnose any failures. Use Buildkite auth fallback chain if needed.
 3. Check for new review comments and triage autonomously if needed (no plan approval — fix and resolve directly)

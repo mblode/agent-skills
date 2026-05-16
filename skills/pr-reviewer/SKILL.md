@@ -1,6 +1,6 @@
 ---
-name: review-pr
-description: Reviews the current local diff or branch at the end of a coding session for high-confidence bugs and repository instruction-file compliance. Use when asked to run `/review-pr` before commit, before push, or before handing changes off for PR creation or update, and when only certain, actionable findings should be reported while style feedback is ignored.
+name: pr-reviewer
+description: Reviews the current local diff or branch at the end of a coding session for high-confidence bugs and repository instruction-file compliance. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update, and when only certain, actionable findings should be reported while style feedback is ignored.
 ---
 
 # Local Review
@@ -141,6 +141,6 @@ If the user explicitly points at an existing PR, adapt the same validated findin
 ## Related skills
 
 - `done` for session capture after the review is complete
-- `babysit-pr` for triaging and resolving inbound review threads after feedback has been left
+- `pr-babysitter` for triaging and resolving inbound review threads after feedback has been left
 
 Every flagged issue should be something a senior engineer would catch.
