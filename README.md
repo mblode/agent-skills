@@ -33,7 +33,6 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `pr-reviewer`               | Pre-merge     | Runs a local end-of-session review of the current diff for high-confidence bugs and instruction-file compliance before commit, push, or handoff  |
 | `pr-babysitter`             | Pre-merge     | Monitors PR health on a schedule — merge conflicts, CI/CD failures, review comment triage, and merge readiness. Also runs as one-shot comment triage |
 | `optimise-seo`              | Pre-launch    | Metadata, structured data, sitemaps, and Core Web Vitals                                                                                         |
-| `agent-ready-audit`         | Pre-launch    | AI agent readiness audit — llms.txt, markdown negotiation, MCP discovery, robots.txt AI directives, and agent protocol compliance                 |
 | `ax-audit`                  | Pre-ship      | Agentic experience audit — 11 architecture rules + 12 trust/relationship rules, 4 agentic feature playbooks, ship-readiness verdicts, and AX Relationship Summary |
 | `multi-tenant-architecture` | Architecture  | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel                                                                        |
 | `autoship`                  | Release       | Automates npm releases: changesets, changelogs, quality gates, CI monitoring, Version Packages PR merge, and npm-publish watch                   |
