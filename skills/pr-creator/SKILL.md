@@ -1,10 +1,10 @@
 ---
 name: pr-creator
 description: >
-  Creates GitHub pull requests with short, human-sounding descriptions instead of
-  verbose AI-generated summaries. Enforces imperative titles under 60 chars and
-  2-5 plain bullet points with no test plan sections or file-by-file changelogs.
-  Use when "create a PR", "make a PR", "open a pull request", "PR this", or "ship it".
+  Creates GitHub pull requests with short, human-sounding descriptions. Adds a
+  Linear issue ID prefix when available, keeps titles under 60 chars, and writes
+  2-5 plain bullets with no test plan sections or file-by-file changelogs. Use
+  when "create a PR", "make a PR", "open a pull request", "PR this", or "ship it".
 ---
 
 # pr-creator
@@ -13,13 +13,13 @@ Write PR descriptions like a developer posting in Slack, not like an AI summariz
 
 ## Rules
 
-1. **Title**: short imperative, under 60 chars, sentence case. No periods.
+1. **Title**: use `TIG-271: Add auth flow` when a Linear ID is available. Otherwise use `Add auth flow`. Keep it under 60 chars. No periods.
 2. **Body**: 2-5 bullet points. Each bullet is one line. No sub-bullets.
 3. **No sections.** No `## Summary`, no `## Test plan`, no `## Changes`, no headers at all.
 4. **No file-by-file changelogs.** Never list which files were touched.
 5. **No corporate AI tone.** See anti-patterns below.
 6. **Testing goes in a bullet** if worth mentioning — "tested with X" or "verified Y works". Not a section.
-7. **End with the co-author line**, nothing else after it.
+7. **End after the final bullet.** No generated-by footer or co-author line.
 
 ## Anti-patterns — never write these
 
@@ -61,7 +61,7 @@ Title: Implement user authentication flow with session management and error hand
 **Good** (what this skill produces):
 
 ```text
-Title: Add auth flow with session management
+Title: TIG-271: Add auth flow with session management
 
 - Auth context provider with login/logout/refresh
 - Sessions timeout after 30 min and auto-refresh
@@ -73,14 +73,10 @@ Title: Add auth flow with session management
 After analyzing the diff and drafting the title and body, create the PR:
 
 ```bash
-gh pr create --title "the title here" --body "$(cat <<'EOF'
+gh pr create --title "TIG-271: the title here" --body "$(cat <<'EOF'
 - first bullet
 - second bullet
 - third bullet if needed
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
 EOF
 )"
 ```
@@ -88,9 +84,10 @@ EOF
 ## Workflow
 
 1. Run `git status`, `git diff`, and `git log` to understand the changes.
-2. Push with `-u` if the branch has no upstream.
-3. Draft title and body following the rules above.
-4. Create the PR with `gh pr create`.
-5. Return the PR URL.
+2. Find a Linear ID like `ABC-123` in the branch, commits, prompt, or PR context. If none exists, leave it out.
+3. Push with `-u` if the branch has no upstream.
+4. Draft title and body following the rules above.
+5. Create the PR with `gh pr create`.
+6. Return the PR URL.
 
 Do not ask the user to confirm the description before creating. The whole point is speed.
