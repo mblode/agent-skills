@@ -14,7 +14,7 @@ Write PR descriptions like a developer posting in Slack, not like an AI summariz
 
 ## Rules
 
-1. **Title**: use `TIG-271: Add auth flow` when a Linear ID is available. Otherwise use `Add auth flow`. Keep it under 60 chars. No periods.
+1. **Title**: when a Linear ID is available, prefix the title with the real ID: `<LINEAR-ID>: Add auth flow`. For example, `TIG-271: Add auth flow`. Otherwise use `Add auth flow`. Keep it under 60 chars. No periods.
 2. **Body**: default to one short paragraph. Explain what changed and why it matters.
 3. **No fake why.** If the reason is not clear from the prompt, Linear issue, branch, commits, or diff, leave it out.
 4. **Risk only when real.** Add one short `Risk:` line only for migrations, billing/auth/permission changes, irreversible writes, wide blast radius, or subtle behavior changes.
@@ -61,6 +61,8 @@ Title: Implement user authentication flow with session management and error hand
 
 **Good** (what this skill produces):
 
+Assume `TIG-271` is the real Linear ID for this example:
+
 ```text
 Title: TIG-271: Add auth flow with session management
 
@@ -72,7 +74,7 @@ Adds the auth flow needed for session-based login, including refresh, timeout ha
 After analyzing the diff and drafting the title and body, create the PR:
 
 ```bash
-gh pr create --title "TIG-271: the title here" --body "$(cat <<'EOF'
+gh pr create --title "<LINEAR-ID>: the title here" --body "$(cat <<'EOF'
 One short paragraph that explains what changed and why it matters.
 EOF
 )"
