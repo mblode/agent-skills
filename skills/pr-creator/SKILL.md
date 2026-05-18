@@ -3,7 +3,7 @@ name: pr-creator
 description: >
   Creates GitHub pull requests with short, human-sounding descriptions. Adds a
   Linear issue ID prefix when available, keeps titles under 60 chars, and
-  defaults to one useful paragraph instead of generated summaries or test-plan
+  defaults to one short paragraph instead of generated summaries or test-plan
   sections. Use when "create a PR", "make a PR", "open a pull request", "PR
   this", or "ship it".
 ---
@@ -74,7 +74,7 @@ Adds the auth flow needed for session-based login, including refresh, timeout ha
 After analyzing the diff and drafting the title and body, create the PR:
 
 ```bash
-gh pr create --title "<LINEAR-ID>: the title here" --body "$(cat <<'EOF'
+gh pr create --title "the final title here" --body "$(cat <<'EOF'
 One short paragraph that explains what changed and why it matters.
 EOF
 )"
