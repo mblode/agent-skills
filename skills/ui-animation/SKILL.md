@@ -78,28 +78,6 @@ Avoid `ease-in` for UI. Prefer custom curves from [easing.dev](https://easing.de
 
 - Gate hover animations behind `@media (hover: hover) and (pointer: fine)` to avoid false positives on touch. Tailwind v4 `hover:` utilities apply this guard automatically — skip the manual media query in Tailwind v4 projects.
 - During direct manipulation, keep the element locked to the pointer. Add easing only after release.
-- Respect `prefers-reduced-motion: reduce`. Replace spatial movement (`translateY`, `scale`) with `opacity` crossfades — reduced motion means less spatial movement, not zero feedback. Keep `color` and `background-color` transitions.
-
-```css
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-```
-
-- In Framer Motion, use the `useReducedMotion` hook to skip spatial `initial` values:
-
-```tsx
-const shouldReduceMotion = useReducedMotion();
-<motion.div
-  initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-/>
-```
-
 ## Performance
 
 - Only animate `transform` and `opacity` — these skip layout and paint.

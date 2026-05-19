@@ -60,7 +60,6 @@ Tier triggers:
 - Dark mode untested (component will work but may have contrast issues)
 - RTL not verified
 - Microcopy nits ("Submit" instead of "Save changes" — both work)
-- `prefers-reduced-motion` not respected for low-priority animation
 - Touch-vs-pointer affordances slightly misaligned (hover hint visible on touch device but doesn't break function)
 - Container queries not used where they would help
 - 1px / spacing-token nits
