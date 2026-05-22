@@ -1,6 +1,6 @@
 ---
 name: plan-reviewer
-description: Reviews and strengthens implementation plans through adversarial rubber-duck dialogue. Identifies weakest areas across completeness, feasibility, scope, testability, risk, and assumptions, then asks pointed questions one at a time to expose gaps. Updates the plan with resolved answers. Use when asked to "review my plan", "rubber duck this", "stress test this plan", "is this plan ready", "challenge my plan", "what am I missing", or before starting implementation on a non-trivial plan.
+description: Reviews and strengthens implementation plans through adversarial rubber-duck dialogue. Identifies weakest areas across completeness, feasibility, scope, testability, risk, and assumptions, then asks pointed questions one at a time to expose gaps. Verifies checkable claims with local evidence. Updates the plan with resolved answers. Use when asked to "review my plan", "rubber duck this", "stress test this plan", "is this plan ready", "challenge my plan", "what am I missing", "verify this", "is this true", "prove it", "check this claim", "fact-check", or before starting implementation on a non-trivial plan.
 ---
 
 # Plan Reviewer
@@ -28,6 +28,7 @@ Every question filters through these principles (ordered by priority):
 | `references/questioning-framework.md` | Default: question templates per dimension, pushback patterns |
 | `references/plan-quality-rubric.md` | During triage: scoring criteria per dimension (1-5) |
 | `references/dialogue-examples.md` | Before starting dialogue: tone calibration and move examples |
+| `references/claim-verification.md` | When a claim in the plan can be verified locally, or when the user explicitly asks to verify a claim |
 
 ## Workflow
 
@@ -75,6 +76,7 @@ Pick the weakest dimension first. Ask ONE question that references a specific se
 - **PUSH DEEPER** — answer is vague or hand-waves complexity. Ask a sharper follow-up demanding specificity. Maximum 2 pushes per question before recording as unresolved gap.
 - **ACCEPT AND RECORD** — answer is specific and addresses the gap. Note the resolution and move on.
 - **REFRAME** — the concern doesn't apply as framed. Acknowledge and redirect to the actual gap.
+- **VERIFY** — claim can be checked with local evidence ("this function is under 100 lines", "we already handle that case"). Load `references/claim-verification.md`, gather evidence, return a VERIFIED/NOT VERIFIED/INCONCLUSIVE verdict, then continue dialogue informed by the result.
 
 After 2-3 questions on one dimension, move to the next weakest. Total budget: **5-8 questions across all dimensions.**
 

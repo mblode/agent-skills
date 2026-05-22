@@ -1,6 +1,6 @@
 ---
 name: autoship
-description: Automates npm release workflows using changesets. Creates a changeset (default patch), fixes lint/test/typecheck/format issues, commits and pushes, watches CI via the Monitor tool, finds and merges the Version Packages PR opened by changesets/action, and watches the release workflow to completion. Use when the user asks to ship, release, publish, autoship, or cut a release for an npm package.
+description: Automates npm release workflows using changesets. Creates a changeset (default patch), fixes lint/test/typecheck/format issues with an iterative compile-fix loop, commits and pushes, watches CI via the Monitor tool, finds and merges the Version Packages PR opened by changesets/action, and watches the release workflow to completion. Use when the user asks to ship, release, publish, autoship, cut a release for an npm package, fix compiler errors, fix type errors, make it compile, or fix the build.
 ---
 
 # Autoship
@@ -24,6 +24,7 @@ Automate npm releases with a changeset -> fix -> push -> monitor -> merge -> pub
 | Fix quality and push | Steps 1-2 | Changeset + fixes + commit, no CI watch |
 | Watch CI only | Steps 3-5 | When changes are already pushed |
 | Merge version PR only | Steps 4-5 | When CI already passed. Auto-merges once preconditions are met |
+| Fix compiler only | Step 2 | When build is broken, no changeset needed |
 
 ## Safety Tiers
 
@@ -57,11 +58,13 @@ Autoship progress:
 
 ### Step 2: Fix lint, types, tests, format
 
-- Load `references/changeset-and-commit.md`.
+- Load `references/changeset-and-commit.md` (skip when running Fix compiler only intent).
+- Auto-discover build/typecheck command: check `package.json` scripts for `build`, `typecheck`, `tsc`, `type-check`; also check for `Makefile`, `Cargo.toml`, `pyproject.toml`, `go.mod`.
 - Discover available scripts from `package.json`.
 - Run quality gates in order: lint, typecheck, test, format.
-- If any gate fails, attempt to auto-fix (e.g., `--fix`, `prettier --write`).
-- Retry each gate up to 3 times after applying fixes.
+- If any gate fails, parse error output to extract file, line, error code, and message. Prioritize: syntax errors first, then type errors, then lint errors.
+- Fix one error at a time when errors cascade (one root cause produces many symptoms).
+- Retry each gate up to 5 iterations after applying fixes. Report remaining error count each iteration.
 - If a gate still fails after retries, stop and report to the user.
 
 ### Step 3: Commit + push changeset

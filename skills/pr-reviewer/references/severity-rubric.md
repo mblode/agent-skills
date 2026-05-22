@@ -20,6 +20,8 @@ Use when the change introduces:
 - a clear functional regression in normal usage
 - incorrect state transitions or data handling
 - an unambiguous instruction-file violation that meaningfully changes behavior or reviewability
+- a file pushed past ~1000 lines when the new code could be extracted (structural rubric loaded)
+- ad-hoc feature logic scattered into shared code paths, making them harder to reason about (structural rubric loaded)
 
 ## Minor
 
@@ -28,6 +30,8 @@ Use when the change introduces:
 - a constrained edge-case regression
 - a clearly missing but non-blocking regression or validation test
 - a non-blocking instruction-file violation with clear scope
+- a bespoke helper where a canonical utility already exists (structural rubric loaded)
+- an unnecessary abstraction layer that adds indirection without clarity (structural rubric loaded)
 
 ## Do not report
 

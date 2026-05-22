@@ -4,13 +4,21 @@ description: >
   Creates GitHub pull requests with short, human-sounding descriptions. Adds a
   Linear issue ID prefix when available, keeps titles under 60 chars, and
   defaults to one short paragraph instead of generated summaries or test-plan
-  sections. Use when "create a PR", "make a PR", "open a pull request", "PR
-  this", or "ship it".
+  sections. Also restructures noisy commit history and adds reviewer guidance
+  when needed. Use when "create a PR", "make a PR", "open a pull request", "PR
+  this", "ship it", "make this PR easy to review", "polish this PR", "tidy
+  the PR", "clean up commits", "restructure commits", or "split this PR".
 ---
 
 # pr-creator
 
 Write PR descriptions like a developer posting in Slack, not like an AI summarizing a diff.
+
+## Reference Files
+
+| File | Read When |
+|------|-----------|
+| `references/pr-polish.md` | When the commit history is noisy, the diff exceeds 500 lines, or the user asks to polish, tidy, restructure, or split the PR |
 
 ## Rules
 
@@ -87,7 +95,8 @@ EOF
 3. Push with `-u` if the branch has no upstream.
 4. Draft title and body following the rules above.
 5. If the repo has a PR template, respect it, but keep each answer short and do not add extra sections.
-6. Create the PR with `gh pr create`.
-7. Return the PR URL.
+6. If the commit history is noisy (fixup, WIP, or "address review" commits) or the diff exceeds 500 lines, load `references/pr-polish.md` and restructure before creating the PR.
+7. Create the PR with `gh pr create`.
+8. Return the PR URL.
 
 Do not ask the user to confirm the description before creating. The whole point is speed.

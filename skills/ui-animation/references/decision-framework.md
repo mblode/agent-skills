@@ -108,3 +108,30 @@ Enter can be slightly slower than exit. Example: hold-to-delete uses 2s linear o
   transition: clip-path 2s linear;
 }
 ```
+
+### Instant enter, animated exit (productivity tools)
+
+For high-frequency interactions in daily-driver productivity tools (hover highlights, popovers, side panels, command palette results), invert the standard asymmetric rule: enter instantly (0ms), exit with a brief fade (100–150ms).
+
+The user's action should produce an immediate visual result — any enter delay feels like lag when repeated hundreds of times. The exit animation prevents the dismissal from feeling jarring (a hard cut on exit is more noticeable than on enter because the user's eye is already on the element).
+
+```css
+/* Hover highlight — instant appear, soft dismiss */
+.highlight {
+  transition: opacity 0.15s ease-out;
+  opacity: 0;
+}
+.item:hover .highlight {
+  transition-duration: 0s;
+  opacity: 1;
+}
+```
+
+This applies when:
+- The interaction happens tens to hundreds of times per day
+- The user initiates the action (hover, click, keyboard)
+- The element is ephemeral (highlight, popover, tooltip after first open)
+
+It does not apply to:
+- Rare interactions (modals, onboarding) — use standard asymmetric timing
+- Content that needs orientation (drawers with navigation) — enter animation provides spatial context

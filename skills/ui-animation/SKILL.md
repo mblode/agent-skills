@@ -25,7 +25,7 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 - Prefer CSS transitions for interruptible UI; use keyframes only for predetermined sequences.
 - CSS transitions > WAAPI > CSS keyframes > JS (requestAnimationFrame).
 - Make animations interruptible and input-driven.
-- Asymmetric timing: enter can be slightly slower; exit should be fast.
+- Asymmetric timing: for occasional interactions, enter can be slightly slower and exit should be fast. For high-frequency ephemeral UI (hover highlights, popovers, panel toggles), invert this — enter instantly (0ms), exit with a brief fade (100–150ms).
 - Use `@starting-style` for DOM entry animations; fall back to `data-mounted`.
 - A small `filter: blur(2px)` can hide rough crossfades.
 
@@ -97,6 +97,7 @@ Avoid `ease-in` for UI. Prefer custom curves from [easing.dev](https://easing.de
 - Permanent `will-change` — toggle it only during heavy motion.
 - CSS variables for drag gesture animation — repaints every frame.
 - Symmetric enter/exit timing — exit should be faster (user expects instant response).
+- Standard enter animation on high-frequency ephemeral UI (hover highlights, quick popovers, panel toggles) — use instant enter (0ms) with animated exit (100–150ms) so the user's action feels immediate.
 - Hard stops on drag boundaries — use friction/damping instead.
 - Mixing Motion `x`/`y` props with a handwritten `transform` string on the same element.
 - Keyframes on rapidly-triggered elements — use CSS transitions for interruptibility.

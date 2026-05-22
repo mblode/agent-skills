@@ -1,6 +1,6 @@
 ---
 name: pr-reviewer
-description: Reviews the current local diff or branch at the end of a coding session for high-confidence bugs and repository instruction-file compliance. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update, and when only certain, actionable findings should be reported while style feedback is ignored.
+description: Reviews the current local diff or branch for high-confidence bugs, instruction-file compliance, and structural quality. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update. Also use for "thermo-nuclear review", "deep code quality audit", "structural review", "code quality review", "harsh maintainability review", "review for complexity", or "code judo" — these load the structural quality rubric for an unusually strict maintainability pass. Also use for "deslop this", "clean up AI code", "remove slop", or "review for AI patterns" — these load the AI slop detection catalog.
 ---
 
 # Local Review
@@ -18,6 +18,8 @@ Run it before `/done` when a coding session produced changes worth checking.
 | `references/review-surfaces.md` | When deciding whether the work stays in local self-review or should hand off to PR-specific workflows |
 | `references/security-checklist.md` | When the diff touches auth, input handling, external APIs, file uploads, or environment configuration |
 | `references/performance-checklist.md` | When the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports |
+| `references/structural-quality-rubric.md` | When the user asks for a structural quality review, thermo-nuclear review, deep code quality audit, or when reviewing large diffs that touch module boundaries |
+| `references/ai-slop-patterns.md` | When the user asks to deslop, clean up AI code, remove slop, or when reviewing AI-assisted code changes |
 
 ## Scope
 - Default target: staged or uncommitted local changes
@@ -78,6 +80,11 @@ Flag only when certain:
 - Unambiguous instruction-file violation (quote rule, verify scope)
 - YAGNI violation: code adds abstractions, config systems, or extension points not justified by a current requirement (three similar lines is better than a premature abstraction)
 - KISS violation: implementation is more complex than the problem demands — a simpler approach exists that achieves the same result
+- Code exhibits AI-generated patterns (over-commenting, unnecessary wrapping, type bypasses, premature abstraction) — load `references/ai-slop-patterns.md` for the detection catalog
+- File pushed past ~1000 lines by the diff when the new code could be extracted into a focused module
+- Ad-hoc conditionals or feature-specific branches inserted into unrelated shared code paths
+- Bespoke helper duplicating an existing canonical utility in the codebase
+- Logic placed in the wrong layer when there is a clear canonical home elsewhere
 
 Never flag:
 - Style, quality, or subjective preferences
@@ -89,6 +96,8 @@ Never flag:
 ## Output format
 
 Read `references/comment-examples.md` before producing the report if you need a formatting refresher.
+
+When the structural quality rubric is loaded, structural findings use the same tiers — presumptive blockers from the rubric map to `Must fix before push`, and other structural issues map to `Should fix soon`.
 
 Default local output:
 ```markdown

@@ -28,14 +28,14 @@ Supports OpenCode, Claude Code, Codex, and Cursor.
 | `docs-writing`              | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation                                             |
 | `readme-creator`            | Writing/audit | Writes or rewrites README.md files tailored to the project type                                                                                  |
 | `agents-md`                 | Maintenance   | AGENTS.md/CLAUDE.md audits, pruning, and hygiene                                                                                                 |
-| `plan-reviewer`             | Pre-implementation | Adversarial rubber-duck dialogue to stress-test implementation plans before coding starts                                                        |
-| `pr-creator`                | Pre-merge     | Creates PRs with short, human-sounding descriptions instead of verbose AI summaries                                                              |
-| `pr-reviewer`               | Pre-merge     | Runs a local end-of-session review of the current diff for high-confidence bugs and instruction-file compliance before commit, push, or handoff  |
-| `pr-babysitter`             | Pre-merge     | Monitors PR health on a schedule — merge conflicts, CI/CD failures, review comment triage, and merge readiness. Also runs as one-shot comment triage |
+| `plan-reviewer`             | Pre-implementation | Adversarial rubber-duck dialogue with evidence-based claim verification to stress-test implementation plans before coding starts                  |
+| `pr-creator`                | Pre-merge     | Creates PRs with short, human-sounding descriptions. Restructures noisy commit history and adds reviewer guidance when needed                    |
+| `pr-reviewer`               | Pre-merge     | Local review for high-confidence bugs, instruction-file compliance, structural quality, and AI code slop detection before commit, push, or handoff |
+| `pr-babysitter`             | Pre-merge     | Monitors PR health on a schedule — merge conflicts, CI/CD failures, review comment triage, and merge readiness. Also runs one-shot for CI fixes and conflict resolution |
 | `optimise-seo`              | Pre-launch    | Metadata, structured data, sitemaps, and Core Web Vitals                                                                                         |
 | `ax-audit`                  | Pre-ship      | Agentic experience audit — 11 architecture rules + 12 trust/relationship rules, 4 agentic feature playbooks, ship-readiness verdicts, and AX Relationship Summary |
 | `multi-tenant-architecture` | Architecture  | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel                                                                        |
-| `autoship`                  | Release       | Automates npm releases: changesets, changelogs, quality gates, CI monitoring, Version Packages PR merge, and npm-publish watch                   |
+| `autoship`                  | Release       | Automates npm releases: changesets, iterative compiler fix loop, CI monitoring, Version Packages PR merge, and npm-publish watch                 |
 | `agent-skills-creator`      | Authoring     | Best-practice skill creation following the open format specification                                                                             |
 
 ## License
