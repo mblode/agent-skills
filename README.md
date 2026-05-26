@@ -1,42 +1,76 @@
+[![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
+
 # Agent Skills
 
-A minimal, opinionated set of skills for planning, design, engineering, and UI quality.
+24 skills for shipping better software.
 
-## Quick Start
+## Quickstart
 
 ```bash
 npx skills add mblode/agent-skills -g --all -y
 ```
 
-Supports OpenCode, Claude Code, Codex, and Cursor.
+Works with Claude Code, OpenCode, Codex, and Cursor.
+
+## Why these skills exist
+
+**The "looks fine" deploy.** Tests pass, PR approved, then a user on mobile hits a layout break, a blank loading state, and an empty state that says "No data." [`ui-audit`](./skills/ui-audit/SKILL.md) and [`ux-audit`](./skills/ux-audit/SKILL.md) catch what reviewers miss.
+
+**The AI-slop PR.** The agent wrote 400 lines overnight. It compiles. Buried in the diff: redundant state, copy that reads like a prompt, a commit message that says "Update various files." [`pr-reviewer`](./skills/pr-reviewer/SKILL.md) catches it before you push. [`pr-creator`](./skills/pr-creator/SKILL.md) cleans up the PR.
+
+**The unreviewed plan.** Three days building a feature, then you find the API doesn't paginate. [`plan-reviewer`](./skills/plan-reviewer/SKILL.md) questions your plan and checks claims against local code.
+
+**The "good enough" typography.** `font-family: Inter, sans-serif` with no size scale, no OpenType, straight quotes in the marketing copy. [`typography-audit`](./skills/typography-audit/SKILL.md) and [`ui-design`](./skills/ui-design/SKILL.md) fix this from the start.
 
 ## Skills
 
-| Skill                       | Phase         | What it does                                                                                                                                     |
-| --------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `define-architecture`       | Project start | Repo structure, backend patterns, workflow conventions                                                                                           |
-| `scaffold-cli`              | Project start | TypeScript CLI scaffold with ESM, tsdown, vitest, oxlint, oxfmt, changesets, and GitHub Actions                                                  |
-| `scaffold-nextjs`           | Project start | Next.js turborepo scaffold with TypeScript, Tailwind, shadcn/ui + ui.blode.co registry components, blode-icons-react, Ultracite, and Vercel deployment |
-| `ui-design`                 | Design        | Visual direction for product or marketing UI                                                                                                     |
-| `ui-audit`                  | Pre-ship      | Accessibility, typography, and UX polish audit                                                                                                   |
-| `ux-audit`                  | Pre-ship      | Feature-level UX audit for React/Next.js. Diff-aware, ship-readiness verdict, 30 modern failure-mode rules + 30 Laws of UX, 12 feature playbooks  |
-| `typography-audit`          | Design/dev    | Punctuation, font selection, sizing, spacing, and typographic quality                                                                            |
-| `ui-animation`              | Design/dev    | Motion design, springs, gestures, clip-path, and animation review                                                                                |
-| `presentation-creator`      | Design/dev    | Bold, minimal, dark-first slide decks and pitch decks                                                                                            |
-| `copywriting`               | Writing/audit | Writes and edits product copy — persuasion frameworks, AI-ism removal, seven-sweep audit, page-specific guidance, and before/after diffs        |
-| `blog-post`                 | Writing/audit | Engaging listicle-style blog posts from source insights                                                                                          |
-| `docs-writing`              | Writing/audit | Documentation quality rules for voice, structure, clarity, code examples, formatting, and navigation                                             |
-| `readme-creator`            | Writing/audit | Writes or rewrites README.md files tailored to the project type                                                                                  |
-| `agents-md`                 | Maintenance   | AGENTS.md/CLAUDE.md audits, pruning, and hygiene                                                                                                 |
-| `plan-reviewer`             | Pre-implementation | Adversarial rubber-duck dialogue with evidence-based claim verification to stress-test implementation plans before coding starts                  |
-| `pr-creator`                | Pre-merge     | Creates PRs with short, human-sounding descriptions. Restructures noisy commit history and adds reviewer guidance when needed                    |
-| `pr-reviewer`               | Pre-merge     | Local review for high-confidence bugs, instruction-file compliance, structural quality, and AI code slop detection before commit, push, or handoff |
-| `pr-babysitter`             | Pre-merge     | Monitors PR health on a schedule — merge conflicts, CI/CD failures, review comment triage, and merge readiness. Also runs one-shot for CI fixes and conflict resolution |
-| `optimise-seo`              | Pre-launch    | Metadata, structured data, sitemaps, and Core Web Vitals                                                                                         |
-| `ax-audit`                  | Pre-ship      | Agentic experience audit — 11 architecture rules + 12 trust/relationship rules, 4 agentic feature playbooks, ship-readiness verdicts, and AX Relationship Summary |
-| `multi-tenant-architecture` | Architecture  | Multi-tenant domain strategy, isolation, and routing on Cloudflare/Vercel                                                                        |
-| `autoship`                  | Release       | Automates npm releases: changesets, iterative compiler fix loop, CI monitoring, Version Packages PR merge, and npm-publish watch                 |
-| `agent-skills-creator`      | Authoring     | Best-practice skill creation following the open format specification                                                                             |
+### Architecture
+
+- **[define-architecture](./skills/define-architecture/SKILL.md)**: Repo structure and module boundaries for TypeScript apps.
+- **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with TypeScript, Tailwind, shadcn/ui, Blode UI, and Vercel.
+- **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI with ESM, tsdown, vitest, oxlint, changesets, and GitHub Actions.
+- **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Multi-tenant domain strategy, isolation, and routing on Cloudflare or Vercel.
+
+### Design
+
+- **[ui-design](./skills/ui-design/SKILL.md)**: Colour palettes, type scales, and layout patterns for product or marketing UI.
+- **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, drag, clip-path, easing, and animation review.
+- **[typography-audit](./skills/typography-audit/SKILL.md)**: Font selection, sizing, spacing, OpenType, hierarchy, and pairing.
+- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first slide decks with narrative arcs and speaker notes.
+
+### Writing
+
+- **[copywriting](./skills/copywriting/SKILL.md)**: Product copy. Strips AI patterns, seven auditing sweeps, before/after diffs.
+- **[blog-post](./skills/blog-post/SKILL.md)**: Blog posts from source materials or topic briefs.
+- **[docs-writing](./skills/docs-writing/SKILL.md)**: Technical docs. Diataxis, Stripe-style clarity, 52 rules.
+- **[readme-creator](./skills/readme-creator/SKILL.md)**: README files matched to the project type.
+
+### Quality
+
+- **[ui-audit](./skills/ui-audit/SKILL.md)**: Accessibility, forms, typography, layout, performance, and microcopy.
+- **[ux-audit](./skills/ux-audit/SKILL.md)**: Feature-level UX audit for React/Next.js. 30+ failure modes, diff-aware.
+- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit. Architecture rules, trust patterns, AX Relationship Summary.
+- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Metadata, structured data, sitemaps, and Core Web Vitals for Next.js.
+
+### Shipping
+
+- **[plan-creator](./skills/plan-creator/SKILL.md)**: Collaborative interrogation that produces a plan. Asks one question at a time with recommended answers.
+- **[plan-reviewer](./skills/plan-reviewer/SKILL.md)**: Stress-tests plans. Verifies claims against local code.
+- **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Catches bugs, structural issues, and AI slop before you push.
+- **[pr-creator](./skills/pr-creator/SKILL.md)**: Human-sounding PR descriptions. Cleans up noisy commits.
+- **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Polls for merge conflicts, CI failures, and review comments. Fixes what it can.
+- **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets, compiler fix loops, and CI monitoring.
+
+### Authoring
+
+- **[agents-md](./skills/agents-md/SKILL.md)**: Audits AGENTS.md and CLAUDE.md for stale commands and bloat.
+- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Skill creation following the open format spec.
+
+> [!TIP]
+> Install a single skill instead of the full bundle:
+> ```bash
+> npx skills add mblode/agent-skills/ux-audit -g -y
+> ```
 
 ## License
 

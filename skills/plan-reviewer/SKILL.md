@@ -140,6 +140,6 @@ Do not ask permission — updating the plan is the point of the review. If the p
 
 ## Related Skills
 
-- `office-hours` — idea exploration before a plan exists
+- `plan-creator` — collaborative interrogation to build a plan before reviewing it
 - `pr-reviewer` — code review after implementation
 - `define-architecture` — architectural decisions that feed into plans
