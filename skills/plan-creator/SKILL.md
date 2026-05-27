@@ -10,86 +10,106 @@ Build a plan through collaborative interrogation before coding starts.
 - **IS:** A dialogue partner that asks sharp questions, suggests answers, explores the codebase, and synthesizes a plan file
 - **IS NOT:** A plan reviewer (use `plan-reviewer`), a code generator, or a PRD template
 
+## Core lens
+
+Every question and recommendation filters through these principles (ordered by priority):
+
+1. **KISS** — Is this the simplest thing that could work?
+2. **YAGNI** — Is every piece justified by a current requirement?
+3. **Tracer bullet** — Does the plan deliver a minimal working slice across the full stack first?
+4. **Small functions** — Are responsibilities clearly separated?
+5. **Easier to change** — Does the design isolate concerns so future changes are local?
+
+## Reference files
+
+| File | Read when |
+|------|-----------|
+| `references/interrogation-protocol.md` | Starting Step 2: question decision tree, answer format, fuzzy term patterns, anti-rationalization |
+
 ## Workflow
 
 ```text
 Plan creation progress:
 - [ ] Step 1: Understand intent — read the request, scan the codebase
-- [ ] Step 2: Interrogation — one question at a time, recommend answers, explore code
+- [ ] Step 2: Interrogate — one question at a time, recommend answers
 - [ ] Step 3: Synthesize — write the plan file
-- [ ] Step 4: Hand off — offer plan-reviewer
+- [ ] Step 4: Validate — check plan answers the original request
+- [ ] Step 5: Hand off — offer plan-reviewer
 ```
 
 ### Step 1: Understand intent
 
-Read the user's request carefully. Before asking anything, scan the codebase for relevant code:
+Before asking anything, scan the codebase for relevant code:
 
 - Identify the modules, files, and patterns that relate to the request
 - Note existing conventions, abstractions, and boundaries
 - Look for prior art — has something similar been built before?
 
-State what you found in 2-3 sentences. This grounds the interrogation in reality, not theory.
+State what you found in 2-3 sentences. This grounds the interrogation in reality.
 
-### Step 2: Interrogation
+### Step 2: Interrogate
 
-Ask ONE question at a time. For every question, provide a **recommended answer** based on what you found in the codebase. The user can accept, reject, or modify.
+Load `references/interrogation-protocol.md`. Ask ONE question at a time. For every question, provide a **recommended answer** based on what you found in the codebase.
 
-**Protocol:**
+Key rules:
+- If a question is answerable by reading code, answer it yourself and move on
+- One question at a time — each answer shapes the next question
+- Walk the decision tree — resolve foundations before dependencies
+- Flag fuzzy terms — propose a sharp version, ask if it's right
+- Surface tensions with existing code — "The codebase does X. You're proposing Y."
 
-1. **Codebase first.** If a question is answerable by reading code, answer it yourself and move on. Only ask the user questions that require judgment, preference, or domain knowledge you cannot find in the code.
+**Budget:** 5-10 questions, then synthesize.
 
-2. **One at a time.** Never batch questions. Each answer may change the next question.
-
-3. **Walk the decision tree.** Resolve foundational decisions before dependent ones. Don't ask about caching strategy before the data model is settled. Don't ask about error handling before the happy path is clear.
-
-4. **Recommend an answer.** Every question includes your recommendation and why. Format:
-
-   > **Q: [question]**
-   >
-   > My recommendation: [specific answer]. [One sentence why — usually referencing existing code or a principle.]
-
-5. **Flag fuzzy terms.** When the user says something ambiguous ("handle the auth flow", "make it fast", "clean up the API"), suggest a precise term or ask what they mean concretely.
-
-6. **Challenge against existing code.** If the user's answer contradicts existing patterns or conventions in the codebase, surface the tension: "The codebase currently does X. You're proposing Y. Should we follow the existing pattern or change direction?"
-
-**Budget:** 5-10 questions, then synthesize. If the user says "just write the plan" or "enough questions", skip to Step 3 immediately.
-
-**Question priorities** (ask the most important ones first):
-
-1. What is the user actually trying to achieve? (Often different from what they said.)
-2. What are the boundaries — what's in scope, what's explicitly out?
-3. Which existing modules/patterns should this build on?
-4. What's the simplest approach that works? (KISS)
-5. What's the riskiest part — the thing most likely to go wrong or take longest?
-6. How will we verify it works?
+**Escape hatch:** If the user says "just write the plan" or "enough questions", skip to Step 3.
 
 ### Step 3: Synthesize
 
-Write the plan file to `~/.claude/plans/`. Use the plan format:
+Write the plan file to `~/.claude/plans/`. Adapt the format to the scope:
 
+**Lightweight changes** (single file, clear approach):
 ```markdown
 # [Title]
 
 ## Context
-[Why this change is being made — the problem, what prompted it, intended outcome]
+[Why this change — one paragraph]
 
 ## Approach
-[What to do — the recommended approach only, not alternatives]
-
-## Key Decisions
-[Decisions made during interrogation, with brief rationale]
-- [Decision]: [rationale]
-
-## Files to Modify
-[Critical files, grouped by purpose. For repeated patterns, describe once and list representative paths]
-
-## Verification
-[How to test the changes end-to-end]
+[What to do]
 ```
 
-Keep it concise enough to scan quickly, detailed enough to execute without re-reading the conversation.
+**Standard changes** (multiple files, decisions made):
+```markdown
+# [Title]
 
-### Step 4: Hand off
+## Context
+[Why this change — the problem, what prompted it, intended outcome]
+
+## Approach
+[What to do — the recommended approach only]
+
+## Key decisions
+[Decisions from interrogation with brief rationale]
+
+## Files to modify
+[Critical files, grouped by purpose]
+
+## Verification
+[How to test end-to-end]
+```
+
+Keep plans concise enough to scan quickly, detailed enough to execute without re-reading the conversation.
+
+### Step 4: Validate
+
+Before handing off, silently check:
+- Does the plan answer the user's original request?
+- Were any interrogation questions left dangling without resolution?
+- Does the approach align with the core lens (KISS, YAGNI, tracer bullet)?
+- Are there unstated assumptions that should be made explicit?
+
+If anything fails, fix it in the plan. Don't ask the user — just fix it.
+
+### Step 5: Hand off
 
 After writing the plan, offer: "Plan written. Run `plan-reviewer` to stress-test it before implementation?"
 
@@ -99,11 +119,12 @@ After writing the plan, offer: "Plan written. Run `plan-reviewer` to stress-test
 - Don't ask all questions upfront. Walk the tree — each answer shapes the next question.
 - Don't skip the recommended answer. That's the key differentiator — the user reacts to a concrete suggestion instead of staring at a blank page.
 - Don't write code. This produces a plan, not an implementation.
-- Don't be adversarial. That's `plan-reviewer`. This skill is collaborative — you're building understanding together.
-- Don't exceed 10 questions. If the plan needs more than 10 questions, the scope is too large — suggest breaking it into smaller pieces.
-- Don't ask "is there anything else?" at the end. Synthesize what you have.
+- Don't be adversarial. That's `plan-reviewer`. This skill is collaborative.
+- Don't exceed 10 questions. If the plan needs more, the scope is too large — suggest splitting.
+- Don't ask "is there anything else?" Synthesize what you have.
+- Don't use the full plan template for trivial changes. Match format to scope.
 
-## Related Skills
+## Related skills
 
 - `plan-reviewer` — adversarial review of the plan after creation
 - `define-architecture` — architectural decisions that feed into plans
