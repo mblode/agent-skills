@@ -31,7 +31,7 @@ Use this when auditing from first principles: the file should help an agent exec
 6. Includes migration/seed/db command when applicable
 7. Commands are copy-paste ready (no placeholders)
 8. Commands match the actual package manager and scripts
-9. Includes required environment bootstrap steps
+9. Includes required environment bootstrap steps (including secondary runtimes like Python venvs)
 10. Includes quick path/context for where to run commands (root/workspace)
 11. Includes one command for targeted test/debug iteration
 12. Avoids duplicate or conflicting command variants

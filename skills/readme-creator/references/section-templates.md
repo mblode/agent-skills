@@ -258,7 +258,7 @@ npm install {{name}}
 
 ---
 
-## Monorepo
+## Monorepo (published)
 
 ```markdown
 # {{name}}
@@ -304,6 +304,58 @@ See individual package READMEs for package-specific setup.
 - Link each package name to its directory (which should have its own README).
 - Version badges in the table give at-a-glance status for each package.
 - Development commands run from root using the workspace tool (turbo, nx, etc.).
+
+---
+
+## Monorepo (private / internal)
+
+Use this when the monorepo is not published to a registry (`"private": true` in package.json, no npm publish). No badges, no version column. Focus on getting a contributor running fast.
+
+```markdown
+# {{name}}
+
+{{one-liner}}
+
+## Requirements
+
+- Node {{node-version}}+ (npm {{npm-version}} — see `packageManager` in `package.json`)
+- {{additional-runtime}} (e.g., Python 3 for pipeline scripts)
+
+## Quick start
+
+\`\`\`bash
+npm install
+{{additional-setup-commands}}
+npm run dev
+\`\`\`
+
+## Workspaces
+
+| Package | Purpose |
+|---------|---------|
+| [`{{app-a}}`](apps/{{app-a}}) | What it does |
+| [`{{pkg-a}}`](packages/{{pkg-a}}) | What it does |
+| [`{{pkg-b}}`](packages/{{pkg-b}}) | What it does |
+
+## Common commands
+
+\`\`\`bash
+npm run build            # build all workspaces
+npm run typecheck        # type-check applicable workspaces
+{{project-specific commands with inline comments}}
+\`\`\`
+
+{{optional: one paragraph on what is gitignored and why}}
+```
+
+### Notes
+
+- No badges, no version column — private packages have no registry presence.
+- "Workspaces" instead of "Packages" — clearer for mixed app + package monorepos.
+- "Purpose" column instead of "Description" — encourages specific, action-oriented text.
+- Requirements section is critical when multiple runtimes are needed (Node + Python, Node + Rust).
+- List setup commands for secondary runtimes in Quick start (e.g., `npm run setup:python`).
+- Common commands section replaces "Development" — show the commands people actually run, not generic build/test/lint.
 
 ---
 

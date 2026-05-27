@@ -77,20 +77,49 @@ One-line description.
 ```markdown
 # <Monorepo name>
 
+One-line description.
+
 ## Commands
 - `<root install/build/test/lint commands>`
 
-## Scope
-- Root file: shared rules only
-- `apps/<app>/AGENTS.md`: app-specific rules
-- `packages/<pkg>/AGENTS.md`: package-specific rules
+## Workspace map
+Each workspace has its own `AGENTS.md`:
+@apps/<app>/AGENTS.md
+@packages/<pkg>/AGENTS.md
 
-## Cross-workspace gotchas
-- `<workspace failure mode> -> <fix>`
+## Rules
+- `<cross-workspace rule that affects all workspaces>`
 
-## References
-- @docs/deployment.md
-- @docs/shared-conventions.md
+## Do not commit
+<Files/dirs that are runtime inputs or build outputs, not source>
+```
+
+## Root file skeleton (multi-language monorepo)
+
+For projects mixing runtimes (e.g., Node + Python, Node + Rust):
+
+```markdown
+# <Monorepo name>
+
+One-line description. <Language A> + <Language B> monorepo using <tooling>.
+
+## Commands
+- `<root install/build/test/lint commands>`
+- `<language-B setup command>`
+
+## Workspace map
+Each workspace has its own `AGENTS.md`:
+@apps/<app>/AGENTS.md
+@packages/<pkg>/AGENTS.md
+
+(`packages/<lang-b-pkg>` is <Language B>-only; see its README for entry points.)
+
+## Rules
+- **Always use `<venv-or-toolchain-path>`, never global `<tool>`** — dependencies may not be on PATH.
+- <Cross-language boundary rule>
+
+## Do not commit
+<Runtime inputs, build outputs, venvs, node_modules, caches>
 ```
 
 ## Bad vs good

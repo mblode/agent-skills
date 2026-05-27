@@ -53,8 +53,9 @@ Scoring: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable
 - Environment variables table lists all required variables
 
 ### Monorepos
-- Packages table lists every package in the workspace
-- Version badges (if present) are not stale
+- Packages/workspaces table lists every workspace in the project
+- Version badges (if present) are not stale — skip badges entirely for private monorepos
+- Multi-runtime setup steps are documented (e.g., Python venv, Rust toolchain)
 
 ## Automatic Fail
 

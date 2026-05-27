@@ -5,11 +5,7 @@ description: Audits and writes AGENTS.md files using execution-first standards. 
 
 # AGENTS.md Audit
 
-AGENTS.md is the source of truth for agent instructions. Always write to AGENTS.md, never directly to CLAUDE.md. Symlink CLAUDE.md so Claude Code loads it:
-
-```bash
-ln -s AGENTS.md CLAUDE.md
-```
+AGENTS.md is the source of truth for agent instructions. Claude Code loads both `AGENTS.md` and `CLAUDE.md` natively — no symlink required. If a project already has a `CLAUDE.md`, rename it to `AGENTS.md` (the tool-agnostic name).
 
 AGENTS.md files are execution contracts, not knowledge bases.
 
@@ -71,14 +67,13 @@ find . \( -name "AGENTS.md" -o -name "CLAUDE.md" -o -name "CLAUDE.local.md" \) 2
 
 Also check for a home-level file: `~/.claude/CLAUDE.md` (applies to all sessions).
 
-AGENTS.md is the source of truth. If a project has a CLAUDE.md that is not a symlink to AGENTS.md, recommend renaming it to AGENTS.md and creating the symlink:
+AGENTS.md is the source of truth. If a project has a CLAUDE.md without an AGENTS.md, recommend renaming it:
 
 ```bash
 mv CLAUDE.md AGENTS.md
-ln -s AGENTS.md CLAUDE.md
 ```
 
-Instruction files can exist at multiple levels — project root, parent directories, and child directories are all loaded automatically. `CLAUDE.local.md` is the gitignored personal variant. Audit each level independently.
+Claude Code loads `AGENTS.md`, `CLAUDE.md`, and `CLAUDE.local.md` natively from any level. No symlinks needed. Instruction files at multiple levels (project root, parent directories, child directories) are all loaded automatically. `CLAUDE.local.md` is the gitignored personal variant. Audit each level independently.
 
 For monorepos, include workspace-level AGENTS.md files.
 

@@ -36,7 +36,7 @@ Read the project before asking questions. Explore files to detect the project ty
 - Read existing README.md (if rewriting).
 - Scan directory structure to understand architecture.
 
-Classify into one of six project types:
+Classify into one of seven project types:
 
 | Type | Signals |
 |------|---------|
@@ -44,7 +44,8 @@ Classify into one of six project types:
 | Library / package | `main`/`exports` in package.json, no bin field, `src/index.ts` |
 | Web app | `next.config.ts`, `vite.config.ts`, framework dependency, no npm publish |
 | Framework | Plugin/middleware architecture, configuration API, extensibility points |
-| Monorepo | `turbo.json`, `pnpm-workspace.yaml`, `apps/` + `packages/` directories |
+| Monorepo (published) | `turbo.json` or `pnpm-workspace.yaml`, packages published to a registry |
+| Monorepo (private) | `turbo.json` or `pnpm-workspace.yaml` with `"private": true`, no registry publish |
 | Skill bundle | `skills/` directory with SKILL.md files |
 
 Ask the user only for what cannot be discovered from the code:
@@ -58,21 +59,22 @@ Load `references/section-templates.md`.
 
 Select sections based on the project type:
 
-| Section | CLI | Library | App | Framework | Monorepo | Skills |
-|---------|-----|---------|-----|-----------|----------|--------|
-| Title + one-liner | yes | yes | yes | yes | yes | yes |
-| Badges | yes | yes | -- | yes | yes | -- |
-| Features / highlights | yes | yes | yes | yes | -- | yes |
-| Install | yes | yes | -- | yes | yes | -- |
-| Quick start / usage | yes | yes | yes | yes | yes | yes |
-| Options / API reference | yes | yes | -- | yes | -- | -- |
-| Configuration | opt | opt | yes | yes | opt | -- |
-| Environment variables | -- | -- | yes | -- | -- | -- |
-| Packages table | -- | -- | -- | -- | yes | -- |
-| Skills table | -- | -- | -- | -- | -- | yes |
-| Requirements | yes | yes | opt | yes | opt | -- |
-| Contributing | opt | opt | opt | opt | opt | opt |
-| License | yes | yes | yes | yes | yes | opt |
+| Section | CLI | Library | App | Framework | Monorepo (pub) | Monorepo (priv) | Skills |
+|---------|-----|---------|-----|-----------|----------------|-----------------|--------|
+| Title + one-liner | yes | yes | yes | yes | yes | yes | yes |
+| Badges | yes | yes | -- | yes | yes | -- | -- |
+| Features / highlights | yes | yes | yes | yes | -- | -- | yes |
+| Install | yes | yes | -- | yes | yes | -- | -- |
+| Quick start / usage | yes | yes | yes | yes | yes | yes | yes |
+| Options / API reference | yes | yes | -- | yes | -- | -- | -- |
+| Configuration | opt | opt | yes | yes | opt | -- | -- |
+| Environment variables | -- | -- | yes | -- | -- | -- | -- |
+| Packages / workspaces table | -- | -- | -- | -- | yes | yes | -- |
+| Skills table | -- | -- | -- | -- | -- | -- | yes |
+| Requirements | yes | yes | opt | yes | opt | yes | -- |
+| Common commands | -- | -- | -- | -- | opt | yes | -- |
+| Contributing | opt | opt | opt | opt | opt | opt | opt |
+| License | yes | yes | yes | yes | yes | opt | opt |
 
 ### Phase 3: Write sections
 
