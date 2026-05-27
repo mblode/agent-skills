@@ -28,7 +28,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 ### Design
 
 - **[ui-design](./skills/ui-design/SKILL.md)**: Colour palettes, type scales, and layout patterns for product or marketing UI.
-- **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, drag, clip-path, easing, and animation review.
+- **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, drag, clip-path, easing, CSS transition recipes, and animation review.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: Font selection, sizing, spacing, OpenType, hierarchy, and pairing.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first slide decks with narrative arcs and speaker notes.
 

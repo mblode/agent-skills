@@ -135,3 +135,20 @@ This applies when:
 It does not apply to:
 - Rare interactions (modals, onboarding) — use standard asymmetric timing
 - Content that needs orientation (drawers with navigation) — enter animation provides spatial context
+
+## Choosing a transition recipe
+
+Once you know the element should animate (question 1), match the UI pattern to a recipe in [references/transition-recipes.md](references/transition-recipes.md). Start from the element type:
+
+- **Floating indicator on a trigger** → notification badge
+- **Anchored surface from trigger** → menu dropdown
+- **Centred overlay** → modal dialog
+- **Inline panel** → panel reveal
+- **Adjacent pages** → page side-by-side slides
+- **Resizing container** → card resize
+- **In-place text change** → text state swap
+- **Icon toggle** → icon swap
+- **Number change** → number pop-in
+- **Confirmation moment** → success celebration
+- **Row hover with neighbors** → avatar group hover
+- **Validation error** → error state shake

@@ -1,6 +1,6 @@
 ---
 name: ui-animation
-description: Creates, reviews, and debugs UI motion and animation implementations. Covers springs, gestures, drag interactions, clip-path reveals, easing, timing, and animation review. Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, asking "add animations to", "make this feel smooth", "review my animations", "should this animate", or "add a swipe gesture"
+description: Creates, reviews, and debugs UI motion and animation implementations. Covers springs, gestures, drag interactions, clip-path reveals, easing, timing, CSS transition recipes, and animation review. Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, asking "add animations to", "make this feel smooth", "review my animations", "should this animate", "add a swipe gesture", or "add a transition"
 ---
 
 # UI Animation
@@ -17,6 +17,7 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Debugging jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats  |
 | [references/review-format.md](references/review-format.md)                 | Reviewing animation code — Before/After/Why table and issue checklist        |
 | [references/contextual-animations.md](references/contextual-animations.md) | Implementing contextual icon swaps, word-level stagger entrances, or fixed-offset exit animations |
+| [references/transition-recipes.md](references/transition-recipes.md)       | Installing a CSS transition — card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, text swap, success animation, avatar hover, error shake |
 
 ## Core rules
 
@@ -66,6 +67,27 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 - **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)`
 
 Avoid `ease-in` for UI. Prefer custom curves from [easing.dev](https://easing.dev/).
+
+## Transition decision rules
+
+Match the UI element first, then choose the recipe from [references/transition-recipes.md](references/transition-recipes.md):
+
+| UI pattern | Recipe |
+|---|---|
+| Trigger + floating dot/count | Notification badge |
+| Trigger + anchored surface | Menu dropdown |
+| Centred surface on top of page | Modal dialog |
+| Panel sliding into existing container | Panel reveal |
+| List ↔ detail or wizard steps | Page side-by-side slides |
+| Element dimension changes | Card resize |
+| Text updating in place | Text state swap |
+| Two icons in same slot | Icon swap |
+| Number updating | Number pop-in |
+| Confirmation / success moment | Success celebration |
+| Hovering item in horizontal stack | Avatar group hover |
+| Form validation error | Error state shake |
+
+Prefer lower-overhead transitions (CSS-only) unless the design requires JS orchestration.
 
 ## Spatial and sequencing
 

@@ -35,6 +35,11 @@ Use a markdown table. One row per issue.
 | Touch target under 44px on interactive element | Add `::before` pseudo-element sized to 44x44px minimum (WCAG 2.5.5) |
 | Hover scale > 1.03 or hover duration > 150ms | Use `scale(1.01–1.02)` and 100–150ms transition |
 | Container animates AND children stagger | Pick one entrance: animate the container OR stagger children, not both |
+| Missing close-state cleanup after `setTimeout` | Add `is-closing` class, remove after transition duration completes |
+| Missing reflow (`void el.offsetWidth`) between class changes | Force reflow before re-adding classes to restart transitions |
+| Animating container instead of inner pieces | Apply transitions to child elements, not the wrapper |
+| Hardcoded `stroke-dasharray` on SVG success path | Use `path.getTotalLength()` to measure the actual path length |
+| `.is-error` and `.is-shaking` merged into one class | Keep them separate — `.is-shaking` controls animation only, `.is-error` controls visual state |
 
 ## Component design principles
 
