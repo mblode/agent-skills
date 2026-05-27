@@ -1,6 +1,6 @@
-[![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
-
 # Agent Skills
+
+[![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
 24 skills for shipping better software.
 
@@ -14,13 +14,7 @@ Works with Claude Code, OpenCode, Codex, and Cursor.
 
 ## Why these skills exist
 
-**The "looks fine" deploy.** Tests pass, PR approved, then a user on mobile hits a layout break, a blank loading state, and an empty state that says "No data." [`ui-audit`](./skills/ui-audit/SKILL.md) and [`ux-audit`](./skills/ux-audit/SKILL.md) catch what reviewers miss.
-
-**The AI-slop PR.** The agent wrote 400 lines overnight. It compiles. Buried in the diff: redundant state, copy that reads like a prompt, a commit message that says "Update various files." [`pr-reviewer`](./skills/pr-reviewer/SKILL.md) catches it before you push. [`pr-creator`](./skills/pr-creator/SKILL.md) cleans up the PR.
-
-**The unreviewed plan.** Three days building a feature, then you find the API doesn't paginate. [`plan-reviewer`](./skills/plan-reviewer/SKILL.md) questions your plan and checks claims against local code.
-
-**The "good enough" typography.** `font-family: Inter, sans-serif` with no size scale, no OpenType, straight quotes in the marketing copy. [`typography-audit`](./skills/typography-audit/SKILL.md) and [`ui-design`](./skills/ui-design/SKILL.md) fix this from the start.
+Code review catches logic bugs. Nobody checks the loading states, the type scale, or whether half the diff is AI slop. These skills do.
 
 ## Skills
 
@@ -65,12 +59,6 @@ Works with Claude Code, OpenCode, Codex, and Cursor.
 
 - **[agents-md](./skills/agents-md/SKILL.md)**: Audits AGENTS.md and CLAUDE.md for stale commands and bloat.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Skill creation following the open format spec.
-
-> [!TIP]
-> Install a single skill instead of the full bundle:
-> ```bash
-> npx skills add mblode/agent-skills/ux-audit -g -y
-> ```
 
 ## License
 
