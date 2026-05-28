@@ -244,3 +244,4 @@ Also ban **"simple"** used as a claim ("our simple onboarding") — never earned
 | After rewrite, audit prose quality | `docs-writing` |
 | To optimise meta descriptions and page titles | `optimise-seo` |
 | To review the full UI including copy in context | `ui-audit` |
+| For landing page visual design, CRO strategy, and conversion benchmarks | `ui-design` (marketing track) |
