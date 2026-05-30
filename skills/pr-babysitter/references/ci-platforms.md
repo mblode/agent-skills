@@ -283,11 +283,30 @@ flyctl checks list --app {app_name}
 Decision tree for diagnosing CI/CD failures:
 
 1. **Error contains "flaky", "timeout", or matches known flaky test pattern** → re-run the check
-2. **Compilation/type/lint error in logs** → code fix needed. Read the error, fix the file, commit, push
-3. **"rate limit", "quota", "infrastructure", "service unavailable"** → notify user (not fixable from code)
-4. **"npm ERR!", "dependency", "resolution", "peer dep"** → delete lockfile, re-install, commit, push
-5. **"OOM", "memory", "killed"** → notify user (infrastructure — needs config change)
-6. **Test assertion failure (not flaky)** → read failing test and source, fix, commit, push
-7. **Unknown** → fetch full logs, attempt diagnosis, notify user if unsure
+2. **Type error referencing a sibling/workspace package's types, or "Cannot find module"/missing generated types** → likely **stale dependency**, not a code bug. Reinstall and rebuild deps, regenerate types, then re-run type-check (see below). Only treat as a code error if it persists
+3. **Compilation/type/lint error in logs (not stale-dependency)** → code fix needed. Read the error, fix the file, commit, push
+4. **`knip` failure (unused files, exports, or dependencies)** → remove the dead export/file/dep. If the report is intentional (e.g. a public API entry point), add it to the `knip` config's `ignore`/`entry` instead. Commit, push
+5. **"rate limit", "quota", "infrastructure", "service unavailable"** → notify user (not fixable from code)
+6. **"npm ERR!", "dependency", "resolution", "peer dep"** → reinstall (delete lockfile + `node_modules` if needed), and in a monorepo rebuild dependency packages so workspace types resolve, commit, push
+7. **"OOM", "memory", "killed"** → notify user (infrastructure — needs config change)
+8. **Test assertion failure (not flaky)** → read failing test and source, fix, commit, push
+9. **Unknown** → fetch full logs, attempt diagnosis, notify user if unsure
 
 When re-running checks, wait for the re-run to complete before diagnosing again. Do not re-diagnose while checks are pending.
+
+### Stale-dependency type-check failures
+
+In a monorepo, a type-check often fails not because the changed code is wrong but because a dependency package's build output or generated types are out of date relative to the working tree. Symptoms: errors pointing into `node_modules`/`dist` of a sibling package, types that exist in source but not in the resolved declaration, or a green local editor but a red CI type-check.
+
+Before editing source, refresh the dependency graph and re-run:
+
+```bash
+# reinstall (use the repo's package manager)
+npm ci            # or: yarn install --immutable / pnpm install --frozen-lockfile
+# rebuild dependency packages so workspace types resolve (use the repo's task runner)
+turbo run build --filter=...[changed]   # or: nx affected -t build / make build-deps
+# regenerate any codegen'd types (GraphQL, OpenAPI, etc.) the repo defines
+# then re-run the type-check
+```
+
+If the type-check passes after the refresh, it was a stale-dependency issue — no source change needed. If it still fails, treat it as a real code error (item 3).

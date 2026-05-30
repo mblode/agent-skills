@@ -22,8 +22,10 @@ Autonomous PR monitor. Detects the PR from your current branch and starts pollin
 | `references/bot-patterns.md`      | Comment triage: bot detection, severity parsing, deduplication, false positive rules                 |
 | `references/fix-plan-template.md` | Comment triage: generating the fix plan document                                                     |
 | `references/monitoring-setup.md`  | Default: CronCreate configuration, state file, defaults                                              |
-| `references/ci-platforms.md`      | CI/CD check: `gh` for GitHub, Buildkite auth fallback chain, `vercel`/`flyctl` for platform logs     |
+| `references/ci-platforms.md`      | CI/CD check: `gh` for GitHub, Buildkite auth fallback chain, `vercel`/`flyctl` for platform logs, stale-dependency and `knip` failures |
 | `references/merge-conflicts.md`   | Conflict check: detecting and resolving merge conflicts                                              |
+| `references/verification-gate.md` | Before any commit/push: lint, type-check, test, `knip` gate and stray-artifact sweep                 |
+| `references/git-resilience.md`    | When a `git` command hangs or fails transiently (core.fsmonitor, stale lock, IPC hiccup)             |
 
 ---
 
@@ -70,7 +72,7 @@ Load `references/merge-conflicts.md` for resolution strategy.
    - Conflicts in safe files (lockfiles, generated) → auto-resolve, push
    - Complex conflicts → `git rebase --abort` → notify user with details
 
-**Never force-push without `--force-with-lease`.** If the lease fails, someone else pushed — abort and notify.
+**Never force-push without `--force-with-lease`.** If the lease fails, someone else pushed — abort and notify. If `git fetch`/`rebase` hangs, see `references/git-resilience.md`.
 
 ### Phase 3: CI/CD Check
 
@@ -82,9 +84,12 @@ Load `references/ci-platforms.md` for platform-specific commands and the Buildki
 4. **If any failing** → diagnose:
    - Identify platform from check name (see reference for patterns)
    - Fetch logs via `gh run view --log-failed` (GitHub Actions), Buildkite auth fallback chain (Buildkite), `vercel logs` (Vercel), `flyctl logs` (Fly.io)
-   - Classify failure: flaky test (re-run), code error (fix + push), infrastructure (notify user), dependency issue (update lockfile)
-   - Fix and push if possible
+   - Classify failure: flaky test (re-run), code error (fix + push), infrastructure (notify user), dependency issue (reinstall/rebuild)
+   - Before treating a type-check failure as a code bug, check the stale-dependency branch in the reference — a monorepo type error is often out-of-date deps/generated types, fixable by reinstall + rebuild
+   - Fix, then run the verification gate (`references/verification-gate.md`) before pushing
 5. **Compare with previous state** — flag regressions (previously passing, now failing)
+
+If any `git` command hangs or fails transiently here, see `references/git-resilience.md` before aborting.
 
 ### Phase 4: Comment Check
 
@@ -142,7 +147,7 @@ For each item:
 2. **Report summary** — print counts (N to fix, K conversation items, M to ignore) and proceed immediately
 3. **Resolve ignored threads** — post brief reply, resolve via GraphQL
 4. **Fix real issues** — group by commit group, parallelize independent file fixes
-5. **Commit and push** — run lint/test if available, one commit per logical fix group
+5. **Commit and push** — run the verification gate (`references/verification-gate.md`): lint, type-check, test, and `knip` where present must pass, and strip stray artifacts (e.g. a root `schema.gql` left by a hook) before staging. Do not push until green. One commit per logical fix group, staging only the fix's files
 6. **Resolve and reply** — post reply on fixed threads, resolve via GraphQL
 7. **Verify** — re-fetch threads to confirm zero unresolved remain, check CI status
 
@@ -162,7 +167,10 @@ On stop, report a final summary: total polls, fixes applied, conflicts resolved,
 - Resolving threads without posting a reply — reviewers need to see the reasoning
 - Fixing items the triage classified as ignore — respect the classification
 - One commit per individual comment — group related fixes by commit group label
-- Pushing before verifying lint/test pass locally
+- Pushing before the verification gate (lint/type-check/test/`knip`) passes locally
+- Committing stray generated artifacts (e.g. a root `schema.gql`) emitted by pre-commit hooks — sweep the tree and stage only the fix's files
+- Treating a monorepo type-check failure as a code bug before ruling out stale deps (reinstall + rebuild first)
+- Aborting the monitor on a single hung or transient `git` command instead of recovering (see `git-resilience.md`)
 - Re-diagnosing failures while checks are still running — wait for completion
 - Polling more frequently than every 2 minutes — 2 minutes is the floor
 - Notifying on every poll with no state change — only notify on transitions

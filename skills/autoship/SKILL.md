@@ -62,6 +62,7 @@ Autoship progress:
 - Auto-discover build/typecheck command: check `package.json` scripts for `build`, `typecheck`, `tsc`, `type-check`; also check for `Makefile`, `Cargo.toml`, `pyproject.toml`, `go.mod`.
 - Discover available scripts from `package.json`.
 - Run quality gates in order: lint, typecheck, test, format.
+- Scope auto-fixers (`lint --fix`, `format`) to changed files where the tool supports it. After any fixer runs, check `git status` — broad `format`/`fix` scripts routinely reformat or corrupt files outside your change (MDX is a frequent casualty). Revert anything unrelated (`git restore <path>`) before continuing; never let a fixer's unrelated churn ride along in the release commit.
 - If any gate fails, parse error output to extract file, line, error code, and message. Prioritize: syntax errors first, then type errors, then lint errors.
 - Fix one error at a time when errors cascade (one root cause produces many symptoms).
 - Retry each gate up to 5 iterations after applying fixes. Report remaining error count each iteration.
@@ -69,7 +70,7 @@ Autoship progress:
 
 ### Step 3: Commit + push changeset
 
-- Stage the changeset file and any auto-fixes, commit, and push.
+- Stage the changeset file and the in-scope auto-fixes only — prefer `git add <paths>` over `git add -A`. Before committing, run `git status --porcelain` and strip stray generated artifacts (e.g. a root `schema.gql` left by a pre-commit hook) and any unrelated files a fixer touched. Commit and push.
 - Do NOT run `npx changeset version` locally. CI's `changesets/action` runs it inside the Version Packages PR.
 - The pushed commit must contain the pending `.changeset/*.md` file so CI's "Changeset Status" check passes.
 
@@ -108,3 +109,5 @@ Autoship progress:
 - Polling tighter than ~30s, which wastes GitHub API rate limit. Monitor scripts should `sleep 30` or longer between `gh` calls.
 - **Never run `npx changeset version` locally.** CI's `changesets/action` runs it inside the Version Packages PR. Running it locally consumes the changeset file, the pushed commit has no pending changeset, CI's "Changeset Status" check fails, and no Version Packages PR is opened.
 - Hand-editing `CHANGELOG.md` or `package.json` `version` as part of autoship — CI generates both.
+- Letting a `format`/`fix` script reformat or corrupt files outside your change (e.g. MDX) — scope fixers to changed files and revert unrelated churn before committing.
+- Committing stray generated artifacts (e.g. a root `schema.gql`) emitted by a pre-commit hook — sweep `git status` and stage only intended files.
