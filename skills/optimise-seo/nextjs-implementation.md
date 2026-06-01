@@ -5,6 +5,10 @@ Patterns for Next.js App Router.
 ## Contents
 - Metadata (static and dynamic)
 - Sitemap and robots
+- Redirects, headers, and indexing
+- Internationalisation (hreflang)
+- Security headers
+- Manifest
 - Structured data (JSON-LD)
 - OG images
 - File structure
@@ -73,6 +77,101 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/', disallow: '/admin/' },
     sitemap: 'https://example.com/sitemap.xml',
+  }
+}
+```
+
+For sites over 50,000 URLs (or to split by type), return a sitemap **index** by exporting `generateSitemaps()` and reading the `id`; Next.js serves `/sitemap/0.xml`, `/sitemap/1.xml`, … under one index. Add image/video entries with the `images`/`videos` fields on a sitemap row when media is JS-loaded or CDN-hosted and not reachable by link-following.
+
+## Redirects, headers, and indexing
+
+```ts
+// next.config.ts — permanent (308) vs temporary (307). Avoid redirect chains.
+const config = {
+  async redirects() {
+    return [
+      { source: '/old-path', destination: '/new-path', permanent: true },   // 308
+      { source: '/promo', destination: '/sale', permanent: false },          // 307
+    ]
+  },
+}
+```
+
+Indexing policy: public pages default to `index, follow`. Mark staging, admin, thin, or private pages explicitly — via `metadata.robots` for HTML routes, or `X-Robots-Tag` for non-HTML (PDFs, APIs) and whole environments.
+
+```tsx
+// Per-page noindex
+export const metadata: Metadata = { robots: { index: false, follow: false } }
+```
+
+```ts
+// next.config.ts — X-Robots-Tag for non-HTML / staging
+async headers() {
+  return [{
+    source: '/:path*',
+    headers: [{ key: 'X-Robots-Tag', value: 'noindex' }], // staging only
+  }]
+}
+```
+
+## Internationalisation (hreflang)
+
+```tsx
+export async function generateMetadata(
+  { params }: { params: Promise<{ locale: string; slug: string }> }
+): Promise<Metadata> {
+  const { locale, slug } = await params
+  const post = await getPost(slug, locale)
+  return {
+    title: post.title,              // translated per locale
+    description: post.excerpt,      // translated per locale
+    alternates: {
+      canonical: `https://example.com/${locale}/blog/${slug}`,
+      languages: {
+        'en': `https://example.com/en/blog/${slug}`,
+        'de': `https://example.com/de/blog/${slug}`,
+        'x-default': `https://example.com/en/blog/${slug}`,
+      },
+    },
+  }
+}
+```
+
+## Security headers
+
+```ts
+// next.config.ts — applied to every HTML response
+async headers() {
+  return [{
+    source: '/:path*',
+    headers: [
+      { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+      { key: 'Content-Security-Policy', value: "default-src 'self'; frame-ancestors 'self'" },
+    ],
+  }]
+}
+```
+
+See `technical-hardening.md` for values, CSP rollout, cookies, and `security.txt`.
+
+## Manifest
+
+```ts
+// app/manifest.ts
+import type { MetadataRoute } from 'next'
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'Brand',
+    short_name: 'Brand',
+    start_url: '/',
+    display: 'standalone',
+    theme_color: '#1e3a8a',
+    background_color: '#ffffff',
+    icons: [{ src: '/icon-512.png', sizes: '512x512', type: 'image/png' }],
   }
 }
 ```
@@ -170,6 +269,7 @@ app/
 ├── layout.tsx          # Organization/WebSite schemas
 ├── sitemap.ts
 ├── robots.ts
+├── manifest.ts
 ├── icon.svg
 ├── apple-icon.png
 └── blog/[slug]/
@@ -178,4 +278,8 @@ app/
 
 components/
 └── JsonLd.tsx
+
+next.config.ts          # redirects(), headers() — security + X-Robots-Tag
+public/.well-known/
+└── security.txt
 ```

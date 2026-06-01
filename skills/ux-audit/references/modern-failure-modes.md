@@ -1,6 +1,6 @@
 # Modern Failure Modes — Index
 
-Layer 2 of the audit: 30 modern frontend UX failure modes that no other tool catches statically. Each rule lives at `rules-modern/<category>-<slug>.md` and follows the format in `rules-modern/_template.md`.
+Layer 2 of the audit: 33 modern frontend UX failure modes that no other tool catches statically. Each rule lives at `rules-modern/<category>-<slug>.md` and follows the format in `rules-modern/_template.md`.
 
 These rules are ordered by impact (frequency × severity), informed by 2025-2026 production failure-mode research and senior-vs-junior code-review catches.
 
@@ -11,7 +11,7 @@ These rules are ordered by impact (frequency × severity), informed by 2025-2026
 - [Async (5 rules)](#async-5-rules)
 - [Focus / Keyboard (4 rules)](#focus--keyboard-4-rules)
 - [Mobile / Touch (3 rules)](#mobile--touch-3-rules)
-- [Dark mode / i18n (4 rules)](#dark-mode--i18n-4-rules)
+- [Dark mode / i18n (7 rules)](#dark-mode--i18n-7-rules)
 - [Microcopy (4 rules)](#microcopy-4-rules)
 
 ---
@@ -73,9 +73,9 @@ Patterns that work on desktop but fail on touch. Lighthouse catches some via tap
 | `mobile-hover-only-affordance` | fix-this-sprint | Critical info / action only visible on hover; touch users miss it |
 | `mobile-viewport-scaling` | backlog | Missing `viewport` meta or wrong `100vh` (use `100dvh`); safe-area-insets not handled |
 
-## Dark mode / i18n (4 rules)
+## Dark mode / i18n (7 rules)
 
-Patterns that pass desk-checks but fail with non-Latin text or in dark theme.
+Patterns that pass desk-checks but fail with non-Latin text, other locales, or in dark theme.
 
 | Rule | Default tier | What it catches |
 |---|---|---|
@@ -83,6 +83,9 @@ Patterns that pass desk-checks but fail with non-Latin text or in dark theme.
 | `dark-i18n-color-only-state` | fix-this-sprint | Validation/state expressed only via color (red/green) without icon or text |
 | `dark-i18n-string-overflow` | backlog | Hardcoded width assumptions break with long German / RTL Arabic / CJK |
 | `dark-i18n-rtl-untested` | backlog | No RTL story / `dir="rtl"` test |
+| `dark-i18n-locale-formatting` | backlog | Dates / numbers / currency hand-formatted to one locale (and SSR hydration mismatch) |
+| `dark-i18n-plural-rules` | backlog | Two-form `item`/`items` ternary instead of `Intl.PluralRules` / ICU plural |
+| `dark-i18n-language-switcher` | backlog | Switcher uses flags or non-endonym labels; missing per-option `lang` |
 
 ## Microcopy (4 rules)
 

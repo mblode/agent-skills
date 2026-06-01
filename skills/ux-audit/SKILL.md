@@ -68,7 +68,7 @@ Layer 1 — Feature playbooks  (the entry point)
 
 Layer 2 — Modern frontend failure modes  (the high-leverage layer)
   rules-modern/<category>-<slug>.md
-  30 rules covering state coverage, form preservation, focus mgmt,
+  33 rules covering state coverage, form preservation, focus mgmt,
   async/optimistic, CLS pairings, microcopy, dark mode, i18n, mobile.
   Detection recipes use React 19 APIs.
 
@@ -148,7 +148,7 @@ Slug must match the rule slug. Suppressions are reported in the audit summary so
 | File | Read when |
 |------|-----------|
 | `references/feature-playbooks.md` | Step 2-3 — detecting features and selecting their playbooks |
-| `references/modern-failure-modes.md` | Index of all 30 modern rules grouped by category |
+| `references/modern-failure-modes.md` | Index of all 33 modern rules grouped by category |
 | `references/states-coverage.md` | Validating loading/empty/error/disabled coverage per component type |
 | `references/ship-readiness.md` | Step 5 — assigning each finding a ship tier with examples |
 | `references/output-adapters.md` | Step 6 — formatting findings for terminal / PR comment / JSON |

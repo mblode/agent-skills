@@ -1,6 +1,6 @@
 ---
 name: ui-audit
-description: Audits web UI quality across accessibility, interaction, forms, typography, navigation, layout, performance, motion, and microcopy. Use when reviewing or refining frontend UI before merge or release, asking "check my UI", "is this accessible", "polish this page", or when the user asks for a UI, UX, or accessibility audit.
+description: Audits web UI quality across accessibility, interaction, forms, typography, navigation, layout, performance, motion, and microcopy. Covers alt text, data-table semantics, captions and transcripts, document language, reduced motion, lazy loading, script loading, and resource hints. Use when reviewing or refining frontend UI before merge or release, asking "check my UI", "is this accessible", "polish this page", "respect reduced motion", or when the user asks for a UI, UX, or accessibility audit.
 ---
 
 # UI Audit

@@ -62,9 +62,11 @@ mobile-subpar-target-size           mobile-hover-only-affordance mobile-viewport
 
 dark-i18n-untested                  dark-i18n-color-only-state
 dark-i18n-string-overflow           dark-i18n-rtl-untested
+dark-i18n-locale-formatting         dark-i18n-plural-rules
+dark-i18n-language-switcher
 
 microcopy-vague-error               microcopy-generic-loading
 microcopy-leaked-error-message      microcopy-no-action-on-empty
 ```
 
-Total: 30 rules.
+Total: 33 rules.

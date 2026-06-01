@@ -42,10 +42,10 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Quality
 
-- **[ui-audit](./skills/ui-audit/SKILL.md)**: Accessibility, forms, typography, layout, performance, and microcopy.
-- **[ux-audit](./skills/ux-audit/SKILL.md)**: Feature-level UX audit for React/Next.js. 30+ failure modes, diff-aware.
+- **[ui-audit](./skills/ui-audit/SKILL.md)**: Accessibility, forms, typography, layout, performance, motion, and microcopy.
+- **[ux-audit](./skills/ux-audit/SKILL.md)**: Feature-level UX audit for React/Next.js. 33 failure modes, diff-aware.
 - **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit. Architecture rules, trust patterns, AX Relationship Summary.
-- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Metadata, structured data, sitemaps, and Core Web Vitals for Next.js.
+- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: SEO, redirects, hreflang, structured data, security headers, privacy, and resilience for Next.js.
 
 ### Shipping
 
