@@ -1,6 +1,6 @@
 ---
 name: ui-design
-description: Defines visual systems, colour palettes, typography scales, and layout patterns for web UI. Produces design tokens and component styling for product dashboards (SaaS/admin/data-heavy) or marketing/brand landing pages. Includes CRO strategy, conversion benchmarks, persuasion psychology, A/B testing methodology, and social proof patterns for landing pages. Use when choosing visual direction, designing a landing page, building a hero section, selecting colour palettes and fonts, establishing layout patterns, starting a new UI design system, theming a web application, optimising landing page conversions, auditing social proof, or asking "make this look good", "make this look premium", "design the UI for", "full-bleed hero", "pick a visual style", "improve conversions", "landing page CRO", or "add social proof".
+description: Defines visual systems and design direction before code is written — colour palettes, typography scales, layout patterns, design tokens, and component styling for product dashboards (SaaS/admin/data-heavy) or marketing/brand landing pages. Includes CRO strategy, conversion benchmarks, persuasion psychology, A/B testing methodology, and social proof patterns. Use when choosing visual direction, selecting colour palettes and fonts, establishing layout patterns, starting a new design system, theming a web application, optimising landing page conversions, auditing social proof, or asking "make this look good", "make this look premium", "design the UI for", "full-bleed hero", "pick a visual style", "improve conversions", "landing page CRO", or "add social proof". Scope: design decisions and specs (tokens, palettes, CRO plans). For writing actual Tailwind markup or building/refining components from those decisions, use the `ui` skill instead.
 ---
 
 # UI Design
@@ -31,9 +31,18 @@ Load these when working on landing pages, conversion pages, or marketing sites:
 | [references/testing.md](references/testing.md) | A/B testing methodology, what to test first, heatmap/scroll map insights, CTA statistics |
 | [references/modern.md](references/modern.md) | AI personalisation, mobile-first conversion, page speed and Core Web Vitals, accessible copy, microcopy |
 
+## Boundary with `ui` (private)
+
+This skill owns **design decisions** — the what and why of visual direction, before markup is written.
+
+Use the private `ui` skill when the work is **implementation**: writing Tailwind classes, building components, cleaning up markup, adding dark mode or responsive behavior to existing code. Once `ui-design` has produced a direction or spec, hand it off to `ui` to build.
+
+Rule of thumb: if the output is a palette, token set, CRO plan, or visual spec, use `ui-design`. If the output is `.tsx`/`.html` with Tailwind classes, use `ui`.
+
 ## Related skills
 
 - `copywriting` for landing page copy — message match, persuasion frameworks, and copy quality
 - `ui-animation` for motion timing, easing, and animation review
 - `ui-audit` for accessibility and final QA
 - `optimise-seo` for meta descriptions and page titles
+- `ui` (private) for Tailwind implementation once design direction is decided

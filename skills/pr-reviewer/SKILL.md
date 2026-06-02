@@ -1,6 +1,6 @@
 ---
 name: pr-reviewer
-description: Reviews the current local diff or branch for high-confidence bugs, instruction-file compliance, and structural quality. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update. Also use for "thermo-nuclear review", "deep code quality audit", "structural review", "code quality review", "harsh maintainability review", "review for complexity", or "code judo" — these load the structural quality rubric for an unusually strict maintainability pass. Also use for "deslop this", "clean up AI code", "remove slop", or "review for AI patterns" — these load the AI slop detection catalog.
+description: Produces a read-only review report of the current local diff or branch — it lists findings and does NOT edit files. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update; also use for "review my changes", "code review", "code quality review", or when you want findings listed by severity so you can decide what to fix yourself. Also use for "thermo-nuclear review", "deep code quality audit", "structural review", "harsh maintainability review", or "code judo" — these load the structural quality rubric for an unusually strict maintainability pass. Also use for "deslop this", "clean up AI code", "remove slop", or "review for AI patterns" — these load the AI slop detection catalog. For automatic fix-in-place (no manual review step needed), use the private `simplify` skill instead.
 ---
 
 # Local Review
@@ -147,9 +147,16 @@ If the user explicitly points at an existing PR, adapt the same validated findin
 - "Consider refactoring" -> "Violates instruction-file rule '<quoted rule>' in scoped file `src/foo.ts`."
 - Multiple comments for the same root cause -> one comment linking all affected locations
 
+## Boundary with `simplify` (private)
+
+This skill produces a **report only** — findings organized by severity (`Must fix before push`, `Should fix soon`, `Ready for handoff`) with no automatic file edits. The working tree is unchanged when the skill finishes.
+
+Use the private `simplify` skill instead when you want fixes applied automatically: it fans out four concurrent agents over the diff and edits files in-place, then re-runs lint/type-check/tests to verify. Both skills cover reuse, quality, and efficiency issues; the difference is report-only vs fix-in-place.
+
 ## Related skills
 
 - `done` for session capture after the review is complete
 - `pr-babysitter` for triaging and resolving inbound review threads after feedback has been left
+- `simplify` (private) for automatic fix-in-place rather than a review report
 
 Every flagged issue should be something a senior engineer would catch.

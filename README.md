@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
-25 skills for shipping better software.
+30 skills for shipping better software.
 
 ## Quickstart
 

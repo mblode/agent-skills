@@ -2,6 +2,16 @@
 
 Dark-first, high contrast, minimal. Impact comes from scale and weight, not decoration.
 
+## Contents
+
+- [Core style](#core-style)
+- [Typography hierarchy](#typography-hierarchy)
+- [Text contrast hierarchy](#text-contrast-hierarchy)
+- [Layout patterns](#layout-patterns)
+- [Slide type to layout mapping](#slide-type--layout-mapping)
+- [Visual elements](#visual-elements)
+- [Avoid](#avoid)
+
 ## Core style
 
 | Element | Spec |

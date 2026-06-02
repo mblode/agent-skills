@@ -2,6 +2,14 @@
 
 Define the narrative arc and slide sequence before writing any copy.
 
+## Contents
+
+- [Standard flow](#standard-flow)
+- [Slide types](#slide-types)
+- [Section colors](#section-colors)
+- [Output format](#output-format)
+- [Workflow](#workflow)
+
 ## Standard flow
 
 ```
