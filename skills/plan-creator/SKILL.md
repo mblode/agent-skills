@@ -1,6 +1,6 @@
 ---
 name: plan-creator
-description: Collaborative interrogation that produces an implementation plan. Asks one question at a time with a recommended answer, explores the codebase before asking the user, flags fuzzy terminology, and walks the decision tree until shared understanding is reached. Outputs a plan file. Use when asked to "create a plan", "help me think through this", "plan this feature", "I want to build X", "grill me", "what should the plan be", "think this through with me", or before starting any non-trivial implementation.
+description: Collaborative interrogation that produces an implementation plan. Reads relevant docs and code first, asks one question at a time with a recommended answer, grills the core decisions, flags fuzzy terminology, and walks the decision tree until shared understanding is reached. Outputs a plan file. Use when asked to "create a plan", "help me think through this", "plan this feature", "I want to build X", "grill me", "grill with docs", "understand the docs", "unpack the decisions", "brainstorm a spec", "what should the plan be", "think this through with me", or before starting any non-trivial implementation.
 ---
 
 # Plan Creator
@@ -25,6 +25,8 @@ Every question and recommendation filters through these principles (ordered by p
 | File | Read when |
 |------|-----------|
 | `references/interrogation-protocol.md` | Starting Step 2: question decision tree, answer format, fuzzy term patterns, anti-rationalization |
+| `references/doc-grounding.md` | Step 1, when design docs, RFCs, ADRs, or library/API docs are relevant: how to find them, extract core decisions, and grill the rationale |
+| `references/html-question-form.md` | Step 2, optional: generating a batched HTML question form for large or greenfield specs instead of one-at-a-time chat |
 
 ## Workflow
 
@@ -39,11 +41,12 @@ Plan creation progress:
 
 ### Step 1: Understand intent
 
-Before asking anything, scan the codebase for relevant code:
+Before asking anything, scan both the code **and the docs** for relevant context:
 
 - Identify the modules, files, and patterns that relate to the request
 - Note existing conventions, abstractions, and boundaries
 - Look for prior art — has something similar been built before?
+- Read relevant documentation — design docs, RFCs, ADRs, READMEs in the repo, plus the referenced library/API docs and any spec the user points to. Load `references/doc-grounding.md` for how to find docs, extract the core decisions they encode, and the rationale behind them.
 
 State what you found in 2-3 sentences. This grounds the interrogation in reality.
 
@@ -52,13 +55,16 @@ State what you found in 2-3 sentences. This grounds the interrogation in reality
 Load `references/interrogation-protocol.md`. Ask ONE question at a time. For every question, provide a **recommended answer** based on what you found in the codebase.
 
 Key rules:
-- If a question is answerable by reading code, answer it yourself and move on
+- If a question is answerable by reading code or docs, answer it yourself and move on
 - One question at a time — each answer shapes the next question
 - Walk the decision tree — resolve foundations before dependencies
 - Flag fuzzy terms — propose a sharp version, ask if it's right
 - Surface tensions with existing code — "The codebase does X. You're proposing Y."
+- **Grill the core decisions** — when the docs reveal a decision (a chosen approach, a constraint, a tradeoff), interrogate *why* it was made and whether it still holds for this work. Don't re-ask what the docs already answer; pressure-test the rationale instead.
 
 **Budget:** 5-10 questions, then synthesize.
+
+**Batch mode (optional):** For large or greenfield specs with many independent questions, you may generate a single local HTML form the user fills in at once instead of asking one-at-a-time. Load `references/html-question-form.md` for the template and when to use it. Keep the one-at-a-time default for anything where each answer should shape the next question.
 
 **Escape hatch:** If the user says "just write the plan" or "enough questions", skip to Step 3.
 
@@ -115,7 +121,8 @@ After writing the plan, offer: "Plan written. Run `plan-reviewer` to stress-test
 
 ## Gotchas
 
-- Don't ask questions you can answer by reading the codebase. The whole point is that you explore first.
+- Don't ask questions you can answer by reading the codebase or the docs. The whole point is that you explore first.
+- Don't re-ask what the docs already answer — grill the *why* behind a decision, not the *what*.
 - Don't ask all questions upfront. Walk the tree — each answer shapes the next question.
 - Don't skip the recommended answer. That's the key differentiator — the user reacts to a concrete suggestion instead of staring at a blank page.
 - Don't write code. This produces a plan, not an implementation.

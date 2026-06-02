@@ -73,6 +73,24 @@ Evidence: 5 curl requests → 180ms, 210ms, 190ms, 350ms, 185ms
 Verdict: INCONCLUSIVE — 3/5 under 200ms, but p95 is 350ms. Depends on the threshold definition.
 ```
 
+## Verifying against documentation
+
+Some claims are about a *documented decision* rather than code or runtime behavior ("the RFC says writes are idempotent", "the library supports retries natively", "the ADR rejected this approach"). Verify these against the authoritative doc, not just the code.
+
+1. **Find the authoritative source** — prefer closest-to-code first: ADRs/decision records, then design docs/RFCs, then official library/API docs. The user's named spec is the source of truth when one exists.
+2. **Quote the relevant line** — do not paraphrase the decision; copy the exact sentence plus its location (file/path or doc name + section).
+3. **Check the doc against reality** — docs drift. If the code contradicts the doc, that itself is the finding: report which one is authoritative for this plan.
+4. **Verdict** — same three outcomes, with the citation:
+
+```
+Claim: "The payments RFC says webhook handling is idempotent"
+Evidence: docs/rfc/payments.md §4 — "handlers MUST dedupe on event_id before side effects"
+         but src/webhooks/stripe.ts has no dedupe check on event_id
+Verdict: NOT VERIFIED — RFC requires idempotency; current code does not implement it
+```
+
+If no authoritative doc exists, say so and fall back to code/runtime evidence — don't treat an undocumented assumption as verified.
+
 ## Output format
 
 ```markdown

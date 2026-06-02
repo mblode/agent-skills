@@ -1,6 +1,6 @@
 ---
 name: pr-reviewer
-description: Produces a read-only review report of the current local diff or branch — it lists findings and does NOT edit files. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update; also use for "review my changes", "code review", "code quality review", or when you want findings listed by severity so you can decide what to fix yourself. Also use for "thermo-nuclear review", "deep code quality audit", "structural review", "harsh maintainability review", or "code judo" — these load the structural quality rubric for an unusually strict maintainability pass. Also use for "deslop this", "clean up AI code", "remove slop", or "review for AI patterns" — these load the AI slop detection catalog. For automatic fix-in-place (no manual review step needed), use the private `simplify` skill instead.
+description: Produces a read-only review report of the current local diff or branch — it lists findings and does NOT edit files. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update; also use for "review my changes", "code review", or "code quality review". Also use for "thermo-nuclear review", "deep code quality audit", "structural review", "harsh maintainability review", or "code judo" — these load the structural quality rubric for an unusually strict maintainability pass. Also use for "deslop this", "clean up AI code", "remove slop", or "review for AI patterns" — these load the AI slop detection catalog. Also use for "security audit", "find vulnerabilities", "deepsec", "security review", "threat model", or "audit for security" — these switch to a whole-codebase security sweep instead of diff-only. For automatic fix-in-place (no manual review step needed), use the private `simplify` skill instead.
 ---
 
 # Local Review
@@ -16,7 +16,7 @@ Run it before `/done` when a coding session produced changes worth checking.
 | `references/severity-rubric.md` | Default: choosing severity labels and filtering weak findings |
 | `references/comment-examples.md` | Before producing a local review report |
 | `references/review-surfaces.md` | When deciding whether the work stays in local self-review or should hand off to PR-specific workflows |
-| `references/security-checklist.md` | When the diff touches auth, input handling, external APIs, file uploads, or environment configuration |
+| `references/security-checklist.md` | When the diff touches auth, input handling, external APIs, file uploads, or environment configuration — and always in Security audit mode (whole-codebase) |
 | `references/performance-checklist.md` | When the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports |
 | `references/structural-quality-rubric.md` | When the user asks for a structural quality review, thermo-nuclear review, deep code quality audit, or when reviewing large diffs that touch module boundaries |
 | `references/ai-slop-patterns.md` | When the user asks to deslop, clean up AI code, remove slop, or when reviewing AI-assisted code changes |
@@ -27,6 +27,16 @@ Run it before `/done` when a coding session produced changes worth checking.
 - Explicit PR requests are secondary: keep the same review criteria, but treat them as a handoff path rather than the main workflow
 - Keep the skill focused on concrete bugs, missing validation/tests that clearly matter, and repository instruction-file compliance
 - Do not use this skill for inbound PR comments or thread resolution; use `pr-comments` for that
+
+## Security audit mode (whole-codebase)
+
+Triggered by an explicit security ask ("security audit", "find vulnerabilities", "deepsec", "security review", "threat model", "audit for security"). This mode **overrides the default diff scope** — it proactively sweeps the relevant subsystem or the whole repo by vulnerability class, not just changed lines. Everything else about the skill is unchanged: it stays report-only and uses the same three-tier output.
+
+- **Scope:** the subsystem the user names, or the whole codebase if unscoped. Diff status is irrelevant here — review code as it stands, not just what changed.
+- **Always load `references/security-checklist.md`** and walk the threat-model lens and vulnerability-class sweep it defines, rather than waiting for a diff to touch a sensitive area.
+- **Walk by vulnerability class, not by file** — for each OWASP-aligned class, search the codebase for the pattern (e.g. query construction, auth checks, deserialization, secret handling) and confirm each hit against the actual code before reporting.
+- **High-signal bar still applies** — report only concrete, exploitable findings with a path/line and a plausible attack; never speculative "could be risky" items. Drop anything you can't tie to a real exploit path.
+- **Output:** the same `Must fix before push` / `Should fix soon` / `Ready for handoff` tiers, with each finding naming the vulnerability class, the location, and the exploit path.
 
 ## Workflow
 
@@ -55,6 +65,8 @@ Review progress:
    - Local self-review is the default: current diff/branch with a local report in chat
    - Existing PR requests are secondary: apply the same validation bar, then produce a concise handoff summary instead of changing the main workflow
    - For large changes, shard by subsystem and keep the final report consolidated
+   - Optional, non-trivial diffs only: if an independent review CLI is already installed (e.g. `codex exec`, `droid exec`), you may run it read-only as a *different-model* second opinion and fold any validated findings into the same report. This hedges against Claude reviewing Claude-authored code. Skip silently if none is installed — never add it as a dependency
+   - Treat external-engine output as **advisory**: validate every finding against the actual diff before including it, and drop anything this skill would not have flagged on its own
 4. **Validate issues**:
    - Re-check exact lines before reporting
    - Keep only high-confidence issues; drop speculative or duplicate items
@@ -90,6 +102,8 @@ Never flag:
 - Style, quality, or subjective preferences
 - Pre-existing issues unrelated to the change
 - Potential issues dependent on unknown inputs
+- Unrealistic edge cases or speculative risks that don't map to a concrete exploit or repro path
+- Broad rewrites or architectural changes beyond the diff's intent
 - Linter-only issues likely caught automatically
 - Explicitly silenced violations
 
@@ -146,6 +160,7 @@ If the user explicitly points at an existing PR, adapt the same validated findin
 - "This might cause issues" -> "Variable `x` is undefined at `src/foo.ts:45`, causing `ReferenceError` at runtime."
 - "Consider refactoring" -> "Violates instruction-file rule '<quoted rule>' in scoped file `src/foo.ts`."
 - Multiple comments for the same root cause -> one comment linking all affected locations
+- Pasting an external engine's output verbatim -> re-validate each finding against changed lines first; advisory input is not a finding until you confirm it
 
 ## Boundary with `simplify` (private)
 

@@ -1,6 +1,6 @@
 ---
 name: define-architecture
-description: Generates folder structures, module contracts, middleware pipelines, and frontend/backend boundaries for TypeScript full-stack applications. Use when starting a project, setting up project structure, organizing a monorepo, configuring middleware, defining folder layout, designing backend modules, establishing team conventions, or asking "how should I structure this app", "design the folder structure", or "set up the architecture".
+description: Generates folder structures, module contracts, middleware pipelines, and frontend/backend boundaries for TypeScript full-stack applications, and finds domain-informed deepening opportunities in existing codebases. Use when starting a project, setting up project structure, organizing a monorepo, configuring middleware, defining folder layout, designing backend modules, establishing team conventions, improving the architecture of an existing codebase, finding refactor opportunities, deepening the architecture, or asking "how should I structure this app", "design the folder structure", "set up the architecture", "improve codebase architecture", or "find architecture improvements".
 ---
 
 # Define Architecture
@@ -39,6 +39,7 @@ Load references only when needed:
 - Shipping and rollout: [references/shipping-practices.md](references/shipping-practices.md)
 - Engineering quality checklists: [references/craftsmanship.md](references/craftsmanship.md)
 - API and interface design: [references/api-design.md](references/api-design.md) — load when designing endpoints, module contracts, or reviewing API surface changes
+- Deepening an existing codebase: [references/deepening-existing.md](references/deepening-existing.md) — load when running the Adoption workflow to map the domain language and find deepening/refactor opportunities
 
 ## Architecture setup workflow
 
@@ -79,11 +80,13 @@ Load references only when needed:
 
 ## Adoption workflow (existing codebase)
 
-1. Map current architecture and pain points.
-2. Select the smallest set of changes that enforce clear module boundaries.
-3. Migrate one vertical slice first.
-4. Add guardrails (lint/type/test checks) to prevent regression.
-5. Roll out module-by-module.
+Use this when the codebase already exists — the goal is domain-informed *deepening*, not a rewrite. Load [references/deepening-existing.md](references/deepening-existing.md) for the analysis method and output template.
+
+1. **Map the domain language.** Read the code for the ubiquitous language actually in use — entities, actions, and bounded contexts as the team names them. Note where names diverge across modules (the same concept called three things, or one name meaning three things).
+2. **Find deepening opportunities.** Look for: anemic domain concepts (logic that should live with the data but is scattered across handlers), leaking boundaries (one context reaching into another's internals), naming that diverges from the domain, and duplicated concepts that should be one. Record each as a concrete opportunity, not a vague smell.
+3. **Rank by leverage.** Score opportunities against the Principles (KISS, YAGNI, easier-to-change). Prefer changes that make the most future changes local for the least churn. Drop speculative cleanups that no current requirement justifies.
+4. **Migrate one vertical slice first.** Pick the highest-leverage opportunity and prove the move end-to-end through one slice before generalizing.
+5. **Add guardrails.** Enforce the new boundary with lint/type/test checks so it can't decay, then roll out module-by-module.
 
 ## Stack defaults
 

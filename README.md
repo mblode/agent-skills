@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
-30 skills for shipping better software.
+25 skills for shipping better software.
 
 ## Quickstart
 
@@ -20,7 +20,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Architecture
 
-- **[define-architecture](./skills/define-architecture/SKILL.md)**: Repo structure and module boundaries for TypeScript apps.
+- **[define-architecture](./skills/define-architecture/SKILL.md)**: Repo structure and module boundaries for TypeScript apps, plus domain-informed deepening of existing codebases.
 - **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with TypeScript, Tailwind, shadcn/ui, Blode UI, and Vercel.
 - **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI with ESM, tsdown, vitest, oxlint, changesets, and GitHub Actions.
 - **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Multi-tenant domain strategy, isolation, and routing on Cloudflare or Vercel.
@@ -49,9 +49,9 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Shipping
 
-- **[plan-creator](./skills/plan-creator/SKILL.md)**: Collaborative interrogation that produces a plan. Asks one question at a time with recommended answers.
-- **[plan-reviewer](./skills/plan-reviewer/SKILL.md)**: Stress-tests plans. Verifies claims against local code.
-- **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Catches bugs, structural issues, and AI slop before you push.
+- **[plan-creator](./skills/plan-creator/SKILL.md)**: Collaborative interrogation that produces a plan. Reads docs and code first, then asks one question at a time with recommended answers.
+- **[plan-reviewer](./skills/plan-reviewer/SKILL.md)**: Stress-tests plans. Verifies claims against local code and docs.
+- **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Catches bugs, structural issues, and AI slop before you push; runs whole-codebase security audits on request.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: Human-sounding PR descriptions. Cleans up noisy commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Polls for merge conflicts, CI failures, and review comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets, compiler fix loops, and CI monitoring.

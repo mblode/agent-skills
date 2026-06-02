@@ -1,6 +1,6 @@
 # Security Checklist
 
-Three-tier classification for security-relevant changes. Load when the diff touches auth, input handling, external APIs, file uploads, or environment configuration.
+Three-tier classification for security-relevant changes. Load when the diff touches auth, input handling, external APIs, file uploads, or environment configuration — and always in pr-reviewer's Security audit mode (whole-codebase).
 
 ## Contents
 
@@ -8,6 +8,13 @@ Three-tier classification for security-relevant changes. Load when the diff touc
 - Ask first
 - Never do
 - OWASP quick reference
+- Threat-model lens (audit mode)
+- Vulnerability-class sweep (audit mode)
+
+## How to use this file
+
+- **Diff review (default):** use Always do / Ask first / Never do / OWASP quick reference to classify the security-relevant lines in the change.
+- **Security audit mode (whole-codebase):** additionally run the Threat-model lens and the Vulnerability-class sweep below across the named subsystem or whole repo. Walk by class, confirm each hit against real code, and report only concrete exploit paths.
 
 ## Always Do
 
@@ -59,3 +66,35 @@ Automatic `critical` severity if found in the diff:
 | Security Misconfiguration | Debug mode in production, default credentials, permissive CORS |
 | XSS | Unescaped user content in HTML, `dangerouslySetInnerHTML`, `innerHTML` |
 | Insecure Dependencies | Known CVEs in `package-lock.json` changes |
+
+## Threat-model lens (audit mode)
+
+Before sweeping for bugs, frame what you're protecting. Spend a few minutes mapping these so the sweep is targeted, not generic:
+
+- **Assets** — what's worth stealing or breaking here? Credentials, PII, payment data, tenant isolation, admin capability.
+- **Entry points** — where does untrusted input enter? HTTP routes, webhooks, file uploads, message queues, CLI args, env, third-party callbacks.
+- **Trust boundaries** — where does data cross from less-trusted to more-trusted (client→server, tenant→tenant, user→admin, external API→internal)? Every boundary is a place to check authz and validation.
+- **Actors** — anonymous user, authenticated user, other tenant, insider, compromised dependency. For each finding ask "which actor reaches this, and what do they gain?"
+
+A finding only matters if a real actor reaches a real asset through a real entry point. Use this to drop speculative items.
+
+## Vulnerability-class sweep (audit mode)
+
+Walk the codebase one class at a time. For each, search for the pattern, then confirm each hit against the actual code before reporting. Suggested search anchors are starting points, not exhaustive.
+
+| Class | Search anchors | Confirm |
+|---|---|---|
+| Injection (SQL/NoSQL/OS/LDAP) | string-built queries, template literals in queries, `exec`/`spawn`/`child_process`, `$where` | user input reaches the sink unparameterized |
+| Broken access control | route handlers, `findById` without owner check, role checks, IDOR on path/body IDs | authorization is enforced server-side per request, ownership verified |
+| Authentication & session | token issue/verify, password hashing, session config, refresh/rotation | strong hashing, expiry, rotation, no fixation, no auth bypass path |
+| Secrets & config | `process.env`, hardcoded keys/tokens, committed `.env`, logging of secrets | no secrets in source/logs; secrets sourced from env/secret manager |
+| Deserialization & parsing | `JSON.parse` on untrusted data into eval paths, `yaml.load`, `eval`, `Function()`, prototype pollution sinks | untrusted input can't reach code execution or pollute prototypes |
+| SSRF & outbound requests | `fetch`/`axios`/`http` with user-controlled URLs, webhook callbacks | destination is validated/allow-listed; no internal-network reach |
+| File handling | upload handlers, path joins with user input, `fs` reads/writes from request data | path traversal blocked, type/size validated, stored outside web root |
+| XSS & output encoding | `dangerouslySetInnerHTML`, `innerHTML`, unescaped templating, `res.send` of user data | output is escaped/sanitized at render |
+| Crypto | custom crypto, `Math.random` for tokens, weak/legacy algorithms, ECB mode | uses vetted primitives, CSPRNG for tokens, modern algorithms |
+| Dependencies & supply chain | `package.json`/lockfile, postinstall scripts, unpinned versions | no known-vulnerable or unexpected packages; `npm audit` clean of highs |
+| Error handling & info leak | stack traces to client, verbose errors, debug flags | generic client errors; details logged server-side only |
+| Rate limiting & DoS | unbounded loops over user input, missing limits on expensive endpoints | abuse-prone endpoints are bounded/limited |
+
+For each confirmed hit, report it through the standard three-tier output with the vulnerability class, location, and exploit path.
