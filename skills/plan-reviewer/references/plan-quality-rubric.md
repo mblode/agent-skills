@@ -68,8 +68,8 @@ KISS > YAGNI. The simplest plan that solves the problem is the best plan. Duplic
 
 ## Triage Decision
 
-After scoring all six dimensions:
-1. Identify the 2-3 lowest-scoring dimensions (score <= 3)
-2. If all dimensions score 4+, focus on the two with the most impactful gaps
-3. If more than 3 dimensions score 1-2, the plan likely needs rewriting — say so directly rather than attempting a patch-by-questioning approach
-4. Always check Scope regardless of score — KISS/YAGNI violations are the most common plan weakness and the easiest to miss because complexity feels like thoroughness
+The goal is to drive every dimension to 5/5. After scoring all six:
+1. Work each dimension scoring <5 upward in ascending order (weakest first). Re-score after each round and re-sweep anything still below 5; repeat until all six are 5/5 or stalled.
+2. A dimension is **stalled** when it can't reach 5/5 after 2 pushes and the user defers or declines the proposed fix — record what blocks 5/5 and move on.
+3. If more than 3 dimensions score 1-2, the plan likely needs rewriting — say so directly rather than grinding the loop.
+4. Always check Scope regardless of score — KISS/YAGNI violations are the most common plan weakness and the easiest to miss because complexity feels like thoroughness. Driving toward 5/5 means tightening scope, not padding the plan to look thorough.

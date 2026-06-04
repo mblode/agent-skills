@@ -1,6 +1,6 @@
 ---
 name: plan-reviewer
-description: Reviews and strengthens implementation plans through adversarial rubber-duck dialogue. Identifies weakest areas across completeness, feasibility, scope, testability, risk, and assumptions, then asks pointed questions one at a time to expose gaps. Verifies checkable claims with local evidence. Updates the plan with resolved answers. Use when asked to "review my plan", "rubber duck this", "stress test this plan", "is this plan ready", "challenge my plan", "what am I missing", "verify this", "is this true", "prove it", "check this claim", "fact-check", or before starting implementation on a non-trivial plan.
+description: Reviews and strengthens implementation plans through adversarial rubber-duck dialogue. Scores completeness, feasibility, scope, testability, risk, and assumptions, then iterates one pointed question at a time to drive every dimension to 5/5, re-scoring after each round. Verifies checkable claims with local evidence. Updates the plan with resolved answers. Use when asked to "review my plan", "rubber duck this", "stress test this plan", "is this plan ready", "challenge my plan", "get this plan to 5/5", "make this plan bulletproof", "drive every dimension to 5/5", "what am I missing", "verify this", "is this true", "prove it", "check this claim", "fact-check", or before starting implementation on a non-trivial plan.
 ---
 
 # Plan Reviewer
@@ -9,6 +9,8 @@ Strengthen implementation plans through adversarial questioning before coding st
 
 - **IS:** A dialogue partner that exposes gaps through pointed, specific questions
 - **IS NOT:** A gate/approval mechanism, a code reviewer, or a plan generator
+
+**Objective:** drive every dimension to **5/5**. Work each sub-5 dimension upward, re-scoring after each round, until all six are 5/5 — or a dimension provably stalls on a decision only the user can make.
 
 ## Core Lens
 
@@ -37,10 +39,11 @@ Copy this checklist to track progress:
 ```text
 Plan review progress:
 - [ ] Step 1: Load the plan
-- [ ] Step 2: Triage — score dimensions and identify weakest areas
-- [ ] Step 3: Rubber duck dialogue (5-8 questions, max 2 pushes each)
-- [ ] Step 4: Gap summary (three-tier findings)
-- [ ] Step 5: Update the plan file with resolved answers and unresolved annotations
+- [ ] Step 2: Triage — score all six dimensions
+- [ ] Step 3: Rubber duck loop — drive each dimension <5 to 5/5 (max 2 pushes per question)
+- [ ] Step 4: Re-score after each dimension; repeat the sweep until all 5/5 or stalled
+- [ ] Step 5: Gap summary (final scores + residual blockers)
+- [ ] Step 6: Update the plan file with resolved answers and unresolved annotations
 ```
 
 ### Step 1: Load the plan
@@ -65,26 +68,37 @@ PLAN TRIAGE:
   Assumptions     ██░░░  2/5  Three unstated assumptions
 ```
 
-State: "I'll focus on the 2-3 weakest areas."
+State: "I'll work each dimension up to 5/5, starting with the weakest."
 
-### Step 3: Rubber duck dialogue
+### Step 3: Rubber duck loop
 
 Load `references/questioning-framework.md` and `references/dialogue-examples.md`.
 
-Pick the weakest dimension first. Ask ONE question that references a specific section or claim in the plan. After the user responds, choose one move:
+Pick the lowest-scoring dimension. Ask ONE question that references a specific section or claim in the plan. After the user responds, choose one move:
 
-- **PUSH DEEPER** — answer is vague or hand-waves complexity. Ask a sharper follow-up demanding specificity. Maximum 2 pushes per question before recording as unresolved gap.
+- **PUSH DEEPER** — answer is vague or hand-waves complexity. Ask a sharper follow-up demanding specificity. Maximum 2 pushes per question.
 - **ACCEPT AND RECORD** — answer is specific and addresses the gap. Note the resolution and move on.
 - **REFRAME** — the concern doesn't apply as framed. Acknowledge and redirect to the actual gap.
 - **VERIFY** — claim can be checked with local evidence ("this function is under 100 lines", "we already handle that case") or against documentation/specs/ADRs ("the RFC says writes are idempotent", "the library supports this natively"). Load `references/claim-verification.md`, gather evidence — including quoting the authoritative doc when the claim is about a documented decision — return a VERIFIED/NOT VERIFIED/INCONCLUSIVE verdict, then continue dialogue informed by the result.
 
-After 2-3 questions on one dimension, move to the next weakest. Total budget: **5-8 questions across all dimensions.**
+When a gap closes, **write the resolution into the plan (Step 6) and re-score that dimension.** Stay on the same dimension until it reaches 5/5 or stalls, then move to the next-lowest dimension still below 5.
 
-**Escape hatch:** If user says "enough questions" or "just tell me the gaps" — skip to Step 4.
+**Stall rule:** After 2 pushes without a 5/5-grade answer, **propose a concrete fix** for the user to accept or reject. If accepted, write it in and re-score. If the user defers or declines, record the residual gap as exactly what blocks 5/5 for that dimension, and move on.
 
-### Step 4: Gap summary
+### Step 4: Re-score and repeat
 
-Three tiers:
+After each dimension, re-render the triage table so the climb toward 5/5 is visible. Repeat the full sweep over any dimension still below 5.
+
+**The loop ends when:**
+- All six dimensions score 5/5, OR
+- The user invokes the escape hatch ("enough questions" / "just tell me the gaps"), OR
+- A full sweep produces no further progress (every sub-5 dimension is stalled) — summarize what blocks 5/5 and stop.
+
+If more than 3 dimensions start at 1-2, the plan likely needs rewriting — say so directly rather than grinding the loop.
+
+### Step 5: Gap summary
+
+Lead with the final triage table showing the before → after scores. Then list any **residual** gaps still blocking 5/5, in three tiers (if every dimension reached 5/5, say so and leave the "Must address" tier empty):
 
 ```markdown
 ## Plan Review
@@ -102,15 +116,15 @@ Three tiers:
   Resolved: NO
 ```
 
-Each finding references the plan section, states the concrete gap, and marks whether it was resolved during dialogue.
+Each finding references the plan section, states the concrete gap, and marks whether it reached 5/5 during the loop.
 
-### Step 5: Update the plan
+### Step 6: Update the plan
 
-After the gap summary, update the plan file directly:
+Plan edits happen **incrementally during the loop** — each resolved gap is written in as it closes (Step 3). The final pass:
 
-- Add resolved answers inline where the gap was identified
-- Add `<!-- UNRESOLVED: description -->` comments for unresolved gaps
-- Append a Review Notes section with the triage scores and date
+- Confirms resolved answers are inline where each gap was identified
+- Adds `<!-- UNRESOLVED: what blocks 5/5 -->` comments for any dimension that stalled
+- Appends a Review Notes section with the before → after triage scores and date
 
 Do not ask permission — updating the plan is the point of the review. If the plan was loaded from a file, edit that file. If the user objects, they can revert.
 
@@ -120,18 +134,19 @@ Do not ask permission — updating the plan is the point of the review. If the p
 - No "great plan, but..." — start with triage, go straight to gaps
 - Direct but constructive — the goal is strengthening, not criticism
 - Do not linger on strengths; acknowledge briefly and move to the next gap
-- After 2 pushes without a specific answer, record the gap as unresolved and move on
+- After 2 pushes without a 5/5-grade answer, propose a concrete fix; if the user defers, record what blocks 5/5 and move on
 - When a plan violates KISS or YAGNI, name it directly: "This is more complex than it needs to be because..."
 - Challenge premature abstractions: "Do not remove a fence until you know why it was put up"
 - Push for tracer bullets: "What's the minimum viable slice that proves this works end-to-end?"
 
 ## Gotchas
 
-- Don't ask all dimensions exhaustively — triage first, deep-dive the weakest 2-3 only.
+- Keep going until every dimension is 5/5 — don't stop at the weakest few. Re-score after each dimension and re-sweep anything still below 5.
 - Don't ask generic questions ("have you considered error handling?") — always reference specific plan content ("What happens when the Stripe webhook in your payment flow returns a 429?").
 - Don't praise the plan before questioning it. Anti-sycophancy is critical here.
-- Don't push more than twice on the same question. Two pushes without specificity = unresolved gap.
-- Don't exceed 8 questions total. If the plan has more than 8 gaps, it needs rewriting, not more questions.
+- Don't push more than twice on the same question. When stalled, propose a concrete fix rather than re-asking.
+- End the loop on no-progress — if a full sweep moves nothing, summarize what blocks 5/5 and stop. Don't badger.
+- If more than 3 dimensions start at 1-2, recommend rewriting rather than grinding the loop.
 - Always update the plan file after review — that's the deliverable, not just the conversation.
 - Don't review code — use `pr-reviewer` for that. This skill reviews plan documents only.
 - Don't generate a new plan. If the plan is too weak to salvage, say so and suggest rewriting.
