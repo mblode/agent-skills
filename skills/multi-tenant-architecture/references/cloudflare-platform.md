@@ -27,3 +27,4 @@ Use this reference for Cloudflare-specific routing, isolation, and custom domain
 - https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/
 - https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/platform/worker-isolation/
 - https://developers.cloudflare.com/api/operations/custom-hostnames-for-a-zone-create-custom-hostname
+- https://x.com/burcs/status/2011542877420294233 — Brandon (Cloudflare), multi-tenant platform development walkthrough
