@@ -5,8 +5,10 @@ Practical guidance for writing high-signal skill content. These complement the f
 ## Contents
 
 - Don't State the Obvious
+- Open with Boundaries (IS/IS-NOT)
 - Build a Gotchas Section
 - Use the File System for Progressive Disclosure
+- Comprehensive Reference Folders
 - Degrees of Freedom
 - Common Content Patterns
 - The Description Field Is For the Model
@@ -28,12 +30,24 @@ Claude knows a lot about coding and your codebase. Focus on information that pus
 
 **Test:** For each line in SKILL.md, ask "Would removing this cause Claude to make a mistake?" If not, cut it.
 
+## Open with Boundaries (IS/IS-NOT)
+
+When sibling skills exist or scope creep is likely, open the body — immediately after the H1 intro — with a bold IS/IS-NOT pair. It prevents the model from running the wrong skill or stretching this one past its remit.
+
+```markdown
+- **IS:** producing a self-contained brief another agent can execute without clarification.
+- **IS NOT:** doing the task itself, or planning work you will execute in this session.
+```
+
+Name the sibling skill to route to in the IS-NOT line where one exists ("use `agents-md`"). Skip the opener for skills with no adjacent skills and an unmistakable scope — it would restate the description.
+
 ## Build a Gotchas Section
 
 The highest-signal content in any skill. Build from common failure points Claude runs into when using the skill.
 
 - Place near the end of SKILL.md as a quick-reference section (call it "Gotchas" or "Anti-patterns")
 - Ground every gotcha in a real observed failure, not hypothetical concerns
+- Each gotcha names the concrete command, value, or path involved and the consequence of getting it wrong — a warning without a consequence reads as optional
 - Update the section over time as new failure modes appear
 - Format as short, scannable bullets — not paragraphs
 
@@ -51,6 +65,15 @@ A skill is a folder, not just a markdown file. Think of the entire file system a
 - `rules/` — categorized rule files for audit/lint skills
 
 The simplest form of progressive disclosure is pointing to other markdown files. Split detailed function signatures, API docs, or usage examples into separate files and tell Claude when to load them.
+
+## Comprehensive Reference Folders
+
+For broad domains (a design system, a full CLI surface, a style guide), a folder of many small focused files beats a few monoliths. A design-system skill with 40 files of 50-200 lines each — `buttons.md`, `colors.md`, `typography.md`, `forms.md` — lets Claude load exactly the two files a task needs instead of a 2000-line reference.
+
+- One concern per file; name the file after the concern
+- Keep an `index.md` (or a table in SKILL.md) mapping concerns to files
+- Each file stands alone — no cross-file reading order
+- Individual files can run long (up to ~450 lines) when single-topic and TOC'd; split by loading condition, not line count
 
 ## Degrees of Freedom
 

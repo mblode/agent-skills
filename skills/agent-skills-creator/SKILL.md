@@ -1,11 +1,19 @@
 ---
 name: agent-skills-creator
-description: Guides creation of best-practice agent skills following the open format specification. Covers frontmatter, directory structure, progressive disclosure, reference files, rules folders, degrees of freedom, content patterns, executable scripts, MCP tool references, evaluations, and cross-model testing. Use when creating a new skill, authoring SKILL.md, setting up a rules-based audit skill, structuring a skill bundle, writing scripts inside a skill, evaluating a skill, or asking "how to write a skill."
+description: Guides creation and improvement of best-practice agent skills following the open format specification. Covers frontmatter, directory structure, progressive disclosure, reference files, rules folders, degrees of freedom, content patterns, executable scripts, MCP tool references, evaluations, cross-model testing, and a ten-dimension audit protocol for existing skills. Use when creating a new skill, authoring SKILL.md, setting up a rules-based audit skill, structuring a skill bundle, writing scripts inside a skill, evaluating a skill, improving or rewriting an existing skill, or asking "how to write a skill", "improve this skill", "audit my skill", or "review this SKILL.md".
 ---
 
 # Agent Skills Creator
 
-Create skills that follow the Agent Skills open format. Covers the full lifecycle from pattern selection through validation and README update.
+Create and improve skills that follow the Agent Skills open format. Covers the full lifecycle from pattern selection through validation and README update.
+
+- **IS:** creating new agent skills and auditing or rewriting existing ones — SKILL.md, references, rules folders, scripts, evaluations.
+- **IS NOT:** AGENTS.md/CLAUDE.md instruction files (use `agents-md`) or general documentation quality (use `docs-writing`).
+
+## Choose a Mode
+
+- Creating a new skill → follow the Creation Workflow below.
+- Auditing, improving, or rewriting an existing skill → load `references/improving-existing-skills.md`. It scores ten audit dimensions, runs an ordered rewrite procedure, then reuses Steps 5-8 below for validation and shipping.
 
 ## Reference Files
 
@@ -17,6 +25,7 @@ Create skills that follow the Agent Skills open format. Covers the full lifecycl
 | `references/authoring-tips.md` | Writing high-signal content, degrees of freedom, content patterns, setup, storage, hooks |
 | `references/executable-code.md` | Skill includes scripts, depends on packages, or invokes MCP tools |
 | `references/rules-folder-structure.md` | Building a rules-based audit/lint skill with categorized rule files |
+| `references/improving-existing-skills.md` | Auditing, scoring, or rewriting an existing skill |
 | `references/evaluation-and-iteration.md` | Designing evaluations, testing across models, iterating on a shipped skill |
 | `references/quality-checklist.md` | Final validation before shipping |
 
@@ -87,6 +96,7 @@ Load `references/format-specification.md` for hard constraints.
 ### Step 3: Write SKILL.md body
 
 - Keep under 500 lines; split into reference files if longer
+- Open the body with an IS/IS-NOT boundary pair when adjacent skills exist or scope creep is likely (see "Open with Boundaries" in `references/authoring-tips.md`)
 - Only add context Claude does not already have (see "Don't State the Obvious" in `references/authoring-tips.md`)
 - Use consistent terminology throughout
 - Match degrees of freedom to task fragility — prose for open-ended work, specific scripts for fragile or destructive operations (see "Degrees of Freedom" in `references/authoring-tips.md`)
@@ -108,6 +118,9 @@ Key constraints:
 - References must be one level deep from SKILL.md (no chains)
 - Files over 100 lines need a table of contents at the top
 - Files are only loaded when explicitly listed in SKILL.md
+- Long reference files (up to ~450 lines) are fine when TOC'd and single-topic — split by loading condition, not by line count alone
+- For broad domains, prefer a comprehensive-reference folder of many small focused files over a few monoliths (see "Comprehensive Reference Folders" in `references/authoring-tips.md`)
+- `agents/` is a sanctioned optional folder for subagent prompt definitions the skill dispatches to
 
 Advanced options:
 - Include executable scripts in `scripts/` for Claude to compose — load `references/executable-code.md` for error handling, constants, plan-validate-execute, runtime environment, package deps, and MCP tool naming
@@ -120,21 +133,29 @@ Load `references/quality-checklist.md` and run all applicable checks.
 
 ### Step 6: Update README.md
 
-Add a row to the Skills table:
+Add a bullet under the matching category heading and bump the skill count near the top of the README:
 
 ```markdown
-| `<skill-name>` | <phase> | <one-line description> |
+- **[<skill-name>](./skills/<skill-name>/SKILL.md)**: <one-line description>
 ```
 
-Phases used in this repo: Before coding, Project start, Design, Build, Design/dev, Writing/audit, Pre-ship, Pre-merge, Pre-launch, Architecture, Maintenance, Authoring.
+Categories used in this repo: Architecture, Design, Writing, Quality, Shipping, Authoring.
 
 ### Step 7: Smoke-test
 
-Install and confirm files appear in the target directory:
+Install via the skills CLI — never `cp -R` into `~/.claude/skills/`, which bypasses the `~/.agents/skills` symlink chain:
 
 ```bash
-cp -R skills/<name> ~/.claude/skills/
+npx skills add mblode/agent-skills -g --skill <name> -y
 ls ~/.claude/skills/<name>/
+```
+
+Deploy chain: `skills add` writes to `~/.agents/skills/<name>/`, which is symlinked into `~/.claude/skills/<name>/` for Claude Code to pick up.
+
+For local iteration without reinstalling, symlink the repo folder directly and unlink when done:
+
+```bash
+ln -s /path/to/agent-skills/skills/<name> ~/.claude/skills/<name>
 ```
 
 ### Step 8: Evaluate and iterate
@@ -150,6 +171,8 @@ Load `references/evaluation-and-iteration.md`. Define 3+ evaluation scenarios, t
 - Using "I audit..." or "Use this to..." voice in descriptions (use third-person)
 - Adding README.md, CHANGELOG.md, or INSTALLATION_GUIDE.md to the skill folder
 - Dropping files in folders without linking them from SKILL.md
+- Installing with `cp -R` into `~/.claude/skills/` — bypasses the `~/.agents/skills` symlink chain; use `npx skills add`
+- Leaving supporting files at the skill root when the skill is not a simple/hub pattern (move them to `references/`)
 - Over-constraining Claude's approach when specifying outcomes would suffice (railroading)
 - Writing the description as a human summary instead of a model trigger with "Use when..." phrases and quoted user phrases
 - Skipping a Gotchas section for skills with known failure modes

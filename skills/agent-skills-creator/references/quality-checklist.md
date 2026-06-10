@@ -22,9 +22,9 @@ Scoring: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable
 11. No time-sensitive content
 12. Every reference file is explicitly linked with loading guidance
 
-## Content Quality (9 checks)
+## Content Quality (10 checks)
 
-13. Gotchas/anti-patterns section present for skills with known failure modes
+13. Gotchas/anti-patterns section present for skills with known failure modes; each gotcha names a concrete command/value and its consequence
 14. Description optimized as model trigger with "Use when..." phrases (not a human summary)
 15. No railroading: outcomes specified where flexibility is appropriate, prescriptive only for format/safety
 16. Degrees of freedom match task fragility (low for destructive/fragile ops, high for open-ended tasks)
@@ -33,42 +33,45 @@ Scoring: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable
 19. Only non-obvious guidance included (passes "would Claude do this anyway?" test)
 20. Workflow terminates with a concrete verification step that produces evidence (green tests, clean build, screenshot, log output) — "seems right" is never a valid exit criterion
 21. Anti-rationalization table included for skills where steps are frequently skipped under time pressure (see `skill-patterns.md` for format)
+22. IS/IS-NOT boundary opener present after the H1 when sibling skills exist or scope creep is likely
 
-## Reference Files (5 checks)
+## Reference Files (6 checks)
 
-22. All references are one level deep from SKILL.md (no chains)
-23. No reference-to-reference chains
-24. Files over 100 lines have a table of contents at the top
-25. File names are kebab-case
-26. Each reference adds focused value (not duplicating SKILL.md content)
+23. All references are one level deep from SKILL.md (no chains)
+24. No reference-to-reference chains
+25. Files over 100 lines have a table of contents at the top
+26. File names are kebab-case
+27. Each reference adds focused value (not duplicating SKILL.md content)
+28. Supporting files live in the pattern-correct location (root track files only for simple/hub; otherwise `references/` or a rules folder)
 
-## Rules Folder (4 checks, rules-based skills only)
+## Rules Folder (5 checks, rules-based skills only)
 
-27. `_sections.md` present with numbered categories, impact levels, and prefix mapping
-28. `_template.md` present with YAML frontmatter (title, impact, tags) and incorrect/correct examples
-29. Each rule file named `<prefix>-<slug>.md` matching a section prefix
-30. Each rule file has YAML frontmatter and follows the template structure
+29. `_sections.md` present with numbered categories, impact levels, and prefix mapping
+30. `_template.md` present with YAML frontmatter (title, impact, tags) and incorrect/correct examples
+31. Each rule file named `<prefix>-<slug>.md` matching a section prefix
+32. Each rule file has YAML frontmatter and follows the template structure
+33. Rule counts reconcile everywhere they appear (description, priority table, prose) with `ls rules*/ | grep -v '^_' | wc -l`
 
 ## Repository Integration (3 checks)
 
-31. README.md updated with new skill row (backticked name, phase, one-line description)
-32. Folder name matches `name` field in frontmatter exactly
-33. Smoke-test passes: install and confirm files appear in target directory
+34. README.md updated: bullet under the matching category heading (`- **[<name>](./skills/<name>/SKILL.md)**: <one-liner>`) and skill count bumped
+35. Folder name matches `name` field in frontmatter exactly
+36. Smoke-test passes via the install command documented in the repo AGENTS.md (`npx skills add`), and files appear in the target directory
 
 ## Evaluation and Testing (2 checks)
 
-34. At least 3 evaluation scenarios documented covering representative tasks
-35. Skill tested with all target models (Haiku, Sonnet, Opus as applicable)
+37. At least 3 evaluation scenarios documented covering representative tasks
+38. Skill tested with all target models (Haiku, Sonnet, Opus as applicable)
 
 ## Executable Code and MCP (7 checks, only when applicable)
 
-36. `${CLAUDE_PLUGIN_DATA}` used for persistent data (not hardcoded absolute paths)
-37. Hook definitions follow PreToolUse/PostToolUse schema if skill includes hooks
-38. Script files have clear invocation instructions in SKILL.md (execute vs. read as reference)
-39. Scripts handle recoverable errors explicitly (no punting raw exceptions to Claude)
-40. Script constants justified with comments (no voodoo numbers)
-41. MCP tool references use fully qualified `ServerName:tool_name` format
-42. Required packages listed in SKILL.md and available in target runtime
+39. `${CLAUDE_PLUGIN_DATA}` used for persistent data (not hardcoded absolute paths)
+40. Hook definitions follow PreToolUse/PostToolUse schema if skill includes hooks
+41. Script files have clear invocation instructions in SKILL.md (execute vs. read as reference)
+42. Scripts handle recoverable errors explicitly (no punting raw exceptions to Claude)
+43. Script constants justified with comments (no voodoo numbers)
+44. MCP tool references use fully qualified `ServerName:tool_name` format
+45. Required packages listed in SKILL.md and available in target runtime
 
 ## Automatic Fail
 
@@ -78,3 +81,4 @@ Scoring: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable
 - Reference-to-reference chains (more than one level deep)
 - Hardcoded absolute paths where `${CLAUDE_PLUGIN_DATA}` should be used for persistent storage
 - README.md, CHANGELOG.md, or other auxiliary docs inside the skill folder
+- Install instructions using `cp -R` into `~/.claude/skills/` — bypasses the `~/.agents/skills` symlink chain

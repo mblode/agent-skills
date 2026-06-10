@@ -70,6 +70,10 @@ Watch real sessions for:
 
 The `name` and `description` fields matter most for triggering. If the skill isn't invoked when expected, the description needs clearer trigger phrases before any body content matters.
 
+## Re-Evaluating After a Rewrite
+
+After improving an existing skill (see `improving-existing-skills.md`), rerun its evaluation scenarios before shipping. A rewrite that scores better on the audit dimensions but worse on the evals is a regression — the dimensions measure form, the evals measure behavior.
+
 ## Measuring Adoption
 
 See the "Measuring Skills" section of `authoring-tips.md` for hook-based logging of skill invocations across an org. Use that data to find undertriggering skills and candidates for promotion to a shared library.

@@ -59,3 +59,15 @@ Include a table mapping categories to prefixes and rule counts:
 |----------|----------|--------|--------|-------|
 | 1 | Category Name | CRITICAL | `prefix-` | N |
 ```
+
+## Large rule sets
+
+For 30+ rule files, maintenance shifts from rewriting rules to keeping the set consistent:
+
+- Every rule has frontmatter (`title`, `impact`, `tags`) and an incorrect/correct example pair
+- Every filename prefix matches a `_sections.md` section
+- Rule counts reconcile everywhere they appear (description, priority table, prose): `ls rules/ | grep -v '^_' | wc -l`
+
+## Multi-layer variant
+
+A skill may carry more than one rules folder (e.g. `rules/` for a stable baseline plus `rules-modern/` for a newer catalog) **only when** SKILL.md explicitly dispatches to each layer with its own loading condition. Without that dispatch, consolidate into a single `rules/` folder.

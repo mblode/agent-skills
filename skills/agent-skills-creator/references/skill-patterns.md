@@ -48,6 +48,10 @@ Choose the right track and follow its guidance.
 
 **Category affinity:** Library & API Reference, Business Process Automation
 
+Root-level track files are exclusive to this pattern — in every other pattern, supporting files live in `references/` (or `rules/`).
+
+**Comprehensive-reference variant:** for broad domains (a design system, a full CLI surface), the hub dispatches into a folder of many small focused files — e.g. a `design-guidelines/` folder with 40 files like `buttons.md`, `colors.md`, `forms.md`, each 50-200 lines, mapped from an `index.md`. Claude loads exactly the files a task needs. See "Comprehensive Reference Folders" in `authoring-tips.md`.
+
 ## Workflow Pattern
 
 **When:** Multi-step sequential process with progressive reference loading.
@@ -153,7 +157,7 @@ Report findings in this format:
 [finding format template with severity, rule ID, issue, fix]
 ```
 
-**Example:** `typography-audit` (81 lines, 89 rules in 10 categories)
+**Example:** `typography-audit` (90 rules in 10 categories)
 
 **Category affinity:** Code Quality & Review
 

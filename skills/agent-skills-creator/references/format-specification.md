@@ -25,9 +25,12 @@ skills/<name>/
 ├── scripts/               (optional, executable utilities)
 ├── assets/                (optional, templates for output files)
 ├── examples/              (optional, usage examples and code snippets)
+├── agents/                (optional, subagent prompt definitions dispatched from SKILL.md)
 ├── config.json            (optional, user-specific setup context)
 └── <track>.md             (optional, for hub-style skills)
 ```
+
+Root-level `<track>.md` files are exclusive to the simple/hub pattern. Every other pattern keeps supporting files in `references/` (or `rules/` for audit skills). Multiple rules folders (e.g. `rules/` plus `rules-modern/`) are sanctioned only when SKILL.md explicitly dispatches to each layer.
 
 - Forward slashes only in file paths (even on Windows)
 - Kebab-case for all folder and file names
@@ -92,6 +95,7 @@ description: What the skill does. Use when...
 - References must be one level deep from SKILL.md (no chains)
 - Files are only loaded when explicitly listed in SKILL.md
 - Files over 100 lines should start with a table of contents
+- Long references up to ~450 lines are fine when TOC'd and single-topic — split by loading condition, not by line count alone
 - Dropping a file in the folder without linking it from SKILL.md means it will not be discovered
 
 ## Naming Conventions
