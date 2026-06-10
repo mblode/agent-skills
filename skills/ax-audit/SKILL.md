@@ -2,183 +2,132 @@
 name: ax-audit
 description: >
   Audits agentic applications across two layers: agent-native architecture
-  (tool parity, atomic primitives, context injection, completion signals,
-  approval gates) and agentic experience design (trust patterns, confidence
-  cues, escape hatches, intent handshake, adaptive canvas, memory visibility).
-  Produces a 3-tier ship-readiness verdict (release-blocker / fix-this-sprint
-  / backlog) plus an AX Relationship Summary naming the evolution stage, trust
-  signal, and key gap. Use before merging an agentic feature PR, when asked
-  "is this agent-native?", "AX review", "AX critique", "critique this AI
-  feature", "does this earn user trust?", "is this design actually agentic?",
-  "trust review", "AX patterns check", or "audit this for AX". For traditional
-  UX auditing (forms, states, focus, async, microcopy), use ux-audit.
+  (tool parity, atomic tool granularity, context injection, explicit
+  completion signals, approval gates) and agentic experience design
+  (confidence cues, escape hatches, intent handshake, memory visibility,
+  adaptive canvas). 23 rules across 4 feature playbooks (agent chat, tool
+  execution, agent config, agent dashboard). Produces a 3-tier ship-readiness
+  verdict (release-blocker / fix-this-sprint / backlog) plus an AX
+  Relationship Summary naming the evolution stage, trust signal, and key gap.
+  Use before merging an agentic feature PR, or when asked "is this
+  agent-native?", "AX review", "AX critique", "critique this AI feature",
+  "does this earn user trust?", "is this design actually agentic?", "trust
+  review", "AX patterns check", or "audit this for AX". For traditional UX
+  audits (forms, states, focus, async, microcopy) use ux-audit; for broad web
+  UI quality (accessibility, layout, typography) use ui-audit.
 ---
 
 # AX Audit
 
-Agentic experience reviewer for applications where agents act on behalf of users. Operates at the **feature level** (an agent chat, a tool execution panel, an agent config screen) and answers one question: "**does this agent earn trust, and where does it break?**"
+Feature-level reviewer for applications where an agent acts on the user's behalf. Answers one question: **does this agent earn trust, and where does it break?**
 
-## What this skill IS
+- **IS:** a rules-based audit of agentic surfaces — agent chat, tool execution panels, agent config, agent dashboards — across two layers (architecture correctness in `rules-arch/`, trust and relationship design in `rules-ax/`), ending in a ship-readiness verdict and an AX Relationship Summary.
+- **IS NOT:** traditional UX auditing — forms, states, focus, async, microcopy (use `ux-audit`); broad web UI quality — accessibility, layout, typography, performance (use `ui-audit`); agent instruction-file quality (use `agents-md`).
 
-- An audit for agentic features: agent chat, tool execution, agent config, agent dashboards
-- A rules-based reviewer across two layers: architecture correctness and trust/relationship design
-- A ship-readiness verdict generator: every finding gets `release-blocker | fix-this-sprint | backlog`
-- An AX Relationship Summary producer: names the evolution stage, trust signal, and key gap
+If the scope contains no agentic features (only forms, lists, modals), stop and route to `ux-audit`. Running AX rules against traditional UI produces only noise.
 
-## What this skill IS NOT
+## Contents
 
-| Concern | Use instead | Why |
-|---|---|---|
-| Traditional UX (forms, states, focus, async, microcopy) | `ux-audit` | 60+ rules, 12 feature playbooks for React/Next.js UX |
-| Core Web Vitals, bundle size | Lighthouse, size-limit | Runtime measurement |
-| WCAG violations | axe-core / jsx-a11y | Authoritative accessibility rules |
-| General design critique | design:design-critique | Not AX-specific |
-| Conversational AX design partner | ax-feature-design | For exploring, not auditing |
-| Agent instruction file quality | `agents-md` | CLAUDE.md / AGENTS.md auditing |
+- [Audit workflow](#audit-workflow)
+- [Two rule layers](#two-rule-layers)
+- [Tiers and verdict](#tiers-and-verdict)
+- [AX Relationship Summary](#ax-relationship-summary)
+- [Reference files](#reference-files)
+- [Gotchas](#gotchas)
+- [Audit self-check](#audit-self-check)
+- [Related skills](#related-skills)
 
-## Audit Workflow
+## Audit workflow
 
 Copy and track this checklist:
 
 ```text
 AX Audit progress:
-- [ ] Step 1: Determine scope (PR diff via `git diff --name-only main` OR explicit file/folder)
-- [ ] Step 2: Detect agentic features in scope (agent chat / tool execution / config / dashboard)
-- [ ] Step 3: For each feature, run its playbook from references/feature-playbooks.md
-- [ ] Step 4: For each check, load the matching rule (rules-arch/ or rules-ax/)
-- [ ] Step 5: Assign each finding a ship tier per references/ship-readiness.md
-- [ ] Step 6: Render findings + AX Relationship Summary per references/output-format.md
-- [ ] Step 7: Verify the audit-self-check before reporting
+- [ ] Step 1: Scope — `git diff --name-only main` (PR mode) or explicit path (full sweep)
+- [ ] Step 2: Detect agentic features per references/feature-playbooks.md
+- [ ] Step 3: Run each detected feature's playbook in order, plus the diff-wide checks
+- [ ] Step 4: For each check, load the rule file and follow its detection recipe
+- [ ] Step 5: Tier each finding per references/ship-readiness.md (rule override table wins)
+- [ ] Step 6: Render verdict + findings + AX Relationship Summary per references/output-format.md
+- [ ] Step 7: Run the audit self-check and report its evidence counts
 ```
 
-1. **Scope.** Default to `git diff --name-only main` if in a git repo. Audit only changed files. For a full sweep, use explicit `--full src/`.
-2. **Detect features.** Match on component names, props, routes, and import patterns. See `references/feature-playbooks.md` for detection heuristics.
-3. **Run playbook.** Each agentic feature has 5-7 ordered checks. Don't skip checks even when you expect them to pass.
-4. **Load rules.** Two layers:
-   - **`rules-arch/`** (Layer 1) — agent-native architecture: tool parity, atomicity, context injection, completion signals. 11 rules.
-   - **`rules-ax/`** (Layer 2) — agentic experience: trust, control, context/memory, agent communication. 12 rules.
-5. **Ship tier.** Every finding gets one tier (see `references/ship-readiness.md`):
-   - `release-blocker` — fix before merge (no escape hatch, silent execution, heuristic completion, broken parity)
-   - `fix-this-sprint` — merge but log issue (no confidence cues, no intent handshake, opaque memory)
-   - `backlog` — track, ship (static canvas, no generative momentum, no checkpoint)
-6. **Render.** Group by surface. Include the AX Relationship Summary after findings (see `references/output-format.md`).
-7. **Self-check.** Verify the audit was actually run.
+Step notes:
 
-## Two audit layers
+1. **Scope.** Default is the PR diff plus the tool definitions and orchestrator code it touches. Pre-existing findings in untouched files belong in a full sweep, not a PR verdict.
+2. **Detect.** Detection heuristics (component names, hooks, routes) live in `references/feature-playbooks.md`. Four feature types: agent chat/copilot, agent tool execution, agent config, agent dashboard.
+3. **Playbooks.** Each feature has 5-9 ordered checks. Run all of them even when you expect a pass — a pass with evidence is part of the report. One diff-wide check (`parity-orphan-ui-action`) runs on every PR-mode audit regardless of detected features.
+4. **Rules.** Each rule file carries its own detection commands, false-positive guards, tier override table, and suppression syntax. The rule file is authoritative; playbook annotations are a convenience copy.
+5. **Tier.** Three tiers; precedence rules below.
+6. **Render.** Group findings by surface; verdict block first, AX Relationship Summary last.
+7. **Self-check.** Evidence or it didn't happen — see below.
 
-```
-Layer 1 — Agent-native architecture
-  rules-arch/<category>-<slug>.md
-  11 rules covering parity, granularity, context, communication.
-  Structural/architectural correctness. "Can the agent do what
-  the user can do? Are the tools atomic? Does the agent know
-  what exists?"
+## Two rule layers
 
-Layer 2 — Agentic experience
-  rules-ax/<category>-<slug>.md
-  12 rules covering trust, control, context/memory, communication.
-  Trust and relationship design. "Does the agent earn trust?
-  Can the user push back? Is memory visible? Does the agent
-  confirm intent before acting?"
-```
+| Layer | Folder | Rules | Question it answers | Category index |
+|---|---|---|---|---|
+| 1 — Agent-native architecture | `rules-arch/` | 11 | Can the agent do what the user can do? Are tools atomic? Does the agent know what exists? Is completion explicit? | `rules-arch/_sections.md` |
+| 2 — Agentic experience | `rules-ax/` | 12 | Does the agent earn trust? Can the user interrupt, undo, push back? Is memory visible? | `rules-ax/_sections.md` |
 
-## Agentic feature detection
+Load `rules-arch/<category>-<slug>.md` or `rules-ax/<category>-<slug>.md` when a playbook check names it. Categories: arch = parity, granularity, context, comm; ax = trust, control, context, comm. The layers share the `comm` and `context` prefixes but the rules are distinct — `rules-arch/comm-no-approval-gate.md` (orchestrator code has no gate logic) is not `rules-ax/control-no-approval-gate.md` (approval UI doesn't match the stakes).
 
-| Feature | Detect by |
-|---|---|
-| Agent chat / copilot | `<Chat>`, `<Assistant>`, `<Copilot>`, `role="assistant"`, `isStreaming`, `useChat`, `useCompletion`, route `/chat`, `/assistant`, `/copilot` |
-| Agent tool execution | `<ToolCall>`, `<Action>`, `tool_use`, `function_call`, `executeAction`, `agentAction`, component `*ToolPanel*`, `*ActionLog*` |
-| Agent config | `<SystemPrompt>`, `<AgentConfig>`, `<PromptEditor>`, route `/agent/settings`, `/configure` |
-| Agent dashboard | `<AgentStatus>`, `<TaskList>`, `<RunHistory>`, component `*AgentDashboard*`, route `/agent`, `/runs` |
+## Tiers and verdict
 
-If no agentic features are detected, this skill does not apply — use `ux-audit` instead.
+Every finding gets exactly one tier (full trigger lists in `references/ship-readiness.md`):
 
-## Ship-readiness verdict
+- `release-blocker` — fix before merge: no escape hatch, silent execution, heuristic completion, broken parity, ungated high-stakes actions
+- `fix-this-sprint` — merge with a tracked issue: no confidence cues, no intent handshake, opaque memory, bundled config tools
+- `backlog` — ship and track: static canvas, no generative momentum, static API mapping, no checkpoint/resume
 
-Every audit emits a top-level verdict before per-finding details:
+Tier precedence: a rule's own surface-override table > the generic surface bump in `references/ship-readiness.md` > the rule's `defaultTier`. Apply at most one adjustment — never stack the generic bump on top of a rule's explicit override.
 
-```text
-═══════════════════════════════════════════════════════════
-AX VERDICT: ❌ NOT READY (1 release-blocker)
-
-Surfaces:            2 (ChatPanel, ToolExecutionPanel)
-Findings:            6
-  Release blockers:  1   ⛔  No escape hatch (ToolExecutionPanel.tsx:34)
-  Fix this sprint:   3   ⚠️
-  Backlog:           2   📋
-
-AX Relationship:
-  Stage:       Task-Aware (2 of 4)
-  Trust:       Low — no escape hatch, no confidence cues
-  Key gap:     Agent executes multi-step tasks with no cancel or undo
-  Question:    Will users accept a confirmation step before tool execution?
-
-Cross-reference:     Run ux-audit for traditional UX findings
-═══════════════════════════════════════════════════════════
-```
-
-Verdict tiers:
-- ✅ **READY** — 0 release-blockers, ≤3 fix-this-sprint
-- ⚠️ **READY WITH FOLLOW-UP** — 0 release-blockers, ≥4 fix-this-sprint
-- ❌ **NOT READY** — ≥1 release-blocker
-- 🚫 **INCOMPLETE** — audit-self-check failed (re-run)
+Verdict: ✅ READY (0 blockers, ≤3 sprint) · ⚠️ READY WITH FOLLOW-UP (0 blockers, ≥4 sprint) · ❌ NOT READY (≥1 blocker) · 🚫 INCOMPLETE (self-check failed).
 
 ## AX Relationship Summary
 
-Produced after findings. Names the relationship between user and agent in behavioral terms.
+Rendered after findings whenever any agentic feature was detected. Findings are for engineers; this summary is for designers and PMs — never skip it. Four fields:
 
-Four fields:
-- **Evolution stage** — which of 4 stages the design sits at (see `references/ax-evolution-curve.md`). Describe behavior, not label.
-- **Trust signal** — high / moderate / low, based on trust-critical rule results.
-- **Key gap** — the single most important architectural or trust gap. Specific enough to act on.
-- **Trust Question** — one question for the next round of work. Should require prototyping or research to answer.
+- **Evolution stage** — behavior description, not a label (see `references/ax-evolution-curve.md`)
+- **Trust signal** — high / moderate / low, one-sentence reasoning from trust-critical rule results
+- **Key gap** — the single most important gap, one actionable sentence
+- **Trust question** — one question only prototyping or research can answer
 
-## Reference Files
+## Reference files
 
 | File | Read when |
-|------|-----------|
-| `references/agent-native-principles.md` | Understanding the 5 core principles: Parity, Granularity, Composability, Emergent Capability, Improvement Over Time |
-| `references/ax-evolution-curve.md` | Assessing relationship depth: Conversational → Task-Aware → Personally Intelligent → Socially Embedded |
-| `references/feature-playbooks.md` | Step 2-3 — detecting agentic features and running their playbooks |
-| `references/ship-readiness.md` | Step 5 — assigning each finding a ship tier with agentic surface overrides |
-| `references/output-format.md` | Step 6 — rendering findings + AX Relationship Summary |
-| `rules-arch/_sections.md` | Category index for the architecture rule layer |
-| `rules-arch/<category>-<slug>.md` | Step 4 — running a Layer 1 architecture check |
-| `rules-ax/_sections.md` | Category index for the agentic experience rule layer |
-| `rules-ax/<category>-<slug>.md` | Step 4 — running a Layer 2 agentic experience check |
-
-## Cross-reference to ux-audit
-
-AX Audit and UX Audit are complementary. Run both on agentic features:
-
-- **ax-audit** catches: broken parity, silent agents, missing escape hatches, opaque memory, over-conversational design, no intent handshake
-- **ux-audit** catches: form data loss, missing loading/empty/error states, broken focus traps, optimistic UI without rollback, vague microcopy
-
-When an agentic surface also contains traditional UI (a form inside a chat panel, a modal triggered by an agent action), the ux-audit rules apply to those elements. ax-audit does not duplicate them.
+|---|---|
+| `references/feature-playbooks.md` | Steps 2-3 — detection heuristics, per-feature ordered checks, diff-wide checks |
+| `references/ship-readiness.md` | Step 5 — tier triggers, precedence, verdict logic |
+| `references/output-format.md` | Step 6 — findings JSON schema, summary schema, terminal rendering |
+| `references/agent-native-principles.md` | A Layer 1 finding needs deeper grounding — parity, granularity, CRUD completeness, context patterns, approval matrices, checkpoint/resume |
+| `references/ax-evolution-curve.md` | Writing the evolution-stage field of the AX Relationship Summary |
+| `rules-arch/_sections.md` | Orienting in Layer 1 categories and their default tiers |
+| `rules-ax/_sections.md` | Orienting in Layer 2 categories, default tiers, and co-firing rule pairs |
 
 ## Gotchas
 
-- **Don't run ax-audit on non-agentic features.** If the diff contains only forms, lists, and modals with no agent interaction, use `ux-audit`. Running ax-audit rules against traditional UI produces noise.
-- **Don't duplicate ux-audit findings.** If a finding is "missing loading state" or "form clears on error," that's ux-audit territory. ax-audit covers the agent-specific layer on top.
-- **Don't inflate tiers.** Reserve `release-blocker` for genuine trust-breakers (no escape hatch, silent execution, heuristic completion). "No generative momentum" is backlog, not a blocker.
-- **Don't skip feature detection.** Running all 23 rules against every file produces noise. Run the right playbook per agentic feature.
-- **Don't fabricate detections.** If you can't grep or read the relevant code, mark the finding `unknown` with a reason. Never claim a finding without evidence.
-- **Don't apply observational rules without judgment context.** Rules marked `observational` in their frontmatter require understanding the interaction flow, not just static code analysis. If you can't assess the interaction, mark as `unknown`.
-- **Don't skip the AX Relationship Summary.** It's the most valuable output for designers and PMs. Findings are for engineers; the summary is for the team.
+- **Scope before rules.** Running all 23 rules repo-wide on a 3-file PR buries the one new release-blocker under pre-existing backlog noise, and the verdict stops meaning "can this PR merge."
+- **The rule's override table is authoritative.** `comm-no-intent-handshake` defaults to `fix-this-sprint` but its own table says `release-blocker` on tool execution. Stacking the generic "+1 tier on tool execution" bump on top of explicit overrides double-upgrades backlog findings into blockers.
+- **A stop button not wired to `AbortController.abort()` is a false affordance.** `control-no-escape-hatch` still fails — verify the `abort()` call, not the button label, or the audit passes a UI that lies to users.
+- **Absence checks need a recorded file list.** "Find components lacking X" greps return nothing both when everything passes and when nothing was scanned. List candidate files first (`rg -l <feature-pattern>`), then check each for the counter-pattern, and cite the file list as evidence.
+- **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` require interaction-flow judgment; with static evidence only, return `unknown` with a reason instead of `fail`.
+- **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the suppressed count in the verdict block; a suppression with no trailing reason is itself worth a `warn`.
+- **Don't duplicate ux-audit findings.** "Missing loading state" and "form clears on error" are `ux-audit` territory; duplicating them teaches engineers to dismiss the whole AX report.
+- **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. Promoting cosmetic findings to blocker trains the team to ignore ❌ verdicts.
 
-## Audit-self-check
+## Audit self-check
 
-Self-flag the audit as `INCOMPLETE` if any of these are true:
+Self-flag the audit `INCOMPLETE` if any of these are true, and include the counts as evidence in the report (planned vs. run rules per playbook, unknown rate, suppressed count):
 
-- Fewer rules ran than the playbook's planned count
-- More than 30% of rules returned `unknown` (insufficient evidence)
-- No `file:line` cited on any fail/warn finding
-- No fix snippet provided on any fail/warn finding
-- Every finding ended up in the same tier (suspect blanket-assignment)
-- AX Relationship Summary is missing when Layers 1-2 both fired
+- Fewer rules ran than the playbooks planned
+- More than 30% of rules returned `unknown`
+- Any `fail`/`warn` finding lacks `file:line` evidence or a fix snippet
+- Every finding landed in the same tier (suspect blanket assignment)
+- AX Relationship Summary is missing despite detected agentic features
 
-## Related Skills
+## Related skills
 
-- `ux-audit` — traditional UX quality audit (forms, states, focus, async, microcopy)
-- `agents-md` — audit CLAUDE.md / AGENTS.md for agent instruction quality
+- `ux-audit` — traditional UX quality on the same surfaces (run both on agentic features; ax-audit covers the agent layer, ux-audit the rest)
+- `ui-audit` — broad web UI quality: accessibility, layout, typography, performance
+- `agents-md` — audit CLAUDE.md / AGENTS.md agent instruction files
 - `define-architecture` — repo structure and module boundaries

@@ -31,9 +31,9 @@ User says "clean up my inbox." Agent archives 200 emails including an unread mes
 
 **Concrete commands:**
 ```bash
-rg '(name|toolName).*["'"'"'](send|delete|remove|publish|deploy|charge|transfer)' --type=ts --type=tsx src/
-rg '(executeTool|callTool|invokeTool)' --type=ts --type=tsx -A 10 src/ | rg -v '(confirm|approve|requireApproval)'
-rg '(requireApproval|confirmBefore|approvalGate|stakesLevel)' --type=ts --type=tsx src/
+rg '(name|toolName).*["'"'"'](send|delete|remove|publish|deploy|charge|transfer)' --type=ts src/
+rg '(executeTool|callTool|invokeTool)' --type=ts -A 10 src/ | rg -v '(confirm|approve|requireApproval)'
+rg '(requireApproval|confirmBefore|approvalGate|stakesLevel)' --type=ts src/
 ```
 
 **False-positive guards:**

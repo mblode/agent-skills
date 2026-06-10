@@ -12,7 +12,7 @@ Defines the output structure for ax-audit results. Two sections: findings table,
 
 ## Findings table
 
-Same schema as ux-audit findings. Each finding is a JSON object:
+Each finding is a JSON object (schema is deliberately compatible with ux-audit findings so the two reports can be merged):
 
 ```json
 {
@@ -39,15 +39,23 @@ Same schema as ux-audit findings. Each finding is a JSON object:
 
 | Field | Values / notes |
 |---|---|
+| `rule` | Rule slug, matches the rule filename without `.md` |
 | `layer` | `arch` (Layer 1) or `ax` (Layer 2) |
 | `category` | arch: `parity \| granularity \| context \| comm`. ax: `trust \| control \| context \| comm` |
 | `feature` | One of the 4 agentic playbooks: `agent-chat`, `agent-tool-execution`, `agent-config`, `agent-dashboard` |
-| `result` | `pass \| warn \| fail \| unknown` |
-| All other fields | Same as ux-audit `output-schema.md` — `rule`, `surface`, `file`, `line`, `defaultTier`, `assignedTier`, `tierReason`, `severity`, `observed`, `evidence`, `fix`, `suppressed` |
+| `surface` | Component or page name the finding sits on (groups the report) |
+| `file`, `line` | Evidence location; required on every `fail`/`warn` |
+| `result` | `pass \| warn \| fail \| unknown` — `unknown` requires a reason in `observed` |
+| `defaultTier`, `assignedTier`, `tierReason` | Tier from the rule file, tier after surface override, and one-sentence justification |
+| `severity` | `HIGH \| MEDIUM \| LOW` — orthogonal to tier; how bad the user impact is when it fires |
+| `observed` | What the code actually does, in one sentence |
+| `evidence` | Array of `file:line — excerpt` strings backing the finding |
+| `fix` | Concrete change; a snippet or one-sentence instruction |
+| `suppressed` | `true` when an `ax-audit-ignore:<slug>` comment covers the match — report suppressed counts, never silently drop |
 
 ## AX relationship summary
 
-Produced after findings, only when agentic features are detected. Structured version of the ax-critique four-section output.
+Produced after findings, only when agentic features are detected. Four fields naming the user-agent relationship in behavioral terms.
 
 ```json
 {

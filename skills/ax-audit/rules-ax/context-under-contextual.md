@@ -31,8 +31,8 @@ User opens a project page and asks "help me write a status update." Agent respon
 
 **Concrete commands:**
 ```bash
-rg '(useUser|useProject|useTeam|useActivity|currentProject|activeWorkspace)' --type=ts --type=tsx -l src/
-rg '(buildPrompt|systemPrompt|assembleContext|getAgentContext)' --type=ts --type=tsx -l src/
+rg '(useUser|useProject|useTeam|useActivity|currentProject|activeWorkspace)' --type=ts -l src/
+rg '(buildPrompt|systemPrompt|assembleContext|getAgentContext)' --type=ts -l src/
 rg -A 15 '(buildPrompt|assembleContext|getAgentContext)' --type=ts src/
 ```
 

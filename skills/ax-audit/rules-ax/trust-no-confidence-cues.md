@@ -30,8 +30,8 @@ Agent responds with a confident directive and nothing else. User cannot tell if 
 
 **Concrete commands:**
 ```bash
-rg -l 'role.*assistant|AssistantMessage|AiResponse|completion' --type=tsx src/
-rg -A 15 'role.*assistant|<AssistantMessage|<AiResponse' --type=tsx src/ | rg -L 'Citation|Source|Reasoning|Thinking'
+rg -l 'role.*assistant|AssistantMessage|AiResponse|completion' --type=ts src/
+rg -A 15 'role.*assistant|<AssistantMessage|<AiResponse' --type=ts src/ | rg -v 'Citation|Source|Reasoning|Thinking'
 ```
 
 **Judgment signals:**

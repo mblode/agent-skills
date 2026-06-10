@@ -28,8 +28,8 @@ A concrete, observable scenario. What the user or agent experiences, what the co
 
 **Concrete commands:**
 ```bash
-# Inline grep recipes the agent can run.
-rg 'pattern' --type=tsx src/
+# Inline grep recipes the agent can run. Note: ripgrep has no 'tsx' type — '--type=ts' covers *.ts and *.tsx.
+rg 'pattern' --type=ts src/
 ```
 
 **False-positive guards:**

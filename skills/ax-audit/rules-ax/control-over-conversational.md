@@ -30,8 +30,8 @@ User wants dark mode. Types "enable dark mode" in chat. Agent responds after 2 s
 
 **Concrete commands:**
 ```bash
-rg -l 'ChatInput|MessageInput|PromptInput' --type=tsx src/
-rg -l 'Toggle|Switch|Select|Dropdown' --type=tsx src/components/
+rg -l 'ChatInput|MessageInput|PromptInput' --type=ts src/
+rg -l 'Toggle|Switch|Select|Dropdown' --type=ts src/components/
 ```
 
 **Judgment signals:**

@@ -51,9 +51,15 @@ Tier triggers:
 
 ## Tier assignment rules
 
-When a rule's default tier conflicts with the surface context, use the higher tier:
+Precedence, highest first — apply exactly one:
 
-| Surface context | Default tier upgrades to |
+1. **The rule's own surface-override table** (in the rule file). Most rules carry one; it is authoritative.
+2. **The generic surface adjustment below** — only for rules with no override row for the surface in question.
+3. **The rule's `defaultTier`.**
+
+Never stack adjustments: a rule whose table already says `release-blocker` on tool execution does not get bumped again.
+
+| Surface context | Generic adjustment |
 |---|---|
 | Agent tool execution / action panel | Bump 1 tier (sprint → blocker; backlog → sprint) — autonomous actions demand higher safety |
 | Agent chat / copilot | Same — conversational surfaces tolerate slightly more friction |
@@ -84,21 +90,21 @@ Verdict shows in the summary block at the top of every audit report.
 
 ```json
 {
-  "rule": "agent-no-approval-gate",
+  "rule": "control-no-approval-gate",
   "surface": "AgentActionPanel",
   "defaultTier": "release-blocker",
   "assignedTier": "release-blocker",
-  "tierReason": "Surface is agent tool execution; agent deletes user records without confirmation dialog — high-stakes action with no approval gate."
+  "tierReason": "Rule's own override table: release-blocker on agent tool execution. Agent deletes user records without a confirmation dialog — high-stakes action with no approval gate."
 }
 ```
 
 ```json
 {
-  "rule": "agent-no-intent-handshake",
+  "rule": "context-memory-not-visible",
   "surface": "AgentStatusDashboard",
   "defaultTier": "fix-this-sprint",
   "assignedTier": "backlog",
-  "tierReason": "Surface is agent dashboard; missing intent confirmation is less critical on a read-only monitoring surface."
+  "tierReason": "Rule's own override table: backlog on agent dashboard. Opaque memory is less critical on a read-only monitoring surface."
 }
 ```
 

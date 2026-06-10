@@ -29,8 +29,8 @@ User asks about a billing dispute. Agent applies a partial credit that doesn't m
 
 **Concrete commands:**
 ```bash
-rg -l 'refund|payment|delete.*account|send.*email|legal|medical' --type=tsx --type=ts src/
-rg 'escalat|handoff|transfer.*human|transfer.*agent' --type=tsx --type=ts src/
+rg -l 'refund|payment|delete.*account|send.*email|legal|medical' --type=ts src/
+rg 'escalat|handoff|transfer.*human|transfer.*agent' --type=ts src/
 ```
 
 **Judgment signals:**

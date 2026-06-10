@@ -29,9 +29,9 @@ Agent makes 12 tool calls over 45 seconds analyzing a codebase. UI shows "Thinki
 
 **Concrete commands:**
 ```bash
-rg '(toolCall|tool_use|function_call)' --type=ts --type=tsx -A 10 src/ | rg '(for|while|map)'
-rg '(emit|dispatch|onProgress|onToolCall|publish)' --type=ts --type=tsx src/
-rg '(stream|onChunk|onToken|onDelta)' --type=ts --type=tsx src/
+rg '(toolCall|tool_use|function_call)' --type=ts -A 10 src/ | rg '(for|while|map)'
+rg '(emit|dispatch|onProgress|onToolCall|publish)' --type=ts src/
+rg '(stream|onChunk|onToken|onDelta)' --type=ts src/
 ```
 
 **False-positive guards:**

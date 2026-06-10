@@ -28,9 +28,9 @@ User opens a design review agent for the third time today. Agent has no memory o
 
 **Concrete commands:**
 ```bash
-rg '(new Agent|createAgent|initSession|startChat)' --type=ts --type=tsx -A 15 src/
-rg 'messages\s*[:=]\s*\[' --type=ts --type=tsx -A 5 src/ | rg 'role.*system' | rg -v 'await|fetch|load|get'
-rg '(context\.md|loadContext|getContext|sessionContext)' --type=ts --type=tsx src/
+rg '(new Agent|createAgent|initSession|startChat)' --type=ts -A 15 src/
+rg 'messages\s*[:=]\s*\[' --type=ts -A 5 src/ | rg 'role.*system' | rg -v 'await|fetch|load|get'
+rg '(context\.md|loadContext|getContext|sessionContext)' --type=ts src/
 ```
 
 **False-positive guards:**

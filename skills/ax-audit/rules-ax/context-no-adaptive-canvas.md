@@ -3,7 +3,7 @@ title: Interface static during agent task progression
 slug: context-no-adaptive-canvas
 category: context
 defaultTier: backlog
-surfaces: agent-tool-execution, agent-dashboard
+surfaces: agent-tool-execution, agent-dashboard, agent-config
 ax-pattern: Adaptive Canvas
 detection: code-auditable
 related: context-memory-not-visible, comm-no-progress-signal
@@ -19,7 +19,7 @@ Agent starts a research task. User sees "Searching..." then nothing changes for 
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-dashboard
+**Surfaces:** agent-tool-execution, agent-dashboard, agent-config
 
 **Auditability:** code-auditable
 
@@ -30,9 +30,9 @@ Agent starts a research task. User sees "Searching..." then nothing changes for 
 
 **Concrete commands:**
 ```bash
-rg '(phase|stage|status|workflow).*(enum|type|const)' --type=ts --type=tsx src/
-rg '(stateMachine|createMachine|useReducer|switch.*phase)' --type=ts --type=tsx src/
-rg '(Stepper|ProgressBar|PhaseIndicator|StageIndicator)' --type=tsx -l src/
+rg '(phase|stage|status|workflow).*(enum|type|const)' --type=ts src/
+rg '(stateMachine|createMachine|useReducer|switch.*phase)' --type=ts src/
+rg '(Stepper|ProgressBar|PhaseIndicator|StageIndicator)' --type=ts -l src/
 ```
 
 **False-positive guards:**
@@ -52,6 +52,7 @@ Show a phase indicator (stepper, progress bar). Surface phase-appropriate tools 
 |---|---|
 | Agent tool execution | fix-this-sprint |
 | Agent dashboard | backlog |
+| Agent config | backlog |
 
 ## Examples
 

@@ -28,8 +28,8 @@ User opens a project management agent. System prompt has role instructions but n
 
 **Concrete commands:**
 ```bash
-rg 'role:\s*["\x27]system["\x27]' --type=ts --type=tsx -A 10 src/ | rg -v '\$\{|concat|join|append'
-rg '(availableResources|recentActivity|capabilities|context\.md)' --type=ts --type=tsx src/
+rg 'role:\s*["\x27]system["\x27]' --type=ts -A 10 src/ | rg -v '\$\{|concat|join|append'
+rg '(availableResources|recentActivity|capabilities|context\.md)' --type=ts src/
 ```
 
 **False-positive guards:**

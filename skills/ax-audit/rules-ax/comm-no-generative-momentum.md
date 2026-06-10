@@ -30,9 +30,9 @@ User clicks "New marketing email" in a tool with their brand voice and audience 
 
 **Concrete commands:**
 ```bash
-rg '(/new|/create|/compose|/draft)' --type=ts --type=tsx -l src/
-rg '(EmptyState|BlankCanvas|emptyDocument|initialContent:\s*["'"'"']{2})' --type=tsx -l src/
-rg '(generateDraft|suggestDraft|aiDraft|startWithAI|TemplatePicker)' --type=ts --type=tsx -l src/
+rg '(/new|/create|/compose|/draft)' --type=ts -l src/
+rg '(EmptyState|BlankCanvas|emptyDocument|initialContent:\s*["'"'"']{2})' --type=ts -l src/
+rg '(generateDraft|suggestDraft|aiDraft|startWithAI|TemplatePicker)' --type=ts -l src/
 ```
 
 **False-positive guards:**

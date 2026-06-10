@@ -30,9 +30,9 @@ User asks "clean up my project." Agent deletes unused files, renames directories
 
 **Concrete commands:**
 ```bash
-rg '(executeTool|runAction|performAction|handleToolCall)' --type=ts --type=tsx -l src/
+rg '(executeTool|runAction|performAction|handleToolCall)' --type=ts -l src/
 rg '(delete|remove|move|rename|reorganize|migrate|deploy|publish)' --type=ts src/tools/ src/actions/
-rg '(confirm|approval|preview|playback|requireApproval)' --type=ts --type=tsx src/
+rg '(confirm|approval|preview|playback|requireApproval)' --type=ts src/
 rg '(autoExecute|skipConfirm|auto_approve)' --type=ts src/
 ```
 

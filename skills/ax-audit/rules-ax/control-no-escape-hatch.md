@@ -30,8 +30,8 @@ User asks the agent to refactor a module. Agent begins a 12-step migration. Afte
 
 **Concrete commands:**
 ```bash
-rg -l 'AbortController|onCancel|stopGenerat' --type=tsx --type=ts src/
-rg -A 10 'isGenerating|isStreaming|isPending' --type=tsx src/ | rg -L 'cancel|stop|abort'
+rg -l 'AbortController|onCancel|stopGenerat' --type=ts src/
+rg -A 10 'isGenerating|isStreaming|isPending' --type=ts src/ | rg -v 'cancel|stop|abort'
 ```
 
 **Judgment signals:**

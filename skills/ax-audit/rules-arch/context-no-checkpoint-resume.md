@@ -31,9 +31,9 @@ User asks the agent to refactor 15 files. Agent completes 12 over 4 minutes. Lap
 
 **Concrete commands:**
 ```bash
-rg '(for\s*\(|while\s*\(|for await)' --type=ts --type=tsx -A 5 src/ | rg -B 1 '(toolCall|executeStep|runTool)'
-rg '(checkpoint|saveState|persistSession|saveProgress)' --type=ts --type=tsx src/
-rg '(resume|recover|restoreSession|loadCheckpoint)' --type=ts --type=tsx src/
+rg '(for\s*\(|while\s*\(|for await)' --type=ts -A 5 src/ | rg -B 1 '(toolCall|executeStep|runTool)'
+rg '(checkpoint|saveState|persistSession|saveProgress)' --type=ts src/
+rg '(resume|recover|restoreSession|loadCheckpoint)' --type=ts src/
 ```
 
 **False-positive guards:**

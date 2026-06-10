@@ -30,9 +30,9 @@ User asks the agent to analyze a dataset. Three tool calls, API waits, synthesis
 
 **Concrete commands:**
 ```bash
-rg '(useChat|useCompletion|agent\.chat|agent\.run|streamText|generateText)' --type=ts --type=tsx -l src/
-rg '(onChunk|onToken|onProgress|onStatus|stream:\s*true)' --type=ts --type=tsx src/
-rg -A 10 '(executeTool|runTool|toolCall)' --type=ts src/ | rg -L '(onProgress|onStatus|stream)'
+rg '(useChat|useCompletion|agent\.chat|agent\.run|streamText|generateText)' --type=ts -l src/
+rg '(onChunk|onToken|onProgress|onStatus|stream:\s*true)' --type=ts src/
+rg -A 10 '(executeTool|runTool|toolCall)' --type=ts src/ | rg -v '(onProgress|onStatus|stream)'
 ```
 
 **False-positive guards:**

@@ -30,7 +30,7 @@ Two recommendations in the same response: one well-supported, one a guess. Same 
 
 **Concrete commands:**
 ```bash
-rg 'confidence|certainty|ConfidenceBadge|UncertaintyIndicator' --type=tsx src/
+rg 'confidence|certainty|ConfidenceBadge|UncertaintyIndicator' --type=ts src/
 ```
 
 **Judgment signals:**

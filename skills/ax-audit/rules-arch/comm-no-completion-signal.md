@@ -28,9 +28,9 @@ Agent researches a complex question. Makes 3 tool calls, then pauses 8 seconds c
 
 **Concrete commands:**
 ```bash
-rg '(consecutiveIdle|noToolCall|idleCount|maxIdle)' --type=ts --type=tsx src/
-rg '(setTimeout|setInterval)' --type=ts --type=tsx -A 5 src/ | rg '(done|complete|finish|terminate)'
-rg '(stop_reason|end_turn|shouldContinue)' --type=ts --type=tsx src/
+rg '(consecutiveIdle|noToolCall|idleCount|maxIdle)' --type=ts src/
+rg '(setTimeout|setInterval)' --type=ts -A 5 src/ | rg '(done|complete|finish|terminate)'
+rg '(stop_reason|end_turn|shouldContinue)' --type=ts src/
 ```
 
 **False-positive guards:**

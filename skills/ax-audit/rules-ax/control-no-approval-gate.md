@@ -30,8 +30,8 @@ Scenario A: User says "clean up my calendar." Agent deletes meetings including o
 
 **Concrete commands:**
 ```bash
-rg -l 'sendEmail|sendMessage|deleteAccount|publishPost|processPayment' --type=tsx --type=ts src/
-rg -B 10 'sendEmail|delete|publish' --type=tsx src/ | rg 'confirm|approval|modal'
+rg -l 'sendEmail|sendMessage|deleteAccount|publishPost|processPayment' --type=ts src/
+rg -B 10 'sendEmail|delete|publish' --type=ts src/ | rg 'confirm|approval|modal'
 ```
 
 **Judgment signals:**

@@ -30,8 +30,8 @@ Agent says "Based on your preference for concise answers..." and the user thinks
 
 **Concrete commands:**
 ```bash
-rg '(systemPrompt|buildPrompt|contextLoader|injectContext|userPreferences|userMemory)' --type=ts --type=tsx -l src/
-rg '(MemoryPanel|PreferencesView|WhatIKnow|MemorySettings)' --type=tsx -l src/
+rg '(systemPrompt|buildPrompt|contextLoader|injectContext|userPreferences|userMemory)' --type=ts -l src/
+rg '(MemoryPanel|PreferencesView|WhatIKnow|MemorySettings)' --type=ts -l src/
 rg '(savePreference|updateMemory|storePattern|learnFrom)' --type=ts -l src/
 ```
 
