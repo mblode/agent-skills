@@ -1,6 +1,6 @@
 # PR Polish
 
-Restructure commits and improve PR descriptions for reviewer experience. Load when the user asks to polish a PR, clean up commits, make a PR easy to review, or when the diff exceeds 500 lines.
+Restructure commits and add reviewer guidance so a large or messy PR reads cleanly. Loaded by pr-creator when commit history is noisy, the diff exceeds 500 lines, or the user asks to polish, tidy, restructure, or split the PR.
 
 ## When to activate
 
@@ -12,13 +12,13 @@ Restructure commits and improve PR descriptions for reviewer experience. Load wh
 
 ## Tree hash verification
 
-Before and after any history rewriting, verify the code hasn't changed:
+Before and after any history rewriting, verify the code has not changed:
 
 ```bash
 git rev-parse HEAD^{tree}
 ```
 
-Save the hash before rewriting. After rewriting, compare. If the hashes differ, the rewrite changed code — abort and investigate.
+Save the hash before rewriting. After rewriting, compare. If the hashes differ, the rewrite changed code, not just history. Abort and investigate before pushing anything.
 
 ## Commit ordering
 
@@ -35,7 +35,7 @@ Each commit should compile and pass lint independently. If a commit depends on a
 
 ## Non-interactive history rewriting
 
-Since `git rebase -i` requires interactive input, use this approach:
+`git rebase -i` requires interactive input and is unavailable to agents, so use a soft reset and rebuild:
 
 ```bash
 # Save tree hash
@@ -62,11 +62,11 @@ TREE_AFTER=$(git rev-parse HEAD^{tree})
 
 Add reviewer guidance to the PR description without making it verbose:
 
-- **TL;DR** — 1-2 sentences at the top explaining what changed and why
-- **Review path** — "Start with `migration.sql`, then `permissions.ts`, then the UI" (only for PRs with 5+ files)
-- **Risk callout** — one line for anything non-obvious: "The migration locks the users table — run during low traffic"
+- **TL;DR**: 1-2 sentences at the top explaining what changed and why
+- **Review path**: "Start with `migration.sql`, then `permissions.ts`, then the UI" (only for PRs with 5+ files)
+- **Risk callout**: one line for anything non-obvious, such as "The migration locks the users table; run during low traffic"
 
-Do not add file-by-file changelogs, test plan sections, or bullet lists restating the diff.
+Do not add file-by-file changelogs, test plan sections, or bullet lists restating the diff. The base rules in SKILL.md still apply.
 
 ## Splitting strategy
 
@@ -79,13 +79,12 @@ When a PR touches unrelated areas, extract independent changes:
 5. Remove the extracted commits from the original branch
 6. Update the original PR description to note the split
 
-Only split when the extracted work is genuinely independent — splitting coupled changes creates review overhead.
+Only split when the extracted work is genuinely independent. Splitting coupled changes creates review overhead instead of removing it.
 
 ## Guardrails
 
-- Never force-push without `--force-with-lease`
-- Always verify tree hash before and after rewriting
-- Run lint and tests after restructuring to catch ordering issues
-- Do not rewrite commits that have already been reviewed — only rewrite unreviewed history
-- If the PR has existing review comments, preserve the commit SHAs those comments reference
-- Do not restructure on shared branches with multiple contributors without coordinating
+- Force-push only with `git push --force-with-lease`. A plain `--force` overwrites commits a teammate pushed while you were rewriting.
+- Verify the tree hash before and after every rewrite. A mismatch means you changed code, not just history.
+- Run lint and tests after restructuring. Reordering can leave an intermediate commit that does not compile.
+- Do not rewrite commits a reviewer has already commented on. Rewriting orphans the inline comments anchored to those SHAs and the reviewer loses their thread.
+- Do not restructure shared branches with multiple contributors without coordinating. Their local history diverges on the next pull.

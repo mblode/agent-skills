@@ -4,33 +4,56 @@ description: >
   Creates GitHub pull requests with short, human-sounding descriptions. Adds a
   Linear issue ID prefix when available, keeps titles under 60 chars, and
   defaults to one short paragraph instead of generated summaries or test-plan
-  sections. Also restructures noisy commit history and adds reviewer guidance
-  when needed. Use when "create a PR", "make a PR", "open a pull request", "PR
-  this", "ship it", "make this PR easy to review", "polish this PR", "tidy
-  the PR", "clean up commits", "restructure commits", or "split this PR".
+  sections. Restructures noisy commit history into reviewable order and adds
+  reviewer guidance for large diffs. Use when "create a PR", "make a PR",
+  "open a pull request", "PR this", "ship it", "make this PR easy to review",
+  "polish this PR", "tidy the PR", "clean up commits", "restructure commits",
+  or "split this PR". For reviewing a diff for bugs, use pr-reviewer. For
+  monitoring a PR after creation, use pr-babysitter. For npm releases, use
+  autoship.
 ---
 
 # pr-creator
 
 Write PR descriptions like a developer posting in Slack, not like an AI summarizing a diff.
 
+- **IS:** creating the GitHub PR: a short human-sounding description, a Linear ID title prefix, commit restructuring, and reviewer guidance for large diffs.
+- **IS NOT:** reviewing the diff for bugs (use `pr-reviewer`), watching CI and review comments after creation (use `pr-babysitter`), or cutting npm releases (use `autoship`).
+
 ## Reference Files
 
 | File | Read When |
 |------|-----------|
-| `references/pr-polish.md` | When the commit history is noisy, the diff exceeds 500 lines, or the user asks to polish, tidy, restructure, or split the PR |
+| `references/pr-polish.md` | Commit history is noisy (fixup, WIP, or "address review" commits), the diff exceeds 500 lines, or the user asks to polish, tidy, restructure, or split the PR |
+
+## Workflow
+
+Copy this checklist and work through it:
+
+```text
+PR creation progress:
+- [ ] Inspect: git status, git log origin/main..HEAD, git diff origin/main...HEAD
+- [ ] Find the Linear ID (branch, commits, prompt, PR context); skip the prefix if none
+- [ ] Noisy commits or >500-line diff? Read references/pr-polish.md and restructure first
+- [ ] Push with upstream: git push -u origin HEAD
+- [ ] Draft title and body against the rules and anti-pattern list below
+- [ ] Check for .github/PULL_REQUEST_TEMPLATE.md; fill its sections briefly if present
+- [ ] Create with gh pr create; verify with gh pr view; return the URL
+```
+
+Do not ask the user to confirm the description before creating. The whole point is speed.
 
 ## Rules
 
-1. **Title**: when a Linear ID is available, prefix the title with the real ID: `<LINEAR-ID>: Add auth flow`. For example, `ABC-123: Add auth flow`. Otherwise use `Add auth flow`. Keep it under 60 chars. No periods.
-2. **Body**: default to one short paragraph. Explain what changed and why it matters.
-3. **No fake why.** If the reason is not clear from the prompt, Linear issue, branch, commits, or diff, leave it out.
+1. **Title.** With a Linear ID: `ABC-123: Add auth flow`. Without one: `Add auth flow`. Under 60 chars, no trailing period.
+2. **Body.** Default to one short paragraph: what changed and why it matters.
+3. **No fake why.** If the reason is not in the prompt, Linear issue, branch, commits, or diff, leave it out.
 4. **Risk only when real.** Add one short `Risk:` line only for migrations, billing/auth/permission changes, irreversible writes, wide blast radius, or subtle behavior changes.
-5. **Testing only if real.** Mention testing only when it was actually run. No `Test plan` section.
+5. **Testing only if real.** Mention testing only when it was actually run. Never a `Test plan` section.
 6. **No file-by-file changelogs.** The diff already shows the files.
-7. **End after the useful content.** No generated-by footer or co-author line.
+7. **End after the useful content.** No generated-by footer, no co-author line.
 
-## Anti-patterns — never write these
+## Anti-patterns: never write these
 
 - "This PR implements..."
 - "This change ensures..."
@@ -43,7 +66,9 @@ Write PR descriptions like a developer posting in Slack, not like an AI summariz
 - A "Test plan" section with checkboxes
 - A long list of bullets that restates the diff
 
-## Before / after
+## Before / after examples
+
+### Feature (Linear ID available)
 
 **Bad** (default AI behavior):
 
@@ -52,24 +77,16 @@ Title: Implement user authentication flow with session management and error hand
 
 ## Summary
 - Added new `AuthProvider` component in `src/components/AuthProvider.tsx`
-  that wraps the application with authentication context
-- Implemented `useAuth` hook in `src/hooks/useAuth.ts` for login, logout,
-  and session refresh functionality
+- Implemented `useAuth` hook for login, logout, and session refresh
 - Updated `src/app/layout.tsx` to include the AuthProvider wrapper
-- Added error boundary handling for authentication failures
 - Configured session timeout to 30 minutes with automatic refresh
 
 ## Test plan
 - [ ] Verify login flow works with valid credentials
-- [ ] Verify login flow shows error with invalid credentials
 - [ ] Verify session persists across page refreshes
-- [ ] Verify automatic logout after 30 minutes of inactivity
-- [ ] Verify the auth error boundary catches and displays auth failures
 ```
 
-**Good** (what this skill produces):
-
-Assume `ABC-123` is the real Linear ID for this example:
+**Good** (assume `ABC-123` is the real Linear ID):
 
 ```text
 Title: ABC-123: Add auth flow with session management
@@ -77,26 +94,77 @@ Title: ABC-123: Add auth flow with session management
 Adds the auth flow needed for session-based login, including refresh, timeout handling, and a small error boundary for auth failures.
 ```
 
-## Command
+### Bugfix (real risk, real testing)
 
-After analyzing the diff and drafting the title and body, create the PR:
+**Bad:**
+
+```text
+Title: Fix issue with duplicate invoice creation in webhook handler
+
+## Summary
+This PR addresses an issue where the Stripe webhook handler was not idempotent,
+which could result in duplicate invoices under certain retry conditions. The
+handler has been updated to track processed event IDs, ensuring retried events
+are safely ignored.
+
+## Test plan
+- [ ] Verify duplicate webhooks no longer create duplicate invoices
+```
+
+**Good:**
+
+```text
+Title: PAY-482: Dedupe Stripe webhook retries
+
+Stripe retries webhooks on timeout and our handler wasn't idempotent, so retried events created duplicate invoices. Now we record processed event IDs and skip repeats. Tested by replaying a captured retry sequence locally.
+
+Risk: touches the billing write path.
+```
+
+### Refactor (no Linear ID)
+
+**Bad:**
+
+```text
+Title: Refactor data fetching utilities to improve maintainability
+
+This commit introduces a unified retry mechanism, refactoring the existing
+data fetching utilities to leverage a shared helper. This ensures consistency
+across the codebase and improves long-term maintainability.
+```
+
+**Good:**
+
+```text
+Title: Collapse three copies of fetch retry logic into one helper
+
+Same retry behavior we had in three places, now in one withRetry helper. No behavior change.
+```
+
+## Creating the PR
 
 ```bash
-gh pr create --title "the final title here" --body "$(cat <<'EOF'
+git push -u origin HEAD   # skip if upstream already set
+
+gh pr create --title "ABC-123: Add auth flow" --body "$(cat <<'EOF'
 One short paragraph that explains what changed and why it matters.
 EOF
 )"
+
+gh pr view --json url,title   # evidence the PR exists; return the url
 ```
 
-## Workflow
+## Gotchas
 
-1. Run `git status`, `git diff`, and `git log` to understand the changes.
-2. Find a Linear ID like `ABC-123` in the branch, commits, prompt, or PR context. If none exists, leave it out.
-3. Push with `-u` if the branch has no upstream.
-4. Draft title and body following the rules above.
-5. If the repo has a PR template, respect it, but keep each answer short and do not add extra sections.
-6. If the commit history is noisy (fixup, WIP, or "address review" commits) or the diff exceeds 500 lines, load `references/pr-polish.md` and restructure before creating the PR.
-7. Create the PR with `gh pr create`.
-8. Return the PR URL.
+- `gh pr create` on a branch with no upstream hangs on an interactive "Where should we push?" prompt; agents stall there forever. Run `git push -u origin HEAD` first.
+- Quote the heredoc delimiter (`<<'EOF'`). With an unquoted `<<EOF` the shell expands backticks and `$vars` inside the body, corrupting the description or executing commands.
+- `--body` silently discards `.github/PULL_REQUEST_TEMPLATE.md`. If the template exists, fill its sections with short answers instead of ignoring it, and do not add sections it does not ask for.
+- Derive the Linear ID from the branch name (`mblode/abc-123-add-auth` gives `ABC-123`, uppercased). Never guess one: Linear's GitHub integration links the PR to whatever ID the title contains.
+- `gh pr create` from the default branch fails with "no commits between main and main". Check `git branch --show-current` during inspection.
+- Plain `git diff` shows only uncommitted changes, so on a committed branch it is empty and the description will be written blind. Diff against the merge base: `git diff origin/main...HEAD`.
 
-Do not ask the user to confirm the description before creating. The whole point is speed.
+## Related skills
+
+- `pr-reviewer`: run before creating when the user wants the diff checked for bugs.
+- `pr-babysitter`: hand off after creation to watch CI, conflicts, and review comments.
+- `autoship`: npm release pipeline (changesets, version PR, publish); not this skill's job.

@@ -52,7 +52,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 - **[plan-creator](./skills/plan-creator/SKILL.md)**: Collaborative interrogation that produces a plan: explores code and docs first, one question at a time.
 - **[plan-reviewer](./skills/plan-reviewer/SKILL.md)**: Stress-tests plans. Verifies claims against local code and docs.
 - **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Catches bugs, structural issues, and AI slop before you push; runs whole-codebase security audits on request.
-- **[pr-creator](./skills/pr-creator/SKILL.md)**: Human-sounding PR descriptions. Cleans up noisy commits.
+- **[pr-creator](./skills/pr-creator/SKILL.md)**: Creates PRs with short human-sounding descriptions, Linear ID titles, commit restructuring, and reviewer guidance.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Polls for merge conflicts, CI failures, and review comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets, compiler fix loops, and CI monitoring.
 
