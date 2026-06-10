@@ -15,6 +15,7 @@ Use for dashboards, admin tools, and data-dense workflows.
 - Interaction baseline
 - Utility copy
 - Anti-patterns
+- Litmus checks
 
 ## Commit to a direction
 
@@ -30,7 +31,7 @@ Use for dashboards, admin tools, and data-dense workflows.
 - Keep padding symmetrical unless there is a clear visual reason.
 - Choose one radius system and use it everywhere.
 - **Concentric border radius:** `outer-radius = inner-radius + padding`. Mismatched radii on nested elements (a card containing an inner component, a button containing an icon badge) are the most common unnoticed visual error in production UIs.
-- Choose one depth strategy: borders-only, subtle shadow, layered shadow, or surface tint. When elements sit on non-white backgrounds, prefer `box-shadow` over `border` — rgba transparency adapts to any surface; solid colors don't.
+- Choose one depth strategy: borders-only, subtle shadow, layered shadow, or surface tint. When elements sit on non-white backgrounds, prefer `box-shadow` over `border`: rgba transparency adapts to any surface; solid colors don't.
 - **Layered shadow formula** for cards, inputs, and containers:
   ```css
   box-shadow:
@@ -110,13 +111,19 @@ When the work is a dashboard, app surface, admin tool, or operational workspace,
 
 ## Anti-patterns
 
-- Heavy shadows, large radii on small controls, thick borders, gradients for decoration, glowing borders, excessive spacing, visual noise.
-- Dashboard-card mosaics as the primary layout strategy.
-- Decorative gradients behind routine product UI.
-- Multiple competing accent colors.
-- Ornamental icons that do not improve scanning.
+- Heavy shadows, glowing borders, or thick borders on routine controls: every element shouts, so nothing reads as primary.
+- Large radii on small controls: buttons and inputs read as toy-like next to dense data.
+- Dashboard-card mosaics as the primary layout strategy: the page becomes a wall of boxes; hierarchy comes from the grid of cards instead of the data.
+- Decorative gradients behind routine product UI: they reduce text contrast and read as marketing on a work surface.
+- Multiple competing accent colors: status colours stop carrying meaning when accents appear everywhere.
+- Ornamental icons and icon backgrounds: each one costs a fixation without aiding scanning.
+- Excessive spacing on data-dense surfaces: operators scroll instead of scan.
 - Stacked cards instead of plain layout when the card boundary adds no meaning.
 
-## Standard
+## Litmus checks
 
-Aim for precise, minimal, and context-specific design.
+- Is the work surface louder than the navigation and chrome around it?
+- Does every border, icon, and tint clarify meaning, and has everything that doesn't been removed?
+- Is colour reserved for status and action?
+- Do nested elements follow the concentric radius rule (outer = inner + padding)?
+- Can an operator scanning only headings, labels, and numbers understand the page?

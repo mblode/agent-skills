@@ -1,6 +1,6 @@
 # Aesthetic Direction
 
-Goal: make the UI look human-designed, not AI-default.
+Shared calibration layer for both tracks. Goal: make the UI look human-designed, not AI-default.
 
 ## AI slop signals
 
@@ -20,10 +20,6 @@ Goal: make the UI look human-designed, not AI-default.
 ## Study references
 
 - Linear, Stripe, Notion, Raycast, ElevenLabs, Zed.
-
-## Tools (table stakes)
-
-- shadcn/ui, Tailwind CSS, Motion, React, Ultracite.
 
 ## Copy to learn (not to ship)
 
@@ -46,10 +42,7 @@ Goal: make the UI look human-designed, not AI-default.
 
 ## Craft baseline
 
-- Full keyboard support with visible focus rings.
-- Hit targets >= 24px (>= 44px mobile).
-- Accessible forms: labels, Enter-to-submit, inline errors.
-- See `ui-audit` for complete interaction and accessibility standards.
+- Full keyboard support, visible focus, hit targets >= 24px (>= 44px mobile), accessible forms. See `ui-audit` for the complete interaction and accessibility standards.
 
 ## Reject these failures
 
@@ -60,7 +53,3 @@ Goal: make the UI look human-designed, not AI-default.
 - Sections that repeat the same mood statement.
 - Carousel with no narrative purpose.
 - App UI made of stacked cards instead of layout.
-
-## Standard
-
-Distinctive, contextual, refined, and memorable.

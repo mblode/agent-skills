@@ -1,6 +1,6 @@
 # Marketing / Brand UI
 
-Deliver working code with a clear aesthetic point of view. Avoid generic AI aesthetics.
+Commit to a clear aesthetic point of view before any code is written. Avoid generic AI aesthetics.
 
 ## Contents
 
@@ -14,13 +14,14 @@ Deliver working code with a clear aesthetic point of view. Avoid generic AI aest
 - Motion
 - Hard rules
 - Litmus checks
+- Conversion strategy
 
 ## Working model (before building)
 
 Write three things before touching code:
 
 - **Visual thesis**: one sentence describing mood, material, and energy.
-- **Content plan**: hero, support, detail, final CTA — what each section must communicate.
+- **Content plan**: hero, support, detail, final CTA, with what each section must communicate.
 - **Interaction thesis**: 2-3 motion ideas that change the feel of the page.
 
 Each section gets one job, one dominant visual idea, and one primary takeaway or action.
@@ -126,32 +127,14 @@ If deleting 30 percent of the copy improves the page, keep deleting.
 
 ## Conversion strategy
 
-Load [references/cro.md](references/cro.md), [references/testing.md](references/testing.md), and [references/modern.md](references/modern.md) when building or auditing a landing page. The sections below summarise the key design-level decisions; the reference files cover psychology, benchmarks, and testing methodology.
-
-### Social proof placement
-
-Social proof increases conversion by 34%. Place it where it does the most work:
-
-- **Above the fold** — 3–5 logos or one credibility stat. Don't delay trust signals below the first scroll.
-- **Near every CTA** — proof should appear within one scroll of each conversion point.
-- **Adjacent to pricing** — testimonials matched to plan type reduce choice anxiety.
-- **Third-party badges** (G2, Trustpilot, Product Hunt) are the highest-credibility visual elements. Use them over self-reported numbers.
+For pages with a conversion goal, load [references/cro.md](references/cro.md) (persuasion, social proof, benchmarks, page length), [references/testing.md](references/testing.md) (experiment planning), and [references/modern.md](references/modern.md) (mobile, speed, personalisation, microcopy). The layout rules below are the track-level decisions; the references cover the psychology and the numbers.
 
 ### Conversion-aware layout
 
 - **One CTA, repeated.** Primary CTA appears after hero, after proof, and at bottom. Don't introduce competing actions.
 - **Strip navigation** on landing pages. Every link that isn't the CTA is a leak.
-- **Every section must earn its place.** Each section either builds confidence, handles an objection, or drives toward the CTA. Sections that just describe the company are page furniture — cut them.
+- **Every section must earn its place.** Each section either builds confidence, handles an objection, or drives toward the CTA. Sections that just describe the company are page furniture; cut them.
 - **Message match.** The hero headline must echo the promise that brought the reader here (ad, email, referral). If the ad said "Cut your AWS bill in half" and the page opens with "Welcome to CloudSave", the reader bounces.
-
-### Mobile conversion
-
-70% of mobile users don't scroll to mid-page. Design accordingly:
-
-- CTA must appear above the fold on mobile — and stay visible via a sticky bar or floating button.
-- Social proof within the first two scroll-lengths on mobile.
-- Simplify forms: fewer fields, 16px+ font size to prevent iOS zoom, single-column only.
-- Test mobile and desktop layouts independently. What converts on desktop may fail on mobile.
-
-See [references/modern.md](references/modern.md) for page speed targets, AI personalisation, accessible copy, and microcopy.
+- **Proof near every conversion point:** within one scroll of each CTA, with 3-5 logos or one credibility stat above the fold. Placement rules and the proof credibility hierarchy are in [references/cro.md](references/cro.md).
+- **Mobile is a separate design**, not a reflow: above-the-fold CTA kept visible via sticky bar, proof within two scroll-lengths, single-column 16px+ forms. Full rules in [references/modern.md](references/modern.md).
 

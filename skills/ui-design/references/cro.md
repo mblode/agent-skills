@@ -14,11 +14,11 @@ Reference for landing page conversion strategy. Load when building or auditing m
 
 ## Persuasion principles
 
-Cialdini's seven principles applied to landing pages. Each principle is a tool, not a trick — misuse destroys trust faster than it builds conversion.
+Cialdini's seven principles applied to landing pages. Each principle is a tool, not a trick: misuse destroys trust faster than it builds conversion.
 
 | Principle | Landing page application | Misuse to avoid |
 |-----------|--------------------------|-----------------|
-| **Reciprocity** | Offer something free first — a tool, a calculator, a guide — before asking for commitment | Gating basic information behind a form; the "gift" must feel genuinely useful |
+| **Reciprocity** | Offer something free first (a tool, a calculator, a guide) before asking for commitment | Gating basic information behind a form; the "gift" must feel genuinely useful |
 | **Commitment** | Start with a micro-yes (quiz, configurator, email-only form) before the full ask | Bait-and-switch: small ask that reveals a hidden large commitment |
 | **Social proof** | Reviews, badges, user counts, testimonials near the CTA (see below) | Fake reviews or obviously fabricated numbers; readers smell it instantly |
 | **Authority** | Certifications, press logos, expert endorsements, "as seen in" strips | Citing authority without specifics: "trusted by thousands" proves nothing |
@@ -38,19 +38,19 @@ Landing pages with social proof convert 34% better than those without. But not a
 
 From highest to lowest trust:
 
-1. **Third-party review badges** — G2, Capterra, Trustpilot, Product Hunt. Independently verified. Highest credibility for B2B SaaS.
-2. **Specific-outcome testimonials** — "Cut our reporting from 4 hours to 20 minutes." Named person, real photo, company.
-3. **X/Twitter testimonials** — Publicly verifiable. Underused but high-trust because anyone can check.
-4. **Logo walls** — Show that recognisable companies use the product. Less persuasive alone.
-5. **User counts** — "Join 50,000+ teams." Effective at scale, meaningless below ~1,000.
-6. **Vague praise** — "Great product, love it!" tells nothing. Almost never moves the needle.
+1. **Third-party review badges:** G2, Capterra, Trustpilot, Product Hunt. Independently verified. Highest credibility for B2B SaaS.
+2. **Specific-outcome testimonials:** "Cut our reporting from 4 hours to 20 minutes." Named person, real photo, company.
+3. **X/Twitter testimonials:** Publicly verifiable. Underused but high-trust because anyone can check.
+4. **Logo walls:** Show that recognisable companies use the product. Less persuasive alone.
+5. **User counts:** "Join 50,000+ teams." Effective at scale, meaningless below ~1,000.
+6. **Vague praise:** "Great product, love it!" tells nothing. Almost never moves the needle.
 
 ### Placement rules
 
-- **Near the CTA** — proof should appear within one scroll of every conversion point
-- **Above the fold** — 3–5 logos or one credibility stat; don't delay trust signals
-- **Adjacent to pricing** — testimonials matched to plan type reduce choice anxiety
-- **After objection sections** — proof answers "but does it actually work?"
+- **Near the CTA:** proof should appear within one scroll of every conversion point
+- **Above the fold:** 3-5 logos or one credibility stat; don't delay trust signals
+- **Adjacent to pricing:** testimonials matched to plan type reduce choice anxiety
+- **After objection sections:** proof answers "but does it actually work?"
 
 ### The specificity test
 
@@ -60,28 +60,28 @@ If a competitor could use the same testimonial unchanged, it's too generic. "Gre
 
 ## Conversion benchmarks
 
-Median conversion rates by industry and channel (2025-2026 data):
+Median conversion rates by industry and channel (directional industry data):
 
 | Segment | Median | Top quartile |
 |---------|--------|--------------|
-| All industries | 6.6–8.1% | 10%+ |
+| All industries | 6.6-8.1% | 10%+ |
 | Financial services | 8.4% | 12%+ |
 | Legal services | 7.4% | 11%+ |
 | eCommerce | 4.3% | 8%+ |
-| Healthcare | 3.0–4.2% | 8–10% |
-| B2B SaaS (cold) | 1–3% | 5%+ |
+| Healthcare | 3.0-4.2% | 8-10% |
+| B2B SaaS (cold) | 1-3% | 5%+ |
 
 | Traffic source | Average conversion |
 |----------------|-------------------|
 | Email campaigns | 19.3% |
 | Webinar pages | 22.3% |
-| Organic search | 4–6% |
+| Organic search | 4-6% |
 | Paid search | ~1.2% |
-| Paid social | 2–4% |
+| Paid social | 2-4% |
 
 Use these as directional benchmarks, not targets. A 3% rate for a $50K ACV product is a different business than 3% for a free trial.
 
-CRO tools report average ROI of 223%. The median jumped from 6.6% to 8.1% in 2025-2026, driven by AI-assisted A/B testing (61% of mid-market brands now use it).
+CRO tools report average ROI of 223%. Median rates have been rising, driven largely by AI-assisted A/B testing, which a majority of mid-market brands now use.
 
 ---
 
@@ -92,7 +92,7 @@ The fastest way to write landing page copy that resonates: steal the reader's ex
 ### The highlight-and-steal method
 
 1. Read 50+ reviews (G2, Trustpilot, app stores, Reddit threads, support tickets)
-2. Highlight recurring phrases — especially emotional language about pain and outcomes
+2. Highlight recurring phrases, especially emotional language about pain and outcomes
 3. Use them verbatim in headlines, pain sections, and CTAs
 
 ### Where to mine
@@ -102,7 +102,7 @@ The fastest way to write landing page copy that resonates: steal the reader's ex
 | G2/Trustpilot reviews | Pain phrases, outcome language, competitor comparisons |
 | Support tickets | Objections, confusion points, feature requests |
 | Sales call transcripts | Buying triggers, decision criteria, exact questions asked |
-| Cancellation reasons | Why people leave — often the inverse of your best headline |
+| Cancellation reasons | Why people leave, often the inverse of your best headline |
 | Reddit/forums | Unfiltered frustration in the reader's own words |
 | Survey open-ends | Direct responses to "what almost stopped you from signing up?" |
 
@@ -125,22 +125,22 @@ VoC feeds directly into the copywriting brief (questions 2 and 3 in the `copywri
 
 ## Page length decision
 
-Short-form and long-form landing pages serve different situations. The decision is not about preference — it's about the reader's needs.
+Short-form and long-form landing pages serve different situations. The decision is not about preference; it's about the reader's needs.
 
 ### Decision matrix
 
 | Price | Complexity | Awareness | Recommended length |
 |-------|-----------|-----------|-------------------|
-| Low | Simple | High (warm traffic) | Short — under 125 words. 15% higher conversion. |
-| Low | Simple | Low (cold traffic) | Medium — establish context, then convert. |
-| High | Complex | High | Medium-long — address objections, show proof. |
-| High | Complex | Low | Long — full persuasion sequence. Crazy Egg saw 363% lift. |
+| Low | Simple | High (warm traffic) | Short: under 125 words. 15% higher conversion. |
+| Low | Simple | Low (cold traffic) | Medium: establish context, then convert. |
+| High | Complex | High | Medium-long: address objections, show proof. |
+| High | Complex | Low | Long: full persuasion sequence. Crazy Egg saw 363% lift. |
 
 ### Short-form rules
 
 - Under 125 words of body copy
 - One screen on desktop, two on mobile
-- Hero, one proof point, CTA — nothing else
+- Hero, one proof point, CTA, nothing else
 - Best for: free resources, newsletter signups, known brands, warm referral traffic
 
 ### Long-form rules

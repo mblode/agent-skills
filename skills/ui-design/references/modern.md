@@ -1,6 +1,6 @@
-# Modern Techniques (2025-2026)
+# Modern Conversion Techniques
 
-Reference for current landing page optimisation techniques. Load alongside `references/cro.md` when building or auditing marketing pages.
+Reference for personalisation, mobile-first conversion, page speed, accessible copy, and microcopy. Load alongside `references/cro.md` when building or auditing marketing pages.
 
 ## Table of contents
 
@@ -14,7 +14,7 @@ Reference for current landing page optimisation techniques. Load alongside `refe
 
 ## AI personalisation
 
-Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conversion by 25-40%. The gap is widening — personalisation is becoming table stakes, not a competitive advantage.
+Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conversion by 25-40%. The gap is widening: personalisation is becoming table stakes, not a competitive advantage.
 
 ### What to personalise
 
@@ -28,18 +28,18 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 
 ### Data sources
 
-- **UTM parameters** — campaign, source, medium, content
-- **IP-based firmographics** — company size, industry, location (tools like Clearbit, 6sense)
-- **Behavioural** — returning visitor, pages viewed, time on site
-- **Cookie/session data** — previous interactions, abandoned forms
+- **UTM parameters:** campaign, source, medium, content
+- **IP-based firmographics:** company size, industry, location (tools like Clearbit, 6sense)
+- **Behavioural:** returning visitor, pages viewed, time on site
+- **Cookie/session data:** previous interactions, abandoned forms
 
 ### The risk spectrum
 
-- **Under-personalisation** — wastes the infrastructure. Dynamic content that shows the same thing to everyone.
-- **Over-personalisation** — feels creepy. "Hi Sarah from Acme Corp, we noticed you visited our pricing page three times" crosses the line.
-- **Sweet spot** — adapt the message to the visitor's context without revealing how much you know.
+- **Under-personalisation:** wastes the infrastructure. Dynamic content that shows the same thing to everyone.
+- **Over-personalisation:** feels creepy. "Hi Sarah from Acme Corp, we noticed you visited our pricing page three times" crosses the line.
+- **Sweet spot:** adapt the message to the visitor's context without revealing how much you know.
 
-28.2% of companies adopted AI personalisation for landing pages as of 2025. Adoption is accelerating.
+Adoption of AI personalisation for landing pages is accelerating; it is moving from differentiator to baseline expectation.
 
 ### Common mistakes
 
@@ -50,7 +50,7 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 
 ## Mobile-first conversion
 
-62% of ecommerce traffic is mobile. Design for mobile first, then enhance for desktop — not the reverse.
+62% of ecommerce traffic is mobile. Design for mobile first, then enhance for desktop, not the reverse.
 
 ### Layout rules
 
@@ -66,7 +66,7 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 - CTA must appear above the fold on mobile
 - Social proof must appear within the first two scroll-lengths
 - Problem/pain sections that work on desktop may need to be shortened or reordered for mobile
-- Test mobile and desktop layouts independently — what converts on desktop may fail on mobile
+- Test mobile and desktop layouts independently; what converts on desktop may fail on mobile
 
 ### Forms
 
@@ -77,13 +77,13 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 
 ### Speed
 
-Pages loading under 1 second convert 3x better than those loading in 5+ seconds. Mobile speed is non-negotiable — see [Page speed](#page-speed) below.
+Pages loading under 1 second convert 3x better than those loading in 5+ seconds. Mobile speed is non-negotiable; see [Page speed](#page-speed) below.
 
 ---
 
 ## Page speed
 
-Every 100ms of load time costs approximately 1% in conversions. Speed is not a technical detail — it's a conversion lever.
+Every 100ms of load time costs approximately 1% in conversions. Speed is not a technical detail; it's a conversion lever.
 
 ### The numbers
 
@@ -94,15 +94,15 @@ Every 100ms of load time costs approximately 1% in conversions. Speed is not a t
 | 0.1s improvement | Up to 8% conversion lift |
 | 3+ second load time | 53% of visitors abandon |
 
-Only 42% of mobile sites pass all three Core Web Vitals. Google's March 2026 core update increased the weight of CWV in ranking — affecting both organic visibility and paid traffic quality scores.
+Only a minority of mobile sites pass all three Core Web Vitals. CWV affects both organic visibility and paid traffic quality scores, so speed work pays twice.
 
 ### Core Web Vitals targets
 
 | Metric | Target | What it measures |
 |--------|--------|-----------------|
-| LCP (Largest Contentful Paint) | < 2.5s | Loading — how quickly the main content appears |
-| INP (Interaction to Next Paint) | < 200ms | Responsiveness — how quickly the page reacts to input |
-| CLS (Cumulative Layout Shift) | < 0.1 | Stability — how much the layout shifts during load |
+| LCP (Largest Contentful Paint) | < 2.5s | Loading: how quickly the main content appears |
+| INP (Interaction to Next Paint) | < 200ms | Responsiveness: how quickly the page reacts to input |
+| CLS (Cumulative Layout Shift) | < 0.1 | Stability: how much the layout shifts during load |
 
 ### Three highest-leverage fixes
 
@@ -114,13 +114,13 @@ Only 42% of mobile sites pass all three Core Web Vitals. Google's March 2026 cor
 
 - **Optimising server response time when the bottleneck is render-blocking JS.** Measure first, optimise the actual bottleneck.
 - **Adding a "speed badge" without measuring.** Claiming fast performance without Core Web Vitals data is like claiming "easy setup" without testing it.
-- **A/B testing tools that slow the page.** Ironic but common — the tool you're using to improve conversion is killing it via load time. Measure the testing tool's own impact.
+- **A/B testing tools that slow the page.** Ironic but common: the tool you're using to improve conversion is killing it via load time. Measure the testing tool's own impact.
 
 ---
 
 ## Accessible copy
 
-WCAG 2.2 is fully active. WCAG 3.0 is on the horizon. Accessible copy is not a compliance checkbox — it expands your addressable market and improves conversion for everyone.
+Accessible copy is not a compliance checkbox; it expands your addressable market and improves conversion for everyone. Target WCAG 2.2.
 
 ### WCAG rules that affect copy
 
@@ -136,7 +136,7 @@ WCAG 2.2 is fully active. WCAG 3.0 is on the horizon. Accessible copy is not a c
 
 - **Sentence length:** aim for 15-20 words average. Break long sentences at the strongest claim.
 - **Paragraph length:** max 3-4 sentences. On mobile, even 2 sentences per paragraph is better.
-- **Left-align body text.** Never centre body copy — centred text creates uneven left edges that slow reading.
+- **Left-align body text.** Never centre body copy; centred text creates uneven left edges that slow reading.
 - **Avoid jargon** unless your audience uses it daily. If in doubt, use the simpler word.
 
 ### Descriptive CTAs and link text
@@ -154,7 +154,7 @@ WCAG 2.2 is fully active. WCAG 3.0 is on the horizon. Accessible copy is not a c
 
 ## Microcopy
 
-The small text that isn't the headline or body copy — but still drives conversion.
+The small text that isn't the headline or body copy, but still drives conversion.
 
 ### Button labels
 
@@ -163,7 +163,7 @@ Descriptive button text yields +25% CTR over generic labels. "Submit" → "Reser
 ### Form labels and help text
 
 - Labels are identification and micro-persuasion: "Work email" signals B2B context; "Your best email" signals personal.
-- Help text below fields reduces errors: "We'll send your login link here — no password needed."
+- Help text below fields reduces errors: "We'll send your login link here, no password needed."
 - Placeholder text is not a label. Placeholders disappear on focus, breaking usability.
 
 ### Privacy reassurance
@@ -174,7 +174,7 @@ Place a privacy statement near every email field. Keep it short:
 - "No spam. Cancel anytime."
 - "Your data stays private. See our privacy policy."
 
-Privacy reassurance near forms increases completion rates — especially on mobile where trust signals are harder to spot.
+Privacy reassurance near forms increases completion rates, especially on mobile where trust signals are harder to spot.
 
 ### Error messages
 
@@ -183,5 +183,5 @@ Explain what went wrong and how to fix it:
 | Bad | Good |
 |-----|------|
 | "Invalid input" | "Enter a valid email address (e.g. you@company.com)" |
-| "Error" | "That password is too short — use at least 8 characters" |
+| "Error" | "That password is too short, use at least 8 characters" |
 | "Required field" | "We need your email to send the guide" |
