@@ -6,27 +6,33 @@ tags: bullets, hanging, indented, lists, readability
 
 ## Choose Hanging vs Indented Bullets
 
-Hanging bullets (flush with the text margin) look cleaner in print but can cause alignment issues on the web. Indented bullets (text indented from the margin) often scan better because the bullets stand out from the text edge.
+Keep wrapped list lines aligned with each other, never with the bullet. `list-style-position: inside` wraps continuation lines underneath the bullet, breaking the text edge. Choose hanging bullets (bullet in the margin) or indented bullets (text indented from the margin) — indented is the safer web default; avoid hanging bullets on mobile where horizontal space is limited.
 
-Avoid hanging bullets on mobile where horizontal space is limited.
-
-**Hanging bullets (bullets in the margin):**
+**Incorrect (inside positioning — wrapped lines misalign):**
 
 ```css
 ul {
+  list-style-position: inside;
+  /* Second line of a long item wraps under the bullet,
+     destroying the left text edge */
+}
+```
+
+**Correct (outside positioning, pick hanging or indented):**
+
+```css
+/* Indented bullets — text indented from left edge (safer default) */
+ul {
+  list-style-position: outside;
+  padding-left: 1.5em;
+}
+
+/* Hanging bullets — bullets hang in the margin (print-like) */
+ul.hanging {
   list-style-position: outside;
   padding-left: 0;
-  margin-left: 1em; /* bullets hang in the margin */
+  margin-left: 1em;
 }
 ```
 
-**Indented bullets (text indented, default web behavior):**
-
-```css
-ul {
-  list-style-position: outside;
-  padding-left: 1.5em; /* text indented from left edge */
-}
-```
-
-Add vertical spacing between bullet items to improve scannability. Decide between hanging and indented based on your layout \u2014 indented is the safer default for web.
+Add vertical spacing between bullet items to improve scannability.

@@ -6,7 +6,29 @@ tags: licensing, web-fonts, open-source, commercial
 
 ## License Fonts Properly
 
-Every font has a license that specifies permitted uses. Web fonts, desktop fonts, and app-embedded fonts often require separate licenses. Never use pirated fonts. Buy full families when budget allows, or use high-quality open-source alternatives (Google Fonts, Adobe Fonts with Creative Cloud, etc.).
+Every font has a license that specifies permitted uses. Web fonts, desktop fonts, and app-embedded fonts often require separate licenses. Never use pirated fonts or files converted from a desktop-only license.
+
+**Incorrect (desktop font converted and self-hosted without a web license):**
+
+```css
+@font-face {
+  font-family: 'Gotham';
+  /* .otf from a designer's machine run through a converter —
+     the desktop license does not cover web embedding */
+  src: url('/fonts/gotham-converted.woff2') format('woff2');
+}
+```
+
+**Correct (licensed source, terms documented in code):**
+
+```css
+@font-face {
+  font-family: 'Inter';
+  /* SIL OFL 1.1 — web use and self-hosting permitted.
+     License: /fonts/LICENSE-Inter.txt */
+  src: url('/fonts/Inter-Variable.woff2') format('woff2');
+}
+```
 
 **Checklist:**
 
@@ -16,13 +38,4 @@ Every font has a license that specifies permitted uses. Web fonts, desktop fonts
 - Ensure the license covers the number of domains/projects
 - Keep license documentation accessible to the team
 
-**Open-source options:**
-- Google Fonts \u2014 free, SIL Open Font License
-- Adobe Fonts \u2014 included with Creative Cloud subscription
-- Font Squirrel \u2014 curated free fonts with verified licenses
-- fonts.bunny.net \u2014 privacy-friendly Google Fonts alternative
-
-**Commercial foundries:**
-- Hoefler&Co, Commercial Type, Klim, Grilli Type, Dinamo, Colophon
-
-When budget is limited, start with open-source and upgrade to commercial fonts as the brand matures.
+Open-source sources: Google Fonts (SIL OFL), Adobe Fonts (with Creative Cloud), Font Squirrel, fonts.bunny.net. Commercial foundries: Hoefler&Co, Commercial Type, Klim, Grilli Type, Dinamo, Colophon. When budget is limited, start open-source and upgrade as the brand matures.
