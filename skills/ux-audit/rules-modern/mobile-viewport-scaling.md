@@ -14,7 +14,7 @@ Three quiet bugs ship together on mobile: a missing `<meta name="viewport">` cau
 
 ## What goes wrong
 
-A Next.js app omits the viewport meta in `app/layout.tsx`. iOS Safari renders at desktop width and the user pinches to zoom. A modal uses `h-screen` (100vh) — on iOS the bottom 60 px gets covered by the URL bar, the primary CTA is unreachable. A bottom navigation bar uses `pb-4` — on iPhone X+ the home indicator overlaps the buttons.
+A Next.js app omits the viewport meta in `app/layout.tsx`. iOS Safari renders at desktop width and the user pinches to zoom. A modal uses `h-screen` (100vh): on iOS the bottom 60 px gets covered by the URL bar, and the primary CTA is unreachable. A bottom navigation bar uses `pb-4`: on iPhone X+ the home indicator overlaps the buttons.
 
 ## Detection
 
@@ -66,10 +66,10 @@ export const viewport: Viewport = {
 **2. Replace `100vh` with `100dvh`:**
 
 ```tsx
-// before — covered by iOS Safari URL bar
+// before: covered by iOS Safari URL bar
 <div className="min-h-screen flex flex-col">
 
-// after — dynamic viewport, full height in every state
+// after: dynamic viewport, full height in every state
 <div className="min-h-[100dvh] flex flex-col">
 ```
 
@@ -78,10 +78,10 @@ export const viewport: Viewport = {
 **3. Safe-area inset on fixed bars:**
 
 ```tsx
-// before — clipped by home indicator on iPhone X+
+// before: clipped by home indicator on iPhone X+
 <nav className="fixed inset-x-0 bottom-0 h-14 px-4">
 
-// after — respects safe area
+// after: respects safe area
 <nav
   className="fixed inset-x-0 bottom-0 px-4
              pb-[env(safe-area-inset-bottom)]
@@ -112,7 +112,7 @@ Reference docs:
 **Anti-pattern (fails):**
 
 ```tsx
-// app/layout.tsx — no viewport export
+// app/layout.tsx: no viewport export
 export default function Layout({ children }) {
   return <html><body>{children}</body></html>;
 }
@@ -150,6 +150,6 @@ export const viewport: Viewport = {
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:mobile-viewport-scaling — desktop-only embedded admin */}
+{/* ux-audit-ignore:mobile-viewport-scaling, desktop-only embedded admin */}
 <div className="h-screen" />
 ```

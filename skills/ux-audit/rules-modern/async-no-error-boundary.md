@@ -10,15 +10,15 @@ related: async-no-suspense-boundary, states-no-error-state, microcopy-leaked-err
 
 ## Async tree without an error boundary
 
-A thrown error inside a server component or a client async tree without an ancestor error boundary unmounts the entire route. The user sees a blank page or Next.js's default error screen with a stack trace in dev. In production they see nothing — just a broken app. Every route segment and every independently-fetching widget needs its own error boundary so one failure doesn't take the page down.
+A thrown error inside a server component or a client async tree without an ancestor error boundary unmounts the entire route. The user sees a blank page or Next.js's default error screen with a stack trace in dev. In production they see nothing, just a broken app. Every route segment and every independently-fetching widget needs its own error boundary so one failure doesn't take the page down.
 
 ## What goes wrong
 
-A widget fetch returns 500. Without an error boundary, the error bubbles up past the page, past the layout, and unmounts everything to the nearest boundary — usually the root. The user, who was halfway through checkout, now sees a blank screen with no recovery path.
+A widget fetch returns 500. Without an error boundary, the error bubbles up past the page, past the layout, and unmounts everything to the nearest boundary, usually the root. The user, who was halfway through checkout, now sees a blank screen with no recovery path.
 
 ## Detection
 
-**Surfaces:** dashboard, list, checkout, sign-in, error-state, modal — anything that fetches data or runs server actions.
+**Surfaces:** dashboard, list, checkout, sign-in, error-state, modal: anything that fetches data or runs server actions.
 
 **Static signals:**
 1. List App Router segments: `fd -t f '(page|layout).tsx' app/ src/app/`.
@@ -133,11 +133,11 @@ app/
 
 - Sentry / Vercel Observability for error capture and alerting.
 - Vercel Agent for surfacing failing routes in PR review.
-- Lighthouse cannot detect this — it's a runtime concern.
+- Lighthouse cannot detect this; it's a runtime concern.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:async-no-error-boundary — covered by parent layout error.tsx */}
+{/* ux-audit-ignore:async-no-error-boundary, covered by parent layout error.tsx */}
 <Widget />
 ```

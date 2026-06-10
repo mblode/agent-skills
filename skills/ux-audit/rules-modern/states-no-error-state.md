@@ -10,7 +10,7 @@ related: states-no-skeleton, states-no-empty-state
 
 ## Async fetch has no error state or boundary
 
-Every async operation can fail. A component that renders only the happy path turns a transient 500 into a blank screen, an infinite spinner, or — worse — a silent stale render. The fix is two-layered: per-component error fallbacks for inline failures (one widget down, the rest still work) and a route-level `error.tsx` for catastrophic crashes. Both must offer the user a way out: retry, go back, or contact support.
+Every async operation can fail. A component that renders only the happy path turns a transient 500 into a blank screen, an infinite spinner, or (worse) a silent stale render. The fix is two-layered: per-component error fallbacks for inline failures (one widget down, the rest still work) and a route-level `error.tsx` for catastrophic crashes. Both must offer the user a way out: retry, go back, or contact support.
 
 ## What goes wrong
 
@@ -57,7 +57,7 @@ rg -A 5 'isError|hasError' --type=tsx src/ | rg -L 'retry|tryAgain|refetch|onCli
 
 ## Fix
 
-Use both layers — per-widget fallback + route-level error boundary:
+Use both layers: per-widget fallback + route-level error boundary:
 
 ```tsx
 // before
@@ -68,7 +68,7 @@ export function InvoiceList() {
   return <ul>{data.map(InvoiceRow)}</ul>;
 }
 
-// after — inline error branch with retry
+// after: inline error branch with retry
 "use client";
 export function InvoiceList() {
   const { data, isLoading, isError, refetch } = useInvoices();
@@ -85,7 +85,7 @@ export function InvoiceList() {
   return <ul>{data.map(InvoiceRow)}</ul>;
 }
 
-// app/invoices/error.tsx — route-level catch
+// app/invoices/error.tsx: route-level catch
 "use client";
 export default function ErrorPage({ error, reset }: { error: Error; reset: () => void }) {
   return (
@@ -102,7 +102,7 @@ export default function ErrorPage({ error, reset }: { error: Error; reset: () =>
   );
 }
 
-// app/dashboard/page.tsx — Suspense + ErrorBoundary per widget
+// app/dashboard/page.tsx: Suspense + ErrorBoundary per widget
 import { ErrorBoundary } from "react-error-boundary";
 
 export default function Dashboard() {
@@ -166,6 +166,6 @@ return <h1>Welcome, {data.name}</h1>;
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:states-no-error-state — wrapped by parent ErrorBoundary in app/(dashboard)/error.tsx */}
+{/* ux-audit-ignore:states-no-error-state, wrapped by parent ErrorBoundary in app/(dashboard)/error.tsx */}
 <RevenueWidget />
 ```

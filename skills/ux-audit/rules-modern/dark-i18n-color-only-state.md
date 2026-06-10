@@ -10,7 +10,7 @@ related: states-no-error-state, dark-i18n-untested, microcopy-vague-error
 
 ## State communicated by color alone (red error, green success, yellow warn)
 
-Around 8 % of men and 0.5 % of women have a form of color-vision deficiency; many users also browse with high-contrast OS modes, dark modes, or low-saturation displays where red and green converge. WCAG 1.4.1 (Use of Color) requires that information conveyed by color also be conveyed by another visual means — text, icon, pattern, or position. The common failure: an input shows `aria-invalid="true"` with a red border, but no error icon, no helper-text association, and no `aria-describedby`. Sighted color-blind users can't tell something is wrong; screen-reader users can — but only because of the ARIA attribute, not the visual.
+Around 8 % of men and 0.5 % of women have a form of color-vision deficiency; many users also browse with high-contrast OS modes, dark modes, or low-saturation displays where red and green converge. WCAG 1.4.1 (Use of Color) requires that information conveyed by color also be conveyed by another visual means: text, icon, pattern, or position. The common failure: an input shows `aria-invalid="true"` with a red border, but no error icon, no helper-text association, and no `aria-describedby`. Sighted color-blind users can't tell something is wrong; screen-reader users can, but only because of the ARIA attribute, not the visual.
 
 ## What goes wrong
 
@@ -51,7 +51,7 @@ rg -n 'aria-invalid="?true' --type=tsx | rg -v 'aria-describedby'
 Pair color with an icon **and** with text, and wire `aria-describedby` for screen readers.
 
 ```tsx
-// before — color-only state
+// before: color-only state
 <div>
   <label htmlFor="email">Email</label>
   <input
@@ -64,7 +64,7 @@ Pair color with an icon **and** with text, and wire `aria-describedby` for scree
   />
 </div>
 
-// after — color + icon + text + aria-describedby
+// after: color + icon + text + aria-describedby
 <div>
   <label htmlFor="email">Email</label>
   <input
@@ -92,10 +92,10 @@ Pair color with an icon **and** with text, and wire `aria-describedby` for scree
 For status badges:
 
 ```tsx
-// before — color-only
+// before: color-only
 <span className="bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
 
-// after — color + icon + accessible label
+// after: color + icon + accessible label
 <span className="inline-flex items-center gap-1 bg-success/10 text-success px-2 py-1 rounded">
   <CheckCircleIcon className="h-3 w-3" aria-hidden="true" />
   <span>Active</span>
@@ -149,13 +149,13 @@ Reference docs:
 
 ## Defer-to (when this is another tool's job)
 
-- **axe-core** flags some color-only patterns under WCAG 1.4.1 — link, don't restate: https://dequeuniversity.com/rules/axe/4.10/color-contrast
+- **axe-core** flags some color-only patterns under WCAG 1.4.1; link, don't restate: https://dequeuniversity.com/rules/axe/4.10/color-contrast
 - **Storybook a11y addon** runs axe per story.
 - **eslint-plugin-jsx-a11y** catches missing labels but not color-only state.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:dark-i18n-color-only-state — purely cosmetic accent, not a state */}
+{/* ux-audit-ignore:dark-i18n-color-only-state, purely cosmetic accent, not a state */}
 <div className="bg-red-50" />
 ```

@@ -12,15 +12,15 @@
 
 ## Core Principles
 
-**Parity** — Whatever the user can do through the UI, the agent must achieve through tools. When adding any UI capability, ask: can the agent achieve this outcome? If not, add the necessary tools.
+**Parity**, Whatever the user can do through the UI, the agent must achieve through tools. When adding any UI capability, ask: can the agent achieve this outcome? If not, add the necessary tools.
 
-**Granularity** — Tools are atomic primitives; decision logic lives in prompts. One conceptual action per tool. To change behavior, you edit prompts, not refactor code.
+**Granularity**: Tools are atomic primitives; decision logic lives in prompts. One conceptual action per tool. To change behavior, you edit prompts, not refactor code.
 
-**Composability** — With atomic tools and parity, new features are new prompts. No code written. The agent uses primitives and judgment to pursue an outcome.
+**Composability**: With atomic tools and parity, new features are new prompts. No code written. The agent uses primitives and judgment to pursue an outcome.
 
-**Emergent Capability** — Agents accomplish things you did not explicitly design for. Build atomic tools, observe what users request, let the agent compose solutions or reveal gaps, then add domain tools for common patterns.
+**Emergent Capability**: Agents accomplish things you did not explicitly design for. Build atomic tools, observe what users request, let the agent compose solutions or reveal gaps, then add domain tools for common patterns.
 
-**Improvement Over Time** — Agent-native apps improve without shipping code. Accumulated context persists in files; prompts are refined at developer, user, or agent level. Self-modification requires audit logs and rollback.
+**Improvement Over Time**: Agent-native apps improve without shipping code. Accumulated context persists in files; prompts are refined at developer, user, or agent level. Self-modification requires audit logs and rollback.
 
 ---
 
@@ -51,17 +51,17 @@
 **The `context.md` pattern.** A file the agent reads at session start and updates as state changes. Contains: who the agent is, what it knows about the user, what exists, recent activity, guidelines, and current state. Portable working memory without code changes.
 
 **Context injection.** System prompts include three sections:
-1. **Available resources** — what data exists and where
-2. **Capabilities** — what the agent can do
-3. **Recent activity** — what happened since last session
+1. **Available resources**: what data exists and where
+2. **Capabilities**: what the agent can do
+3. **Recent activity**: what happened since last session
 
 **Context engineering.** Context windows are finite; long-running agents actively manage what they carry.
 
 | Technique | When to use |
 |-----------|-------------|
-| **Compaction** — summarize old messages, drop raw history | Context >70% full |
-| **Structured note-taking** — agent maintains `notes.md` of learnings and decisions | Multi-step research/planning |
-| **Just-in-time retrieval** — load files/schemas only when the current step needs them | Large data sets, many tools |
+| **Compaction**: summarize old messages, drop raw history | Context >70% full |
+| **Structured note-taking**: agent maintains `notes.md` of learnings and decisions | Multi-step research/planning |
+| **Just-in-time retrieval**: load files/schemas only when the current step needs them | Large data sets, many tools |
 
 ---
 

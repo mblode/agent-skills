@@ -15,7 +15,7 @@ User says "reorganize my files." Agent immediately starts moving files. User mea
 
 ## What goes wrong
 
-User asks "clean up my project." Agent deletes unused files, renames directories, and updates imports — all in one shot. User wanted a report. No playback, no scoping choices, no "here's what I'll do" before action. Destructive and ambiguous requests get instant-execute treatment.
+User asks "clean up my project." Agent deletes unused files, renames directories, and updates imports, all in one shot. User wanted a report. No playback, no scoping choices, no "here's what I'll do" before action. Destructive and ambiguous requests get instant-execute treatment.
 
 ## Detection
 
@@ -84,6 +84,6 @@ async function onToolCall(tool: string, args: Record<string, unknown>) {
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:comm-no-intent-handshake — read-only lookup, no side effects */}
+{/* ax-audit-ignore:comm-no-intent-handshake, read-only lookup, no side effects */}
 <QuickSearchAgent />
 ```

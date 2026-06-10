@@ -26,4 +26,4 @@ Use the correct HTML element for the content type: headings for sections, lists 
 </ul>
 ```
 
-Reference: [MDN — Semantics](https://developer.mozilla.org/en-US/docs/Glossary/Semantics)
+Reference: [MDN: Semantics](https://developer.mozilla.org/en-US/docs/Glossary/Semantics)

@@ -22,4 +22,4 @@ Click **Submit** and check the `config.yaml` file. Go to the
 **Settings** page and update the `timeout` parameter.
 ```
 
-Reference: [Microsoft Style Guide — Formatting text in instructions](https://learn.microsoft.com/en-us/style-guide/procedures-instructions/formatting-text-in-instructions)
+Reference: [Microsoft Style Guide: Formatting text in instructions](https://learn.microsoft.com/en-us/style-guide/procedures-instructions/formatting-text-in-instructions)

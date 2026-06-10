@@ -1,6 +1,6 @@
 # Craft Checklist (Detailed)
 
-Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes — this catches the craft details the rules layer does not encode (chrome hierarchy, optical alignment, concentric radii, hover affordances).
+Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; this catches the craft details the rules layer does not encode (chrome hierarchy, optical alignment, concentric radii, hover affordances).
 
 ## Contents
 - Legibility and typography
@@ -17,7 +17,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 - Resources
 
 ## Legibility and typography
-- Full punctuation, sizing, measure, and OpenType sweep: run `typography-checklist.md` — do not duplicate it here.
+- Full punctuation, sizing, measure, and OpenType sweep: run `typography-checklist.md`; do not duplicate it here.
 - Quick spot-checks unique to this pass:
   - British/Australian spelling in user-facing copy.
   - Limit to <= 2 typefaces; weights >= 400; `clamp()` for fluid sizes.
@@ -38,7 +38,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 - Buttons/links need a `hover:` state; hover/active/focus should be more prominent than rest state.
 - `scroll-margin-top` on heading anchors for in-page links.
 - Set `-webkit-tap-highlight-color` intentionally on tap targets.
-- `autoFocus` sparingly — desktop only, single primary input; avoid on mobile.
+- `autoFocus` sparingly: desktop only, single primary input; avoid on mobile.
 - Disable pointer events on decorative layers (glows, gradients).
 - If it looks clickable, it must be clickable; remove dead zones between items.
 - Avoid text selection during drag; use `inert` or disable selection where needed.
@@ -105,7 +105,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 - Remove redundant icons and coloured icon backgrounds when labels or grouping already carry the meaning.
 - Every border and separator should justify itself; avoid stacked dividers and high-contrast grid noise.
 - **Concentric border radius:** check that `outer-radius = inner-radius + padding` on nested elements (cards with inner panels, buttons with icon badges). Mismatched radii are the most common unnoticed visual error.
-- **Optical alignment:** for icon+text buttons, use slightly less padding on the icon side. For icon-only buttons, verify the icon is optically centred — triangular and asymmetric shapes sit off-centre geometrically. Fix in the SVG first; use `margin` or `padding` adjustments if you can't change the SVG.
+- **Optical alignment:** for icon+text buttons, use slightly less padding on the icon side. For icon-only buttons, verify the icon is optically centred; triangular and asymmetric shapes sit off-centre geometrically. Fix in the SVG first; use `margin` or `padding` adjustments if you can't change the SVG.
 - **Image outlines:** images on white or near-white backgrounds benefit from `outline: 1px solid rgba(0,0,0,0.1); outline-offset: -1px` to anchor them to the layout. Add `.dark` variant with `rgba(255,255,255,0.1)`. Use `outline` not `border` to avoid layout shift.
 - Add SEO metadata and dynamic OG images.
 - Add keyboard shortcuts where useful.
@@ -122,7 +122,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 ## Anti-patterns (flag these)
 - `user-scalable=no` or `maximum-scale=1` disabling zoom.
 - `onPaste` + `preventDefault`.
-- `transition: all` — list properties explicitly.
+- `transition: all`: list properties explicitly.
 - `outline-none` without `:focus-visible` replacement.
 - `<div>` / `<span>` with click handlers instead of `<button>`.
 - Inline `onClick` navigation without `<a>`.

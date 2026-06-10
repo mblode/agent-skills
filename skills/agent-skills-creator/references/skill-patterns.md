@@ -48,9 +48,9 @@ Choose the right track and follow its guidance.
 
 **Category affinity:** Library & API Reference, Business Process Automation
 
-Root-level track files are exclusive to this pattern — in every other pattern, supporting files live in `references/` (or `rules/`).
+Root-level track files are exclusive to this pattern; in every other pattern, supporting files live in `references/` (or `rules/`).
 
-**Comprehensive-reference variant:** for broad domains (a design system, a full CLI surface), the hub dispatches into a folder of many small focused files — e.g. a `design-guidelines/` folder with 40 files like `buttons.md`, `colors.md`, `forms.md`, each 50-200 lines, mapped from an `index.md`. Claude loads exactly the files a task needs. See "Comprehensive Reference Folders" in `authoring-tips.md`.
+**Comprehensive-reference variant:** for broad domains (a design system, a full CLI surface), the hub dispatches into a folder of many small focused files, e.g. a `design-guidelines/` folder with 40 files like `buttons.md`, `colors.md`, `forms.md`, each 50-200 lines, mapped from an `index.md`. Claude loads exactly the files a task needs. See "Comprehensive Reference Folders" in `authoring-tips.md`.
 
 ## Workflow Pattern
 
@@ -100,7 +100,7 @@ Copy this checklist to track progress:
 
 **Example:** `agents-md` (120 lines, 5 references with conditional loading)
 
-**Category affinity:** Most categories use this pattern — Scaffolding, CI/CD, Verification, Runbooks, Infrastructure Operations
+**Category affinity:** Most categories use this pattern: Scaffolding, CI/CD, Verification, Runbooks, Infrastructure Operations
 
 ## Rules-Based Pattern
 
@@ -204,7 +204,7 @@ Load only the reference matching your context:
 
 ## Cross-Cutting: Anti-Rationalization Tables
 
-Any pattern above can include an anti-rationalization table — pre-written rebuttals to common excuses for skipping the workflow. Agents (and tired engineers) will produce plausible-sounding justifications for skipping steps. Anti-rationalization tables are the counter.
+Any pattern above can include an anti-rationalization table: pre-written rebuttals to common excuses for skipping the workflow. Agents (and tired engineers) will produce plausible-sounding justifications for skipping steps. Anti-rationalization tables are the counter.
 
 **When to include:** Skills where steps are frequently skipped under time pressure (specs, tests, security review, code review).
 

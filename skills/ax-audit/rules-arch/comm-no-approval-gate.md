@@ -52,7 +52,7 @@ async function executeTool(tc: ToolCall) {
   return tools[tc.name].execute(tc.args);
 }
 
-// after — approval gate based on stakes and reversibility
+// after: approval gate based on stakes and reversibility
 async function executeTool(tc: ToolCall, onApproval: ApprovalHandler) {
   const tool = tools[tc.name];
   switch (getApprovalLevel(tool.stakes, tool.reversibility)) {
@@ -77,13 +77,13 @@ async function executeTool(tc: ToolCall, onApproval: ApprovalHandler) {
 
 ## Examples
 
-**Anti-pattern (fails):** `execute: async (args) => emailClient.send(args)` — no confirmation.
+**Anti-pattern (fails):** `execute: async (args) => emailClient.send(args)`: no confirmation.
 
-**Applied (passes):** Tool declares `stakes: "high", reversibility: "hard"` — gate applied automatically.
+**Applied (passes):** Tool declares `stakes: "high", reversibility: "hard"`: gate applied automatically.
 
 ## Suppression
 
 ```tsx
-// ax-audit-ignore:comm-no-approval-gate — internal cleanup, operates only on temp files
+// ax-audit-ignore:comm-no-approval-gate, internal cleanup, operates only on temp files
 const cleanupTool = { execute: (args) => fs.rm(args.tempDir) };
 ```

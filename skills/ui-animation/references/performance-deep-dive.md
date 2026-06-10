@@ -101,7 +101,7 @@ export function usePauseOffscreen<T extends HTMLElement>() {
 
 ## Compositing layers and will-change
 
-`will-change` creates a new compositor layer — this has a memory cost.
+`will-change` creates a new compositor layer; this has a memory cost.
 
 - Only promote during animation, remove after
 - Only for `transform` and `opacity`

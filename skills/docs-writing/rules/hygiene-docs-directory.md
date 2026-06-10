@@ -27,4 +27,4 @@ README.md
 src/utils/README.md
 ```
 
-Reference: [Diataxis — Documentation system](https://diataxis.fr/)
+Reference: [Diataxis: Documentation system](https://diataxis.fr/)

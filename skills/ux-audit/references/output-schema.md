@@ -96,8 +96,8 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
   "severity": "HIGH",
   "observed": "Card number cleared on shipping-address 422 response. Form re-renders without `state.fields`.",
   "evidence": [
-    "src/checkout/PaymentStep.tsx:42 — useState reset on every render",
-    "src/checkout/PaymentStep.tsx:88 — onSubmit re-throws without preserving values"
+    "src/checkout/PaymentStep.tsx:42, useState reset on every render",
+    "src/checkout/PaymentStep.tsx:88, onSubmit re-throws without preserving values"
   ],
   "fix": "Use `useActionState` with field-level errors; hoist `state.fields` across error responses.",
   "fixSnippet": "const [state, formAction] = useActionState(updateOrder, { fields: { card: '', expiry: '', cvc: '' }, errors: {} });",
@@ -186,12 +186,12 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 | `expected` | Layer 2 fail (when applicable) | object with rule threshold |
 | `score` | Layer 3 rubric | integer 1-5 |
 | `anchor` | Layer 3 rubric | verbatim text from rule's rubric table |
-| `evidence` | fail (recommended) | array of `file:line — observation` strings |
+| `evidence` | fail (recommended) | array of `file:line: observation` strings |
 | `fix` | fail / warn | string with the literal change |
 | `fixSnippet` | fail (recommended) | code snippet ready for `suggestion` block |
 | `docsLink` | fail (recommended) | URL to React/Next.js doc for the API in the fix |
 | `reactApis` | layer=modern | array of React 19 / Next.js APIs used in the fix |
-| `suppressed` | always | boolean — true if `// ux-audit-ignore:<slug>` was present |
+| `suppressed` | always | boolean, true if `// ux-audit-ignore:<slug>` was present |
 | `reason` | unknown | why the rule could not produce a verdict |
 
 ## Validation rules

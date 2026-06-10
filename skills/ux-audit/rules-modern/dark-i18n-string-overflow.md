@@ -10,11 +10,11 @@ related: states-layout-shift, dark-i18n-rtl-untested
 
 ## String overflow on long translations (German, Finnish, Russian)
 
-UI built around English strings breaks when localized: German runs about 30 % longer on average (and 40 % at the long end), Finnish compounds words, Russian and French expand by 15-20 %. Common bugs: hardcoded `width` on a text container clips the translated string; a `truncate` cell collapses to ellipsis at the first character because its parent flex/grid item lacks `min-width: 0`; tight grid columns in a checkout summary push the price column off-screen. The fix is layout that flexes with content — logical sizing, `min-width: 0` resets on flex/grid children, container queries, and judicious `text-balance` / `text-wrap: pretty`.
+UI built around English strings breaks when localized: German runs about 30 % longer on average (and 40 % at the long end), Finnish compounds words, Russian and French expand by 15-20 %. Common bugs: hardcoded `width` on a text container clips the translated string; a `truncate` cell collapses to ellipsis at the first character because its parent flex/grid item lacks `min-width: 0`; tight grid columns in a checkout summary push the price column off-screen. The fix is layout that flexes with content: logical sizing, `min-width: 0` resets on flex/grid children, container queries, and judicious `text-balance` / `text-wrap: pretty`.
 
 ## What goes wrong
 
-A button reads "Submit" (6 chars) in English and renders fine at `w-24`. In German it becomes "Absenden" (8 chars) — still fine. In Finnish: "Lähetä" — fine. But the password-reset button "Send reset link" (15 chars) becomes "Link zum Zurücksetzen senden" (28 chars) and overflows the fixed-width button, clipping the text. A flex row with `flex items-center gap-2` containing `<span className="truncate">{username}</span>` collapses entirely to "..." because the parent didn't get `min-w-0`.
+A button reads "Submit" (6 chars) in English and renders fine at `w-24`. In German it becomes "Absenden" (8 chars), still fine. In Finnish: "Lähetä", also fine. But the password-reset button "Send reset link" (15 chars) becomes "Link zum Zurücksetzen senden" (28 chars) and overflows the fixed-width button, clipping the text. A flex row with `flex items-center gap-2` containing `<span className="truncate">{username}</span>` collapses entirely to "..." because the parent didn't get `min-w-0`.
 
 ## Detection
 
@@ -22,9 +22,9 @@ A button reads "Submit" (6 chars) in English and renders fine at `w-24`. In Germ
 
 **Static signals:**
 1. Grep for hardcoded widths on text containers: `w-\d+`, `width: \d+px`, `max-w-\d+` paired with text content.
-2. Grep for `truncate` / `text-ellipsis` and walk up to the parent — if the parent is `flex` or `grid` and lacks `min-w-0`, flag it.
+2. Grep for `truncate` / `text-ellipsis` and walk up to the parent: if the parent is `flex` or `grid` and lacks `min-w-0`, flag it.
 3. Grep for tight `grid-cols-` definitions in summary tables (e.g. `grid-cols-[1fr_80px_60px]`) and confirm columns hold copy.
-4. Confirm that the project uses i18n (`next-intl`, `react-i18next`, `lingui`) — if not, lower confidence (still flag but as `unknown`).
+4. Confirm that the project uses i18n (`next-intl`, `react-i18next`, `lingui`): if not, lower confidence (still flag but as `unknown`).
 5. Optional: simulate +30 % length and re-Read for visible overflow.
 
 **Concrete commands:**
@@ -51,26 +51,26 @@ rg -n 'grid-cols-\[[^\]]*\d+px' --type=tsx
 Three patterns: drop fixed widths on text controls, reset `min-width` on flex/grid children that truncate, prefer container queries over fixed breakpoints for text-dense components.
 
 ```tsx
-// before — fixed width clips German
+// before: fixed width clips German
 <button className="w-32 h-10 rounded bg-primary text-primary-foreground">
   {t('password.reset.send')}
 </button>
 
-// after — width hugs content, max-width prevents runaway
+// after: width hugs content, max-width prevents runaway
 <button className="px-4 h-10 max-w-full rounded bg-primary text-primary-foreground">
   {t('password.reset.send')}
 </button>
 ```
 
 ```tsx
-// before — truncate collapses to "..." in flex
+// before: truncate collapses to "..." in flex
 <div className="flex items-center gap-2">
   <Avatar />
   <span className="truncate">{user.fullName}</span>
   <Badge>{user.role}</Badge>
 </div>
 
-// after — min-w-0 lets the truncating child shrink correctly
+// after: min-w-0 lets the truncating child shrink correctly
 <div className="flex items-center gap-2 min-w-0">
   <Avatar />
   <span className="truncate min-w-0 flex-1">{user.fullName}</span>
@@ -79,10 +79,10 @@ Three patterns: drop fixed widths on text controls, reset `min-width` on flex/gr
 ```
 
 ```tsx
-// before — fixed breakpoint, ignores parent context
+// before: fixed breakpoint, ignores parent context
 <section className="md:grid md:grid-cols-2">
 
-// after — container query, adapts to allotted space
+// after: container query, adapts to allotted space
 <section className="@container">
   <div className="grid @md:grid-cols-2 gap-4">
 ```
@@ -142,6 +142,6 @@ Reference docs:
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:dark-i18n-string-overflow — single-language internal admin */}
+{/* ux-audit-ignore:dark-i18n-string-overflow, single-language internal admin */}
 <button className="w-32">{t('action')}</button>
 ```

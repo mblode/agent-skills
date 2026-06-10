@@ -9,9 +9,9 @@ related: interaction-doherty-threshold, perception-proximity, decision-hicks-law
 
 ## Fitts's Law
 
-Time to acquire a pointer target scales with the distance to it and inversely with its size — small, far targets are slow and error-prone. Practical floor: 44×44 px on touch surfaces (Apple HIG, WCAG 2.5.5 Target Size AAA) or 48 dp on Material. Dense desktop UI tolerates 24×24 px minimum. Source: Fitts (1954); WCAG 2.1 SC 2.5.5.
+Time to acquire a pointer target scales with the distance to it and inversely with its size: small, far targets are slow and error-prone. Practical floor: 44×44 px on touch surfaces (Apple HIG, WCAG 2.5.5 Target Size AAA) or 48 dp on Material. Dense desktop UI tolerates 24×24 px minimum. Source: Fitts (1954); WCAG 2.1 SC 2.5.5.
 
-Screen edges and corners behave as effectively infinite targets — the cursor cannot overshoot the viewport boundary. Anchor frequently-used actions to edges; never put a critical action behind a 24 px icon on touch.
+Screen edges and corners behave as effectively infinite targets: the cursor cannot overshoot the viewport boundary. Anchor frequently-used actions to edges; never put a critical action behind a 24 px icon on touch.
 
 ## Check
 
@@ -20,7 +20,7 @@ Screen edges and corners behave as effectively infinite targets — the cursor c
 **Procedure:**
 1. Find interactive elements: `<button>`, `<a>`, `role="button"`, icon buttons, checkboxes, links in dense rows.
 2. Parse Tailwind sizing classes: `h-N w-N` (where N corresponds to px in default Tailwind: `h-11` = 44 px, `h-10` = 40 px, `h-8` = 32 px, `h-6` = 24 px). Also include `p-N` padding to compute the **effective hit target**, not just the visual glyph.
-3. Determine surface type — touch (mobile-first, `<md:` viewports, mobile UA targets) requires ≥44 px; dense desktop UI tolerates ≥24 px.
+3. Determine surface type: touch (mobile-first, `<md:` viewports, mobile UA targets) requires ≥44 px; dense desktop UI tolerates ≥24 px.
 4. Flag any interactive element below the threshold for its surface.
 
 **Concrete commands:**
@@ -35,8 +35,8 @@ rg -n '<button[^>]*aria-label' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | All interactive elements ≥44 px on touch AND ≥24 px on dense desktop | — |
-| warn | Touch target between 32–43 px (e.g. `h-8` to `h-10`) | MEDIUM |
+| pass | All interactive elements ≥44 px on touch AND ≥24 px on dense desktop |: |
+| warn | Touch target between 32-43 px (e.g. `h-8` to `h-10`) | MEDIUM |
 | fail | Touch target <32 px OR desktop target <24 px | HIGH |
 
 ## Fix

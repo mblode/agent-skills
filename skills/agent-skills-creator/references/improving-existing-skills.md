@@ -13,7 +13,7 @@ Audit-then-rewrite protocol for an existing skill. Use when asked to improve, au
 
 ## Relationship to the Creation Workflow
 
-Improvement replaces Steps 1-4 of the Creation Workflow with the audit and rewrite phases below, then reuses Steps 5-8 (validate, README, smoke-test, evaluate) unchanged. Never skip Step 5 — a rewrite that was never validated against the quality checklist is a regression risk, not an improvement.
+Improvement replaces Steps 1-4 of the Creation Workflow with the audit and rewrite phases below, then reuses Steps 5-8 (validate, README, smoke-test, evaluate) unchanged. Never skip Step 5: a rewrite that was never validated against the quality checklist is a regression risk, not an improvement.
 
 Copy this checklist to track progress:
 
@@ -30,7 +30,7 @@ Skill improvement progress:
 
 - Read SKILL.md fully, then every file it links (references, tracks, rules layers).
 - For rules-based skills: read `_sections.md`, `_template.md`, and at least 2 sample rules per category.
-- Read the repo's AGENTS.md and the skill's current README entry — these are the source of truth for install commands and conventions.
+- Read the repo's AGENTS.md and the skill's current README entry; these are the source of truth for install commands and conventions.
 - `ls -R` the skill folder and list orphan files not referenced from SKILL.md.
 
 Do not start editing during Phase A. Findings discovered mid-edit cause inconsistent half-rewrites.
@@ -54,33 +54,33 @@ Score each dimension 1-5 before touching anything. The lowest scores dictate whe
 
 ## Rewrite Procedure
 
-Execute in this order — correctness before triggers, triggers before structure, structure before polish. Reordering causes rework (e.g., density-cutting a section you later move).
+Execute in this order, correctness before triggers, triggers before structure, structure before polish. Reordering causes rework (e.g., density-cutting a section you later move).
 
 1. **Stale-path/command/count fixes.** Anything contradicting the repo AGENTS.md or observable reality (install commands, file paths, rule counts, CLI flags). These are bugs; fix them before any stylistic work.
-2. **Description sharpening.** Third-person opener stating what the skill does, capability summary, "Use when..." triggers with quoted user phrases. Explicitly disambiguate from sibling skills — if two descriptions could route the same prompt, both need an edge ("For X, use `other-skill`").
+2. **Description sharpening.** Third-person opener stating what the skill does, capability summary, "Use when..." triggers with quoted user phrases. Explicitly disambiguate from sibling skills: if two descriptions could route the same prompt, both need an edge ("For X, use `other-skill`").
 3. **Boundary opener.** Add or repair the IS/IS-NOT pair after the H1 (see "Open with Boundaries" in `authoring-tips.md`).
 4. **Structure normalization.** Apply the decision table below. Update every link after a move; grep all SKILL.md files repo-wide for the old path.
 5. **Signal-density cut.** Delete lines Claude would do correctly anyway; deduplicate content that appears in both SKILL.md and a reference; merge near-duplicate sections.
 6. **Gotchas pass.** Rewrite vague warnings into concrete-failure format (specific command/value + consequence); delete hypothetical concerns nobody has observed.
 7. **TOC additions.** Any file over 100 lines without a table of contents gets one.
-8. **Workflow integrity.** Ensure a copyable progress checklist exists for multi-step workflows and the final step produces evidence (command output, score table, file listing) — never "seems right".
+8. **Workflow integrity.** Ensure a copyable progress checklist exists for multi-step workflows and the final step produces evidence (command output, score table, file listing), never "seems right".
 
 ## Structure Normalization Decision Table
 
 | Situation | Action |
 |-----------|--------|
-| Supporting .md files at skill root, skill is simple/hub with a tracks table | Keep — sanctioned hub track files |
+| Supporting .md files at skill root, skill is simple/hub with a tracks table | Keep: sanctioned hub track files |
 | Supporting .md files at skill root, any other pattern | Move to `references/`, update all links |
-| Multiple rules folders (e.g. `rules/` + `rules-modern/`), SKILL.md dispatches to each layer explicitly | Keep — sanctioned layered design |
+| Multiple rules folders (e.g. `rules/` + `rules-modern/`), SKILL.md dispatches to each layer explicitly | Keep: sanctioned layered design |
 | Multiple rules folders, no explicit dispatch | Consolidate into one `rules/` folder |
-| `agents/` folder with subagent prompts dispatched from SKILL.md | Keep — sanctioned |
+| `agents/` folder with subagent prompts dispatched from SKILL.md | Keep: sanctioned |
 | File in the folder but never linked from SKILL.md | Link it with a read-when condition, or delete it |
 
 After any rename or move: `grep -rn "<old-path>" <repo>/skills/*/SKILL.md` must return nothing.
 
 ## Large Rule-Set Scoping
 
-For rules-based skills with 30+ rule files, do not rewrite every rule. Drift concentrates in SKILL.md, `_sections.md`, and `_template.md` — rewrite those fully. Then run a mechanical consistency pass over rule files:
+For rules-based skills with 30+ rule files, do not rewrite every rule. Drift concentrates in SKILL.md, `_sections.md`, and `_template.md`; rewrite those fully. Then run a mechanical consistency pass over rule files:
 
 - Frontmatter present (`title`, `impact`, `tags`)
 - Filename prefix matches a `_sections.md` section

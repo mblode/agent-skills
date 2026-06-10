@@ -11,7 +11,7 @@ related: context-under-contextual, context-no-adaptive-canvas
 
 ## Agent uses context the user can't see or edit
 
-Agent injects preferences, past interactions, or learned patterns into its prompt — but the user can't see what the agent "knows" about them. Opaque memory feels invasive. Memory in Motion requires every piece of stored context to have a user-facing view and edit path.
+Agent injects preferences, past interactions, or learned patterns into its prompt, but the user can't see what the agent "knows" about them. Opaque memory feels invasive. Memory in Motion requires every piece of stored context to have a user-facing view and edit path.
 
 ## What goes wrong
 
@@ -69,7 +69,7 @@ async function getAgentContext(userId: string) {
 **Applied (passes):**
 
 ```tsx
-// Context store is shared — same data feeds the agent AND the settings UI
+// Context store is shared: same data feeds the agent AND the settings UI
 async function getAgentContext(userId: string) {
   return await getVisibleMemory(userId); // MemorySettings reads the same store
 }
@@ -85,6 +85,6 @@ function MemorySettings() {
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:context-memory-not-visible — internal dev tool, operator is the developer */}
+{/* ax-audit-ignore:context-memory-not-visible, internal dev tool, operator is the developer */}
 <AgentPromptBuilder />
 ```

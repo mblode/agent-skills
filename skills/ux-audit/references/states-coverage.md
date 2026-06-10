@@ -19,15 +19,15 @@ For each component type, these states must exist (or be explicitly N/A with a co
 |---|---|---|---|
 | `loading` | Skeleton matching loaded layout (CLS-safe) | `<Skeleton h="N">` with `min-height` ≥ loaded height | Centered spinner without `min-height` |
 | `empty` | Helpful guidance + primary CTA | "No invoices yet" + `<Button>Create invoice</Button>` | "No items" with no CTA |
-| `error` | Cause + retry path + preserved input (if any) | "Couldn't load — Try again" with retry handler | Generic toast that disappears |
-| `success` | Loaded data | Default render | — |
+| `error` | Cause + retry path + preserved input (if any) | "Couldn't load: Try again" with retry handler | Generic toast that disappears |
+| `success` | Loaded data | Default render |: |
 | `partial` (paginated/infinite) | Loaded prefix + spinner for next | Skeleton row at bottom for pending page | Layout jump on next-page load |
 
 ### Form
 
 | State | What user sees | Pass | Fail |
 |---|---|---|---|
-| `idle` | Default form, fields empty or autofilled | — | — |
+| `idle` | Default form, fields empty or autofilled | - | - |
 | `pending` | Submit disabled + visible pending indicator | `useFormStatus().pending` drives `disabled` + label change | No disable; double-submit possible |
 | `error` | Field-level errors + values preserved | `useActionState` `state.errors` + `state.fields` | Form clears on error |
 | `success` | Confirmation; route forward or reset | Named completion screen | Generic toast then redirect |
@@ -36,17 +36,17 @@ For each component type, these states must exist (or be explicitly N/A with a co
 
 | State | What user sees | Pass | Fail |
 |---|---|---|---|
-| `closed` | Trigger button | — | — |
+| `closed` | Trigger button | - | - |
 | `opening` | Animation, focus moves to first focusable | `autoFocus` or `initialFocus` set | Focus on `<body>` |
 | `open` | Modal content; Esc + backdrop close | `onEscapeKeyDown` + `onPointerDownOutside` handled | Cannot dismiss without confirm-button |
 | `closing` | Animation, focus returns to trigger | `onCloseAutoFocus` set OR `triggerRef.focus()` in `onClose` | Focus to `<body>` (lost) |
-| `unmounted` | Trigger button regains focus | Same as closed | — |
+| `unmounted` | Trigger button regains focus | Same as closed |: |
 
 ### Button / Trigger
 
 | State | What user sees | Pass | Fail |
 |---|---|---|---|
-| `idle` | Default visual | — | — |
+| `idle` | Default visual | - | - |
 | `hover` | Hover affordance | Visible state change AND `:focus-visible` parity | Hover-only (no focus parity) |
 | `focus` | Focus ring visible to keyboard users | `:focus-visible` ring | `:focus { outline: none }` without alternative |
 | `active` | Pressed state | Visible compression / color shift | None |
@@ -57,8 +57,8 @@ For each component type, these states must exist (or be explicitly N/A with a co
 
 | State | What user sees | Pass | Fail |
 |---|---|---|---|
-| `empty` | Placeholder OR floating label | — | Placeholder used as label |
-| `typed` | Value visible | — | — |
+| `empty` | Placeholder OR floating label |: | Placeholder used as label |
+| `typed` | Value visible | - | - |
 | `focus` | Visible focus ring | `:focus-visible` | None |
 | `invalid` | Field-level error message | Inline error below; `aria-invalid="true"`; `aria-describedby` | Toast only; no `aria-invalid` |
 | `disabled` | Grayed out + reason | `disabled` attribute + tooltip | `readonly` (wrong semantic) |
@@ -69,10 +69,10 @@ For each component type, these states must exist (or be explicitly N/A with a co
 | State | What user sees | Pass | Fail |
 |---|---|---|---|
 | `loading` | N skeleton rows matching item layout | `Array.from({length: 5}, …)` of `<RowSkeleton>` | Spinner centered above empty area |
-| `empty` | Helpful empty + create CTA | "No invoices yet — Create one" | "No items" |
-| `error` | Cause + retry | "Couldn't load — Try again" | Generic toast |
+| `empty` | Helpful empty + create CTA | "No invoices yet: Create one" | "No items" |
+| `error` | Cause + retry | "Couldn't load: Try again" | Generic toast |
 | `partial` (pagination/infinite) | Loaded prefix + spinner row | `<RowSkeleton />` at end | Page jumps when next loads |
-| `populated` | Items rendered | — | — |
+| `populated` | Items rendered | - | - |
 
 ### Toast / Notification
 
@@ -153,4 +153,4 @@ Top patterns that ship to production:
 7. **Loading skeleton has different height than loaded content.** Layout jumps on data arrival (CLS).
 8. **Disabled button has no `aria-disabled` or tooltip.** User can't tell why it's disabled.
 9. **Toast disappears in 3 s.** Screen-reader users and slow readers miss it.
-10. **Color-only validation.** Red border without icon or `aria-invalid` — 8% of users miss it.
+10. **Color-only validation.** Red border without icon or `aria-invalid`: 8% of users miss it.

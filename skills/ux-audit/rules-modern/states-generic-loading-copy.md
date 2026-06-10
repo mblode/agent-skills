@@ -10,7 +10,7 @@ related: states-no-skeleton
 
 ## Generic "Loading…" copy where context-specific would help
 
-"Loading…" is the lowest-effort fallback string. It tells the user nothing about what is happening, how long it might take, or whether they should wait. Replacing it with one specific sentence — "Confirming your order — 2 to 3 seconds" — costs nothing at runtime, dramatically improves perceived progress, and gives the user a reason to wait. This is a polish-tier rule; it ships often and it ships everywhere.
+"Loading…" is the lowest-effort fallback string. It tells the user nothing about what is happening, how long it might take, or whether they should wait. Replacing it with one specific sentence ("Confirming your order, 2 to 3 seconds") costs nothing at runtime, dramatically improves perceived progress, and gives the user a reason to wait. This is a polish-tier rule; it ships often and it ships everywhere.
 
 ## What goes wrong
 
@@ -68,7 +68,7 @@ export default function Loading() {
 }
 
 // after
-<Suspense fallback={<p>Confirming your order — 2 to 3 seconds…</p>}>
+<Suspense fallback={<p>Confirming your order, 2 to 3 seconds…</p>}>
   <OrderConfirmation />
 </Suspense>
 
@@ -89,15 +89,15 @@ export default function Loading() {
 }
 ```
 
-Pattern: name the action (verb + object), optionally give a soft estimate. Avoid promises ("Just a second!") — under-promise.
+Pattern: name the action (verb + object), optionally give a soft estimate. Avoid promises ("Just a second!"): under-promise.
 
 A rough scale:
 
 | Operation | Generic | Better |
 |---|---|---|
 | Sign-in submit | "Loading…" | "Signing you in…" |
-| Place order | "Loading…" | "Confirming your order — 2 to 3 seconds…" |
-| File upload | "Loading…" | "Uploading 3 of 12 — about 8 seconds left" |
+| Place order | "Loading…" | "Confirming your order: 2 to 3 seconds…" |
+| File upload | "Loading…" | "Uploading 3 of 12: about 8 seconds left" |
 | Search | "Loading…" | "Searching {query}…" or skeleton (no copy) |
 | Route transition | "Loading…" | "Loading your dashboard…" |
 
@@ -118,7 +118,7 @@ Docs:
 | Marketing landing | backlog |
 | Internal admin | backlog |
 
-This is rarely a release-blocker — but on critical paths, vague copy correlates with abandonment, so the bump to fix-this-sprint is justified.
+This is rarely a release-blocker, but on critical paths, vague copy correlates with abandonment, so the bump to fix-this-sprint is justified.
 
 ## Examples
 
@@ -136,12 +136,12 @@ This is rarely a release-blocker — but on critical paths, vague copy correlate
 
 ## Defer-to (when this is another tool's job)
 
-- Copywriting review tools / brand-voice linters — they own the exact phrasing. This rule only flags the absence of any specific copy.
-- i18n key audits — if the key is `t("loading")` everywhere, the fix is in the locale file and the routing of keys, not the JSX.
+- Copywriting review tools / brand-voice linters: they own the exact phrasing. This rule only flags the absence of any specific copy.
+- i18n key audits: if the key is `t("loading")` everywhere, the fix is in the locale file and the routing of keys, not the JSX.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:states-generic-loading-copy — sub-200ms inline state, generic word OK */}
+{/* ux-audit-ignore:states-generic-loading-copy, sub-200ms inline state, generic word OK */}
 {pending && <Spinner aria-label="Loading" />}
 ```

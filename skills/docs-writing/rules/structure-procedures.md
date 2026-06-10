@@ -33,4 +33,4 @@ To change the port your application listens on:
    ```
 ```
 
-Reference: [Google developer documentation style guide — Procedures](https://developers.google.com/style/procedures)
+Reference: [Google developer documentation style guide: Procedures](https://developers.google.com/style/procedures)

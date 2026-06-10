@@ -13,12 +13,12 @@ Define the narrative arc and slide sequence before writing any copy.
 ## Standard flow
 
 ```
-Opening → Context / Problem → Core Sections (2–4) → Closing
+Opening → Context / Problem → Core Sections (2-4) → Closing
 ```
 
 - **Opening**: title, goals/agenda (3 takeaways max)
 - **Context**: current state, the tension or question to resolve
-- **Core sections**: 3–5 content slides each, section dividers between topics
+- **Core sections**: 3-5 content slides each, section dividers between topics
 - **Closing**: recap (one-liner per section), resources, Q&A
 
 ## Slide types
@@ -72,9 +72,9 @@ Assign one accent color per major section. Reinforces structure and helps the au
 - **Type:** goals
 - **Headline:** Goals for today
 - **Points:**
-  - [Takeaway 1] — [Brief explanation]
-  - [Takeaway 2] — [Brief explanation]
-  - [Takeaway 3] — [Brief explanation]
+  - [Takeaway 1]: [Brief explanation]
+  - [Takeaway 2]: [Brief explanation]
+  - [Takeaway 3]: [Brief explanation]
 
 ---
 
@@ -88,7 +88,7 @@ Assign one accent color per major section. Reinforces structure and helps the au
 ### Slide 4: [Slide purpose]
 - **Type:** [statement/data/code/etc.]
 - **Headline:** [Bold headline]
-- **Supporting:** [1–2 sentences or bullets]
+- **Supporting:** [1-2 sentences or bullets]
 
 ---
 
@@ -102,9 +102,9 @@ Assign one accent color per major section. Reinforces structure and helps the au
 
 ## Workflow
 
-1. Ask about context — audience, purpose, setting (live vs. async)
+1. Ask about context: audience, purpose, setting (live vs. async)
 2. Identify 3 key messages that must land
-3. Map the arc — Opening → Context → Core sections → Close
+3. Map the arc: Opening → Context → Core sections → Close
 4. Assign section colors
 5. Draft slide sequence using the output format above
-6. Review density — cut slides that don't earn their place
+6. Review density: cut slides that don't earn their place

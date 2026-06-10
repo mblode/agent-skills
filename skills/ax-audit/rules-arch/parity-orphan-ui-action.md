@@ -41,8 +41,8 @@ git diff main -U0 -- '*.ts' | rg '^\+.*(tool\(|defineTool|createTool)'
 When adding a UI capability, add the corresponding tool in the same PR.
 
 ```ts
-// before — POST /api/projects/[id]/duplicate added, no tool
-// after — tool ships in the same PR
+// before: POST /api/projects/[id]/duplicate added, no tool
+// after: tool ships in the same PR
 export const duplicateProject = tool({
   name: "duplicate_project",
   execute: async ({ projectId }) => api.post(`/projects/${projectId}/duplicate`),
@@ -51,7 +51,7 @@ export const duplicateProject = tool({
 
 ## Default tier and overrides
 
-**Defaults to:** `fix-this-sprint` — orphans are drift, not crisis. Cumulative effect degrades agent usefulness.
+**Defaults to:** `fix-this-sprint`: orphans are drift, not crisis. Cumulative effect degrades agent usefulness.
 
 ## Examples
 
@@ -75,6 +75,6 @@ export const exportReport = tool({
 
 ## Suppression
 ```tsx
-{/* ax-audit-ignore:parity-orphan-ui-action — cosmetic preview, no agent use case */}
+{/* ax-audit-ignore:parity-orphan-ui-action, cosmetic preview, no agent use case */}
 <button onClick={handlePreview}>Preview</button>
 ```

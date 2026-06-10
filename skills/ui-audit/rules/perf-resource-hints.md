@@ -7,7 +7,7 @@ tags: performance, resource-hints, preload, preconnect
 
 ## Preload Critical Resources and Preconnect to Origins
 
-Preload the LCP image and the critical web font so the browser fetches them early; `preconnect` to third-party origins you will request from. Don't over-hint — preloading everything cancels the benefit and wastes bandwidth.
+Preload the LCP image and the critical web font so the browser fetches them early; `preconnect` to third-party origins you will request from. Don't over-hint; preloading everything cancels the benefit and wastes bandwidth.
 
 **Incorrect (no hints; hero font and image discovered late):**
 

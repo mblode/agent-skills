@@ -11,7 +11,7 @@ related: prefix-other-law, prefix-other-law
 
 One-paragraph definition with the threshold and source citation inline (e.g. "Fitts's Law floor: 44×44 px per WCAG 2.5.5 AAA / Apple HIG; 48 dp per Material").
 
-A second paragraph if needed for nuance — common misreadings, scope limits, or what the law does *not* claim.
+A second paragraph if needed for nuance: common misreadings, scope limits, or what the law does *not* claim.
 
 ## Check
 
@@ -32,7 +32,7 @@ rg '<nav' --files-with-matches src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | <observable condition with a number> | — |
+| pass | <observable condition with a number> |: |
 | warn | <observable condition with a number> | MEDIUM |
 | fail | <observable condition with a number> | HIGH |
 

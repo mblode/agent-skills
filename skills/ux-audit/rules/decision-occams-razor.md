@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 
@@ -42,7 +42,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 **If fail or warn:**
 
 - Remove decorative widgets (gradients, blobs, illustrations, "fun" graphics) that do not serve the primary task.
-- Consolidate duplicated controls — pick one save button, one nav, one CTA per region — and delete the rest.
+- Consolidate duplicated controls (pick one save button, one nav, one CTA per region) and delete the rest.
 - Remove cross-promotional banners, social-share buttons, and marketing content from authenticated UI.
 - Cut form fields whose values are never read by any downstream system.
 - Move edge-case conditional UI (used by <1% of users) into a settings panel or behind a "More" disclosure.

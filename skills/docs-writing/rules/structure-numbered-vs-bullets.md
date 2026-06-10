@@ -42,4 +42,4 @@ Use numbered lists only when order matters (procedures, ranked results, dependen
 3. Run `acme --version` to verify the installation.
 ```
 
-Reference: [Google developer documentation style guide — Lists](https://developers.google.com/style/lists)
+Reference: [Google developer documentation style guide: Lists](https://developers.google.com/style/lists)

@@ -15,7 +15,7 @@ Guidance for skills that include scripts, depend on packages, or invoke MCP tool
 
 ## Execute vs. Read as Reference
 
-Make execution intent explicit in SKILL.md. Without it, Claude may read a script and reconstruct its logic instead of running it — wasting tokens and diverging from the canonical behavior.
+Make execution intent explicit in SKILL.md. Without it, Claude may read a script and reconstruct its logic instead of running it, wasting tokens and diverging from the canonical behavior.
 
 - **Execute:** "Run `scripts/analyze_form.py input.pdf > fields.json`"
 - **Reference:** "See `scripts/analyze_form.py` for the field-extraction algorithm"
@@ -74,9 +74,9 @@ MAX_RETRIES = 3
 
 For batch or destructive operations, split the work into three phases so errors surface before changes are applied.
 
-1. **Plan** — Claude writes an intermediate file describing the operation (e.g., `changes.json` listing every field and value)
-2. **Validate** — a script checks the plan against the target (schema, conflicts, missing fields) and produces actionable errors
-3. **Execute** — a second script applies the plan once validation passes
+1. **Plan:** Claude writes an intermediate file describing the operation (e.g., `changes.json` listing every field and value)
+2. **Validate:** a script checks the plan against the target (schema, conflicts, missing fields) and produces actionable errors
+3. **Execute:** a second script applies the plan once validation passes
 
 Use this for multi-record edits, schema migrations, form filling, and similar operations where a dry run is valuable. Validation scripts should name specific problems: "Field `signature_date` not in form. Available: customer_name, order_total, signed_date."
 
@@ -86,19 +86,19 @@ Skills run in a filesystem with bash and code execution. The execution model aff
 
 - Only the frontmatter (`name`, `description`) is pre-loaded at session start
 - SKILL.md is read when a trigger matches; reference files are read on demand
-- Scripts can be **executed** via bash without their source entering the context window — only output counts
+- Scripts can be **executed** via bash without their source entering the context window; only output counts
 - Large reference files and datasets are free until accessed
 - Use forward slashes in all paths; Windows-style paths break on Unix
 - Name files descriptively (`form-validation-rules.md`, not `doc2.md`) so Claude can guess content from the path
 
-Bundle comprehensive resources — docs, examples, datasets — because they cost nothing until read.
+Bundle comprehensive resources (docs, examples, datasets) because they cost nothing until read.
 
 ## Package Dependencies
 
 List required packages explicitly in SKILL.md. Availability differs by environment:
 
 - **Claude Code / claude.ai code execution:** can install from npm and PyPI at runtime
-- **Claude API (direct):** no network access, no runtime installs — dependencies must be pre-installed
+- **Claude API (direct):** no network access, no runtime installs; dependencies must be pre-installed
 
 When writing scripts, prefer the standard library when possible. When third-party packages are required, name them and show the install command once in SKILL.md.
 
@@ -106,9 +106,9 @@ When writing scripts, prefer the standard library when possible. When third-part
 
 Always reference MCP tools by their fully qualified name: `ServerName:tool_name`. Unqualified names cause "tool not found" errors when multiple servers expose similarly named tools.
 
-- `BigQuery:bigquery_schema` — not `bigquery_schema`
-- `GitHub:create_issue` — not `create_issue`
-- `Linear:list_issues` — not `list_issues`
+- `BigQuery:bigquery_schema`, not `bigquery_schema`
+- `GitHub:create_issue`, not `create_issue`
+- `Linear:list_issues`, not `list_issues`
 
 Use the qualified form in both instructions and examples. If a server name changes, update every reference at once.
 

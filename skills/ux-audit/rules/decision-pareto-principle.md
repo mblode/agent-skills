@@ -9,7 +9,7 @@ related: decision-choice-overload, decision-occams-razor
 
 ## Pareto Principle
 
-Roughly 80% of outcomes come from 20% of causes. In product UI, a small set of features carries most usage, a small set of pages drives most conversion, and a small set of bugs causes most support tickets. The numbers are heuristic — sometimes 70/30, sometimes 90/10 — but the distribution is consistently lopsided. This is a rubric-based rule: score how well the UI foregrounds its vital few.
+Roughly 80% of outcomes come from 20% of causes. In product UI, a small set of features carries most usage, a small set of pages drives most conversion, and a small set of bugs causes most support tickets. The numbers are heuristic (sometimes 70/30, sometimes 90/10) but the distribution is consistently lopsided. This is a rubric-based rule: score how well the UI foregrounds its vital few.
 
 Use it as a prioritization tool, not a deletion tool. Find the vital 20% (top tasks, top entry points, top errors) and over-invest there. Treat the long tail as eligible for triage: keep, demote, or kill, but do not give it equal real estate.
 
@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 
@@ -43,7 +43,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 - Foreground the top-20% of features (by analytics or strategic value) in the primary nav and on the home dashboard; make them larger, closer to entry, fewer clicks away.
 - Demote rarely-used features (settings, account, exports, admin) to submenus, drawers, or `/settings` routes with sensible names.
-- Check usage analytics to validate the 20% — do not guess. Sort pages/features by sessions or conversion impact and stop at cumulative 80%.
+- Check usage analytics to validate the 20%; do not guess. Sort pages/features by sessions or conversion impact and stop at cumulative 80%.
 - Re-order navigation so primary tasks come first; remove top-level entries that fall outside the vital few.
 - Avoid alphabetized or feature-parity layouts that give every module equal visual weight.
 

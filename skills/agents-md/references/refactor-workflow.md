@@ -58,7 +58,7 @@ Rule of thumb: if guidance is needed in fewer than ~30% of tasks, move it out of
 - Core commands run from the documented location (or are explicitly marked not runnable in this environment)
 - Linked and `@import`ed files exist
 - No contradictory rules remain
-- Removed guidance did not include rare-but-critical constraints (security, migration, release, incident flows) — re-check the Step 2 log for anything tagged `generic` that was actually a safety rule
+- Removed guidance did not include rare-but-critical constraints (security, migration, release, incident flows); re-check the Step 2 log for anything tagged `generic` that was actually a safety rule
 
 ## Step 6: Publish an audit summary
 
@@ -70,7 +70,7 @@ Rule of thumb: if guidance is needed in fewer than ~30% of tasks, move it out of
 
 ## Pitfalls
 
-- Preserving large sections "just in case" — they re-bloat the file and bury the commands
+- Preserving large sections "just in case"; they re-bloat the file and bury the commands
 - Replacing one template dump with another template dump
 - Keeping contradictory rules to avoid conflict with file history
-- Adding style advice that linters already enforce — agents see the lint output anyway
+- Adding style advice that linters already enforce; agents see the lint output anyway

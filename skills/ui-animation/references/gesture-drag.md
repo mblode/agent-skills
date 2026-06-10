@@ -12,7 +12,7 @@ Patterns for drag, swipe, and gesture interactions where the user directly manip
 
 ## Momentum-based dismissal
 
-Don't require dragging past a distance threshold. Calculate velocity at release — a quick flick should be enough to dismiss.
+Don't require dragging past a distance threshold. Calculate velocity at release; a quick flick should be enough to dismiss.
 
 ```ts
 function onPointerUp(e: PointerEvent) {
@@ -42,7 +42,7 @@ function applyDamping(offset: number, max: number): number {
 const dampedOffset = applyDamping(rawOffset, 200);
 ```
 
-Things in real life don't suddenly stop — they slow down first. Friction instead of hard stops always feels more natural.
+Things in real life don't suddenly stop; they slow down first. Friction instead of hard stops always feels more natural.
 
 ## Pointer capture
 
@@ -60,7 +60,7 @@ function onPointerUp(e: PointerEvent) {
 }
 ```
 
-Always use `setPointerCapture` — without it, fast swipes escape the element and the drag breaks.
+Always use `setPointerCapture`; without it, fast swipes escape the element and the drag breaks.
 
 ## Multi-touch protection
 
@@ -93,7 +93,7 @@ function applyFriction(delta: number, isAtBoundary: boolean): number {
 }
 ```
 
-Hard stops feel broken — users expect physics. Apply friction for scroll containers, sliders, and drawers.
+Hard stops feel broken; users expect physics. Apply friction for scroll containers, sliders, and drawers.
 
 ## Swipe-to-dismiss pattern
 
@@ -113,4 +113,4 @@ function handleSwipeEnd(direction: "left" | "right", distance: number, velocity:
 }
 ```
 
-The exit animation should continue in the swipe direction with momentum — snapping to a different direction feels wrong.
+The exit animation should continue in the swipe direction with momentum; snapping to a different direction feels wrong.

@@ -19,7 +19,7 @@ Before writing any animation code, answer these four questions in order.
 | Occasional | Modals, drawers, toasts | Standard animation |
 | Rare / first-time | Onboarding, feedback forms, celebrations | Can add delight |
 
-Never animate keyboard-initiated actions. They repeat hundreds of times daily — animation makes them feel slow and disconnected.
+Never animate keyboard-initiated actions. They repeat hundreds of times daily; animation makes them feel slow and disconnected.
 
 ## 2. What is the purpose?
 
@@ -46,7 +46,7 @@ Follow this decision tree:
 - **Direct manipulation (drag)?** → no easing, follow the pointer
 - **Constant motion (marquee, spinner)?** → `linear`
 
-Avoid `ease-in` for UI — it starts slow and feels sluggish. CSS's built-in named curves (`ease-out`, `ease`) have gentle acceleration that makes animations feel soft rather than decisive. Custom curves like `cubic-bezier(0.22, 1, 0.36, 1)` have steeper initial acceleration — the element covers most of its distance in the first third, so the same 200ms feels significantly faster.
+Avoid `ease-in` for UI; it starts slow and feels sluggish. CSS's built-in named curves (`ease-out`, `ease`) have gentle acceleration that makes animations feel soft rather than decisive. Custom curves like `cubic-bezier(0.22, 1, 0.36, 1)` have steeper initial acceleration: the element covers most of its distance in the first third, so the same 200ms feels significantly faster.
 
 **Easing resources:** [easing.dev](https://easing.dev/) and [easings.co](https://easings.co/) for stronger custom variants.
 
@@ -68,13 +68,13 @@ Use weaker curves (quad, cubic) for small or frequent elements. Use stronger cur
 
 ### Asymmetric vs symmetric curves
 
-Symmetric ease-in-out starts slow — there's a noticeable lag between the user's action and the element beginning to move. For interactive elements (drawers, panels, menus), use asymmetric curves that are steep at the start and settle slowly at the end. This preserves responsiveness while the slow deceleration adds quality.
+Symmetric ease-in-out starts slow; there's a noticeable lag between the user's action and the element beginning to move. For interactive elements (drawers, panels, menus), use asymmetric curves that are steep at the start and settle slowly at the end. This preserves responsiveness while the slow deceleration adds quality.
 
-Duration and easing are inseparable. A steep curve can afford a longer duration because the movement is front-loaded — Vaul's drawer uses 500ms with `cubic-bezier(0.32, 0.72, 0, 1)`, but it doesn't feel slow because the drawer covers most of its distance in the first 200ms.
+Duration and easing are inseparable. A steep curve can afford a longer duration because the movement is front-loaded. Vaul's drawer uses 500ms with `cubic-bezier(0.32, 0.72, 0, 1)`, but it doesn't feel slow because the drawer covers most of its distance in the first 200ms.
 
 ## 4. How fast should it be?
 
-Pick the duration from the easing defaults table in SKILL.md. Keep routine UI animation under 300ms and scale duration with distance traveled — a full-screen menu sliding from off-screen can exceed 300ms, while a 6px tooltip shift should be under 150ms.
+Pick the duration from the easing defaults table in SKILL.md. Keep routine UI animation under 300ms and scale duration with distance traveled: a full-screen menu sliding from off-screen can exceed 300ms, while a 6px tooltip shift should be under 150ms.
 
 ### Perceived performance
 
@@ -102,12 +102,12 @@ Enter can be slightly slower than exit. Example: hold-to-delete uses 2s linear o
 
 ### Instant enter, animated exit (productivity tools)
 
-For high-frequency interactions in daily-driver productivity tools (hover highlights, popovers, side panels, command palette results), invert the standard asymmetric rule: enter instantly (0ms), exit with a brief fade (100–150ms).
+For high-frequency interactions in daily-driver productivity tools (hover highlights, popovers, side panels, command palette results), invert the standard asymmetric rule: enter instantly (0ms), exit with a brief fade (100-150ms).
 
-The user's action should produce an immediate visual result — any enter delay feels like lag when repeated hundreds of times. The exit animation prevents the dismissal from feeling jarring (a hard cut on exit is more noticeable than on enter because the user's eye is already on the element).
+The user's action should produce an immediate visual result; any enter delay feels like lag when repeated hundreds of times. The exit animation prevents the dismissal from feeling jarring (a hard cut on exit is more noticeable than on enter because the user's eye is already on the element).
 
 ```css
-/* Hover highlight — instant appear, soft dismiss */
+/* Hover highlight: instant appear, soft dismiss */
 .highlight {
   transition: opacity 0.15s ease-out;
   opacity: 0;
@@ -124,7 +124,7 @@ This applies when:
 - The element is ephemeral (highlight, popover, tooltip after first open)
 
 It does not apply to:
-- Rare interactions (modals, onboarding) — use standard asymmetric timing
-- Content that needs orientation (drawers with navigation) — enter animation provides spatial context
+- Rare interactions (modals, onboarding): use standard asymmetric timing
+- Content that needs orientation (drawers with navigation): enter animation provides spatial context
 
 Once you know the element should animate, match the UI pattern to a recipe using the "Transition decision rules" table in SKILL.md.

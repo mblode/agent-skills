@@ -33,4 +33,4 @@ Before you begin, make sure you have the CLI installed and access
 to the production project.
 ```
 
-Reference: [Write the Docs — Writing style](https://www.writethedocs.org/guide/writing/style-guides/)
+Reference: [Write the Docs: Writing style](https://www.writethedocs.org/guide/writing/style-guides/)

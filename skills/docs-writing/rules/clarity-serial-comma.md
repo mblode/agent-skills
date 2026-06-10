@@ -22,4 +22,4 @@ The CLI supports create, update, and delete commands. You can
 export to JSON, XML, and CSV.
 ```
 
-Reference: [Microsoft Writing Style Guide — Commas](https://learn.microsoft.com/en-us/style-guide/punctuation/commas)
+Reference: [Microsoft Writing Style Guide: Commas](https://learn.microsoft.com/en-us/style-guide/punctuation/commas)

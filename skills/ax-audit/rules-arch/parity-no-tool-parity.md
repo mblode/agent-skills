@@ -41,10 +41,10 @@ rg -l 'tool\(|defineTool|createTool|server\.tool' --type=ts src/tools/
 For every UI capability, ensure an equivalent tool exists.
 
 ```ts
-// before — route exists, no tool
+// before: route exists, no tool
 // POST /api/projects/[id]/archive exists; no archive_project tool
 
-// after — tool mirrors the UI action
+// after: tool mirrors the UI action
 export const archiveProject = tool({
   name: "archive_project",
   description: "Archive a project by ID.",
@@ -55,7 +55,7 @@ export const archiveProject = tool({
 
 ## Default tier and overrides
 
-**Defaults to:** `release-blocker` — a missing tool is a hard wall the agent cannot work around.
+**Defaults to:** `release-blocker`: a missing tool is a hard wall the agent cannot work around.
 
 ## Examples
 
@@ -73,6 +73,6 @@ export const tools = [createProject, listProjects, getProject, archiveProject];
 ## Suppression
 
 ```ts
-// ax-audit-ignore:parity-no-tool-parity — internal admin endpoint
+// ax-audit-ignore:parity-no-tool-parity, internal admin endpoint
 export async function POST(req: Request) { ... }
 ```

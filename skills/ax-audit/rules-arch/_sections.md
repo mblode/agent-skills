@@ -1,4 +1,4 @@
-# Sections — Agent-Native Architecture (Layer 1)
+# Sections: Agent-Native Architecture (Layer 1)
 
 This file defines the 4 categories of agent-native architecture audit rules. Each rule file uses one of these category prefixes.
 
@@ -7,7 +7,7 @@ This file defines the 4 categories of agent-native architecture audit rules. Eac
 ## 1. Parity (parity)
 
 **Default tier:** mostly release-blocker
-**Why critical:** If the agent can't do what the user can do, the agent is a second-class citizen. Parity gaps surface as "why can't the agent do X?" — and there's no workaround. Missing CRUD operations strand agents mid-workflow.
+**Why critical:** If the agent can't do what the user can do, the agent is a second-class citizen. Parity gaps surface as "why can't the agent do X?": and there's no workaround. Missing CRUD operations strand agents mid-workflow.
 
 ## 2. Granularity (granularity)
 

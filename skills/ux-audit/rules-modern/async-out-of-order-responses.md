@@ -10,18 +10,18 @@ related: async-double-submit, states-no-skeleton, async-no-suspense-boundary
 
 ## Out-of-order async responses (stale results)
 
-Type "ca" then "cat" quickly. Two requests fly. The "ca" response can arrive after the "cat" response on slow networks — and now the UI shows results for "ca" while the input says "cat." The user sees a lie. The fix is to either cancel in-flight requests with `AbortController` or to drive the request key with `useDeferredValue` so React naturally collapses to the latest value.
+Type "ca" then "cat" quickly. Two requests fly. The "ca" response can arrive after the "cat" response on slow networks, and now the UI shows results for "ca" while the input says "cat." The user sees a lie. The fix is to either cancel in-flight requests with `AbortController` or to drive the request key with `useDeferredValue` so React naturally collapses to the latest value.
 
 ## What goes wrong
 
-Search input fires a fetch on every keystroke. Network is jittery. Response for "iphon" arrives after response for "iphone." UI overwrites the iphone results with iphon results. The search looks broken — and worse, it intermittently looks correct, so the bug is hard to reproduce.
+Search input fires a fetch on every keystroke. Network is jittery. Response for "iphon" arrives after response for "iphone." UI overwrites the iphone results with iphon results. The search looks broken, and worse, it intermittently looks correct, so the bug is hard to reproduce.
 
 ## Detection
 
 **Surfaces:** search (highest priority), list filter, form async-validation, dashboard with a date-range picker that refetches.
 
 **Static signals:**
-1. `rg 'onChange|onInput' --type=tsx -A 5` — find handlers that contain `fetch(`, `useQuery`, or any async call.
+1. `rg 'onChange|onInput' --type=tsx -A 5`: find handlers that contain `fetch(`, `useQuery`, or any async call.
 2. For each, confirm one of:
    - An `AbortController` is created and `signal` is passed to fetch, with abort on the next call (or in `useEffect` cleanup).
    - `useDeferredValue` drives the request key (debouncing via React).
@@ -51,10 +51,10 @@ rg -A 10 'useEffect\(' --type=tsx | rg -B 2 'fetch\(' | rg -L 'return \(\) =>|ab
 
 Two canonical approaches.
 
-**A. AbortController in `useEffect`** — best for plain `fetch` driven by state:
+**A. AbortController in `useEffect`**, best for plain `fetch` driven by state:
 
 ```tsx
-// before — race condition
+// before: race condition
 function Search({ q }: { q: string }) {
   const [results, setResults] = useState<Item[]>([]);
   useEffect(() => {
@@ -63,7 +63,7 @@ function Search({ q }: { q: string }) {
   return <Results items={results} />;
 }
 
-// after — abort on re-render or unmount
+// after: abort on re-render or unmount
 function Search({ q }: { q: string }) {
   const [results, setResults] = useState<Item[]>([]);
   useEffect(() => {
@@ -80,7 +80,7 @@ function Search({ q }: { q: string }) {
 }
 ```
 
-**B. `useDeferredValue` + Suspense** — React keeps the latest:
+**B. `useDeferredValue` + Suspense**, React keeps the latest:
 
 ```tsx
 function SearchPage({ q }: { q: string }) {
@@ -131,12 +131,12 @@ useEffect(() => {
 
 ## Defer-to (when this is another tool's job)
 
-- TanStack Query / SWR: built-in cancellation — verify it's wired up rather than re-implementing.
+- TanStack Query / SWR: built-in cancellation; verify it's wired up rather than re-implementing.
 - ESLint `react-hooks/exhaustive-deps` for missing cleanup.
 - Lighthouse / Vercel Speed Insights for INP impact (out-of-order also wastes bandwidth).
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:async-out-of-order-responses — backend is idempotent and last-wins */}
+{/* ux-audit-ignore:async-out-of-order-responses, backend is idempotent and last-wins */}
 ```

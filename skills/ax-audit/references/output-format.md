@@ -7,7 +7,7 @@ Defines the output structure for ax-audit results. Two sections: findings table,
 - [Findings table](#findings-table)
 - [Field reference](#field-reference)
 - [AX relationship summary](#ax-relationship-summary)
-- [AX relationship summary — field descriptions](#ax-relationship-summary--field-descriptions)
+- [AX relationship summary, field descriptions](#ax-relationship-summary--field-descriptions)
 - [Terminal rendering](#terminal-rendering)
 
 ## Findings table
@@ -29,7 +29,7 @@ Each finding is a JSON object (schema is deliberately compatible with ux-audit f
   "tierReason": "Default tier; agent chat surface.",
   "severity": "MEDIUM",
   "observed": "Agent output rendered in <AssistantMessage> with no citation, source, or reasoning child components.",
-  "evidence": ["src/chat/ChatPanel.tsx:42 — <AssistantMessage content={message.content} /> with no children"],
+  "evidence": ["src/chat/ChatPanel.tsx:42, <AssistantMessage content={message.content} /> with no children"],
   "fix": "Add a <Sources> or <Reasoning> component inside agent message rendering.",
   "suppressed": false
 }
@@ -45,13 +45,13 @@ Each finding is a JSON object (schema is deliberately compatible with ux-audit f
 | `feature` | One of the 4 agentic playbooks: `agent-chat`, `agent-tool-execution`, `agent-config`, `agent-dashboard` |
 | `surface` | Component or page name the finding sits on (groups the report) |
 | `file`, `line` | Evidence location; required on every `fail`/`warn` |
-| `result` | `pass \| warn \| fail \| unknown` — `unknown` requires a reason in `observed` |
+| `result` | `pass \| warn \| fail \| unknown`: `unknown` requires a reason in `observed` |
 | `defaultTier`, `assignedTier`, `tierReason` | Tier from the rule file, tier after surface override, and one-sentence justification |
-| `severity` | `HIGH \| MEDIUM \| LOW` — orthogonal to tier; how bad the user impact is when it fires |
+| `severity` | `HIGH \| MEDIUM \| LOW`: orthogonal to tier; how bad the user impact is when it fires |
 | `observed` | What the code actually does, in one sentence |
-| `evidence` | Array of `file:line — excerpt` strings backing the finding |
+| `evidence` | Array of `file:line: excerpt` strings backing the finding |
 | `fix` | Concrete change; a snippet or one-sentence instruction |
-| `suppressed` | `true` when an `ax-audit-ignore:<slug>` comment covers the match — report suppressed counts, never silently drop |
+| `suppressed` | `true` when an `ax-audit-ignore:<slug>` comment covers the match, report suppressed counts, never silently drop |
 
 ## AX relationship summary
 
@@ -67,7 +67,7 @@ Produced after findings, only when agentic features are detected. Four fields na
     },
     "trustSignal": {
       "level": "moderate",
-      "reasoning": "Escape hatches present for all agent actions. Confidence cues missing — agent output has no rationale or source attribution."
+      "reasoning": "Escape hatches present for all agent actions. Confidence cues missing: agent output has no rationale or source attribution."
     },
     "keyGap": "Agent accumulates no session context; every interaction starts cold. Users re-explain preferences and constraints each time.",
     "trustQuestion": "Will users accept inline rationale (sources, reasoning steps) on every agent response, or will it feel like noise?"
@@ -75,7 +75,7 @@ Produced after findings, only when agentic features are detected. Four fields na
 }
 ```
 
-## AX relationship summary — field descriptions
+## AX relationship summary: field descriptions
 
 | Field | Description |
 |---|---|
@@ -100,7 +100,7 @@ Findings:            6
 
 AX Relationship:
   Stage:       Task-Aware (2 of 4)
-  Trust:       Moderate — escape hatches present, confidence cues missing
+  Trust:       Moderate: escape hatches present, confidence cues missing
   Key gap:     No session context; every interaction starts cold
   Question:    Will users accept inline rationale on every response?
 

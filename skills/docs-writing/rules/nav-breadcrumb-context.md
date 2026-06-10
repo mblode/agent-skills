@@ -29,4 +29,4 @@ credentials. For initial token setup, see
 [Create API tokens](create-tokens.md).
 ```
 
-Reference: [Nielsen Norman Group — Breadcrumbs](https://www.nngroup.com/articles/breadcrumbs/)
+Reference: [Nielsen Norman Group: Breadcrumbs](https://www.nngroup.com/articles/breadcrumbs/)

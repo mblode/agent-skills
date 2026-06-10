@@ -42,4 +42,4 @@ See the [full server setup](examples/server.js) for middleware
 and startup configuration.
 ````
 
-Reference: [Divio Documentation System — Tutorials](https://docs.divio.com/documentation-system/tutorials/)
+Reference: [Divio Documentation System: Tutorials](https://docs.divio.com/documentation-system/tutorials/)

@@ -29,4 +29,4 @@ Send up to 1000 items in a single request using the
 > notice. Do not use in production.
 ```
 
-Reference: [Google developer documentation — Deprecation and experimental notices](https://developers.google.com/style/notices)
+Reference: [Google developer documentation: Deprecation and experimental notices](https://developers.google.com/style/notices)

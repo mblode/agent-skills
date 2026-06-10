@@ -11,14 +11,14 @@ related: memory-goal-gradient, memory-peak-end-rule, decision-parkinsons-law
 
 People remember unfinished or interrupted tasks more vividly than completed ones. An incomplete task creates a low-grade cognitive tension that nudges the user to come back and close the loop. Visible "almost done" state is a motivator; silent abandonment is forgotten. Source: Zeigarnik (1927).
 
-Surface unfinished work, persist it across sessions, and pair the open loop with a clear next action so the tension resolves into completion, not anxiety. Do not weaponize it — fabricated "incomplete" states erode trust.
+Surface unfinished work, persist it across sessions, and pair the open loop with a clear next action so the tension resolves into completion, not anxiety. Do not weaponize it: fabricated "incomplete" states erode trust.
 
 ## Check
 
 **Surfaces:** modal, empty-state, loading
 
 **Procedure:**
-1. Find multi-step flows or saved-state UI — drafts, wizards, profile-completion checklists, partially configured features.
+1. Find multi-step flows or saved-state UI: drafts, wizards, profile-completion checklists, partially configured features.
 2. Check for: visible incomplete-task indicator (e.g. `1 draft saved`, `Resume`, `Continue setup`), persistence across sessions, and "you're 2 steps away from X" callouts.
 3. For modals/dialogs: confirm that closing them does not destroy unsaved work without an explicit confirmation.
 
@@ -32,7 +32,7 @@ rg -n 'onClose|onDismiss|setOpen\(false\)' src/ # check for unsaved-work guards
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Incomplete tasks are visible AND persist across sessions/refresh | — |
+| pass | Incomplete tasks are visible AND persist across sessions/refresh |: |
 | warn | Incomplete tasks are visible but lost on refresh or navigation | MEDIUM |
 | fail | Incomplete tasks are not visible at all OR destroyed silently on close | HIGH |
 
@@ -68,7 +68,7 @@ function ProfileNudge({ filledFields, totalFields }: { filledFields: number; tot
   return (
     <aside className="rounded-lg border p-4">
       <p className="text-sm font-medium">
-        Your profile is {pct}% complete — {remaining} field{remaining === 1 ? "" : "s"} left.
+        Your profile is {pct}% complete, {remaining} field{remaining === 1 ? "" : "s"} left.
       </p>
       <div className="mt-2 h-1.5 w-full rounded bg-muted">
         <div className="h-full rounded bg-black" style={{ width: `${pct}%` }} />

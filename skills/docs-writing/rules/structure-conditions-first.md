@@ -32,4 +32,4 @@ field, enter your API key.
 
 Tip: Look for the words "if," "when," "on," and "in" buried at the end of a sentence. Move them to the front.
 
-Reference: [Microsoft Writing Style Guide — Procedures and instructions](https://learn.microsoft.com/en-us/style-guide/procedures-instructions/)
+Reference: [Microsoft Writing Style Guide: Procedures and instructions](https://learn.microsoft.com/en-us/style-guide/procedures-instructions/)

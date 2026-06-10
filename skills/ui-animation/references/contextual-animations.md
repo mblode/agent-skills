@@ -13,7 +13,7 @@ Patterns for icon swaps, word-level stagger entrances, and subtle exits.
 
 When icons change state contextually (copy → check, play → pause, send → sent), animate `opacity`, `scale`, and `blur` together. This makes the swap feel responsive rather than instant. Blur hides the crossfade seam between the outgoing and incoming icon.
 
-**Motion (preferred — supports springs):**
+**Motion (preferred, supports springs):**
 
 ```tsx
 import { AnimatePresence, motion } from "motion/react"
@@ -69,7 +69,7 @@ Use `mode="wait"` in AnimatePresence so the exit finishes before the enter start
 
 ## Word-level stagger entrances
 
-For entrance animations on hero text or page headers, split the content into sections (or individual words) and animate each with a staggered delay. Combining `opacity + translateY + blur` is necessary — each property alone looks flat, mechanical, or cheap.
+For entrance animations on hero text or page headers, split the content into sections (or individual words) and animate each with a staggered delay. Combining `opacity + translateY + blur` is necessary; each property alone looks flat, mechanical, or cheap.
 
 **Two levels of stagger:**
 
@@ -94,12 +94,12 @@ For entrance animations on hero text or page headers, split the content into sec
   animation-delay: calc(var(--delay, 0ms) * var(--stagger, 0));
 }
 
-/* Section level — 100ms gaps */
+/* Section level: 100ms gaps */
 .animate-enter-section {
   --delay: 100ms;
 }
 
-/* Word level — 80ms gaps */
+/* Word level: 80ms gaps */
 .animate-enter-word {
   --delay: 80ms;
 }
@@ -133,13 +133,13 @@ For entrance animations on hero text or page headers, split the content into sec
 ))}
 ```
 
-These values differ from the general-purpose 30–50ms item stagger in `component-patterns.md`. Use 30–50ms for lists; use 80–100ms for page-level entrances where each chunk carries narrative weight.
+These values differ from the general-purpose 30-50ms item stagger in `component-patterns.md`. Use 30-50ms for lists; use 80-100ms for page-level entrances where each chunk carries narrative weight.
 
 ---
 
 ## Subtle exit animations
 
-Exit animations should be directional — to indicate where content is going — but should not demand the same attention as enter animations. Use a fixed small offset rather than computing the full element height.
+Exit animations should be directional (to indicate where content is going) but should not demand the same attention as enter animations. Use a fixed small offset rather than computing the full element height.
 
 **Full exit (too much movement for overlays):**
 
@@ -169,6 +169,6 @@ Exit animations should be directional — to indicate where content is going —
 />
 ```
 
-The `-12px` value is intentionally fixed — do not calculate it from element dimensions. The goal is to convey direction, not to trace the full exit path. The enter animation uses the full distance to build presence; the exit uses a short fixed distance to release attention quietly.
+The `-12px` value is intentionally fixed; do not calculate it from element dimensions. The goal is to convey direction, not to trace the full exit path. The enter animation uses the full distance to build presence; the exit uses a short fixed distance to release attention quietly.
 
-Spring config: `{ type: "spring", duration: 0.45, bounce: 0 }` — zero bounce for a clean, controlled exit.
+Spring config: `{ type: "spring", duration: 0.45, bounce: 0 }`, zero bounce for a clean, controlled exit.

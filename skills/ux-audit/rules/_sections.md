@@ -21,7 +21,7 @@ The category ID (in parentheses) is the filename prefix used to group rules.
 
 **Impact:** HIGH
 **Kind breakdown:** 5 programmatic + 2 rubric (7 total)
-**Description:** Gestalt grouping laws and attention principles that determine how users parse a layout pre-attentively. What is visually grouped is read as semantically grouped — for better or worse.
+**Description:** Gestalt grouping laws and attention principles that determine how users parse a layout pre-attentively. What is visually grouped is read as semantically grouped, for better or worse.
 
 ## 4. Memory & Expectation (memory)
 
@@ -70,14 +70,14 @@ interaction-flow                    interaction-aesthetic-usability
 
 When auditing, these pairings often co-fire. Emit both findings with the same `surface` to make the link explicit.
 
-- **Hick's + Miller's** — Both push toward fewer choices. A nav with 12+ items fails both.
-- **Hick's + Chunking** — When count cannot drop, group. Chunking softens Hick's penalty.
-- **Doherty + Flow** — Sub-400 ms feedback isn't just speed; it preserves the Flow state.
-- **Jakob's + Mental Model** — Jakob's is the special case (other websites). Pick the more specific one; don't double-count.
-- **Fitts's + Proximity** — Tap targets need both adequate size and adequate spacing.
-- **Peak-End + Goal-Gradient** — A strong end matters more if the user accelerated into it.
-- **Aesthetic-Usability + Postel's** — Polish buys patience for input forgiveness.
-- **Von Restorff + Selective Attention** — Reciprocal: distinctive items break attention filters.
-- **Tesler's + Postel's** — Both relocate complexity. Tesler's says someone bears it; Postel's says the system should.
-- **Serial Position + Von Restorff** — Position effect predicts edge-recall; distinctiveness breaks the pattern.
-- **Zeigarnik + Goal-Gradient** — Open loops + visible progress accelerate completion.
+- **Hick's + Miller's**: Both push toward fewer choices. A nav with 12+ items fails both.
+- **Hick's + Chunking**: When count cannot drop, group. Chunking softens Hick's penalty.
+- **Doherty + Flow**: Sub-400 ms feedback isn't just speed; it preserves the Flow state.
+- **Jakob's + Mental Model**: Jakob's is the special case (other websites). Pick the more specific one; don't double-count.
+- **Fitts's + Proximity**: Tap targets need both adequate size and adequate spacing.
+- **Peak-End + Goal-Gradient**: A strong end matters more if the user accelerated into it.
+- **Aesthetic-Usability + Postel's**: Polish buys patience for input forgiveness.
+- **Von Restorff + Selective Attention**, Reciprocal: distinctive items break attention filters.
+- **Tesler's + Postel's**: Both relocate complexity. Tesler's says someone bears it; Postel's says the system should.
+- **Serial Position + Von Restorff**: Position effect predicts edge-recall; distinctiveness breaks the pattern.
+- **Zeigarnik + Goal-Gradient**: Open loops + visible progress accelerate completion.

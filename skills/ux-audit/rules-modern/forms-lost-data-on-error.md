@@ -10,11 +10,11 @@ related: forms-no-disable-while-submitting, forms-use-form-status-misuse, forms-
 
 ## Form data lost on validation error
 
-When a form fails server validation, the user's typed values must survive the round-trip. Clearing fields on error is one of the highest-cost UX bugs in production: users abandon checkout, retype passwords incorrectly, and lose multi-paragraph inputs. React 19's `useActionState` makes preservation the default — but only if the action returns `state.fields` and the inputs use `defaultValue`.
+When a form fails server validation, the user's typed values must survive the round-trip. Clearing fields on error is one of the highest-cost UX bugs in production: users abandon checkout, retype passwords incorrectly, and lose multi-paragraph inputs. React 19's `useActionState` makes preservation the default, but only if the action returns `state.fields` and the inputs use `defaultValue`.
 
 ## What goes wrong
 
-User submits a sign-in form. Server returns "Invalid password." The email field is blank again. User retypes the email — sometimes wrong this time — and the password manager autofills the wrong account. Or: a checkout shipping-address form clears all 8 fields when the server rejects a ZIP code mismatch.
+User submits a sign-in form. Server returns "Invalid password." The email field is blank again. User retypes the email (sometimes wrong this time) and the password manager autofills the wrong account. Or: a checkout shipping-address form clears all 8 fields when the server rejects a ZIP code mismatch.
 
 Two common code shapes cause this:
 
@@ -26,8 +26,8 @@ Two common code shapes cause this:
 **Surfaces:** sign-in, sign-up, checkout, onboarding, multi-step form.
 
 **Static signals:**
-1. `rg '<form' --type=tsx -l` — list all form-bearing files in scope.
-2. For each, check whether the action handler returns user input. Search for `useActionState` and read the action's return shape — must include `fields` (or per-field values) on the error path.
+1. `rg '<form' --type=tsx -l`: list all form-bearing files in scope.
+2. For each, check whether the action handler returns user input. Search for `useActionState` and read the action's return shape: it must include `fields` (or per-field values) on the error path.
 3. Search for explicit clear patterns: `\.reset\(\)`, `setEmail\(""\)`, `setPassword\(""\)`, `setForm\(initialState\)` inside `catch` or error branches.
 4. Inputs must use `defaultValue={state.fields?.email}` (uncontrolled with seeded default) OR `value={state.fields?.email}` if controlled.
 5. Count: forms with no `state.fields` echo AND no controlled-input preservation = fail.
@@ -134,7 +134,7 @@ Docs:
 | Internal admin tools | backlog |
 | Marketing landing form | backlog |
 
-Data loss on critical paths (payment, account creation, multi-step flows) is a release blocker — the cost of the bug compounds across millions of submissions.
+Data loss on critical paths (payment, account creation, multi-step flows) is a release blocker: the cost of the bug compounds across millions of submissions.
 
 ## Examples
 
@@ -172,6 +172,6 @@ return (
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:forms-lost-data-on-error — password reset form intentionally clears for security */}
+{/* ux-audit-ignore:forms-lost-data-on-error, password reset form intentionally clears for security */}
 <form action={resetAction}>
 ```

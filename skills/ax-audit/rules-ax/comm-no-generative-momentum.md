@@ -11,7 +11,7 @@ related: control-over-conversational, context-under-contextual
 
 ## Blank-canvas surface with no agent-generated starting content
 
-User opens a new document, email, or report. Empty canvas. Blinking cursor. Agent is available but silent. A half-written draft is easier to shape than an empty page — but the agent doesn't offer one.
+User opens a new document, email, or report. Empty canvas. Blinking cursor. Agent is available but silent. A half-written draft is easier to shape than an empty page, but the agent doesn't offer one.
 
 ## What goes wrong
 
@@ -58,7 +58,7 @@ Offer an agent-generated draft on blank-canvas surfaces: "Start with AI draft" b
 
 ```tsx
 export function NewReport() {
-  // Agent has project data, metrics, goals — offers nothing
+  // Agent has project data, metrics, goals: offers nothing
   return <RichTextEditor initialContent="" />;
 }
 ```
@@ -86,6 +86,6 @@ export function NewReport() {
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:comm-no-generative-momentum — code editor, blank canvas is intentional */}
+{/* ax-audit-ignore:comm-no-generative-momentum, code editor, blank canvas is intentional */}
 <CodeEditor />
 ```

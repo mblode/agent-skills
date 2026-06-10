@@ -14,7 +14,7 @@ The skeleton or spinner takes 0×0 (or some other height); the loaded content ta
 
 ## What goes wrong
 
-A user starts reading a paragraph above a list. The list's loading state is `<Spinner />` — no fixed height. Data arrives, list expands to 600 px tall, paragraph the user was reading shoves off screen. The user re-finds their place. CLS score regresses on Lighthouse. On marketing pages, the same pattern happens with hero images that lack `width`/`height` attributes.
+A user starts reading a paragraph above a list. The list's loading state is `<Spinner />`: no fixed height. Data arrives, list expands to 600 px tall, paragraph the user was reading shoves off screen. The user re-finds their place. CLS score regresses on Lighthouse. On marketing pages, the same pattern happens with hero images that lack `width`/`height` attributes.
 
 ## Detection
 
@@ -22,8 +22,8 @@ A user starts reading a paragraph above a list. The list's loading state is `<Sp
 
 **Static signals:**
 1. **Skeletons without fixed height.** Find skeleton components and verify they declare a height (`h-N`, `min-h-N`, `style={{ minHeight }}`, fixed pixel count of rows).
-2. **Images without dimensions.** Find `<img>` and `<Image>` (next/image) — fail if neither `width`+`height` nor `fill` with a sized parent is present.
-3. **Fonts without swap + size-adjust.** Find font loading config (`next/font/google`, `next/font/local`, `@font-face` blocks) — verify `display: "swap"` and (ideally) `adjustFontFallback`.
+2. **Images without dimensions.** Find `<img>` and `<Image>` (next/image): fail if neither `width`+`height` nor `fill` with a sized parent is present.
+3. **Fonts without swap + size-adjust.** Find font loading config (`next/font/google`, `next/font/local`, `@font-face` blocks), verify `display: "swap"` and (ideally) `adjustFontFallback`.
 4. **Conditional content above other content.** A `{!data && <Skeleton h={4} />}` followed by a real-content `<List />` of variable height is a CLS bug if heights differ.
 
 **Concrete commands:**
@@ -107,7 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-For dynamic-height content (a chat bubble, a comment), the skeleton should reserve a reasonable minimum and the real content should `min-height` match — not exact match, but close enough to not jolt.
+For dynamic-height content (a chat bubble, a comment), the skeleton should reserve a reasonable minimum and the real content should `min-height` match: not exact match, but close enough to not jolt.
 
 Docs:
 - next/image: https://nextjs.org/docs/app/api-reference/components/image
@@ -127,7 +127,7 @@ Docs:
 | Dashboard widget | fix-this-sprint |
 | Internal admin | backlog |
 
-A field that shifts under the user's cursor mid-click can cause mis-clicks on destructive actions — that's why checkout escalates.
+A field that shifts under the user's cursor mid-click can cause mis-clicks on destructive actions, which is why checkout escalates.
 
 ## Examples
 
@@ -151,12 +151,12 @@ A field that shifts under the user's cursor mid-click can cause mis-clicks on de
 
 ## Defer-to (when this is another tool's job)
 
-- Lighthouse / web-vitals report the CLS metric. This rule prevents the bug at write time; Lighthouse confirms it at runtime — link out, don't restate the metric.
+- Lighthouse / web-vitals report the CLS metric. This rule prevents the bug at write time; Lighthouse confirms it at runtime; link out, don't restate the metric.
 - Vercel Speed Insights for field measurement.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:states-layout-shift — content-visibility:auto, expected to expand */}
+{/* ux-audit-ignore:states-layout-shift, content-visibility:auto, expected to expand */}
 <details>
 ```

@@ -1,5 +1,5 @@
 ---
-title: <Rule title — short, descriptive>
+title: <Rule title, short, descriptive>
 slug: <category>-<kebab-slug>
 category: forms | states | async | focus | mobile | dark-i18n | microcopy
 defaultTier: release-blocker | fix-this-sprint | backlog
@@ -18,7 +18,7 @@ A concrete, observable scenario. What the user sees, what the code does, why the
 
 ## Detection
 
-**Surfaces:** <which playbooks invoke this — sign-in, checkout, form, etc.>
+**Surfaces:** <which playbooks invoke this: sign-in, checkout, form, etc.>
 
 **Static signals:**
 1. Concrete grep / Read step. Use `rg` / `find` / file-extension filters.
@@ -100,6 +100,6 @@ If the same finding could come from another tool, link out:
 To intentionally ignore this rule on a specific component:
 
 ```tsx
-{/* ux-audit-ignore:<slug> — reason */}
+{/* ux-audit-ignore:<slug>, reason */}
 <Component />
 ```

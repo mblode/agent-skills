@@ -25,7 +25,7 @@ Add `transform: scale(0.97)` on `:active` for instant press feedback.
 }
 ```
 
-`scale(0.9)` is too aggressive — the button visibly collapses and draws the eye to the shrinking rather than the action. Press feedback should be felt, not seen. Stay in the `0.96–0.98` range.
+`scale(0.9)` is too aggressive: the button visibly collapses and draws the eye to the shrinking rather than the action. Press feedback should be felt, not seen. Stay in the `0.96-0.98` range.
 
 Use blur to mask imperfect crossfade transitions between button states:
 
@@ -36,7 +36,7 @@ Use blur to mask imperfect crossfade transitions between button states:
 }
 ```
 
-Keep blur under 20px — heavy blur is expensive, especially in Safari.
+Keep blur under 20px; heavy blur is expensive, especially in Safari.
 
 ## Popovers and dropdowns
 
@@ -72,7 +72,7 @@ Start at `scale(0.88)`, never `scale(0)`. Nothing in the real world appears from
 
 ## Tooltips
 
-Delay before first appearance (300–500ms) to prevent accidental activation. Once one tooltip is open, subsequent tooltips open instantly with no animation.
+Delay before first appearance (300-500ms) to prevent accidental activation. Once one tooltip is open, subsequent tooltips open instantly with no animation.
 
 ```css
 .tooltip {
@@ -151,7 +151,7 @@ Enter and exit from the same direction for spatial consistency (makes swipe-to-d
 }
 ```
 
-Use CSS transitions (not keyframes) for toasts — they are added rapidly, and keyframes restart on interruption while transitions retarget smoothly.
+Use CSS transitions (not keyframes) for toasts; they are added rapidly, and keyframes restart on interruption while transitions retarget smoothly.
 
 ## Crossfade transitions
 
@@ -175,7 +175,7 @@ Nav content swaps, tab panels with similar structure, and small card state chang
 
 ## Lists and stagger
 
-Keep stagger delays short (30–50ms per item). Total stagger should stay under 300ms.
+Keep stagger delays short (30-50ms per item). Total stagger should stay under 300ms.
 
 ```css
 .item {
@@ -242,7 +242,7 @@ Fix hover flicker by applying the hover on a parent and animating the child. Whe
 }
 ```
 
-For scale-based hover, use `scale(1.01)` to `scale(1.02)`. `scale(1.05)` is visibly inflated. Hover transitions should be 100–150ms — 300ms feels laggy because the user's eye is already on the element.
+For scale-based hover, use `scale(1.01)` to `scale(1.02)`. `scale(1.05)` is visibly inflated. Hover transitions should be 100-150ms; 300ms feels laggy because the user's eye is already on the element.
 
 ```css
 @media (hover: hover) and (pointer: fine) {

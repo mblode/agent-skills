@@ -1,22 +1,22 @@
 ---
 name: agents-md
-description: Audits, scores, and refactors AGENTS.md and CLAUDE.md agent instruction files using execution-first standards — working commands, real-failure gotchas, signal-to-noise, and @import progressive disclosure. Runs a 10-check quick triage or a 45-check full audit with letter grades, then proposes minimal diffs. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, reduce bloat, write a new AGENTS.md, or when asking "my AGENTS.md is bad", "help me write a CLAUDE.md", or "improve my agent instructions". For SKILL.md skill files use agent-skills-creator; for general docs use docs-writing; for mining session history into instruction suggestions use cadence-advise.
+description: Audits, scores, and refactors AGENTS.md and CLAUDE.md agent instruction files using execution-first standards: working commands, real-failure gotchas, signal-to-noise, and @import progressive disclosure. Runs a 10-check quick triage or a 45-check full audit with letter grades, then proposes minimal diffs. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, reduce bloat, write a new AGENTS.md, or when asking "my AGENTS.md is bad", "help me write a CLAUDE.md", or "improve my agent instructions". For SKILL.md skill files use agent-skills-creator; for general docs use docs-writing; for mining session history into instruction suggestions use cadence-advise.
 ---
 
 # AGENTS.md Audit
 
 - **IS:** auditing, scoring, refactoring, and writing AGENTS.md / CLAUDE.md / CLAUDE.local.md instruction files that agents load at session start.
-- **IS NOT:** authoring SKILL.md skill files (use `agent-skills-creator`), writing project docs or READMEs (use `docs-writing` or `readme-creator`), or mining session history for instruction suggestions (use `cadence-advise` — this skill audits the file as it exists).
+- **IS NOT:** authoring SKILL.md skill files (use `agent-skills-creator`), writing project docs or READMEs (use `docs-writing` or `readme-creator`), or mining session history for instruction suggestions (use `cadence-advise`; this skill audits the file as it exists).
 
 AGENTS.md files are execution contracts, not knowledge bases. **Litmus test for every line:** "Would removing this cause the agent to make a mistake?" If no, cut it. Bloated instruction files cause agents to ignore the rules that matter.
 
-AGENTS.md is the tool-agnostic source of truth. Claude Code loads `AGENTS.md`, `CLAUDE.md`, and `CLAUDE.local.md` natively from any directory level — no symlinks needed. If a project has only a `CLAUDE.md`, recommend `mv CLAUDE.md AGENTS.md`.
+AGENTS.md is the tool-agnostic source of truth. Claude Code loads `AGENTS.md`, `CLAUDE.md`, and `CLAUDE.local.md` natively from any directory level, no symlinks needed. If a project has only a `CLAUDE.md`, recommend `mv CLAUDE.md AGENTS.md`.
 
 ## Reference Files
 
 | File | Read when |
 |------|-----------|
-| `references/quick-checklist.md` | Every audit — the default 10-check triage (target >= 8/10) |
+| `references/quick-checklist.md` | Every audit; the default 10-check triage (target >= 8/10) |
 | `references/quality-criteria.md` | Quick audit fails, file is high-risk, or user requests full scoring (45 checks, letter grades) |
 | `references/refactor-workflow.md` | File is bloated (root over ~150 lines), stale, or scores below target |
 | `references/root-content-guidance.md` | Deciding what stays in root vs moves behind `@import`; file placement hierarchy |
@@ -70,13 +70,13 @@ Output a concise report before any edits:
 | ./AGENTS.md | Quick | 6/10 | Fail | Missing test command, stale path, doc-heavy section |
 ```
 
-Every issue named in the table must map to a proposed diff in Step 5 — no vague findings.
+Every issue named in the table must map to a proposed diff in Step 5; no vague findings.
 
 ### Step 5: Propose minimal diffs
 
 In priority order:
 
-1. Fix broken or stale commands — these are bugs, not style.
+1. Fix broken or stale commands; these are bugs, not style.
 2. Remove generic, duplicate, or obsolete guidance.
 3. Move non-universal detail behind `@path/to/file.md` imports.
 4. Add emphasis ("IMPORTANT:", "YOU MUST") only on critical rules agents demonstrably skip.
@@ -92,21 +92,21 @@ Show each change as a diff snippet with one-line rationale. Apply only after the
 
 ### Step 7: Apply and report
 
-Apply approved edits, re-score with the same checklist, and report before/after scores plus line counts. After future PRs, add at most one new gotcha — and only if it prevented or fixed a real mistake.
+Apply approved edits, re-score with the same checklist, and report before/after scores plus line counts. After future PRs, add at most one new gotcha, and only if it prevented or fixed a real mistake.
 
 ## Gotchas
 
-- `@import` lines are not evaluated inside code spans or fenced blocks — a real import wrapped in backticks silently never loads. Conversely, example imports inside fenced blocks are safe to show.
-- `@import` chains stop resolving at 5 hops — content behind a deeper chain silently disappears from context.
-- Child-directory AGENTS.md files load on demand when the agent works in that subtree, not at session start — a universal rule placed only in a child file is invisible to most tasks. Promote it to root.
-- Don't put project-specific commands in `~/.claude/CLAUDE.md` — it loads in every session, so one project's `npm run dev` becomes noise (or a wrong command) everywhere else.
-- Don't audit `CLAUDE.local.md` as strictly as AGENTS.md — it is gitignored personal config; flag only broken commands and contradictions with the shared file.
-- Don't strip emphasis markers (IMPORTANT, YOU MUST) during a density cut — they exist because the default phrasing was already ignored once.
-- A passing quick score does not prove commands run — stale commands hide behind checklist passes. Step 6 smoke-runs are not optional.
-- Don't rewrite a whole file when targeted diffs would pass the audit — full rewrites destroy battle-tested wording and inflate review burden.
+- `@import` lines are not evaluated inside code spans or fenced blocks; a real import wrapped in backticks silently never loads. Conversely, example imports inside fenced blocks are safe to show.
+- `@import` chains stop resolving at 5 hops; content behind a deeper chain silently disappears from context.
+- Child-directory AGENTS.md files load on demand when the agent works in that subtree, not at session start, so a universal rule placed only in a child file is invisible to most tasks. Promote it to root.
+- Don't put project-specific commands in `~/.claude/CLAUDE.md`; it loads in every session, so one project's `npm run dev` becomes noise (or a wrong command) everywhere else.
+- Don't audit `CLAUDE.local.md` as strictly as AGENTS.md; it is gitignored personal config, so flag only broken commands and contradictions with the shared file.
+- Don't strip emphasis markers (IMPORTANT, YOU MUST) during a density cut; they exist because the default phrasing was already ignored once.
+- A passing quick score does not prove commands run; stale commands hide behind checklist passes. Step 6 smoke-runs are not optional.
+- Don't rewrite a whole file when targeted diffs would pass the audit; full rewrites destroy battle-tested wording and inflate review burden.
 
 ## Related Skills
 
-- `agent-skills-creator` — authoring and improving SKILL.md skill files (different format, different rules).
-- `cadence-advise` — proposes AGENTS.md/CLAUDE.md edits from observed session history; complementary input to this skill's file-first audit.
-- `readme-creator` / `docs-writing` — human-facing documentation; AGENTS.md content that belongs in docs should move there.
+- `agent-skills-creator`: authoring and improving SKILL.md skill files (different format, different rules).
+- `cadence-advise`: proposes AGENTS.md/CLAUDE.md edits from observed session history; complementary input to this skill's file-first audit.
+- `readme-creator` / `docs-writing`: human-facing documentation; AGENTS.md content that belongs in docs should move there.

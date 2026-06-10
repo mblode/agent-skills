@@ -21,7 +21,7 @@ Dashboard has a top navbar with 8 links and a sidebar with 12. Keyboard user lan
 **Surfaces:** marketing landing pages with long headers, dashboard layouts, list/feed pages with sidebars. Less critical for single-purpose surfaces (modal, simple sign-in form).
 
 **Static signals:**
-1. `rg '<header|<nav' --type=tsx -l app/ src/` — files with a primary nav.
+1. `rg '<header|<nav' --type=tsx -l app/ src/`: files with a primary nav.
 2. For each, look for a sibling skip link (`href="#main"`, `href="#content"`, text matching `/skip to (main|content)/i`).
 3. Confirm the target exists (`<main id="main">` or `<div id="content">`).
 4. Flag layouts with header/nav but no skip link, especially `app/layout.tsx` / root layout files.
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 ```
 
 ```css
-/* globals.css — sr-only until focused */
+/* globals.css: sr-only until focused */
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -127,12 +127,12 @@ Docs:
 
 ## Defer-to (when this is another tool's job)
 
-- axe-core: WCAG 2.4.1 rule (`bypass`) — primary owner of this finding.
+- axe-core: WCAG 2.4.1 rule (`bypass`): primary owner of this finding.
 - jsx-a11y: no specific lint rule, but Storybook a11y addon can catch.
 - Lighthouse a11y category checks for skip-link presence.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:focus-no-skip-link — single-form page, header is 1 link */}
+{/* ux-audit-ignore:focus-no-skip-link, single-form page, header is 1 link */}
 ```

@@ -24,4 +24,4 @@ Every image needs alt text that conveys the information the image provides. Desc
 ![Deployment architecture with load balancer routing to three app servers](deployment-diagram.png)
 ```
 
-Reference: [W3C — Alt text decision tree](https://www.w3.org/WAI/tutorials/images/decision-tree/)
+Reference: [W3C: Alt text decision tree](https://www.w3.org/WAI/tutorials/images/decision-tree/)

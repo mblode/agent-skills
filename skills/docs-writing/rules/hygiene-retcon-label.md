@@ -27,4 +27,4 @@ items per request. Implementation is tracked in
 [#1234](https://github.com/example/repo/issues/1234).
 ```
 
-Reference: [Write the Docs — Document-driven development](https://www.writethedocs.org/guide/)
+Reference: [Write the Docs: Document-driven development](https://www.writethedocs.org/guide/)

@@ -24,4 +24,4 @@ generates a response, sends it to the client, and logs it for
 debugging.
 ```
 
-Reference: [Microsoft Writing Style Guide — Sentence length](https://learn.microsoft.com/en-us/style-guide/word-choice/use-simple-words-concise-sentences)
+Reference: [Microsoft Writing Style Guide: Sentence length](https://learn.microsoft.com/en-us/style-guide/word-choice/use-simple-words-concise-sentences)

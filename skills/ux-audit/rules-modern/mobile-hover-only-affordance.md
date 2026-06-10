@@ -50,7 +50,7 @@ rg -n 'title="[^"]{20,}"' --type=tsx
 Two-layer fix: scope hover to hover-capable input, and provide a touch fallback.
 
 ```tsx
-// before — actions invisible on touch
+// before: actions invisible on touch
 <li className="group relative">
   <a href={item.url}>{item.title}</a>
   <div className="absolute right-2 opacity-0 group-hover:opacity-100">
@@ -59,7 +59,7 @@ Two-layer fix: scope hover to hover-capable input, and provide a touch fallback.
   </div>
 </li>
 
-// after — visible on touch, reveal-on-hover on desktop, focus-visible for keyboard
+// after: visible on touch, reveal-on-hover on desktop, focus-visible for keyboard
 <li className="group relative">
   <a href={item.url}>{item.title}</a>
   <div
@@ -134,11 +134,11 @@ Reference docs:
 ## Defer-to (when this is another tool's job)
 
 - **Playwright** with mobile emulation can verify the action is reachable: https://playwright.dev/docs/emulation#devices
-- **eslint-plugin-jsx-a11y** catches some related patterns (`title` carrying critical info) — link, don't restate.
+- **eslint-plugin-jsx-a11y** catches some related patterns (`title` carrying critical info): link, don't restate.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:mobile-hover-only-affordance — purely cosmetic hover state */}
+{/* ux-audit-ignore:mobile-hover-only-affordance, purely cosmetic hover state */}
 <div className="hover:bg-muted" />
 ```

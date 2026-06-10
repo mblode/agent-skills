@@ -18,8 +18,8 @@ Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 8/10
 Quick grade:
 
 - Pass: >= 8
-- Borderline: 6-7 — escalate to the full criteria
-- Fail: <= 5 — escalate to the full criteria; likely needs the refactor workflow
+- Borderline: 6-7, escalate to the full criteria
+- Fail: <= 5, escalate to the full criteria; likely needs the refactor workflow
 
 Automatic fail regardless of score:
 

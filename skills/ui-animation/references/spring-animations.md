@@ -1,6 +1,6 @@
 # Spring Animations
 
-Springs feel more natural than duration-based animations because they simulate real physics. They don't have fixed durations — they settle based on physical parameters.
+Springs feel more natural than duration-based animations because they simulate real physics. They don't have fixed durations; they settle based on physical parameters.
 
 ## When to use springs
 
@@ -16,13 +16,13 @@ Springs feel more natural than duration-based animations because they simulate r
 
 | Parameter | What it controls | Typical range |
 |---|---|---|
-| `stiffness` | Speed of movement (higher = faster) | 100–500 |
-| `damping` | Resistance (lower = more bounce) | 15–40 |
-| `mass` | Weight feel (higher = slower, heavier) | 0.5–2 |
+| `stiffness` | Speed of movement (higher = faster) | 100-500 |
+| `damping` | Resistance (lower = more bounce) | 15-40 |
+| `mass` | Weight feel (higher = slower, heavier) | 0.5-2 |
 
 ## Configuration presets
 
-**Apple-style (recommended — easier to reason about):**
+**Apple-style (recommended, easier to reason about):**
 
 ```js
 { type: "spring", duration: 0.5, bounce: 0.2 }
@@ -37,11 +37,11 @@ Springs feel more natural than duration-based animations because they simulate r
 | Gentle | 200 | 30 | Page transitions, large elements |
 | Stiff | 700 | 50 | Small precise movements |
 
-Bounce communicates brand personality. Default to zero — it is the safe choice. A finance dashboard should never bounce; a learning app or creative tool can use subtle bounce (0.1–0.2) to feel friendlier. The question is not "does it look better with bounce?" but "does this match the brand?"
+Bounce communicates brand personality. Default to zero; it is the safe choice. A finance dashboard should never bounce; a learning app or creative tool can use subtle bounce (0.1-0.2) to feel friendlier. The question is not "does it look better with bounce?" but "does this match the brand?"
 
 ## Interruptibility advantage
 
-Springs maintain velocity when interrupted — CSS keyframes restart from zero. This makes springs ideal for gestures users might change mid-motion.
+Springs maintain velocity when interrupted; CSS keyframes restart from zero. This makes springs ideal for gestures users might change mid-motion.
 
 ```tsx
 // Spring reverses smoothly from current position

@@ -1,4 +1,4 @@
-# Sections — Agentic Experience (Layer 2)
+# Sections: Agentic Experience (Layer 2)
 
 This file defines the 4 categories of agentic experience audit rules. Each rule file uses one of these category prefixes.
 
@@ -22,7 +22,7 @@ This file defines the 4 categories of agentic experience audit rules. Each rule 
 ## 4. Agent Communication (comm)
 
 **Default tier:** release-blocker for silent execution; fix-this-sprint for missing handshake; backlog for missing drafts
-**Why critical:** Silent agents feel broken. The communication contract between agent and user — progress signals, intent confirmation, and generative momentum — is the difference between a tool that works and a black box.
+**Why critical:** Silent agents feel broken. The communication contract between agent and user (progress signals, intent confirmation, and generative momentum) is the difference between a tool that works and a black box.
 
 ---
 
@@ -43,8 +43,8 @@ Total: 12 rules.
 
 These pairings often co-fire on the same surface:
 
-- **no-confidence-cues + no-uncertainty-markers** — Both address "why should I trust this." Different targets: rationale vs. hedging.
-- **no-escape-hatch + no-approval-gate** — For autonomous actions, both fire. Approval gate may partially satisfy escape hatch.
-- **no-progress-signal + no-intent-handshake** — Long-running tasks that didn't confirm scope AND show no progress are doubly opaque.
-- **memory-not-visible + under-contextual** — Complementary: one says the agent knows things the user can't see; the other says it doesn't know things it should.
-- **over-conversational + no-generative-momentum** — Paradoxical pairing: forcing chat where buttons would do, while failing to offer drafts where blanks would benefit.
+- **no-confidence-cues + no-uncertainty-markers**, Both address "why should I trust this." Different targets: rationale vs. hedging.
+- **no-escape-hatch + no-approval-gate**: For autonomous actions, both fire. Approval gate may partially satisfy escape hatch.
+- **no-progress-signal + no-intent-handshake**: Long-running tasks that didn't confirm scope AND show no progress are doubly opaque.
+- **memory-not-visible + under-contextual**, Complementary: one says the agent knows things the user can't see; the other says it doesn't know things it should.
+- **over-conversational + no-generative-momentum**, Paradoxical pairing: forcing chat where buttons would do, while failing to offer drafts where blanks would benefit.

@@ -27,4 +27,4 @@ The load balancer routes traffic to healthy nodes and skips nodes
 that failed a health check in the last 60 seconds.
 ```
 
-Reference: [Google developer documentation style guide — Anthropomorphism](https://developers.google.com/style/anthropomorphism)
+Reference: [Google developer documentation style guide: Anthropomorphism](https://developers.google.com/style/anthropomorphism)

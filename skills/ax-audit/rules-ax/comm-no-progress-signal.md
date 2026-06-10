@@ -11,11 +11,11 @@ related: comm-no-intent-handshake, context-no-adaptive-canvas
 
 ## Multi-step agent task shows no progress
 
-Agent runs a task that takes 30+ seconds. The UI shows nothing — no streaming, no step counter, no thinking indicator. User doesn't know if it's working, stuck, or crashed. Silent agents feel broken.
+Agent runs a task that takes 30+ seconds. The UI shows nothing: no streaming, no step counter, no thinking indicator. User doesn't know if it's working, stuck, or crashed. Silent agents feel broken.
 
 ## What goes wrong
 
-User asks the agent to analyze a dataset. Three tool calls, API waits, synthesis — 45 seconds. The user sees a spinner or nothing. At 15 seconds they wonder if it's broken. At 30 they refresh.
+User asks the agent to analyze a dataset. Three tool calls, API waits, synthesis, 45 seconds. The user sees a spinner or nothing. At 15 seconds they wonder if it's broken. At 30 they refresh.
 
 ## Detection
 
@@ -85,6 +85,6 @@ export function ResearchPanel() {
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:comm-no-progress-signal — instant lookup, sub-second response */}
+{/* ax-audit-ignore:comm-no-progress-signal, instant lookup, sub-second response */}
 <QuickLookup />
 ```

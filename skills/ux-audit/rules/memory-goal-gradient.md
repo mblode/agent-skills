@@ -9,9 +9,9 @@ related: memory-zeigarnik, memory-peak-end-rule, decision-parkinsons-law
 
 ## Goal-Gradient Effect
 
-User effort accelerates as the perceived distance to a goal shrinks. The closer the finish line looks, the harder users push to reach it. Show progress, and show progress the user has already made — even artificially endowed progress increases completion rates. Source: Hull (1932); Kivetz, Urminsky & Zheng (2006) on endowed progress.
+User effort accelerates as the perceived distance to a goal shrinks. The closer the finish line looks, the harder users push to reach it. Show progress, and show progress the user has already made; even artificially endowed progress increases completion rates. Source: Hull (1932); Kivetz, Urminsky & Zheng (2006) on endowed progress.
 
-Pair with a single, clear goal — competing goals dilute the gradient. The classic pattern: a 10-stamp loyalty card with 2 free stamps outperforms an 8-stamp card with 0, because users feel they have already started.
+Pair with a single, clear goal: competing goals dilute the gradient. The classic pattern: a 10-stamp loyalty card with 2 free stamps outperforms an 8-stamp card with 0, because users feel they have already started.
 
 ## Check
 
@@ -20,7 +20,7 @@ Pair with a single, clear goal — competing goals dilute the gradient. The clas
 **Procedure:**
 1. Find multi-step flows, onboarding checklists, profile-completion UI, or wizard sequences.
 2. Check for a visible progress indicator: bar, percentage, `step n of m` paired with a visual gradient, or a completed-items list.
-3. Check for **endowed progress** — at least one item already marked complete on first visit (e.g. `Account created ✓` before the user does anything).
+3. Check for **endowed progress**: at least one item already marked complete on first visit (e.g. `Account created ✓` before the user does anything).
 
 **Concrete commands:**
 ```bash
@@ -32,7 +32,7 @@ rg -n '<progress|role="progressbar"' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Progress indicator present AND endowed progress shown at start | — |
+| pass | Progress indicator present AND endowed progress shown at start |: |
 | warn | Progress indicator present but no endowed start (begins at 0%) | MEDIUM |
 | fail | No visible progress on a flow with ≥3 steps | HIGH |
 

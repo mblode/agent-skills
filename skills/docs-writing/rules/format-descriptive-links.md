@@ -24,4 +24,4 @@ See [Configure authentication](auth.md) for setup steps.
 Review the [rate limit thresholds](rate-limits.md) before going live.
 ```
 
-Reference: [W3C — Link text and purpose](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html)
+Reference: [W3C: Link text and purpose](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html)

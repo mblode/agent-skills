@@ -1,6 +1,6 @@
 # Observational Rubrics
 
-Layer 3 rules with `kind: rubric` score on a 1–5 scale. This file aggregates all 10 rubrics so two agents auditing the same surface produce the same score. Each anchor describes a concrete UI, not "good/bad."
+Layer 3 rules with `kind: rubric` score on a 1-5 scale. This file aggregates all 10 rubrics so two agents auditing the same surface produce the same score. Each anchor describes a concrete UI, not "good/bad."
 
 When scoring: choose the closest anchor, then emit `score` + the verbatim anchor text in the finding's `anchor` field. Pass at ≥4. Warn at 3. Fail at ≤2.
 
@@ -38,7 +38,7 @@ Reviews whether multi-step flows preserve user context (entered values, prior ch
 | Score | Anchor |
 |---|---|
 | 5 | Every step shows a persistent summary of prior choices; values entered earlier are visible or at minimum echoed in step labels; back-button preserves entered values. |
-| 4 | Summary present but minor — e.g. step indicator shows step names, prior values visible on hover or in a sidebar. |
+| 4 | Summary present but minor: e.g. step indicator shows step names, prior values visible on hover or in a sidebar. |
 | 3 | Step indicator shows position only ("Step 3 of 5") with no content recap; back-button works but loses some state. |
 | 2 | No persistent summary; back-button resets fields; user must re-enter values to correct an earlier step. |
 | 1 | Multi-step flow with no progress, no summary, no back-button; user must restart from step 1 on any error. |
@@ -63,7 +63,7 @@ Reviews whether contextual help and guidance live on the critical path, since us
 |---|---|
 | 5 | Every non-obvious field has inline help (placeholder, descriptive label, or tooltip on focus); errors explain *why* and link to the fix; new features have inline introduction at first encounter. |
 | 4 | Most fields have inline help; one or two reference users to external docs unnecessarily. |
-| 3 | Inline help is sparse — present on some fields, absent on others; help docs exist but in a separate /docs route. |
+| 3 | Inline help is sparse: present on some fields, absent on others; help docs exist but in a separate /docs route. |
 | 2 | Tooltips exist but only on hover; mobile users see no help; complex actions assume prior knowledge. |
 | 1 | All help is in external docs; UI assumes the user has read the manual. |
 
@@ -93,7 +93,7 @@ Reviews whether visual composition resolves to a single, simple interpretation. 
 
 ## perception-selective-attention
 
-Reviews whether the primary action survives ad-blindness and selective filtering — users skip anything that *looks like* a banner, ad, or low-priority notification.
+Reviews whether the primary action survives ad-blindness and selective filtering: users skip anything that *looks like* a banner, ad, or low-priority notification.
 
 | Score | Anchor |
 |---|---|
@@ -122,7 +122,7 @@ Reviews whether the UI protects focused work from interruption (modals, toasts, 
 | Score | Anchor |
 |---|---|
 | 5 | Active work is never interrupted; prompts surface only at natural breakpoints (after save, on idle, on exit); feedback is ambient. |
-| 4 | One minor interruption pattern — e.g. a save toast briefly covers the cursor location. |
+| 4 | One minor interruption pattern: e.g. a save toast briefly covers the cursor location. |
 | 3 | Modals or toasts fire during typing or scrolling; user reflex-dismisses them. |
 | 2 | Multiple unsolicited interruptions per session: feature announcements, NPS prompts, paywalls mid-action. |
 | 1 | UI actively interrupts work for marketing or growth goals; users develop dismissal habits and miss real alerts. |
@@ -144,6 +144,6 @@ Reviews visual polish: type system, spacing rhythm, colour palette, shadow/eleva
 ## Common scoring confusions
 
 - **Polish vs usability.** A flow can score 5 on `interaction-aesthetic-usability` and still fail Hick's, Fitts's, etc. Score polish independently.
-- **Conventions vs novelty.** Don't penalize a deliberate, well-explained novel pattern under `memory-mental-model` — penalize unexplained novelty.
+- **Conventions vs novelty.** Don't penalize a deliberate, well-explained novel pattern under `memory-mental-model`: penalize unexplained novelty.
 - **Density vs clutter.** A dashboard with high density can still score 5 on `decision-occams-razor` if every element is task-relevant. Only penalize when elements are decorative.
 - **Persuasion vs bias.** `cognitive-cognitive-bias` penalizes only bias-exploitation. Persuasive copy that makes the truth more legible is not a bias issue.

@@ -40,7 +40,7 @@ fd -e stories.tsx | xargs rg -l 'dark|theme: ["\']dark'
 ```
 
 **False-positive guards:**
-- Skip if the component is in a marketing-only directory (`app/(marketing)`) where the brand explicitly forbids dark mode — verify by reading `tailwind.config.*` or design-tokens file.
+- Skip if the component is in a marketing-only directory (`app/(marketing)`) where the brand explicitly forbids dark mode; verify by reading `tailwind.config.*` or design-tokens file.
 - Skip illustrations, brand SVGs, and logos where fixed color is intentional.
 - Skip files with `// ux-audit-ignore:dark-i18n-untested` near the match.
 
@@ -49,13 +49,13 @@ fd -e stories.tsx | xargs rg -l 'dark|theme: ["\']dark'
 Replace hardcoded tokens with semantic CSS variable tokens, and add a dark Storybook story.
 
 ```tsx
-// before — light-only
+// before: light-only
 <div className="bg-white border border-gray-200 text-gray-900 p-4 rounded-lg">
   <h3 className="text-gray-700">Title</h3>
   <p className="text-gray-500">Body</p>
 </div>
 
-// after — semantic tokens (shadcn / Blode UI convention)
+// after: semantic tokens (shadcn / Blode UI convention)
 <div className="bg-card border border-border text-card-foreground p-4 rounded-lg">
   <h3 className="text-foreground">Title</h3>
   <p className="text-muted-foreground">Body</p>
@@ -140,6 +140,6 @@ export function Alert({ children }) {
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:dark-i18n-untested — brand mark, fixed color by design */}
+{/* ux-audit-ignore:dark-i18n-untested, brand mark, fixed color by design */}
 <svg fill="#FF6F00" />
 ```

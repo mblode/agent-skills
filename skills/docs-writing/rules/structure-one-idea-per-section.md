@@ -43,4 +43,4 @@ If authentication fails, check these common issues:
 - **IP allowlist**: Verify your server IP is on the allowlist.
 ```
 
-Reference: [Write the Docs — Content organization](https://www.writethedocs.org/guide/writing/style-guides/)
+Reference: [Write the Docs: Content organization](https://www.writethedocs.org/guide/writing/style-guides/)

@@ -26,4 +26,4 @@ Every item in a list must follow the same grammatical pattern. If one item start
 - Enable monitoring
 ```
 
-Reference: [Google developer documentation style guide — Lists](https://developers.google.com/style/lists)
+Reference: [Google developer documentation style guide: Lists](https://developers.google.com/style/lists)

@@ -24,4 +24,4 @@ Capitalize only the first word and proper nouns in headings. Sentence case is ea
 ## Getting started with the API Gateway
 ```
 
-Reference: [Google developer documentation style guide — Capitalization](https://developers.google.com/style/capitalization)
+Reference: [Google developer documentation style guide: Capitalization](https://developers.google.com/style/capitalization)

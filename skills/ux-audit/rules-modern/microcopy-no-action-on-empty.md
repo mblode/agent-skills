@@ -10,11 +10,11 @@ related: states-no-empty-state, microcopy-vague-error, memory-zeigarnik, memory-
 
 ## Empty state with no primary action
 
-An empty state without a CTA is a dead end. The user opens an inbox, sees "No messages yet", and has no idea what to do next — start a conversation? wait? import? Empty states are the highest-leverage moment to teach the product: they appear at the start of the user's journey on every list, dashboard, and feed. Every empty state should answer "**why is this empty**" and "**what action populates it**" with a real `<Button>` or `<Link>`, not just static text.
+An empty state without a CTA is a dead end. The user opens an inbox, sees "No messages yet", and has no idea what to do next: start a conversation? wait? import? Empty states are the highest-leverage moment to teach the product: they appear at the start of the user's journey on every list, dashboard, and feed. Every empty state should answer "**why is this empty**" and "**what action populates it**" with a real `<Button>` or `<Link>`, not just static text.
 
 ## What goes wrong
 
-A first-run user lands on the dashboard. The "Recent invoices" widget says "No invoices." There's no button to create one, no link to a tutorial, no hint that invoices come from sending a customer link. The user assumes the product is broken or empty by design and bounces. The fix — adding a `<Link href="/invoices/new">Create your first invoice</Link>` — is one line and recovers the entire session.
+A first-run user lands on the dashboard. The "Recent invoices" widget says "No invoices." There's no button to create one, no link to a tutorial, no hint that invoices come from sending a customer link. The user assumes the product is broken or empty by design and bounces. The fix (adding a `<Link href="/invoices/new">Create your first invoice</Link>`) is one line and recovers the entire session.
 
 ## Detection
 
@@ -41,12 +41,12 @@ rg -l -i 'EmptyState|NoResults|ZeroState|<Empty[A-Z]' --type=tsx src/
 For each match, open the file and verify the block contains at least one of: `<Button`, `<Link`, `<a `, `onClick=`, `<Form` with submit, or a router-based action.
 
 **False-positive guards:**
-- Skip read-only / archival surfaces where no action is possible by design (e.g. a closed-period transaction list). Mark with `// ux-audit-ignore:microcopy-no-action-on-empty — read-only archive`.
-- Skip filter-driven empty states where the action is "clear filters" — but verify the clear-filters control is visible and discoverable.
+- Skip read-only / archival surfaces where no action is possible by design (e.g. a closed-period transaction list). Mark with `// ux-audit-ignore:microcopy-no-action-on-empty, read-only archive`.
+- Skip filter-driven empty states where the action is "clear filters": but verify the clear-filters control is visible and discoverable.
 - Skip Storybook stories, tests, MSW.
 - Skip files where the empty-state component is wrapped by a parent that injects the CTA via children/render props (Read the parent to confirm).
 
-**Agent-judgment limit:** "Action present" is mostly a structural check (look for actionable elements), but judging whether the action is the **right** action — or whether a read-only state is genuinely actionable — needs the agent to read the playbook context (e.g. an inbox empty state should let you compose; a search zero-result should suggest a broader query).
+**Agent-judgment limit:** "Action present" is mostly a structural check (look for actionable elements), but judging whether the action is the **right** action (or whether a read-only state is genuinely actionable) needs the agent to read the playbook context (e.g. an inbox empty state should let you compose; a search zero-result should suggest a broader query).
 
 ## Fix
 
@@ -60,7 +60,7 @@ Every empty state has at least one primary action. Use a real interactive elemen
   </div>
 )}
 
-// after — clear cause + primary action + optional secondary
+// after: clear cause + primary action + optional secondary
 {items.length === 0 && (
   <div role="region" aria-label="No invoices">
     <h3>You haven't sent an invoice yet</h3>
@@ -73,11 +73,11 @@ Every empty state has at least one primary action. Use a real interactive elemen
 )}
 ```
 
-For search zero-results, the action is "broaden the query" — show "Clear filters" / "Reset search" buttons inline with the empty message.
+For search zero-results, the action is "broaden the query": show "Clear filters" / "Reset search" buttons inline with the empty message.
 
 Reference:
-- NN/g — Empty States in UX: https://www.nngroup.com/articles/empty-state-interface-design/
-- NN/g — Beyond Blank Canvas: First-Time UX: https://www.nngroup.com/articles/empty-state-interface-design/
+- NN/g, Empty States in UX: https://www.nngroup.com/articles/empty-state-interface-design/
+- NN/g, Beyond Blank Canvas: First-Time UX: https://www.nngroup.com/articles/empty-state-interface-design/
 - React: https://react.dev/reference/react-dom/components/common (interactive elements)
 
 ## Default tier and overrides
@@ -135,13 +135,13 @@ Reference:
 
 ## Defer-to (when this is another tool's job)
 
-- **WCAG: empty regions need accessible names** — axe.
-- **Visual polish of empty illustrations** — design review.
-- **Goal-gradient / Zeigarnik framing on onboarding empties** — Layer 3 (`memory-goal-gradient`, `memory-zeigarnik`).
+- **WCAG: empty regions need accessible names**: axe.
+- **Visual polish of empty illustrations**: design review.
+- **Goal-gradient / Zeigarnik framing on onboarding empties**: Layer 3 (`memory-goal-gradient`, `memory-zeigarnik`).
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:microcopy-no-action-on-empty — read-only archive of closed periods */}
+{/* ux-audit-ignore:microcopy-no-action-on-empty, read-only archive of closed periods */}
 <EmptyState title="No closed invoices in this period" />
 ```

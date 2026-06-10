@@ -11,7 +11,7 @@ related: context-memory-not-visible, comm-no-progress-signal
 
 ## Interface static during agent task progression
 
-Agent moves through phases — researching, drafting, reviewing, complete — but the UI looks identical in every phase. No phase indicator, no layout change, no context-appropriate tools surfaced. Adaptive Canvas requires the interface to reshape itself around the agent's current activity.
+Agent moves through phases (researching, drafting, reviewing, complete) but the UI looks identical in every phase. No phase indicator, no layout change, no context-appropriate tools surfaced. Adaptive Canvas requires the interface to reshape itself around the agent's current activity.
 
 ## What goes wrong
 
@@ -24,7 +24,7 @@ Agent starts a research task. User sees "Searching..." then nothing changes for 
 **Auditability:** code-auditable
 
 **Static signals:**
-1. Find agent workflow state — phase, status, or stage enums/state machines.
+1. Find agent workflow state: phase, status, or stage enums/state machines.
 2. Check whether rendering differs across phases (conditional rendering, different components per phase).
 3. Flag workflows where UI is identical regardless of agent phase.
 
@@ -60,7 +60,7 @@ Show a phase indicator (stepper, progress bar). Surface phase-appropriate tools 
 
 ```tsx
 function ResearchAgent({ status }: { status: string }) {
-  // status is "searching" | "analyzing" | "complete" — UI never changes
+  // status is "searching" | "analyzing" | "complete": UI never changes
   return <div className="flex"><ChatPanel /><Sidebar /></div>;
 }
 ```
@@ -83,6 +83,6 @@ function ResearchAgent({ status, data }: { status: AgentStatus; data: AgentData 
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:context-no-adaptive-canvas — single-turn chat, no multi-phase workflow */}
+{/* ax-audit-ignore:context-no-adaptive-canvas, single-turn chat, no multi-phase workflow */}
 <AgentChat />
 ```

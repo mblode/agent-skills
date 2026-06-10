@@ -43,7 +43,7 @@ rg 'name:\s*["\x27]create_' --type=ts -o --no-filename src/tools/ | \
 Add the missing CRUD tools. Every entity needs all four.
 
 ```ts
-// before: [createNote, listNotes] — after: add update and delete
+// before: [createNote, listNotes]: after: add update and delete
 export const updateNote = tool({
   name: "update_note",
   execute: async ({ noteId, ...fields }) => api.patch(`/notes/${noteId}`, fields),
@@ -56,7 +56,7 @@ export const deleteNote = tool({
 
 ## Default tier and overrides
 
-**Defaults to:** `release-blocker` — incomplete CRUD strands agents mid-workflow.
+**Defaults to:** `release-blocker`: incomplete CRUD strands agents mid-workflow.
 
 ## Examples
 
@@ -64,7 +64,7 @@ export const deleteNote = tool({
 ```ts
 export const createTask = tool({ name: "create_task", /* ... */ });
 export const listTasks = tool({ name: "list_tasks", /* ... */ });
-// No update_task, no delete_task — agent can't mark tasks complete
+// No update_task, no delete_task: agent can't mark tasks complete
 ```
 
 **Applied (passes):**
@@ -75,6 +75,6 @@ export const tools = [createTask, listTasks, getTask, updateTask, deleteTask];
 
 ## Suppression
 ```ts
-// ax-audit-ignore:parity-crud-incomplete — audit_log is intentionally immutable
+// ax-audit-ignore:parity-crud-incomplete, audit_log is intentionally immutable
 export const listAuditLogs = tool({ name: "list_audit_log", /* ... */ });
 ```

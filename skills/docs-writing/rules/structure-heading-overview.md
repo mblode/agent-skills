@@ -33,4 +33,4 @@ variables in your `.env` file.
 
 This also applies when a heading is followed by a subheading -- add a sentence between them.
 
-Reference: [Google developer documentation style guide — Headings](https://developers.google.com/style/headings)
+Reference: [Google developer documentation style guide: Headings](https://developers.google.com/style/headings)

@@ -31,4 +31,4 @@ Set the `AUTH_PROVIDER` environment variable to your identity
 provider's URL.
 ```
 
-Reference: [Microsoft Style Guide — Content freshness](https://learn.microsoft.com/en-us/style-guide/)
+Reference: [Microsoft Style Guide: Content freshness](https://learn.microsoft.com/en-us/style-guide/)

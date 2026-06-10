@@ -10,7 +10,7 @@ related: dark-i18n-string-overflow, dark-i18n-untested
 
 ## Layout uses physical (left/right) instead of logical (start/end) properties
 
-Arabic, Hebrew, Persian, and Urdu read right-to-left. A layout written with physical properties — `margin-left`, `padding-right`, `text-align: left`, Tailwind `ml-2`, `pr-4`, `text-left` — does not flip when the document direction is `rtl`. Icons that should sit at the inline-start of a label end up on the wrong side; chevrons that point "forward" point backward; padding meant to clear an icon clears the wrong edge. CSS logical properties (`margin-inline-start`, `padding-inline-end`, `text-align: start`) and Tailwind v3+'s `ms-` / `me-` / `ps-` / `pe-` / `start-` / `end-` variants flip automatically with `dir="rtl"`. The bug is silent until someone tests with a Hebrew locale.
+Arabic, Hebrew, Persian, and Urdu read right-to-left. A layout written with physical properties (`margin-left`, `padding-right`, `text-align: left`, Tailwind `ml-2`, `pr-4`, `text-left`) does not flip when the document direction is `rtl`. Icons that should sit at the inline-start of a label end up on the wrong side; chevrons that point "forward" point backward; padding meant to clear an icon clears the wrong edge. CSS logical properties (`margin-inline-start`, `padding-inline-end`, `text-align: start`) and Tailwind v3+'s `ms-` / `me-` / `ps-` / `pe-` / `start-` / `end-` variants flip automatically with `dir="rtl"`. The bug is silent until someone tests with a Hebrew locale.
 
 ## What goes wrong
 
@@ -46,7 +46,7 @@ fd -e stories.tsx | xargs rg -l 'dir="rtl"|direction:\s*rtl' || echo "NO RTL STO
 
 **False-positive guards:**
 - Skip directional icons that should not flip (e.g. external-link icon, Latin-only branding marks). Wrap with `dir="ltr"` if needed.
-- Skip when the project explicitly scopes itself to LTR-only locales — verify by reading i18n config.
+- Skip when the project explicitly scopes itself to LTR-only locales; verify by reading i18n config.
 - Skip files with `// ux-audit-ignore:dark-i18n-rtl-untested` near the match.
 
 ## Fix
@@ -54,7 +54,7 @@ fd -e stories.tsx | xargs rg -l 'dir="rtl"|direction:\s*rtl' || echo "NO RTL STO
 Two-step: replace physical properties with logical, and add a `dir="rtl"` Storybook story (or Playwright fixture) so future regressions get caught.
 
 ```tsx
-// before — physical, breaks in RTL
+// before: physical, breaks in RTL
 <div className="flex items-center pl-4 pr-2">
   <Icon className="mr-2" />
   <span className="text-left">{label}</span>
@@ -63,7 +63,7 @@ Two-step: replace physical properties with logical, and add a `dir="rtl"` Storyb
   </button>
 </div>
 
-// after — logical, flips automatically
+// after: logical, flips automatically
 <div className="flex items-center ps-4 pe-2">
   <Icon className="me-2" />
   <span className="text-start">{label}</span>
@@ -158,6 +158,6 @@ Reference docs:
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:dark-i18n-rtl-untested — directional brand icon, must not flip */}
+{/* ux-audit-ignore:dark-i18n-rtl-untested, directional brand icon, must not flip */}
 <ExternalLinkIcon className="ml-1" />
 ```

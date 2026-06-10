@@ -9,7 +9,7 @@ related: cognitive-millers-law, cognitive-working-memory, perception-proximity, 
 
 ## Chunking
 
-Chunking breaks content into small, semantically meaningful groups so users can scan, process, and recall it. A chunk is one unit of meaning — a date, a phone number, a section of a settings page, a step in a checkout — that the user holds as a single item in working memory instead of every leaf inside it. Effective chunks have a clear boundary (whitespace, divider, card, common region), a label that names the group, and content that actually belongs together.
+Chunking breaks content into small, semantically meaningful groups so users can scan, process, and recall it. A chunk is one unit of meaning (a date, a phone number, a section of a settings page, a step in a checkout) that the user holds as a single item in working memory instead of every leaf inside it. Effective chunks have a clear boundary (whitespace, divider, card, common region), a label that names the group, and content that actually belongs together.
 
 Working-memory recall caps at ~4 chunks for novel content (Cowan, 2001) and ~7 ± 2 for rehearsed content (Miller, 1956); long unbroken digit strings or flat lists exceed both budgets. Chunks that look grouped but split a logical unit, or merge unrelated items, are worse than no chunking at all.
 
@@ -34,7 +34,7 @@ rg -c '<li' src/ListComponent.tsx            # count list items
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | forms ≥5 fields use ≥1 grouping mechanism per ~5 fields; no unbroken digit runs ≥6 chars; lists ≥10 items have headers | — |
+| pass | forms ≥5 fields use ≥1 grouping mechanism per ~5 fields; no unbroken digit runs ≥6 chars; lists ≥10 items have headers |: |
 | warn | forms with 6-10 fields and only 1 grouping; one unbroken digit run; lists 10-20 items without headers | MEDIUM |
 | fail | forms with >10 fields and no grouping; multiple unbroken digit strings; lists >20 items with no chunking | HIGH |
 

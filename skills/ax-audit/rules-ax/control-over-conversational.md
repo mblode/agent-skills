@@ -79,6 +79,6 @@ Add direct-manipulation controls alongside chat: quick-action buttons, command p
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:control-over-conversational — chat-first product by design */}
+{/* ax-audit-ignore:control-over-conversational, chat-first product by design */}
 <AgentChat onSend={onSend} />
 ```

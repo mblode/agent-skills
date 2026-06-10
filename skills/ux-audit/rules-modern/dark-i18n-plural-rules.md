@@ -10,11 +10,11 @@ related: dark-i18n-locale-formatting, microcopy-vague-error
 
 ## Hardcoded English pluralization (item / items)
 
-`count === 1 ? 'item' : 'items'` encodes English's two-form plural into the UI. Most languages don't work that way: Russian and Polish have separate forms for 1, 2-4, and 5+; Arabic has six categories (zero, one, two, few, many, other); Japanese and Chinese have one. A two-branch ternary produces grammatically wrong strings in those languages, and the literal English words never translate at all. The platform exposes CLDR plural categories through `Intl.PluralRules` — feed its category into a per-locale message map (or let your i18n library's ICU `{count, plural, ...}` syntax do it).
+`count === 1 ? 'item' : 'items'` encodes English's two-form plural into the UI. Most languages don't work that way: Russian and Polish have separate forms for 1, 2-4, and 5+; Arabic has six categories (zero, one, two, few, many, other); Japanese and Chinese have one. A two-branch ternary produces grammatically wrong strings in those languages, and the literal English words never translate at all. The platform exposes CLDR plural categories through `Intl.PluralRules`: feed its category into a per-locale message map (or let your i18n library's ICU `{count, plural, ...}` syntax do it).
 
 ## What goes wrong
 
-A notification badge renders `${n} ${n === 1 ? 'message' : 'messages'}`. In English it's fine. Translated to Russian, "5 messages" should be "5 сообщений" but the ternary only knows two forms, so the translator is handed "message"/"messages" slots that can't express the few/many distinction — the result is "5 сообщение" (singular grammar on a plural count), which reads as broken to a native speaker. Because the words are inline literals, a Polish or Arabic translation is impossible without code changes.
+A notification badge renders `${n} ${n === 1 ? 'message' : 'messages'}`. In English it's fine. Translated to Russian, "5 messages" should be "5 сообщений" but the ternary only knows two forms, so the translator is handed "message"/"messages" slots that can't express the few/many distinction, so the result is "5 сообщение" (singular grammar on a plural count), which reads as broken to a native speaker. Because the words are inline literals, a Polish or Arabic translation is impossible without code changes.
 
 ## Detection
 
@@ -24,7 +24,7 @@ A notification badge renders `${n} ${n === 1 ? 'message' : 'messages'}`. In Engl
 1. Grep for two-form ternaries keyed on a count: `=== 1 ?` / `> 1 ?` / `!== 1 ?` returning two string literals.
 2. Grep for naive suffixing: a template that appends `'s'` conditionally, e.g. `` `${n} item${n === 1 ? '' : 's'}` ``.
 3. Confirm the project is multi-locale (locale routing or an i18n library). If single-locale English, lower confidence to `unknown`.
-4. If an i18n library is present, check whether messages use ICU `plural` syntax — absence next to a count is the smell.
+4. If an i18n library is present, check whether messages use ICU `plural` syntax; absence next to a count is the smell.
 
 **Concrete commands:**
 ```bash
@@ -45,10 +45,10 @@ rg -n "item\$\{|\$\{[^}]+\}s\b|\? '' : 's'" --type=tsx
 Resolve the CLDR category with `Intl.PluralRules` and look up the message per category, or delegate to your i18n library's ICU plural format.
 
 ```tsx
-// before — two English forms baked in
+// before: two English forms baked in
 <span>{count} {count === 1 ? "item" : "items"}</span>
 
-// after — CLDR category drives a per-locale message map
+// after: CLDR category drives a per-locale message map
 const pr = new Intl.PluralRules(locale);
 const forms: Record<string, Record<Intl.LDMLPluralRule, string>> = {
   en: { one: "item", other: "items", zero: "items", two: "items", few: "items", many: "items" },
@@ -59,7 +59,7 @@ const word = forms[locale][pr.select(count)];
 ```
 
 ```tsx
-// preferred — let the i18n library do ICU plural selection
+// preferred: let the i18n library do ICU plural selection
 // messages: { "items": "{count, plural, one {# item} other {# items}}" }
 <span>{t("items", { count })}</span>
 ```
@@ -109,6 +109,6 @@ export function ResultCount({ n }: { n: number }) {
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:dark-i18n-plural-rules — English-only marketing copy */}
+{/* ux-audit-ignore:dark-i18n-plural-rules, English-only marketing copy */}
 <span>{count === 1 ? "post" : "posts"}</span>
 ```

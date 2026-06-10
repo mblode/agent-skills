@@ -7,7 +7,7 @@ description: Audits web UI quality at page or feature level across accessibility
 
 Page/feature-level audit of web UI quality. Loads only the rule categories the current surfaces need, reports findings with `file:line` and a concrete fix for each.
 
-- **IS:** a broad quality audit of rendered web UI — accessibility, keyboard, forms, typography surface checks, navigation feedback, layout resilience, performance, motion, microcopy — at the page or feature level.
+- **IS:** a broad quality audit of rendered web UI (accessibility, keyboard, forms, typography surface checks, navigation feedback, layout resilience, performance, motion, microcopy) at the page or feature level.
 - **IS NOT:** a diff-level React/Next.js UX bug hunt (use `ux-audit`), an agentic-app pattern review (use `ax-audit`), a typography system design or pairing audit (use `typography-audit`), or motion implementation work (use `ui-animation`).
 
 ## Audit Workflow
@@ -16,12 +16,12 @@ Copy and track this checklist during the audit:
 
 ```text
 Audit progress:
-- [ ] Step 1: Scope — list the surfaces under audit and the rule prefixes they need
-- [ ] Step 2: Load rules — read rules/<prefix>-*.md for selected prefixes only
-- [ ] Step 3: CRITICAL pass — a11y, interaction, forms against every scoped file
-- [ ] Step 4: HIGH/MEDIUM pass — remaining selected prefixes
-- [ ] Step 5: Optional sweeps — craft/typography checklists if polish is in scope
-- [ ] Step 6: Report — findings per file with rule id, impact, and fix; clean files as pass
+- [ ] Step 1: Scope. List the surfaces under audit and the rule prefixes they need
+- [ ] Step 2: Load rules. Read rules/<prefix>-*.md for selected prefixes only
+- [ ] Step 3: CRITICAL pass. a11y, interaction, forms against every scoped file
+- [ ] Step 4: HIGH/MEDIUM pass. Remaining selected prefixes
+- [ ] Step 5: Optional sweeps. Craft/typography checklists if polish is in scope
+- [ ] Step 6: Report. Findings per file with rule id, impact, and fix; clean files as pass
 ```
 
 1. **Scope.** Default to changed pages/components only. A full-app sweep must be explicitly requested. Map each surface to the prefixes it can violate (a form screen needs `forms-`, `a11y-`, `interaction-`; a marketing page adds `type-`, `perf-`, `copy-`).
@@ -29,11 +29,11 @@ Audit progress:
 3. **CRITICAL first.** Run `a11y-`, `interaction-`, and `forms-` before anything else. Do not start visual polish while an unlabeled icon button or keyboard trap is open.
 4. **HIGH/MEDIUM next.** Then `type-`, `nav-`, `layout-`, `perf-`, `motion-`, `copy-` as scoped.
 5. **Optional sweeps.** When the request includes polish, hierarchy, or chrome cleanup, run `references/craft-checklist.md`. When typography is a named concern, run `references/typography-checklist.md`.
-6. **Report and verify.** Emit the output contract below. After fixes are applied, rerun the same rule subset on touched files before marking them pass — the rerun output is the evidence the audit is done.
+6. **Report and verify.** Emit the output contract below. After fixes are applied, rerun the same rule subset on touched files before marking them pass; the rerun output is the evidence the audit is done.
 
 ## Rule Categories by Priority
 
-35 rules total. Per-rule frontmatter may override the category impact (e.g. `perf-image-dimensions-and-priority` is CRITICAL inside the HIGH `perf-` category) — report the rule's own impact, not the category's.
+35 rules total. Per-rule frontmatter may override the category impact (e.g. `perf-image-dimensions-and-priority` is CRITICAL inside the HIGH `perf-` category), so report the rule's own impact, not the category's.
 
 | Priority | Prefix | Category | Impact | Rules |
 |----------|--------|----------|--------|-------|
@@ -49,12 +49,12 @@ Audit progress:
 
 ## Reference Files
 
-Load on condition — not by default:
+Load on condition, not by default:
 
-- `rules/_sections.md` — category map with impact rationale. Read at Step 2 of every audit.
-- `rules/<prefix>-*.md` — rule-level guidance and examples. Read only the prefixes selected in Step 1.
-- `references/craft-checklist.md` — final polish sweep (hit targets, hover states, chrome hierarchy, optical alignment, concentric radii, anti-patterns). Read when the request includes "polish", visual hierarchy, or pre-release sign-off.
-- `references/typography-checklist.md` — typography surface sweep (punctuation, measure, leading, OpenType basics, link styling, table numerals). Read when typography is explicitly in scope. For typeface pairing, brand identity, or display type, route to the `typography-audit` skill instead.
+- `rules/_sections.md`: category map with impact rationale. Read at Step 2 of every audit.
+- `rules/<prefix>-*.md`: rule-level guidance and examples. Read only the prefixes selected in Step 1.
+- `references/craft-checklist.md`: final polish sweep (hit targets, hover states, chrome hierarchy, optical alignment, concentric radii, anti-patterns). Read when the request includes "polish", visual hierarchy, or pre-release sign-off.
+- `references/typography-checklist.md`: typography surface sweep (punctuation, measure, leading, OpenType basics, link styling, table numerals). Read when typography is explicitly in scope. For typeface pairing, brand identity, or display type, route to the `typography-audit` skill instead.
 
 ## Review Output Contract
 
@@ -76,24 +76,24 @@ Report findings in this format:
 ```
 
 - Group findings by file; include `file:line` when line numbers are available.
-- Every finding states the issue and a concrete fix — never just "improve accessibility".
+- Every finding states the issue and a concrete fix, never just "improve accessibility".
 - Use the rule's own impact from its frontmatter.
 - Include every scoped file, clean ones as `✓ pass`.
 
 ## Gotchas
 
-- Do not load all 35 rule files for a scoped audit — the context cost flattens finding quality. Load only the prefixes mapped in Step 1; a typical component audit needs 3-4 prefixes.
+- Do not load all 35 rule files for a scoped audit; the context cost flattens finding quality. Load only the prefixes mapped in Step 1; a typical component audit needs 3-4 prefixes.
 - Do not invent rule ids. Citing a nonexistent id (e.g. `a11y-focus-trap`) breaks the user's ability to look up the rule; cite only filenames that exist under `rules/`, and describe id-less issues in prose.
-- Do not widen scope unprompted. Auditing the whole app when one component changed buries the real findings in noise — a full sweep requires an explicit request.
-- Do not reorder priorities for convenience. Reporting border-radius polish while an unlabeled form input (`forms-labels-and-autocomplete`) or keyboard-inoperable control (`interaction-keyboard-operable`) ships inverts the table's load-bearing order — CRITICAL categories always run first.
+- Do not widen scope unprompted. Auditing the whole app when one component changed buries the real findings in noise; a full sweep requires an explicit request.
+- Do not reorder priorities for convenience. Reporting border-radius polish while an unlabeled form input (`forms-labels-and-autocomplete`) or keyboard-inoperable control (`interaction-keyboard-operable`) ships inverts the table's load-bearing order; CRITICAL categories always run first.
 - Do not mark `✓ pass` on a file you did not read against the loaded rules. An assumed pass that later surfaces a contrast or label failure costs more trust than a slower audit.
-- Do not report findings at category impact when the rule frontmatter says otherwise — `perf-image-dimensions-and-priority` is CRITICAL (CLS) even though `perf-` is a HIGH category.
-- The anti-patterns list in `references/craft-checklist.md` describes UI code being audited, not this skill's execution — do not flag the skill's own report format against it.
+- Do not report findings at category impact when the rule frontmatter says otherwise: `perf-image-dimensions-and-priority` is CRITICAL (CLS) even though `perf-` is a HIGH category.
+- The anti-patterns list in `references/craft-checklist.md` describes UI code being audited, not this skill's execution; do not flag the skill's own report format against it.
 
 ## Related Skills
 
-- `ux-audit` — diff-aware React/Next.js UX bug hunt (state coverage, form data loss, focus management); use it for code-level review of a PR.
-- `ax-audit` — agentic application patterns and trust design.
-- `typography-audit` — deep typography: pairing, OpenType systems, brand and display type.
-- `ui-animation` — motion implementation and review (springs, easing, gestures); apply it when audit findings require motion work.
-- `ui-design` — visual direction, palettes, and design tokens when the fix is "redesign", not "repair".
+- `ux-audit`: diff-aware React/Next.js UX bug hunt (state coverage, form data loss, focus management); use it for code-level review of a PR.
+- `ax-audit`: agentic application patterns and trust design.
+- `typography-audit`: deep typography, covering pairing, OpenType systems, brand and display type.
+- `ui-animation`: motion implementation and review (springs, easing, gestures); apply it when audit findings require motion work.
+- `ui-design`: visual direction, palettes, and design tokens when the fix is "redesign", not "repair".

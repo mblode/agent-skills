@@ -10,11 +10,11 @@ related: states-no-skeleton, states-no-error-state
 
 ## Empty state has no call to action
 
-When a list, table, or feed is empty, "No items" alone is a dead end. The user does not know whether nothing exists, the filter is too narrow, or they need to do something to populate it. A good empty state names the situation, explains why, and offers exactly one primary action to escape it. Onboarding empty states (first-run inbox, fresh dashboard) are the highest-leverage surfaces in the entire product — and the most commonly skipped.
+When a list, table, or feed is empty, "No items" alone is a dead end. The user does not know whether nothing exists, the filter is too narrow, or they need to do something to populate it. A good empty state names the situation, explains why, and offers exactly one primary action to escape it. Onboarding empty states (first-run inbox, fresh dashboard) are the highest-leverage surfaces in the entire product, and the most commonly skipped.
 
 ## What goes wrong
 
-A new user signs up. They land on the dashboard. The "Recent invoices" widget reads "No invoices." There is no button, no link, no text suggesting they should create one. The user assumes the feature is broken or incomplete and bounces. Or: a power user filters their inbox to "starred + label:billing + last 7 days." Zero results. Same dead-end "No messages" — no "Clear filters" CTA.
+A new user signs up. They land on the dashboard. The "Recent invoices" widget reads "No invoices." There is no button, no link, no text suggesting they should create one. The user assumes the feature is broken or incomplete and bounces. Or: a power user filters their inbox to "starred + label:billing + last 7 days." Zero results. Same dead-end "No messages": no "Clear filters" CTA.
 
 ## Detection
 
@@ -23,7 +23,7 @@ A new user signs up. They land on the dashboard. The "Recent invoices" widget re
 **Static signals:**
 1. Find empty branches: `items.length === 0`, `isEmpty`, `data?.length ?? 0 === 0`, `!data?.length`, `data === null && !isLoading`.
 2. Inspect the JSX returned by the empty branch.
-3. Fail if it contains only text — no `<Button>`, `<Link>`, `<a>`, `<button>`, `onClick=` element.
+3. Fail if it contains only text: no `<Button>`, `<Link>`, `<a>`, `<button>`, `onClick=` element.
 4. Fail if the only "action" is a passive sentence ("Try a different search") with no clickable element.
 
 **Concrete commands:**
@@ -43,7 +43,7 @@ rg -i 'no .{1,30} yet|nothing here|empty' --type=tsx src/
 
 **False-positive guards:**
 - Skip files with `// ux-audit-ignore:states-no-empty-state`.
-- Skip components where empty is a transient state during initial type-ahead (the user just opened the picker and hasn't typed yet) — covered separately.
+- Skip components where empty is a transient state during initial type-ahead (the user just opened the picker and hasn't typed yet): covered separately.
 - Skip nested empty branches inside a parent that already provides a CTA at the page level.
 - Skip Storybook fixtures.
 
@@ -125,11 +125,11 @@ Docs:
 
 ## Defer-to (when this is another tool's job)
 
-- Copywriting quality on the empty-state body text — defer to copywriting review (this rule only requires a CTA, not perfect copy).
+- Copywriting quality on the empty-state body text; defer to copywriting review (this rule only requires a CTA, not perfect copy).
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:states-no-empty-state — typeahead initial state, CTA would be noise */}
+{/* ux-audit-ignore:states-no-empty-state, typeahead initial state, CTA would be noise */}
 {!query && <p className="text-muted-foreground">Start typing to search</p>}
 ```

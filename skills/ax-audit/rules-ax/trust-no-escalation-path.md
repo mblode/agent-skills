@@ -86,6 +86,6 @@ const agentTools = {
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:trust-no-escalation-path — internal admin tool, operator is the human */}
+{/* ax-audit-ignore:trust-no-escalation-path, internal admin tool, operator is the human */}
 <AgentToolPanel tools={adminTools} />
 ```

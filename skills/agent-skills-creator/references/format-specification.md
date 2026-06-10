@@ -89,13 +89,14 @@ description: What the skill does. Use when...
 - Use consistent terminology (pick one term and stick with it)
 - Forward slashes in all file paths
 - No time-sensitive content (use collapsed "Old patterns" section if needed)
+- No em dashes; restructure with commas, colons, periods, or parentheses (applies to every file in the skill, including the description)
 
 ## Reference and Rule Files
 
 - References must be one level deep from SKILL.md (no chains)
 - Files are only loaded when explicitly listed in SKILL.md
 - Files over 100 lines should start with a table of contents
-- Long references up to ~450 lines are fine when TOC'd and single-topic — split by loading condition, not by line count alone
+- Long references up to ~450 lines are fine when TOC'd and single-topic; split by loading condition, not by line count alone
 - Dropping a file in the folder without linking it from SKILL.md means it will not be discovered
 
 ## Naming Conventions

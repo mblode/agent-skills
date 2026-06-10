@@ -22,7 +22,7 @@ User opens a project management agent. System prompt has role instructions but n
 **Surfaces:** agent-chat, agent-tool-execution, agent-config
 
 **Static signals:**
-1. Find system prompt assembly — string templates, prompt builders, message arrays.
+1. Find system prompt assembly: string templates, prompt builders, message arrays.
 2. Check whether the prompt injects: (a) available resources, (b) capabilities, (c) recent activity.
 3. Flag prompts missing any of the three.
 
@@ -43,7 +43,7 @@ rg '(availableResources|recentActivity|capabilities|context\.md)' --type=ts src/
 // before
 const messages = [{ role: "system", content: "You are a helpful assistant." }, ...userMessages];
 
-// after — inject Available Data, What You Can Do, Recent Context
+// after: inject Available Data, What You Can Do, Recent Context
 const ctx = await loadProjectContext(session.userId);
 const messages = [
   { role: "system", content: `You are an assistant.\n\n## Available Data\n${ctx.resources}\n\n## Capabilities\n${ctx.capabilities}\n\n## Recent Context\n${ctx.recent}` },
@@ -78,6 +78,6 @@ const messages = [{ role: "system", content: `You assist with code.\n\n${ctx.for
 ## Suppression
 
 ```tsx
-// ax-audit-ignore:context-starvation — bootstrapping prompt, context injected by middleware
+// ax-audit-ignore:context-starvation, bootstrapping prompt, context injected by middleware
 const basePrompt = "You are a helpful assistant.";
 ```

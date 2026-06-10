@@ -7,7 +7,7 @@ Defines all rule categories in audit priority order. The ID in parentheses is th
 ## 1. Accessibility and Semantics (a11y)
 
 **Impact:** CRITICAL
-**Description:** Semantic structure, accessible names, contrast, media alternatives, and document language. Failures exclude assistive-tech users entirely — run this category first on every audit.
+**Description:** Semantic structure, accessible names, contrast, media alternatives, and document language. Failures exclude assistive-tech users entirely, so run this category first on every audit.
 
 ## 2. Keyboard and Interaction (interaction)
 
@@ -22,7 +22,7 @@ Defines all rule categories in audit priority order. The ID in parentheses is th
 ## 4. Typography and Readability (type)
 
 **Impact:** HIGH
-**Description:** Surface-level readability — scale, measure, leading, link distinction. Deep typography (pairing, brand, display) belongs to the typography-audit skill, not this category.
+**Description:** Surface-level readability: scale, measure, leading, link distinction. Deep typography (pairing, brand, display) belongs to the typography-audit skill, not this category.
 
 ## 5. Navigation and Feedback (nav)
 
@@ -47,4 +47,4 @@ Defines all rule categories in audit priority order. The ID in parentheses is th
 ## 9. Content and Microcopy (copy)
 
 **Impact:** MEDIUM
-**Description:** Specific action labels and actionable error messages. Vague copy lowers completion rates and raises support load — audit last, after structural issues are clear.
+**Description:** Specific action labels and actionable error messages. Vague copy lowers completion rates and raises support load, so audit last, after structural issues are clear.

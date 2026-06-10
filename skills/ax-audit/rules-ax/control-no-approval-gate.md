@@ -11,7 +11,7 @@ related: control-no-escape-hatch, trust-no-escalation-path, comm-no-approval-gat
 
 ## Autonomous agent action without stakes-appropriate approval
 
-Agent sends an email, posts to Slack, or deletes data without asking. Or: agent asks confirmation for every trivial action. Either extreme breaks trust — too autonomous or too cautious. The approval model must match the stakes and reversibility of the action.
+Agent sends an email, posts to Slack, or deletes data without asking. Or: agent asks confirmation for every trivial action. Either extreme breaks trust: too autonomous or too cautious. The approval model must match the stakes and reversibility of the action.
 
 ## What goes wrong
 
@@ -85,6 +85,6 @@ async function handleSendEmail(draft: EmailDraft, ctx: AgentContext) {
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:control-no-approval-gate — user opted into auto-apply mode */}
+{/* ax-audit-ignore:control-no-approval-gate, user opted into auto-apply mode */}
 <AutoApplyToggle enabled={userPreference.autoApply} />
 ```

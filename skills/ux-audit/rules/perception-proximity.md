@@ -11,7 +11,7 @@ related: perception-similarity, perception-common-region, perception-uniform-con
 
 A Gestalt grouping principle: items placed near each other read as belonging together. Spacing is the cue. When two elements share less whitespace with each other than with their surroundings, the eye binds them into a group before any label, border, or color is processed. Threshold for legible grouping: inter-group spacing should be at least 2× the intra-group spacing (see Lidwell, *Universal Principles of Design*; lawsofux.com/law-of-proximity).
 
-Among the four grouping laws, proximity is the baseline cue. Uniform Connectedness and Common Region beat it when they conflict — a card border holds its contents together even if internal spacing is loose. Use proximity to do the work first; reach for borders only when spacing alone cannot communicate the group.
+Among the four grouping laws, proximity is the baseline cue. Uniform Connectedness and Common Region beat it when they conflict: a card border holds its contents together even if internal spacing is loose. Use proximity to do the work first; reach for borders only when spacing alone cannot communicate the group.
 
 ## Check
 
@@ -32,7 +32,7 @@ rg 'space-y-|gap-|className.*space' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | inter/intra ratio ≥2× consistently across the surface | — |
+| pass | inter/intra ratio ≥2× consistently across the surface |: |
 | warn | ratio between 1.5× and 2× | MEDIUM |
 | fail | ratio <1.5× (groups visually indistinguishable) | HIGH |
 

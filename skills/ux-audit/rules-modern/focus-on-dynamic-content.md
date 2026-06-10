@@ -14,15 +14,15 @@ Single-page apps don't reload the page on navigation, which means the browser do
 
 ## What goes wrong
 
-User submits a search. Results render. Sighted users see the list. Screen-reader users hear nothing — focus is still on the search input, the results section has no live region, and no element was focused. They don't know the search succeeded. Or: route changes from `/dashboard` to `/dashboard/billing`. Visually the page is new; for assistive tech, focus is still wherever the click happened.
+User submits a search. Results render. Sighted users see the list. Screen-reader users hear nothing: focus is still on the search input, the results section has no live region, and no element was focused. They don't know the search succeeded. Or: route changes from `/dashboard` to `/dashboard/billing`. Visually the page is new; for assistive tech, focus is still wherever the click happened.
 
 ## Detection
 
 **Surfaces:** search results, route transitions, async-loaded content, validation error summaries, in-page error/success banners.
 
 **Static signals:**
-1. `rg 'router\.(push|replace)|useRouter\(\)' --type=tsx -l` — programmatic nav callers.
-2. `rg 'isLoading|isPending' --type=tsx -l` — components that swap async content.
+1. `rg 'router\.(push|replace)|useRouter\(\)' --type=tsx -l`: programmatic nav callers.
+2. `rg 'isLoading|isPending' --type=tsx -l`: components that swap async content.
 3. For each, look for one of:
    - `useEffect` + `ref.current?.focus()` after content mounts.
    - `aria-live="polite"` or `role="status"` on the dynamic region.
@@ -148,11 +148,11 @@ function Search() {
 ## Defer-to (when this is another tool's job)
 
 - axe-core: WCAG 4.1.3 (Status Messages) checks.
-- Manual screen-reader pass — automated tools cannot fully verify announcements were heard.
+- Manual screen-reader pass; automated tools cannot fully verify announcements were heard.
 - Vercel Agent / CodeRabbit for diff-time spotting.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:focus-on-dynamic-content — content change is purely decorative */}
+{/* ux-audit-ignore:focus-on-dynamic-content, content change is purely decorative */}
 ```

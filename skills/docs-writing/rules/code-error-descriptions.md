@@ -33,4 +33,4 @@ to your retry logic or request a rate limit increase in the
 [API dashboard](https://dashboard.acme.com/limits).
 ```
 
-Reference: [Microsoft REST API Guidelines — Error handling](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md)
+Reference: [Microsoft REST API Guidelines: Error handling](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md)

@@ -10,7 +10,7 @@ related: dark-i18n-locale-formatting, dark-i18n-rtl-untested
 
 ## Language switcher uses flags or untranslated labels
 
-A language switcher that labels options with flag emoji, or with names written in the *current* UI language, fails the users it exists for. Flags are countries, not languages: 🇺🇸 doesn't mean English (spoken across dozens of countries), 🇧🇷 vs 🇵🇹 splits one language, and Arabic, Spanish, or French map to no single flag. A user whose language isn't the active one can't read "German / French / Spanish" rendered in English — the one list they need to understand is the one written in a language they don't speak. The fix: list each locale **endonymously** (in its own language — "Deutsch", "日本語", "العربية") and tag each option with the correct `lang` attribute so screen readers pronounce it.
+A language switcher that labels options with flag emoji, or with names written in the *current* UI language, fails the users it exists for. Flags are countries, not languages: 🇺🇸 doesn't mean English (spoken across dozens of countries), 🇧🇷 vs 🇵🇹 splits one language, and Arabic, Spanish, or French map to no single flag. A user whose language isn't the active one can't read "German / French / Spanish" rendered in English: the one list they need to understand is the one written in a language they don't speak. The fix: list each locale **endonymously** (in its own language: "Deutsch", "日本語", "العربية") and tag each option with the correct `lang` attribute so screen readers pronounce it.
 
 ## What goes wrong
 
@@ -31,7 +31,7 @@ A footer switcher renders `🇩🇪 German`, `🇫🇷 French`, `🇸🇦 Arabic
 # Flag emoji in switcher components
 rg -n '\p{Regional_Indicator}{2}' --type=tsx
 
-# Locale option lists — inspect for English labels and missing lang
+# Locale option lists: inspect for English labels and missing lang
 rg -n 'locales?\.map|languageNames|localeName' --type=tsx -A 3
 ```
 
@@ -45,14 +45,14 @@ rg -n 'locales?\.map|languageNames|localeName' --type=tsx -A 3
 Label each locale in its own language and set `lang` on each option. Drop flags. Keep the current selection marked with `aria-current`.
 
 ```tsx
-// before — flags + English labels, no lang
+// before: flags + English labels, no lang
 <select>
   <option value="en">🇺🇸 English</option>
   <option value="de">🇩🇪 German</option>
   <option value="ar">🇸🇦 Arabic</option>
 </select>
 
-// after — endonyms, lang per option, no flags
+// after: endonyms, lang per option, no flags
 const LOCALES = [
   { code: "en", label: "English" },
   { code: "de", label: "Deutsch" },
@@ -107,12 +107,12 @@ Reference docs:
 
 ## Defer-to (when this is another tool's job)
 
-- **axe** flags some missing-`lang` issues but not flag misuse or endonym labeling — those are review-time judgment calls.
+- **axe** flags some missing-`lang` issues but not flag misuse or endonym labeling; those are review-time judgment calls.
 - **Translation QA** confirms each endonym is spelled and scripted correctly.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:dark-i18n-language-switcher — country selector, not language */}
+{/* ux-audit-ignore:dark-i18n-language-switcher, country selector, not language */}
 <option value="us">🇺🇸 United States</option>
 ```

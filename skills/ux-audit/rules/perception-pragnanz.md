@@ -11,7 +11,7 @@ related: perception-similarity, decision-occams-razor, cognitive-cognitive-load
 
 The "law of good figure" or "law of simplicity": when faced with an ambiguous or complex shape, the eye resolves it into the simplest possible interpretation. The brain prefers the reading that costs the least cognitive effort. Simple, regular, unified shapes are processed and remembered faster than complex, irregular ones. This is a rubric-based rule: score how cleanly the composition resolves to a single reading.
 
-Prägnanz is the umbrella principle behind the other Gestalt laws — it is *why* the brain groups by proximity, similarity, region, and connection. If your composition can be misread as a simpler shape, it will be.
+Prägnanz is the umbrella principle behind the other Gestalt laws: it is *why* the brain groups by proximity, similarity, region, and connection. If your composition can be misread as a simpler shape, it will be.
 
 ## Rubric
 
@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 
@@ -43,7 +43,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 - Remove rotated, skewed, or overlapping decorative elements (tilted badges, angled banners, blob shapes layered over content).
 - Adopt a single grid; align every section, card, and figure to it. No off-grid one-offs.
-- Resolve competing alignments — pick left, center, or right per section and stick with it.
+- Resolve competing alignments: pick left, center, or right per section and stick with it.
 - Collapse near-duplicate shapes (two badges, two CTAs, two illustrations) to one dominant figure per section.
 - Reduce decorative gradients and overlays so a single figure-ground reading wins.
 

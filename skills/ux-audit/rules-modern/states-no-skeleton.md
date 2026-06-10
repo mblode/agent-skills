@@ -10,7 +10,7 @@ related: states-layout-shift, states-generic-loading-copy
 
 ## Async data renders a spinner instead of a skeleton
 
-A centered spinner over an empty area gives the user no preview of what's coming, occupies different space than the loaded layout, and triggers Cumulative Layout Shift when the data arrives. A skeleton — a low-fidelity outline matching the loaded content's shape and size — solves all three: it primes the user, reserves space, and feels faster even at the same actual latency.
+A centered spinner over an empty area gives the user no preview of what's coming, occupies different space than the loaded layout, and triggers Cumulative Layout Shift when the data arrives. A skeleton (a low-fidelity outline matching the loaded content's shape and size) solves all three: it primes the user, reserves space, and feels faster even at the same actual latency.
 
 ## What goes wrong
 
@@ -27,7 +27,7 @@ Dashboard route loads. User sees a centered spinner where six cards will eventua
    - A `<Spinner>` / `<CircularProgress>` / `<Loader>` not inside a layout box that matches the loaded layout
    - `<div className="loading">Loading…</div>` (also fires `states-generic-loading-copy`)
 3. Pass if it returns a `<Skeleton>` (or repeated skeleton rows) sized to match the loaded layout.
-4. Next.js: `loading.tsx` should not return a centered spinner — same rule applies.
+4. Next.js: `loading.tsx` should not return a centered spinner; the same rule applies.
 
 **Concrete commands:**
 ```bash
@@ -51,7 +51,7 @@ rg 'Suspense fallback=\{<Spinner' --type=tsx src/
 - Skip components where the data is small enough that a skeleton makes no sense (a single inline value); use `aria-busy` instead.
 - Skip files with `// ux-audit-ignore:states-no-skeleton`.
 - Skip Storybook fixtures.
-- Skip image-only galleries that render `<img>` directly with `width`/`height` and a placeholder — covered by `states-layout-shift`.
+- Skip image-only galleries that render `<img>` directly with `width`/`height` and a placeholder; covered by `states-layout-shift`.
 
 ## Fix
 
@@ -68,7 +68,7 @@ export function InvoiceList() {
   );
 }
 
-// after — skeleton matches loaded shape
+// after: skeleton matches loaded shape
 function InvoiceListSkeleton() {
   return (
     <ul aria-busy="true" aria-live="polite">
@@ -85,7 +85,7 @@ export function InvoiceList() {
   return <ul>{data.map((i) => <InvoiceRow key={i.id} {...i} />)}</ul>;
 }
 
-// or — server component with Suspense
+// or: server component with Suspense
 export default function Page() {
   return (
     <Suspense fallback={<InvoiceListSkeleton />}>
@@ -94,7 +94,7 @@ export default function Page() {
   );
 }
 
-// or — Next.js route loading
+// or: Next.js route loading
 // app/invoices/loading.tsx
 export default function Loading() {
   return <InvoiceListSkeleton />;
@@ -136,12 +136,12 @@ if (isLoading) return <InvoiceListSkeleton />;
 
 ## Defer-to (when this is another tool's job)
 
-- Lighthouse measures the resulting CLS — link to its report rather than restating the metric.
+- Lighthouse measures the resulting CLS; link to its report rather than restating the metric.
 - Component libraries (shadcn/ui, Radix, MUI) ship `<Skeleton>`; prefer their primitives over hand-rolled.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:states-no-skeleton — inline spinner sized to context, no layout shift */}
+{/* ux-audit-ignore:states-no-skeleton, inline spinner sized to context, no layout shift */}
 {isPending && <Spinner className="h-4 w-4" />}
 ```

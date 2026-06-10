@@ -10,7 +10,7 @@ related: states-no-skeleton, states-layout-shift, async-no-error-boundary
 
 ## Async server component without Suspense boundary
 
-In Next.js App Router and React 19, an async server component without an enclosing `<Suspense>` boundary blocks the entire route from streaming. Users wait for the slowest fetch before seeing anything — no shell, no skeleton, no progressive paint. The right primitive to unblock the rest of the page is `<Suspense fallback={...}>` placed around the slow async tree.
+In Next.js App Router and React 19, an async server component without an enclosing `<Suspense>` boundary blocks the entire route from streaming. Users wait for the slowest fetch before seeing anything: no shell, no skeleton, no progressive paint. The right primitive to unblock the rest of the page is `<Suspense fallback={...}>` placed around the slow async tree.
 
 ## What goes wrong
 
@@ -42,7 +42,7 @@ done
 ```
 
 **False-positive guards:**
-- Skip if a `loading.tsx` exists at any ancestor segment — Next.js wraps the segment in Suspense automatically.
+- Skip if a `loading.tsx` exists at any ancestor segment; Next.js wraps the segment in Suspense automatically.
 - Skip if the component is a leaf and renders inline static markup (no awaits).
 - Skip files annotated `// ux-audit-ignore:async-no-suspense-boundary`.
 
@@ -51,7 +51,7 @@ done
 Wrap the slow async tree in `<Suspense>` with a skeleton fallback that matches the loaded layout (CLS-safe).
 
 ```tsx
-// before — entire dashboard waits for SlowWidget
+// before: entire dashboard waits for SlowWidget
 export default async function DashboardPage() {
   return (
     <main>
@@ -62,7 +62,7 @@ export default async function DashboardPage() {
   );
 }
 
-// after — SlowWidget streams in; rest of the page paints immediately
+// after: SlowWidget streams in; rest of the page paints immediately
 import { Suspense } from 'react';
 
 export default function DashboardPage() {
@@ -99,7 +99,7 @@ Docs:
 
 **Anti-pattern (fails):**
 ```tsx
-// app/dashboard/page.tsx — no Suspense, no loading.tsx
+// app/dashboard/page.tsx: no Suspense, no loading.tsx
 export default async function Page() {
   const billing = await fetchBilling();      // slow
   const usage = await fetchUsage();          // slow
@@ -133,6 +133,6 @@ export default function Page() {
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:async-no-suspense-boundary — leaf is sync, no await */}
+{/* ux-audit-ignore:async-no-suspense-boundary, leaf is sync, no await */}
 <StaticWidget />
 ```

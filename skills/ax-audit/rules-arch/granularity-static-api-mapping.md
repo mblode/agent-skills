@@ -39,8 +39,8 @@ rg 'name:\s*["\x27](read|get|list|create|update|delete)_' --type=ts -o --no-file
 Replace static tools with discover + access.
 
 ```ts
-// before — read_blog_post, read_landing_page ... 30 identical tools
-// after — two tools cover the entire surface
+// before: read_blog_post, read_landing_page ... 30 identical tools
+// after: two tools cover the entire surface
 export const listContentTypes = tool({
   name: "list_content_types",
   execute: async () => api.get("/content/types"),
@@ -54,7 +54,7 @@ export const readContent = tool({
 
 ## Default tier and overrides
 
-**Defaults to:** `backlog` — scaling problem, not correctness. Works fine for small, stable APIs.
+**Defaults to:** `backlog`: scaling problem, not correctness. Works fine for small, stable APIs.
 
 ## Examples
 
@@ -62,7 +62,7 @@ export const readContent = tool({
 ```ts
 export const readContact = tool({ name: "read_contact", execute: ({ id }) => api.get(`/crm/contact/${id}`) });
 export const readDeal = tool({ name: "read_deal", execute: ({ id }) => api.get(`/crm/deal/${id}`) });
-// ... 48 more — new custom "Partner" object added in CRM, agent can't access it
+// ... 48 more: new custom "Partner" object added in CRM, agent can't access it
 ```
 
 **Applied (passes):**
@@ -75,6 +75,6 @@ export const readObject = tool({ name: "read_crm_object", execute: ({ objectType
 ## Suppression
 
 ```ts
-// ax-audit-ignore:granularity-static-api-mapping — stable API with <10 types
+// ax-audit-ignore:granularity-static-api-mapping, stable API with <10 types
 export const readUser = tool({ name: "read_user", /* ... */ });
 ```

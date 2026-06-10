@@ -49,7 +49,7 @@ SHIP VERDICT: ❌ NOT READY (1 release-blocker, 3 sprint, 3 backlog)
 
 📋 src/checkout/ConfirmStep.tsx
   L51  backlog  microcopy-generic-loading
-       "Loading..." → "Confirming order — this takes 2-3 seconds"
+       "Loading..." → "Confirming order, this takes 2-3 seconds"
 
 ═══════════════════════════════════════════════════════════
 Defer-to:
@@ -75,7 +75,7 @@ For GitHub PR review. Markdown with `suggestion` blocks for inline diffs where p
 ### Top-of-PR comment
 
 ```markdown
-## 🔍 UX Audit — `feature/checkout-redesign` vs `main`
+## 🔍 UX Audit: `feature/checkout-redesign` vs `main`
 
 **Verdict:** ❌ NOT READY
 
@@ -83,9 +83,9 @@ For GitHub PR review. Markdown with `suggestion` blocks for inline diffs where p
 
 | Surface | ⛔ | ⚠️ | 📋 |
 |---|---|---|---|
-| `CheckoutForm.tsx` | – | – | 1 |
+| `CheckoutForm.tsx` | 0 | 0 | 1 |
 | `PaymentStep.tsx` | 1 | 2 | 1 |
-| `ConfirmStep.tsx` | – | 1 | 1 |
+| `ConfirmStep.tsx` | 0 | 1 | 1 |
 
 <details>
 <summary>What this audit checks (and what it doesn't)</summary>
@@ -126,7 +126,7 @@ Rules:
 - Use GitHub `suggestion` blocks where the fix is mechanical (≤5 lines).
 - Link to React/Next.js docs for the API being prescribed.
 - Always include the suppression hint at the bottom.
-- Top-of-PR comment is summary only — no per-finding detail (avoid duplication).
+- Top-of-PR comment is summary only: no per-finding detail (avoid duplication).
 
 ## Adapter 3: CI JSON
 

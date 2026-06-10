@@ -23,7 +23,7 @@ Design for the user who is already doing the task. Put guidance *into* the path,
 |---|---|
 | 5 | Every non-obvious field has inline help (placeholder, descriptive label, or tooltip on focus); errors explain *why* and link to the fix; new features have inline introduction at first encounter. |
 | 4 | Most fields have inline help; one or two reference users to external docs unnecessarily. |
-| 3 | Inline help is sparse — present on some fields, absent on others; help docs exist but in a separate /docs route. |
+| 3 | Inline help is sparse: present on some fields, absent on others; help docs exist but in a separate /docs route. |
 | 2 | Tooltips exist but only on hover; mobile users see no help; complex actions assume prior knowledge. |
 | 1 | All help is in external docs; UI assumes the user has read the manual. |
 
@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 
@@ -43,7 +43,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 - Move help content from `/docs` into inline placeholders, descriptive labels, and on-focus tooltips on the actual controls.
 - Rewrite validation errors to explain *why* the input failed and suggest the specific fix ("Password must include a number" not "Invalid").
-- Add inline first-encounter introductions for new features — a one-line hint near the control, not a blocking tour.
+- Add inline first-encounter introductions for new features: a one-line hint near the control, not a blocking tour.
 - Replace hover-only tooltips with focus-triggered hints so mobile and keyboard users see them.
 - Surface format constraints (password rules, file size limits) before submit, not after the failure.
 
@@ -53,7 +53,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 ```tsx
 <Dialog defaultOpen blocking>
-  <h2>Welcome — please read before you begin</h2>
+  <h2>Welcome, please read before you begin</h2>
   <ScrollArea className="h-96">{/* 1500 words of feature tour */}</ScrollArea>
   <button>I have read the documentation</button>
 </Dialog>

@@ -46,4 +46,4 @@ Your app is live at the URL shown in the output. For detailed
 setup options, see [Configuration](configuration.md).
 ```
 
-Reference: [Write the Docs — Getting started guide template](https://www.writethedocs.org/guide/)
+Reference: [Write the Docs: Getting started guide template](https://www.writethedocs.org/guide/)

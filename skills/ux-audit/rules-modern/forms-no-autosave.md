@@ -10,7 +10,7 @@ related: forms-lost-data-on-error
 
 ## Long form has no autosave
 
-Multi-step forms and long single-page forms need persistence between renders, browser refreshes, and accidental navigations. A user who fills 12 fields, then clicks a stray link, should not start over. Autosave to `localStorage` or `sessionStorage` is the cheap fix — debounced on change, restored on mount.
+Multi-step forms and long single-page forms need persistence between renders, browser refreshes, and accidental navigations. A user who fills 12 fields, then clicks a stray link, should not start over. Autosave to `localStorage` or `sessionStorage` is the cheap fix: debounced on change, restored on mount.
 
 ## What goes wrong
 
@@ -156,6 +156,6 @@ const [form, setForm, clearDraft] = useFormDraft("draft:onboarding", emptyForm);
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:forms-no-autosave — password reset; persisting would be a security risk */}
+{/* ux-audit-ignore:forms-no-autosave, password reset; persisting would be a security risk */}
 <form action={resetPasswordAction}>
 ```

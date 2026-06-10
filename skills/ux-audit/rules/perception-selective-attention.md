@@ -9,7 +9,7 @@ related: perception-von-restorff, cognitive-cognitive-load, memory-mental-model
 
 ## Selective Attention
 
-Users focus on a narrow subset of stimuli — usually whatever serves their current goal — and filter out the rest. This filtering is automatic and largely unconscious. Anything not aligned with the user's goal, or anything that resembles content they've learned to ignore (ads, decorative banners, persistent toolbars), is unlikely to be seen at all. This is a rubric-based rule: score whether the primary action survives ad-blindness.
+Users focus on a narrow subset of stimuli (usually whatever serves their current goal) and filter out the rest. This filtering is automatic and largely unconscious. Anything not aligned with the user's goal, or anything that resembles content they've learned to ignore (ads, decorative banners, persistent toolbars), is unlikely to be seen at all. This is a rubric-based rule: score whether the primary action survives ad-blindness.
 
 Two well-known consequences are *banner blindness* (users skip past anything that looks like an ad) and *change blindness* (significant changes go unnoticed without an attentional cue). Critical information must sit on the focus path, look unlike ads, and be paired with a cue when it changes.
 
@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 
@@ -42,7 +42,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 **If fail or warn:**
 
 - Move the primary CTA out of any banner-shaped container (full-width yellow strip, top notification bar, dismissible card).
-- Integrate the CTA with the content flow — place it inline with the user's gaze path, not in the right rail or footer strip.
+- Integrate the CTA with the content flow: place it inline with the user's gaze path, not in the right rail or footer strip.
 - Avoid "promotional" colors (yellow/orange high-saturation strips, gradient banners) for critical actions; use neutral or status-appropriate styling.
 - Pair significant value changes (cart total, balance, count) with a cue: focus shift, brief animation, or ARIA live announcement.
 - Render form-validation errors next to the offending field, not only in a top banner.

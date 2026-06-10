@@ -10,18 +10,18 @@ related: focus-not-restored, focus-on-dynamic-content, states-no-error-state
 
 ## Modal without working focus trap
 
-When a modal opens, Tab and Shift+Tab must cycle inside it. Esc must close it. Without a focus trap, keyboard users tab into the page behind the modal and lose context — they may not even realise the modal is open. Hand-rolled traps almost always have edge cases (iframes, contenteditable, dynamically-added focusables). The right answer is to use a primitive library that gets it right: Radix UI, react-aria, or `focus-trap-react`.
+When a modal opens, Tab and Shift+Tab must cycle inside it. Esc must close it. Without a focus trap, keyboard users tab into the page behind the modal and lose context, and may not even realise the modal is open. Hand-rolled traps almost always have edge cases (iframes, contenteditable, dynamically-added focusables). The right answer is to use a primitive library that gets it right: Radix UI, react-aria, or `focus-trap-react`.
 
 ## What goes wrong
 
-A custom `<div role="dialog">` opens. The user presses Tab. Focus moves to the body link below the modal. They keep tabbing. Now they're navigating the page underneath — but visually it's covered by the modal scrim. Total disorientation. Screen-reader users have an even worse time: VoiceOver navigates the entire DOM, ignoring the modal.
+A custom `<div role="dialog">` opens. The user presses Tab. Focus moves to the body link below the modal. They keep tabbing. Now they're navigating the page underneath, but visually it's covered by the modal scrim. Total disorientation. Screen-reader users have an even worse time: VoiceOver navigates the entire DOM, ignoring the modal.
 
 ## Detection
 
 **Surfaces:** modal, sheet, drawer, popover, command-palette.
 
 **Static signals:**
-1. `rg 'role="dialog"|role="alertdialog"' --type=tsx -l` — find all dialog markup.
+1. `rg 'role="dialog"|role="alertdialog"' --type=tsx -l`: find all dialog markup.
 2. For each file, confirm one of these imports/usages:
    - `@radix-ui/react-dialog` (built-in trap).
    - `react-aria` / `react-aria-components` (built-in trap).
@@ -46,7 +46,7 @@ done
 ```
 
 **False-positive guards:**
-- Skip non-modal dialogs (`role="dialog"` with `aria-modal="false"` — rare, but valid).
+- Skip non-modal dialogs (`role="dialog"` with `aria-modal="false"`: rare, but valid).
 - Skip components imported from a known wrapper that already uses Radix/react-aria internally.
 - Skip files annotated `// ux-audit-ignore:focus-broken-focus-trap`.
 
@@ -55,7 +55,7 @@ done
 Use Radix UI Dialog (or react-aria's `<Modal>`). Both ship with focus trap, restoration, Esc handling, scroll lock, and `aria-modal="true"`.
 
 ```tsx
-// before — hand-rolled, no trap, no Esc
+// before: hand-rolled, no trap, no Esc
 function MyModal({ open, onClose, children }) {
   if (!open) return null;
   return (
@@ -66,7 +66,7 @@ function MyModal({ open, onClose, children }) {
   );
 }
 
-// after — Radix Dialog
+// after: Radix Dialog
 import * as Dialog from '@radix-ui/react-dialog';
 
 export function ConfirmDialog({ children, trigger }) {
@@ -130,5 +130,5 @@ Docs:
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:focus-broken-focus-trap — non-modal popover, trap intentionally off */}
+{/* ux-audit-ignore:focus-broken-focus-trap, non-modal popover, trap intentionally off */}
 ```

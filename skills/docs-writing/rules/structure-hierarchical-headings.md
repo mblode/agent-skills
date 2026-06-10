@@ -46,4 +46,4 @@ Content here...
 
 Tip: If you find yourself reaching H5 or H6, the page probably covers too many topics. Consider splitting it into multiple documents.
 
-Reference: [Microsoft Writing Style Guide — Headings](https://learn.microsoft.com/en-us/style-guide/scannable-content/headings)
+Reference: [Microsoft Writing Style Guide: Headings](https://learn.microsoft.com/en-us/style-guide/scannable-content/headings)

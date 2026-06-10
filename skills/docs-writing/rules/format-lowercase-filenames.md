@@ -24,4 +24,4 @@ setup-instructions.md
 api-reference.md
 ```
 
-Reference: [Google developer documentation style guide — Filenames](https://developers.google.com/style/filenames)
+Reference: [Google developer documentation style guide: Filenames](https://developers.google.com/style/filenames)

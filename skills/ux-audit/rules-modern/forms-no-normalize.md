@@ -10,7 +10,7 @@ related: forms-lost-data-on-error
 
 ## Form input not normalized server-side
 
-Postel's Law: be liberal in what you accept, strict in what you send. Email addresses with trailing whitespace, mixed casing, or surrounding quotes from a paste should be silently fixed — not rejected with "Invalid email." Phone numbers should land in E.164 server-side. URLs should accept missing protocols. Strict client-side validation pushes users into corner cases the team didn't anticipate; normalization in the server action puts the fix in one place.
+Postel's Law: be liberal in what you accept, strict in what you send. Email addresses with trailing whitespace, mixed casing, or surrounding quotes from a paste should be silently fixed, not rejected with "Invalid email." Phone numbers should land in E.164 server-side. URLs should accept missing protocols. Strict client-side validation pushes users into corner cases the team didn't anticipate; normalization in the server action puts the fix in one place.
 
 ## What goes wrong
 
@@ -57,7 +57,7 @@ done
 Normalize in the server action; keep client validation soft:
 
 ```tsx
-// before — strict client regex, no server normalization
+// before: strict client regex, no server normalization
 <input
   name="email"
   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -67,11 +67,11 @@ Normalize in the server action; keep client validation soft:
 // action.ts
 "use server";
 export async function signUp(_p, fd: FormData) {
-  const email = String(fd.get("email")); // raw — case-sensitive lookup later
+  const email = String(fd.get("email")); // raw: case-sensitive lookup later
   return db.users.create({ email });
 }
 
-// after — accept liberally, normalize on server
+// after: accept liberally, normalize on server
 import { z } from "zod";
 
 const SignUpSchema = z.object({
@@ -121,7 +121,7 @@ Docs:
 "use server";
 export async function login(_p, fd: FormData) {
   const user = await db.users.findFirst({
-    where: { email: fd.get("email") }, // case-sensitive — locks out users
+    where: { email: fd.get("email") }, // case-sensitive: locks out users
   });
   if (!user) return { error: "Not found" };
 }
@@ -140,12 +140,12 @@ export async function login(_p, fd: FormData) {
 ## Defer-to (when this is another tool's job)
 
 - Form validation libraries (zod, valibot, yup) for the schema layer.
-- libphonenumber-js for phone normalization — don't roll your own.
+- libphonenumber-js for phone normalization; don't roll your own.
 - For address normalization, defer to a service (Smarty, Google Address Validation).
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:forms-no-normalize — display name field, case is meaningful */}
+{/* ux-audit-ignore:forms-no-normalize, display name field, case is meaningful */}
 <input name="displayName" />
 ```

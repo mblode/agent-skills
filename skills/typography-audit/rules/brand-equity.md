@@ -14,10 +14,10 @@ Once you establish core type choices, stick with them. Frequent changes erode br
 /* landing.css */
 h1 { font-family: 'Fraunces', serif; }
 
-/* dashboard.css — someone picked a different heading face */
+/* dashboard.css: someone picked a different heading face */
 h1 { font-family: 'Playfair Display', serif; }
 
-/* email.css — a third variant, hardcoded */
+/* email.css: a third variant, hardcoded */
 h1 { font-family: Georgia, serif; }
 ```
 
@@ -38,4 +38,4 @@ h1 { font-family: Georgia, serif; }
 h1 { font-family: var(--font-heading); }
 ```
 
-Allow evolution but require justification for changes. Add at least one distinctive typographic move per project — as a deliberate part of the system, not a one-off deviation. Keep reference links to foundry pages and license documentation.
+Allow evolution but require justification for changes. Add at least one distinctive typographic move per project, as a deliberate part of the system, not a one-off deviation. Keep reference links to foundry pages and license documentation.

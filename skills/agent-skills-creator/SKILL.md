@@ -7,7 +7,7 @@ description: Guides creation and improvement of best-practice agent skills follo
 
 Create and improve skills that follow the Agent Skills open format. Covers the full lifecycle from pattern selection through validation and README update.
 
-- **IS:** creating new agent skills and auditing or rewriting existing ones — SKILL.md, references, rules folders, scripts, evaluations.
+- **IS:** creating new agent skills and auditing or rewriting existing ones: SKILL.md, references, rules folders, scripts, evaluations.
 - **IS NOT:** AGENTS.md/CLAUDE.md instruction files (use `agents-md`) or general documentation quality (use `docs-writing`).
 
 ## Choose a Mode
@@ -99,11 +99,11 @@ Load `references/format-specification.md` for hard constraints.
 - Open the body with an IS/IS-NOT boundary pair when adjacent skills exist or scope creep is likely (see "Open with Boundaries" in `references/authoring-tips.md`)
 - Only add context Claude does not already have (see "Don't State the Obvious" in `references/authoring-tips.md`)
 - Use consistent terminology throughout
-- Match degrees of freedom to task fragility — prose for open-ended work, specific scripts for fragile or destructive operations (see "Degrees of Freedom" in `references/authoring-tips.md`)
+- Match degrees of freedom to task fragility: prose for open-ended work, specific scripts for fragile or destructive operations (see "Degrees of Freedom" in `references/authoring-tips.md`)
 - Reach for named content patterns when they fit: template for fixed output, examples for format-sensitive output, conditional for decision points
 - Include a copyable progress checklist for multi-step workflows
 - Include validation/feedback loops for quality-critical tasks
-- Build a Gotchas section from observed failure points — this is the highest-signal content
+- Build a Gotchas section from observed failure points; this is the highest-signal content
 - Load `references/authoring-tips.md` for content strategy guidance on voice, degrees of freedom, content patterns, descriptions, and more
 
 ### Step 4: Add reference or rule files
@@ -118,12 +118,12 @@ Key constraints:
 - References must be one level deep from SKILL.md (no chains)
 - Files over 100 lines need a table of contents at the top
 - Files are only loaded when explicitly listed in SKILL.md
-- Long reference files (up to ~450 lines) are fine when TOC'd and single-topic — split by loading condition, not by line count alone
+- Long reference files (up to ~450 lines) are fine when TOC'd and single-topic; split by loading condition, not by line count alone
 - For broad domains, prefer a comprehensive-reference folder of many small focused files over a few monoliths (see "Comprehensive Reference Folders" in `references/authoring-tips.md`)
 - `agents/` is a sanctioned optional folder for subagent prompt definitions the skill dispatches to
 
 Advanced options:
-- Include executable scripts in `scripts/` for Claude to compose — load `references/executable-code.md` for error handling, constants, plan-validate-execute, runtime environment, package deps, and MCP tool naming
+- Include executable scripts in `scripts/` for Claude to compose; load `references/executable-code.md` for error handling, constants, plan-validate-execute, runtime environment, package deps, and MCP tool naming
 - Add `config.json` for skills needing user-specific setup context across sessions
 - Define on-demand hooks (PreToolUse/PostToolUse) for safety gates or observation
 
@@ -143,7 +143,7 @@ Categories used in this repo: Architecture, Design, Writing, Quality, Shipping, 
 
 ### Step 7: Smoke-test
 
-Install via the skills CLI — never `cp -R` into `~/.claude/skills/`, which bypasses the `~/.agents/skills` symlink chain:
+Install via the skills CLI, never `cp -R` into `~/.claude/skills/`, which bypasses the `~/.agents/skills` symlink chain:
 
 ```bash
 npx skills add mblode/agent-skills -g --skill <name> -y
@@ -160,7 +160,7 @@ ln -s /path/to/agent-skills/skills/<name> ~/.claude/skills/<name>
 
 ### Step 8: Evaluate and iterate
 
-Load `references/evaluation-and-iteration.md`. Define 3+ evaluation scenarios, test on each target model, and iterate based on observed Claude behavior — not assumptions about what Claude should need.
+Load `references/evaluation-and-iteration.md`. Define 3+ evaluation scenarios, test on each target model, and iterate based on observed Claude behavior, not assumptions about what Claude should need.
 
 ## Anti-patterns
 
@@ -171,7 +171,7 @@ Load `references/evaluation-and-iteration.md`. Define 3+ evaluation scenarios, t
 - Using "I audit..." or "Use this to..." voice in descriptions (use third-person)
 - Adding README.md, CHANGELOG.md, or INSTALLATION_GUIDE.md to the skill folder
 - Dropping files in folders without linking them from SKILL.md
-- Installing with `cp -R` into `~/.claude/skills/` — bypasses the `~/.agents/skills` symlink chain; use `npx skills add`
+- Installing with `cp -R` into `~/.claude/skills/`, which bypasses the `~/.agents/skills` symlink chain; use `npx skills add`
 - Leaving supporting files at the skill root when the skill is not a simple/hub pattern (move them to `references/`)
 - Over-constraining Claude's approach when specifying outcomes would suffice (railroading)
 - Writing the description as a human summary instead of a model trigger with "Use when..." phrases and quoted user phrases
@@ -180,7 +180,7 @@ Load `references/evaluation-and-iteration.md`. Define 3+ evaluation scenarios, t
 - Storing persistent data in the skill directory itself (gets deleted on upgrade)
 - Referencing MCP tools without the server prefix (`bigquery_schema` instead of `BigQuery:bigquery_schema`)
 - Magic numbers in scripts with no justifying comment (voodoo constants)
-- Shipping a skill without testing it on every target model — what reads well to Opus may underspecify for Haiku
+- Shipping a skill without testing it on every target model; what reads well to Opus may underspecify for Haiku
 
 ## Related Skills
 

@@ -35,7 +35,7 @@ rg -A 10 'isGenerating|isStreaming|isPending' --type=ts src/ | rg -v 'cancel|sto
 ```
 
 **Judgment signals:**
-- A cancel button not wired to `AbortController.abort()` is a false affordance — worse than nothing.
+- A cancel button not wired to `AbortController.abort()` is a false affordance, worse than nothing.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:control-no-escape-hatch`, test, and Storybook files.
@@ -85,6 +85,6 @@ During execution: stop button wired to `AbortController`. After completion: undo
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:control-no-escape-hatch — single status check, completes in <1s */}
+{/* ax-audit-ignore:control-no-escape-hatch, single status check, completes in <1s */}
 <StatusCheckResult result={result} />
 ```

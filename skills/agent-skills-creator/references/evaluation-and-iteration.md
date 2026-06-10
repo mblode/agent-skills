@@ -1,6 +1,6 @@
 # Evaluation and Iteration
 
-How to measure whether a skill works and improve it over time. Build evaluations before writing extensive documentation — they reveal actual gaps instead of imagined ones.
+How to measure whether a skill works and improve it over time. Build evaluations before writing extensive documentation; they reveal actual gaps instead of imagined ones.
 
 ## Contents
 
@@ -35,7 +35,7 @@ Eval scenario structure:
 }
 ```
 
-There is no built-in runner for this format — treat it as a rubric. Execute scenarios manually or build a thin harness.
+There is no built-in runner for this format; treat it as a rubric. Execute scenarios manually or build a thin harness.
 
 ## Test Across Models
 
@@ -54,7 +54,7 @@ Use one Claude instance (**Claude A**) to author and refine the skill. Use anoth
 1. Give Claude B a real task
 2. Watch where Claude B struggles, skips a rule, or makes a surprising choice
 3. Report the specific observation to Claude A ("B forgot to filter test accounts on a regional report")
-4. Let Claude A suggest targeted edits — stronger language, reordering, a new section
+4. Let Claude A suggest targeted edits: stronger language, reordering, a new section
 5. Apply the edit and test again
 
 This loop improves skills based on observed behavior, not assumptions. Avoid rewriting from memory of what Claude "should" need.
@@ -63,16 +63,16 @@ This loop improves skills based on observed behavior, not assumptions. Avoid rew
 
 Watch real sessions for:
 
-- **Unexpected exploration paths** — Claude reads files in an order the author did not plan; structure may be wrong
-- **Missed connections** — Claude fails to follow a reference; links need to be more prominent
-- **Overreliance on one section** — if the same file is read every time, move its content into SKILL.md
-- **Ignored content** — if a reference file is never accessed, either delete it or signal it better in SKILL.md
+- **Unexpected exploration paths:** Claude reads files in an order the author did not plan; structure may be wrong
+- **Missed connections:** Claude fails to follow a reference; links need to be more prominent
+- **Overreliance on one section:** if the same file is read every time, move its content into SKILL.md
+- **Ignored content:** if a reference file is never accessed, either delete it or signal it better in SKILL.md
 
 The `name` and `description` fields matter most for triggering. If the skill isn't invoked when expected, the description needs clearer trigger phrases before any body content matters.
 
 ## Re-Evaluating After a Rewrite
 
-After improving an existing skill (see `improving-existing-skills.md`), rerun its evaluation scenarios before shipping. A rewrite that scores better on the audit dimensions but worse on the evals is a regression — the dimensions measure form, the evals measure behavior.
+After improving an existing skill (see `improving-existing-skills.md`), rerun its evaluation scenarios before shipping. A rewrite that scores better on the audit dimensions but worse on the evals is a regression: the dimensions measure form, the evals measure behavior.
 
 ## Measuring Adoption
 

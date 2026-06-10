@@ -40,4 +40,4 @@ You should see `{"status": "ok"}` in the response.
 - [Enable auto-scaling](auto-scaling.md) to handle traffic spikes.
 ```
 
-Reference: [Diataxis — How-to guides](https://diataxis.fr/how-to-guides/)
+Reference: [Diataxis: How-to guides](https://diataxis.fr/how-to-guides/)

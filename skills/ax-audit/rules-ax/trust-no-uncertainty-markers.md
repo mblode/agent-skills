@@ -11,7 +11,7 @@ related: trust-no-confidence-cues, trust-no-escalation-path
 
 ## Agent presents everything with equal certainty
 
-Agent is 95% sure about one recommendation and 40% sure about another, but both render identically. When the 40% answer is wrong, user doesn't just distrust that answer — they distrust everything. Confident wrong answers cause permanent trust damage.
+Agent is 95% sure about one recommendation and 40% sure about another, but both render identically. When the 40% answer is wrong, user doesn't just distrust that answer. They distrust everything. Confident wrong answers cause permanent trust damage.
 
 ## What goes wrong
 
@@ -35,7 +35,7 @@ rg 'confidence|certainty|ConfidenceBadge|UncertaintyIndicator' --type=ts src/
 
 **Judgment signals:**
 - Hedging in prompt instructions is weaker than structured indicators but better than nothing.
-- A badge always showing "high" is not meaningful — check for actual variation.
+- A badge always showing "high" is not meaningful: check for actual variation.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:trust-no-uncertainty-markers`, test, and Storybook files.
@@ -84,6 +84,6 @@ Add confidence indicators: numeric score, visual badge (high/medium/low), hedgin
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:trust-no-uncertainty-markers — deterministic lookups, no uncertainty */}
+{/* ax-audit-ignore:trust-no-uncertainty-markers, deterministic lookups, no uncertainty */}
 <AgentRecommendation text={result.text} />
 ```

@@ -27,10 +27,10 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Design
 
-- **[ui-design](./skills/ui-design/SKILL.md)**: Colour palettes, type scales, layout patterns, and landing page CRO strategy for product or marketing UI.
-- **[ui-animation](./skills/ui-animation/SKILL.md)**: Designs, implements, and reviews UI motion — springs, gestures, easing, CSS transition recipes.
+- **[ui-design](./skills/ui-design/SKILL.md)**: Visual systems for product UI and marketing pages: palettes, type scales, tokens, layout, and landing-page CRO.
+- **[ui-animation](./skills/ui-animation/SKILL.md)**: Designs, implements, and reviews UI motion: springs, gestures, easing, CSS transition recipes.
 - **[reverse-engineer-animation](./skills/reverse-engineer-animation/SKILL.md)**: Extract easing, spring, and choreography from a screen recording and emit CSS, Motion, SwiftUI, RN, or UIKit code.
-- **[typography-audit](./skills/typography-audit/SKILL.md)**: 90-rule typography audit — punctuation, fonts, sizing, spacing, OpenType, hierarchy, pairing.
+- **[typography-audit](./skills/typography-audit/SKILL.md)**: 90-rule typography audit: punctuation, fonts, sizing, spacing, OpenType, hierarchy, pairing.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first slide decks with narrative arcs, speaker notes, investor pitch decks, and a QA pass.
 
 ### Writing
@@ -42,9 +42,9 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Quality
 
-- **[ui-audit](./skills/ui-audit/SKILL.md)**: Page-level web UI audit — 35 rules across a11y, forms, interaction, layout, perf, motion, and microcopy.
+- **[ui-audit](./skills/ui-audit/SKILL.md)**: Page-level web UI audit: 35 rules across a11y, forms, interaction, layout, perf, motion, and microcopy.
 - **[ux-audit](./skills/ux-audit/SKILL.md)**: Feature-level UX audit for React/Next.js diffs. 63 rules, 12 playbooks, 3-tier ship verdict.
-- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit — 23 rules over architecture + trust layers, ship verdict, AX Relationship Summary.
+- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 23 rules over architecture + trust layers, ship verdict, AX Relationship Summary.
 - **[optimise-seo](./skills/optimise-seo/SKILL.md)**: SEO, redirects, hreflang, structured data, security headers, privacy, and resilience for Next.js.
 
 ### Shipping
@@ -58,7 +58,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Authoring
 
-- **[agents-md](./skills/agents-md/SKILL.md)**: Audits, scores, and refactors AGENTS.md/CLAUDE.md — 10-check triage or 45-check full audit with grades.
+- **[agents-md](./skills/agents-md/SKILL.md)**: Audits, scores, and refactors AGENTS.md/CLAUDE.md: 10-check triage or 45-check full audit with grades.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Skill creation and improvement following the open format spec.
 
 ## License

@@ -10,7 +10,7 @@ related: focus-broken-focus-trap, focus-on-dynamic-content, async-no-error-bound
 
 ## Focus not restored after modal/sheet/popover close
 
-When a dialog closes, focus must return to the element that opened it (the trigger button). If it doesn't, keyboard and screen-reader users land on `<body>` and have to tab from the top of the page to recover their place. This is one of the most common — and most invisible to mouse users — accessibility bugs. Radix and react-aria handle it automatically; hand-rolled dialogs almost never do.
+When a dialog closes, focus must return to the element that opened it (the trigger button). If it doesn't, keyboard and screen-reader users land on `<body>` and have to tab from the top of the page to recover their place. This is one of the most common (and most invisible to mouse users) accessibility bugs. Radix and react-aria handle it automatically; hand-rolled dialogs almost never do.
 
 ## What goes wrong
 
@@ -53,7 +53,7 @@ Two patterns.
 **A. Use Radix (no extra code needed):**
 
 ```tsx
-// Radix handles restoration automatically — leave onCloseAutoFocus alone.
+// Radix handles restoration automatically: leave onCloseAutoFocus alone.
 <Dialog.Root open={open} onOpenChange={setOpen}>
   <Dialog.Trigger asChild>
     <button>Edit profile</button>
@@ -138,11 +138,11 @@ Docs:
 ## Defer-to (when this is another tool's job)
 
 - axe-core: WCAG 2.4.3 (Focus Order) checks at runtime.
-- Manual keyboard pass — automated tooling can't always verify "focus returned to the right place."
+- Manual keyboard pass; automated tooling can't always verify "focus returned to the right place."
 - Storybook a11y addon for component-level checks.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:focus-not-restored — close action navigates to new route, parent owns focus */}
+{/* ux-audit-ignore:focus-not-restored, close action navigates to new route, parent owns focus */}
 ```

@@ -26,4 +26,4 @@ console.log(receipt.status);
 
 See also: `clarity-meaningful-names.md` for naming in prose examples and explanatory text.
 
-Reference: [Google Technical Writing — Naming variables](https://developers.google.com/tech-writing/one/clear-sentences)
+Reference: [Google Technical Writing: Naming variables](https://developers.google.com/tech-writing/one/clear-sentences)

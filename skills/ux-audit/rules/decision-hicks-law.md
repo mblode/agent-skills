@@ -9,9 +9,9 @@ related: decision-choice-overload, cognitive-millers-law, cognitive-cognitive-lo
 
 ## Hick's Law
 
-Decision time grows logarithmically with the number and complexity of options (Hick & Hyman, 1952). The practical ceiling for a single ungrouped layer is ~7 peers — Miller's chunk limit. Beyond that, decision cost compounds with scan cost: the user is no longer choosing, they are searching for what to choose.
+Decision time grows logarithmically with the number and complexity of options (Hick & Hyman, 1952). The practical ceiling for a single ungrouped layer is ~7 peers, Miller's chunk limit. Beyond that, decision cost compounds with scan cost: the user is no longer choosing, they are searching for what to choose.
 
-The fix is rarely "fewer items." It is fewer items *visible at once*: group, prioritize, and progressively disclose. Highlight a recommended path so the easy decision is the default. Beware over-collapsing — replacing choice cost with search cost is not a win.
+The fix is rarely "fewer items." It is fewer items *visible at once*: group, prioritize, and progressively disclose. Highlight a recommended path so the easy decision is the default. Beware over-collapsing: replacing choice cost with search cost is not a win.
 
 ## Check
 
@@ -33,7 +33,7 @@ rg '<Plan |<PricingTier' --files-with-matches src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | count ≤ 7 | — |
+| pass | count ≤ 7 |: |
 | warn | count 8-10 | MEDIUM |
 | fail | count > 10 | HIGH |
 

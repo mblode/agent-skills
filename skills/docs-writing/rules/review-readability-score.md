@@ -25,4 +25,4 @@ resources. Set up authentication using one of the supported
 providers listed below.
 ```
 
-Reference: [Hemingway Editor — Readability tool](https://hemingwayapp.com/)
+Reference: [Hemingway Editor: Readability tool](https://hemingwayapp.com/)

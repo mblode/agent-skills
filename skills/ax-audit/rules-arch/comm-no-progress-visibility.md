@@ -22,7 +22,7 @@ Agent makes 12 tool calls over 45 seconds analyzing a codebase. UI shows "Thinki
 **Surfaces:** agent-chat, agent-tool-execution, agent-dashboard
 
 **Static signals:**
-1. Find execution handlers — tool call loops, streaming handlers.
+1. Find execution handlers: tool call loops, streaming handlers.
 2. Check whether they emit typed events or update UI during execution.
 3. Check whether text streams incrementally or batches until completion.
 4. Flag handlers that only surface results at the end.
@@ -43,13 +43,13 @@ rg '(stream|onChunk|onToken|onDelta)' --type=ts src/
 ## Fix
 
 ```tsx
-// before — silent execution
+// before: silent execution
 async function handleChat(msg: string) {
   const response = await agent.run(msg); // 30s silence
   setMessages((prev) => [...prev, response]);
 }
 
-// after — progressive event emission
+// after: progressive event emission
 async function handleChat(msg: string) {
   for await (const event of agent.stream(msg)) {
     switch (event.type) {
@@ -75,13 +75,13 @@ async function handleChat(msg: string) {
 
 ## Examples
 
-**Anti-pattern (fails):** `const result = await agent.run(msg)` — 30s silence, then result.
+**Anti-pattern (fails):** `const result = await agent.run(msg)`: 30s silence, then result.
 
-**Applied (passes):** `for await (const e of agent.stream(msg))` — progressive events.
+**Applied (passes):** `for await (const e of agent.stream(msg))`: progressive events.
 
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:comm-no-progress-visibility — instant lookup, <500ms */}
+{/* ax-audit-ignore:comm-no-progress-visibility, instant lookup, <500ms */}
 <QuickLookupAgent />
 ```

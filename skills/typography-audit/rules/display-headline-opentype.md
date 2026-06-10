@@ -37,4 +37,4 @@ Enable swashes on specific letters if the font supports indexed swash variants:
 }
 ```
 
-Only enable features the font actually supports — unsupported feature tags are silently ignored but add unnecessary CSS weight. Never apply `dlig`/`swsh` to body text; they hurt sustained reading.
+Only enable features the font actually supports; unsupported feature tags are silently ignored but add unnecessary CSS weight. Never apply `dlig`/`swsh` to body text; they hurt sustained reading.

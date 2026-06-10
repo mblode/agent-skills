@@ -9,9 +9,9 @@ related: cognitive-cognitive-load, memory-mental-model, memory-jakobs-law
 
 ## Cognitive Bias
 
-Cognitive biases are systematic shortcuts the brain takes to skip full analysis. Users do not evaluate a UI rationally — they pattern-match against past experience, recent context, and emotional state. Anchoring shifts perceived price by whatever number is shown first. Default bias keeps most users on the pre-selected option. Loss aversion makes "lose your data" hit harder than "save your data." This is a rubric-based rule: score the surface against the closest anchor instead of measuring a number.
+Cognitive biases are systematic shortcuts the brain takes to skip full analysis. Users do not evaluate a UI rationally: they pattern-match against past experience, recent context, and emotional state. Anchoring shifts perceived price by whatever number is shown first. Default bias keeps most users on the pre-selected option. Loss aversion makes "lose your data" hit harder than "save your data." This is a rubric-based rule: score the surface against the closest anchor instead of measuring a number.
 
-Treat bias as a diagnostic lens, not a manipulation toolkit. The audit penalizes only bias-exploitation — defaults, framings, and copy that push users toward outcomes they would reject if they thought clearly. Persuasive copy that makes the truth more legible is not a bias issue.
+Treat bias as a diagnostic lens, not a manipulation toolkit. The audit penalizes only bias-exploitation: defaults, framings, and copy that push users toward outcomes they would reject if they thought clearly. Persuasive copy that makes the truth more legible is not a bias issue.
 
 ## Rubric
 
@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 

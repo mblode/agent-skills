@@ -11,7 +11,7 @@ When selecting a typeface for a logo or wordmark, choose based on the specific l
 **Incorrect (default UI face reused for the wordmark, no distinctive glyphs):**
 
 ```css
-/* "Agatha" set in the same face as the rest of the UI —
+/* "Agatha" set in the same face as the rest of the UI;
    nothing in the wordmark is memorable */
 .logo {
   font-family: 'Helvetica Neue', sans-serif;
@@ -22,7 +22,7 @@ When selecting a typeface for a logo or wordmark, choose based on the specific l
 **Correct (chosen for the specific letters in the name):**
 
 ```css
-/* "Agatha" — chosen because Didot's 'A' and 'g' are distinctive */
+/* "Agatha": chosen because Didot's 'A' and 'g' are distinctive */
 .logo {
   font-family: 'Didot', serif;
   font-size: 2rem;
@@ -30,4 +30,4 @@ When selecting a typeface for a logo or wordmark, choose based on the specific l
 }
 ```
 
-**Process:** type the brand name in 20–30 candidate typefaces, focus on the most prominent letters, test at large and small sizes, and verify the license covers logo use. Use swashes, discretionary ligatures, and stylistic alternates sparingly for memorability — check italic variants for swash characters, often stored in separate files or behind OpenType features.
+**Process:** type the brand name in 20-30 candidate typefaces, focus on the most prominent letters, test at large and small sizes, and verify the license covers logo use. Use swashes, discretionary ligatures, and stylistic alternates sparingly for memorability; check italic variants for swash characters, often stored in separate files or behind OpenType features.

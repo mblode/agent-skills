@@ -22,4 +22,4 @@ Supports multiple formats, for example, JSON and XML. The config
 file (that is, the main settings file) must be valid YAML.
 ```
 
-Reference: [Google Developer Documentation Style Guide — Abbreviations](https://developers.google.com/style/abbreviations)
+Reference: [Google Developer Documentation Style Guide: Abbreviations](https://developers.google.com/style/abbreviations)

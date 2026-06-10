@@ -34,4 +34,4 @@ Use Option B for most deployments.
 | C      | Slow  | Low  | High        |
 ```
 
-Reference: [Nielsen Norman Group — How Users Read on the Web](https://www.nngroup.com/articles/how-users-read-on-the-web/)
+Reference: [Nielsen Norman Group: How Users Read on the Web](https://www.nngroup.com/articles/how-users-read-on-the-web/)

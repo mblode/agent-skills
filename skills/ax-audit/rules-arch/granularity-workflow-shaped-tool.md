@@ -41,7 +41,7 @@ rg -l 'tool\(|defineTool' --type=ts src/tools/ | xargs rg -c 'if\s*\(|switch\s*\
 Split into atomic primitives. Let the agent decide what to move and where.
 
 ```ts
-// before: analyze_and_organize_inbox — after: atomic primitives
+// before: analyze_and_organize_inbox: after: atomic primitives
 export const listEmails = tool({ name: "list_emails", /* ... */ });
 export const readEmail = tool({ name: "read_email", /* ... */ });
 export const moveEmail = tool({ name: "move_email", /* ... */ });
@@ -49,7 +49,7 @@ export const moveEmail = tool({ name: "move_email", /* ... */ });
 
 ## Default tier and overrides
 
-**Defaults to:** `fix-this-sprint` — works until the user disagrees with a bundled decision.
+**Defaults to:** `fix-this-sprint`: works until the user disagrees with a bundled decision.
 
 ## Examples
 
@@ -75,6 +75,6 @@ export const sendEmail = tool({ name: "send_email", /* ... */ });
 
 ## Suppression
 ```ts
-// ax-audit-ignore:granularity-workflow-shaped-tool — atomic transaction
+// ax-audit-ignore:granularity-workflow-shaped-tool, atomic transaction
 export const transferFunds = tool({ name: "transfer_funds", /* ... */ });
 ```

@@ -27,4 +27,4 @@ The v2 API replaces the v1 API. For migration steps, see
 [issue #482](https://github.com/example/repo/issues/482).
 ```
 
-Reference: [Google developer documentation — Timeless documentation](https://developers.google.com/style/timeless-documentation)
+Reference: [Google developer documentation: Timeless documentation](https://developers.google.com/style/timeless-documentation)

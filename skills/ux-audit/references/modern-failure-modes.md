@@ -1,8 +1,8 @@
-# Modern Failure Modes — Index
+# Modern Failure Modes: Index
 
 Layer 2 of the audit: 33 modern frontend UX failure modes that no other tool catches statically. Each rule lives at `rules-modern/<category>-<slug>.md` and follows the format in `rules-modern/_template.md`.
 
-These rules are ordered by impact (frequency × severity) — the failure modes senior reviewers catch and juniors ship.
+These rules are ordered by impact (frequency × severity): the failure modes senior reviewers catch and juniors ship.
 
 ## Table of contents
 
@@ -18,7 +18,7 @@ These rules are ordered by impact (frequency × severity) — the failure modes 
 
 ## Forms (5 rules)
 
-Form-handling bugs are the most common ship-blockers. Modern React 19 introduces `useActionState`, `useFormStatus`, and `useOptimistic` to address most of them — but only if used correctly.
+Form-handling bugs are the most common ship-blockers. Modern React 19 introduces `useActionState`, `useFormStatus`, and `useOptimistic` to address most of them, but only if used correctly.
 
 | Rule | Default tier | What it catches |
 |---|---|---|
@@ -36,7 +36,7 @@ The single highest-leverage layer: most production UX bugs are missing or broken
 |---|---|---|
 | `states-no-skeleton` | fix-this-sprint | Async fetch has loading branch but no skeleton (centered spinner instead) |
 | `states-no-empty-state` | fix-this-sprint | Empty branch with no helpful next-step CTA |
-| `states-no-error-state` | release-blocker (critical paths) / fix-this-sprint (else) | Async fetch with no error UI — silent fail |
+| `states-no-error-state` | release-blocker (critical paths) / fix-this-sprint (else) | Async fetch with no error UI: silent fail |
 | `states-layout-shift` | fix-this-sprint | Skeleton or loading state has different dimensions than loaded → CLS |
 | `states-generic-loading-copy` | backlog | "Loading..." used instead of context-specific copy |
 
@@ -47,7 +47,7 @@ Async operations: error boundaries, Suspense, optimistic UI rollback, race condi
 | Rule | Default tier | What it catches |
 |---|---|---|
 | `async-no-suspense-boundary` | fix-this-sprint | Server-component or streaming async without `<Suspense>` |
-| `async-no-error-boundary` | release-blocker | Async render path with no error boundary — single failure crashes the route |
+| `async-no-error-boundary` | release-blocker | Async render path with no error boundary: single failure crashes the route |
 | `async-optimistic-without-rollback` | release-blocker | `useOptimistic` used without rollback path on server reject |
 | `async-out-of-order-responses` | release-blocker (search) / fix-this-sprint | Fast typing in search/filter → stale response overwrites newer |
 | `async-double-submit` | release-blocker | Click handler not idempotent; double-submit creates duplicate records |
@@ -104,4 +104,4 @@ Microcopy quality is a major UX gap no tool catches semantically. Vague errors, 
 
 Each feature playbook in `references/feature-playbooks.md` pulls 5-7 of these rules in an ordered sequence, plus 1-2 Layer-3 Laws of UX rules where cognitive/perceptual reasoning adds value. The combined sequence catches most of the "the product still feels broken" bugs.
 
-When a finding fires both a Layer-2 rule and a Layer-3 rule, prefer Layer 2 — it has a more concrete fix and a more specific surface match.
+When a finding fires both a Layer-2 rule and a Layer-3 rule, prefer Layer 2: it has a more concrete fix and a more specific surface match.

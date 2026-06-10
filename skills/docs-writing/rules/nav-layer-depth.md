@@ -34,4 +34,4 @@ Requests are authenticated with API keys passed in the
 scoping, see [API key management](api-keys.md).
 ```
 
-Reference: [Nielsen Norman Group — Progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/)
+Reference: [Nielsen Norman Group: Progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/)

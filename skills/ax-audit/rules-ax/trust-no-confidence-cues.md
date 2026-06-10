@@ -11,7 +11,7 @@ related: trust-no-uncertainty-markers
 
 ## Agent output with no rationale or sources
 
-Agent says "You should refactor this function" with no explanation of why. User has no way to evaluate the advice — follows it blindly or ignores it entirely. Neither builds trust.
+Agent says "You should refactor this function" with no explanation of why. User has no way to evaluate the advice: follows it blindly or ignores it entirely. Neither builds trust.
 
 ## What goes wrong
 
@@ -80,6 +80,6 @@ Add inline rationale: sources, reasoning steps, or a collapsible thinking sectio
 ## Suppression
 
 ```tsx
-{/* ax-audit-ignore:trust-no-confidence-cues — status-only messages need no rationale */}
+{/* ax-audit-ignore:trust-no-confidence-cues, status-only messages need no rationale */}
 <AgentMessage content={statusText} />
 ```

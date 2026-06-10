@@ -1,4 +1,4 @@
-# Sections — Modern Failure Modes (Layer 2)
+# Sections: Modern Failure Modes (Layer 2)
 
 This file defines the 7 categories of modern frontend UX failure modes. Each rule file uses one of these category prefixes.
 
@@ -9,7 +9,7 @@ For the full rule list see `references/modern-failure-modes.md`.
 ## 1. Forms (forms)
 
 **Default tier:** mostly release-blocker
-**Why critical:** form-handling bugs are the most common ship-blockers. Modern React 19 introduces `useActionState`, `useFormStatus`, `useOptimistic` to address them — but only if used correctly. Common bugs: form clears on validation error, double-submit, `useFormStatus` misuse (always-false bug), no normalization.
+**Why critical:** form-handling bugs are the most common ship-blockers. Modern React 19 introduces `useActionState`, `useFormStatus`, `useOptimistic` to address them, but only if used correctly. Common bugs: form clears on validation error, double-submit, `useFormStatus` misuse (always-false bug), no normalization.
 
 ## 2. States (states)
 

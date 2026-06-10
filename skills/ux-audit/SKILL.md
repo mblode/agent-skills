@@ -1,13 +1,13 @@
 ---
 name: ux-audit
-description: Feature-level UX audit for React/Next.js code, diff-aware by default. Catches what Lighthouse, axe, ESLint, and Storybook miss — state-coverage gaps (missing loading/empty/error), form data loss on validation, double-submit, broken focus management, optimistic UI without rollback, stale async responses, skeleton-induced layout shift, vague microcopy — 33 modern failure-mode rules plus 30 Laws of UX rules across 12 feature playbooks. Produces a 3-tier ship-readiness verdict (release-blocker / fix-this-sprint / backlog) grouped by surface, with concrete fixes using React 19 APIs (useActionState, useFormStatus, useOptimistic, useTransition, Suspense). Use before merging a frontend PR or when asked "review this PR for UX bugs", "audit this component", "is this checkout/onboarding/dashboard ready?", "what would break in production?", "is this ready to ship?". For agentic-app patterns and trust design, use ax-audit; for page-level audits of rendered UI quality and accessibility, use ui-audit.
+description: Feature-level UX audit for React/Next.js code, diff-aware by default. Catches what Lighthouse, axe, ESLint, and Storybook miss: state-coverage gaps (missing loading/empty/error), form data loss on validation, double-submit, broken focus management, optimistic UI without rollback, stale async responses, skeleton-induced layout shift, and vague microcopy. 33 modern failure-mode rules plus 30 Laws of UX rules across 12 feature playbooks. Produces a 3-tier ship-readiness verdict (release-blocker / fix-this-sprint / backlog) grouped by surface, with concrete fixes using React 19 APIs (useActionState, useFormStatus, useOptimistic, useTransition, Suspense). Use before merging a frontend PR or when asked "review this PR for UX bugs", "audit this component", "is this checkout/onboarding/dashboard ready?", "what would break in production?", "is this ready to ship?". For agentic-app patterns and trust design, use ax-audit; for page-level audits of rendered UI quality and accessibility, use ui-audit.
 ---
 
 # UX Audit
 
 Static UX-quality reviewer for React/Next.js code. Operates at the **feature level** (a checkout flow, an onboarding flow, a dashboard) and answers one question for a dev with a PR open: "**which of these will hurt users in production, and which are nice-to-haves?**"
 
-- **IS:** a diff-aware static reviewer of React/Next.js source — detects which feature each changed file implements, runs that feature's playbook, and emits a 3-tier ship verdict with `file:line` evidence and React 19 fix snippets.
+- **IS:** a diff-aware static reviewer of React/Next.js source: detects which feature each changed file implements, runs that feature's playbook, and emits a 3-tier ship verdict with `file:line` evidence and React 19 fix snippets.
 - **IS NOT:** an agentic-app pattern review (tool parity, trust cues, approval gates → use `ax-audit`), a page-level rendered-UI quality/accessibility audit (→ use `ui-audit`), or a re-implementation of Lighthouse/axe/Chromatic (→ see "Defer to other tools").
 
 ## Contents
@@ -43,10 +43,10 @@ Step notes:
 
 1. **Scope.** Diff by default; never the whole codebase (see [Scope](#scope-diff-aware-by-default)).
 2. **Detect features.** Match element semantics + filenames + route paths: a `<form>` with email + password is sign-in; `role="dialog"` is a modal; route `/checkout` is checkout. Detection table in `references/feature-playbooks.md`.
-3. **Run playbooks.** Each feature has 5-7 ordered checks. Run every check even when you expect a pass — pass results feed the self-check's `rulesRun` count.
-4. **Load rules.** Only the rule files the playbook names — never a whole folder (see [dispatch](#rule-layers-and-dispatch)).
+3. **Run playbooks.** Each feature has 5-7 ordered checks. Run every check even when you expect a pass; pass results feed the self-check's `rulesRun` count.
+4. **Load rules.** Only the rule files the playbook names, never a whole folder (see [dispatch](#rule-layers-and-dispatch)).
 5. **Tier.** Every finding gets `release-blocker | fix-this-sprint | backlog`; the surface context can bump the rule's default tier up or down (sign-in/checkout bump up; marketing/internal-admin bump down).
-6. **Render.** JSON first, then the adapter — the JSON document is what keeps findings comparable across runs.
+6. **Render.** JSON first, then the adapter: the JSON document is what keeps findings comparable across runs.
 7. **Self-check.** Terminal evidence step; criteria at the bottom of this file.
 
 ## Rule layers and dispatch
@@ -55,15 +55,15 @@ Three layers, each with its own loading condition. Load rule files individually,
 
 | Layer | Location | Load when | Size |
 |---|---|---|---|
-| 1 — Feature playbooks | `references/feature-playbooks.md` | Always, at Step 2 — it is the entry point that names which Layer 2/3 rules to run | 12 playbooks |
-| 2 — Modern failure modes | `rules-modern/<category>-<slug>.md` | A playbook check names the rule, or a changed file matches the rule's category (forms, states, async, focus, mobile, dark-i18n, microcopy) | 33 rules |
-| 3 — Laws of UX | `rules/<prefix>-<slug>.md` | A playbook explicitly names a Laws rule, or a finding needs cognitive/perceptual reasoning no Layer 2 rule covers | 30 rules (20 programmatic, 10 rubric) |
+| 1: Feature playbooks | `references/feature-playbooks.md` | Always, at Step 2, since it is the entry point that names which Layer 2/3 rules to run | 12 playbooks |
+| 2: Modern failure modes | `rules-modern/<category>-<slug>.md` | A playbook check names the rule, or a changed file matches the rule's category (forms, states, async, focus, mobile, dark-i18n, microcopy) | 33 rules |
+| 3: Laws of UX | `rules/<prefix>-<slug>.md` | A playbook explicitly names a Laws rule, or a finding needs cognitive/perceptual reasoning no Layer 2 rule covers | 30 rules (20 programmatic, 10 rubric) |
 
 Layer-specific notes:
 
 - **Layer 2 is where most findings come from.** Category index: `rules-modern/_sections.md`; one-line summary of every rule with default tiers: `references/modern-failure-modes.md`. Each rule file contains detection greps, false-positive guards, surface-tier overrides, and a before/after fix.
-- **Layer 3 is reserve.** Expect 1-2 Laws findings per audit, not 30. Category index: `rules/_sections.md`. The 10 rubric-kind rules score 1-5 against the anchor tables in `references/observational-rubrics.md` — emit the score plus the verbatim anchor text.
-- **When both layers fire on the same issue, keep only the Layer 2 framing.** "Missing error state" (Layer 2) beats "Postel's Law violation" (Layer 3) — it has a concrete fix and a specific surface match.
+- **Layer 3 is reserve.** Expect 1-2 Laws findings per audit, not 30. Category index: `rules/_sections.md`. The 10 rubric-kind rules score 1-5 against the anchor tables in `references/observational-rubrics.md`: emit the score plus the verbatim anchor text.
+- **When both layers fire on the same issue, keep only the Layer 2 framing.** "Missing error state" (Layer 2) beats "Postel's Law violation" (Layer 3): it has a concrete fix and a specific surface match.
 
 ## Scope: diff-aware by default
 
@@ -74,7 +74,7 @@ git diff --name-only main -- '*.tsx' '*.jsx' '*.ts' '*.js' '*.css' '*.module.css
 Audit only those files, and surface the base in the output: `Auditing: 8 files changed vs main`.
 
 - Single component: `git diff --name-only HEAD -- src/Component.tsx`
-- Full sweep: only on explicit request (`--full src/`) — e.g. when introducing the skill to a codebase. A default full sweep buries the 3 findings that matter under 60 that don't.
+- Full sweep: only on explicit request (`--full src/`): e.g. when introducing the skill to a codebase. A default full sweep buries the 3 findings that matter under 60 that don't.
 
 ## Ship-readiness verdict
 
@@ -114,7 +114,7 @@ All three formats render from the same JSON document. Templates and field mappin
 A finding is intentionally suppressed with an inline comment whose slug matches the rule:
 
 ```tsx
-{/* ux-audit-ignore:focus-not-restored — intentional: parent owns focus */}
+{/* ux-audit-ignore:focus-not-restored, intentional: parent owns focus */}
 <Dialog open={open} onClose={onClose}>
 ```
 
@@ -122,7 +122,7 @@ Suppressed findings still appear in the audit summary (`summary.suppressed`) so 
 
 ## Defer to other tools
 
-ux-audit lives in the gap between "lint passes and axe is clean" and "the product still feels broken." When a finding belongs to another tool, link out — don't restate:
+ux-audit lives in the gap between "lint passes and axe is clean" and "the product still feels broken." When a finding belongs to another tool, link out, don't restate:
 
 | Concern | Use instead |
 |---|---|
@@ -138,24 +138,24 @@ Full coverage map plus the list of gaps only ux-audit catches: `references/defer
 
 | File | Read when |
 |------|-----------|
-| `references/feature-playbooks.md` | Steps 2-3 — feature detection table + per-feature ordered checks |
-| `references/modern-failure-modes.md` | Browsing Layer 2 — all 33 rules with categories and default tiers |
+| `references/feature-playbooks.md` | Steps 2-3: feature detection table + per-feature ordered checks |
+| `references/modern-failure-modes.md` | Browsing Layer 2: all 33 rules with categories and default tiers |
 | `references/states-coverage.md` | Validating loading/empty/error/disabled coverage; state-pair grep recipes |
-| `references/ship-readiness.md` | Step 5 — tier definitions, surface bump table, verdict logic |
-| `references/output-adapters.md` | Step 6 — verbatim terminal / PR-comment / JSON templates |
-| `references/output-schema.md` | Step 6 — strict JSON schema and validation rules |
+| `references/ship-readiness.md` | Step 5: tier definitions, surface bump table, verdict logic |
+| `references/output-adapters.md` | Step 6: verbatim terminal / PR-comment / JSON templates |
+| `references/output-schema.md` | Step 6: strict JSON schema and validation rules |
 | `references/observational-rubrics.md` | Scoring any of the 10 Layer 3 rubric-kind rules (1-5 anchors) |
 | `references/defer-to-other-tools.md` | Deciding whether a concern is another tool's job |
 | `rules-modern/_sections.md` | Layer 2 category index (7 categories, 33 rules) |
-| `rules-modern/<category>-<slug>.md` | Step 4 — running a named Layer 2 check |
+| `rules-modern/<category>-<slug>.md` | Step 4: running a named Layer 2 check |
 | `rules/_sections.md` | Layer 3 category index (5 prefixes, 30 rules) |
-| `rules/<prefix>-<slug>.md` | Step 4 — running a named Layer 3 check |
+| `rules/<prefix>-<slug>.md` | Step 4: running a named Layer 3 check |
 
 ## Related skills
 
-- `ax-audit` — agentic-feature PRs (agent dashboards, tool-use UIs, trust patterns). Run both on an agentic feature: ax-audit for the agent layer, ux-audit for the traditional surfaces around it.
-- `ui-audit` — page-level audit of rendered UI quality and accessibility; use it when the question is "polish this page", not "review this diff".
-- `pr-reviewer` — correctness bugs and code quality in the same diff; ux-audit only covers user-facing behaviour.
+- `ax-audit`, agentic-feature PRs (agent dashboards, tool-use UIs, trust patterns). Run both on an agentic feature: ax-audit for the agent layer, ux-audit for the traditional surfaces around it.
+- `ui-audit`: page-level audit of rendered UI quality and accessibility; use it when the question is "polish this page", not "review this diff".
+- `pr-reviewer`: correctness bugs and code quality in the same diff; ux-audit only covers user-facing behaviour.
 
 ## Gotchas
 

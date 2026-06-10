@@ -36,4 +36,4 @@ POST /api/users
 | specified parameters.                | Response: `201 Created`              |
 ```
 
-Reference: [Stripe API docs — Layout pattern](https://docs.stripe.com/api)
+Reference: [Stripe API docs: Layout pattern](https://docs.stripe.com/api)

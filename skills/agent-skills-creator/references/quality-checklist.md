@@ -31,7 +31,7 @@ Scoring: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable
 17. Common content patterns applied where relevant (template for fixed output, examples for format-sensitive output, conditional for decision points)
 18. Setup/config pattern used if skill requires user-specific context across sessions
 19. Only non-obvious guidance included (passes "would Claude do this anyway?" test)
-20. Workflow terminates with a concrete verification step that produces evidence (green tests, clean build, screenshot, log output) — "seems right" is never a valid exit criterion
+20. Workflow terminates with a concrete verification step that produces evidence (green tests, clean build, screenshot, log output); "seems right" is never a valid exit criterion
 21. Anti-rationalization table included for skills where steps are frequently skipped under time pressure (see `skill-patterns.md` for format)
 22. IS/IS-NOT boundary opener present after the H1 when sibling skills exist or scope creep is likely
 
@@ -81,4 +81,4 @@ Scoring: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable
 - Reference-to-reference chains (more than one level deep)
 - Hardcoded absolute paths where `${CLAUDE_PLUGIN_DATA}` should be used for persistent storage
 - README.md, CHANGELOG.md, or other auxiliary docs inside the skill folder
-- Install instructions using `cp -R` into `~/.claude/skills/` — bypasses the `~/.agents/skills` symlink chain
+- Install instructions using `cp -R` into `~/.claude/skills/`, which bypasses the `~/.agents/skills` symlink chain

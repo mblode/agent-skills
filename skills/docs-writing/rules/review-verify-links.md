@@ -24,4 +24,4 @@ For setup instructions, see
 <!-- CI runs markdown-link-check on every PR -->
 ```
 
-Reference: [markdown-link-check — Link validation tool](https://github.com/tcort/markdown-link-check)
+Reference: [markdown-link-check: Link validation tool](https://github.com/tcort/markdown-link-check)

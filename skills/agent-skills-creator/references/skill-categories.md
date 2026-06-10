@@ -35,11 +35,11 @@ These are recommendations, not requirements. A Runbook could use Rules-based if 
 
 ## 1. Library & API Reference
 
-**Definition:** Skills that explain how to correctly use a library, CLI, or SDK — including internal libraries and common libraries Claude sometimes gets wrong.
+**Definition:** Skills that explain how to correctly use a library, CLI, or SDK, including internal libraries and common libraries Claude sometimes gets wrong.
 
 **Key authoring tips:**
 - Include a folder of reference code snippets showing correct usage
-- Focus on gotchas, edge cases, and footguns — not basic usage Claude already knows
+- Focus on gotchas, edge cases, and footguns, not basic usage Claude already knows
 - Document the differences between versions if migration is common
 - Include error messages and their solutions
 

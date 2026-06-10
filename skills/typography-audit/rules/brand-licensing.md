@@ -13,7 +13,7 @@ Every font has a license that specifies permitted uses. Web fonts, desktop fonts
 ```css
 @font-face {
   font-family: 'Gotham';
-  /* .otf from a designer's machine run through a converter —
+  /* .otf from a designer's machine run through a converter;
      the desktop license does not cover web embedding */
   src: url('/fonts/gotham-converted.woff2') format('woff2');
 }
@@ -24,7 +24,7 @@ Every font has a license that specifies permitted uses. Web fonts, desktop fonts
 ```css
 @font-face {
   font-family: 'Inter';
-  /* SIL OFL 1.1 — web use and self-hosting permitted.
+  /* SIL OFL 1.1: web use and self-hosting permitted.
      License: /fonts/LICENSE-Inter.txt */
   src: url('/fonts/Inter-Variable.woff2') format('woff2');
 }

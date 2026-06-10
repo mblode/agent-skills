@@ -27,23 +27,23 @@ Link detail files from root with `@import` syntax:
 - Personal overrides: @~/.claude/my-project-instructions.md
 ```
 
-If framework behavior causes repeated mistakes, do not paste the framework docs — add one short gotcha plus the command or link that resolves it.
+If framework behavior causes repeated mistakes, do not paste the framework docs; add one short gotcha plus the command or link that resolves it.
 
 ## File placement hierarchy
 
 Instruction files load from multiple locations; each has a distinct job:
 
-- **`~/.claude/CLAUDE.md`** — applies to every session; personal defaults only, never project-specific commands
-- **Project root `./AGENTS.md`** — shared with the team via git; the tool-agnostic source of truth
-- **`./CLAUDE.local.md`** — gitignored personal overrides at project level
-- **Parent directories** — inherited in monorepos (root + child both load)
-- **Child directories** — loaded on demand when the agent works in that subtree
+- **`~/.claude/CLAUDE.md`**: applies to every session; personal defaults only, never project-specific commands
+- **Project root `./AGENTS.md`**: shared with the team via git; the tool-agnostic source of truth
+- **`./CLAUDE.local.md`**: gitignored personal overrides at project level
+- **Parent directories**: inherited in monorepos (root + child both load)
+- **Child directories**: loaded on demand when the agent works in that subtree
 
 Always write shared rules to AGENTS.md. Audit each level independently: root holds only universal rules; child files hold directory-specific rules. A universal rule placed only in a child file is invisible to most tasks.
 
 ## Emphasis for critical rules
 
-Use emphasis markers ("IMPORTANT:", "YOU MUST", "NEVER") only on rules agents demonstrably skip — typically security, data-loss, and deployment constraints. If everything is "IMPORTANT", nothing is.
+Use emphasis markers ("IMPORTANT:", "YOU MUST", "NEVER") only on rules agents demonstrably skip, typically security, data-loss, and deployment constraints. If everything is "IMPORTANT", nothing is.
 
 ## Common anti-patterns
 

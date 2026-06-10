@@ -1,5 +1,5 @@
 ---
-title: <Rule title — short, descriptive>
+title: <Rule title, short, descriptive>
 slug: <category>-<kebab-slug>
 category: parity | granularity | context | comm
 defaultTier: release-blocker | fix-this-sprint | backlog
@@ -19,7 +19,7 @@ A concrete, observable scenario. What the user or agent experiences, what the co
 
 ## Detection
 
-**Surfaces:** <which playbooks invoke this — agent-chat, agent-tool-execution, agent-config, agent-dashboard>
+**Surfaces:** <which playbooks invoke this: agent-chat, agent-tool-execution, agent-config, agent-dashboard>
 
 **Static signals:**
 1. Concrete grep / Read step. Use `rg` / `find` / file-extension filters.
@@ -28,7 +28,7 @@ A concrete, observable scenario. What the user or agent experiences, what the co
 
 **Concrete commands:**
 ```bash
-# Inline grep recipes the agent can run. Note: ripgrep has no 'tsx' type — '--type=ts' covers *.ts and *.tsx.
+# Inline grep recipes the agent can run. Note: ripgrep has no 'tsx' type: '--type=ts' covers *.ts and *.tsx.
 rg 'pattern' --type=ts src/
 ```
 
@@ -42,9 +42,9 @@ rg 'pattern' --type=ts src/
 **Concrete change** with the architectural pattern:
 
 ```tsx
-// before — the anti-pattern
+// before: the anti-pattern
 
-// after — the corrected pattern
+// after: the corrected pattern
 ```
 
 ## Default tier and overrides
@@ -83,6 +83,6 @@ If a finding overlaps with ux-audit rules, link out:
 To intentionally ignore this rule on a specific component:
 
 ```tsx
-{/* ax-audit-ignore:<slug> — reason */}
+{/* ax-audit-ignore:<slug>, reason */}
 <Component />
 ```

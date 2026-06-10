@@ -1,6 +1,6 @@
 # AX Evolution Curve
 
-A 4-stage model for evaluating how deep the relationship between user and agent is in a given design. Used during audit to calibrate expectations — a Conversational agent missing memory features is fine; a Personally Intelligent agent missing memory visibility is a finding.
+A 4-stage model for evaluating how deep the relationship between user and agent is in a given design. Used during audit to calibrate expectations: a Conversational agent missing memory features is fine; a Personally Intelligent agent missing memory visibility is a finding.
 
 ## The Four Stages
 
@@ -30,7 +30,7 @@ Behavior: an agent that drafts messages to your team in your voice, understandin
 
 ## The Defensibility Line
 
-The defensibility line sits between Task-Aware and Personally Intelligent. Below it, features are commoditized — anyone can build a stateless chatbot or a task tracker. Above it, accumulated context creates a moat. Switching costs increase because the agent knows the user. The longer someone uses the product, the harder it is to leave.
+The defensibility line sits between Task-Aware and Personally Intelligent. Below it, features are commoditized: anyone can build a stateless chatbot or a task tracker. Above it, accumulated context creates a moat. Switching costs increase because the agent knows the user. The longer someone uses the product, the harder it is to leave.
 
 When auditing, note where a product sits relative to this line. Products below it need differentiation through execution quality. Products above it need to make accumulated context visible and portable (or risk trust erosion when users feel locked in).
 

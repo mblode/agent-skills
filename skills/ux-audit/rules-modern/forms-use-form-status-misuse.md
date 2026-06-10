@@ -10,7 +10,7 @@ related: forms-no-disable-while-submitting
 
 ## useFormStatus called in same component as form
 
-`useFormStatus` returns the status of the **parent** `<form>`. Calling it in the same component that renders `<form>` returns `{ pending: false }` permanently — the hook has no parent form to inspect. It compiles, runs, never warns, and silently breaks every feature that depends on it (disabled submit, pending label, optimistic UI gating). Detecting this requires reading the component tree, not the React error console.
+`useFormStatus` returns the status of the **parent** `<form>`. Calling it in the same component that renders `<form>` returns `{ pending: false }` permanently: the hook has no parent form to inspect. It compiles, runs, never warns, and silently breaks every feature that depends on it (disabled submit, pending label, optimistic UI gating). Detecting this requires reading the component tree, not the React error console.
 
 ## What goes wrong
 
@@ -27,7 +27,7 @@ export function CheckoutForm() {
 }
 ```
 
-The button never disables. Double-click bug ships to production. There is no console warning, no TypeScript error, no test failure unless the test asserts `disabled` during pending. This is the most common useFormStatus mistake — and the React docs explicitly call it out as a caveat.
+The button never disables. Double-click bug ships to production. There is no console warning, no TypeScript error, no test failure unless the test asserts `disabled` during pending. This is the most common useFormStatus mistake, and the React docs explicitly call it out as a caveat.
 
 ## Detection
 
@@ -49,7 +49,7 @@ rg -l 'useFormStatus' --type=tsx src/ | while read f; do
   if rg -q '<form' "$f" && rg -q 'useFormStatus\(\)' "$f"; then
     # Heuristic: same file contains both. Read the file to confirm
     # the call site is in the component returning <form>.
-    echo "$f: useFormStatus and <form> co-located — read to verify"
+    echo "$f: useFormStatus and <form> co-located: read to verify"
   fi
 done
 
@@ -69,7 +69,7 @@ The grep is a starting heuristic; the audit must `Read` the file to confirm the 
 Extract a child component:
 
 ```tsx
-// before — silent bug
+// before: silent bug
 "use client";
 import { useFormStatus } from "react-dom";
 
@@ -109,13 +109,13 @@ export function ContactForm() {
 ```
 
 Docs:
-- React: https://react.dev/reference/react-dom/hooks/useFormStatus#caveats — see "useFormStatus will not return status information for a `<form>` rendered in the same component."
+- React: https://react.dev/reference/react-dom/hooks/useFormStatus#caveats, see "useFormStatus will not return status information for a `<form>` rendered in the same component."
 
 ## Default tier and overrides
 
 **Defaults to:** `release-blocker`
 
-This is a silent runtime bug that disables the entire purpose of `useFormStatus`. It blocks merge regardless of surface — whether the form is sign-in, checkout, or a comment box, the developer's intent has been silently broken.
+This is a silent runtime bug that disables the entire purpose of `useFormStatus`. It blocks merge regardless of surface: whether the form is sign-in, checkout, or a comment box, the developer's intent has been silently broken.
 
 **Surface overrides:**
 | Surface | Tier |
@@ -162,8 +162,8 @@ export function NewsletterForm() {
 
 ## Suppression
 
-Suppression is rarely justified — this is almost always a real bug. If suppressed, document why:
+Suppression is rarely justified: this is almost always a real bug. If suppressed, document why:
 
 ```tsx
-{/* ux-audit-ignore:forms-use-form-status-misuse — useFormStatus is a no-op here, kept for parity with sibling code */}
+{/* ux-audit-ignore:forms-use-form-status-misuse, useFormStatus is a no-op here, kept for parity with sibling code */}
 ```

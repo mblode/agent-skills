@@ -10,7 +10,7 @@ related: forms-no-disable-while-submitting, async-optimistic-without-rollback, s
 
 ## Double-submit possible (no pending guard)
 
-If a submit handler can fire twice — because the button doesn't disable, the form doesn't gate on `pending`, or the network is slow and the user clicks again — you get duplicate orders, duplicate signups, double-charged cards, and duplicate emails. Frontend guarding (disabled button) is necessary but not sufficient; idempotency on the backend is what makes this truly safe. Both belong in the fix.
+If a submit handler can fire twice (because the button doesn't disable, the form doesn't gate on `pending`, or the network is slow and the user clicks again) you get duplicate orders, duplicate signups, double-charged cards, and duplicate emails. Frontend guarding (disabled button) is necessary but not sufficient; idempotency on the backend is what makes this truly safe. Both belong in the fix.
 
 ## What goes wrong
 
@@ -21,13 +21,13 @@ User clicks "Place order." Network is slow. After 800ms with no visible feedback
 **Surfaces:** sign-in, sign-up (highest), checkout, any form with a server-mutation submit.
 
 **Static signals:**
-1. `rg '<form' --type=tsx -l` — every form file.
+1. `rg '<form' --type=tsx -l`: every form file.
 2. For each, confirm the submit button is disabled while the action runs. Three accepted patterns:
    - Child component using `useFormStatus().pending` to drive `disabled` (App Router server actions).
    - `useActionState` returning `isPending` and the form gates on it.
    - A query library mutation with `isPending` driving `disabled`.
 3. Flag forms whose button is enabled during submit.
-4. **Bonus check (warn, not fail):** look for an `Idempotency-Key` header or `idempotencyKey` field in the request — true safety lives on the backend.
+4. **Bonus check (warn, not fail):** look for an `Idempotency-Key` header or `idempotencyKey` field in the request; true safety lives on the backend.
 
 **Concrete commands:**
 ```bash
@@ -50,10 +50,10 @@ rg 'Idempotency-Key|idempotencyKey' --type=tsx
 
 ## Fix
 
-Use `useFormStatus` from a child component (it must read the parent `<form>`'s status — same-component usage returns `pending: false`).
+Use `useFormStatus` from a child component (it must read the parent `<form>`'s status; same-component usage returns `pending: false`).
 
 ```tsx
-// before — submit fires twice on slow net
+// before: submit fires twice on slow net
 'use client';
 function CheckoutForm({ action }: { action: (fd: FormData) => Promise<void> }) {
   return (
@@ -64,7 +64,7 @@ function CheckoutForm({ action }: { action: (fd: FormData) => Promise<void> }) {
   );
 }
 
-// after — disabled button + child useFormStatus + label change
+// after: disabled button + child useFormStatus + label change
 'use client';
 import { useFormStatus } from 'react-dom';
 
@@ -139,5 +139,5 @@ Docs:
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:async-double-submit — backend dedupes on idempotency-key */}
+{/* ux-audit-ignore:async-double-submit, backend dedupes on idempotency-key */}
 ```

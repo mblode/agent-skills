@@ -9,9 +9,9 @@ related: perception-common-region, perception-proximity, cognitive-chunking
 
 ## Law of Uniform Connectedness
 
-A Gestalt grouping principle: items joined by an explicit visual connection — a line, a bracket, a shared background fill, an arrow — read as more strongly related than items grouped by any other cue. Uniform Connectedness is the strongest of the four grouping laws (Palmer & Rock 1994; lawsofux.com/law-of-uniform-connectedness). Where it conflicts with Common Region, Proximity, or Similarity, connection wins.
+A Gestalt grouping principle: items joined by an explicit visual connection (a line, a bracket, a shared background fill, an arrow) read as more strongly related than items grouped by any other cue. Uniform Connectedness is the strongest of the four grouping laws (Palmer & Rock 1994; lawsofux.com/law-of-uniform-connectedness). Where it conflicts with Common Region, Proximity, or Similarity, connection wins.
 
-Use it sparingly and deliberately. A connecting line, shared row background, or pill-shaped container around grouped items signals a tight relationship that the eye accepts without question. Overuse and the connection becomes noise — every line is a claim about structure, and false claims confuse.
+Use it sparingly and deliberately. A connecting line, shared row background, or pill-shaped container around grouped items signals a tight relationship that the eye accepts without question. Overuse and the connection becomes noise: every line is a claim about structure, and false claims confuse.
 
 ## Check
 
@@ -31,9 +31,9 @@ rg 'role="radiogroup"|type="radio"|<RadioGroup|Tabs|Segmented|ToggleGroup' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | all radio/segmented/step sets share a connector that wraps every option | — |
+| pass | all radio/segmented/step sets share a connector that wraps every option |: |
 | warn | connector incomplete (covers most but not all options, or wraps but with gaps) | MEDIUM |
-| fail | no connector — radios or segments float apart with separate borders/gaps | HIGH |
+| fail | no connector: radios or segments float apart with separate borders/gaps | HIGH |
 
 ## Fix
 

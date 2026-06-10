@@ -9,7 +9,7 @@ related: decision-hicks-law, decision-pareto-principle, cognitive-cognitive-load
 
 ## Choice Overload
 
-When the option set crosses ~7-10 comparable items shown at once, users stall, regret their pick, or abandon the task entirely (Iyengar & Lepper, 2000 — the jam study showed a 10× drop in conversion at 24 vs 6 options). The damage is not just slower decisions; it is lower satisfaction with whatever they choose.
+When the option set crosses ~7-10 comparable items shown at once, users stall, regret their pick, or abandon the task entirely (Iyengar & Lepper, 2000; the jam study showed a 10× drop in conversion at 24 vs 6 options). The damage is not just slower decisions; it is lower satisfaction with whatever they choose.
 
 The fix is rarely "delete options." It is to design the *decision flow*: surface a recommended default, support comparison for items that need it, and let users narrow the set up front through search, filters, or curated rails.
 
@@ -32,7 +32,7 @@ rg 'recommended|popular|featured|default' src/pricing/ src/plans/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | ≤ 5 peers OR a recommended flag is present | — |
+| pass | ≤ 5 peers OR a recommended flag is present |: |
 | warn | 6-10 peers without a recommended flag | MEDIUM |
 | fail | > 10 peers without a recommended flag | HIGH |
 

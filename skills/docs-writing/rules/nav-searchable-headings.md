@@ -28,4 +28,4 @@ Use the words readers actually type when looking for this information. Include t
 ## Deploy to production
 ```
 
-Reference: [Google developer documentation style guide — Headings](https://developers.google.com/style/headings)
+Reference: [Google developer documentation style guide: Headings](https://developers.google.com/style/headings)

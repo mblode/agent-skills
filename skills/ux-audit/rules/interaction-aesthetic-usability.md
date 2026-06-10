@@ -11,7 +11,7 @@ related: decision-postels-law, decision-occams-razor, perception-von-restorff
 
 Users perceive better-looking designs as more usable, even when measured task performance is identical. Polished visuals create positive affect, which raises tolerance for minor friction and earns the product time before users start abandoning. This is a rubric-based rule: score type system, spacing rhythm, palette, elevation, and motion quality.
 
-Critical caveat: visual polish does not replace usability work. It only delays the moment users notice the underlying problems — and can hide real defects from usability testing. The rubric scores polish independently; usability is audited by other rules. Beauty buys forgiveness, not function.
+Critical caveat: visual polish does not replace usability work. It only delays the moment users notice the underlying problems, and can hide real defects from usability testing. The rubric scores polish independently; usability is audited by other rules. Beauty buys forgiveness, not function.
 
 ## Rubric
 
@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 
@@ -44,8 +44,8 @@ For full anchor examples and common scoring confusions, see `references/observat
 - Adopt a type scale with ≥3 weights and ≥4 sizes; assign each role (display, heading, body, label) to a specific size+weight pair.
 - Use a spacing token scale (one of 4 / 8 / 12 / 16 / 24 px) consistently for padding, margin, and gap. No one-off magic numbers.
 - Add two-tier elevation (e.g. low shadow for cards, higher shadow for modals/popovers) instead of harsh, single-level box-shadows.
-- Use brand colour sparingly for emphasis — primary CTA, focus state, key data point — not as the dominant background.
-- Make motion purposeful and subtle (150–250ms ease-out for entrances, transform/opacity only); remove jarring or decorative motion.
+- Use brand colour sparingly for emphasis (primary CTA, focus state, key data point) not as the dominant background.
+- Make motion purposeful and subtle (150-250ms ease-out for entrances, transform/opacity only); remove jarring or decorative motion.
 
 ## Examples
 

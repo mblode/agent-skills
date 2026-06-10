@@ -11,7 +11,7 @@ related: memory-jakobs-law, decision-paradox-of-the-active-user, perception-sele
 
 A mental model is the compressed picture a user already holds of how a system should work, built from prior products, real-world objects, and category conventions. When the design matches that model, the user transfers existing knowledge and feels fluent. When it mismatches, every interaction costs deliberate thought and confidence drops. This is a rubric-based rule: score how well labels, icons, and interactions match user expectations.
 
-This is the general principle. **Jakob's Law is the special case where the prior system is "other websites and apps."** A mental model can also come from physical artifacts, domain conventions, or the user's own past sessions. Do not penalize a deliberate, well-explained novel pattern — penalize unexplained novelty.
+This is the general principle. **Jakob's Law is the special case where the prior system is "other websites and apps."** A mental model can also come from physical artifacts, domain conventions, or the user's own past sessions. Do not penalize a deliberate, well-explained novel pattern; penalize unexplained novelty.
 
 ## Rubric
 
@@ -33,7 +33,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 | — |
+| pass | score ≥4 |: |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 
@@ -44,7 +44,7 @@ For full anchor examples and common scoring confusions, see `references/observat
 - Replace custom icons with Lucide / Material / SF Symbols equivalents whose established meaning matches the action (trash for delete, archive for archive, gear for settings).
 - Rename invented labels ("Beam it", "Sync to cloud") to the domain-standard term users already use ("Send", "Save").
 - Honour platform interaction conventions: drag reorders, swipe reveals actions, ⌘Z undoes. Do not invent destructive gestures (drag-to-delete, swipe-to-confirm).
-- Disambiguate overloaded actions — if "Save" actually publishes, rename it to "Publish" (and add a separate "Save draft").
+- Disambiguate overloaded actions: if "Save" actually publishes, rename it to "Publish" (and add a separate "Save draft").
 - For deliberate novelty, add an on-ramp: a one-time inline introduction at first encounter.
 
 ## Examples

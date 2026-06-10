@@ -10,11 +10,11 @@ related: async-double-submit, states-no-error-state, microcopy-leaked-error-mess
 
 ## Optimistic update without rollback on server reject
 
-`useOptimistic` lets you show the post-action state immediately — a liked post, a cart item added, a renamed file. The contract is: when the server rejects (422, 500, network error), the UI rolls back to the actual server state. Without rollback the UI lies. Reload reveals truth and users lose trust. The other half of the contract: `useOptimistic` updates **must** be applied inside `startTransition` (or via a transitioning action), or React will throw.
+`useOptimistic` lets you show the post-action state immediately: a liked post, a cart item added, a renamed file. The contract is: when the server rejects (422, 500, network error), the UI rolls back to the actual server state. Without rollback the UI lies. Reload reveals truth and users lose trust. The other half of the contract: `useOptimistic` updates **must** be applied inside `startTransition` (or via a transitioning action), or React will throw.
 
 ## What goes wrong
 
-User clicks "Like." UI flips to liked instantly. Server rejects (rate-limited). The optimistic state never reverts because the action handler swallowed the error. Reload — like is gone. User concludes the product is broken or that the like silently disappeared.
+User clicks "Like." UI flips to liked instantly. Server rejects (rate-limited). The optimistic state never reverts because the action handler swallowed the error. Reload, and the like is gone. User concludes the product is broken or that the like silently disappeared.
 
 Worse: `useOptimistic` is called outside `startTransition`. React 19 throws "An optimistic state update occurred outside a transition or action." The whole feature blows up at runtime.
 
@@ -23,7 +23,7 @@ Worse: `useOptimistic` is called outside `startTransition`. React 19 throws "An 
 **Surfaces:** checkout (cart updates), list (inline edits, likes, reorder), form (instant rename), dashboard (toggle widgets), modal (in-modal saves).
 
 **Static signals:**
-1. `rg 'useOptimistic' --type=tsx -l` — find all callers.
+1. `rg 'useOptimistic' --type=tsx -l`: find all callers.
 2. For each file, confirm the optimistic dispatch sits inside a `startTransition`, `useTransition` action, `<form action>`, or async server action.
 3. Confirm the action handler has a `try { ... } catch` that re-throws or signals failure (so React reverts the optimistic state automatically), OR an explicit revert call.
 4. Confirm a user-facing error UI exists when the action fails (toast, inline error).
@@ -43,7 +43,7 @@ done
 ```
 
 **False-positive guards:**
-- Skip if the action is a server action invoked via `<form action={fn}>` — React reverts automatically when the action throws.
+- Skip if the action is a server action invoked via `<form action={fn}>`: React reverts automatically when the action throws.
 - Skip files annotated `// ux-audit-ignore:async-optimistic-without-rollback`.
 - Skip Storybook fixtures.
 
@@ -52,7 +52,7 @@ done
 Apply optimistic updates inside `startTransition`. Let the action throw on failure so React reverts. Surface a toast or inline error.
 
 ```tsx
-// before — silent lie on reject
+// before: silent lie on reject
 'use client';
 function Likes({ post }: { post: Post }) {
   const [optimistic, setOptimistic] = useOptimistic(post.likes);
@@ -68,7 +68,7 @@ function Likes({ post }: { post: Post }) {
   );
 }
 
-// after — rollback on reject + transition + error UI
+// after: rollback on reject + transition + error UI
 'use client';
 import { useOptimistic, useTransition } from 'react';
 import { toast } from 'sonner';
@@ -90,7 +90,7 @@ function Likes({ post }: { post: Post }) {
             await likePost(post.id);
           } catch (err) {
             // throwing reverts the optimistic state automatically
-            toast.error('Could not like — try again');
+            toast.error('Could not like, try again');
             throw err;
           }
         })
@@ -146,13 +146,13 @@ const add = (item) =>
 
 ## Defer-to (when this is another tool's job)
 
-- TanStack Query has its own `onMutate`/`onError` rollback pattern — link to its docs if the project uses it.
+- TanStack Query has its own `onMutate`/`onError` rollback pattern; link to its docs if the project uses it.
 - Sentry for capturing the thrown errors.
 - Vercel Agent for review-time spotting of missing `try`/`catch`.
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:async-optimistic-without-rollback — operation is idempotent and
+{/* ux-audit-ignore:async-optimistic-without-rollback, operation is idempotent and
     server return is authoritative on next render */}
 ```

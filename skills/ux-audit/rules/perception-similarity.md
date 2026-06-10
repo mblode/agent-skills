@@ -9,9 +9,9 @@ related: perception-proximity, perception-common-region, cognitive-chunking
 
 ## Law of Similarity
 
-A Gestalt grouping principle: items that share visual properties — color, shape, size, weight, orientation — read as related, even when separated in space. Similarity carries semantic weight: matching styles imply matching function, mismatched styles imply different function. Threshold for coherent role: ≥80% of items in the same role should share at least one visual property (lawsofux.com/law-of-similarity; Wertheimer 1923).
+A Gestalt grouping principle: items that share visual properties (color, shape, size, weight, orientation) read as related, even when separated in space. Similarity carries semantic weight: matching styles imply matching function, mismatched styles imply different function. Threshold for coherent role: ≥80% of items in the same role should share at least one visual property (lawsofux.com/law-of-similarity; Wertheimer 1923).
 
-Among the grouping laws, similarity is weaker than enclosure (Common Region) or shared backgrounds (Uniform Connectedness) and roughly comparable to Proximity. Use it to communicate role: links share a color, primary actions share a shape, destructive actions share a hue. Inverting the rule is just as load-bearing — anything that *should not* be confused with another role must look different.
+Among the grouping laws, similarity is weaker than enclosure (Common Region) or shared backgrounds (Uniform Connectedness) and roughly comparable to Proximity. Use it to communicate role: links share a color, primary actions share a shape, destructive actions share a hue. Inverting the rule is just as load-bearing: anything that *should not* be confused with another role must look different.
 
 ## Check
 
@@ -31,8 +31,8 @@ rg 'className=' src/ | rg 'button|Card|li|nav'
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | ≥80% of same-role items share styling | — |
-| warn | 50–80% share styling | MEDIUM |
+| pass | ≥80% of same-role items share styling |: |
+| warn | 50-80% share styling | MEDIUM |
 | fail | <50% share styling (visual chaos; role unreadable) | HIGH |
 
 ## Fix
@@ -46,7 +46,7 @@ rg 'className=' src/ | rg 'button|Card|li|nav'
 **Anti-pattern (similarity hides function):**
 
 ```tsx
-// Inline link, ghost button, and disabled button all look the same — users
+// Inline link, ghost button, and disabled button all look the same: users
 // can't tell what is clickable vs. what is just text.
 <p>
   Read the <span className="text-slate-700">terms of service</span> before

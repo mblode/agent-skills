@@ -18,7 +18,7 @@ The effect weakens once a list exceeds working-memory chunks (≈7), so combine 
 **Surfaces:** primary-nav, list, search-results
 
 **Procedure:**
-1. Find ordered sets — `<nav>`, `<ul>`/`<ol>` of links, menu items, search-result rows.
+1. Find ordered sets: `<nav>`, `<ul>`/`<ol>` of links, menu items, search-result rows.
 2. Identify the primary action(s) in each set (sign up, checkout, sign in, primary CTA, most-relevant result).
 3. Check whether the primary action sits at the **start** or **end** of the sequence; record its index.
 
@@ -32,7 +32,7 @@ rg -n '<nav|<ul|<ol|role="menu"' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Primary action at index 0 OR last index of the sequence | — |
+| pass | Primary action at index 0 OR last index of the sequence |: |
 | warn | Primary action at index 1 OR second-to-last (one position from edge) | MEDIUM |
 | fail | Primary action in the middle of a sequence with ≥5 items | HIGH |
 

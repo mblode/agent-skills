@@ -124,7 +124,7 @@ Add this `:root` block once to your global stylesheet. Every recipe reads from t
 
 ## Card resize
 
-Tween a container's width or height when its layout state changes (compact/expanded card, collapsing panel, list row toggling detail). CSS only — no JS required.
+Tween a container's width or height when its layout state changes (compact/expanded card, collapsing panel, list row toggling detail). CSS only, no JS required.
 
 ```html
 <div class="t-resize">Content</div>
@@ -149,7 +149,7 @@ Toggle dimensions with a state class or inline style. The transition handles the
 
 ## Panel reveal
 
-Slide a panel into view inside an existing container with a cross-blur effect. CSS only — toggle `data-open`.
+Slide a panel into view inside an existing container with a cross-blur effect. CSS only, toggle `data-open`.
 
 See also: `component-patterns.md` § Drawers and panels for percentage-based drawer slides.
 
@@ -184,7 +184,7 @@ See also: `component-patterns.md` § Drawers and panels for percentage-based dra
 
 ## Notification badge
 
-Slide a small badge onto a trigger (button, icon) and pop the dot. The trigger stays put. CSS only — toggle `data-open`.
+Slide a small badge onto a trigger (button, icon) and pop the dot. The trigger stays put. CSS only, toggle `data-open`.
 
 ```html
 <button style="position: relative">
@@ -311,7 +311,7 @@ See also: `component-patterns.md` § Popovers and dropdowns for Radix UI transfo
 }
 ```
 
-**JS — close with cleanup:**
+**JS, close with cleanup:**
 
 ```js
 function closeDropdown(el) {
@@ -357,7 +357,7 @@ See also: `component-patterns.md` § Modals and dialogs for `@starting-style` en
 }
 ```
 
-**JS — close with cleanup:**
+**JS, close with cleanup:**
 
 ```js
 function closeModal(el) {
@@ -401,7 +401,7 @@ Swap text in place with a blurred vertical transition ("Processing..." → "Done
 }
 ```
 
-**JS — three-phase orchestration:**
+**JS, three-phase orchestration:**
 
 ```js
 function swapText(el, newText) {
@@ -469,7 +469,7 @@ See also: `component-patterns.md` § Step form navigation for the Motion/Animate
 }
 ```
 
-**JS — switch page:**
+**JS, switch page:**
 
 ```js
 slider.setAttribute("data-page", String(n));
@@ -520,7 +520,7 @@ Re-enter digits with directional blur when a number updates (counters, prices, b
 }
 ```
 
-**JS — replay on update:**
+**JS, replay on update:**
 
 ```js
 function updateDigits(container, newValue) {
@@ -565,9 +565,9 @@ Distance-falloff lift on a horizontal stack of items. The hovered item lifts and
 }
 ```
 
-**JS — distance-based lift:**
+**JS, distance-based lift:**
 
-Set `transition-timing-function` inline *before* writing CSS variables. The browser uses whatever timing function is current when the property changes — this enables smooth ease-in on hover and bouncy ease-out on return without separate declarations.
+Set `transition-timing-function` inline *before* writing CSS variables. The browser uses whatever timing function is current when the property changes; this enables smooth ease-in on hover and bouncy ease-out on return without separate declarations.
 
 ```js
 const group = document.querySelector(".t-avatar-group");
@@ -652,7 +652,7 @@ Multi-layered success animation combining fade, rotation, blur reduction, Y-axis
 }
 ```
 
-**JS — set path length and replay:**
+**JS, set path length and replay:**
 
 Never hardcode `stroke-dasharray`. Use `getTotalLength()` to measure the actual path.
 
@@ -719,7 +719,7 @@ Per-segment shake keyframe with auto-reverting error border. Three classes manag
 }
 ```
 
-**JS — trigger and auto-revert:**
+**JS, trigger and auto-revert:**
 
 Keep `.is-error` and `.is-shaking` as separate classes. `.is-shaking` controls only the shake animation and is removed on `animationend`. `.is-error` controls the border colour and message visibility, and auto-reverts after the hold duration.
 

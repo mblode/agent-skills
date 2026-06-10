@@ -7,7 +7,7 @@ tags: performance, images, lazy-loading, lcp
 
 ## Lazy-Load Offscreen Media, Never the LCP Element
 
-Add `loading="lazy"` to offscreen images and iframes so they defer until the user scrolls near them. Never lazy-load the LCP/above-the-fold hero — that delays the largest paint. Pair lazy with `eager`/`priority` on the hero.
+Add `loading="lazy"` to offscreen images and iframes so they defer until the user scrolls near them. Never lazy-load the LCP/above-the-fold hero; that delays the largest paint. Pair lazy with `eager`/`priority` on the hero.
 
 **Incorrect (hero lazy-loaded, offscreen image eager):**
 

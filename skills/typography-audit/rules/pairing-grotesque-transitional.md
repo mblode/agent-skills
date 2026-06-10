@@ -6,9 +6,9 @@ tags: grotesque, neo-grotesque, transitional, slab, pairing
 
 ## Pair Grotesques with Transitional Serifs
 
-Grotesques/gothics (Franklin Gothic, News Gothic, Trade Gothic) pair naturally with transitional serifs (Baskerville, Times, Georgia). Neo-grotesques (Helvetica, Univers, Akzidenz-Grotesk) pair well with slab serifs (Rockwell, Clarendon, Sentinel). Avoid pairing a rational neo-grotesque with a calligraphic old-style serif — their skeletons conflict.
+Grotesques/gothics (Franklin Gothic, News Gothic, Trade Gothic) pair naturally with transitional serifs (Baskerville, Times, Georgia). Neo-grotesques (Helvetica, Univers, Akzidenz-Grotesk) pair well with slab serifs (Rockwell, Clarendon, Sentinel). Avoid pairing a rational neo-grotesque with a calligraphic old-style serif; their skeletons conflict.
 
-**Incorrect (neo-grotesque + old-style serif — conflicting construction):**
+**Incorrect (neo-grotesque + old-style serif, conflicting construction):**
 
 ```css
 h1 { font-family: 'Helvetica Neue', sans-serif; } /* rational, static */

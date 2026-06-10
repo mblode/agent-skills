@@ -1,6 +1,6 @@
 # Minimal Skeletons (Not Full Templates)
 
-Use these as structure starters only. Fill with project-specific commands, gotchas, and conventions. Do not ship these verbatim — a shipped placeholder is worse than no file.
+Use these as structure starters only. Fill with project-specific commands, gotchas, and conventions. Do not ship these verbatim; a shipped placeholder is worse than no file.
 
 ## Contents
 
@@ -26,7 +26,7 @@ Install dependencies and run the app.
 Write clean code. Use TypeScript properly.
 ```
 
-**Issues:** no commands, generic advice, no gotchas — an agent learns nothing it didn't already know.
+**Issues:** no commands, generic advice, no gotchas; an agent learns nothing it didn't already know.
 
 ### Good (execution-first)
 
@@ -121,7 +121,7 @@ Each workspace has its own `AGENTS.md`:
 (`packages/<lang-b-pkg>` is <Language B>-only; see its README for entry points.)
 
 ## Rules
-- **Always use `<venv-or-toolchain-path>`, never global `<tool>`** — dependencies may not be on PATH.
+- **Always use `<venv-or-toolchain-path>`, never global `<tool>`**: dependencies may not be on PATH.
 - <Cross-language boundary rule>
 
 ## Do not commit

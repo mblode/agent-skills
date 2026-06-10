@@ -10,7 +10,7 @@ related: rules/interaction-fittss-law.md, mobile-hover-only-affordance
 
 ## Touch targets below WCAG 2.5.5 / Material 48 dp threshold
 
-Interactive elements rendered smaller than the platform minimum trigger missed taps, frustration, and a measurable drop in completion on touch devices. WCAG 2.5.5 (AAA) requires 44 px; Material guidelines call for 48 dp; WCAG 2.2 added 2.5.8 as a 24 px AA floor. Tailwind's `h-8`/`h-9`/`h-10` defaults — common in icon buttons, list rows, toast dismiss "x", and modal close affordances — sit below the 44 px line and ship without anyone noticing on desktop.
+Interactive elements rendered smaller than the platform minimum trigger missed taps, frustration, and a measurable drop in completion on touch devices. WCAG 2.5.5 (AAA) requires 44 px; Material guidelines call for 48 dp; WCAG 2.2 added 2.5.8 as a 24 px AA floor. Tailwind's `h-8`/`h-9`/`h-10` defaults (common in icon buttons, list rows, toast dismiss "x", and modal close affordances) sit below the 44 px line and ship without anyone noticing on desktop.
 
 ## What goes wrong
 
@@ -50,7 +50,7 @@ rg -n 'height:\s*(2[0-9]|3[0-9]|40)px' --type=tsx
 Bump to `h-11 w-11` (44 px AAA) or `h-12 w-12` (48 dp Material). Use logical sizing if the target needs to grow with content.
 
 ```tsx
-// before — 32 px square, fails AAA on touch
+// before: 32 px square, fails AAA on touch
 <button
   type="button"
   aria-label="Dismiss"
@@ -60,7 +60,7 @@ Bump to `h-11 w-11` (44 px AAA) or `h-12 w-12` (48 dp Material). Use logical siz
   <XIcon className="h-4 w-4" />
 </button>
 
-// after — 44 px AAA, icon stays visually centered at 16 px
+// after: 44 px AAA, icon stays visually centered at 16 px
 <button
   type="button"
   aria-label="Dismiss"
@@ -117,13 +117,13 @@ Reference docs:
 
 ## Defer-to (when this is another tool's job)
 
-- **Lighthouse** — `tap-targets` audit measures runtime layout, including overlap; run after the static fix to confirm: https://developer.chrome.com/docs/lighthouse/seo/tap-targets/
-- **axe-core** — covers WCAG 2.5.8 (24 px) but not 2.5.5 (44 px AAA).
+- **Lighthouse**, `tap-targets` audit measures runtime layout, including overlap; run after the static fix to confirm: https://developer.chrome.com/docs/lighthouse/seo/tap-targets/
+- **axe-core**: covers WCAG 2.5.8 (24 px) but not 2.5.5 (44 px AAA).
 - **Cross-reference** Layer 3 cognitive framing in `rules/interaction-fittss-law.md` (target distance × size law).
 
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:mobile-subpar-target-size — desktop-only admin tool */}
+{/* ux-audit-ignore:mobile-subpar-target-size, desktop-only admin tool */}
 <button className="h-8 w-8" />
 ```

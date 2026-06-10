@@ -14,7 +14,7 @@ A double-clickable submit button creates duplicate accounts, double-charges cred
 
 ## What goes wrong
 
-User clicks "Place order." Network is slow. Button stays enabled-looking. User clicks again. Two POSTs go out before the first response. Server creates two orders, charges twice. Or: sign-up form with no debouncing — the user clicks "Create account" three times during a 4-second hand-off; backend creates one account but logs two errors and one success.
+User clicks "Place order." Network is slow. Button stays enabled-looking. User clicks again. Two POSTs go out before the first response. Server creates two orders, charges twice. Or: sign-up form with no debouncing, where the user clicks "Create account" three times during a 4-second hand-off; backend creates one account but logs two errors and one success.
 
 ## Detection
 
@@ -149,6 +149,6 @@ Double-submit on a payment is real money lost; this is one of the few rules that
 ## Suppression
 
 ```tsx
-{/* ux-audit-ignore:forms-no-disable-while-submitting — search form, idempotent */}
+{/* ux-audit-ignore:forms-no-disable-while-submitting, search form, idempotent */}
 <form action={searchAction}>
 ```

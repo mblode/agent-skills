@@ -22,4 +22,4 @@ The status shows "active." Set the mode to "production,"
 then restart the service.
 ```
 
-Reference: [Microsoft Style Guide — Quotation marks](https://learn.microsoft.com/en-us/style-guide/punctuation/quotation-marks)
+Reference: [Microsoft Style Guide: Quotation marks](https://learn.microsoft.com/en-us/style-guide/punctuation/quotation-marks)

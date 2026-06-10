@@ -11,7 +11,7 @@ related: context-starvation, context-no-checkpoint-resume
 
 ## Agent session starts without knowing what data exists
 
-Session initializes with a static system prompt and no dynamic context. Every session starts ignorant of projects, preferences, or prior work — even when this data exists. Violates Improvement Over Time: each session should build on the last.
+Session initializes with a static system prompt and no dynamic context. Every session starts ignorant of projects, preferences, or prior work, even when this data exists. Violates Improvement Over Time: each session should build on the last.
 
 ## What goes wrong
 
@@ -22,7 +22,7 @@ User opens a design review agent for the third time today. Agent has no memory o
 **Surfaces:** agent-chat, agent-tool-execution
 
 **Static signals:**
-1. Find session initialization — agent constructors, chat init, session start handlers.
+1. Find session initialization: agent constructors, chat init, session start handlers.
 2. Check whether initialization loads dynamic context (context files, preferences, recent activity).
 3. Flag sessions that use only static/hardcoded prompt content.
 
@@ -41,12 +41,12 @@ rg '(context\.md|loadContext|getContext|sessionContext)' --type=ts src/
 ## Fix
 
 ```tsx
-// before — static initialization
+// before: static initialization
 function createSession(userId: string) {
   return { messages: [{ role: "system", content: STATIC_PROMPT }] };
 }
 
-// after — read context.md at session start
+// after: read context.md at session start
 async function createSession(userId: string) {
   const ctx = await readContextFile(userId);
   const prefs = await getUserPreferences(userId);
@@ -76,6 +76,6 @@ async function createSession(userId: string) {
 ## Suppression
 
 ```tsx
-// ax-audit-ignore:context-no-injection — stateless utility agent, no user context needed
+// ax-audit-ignore:context-no-injection, stateless utility agent, no user context needed
 const agent = new StatelessAgent(STATIC_PROMPT);
 ```

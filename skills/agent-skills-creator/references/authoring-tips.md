@@ -32,14 +32,14 @@ Claude knows a lot about coding and your codebase. Focus on information that pus
 
 ## Open with Boundaries (IS/IS-NOT)
 
-When sibling skills exist or scope creep is likely, open the body — immediately after the H1 intro — with a bold IS/IS-NOT pair. It prevents the model from running the wrong skill or stretching this one past its remit.
+When sibling skills exist or scope creep is likely, open the body (immediately after the H1 intro) with a bold IS/IS-NOT pair. It prevents the model from running the wrong skill or stretching this one past its remit.
 
 ```markdown
 - **IS:** producing a self-contained brief another agent can execute without clarification.
 - **IS NOT:** doing the task itself, or planning work you will execute in this session.
 ```
 
-Name the sibling skill to route to in the IS-NOT line where one exists ("use `agents-md`"). Skip the opener for skills with no adjacent skills and an unmistakable scope — it would restate the description.
+Name the sibling skill to route to in the IS-NOT line where one exists ("use `agents-md`"). Skip the opener for skills with no adjacent skills and an unmistakable scope; it would restate the description.
 
 ## Build a Gotchas Section
 
@@ -47,32 +47,32 @@ The highest-signal content in any skill. Build from common failure points Claude
 
 - Place near the end of SKILL.md as a quick-reference section (call it "Gotchas" or "Anti-patterns")
 - Ground every gotcha in a real observed failure, not hypothetical concerns
-- Each gotcha names the concrete command, value, or path involved and the consequence of getting it wrong — a warning without a consequence reads as optional
+- Each gotcha names the concrete command, value, or path involved and the consequence of getting it wrong; a warning without a consequence reads as optional
 - Update the section over time as new failure modes appear
-- Format as short, scannable bullets — not paragraphs
+- Format as short, scannable bullets, not paragraphs
 
-**Good:** "Don't use the brand domain for tenant subdomains — reputation damage from one tenant affects all"
+**Good:** "Don't use the brand domain for tenant subdomains; reputation damage from one tenant affects all"
 **Bad:** "Be careful with domain naming" (too vague, no reason given)
 
 ## Use the File System for Progressive Disclosure
 
 A skill is a folder, not just a markdown file. Think of the entire file system as context engineering. Tell Claude what files are in your skill, and it will read them at appropriate times.
 
-- `references/` — deep-dive documentation loaded on demand
-- `scripts/` — executable utilities Claude can compose
-- `assets/` — template files for output Claude should copy and adapt (e.g., if your skill produces a markdown report, include the template in `assets/`)
-- `examples/` — usage examples and code snippets Claude can reference
-- `rules/` — categorized rule files for audit/lint skills
+- `references/`: deep-dive documentation loaded on demand
+- `scripts/`: executable utilities Claude can compose
+- `assets/`: template files for output Claude should copy and adapt (e.g., if your skill produces a markdown report, include the template in `assets/`)
+- `examples/`: usage examples and code snippets Claude can reference
+- `rules/`: categorized rule files for audit/lint skills
 
 The simplest form of progressive disclosure is pointing to other markdown files. Split detailed function signatures, API docs, or usage examples into separate files and tell Claude when to load them.
 
 ## Comprehensive Reference Folders
 
-For broad domains (a design system, a full CLI surface, a style guide), a folder of many small focused files beats a few monoliths. A design-system skill with 40 files of 50-200 lines each — `buttons.md`, `colors.md`, `typography.md`, `forms.md` — lets Claude load exactly the two files a task needs instead of a 2000-line reference.
+For broad domains (a design system, a full CLI surface, a style guide), a folder of many small focused files beats a few monoliths. A design-system skill with 40 files of 50-200 lines each (`buttons.md`, `colors.md`, `typography.md`, `forms.md`) lets Claude load exactly the two files a task needs instead of a 2000-line reference.
 
 - One concern per file; name the file after the concern
 - Keep an `index.md` (or a table in SKILL.md) mapping concerns to files
-- Each file stands alone — no cross-file reading order
+- Each file stands alone, with no cross-file reading order
 - Individual files can run long (up to ~450 lines) when single-topic and TOC'd; split by loading condition, not line count
 
 ## Degrees of Freedom
@@ -81,20 +81,20 @@ Match specificity to how fragile the task is. Over-constraining open-ended tasks
 
 Analogy: Claude is a robot crossing a landscape. On a narrow bridge with cliffs on either side, hand it exact steps. In an open field, point in a direction and let it choose the path.
 
-**High freedom** — multiple valid approaches; context determines best path. Use prose instructions:
+**High freedom:** multiple valid approaches; context determines best path. Use prose instructions:
 
 ```markdown
 Review the code for bugs, readability, and adherence to project conventions.
 ```
 
-**Medium freedom** — a preferred pattern exists but variation is acceptable. Use pseudocode or parameterized scripts:
+**Medium freedom:** a preferred pattern exists but variation is acceptable. Use pseudocode or parameterized scripts:
 
 ```python
 def generate_report(data, format="markdown", include_charts=True):
     ...
 ```
 
-**Low freedom** — fragile, consistency-critical, or destructive. Use specific commands with few parameters:
+**Low freedom:** fragile, consistency-critical, or destructive. Use specific commands with few parameters:
 
 ```bash
 python scripts/migrate.py --verify --backup
@@ -181,7 +181,7 @@ Some skills need user-specific context before they can work. Use a config patter
 
 Skills can persist data across sessions by storing files. This enables skills that learn and improve over time.
 
-- Use `${CLAUDE_PLUGIN_DATA}` as the storage path — it is stable across skill upgrades (data in the skill directory itself may be deleted on upgrade)
+- Use `${CLAUDE_PLUGIN_DATA}` as the storage path; it is stable across skill upgrades (data in the skill directory itself may be deleted on upgrade)
 - Formats: append-only text logs, JSON files, SQLite databases
 - Example: a standup skill keeps a `standups.log` so it knows what changed since yesterday
 - Example: an audit skill stores `previous-findings.json` to track regressions
@@ -193,7 +193,7 @@ One of the most powerful tools you can give Claude is code. Scripts and librarie
 - Include executable scripts (`.sh`, `.py`, `.ts`) alongside SKILL.md
 - Give Claude helper functions to compose rather than regenerate each time
 - Pattern: `scripts/` folder holds utilities, Claude generates wrapper scripts on the fly
-- Example: data skill includes `fetch_events()`, `fetch_users()`, `run_query()` — Claude composes these for complex analysis
+- Example: data skill includes `fetch_events()`, `fetch_users()`, `run_query()` that Claude composes for complex analysis
 
 For error handling, constants, plan-validate-execute, runtime environment, package dependencies, and MCP tool references, see `executable-code.md` (linked from SKILL.md).
 
@@ -206,15 +206,15 @@ Skills can include hook definitions that activate only when the skill is called 
 - Define hooks in the SKILL.md instructions for Claude to register
 
 **Example use cases:**
-- `/careful` — blocks destructive commands via PreToolUse matcher on Bash
-- `/freeze` — blocks Edit/Write outside a specific directory during debugging
-- `/observe` — logs all Bash commands to an audit trail
+- `/careful`: blocks destructive commands via PreToolUse matcher on Bash
+- `/freeze`: blocks Edit/Write outside a specific directory during debugging
+- `/observe`: logs all Bash commands to an audit trail
 
 ## Composing Skills
 
 Skills can depend on each other. Reference other skills by name in your SKILL.md and the model will invoke them if they are installed.
 
-- Dependency management is not built into skills yet — composition is name-based
+- Dependency management is not built into skills yet; composition is name-based
 - Use a "Skill handoffs" or "Related skills" section to document which skills yours connects to
 - Pattern: "After completing this workflow, run `skill-name` for the next step"
 - Keep each skill focused on one concern; compose rather than duplicate

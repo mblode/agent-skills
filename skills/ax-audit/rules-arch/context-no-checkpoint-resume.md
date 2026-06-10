@@ -11,11 +11,11 @@ related: comm-no-completion-signal
 
 ## Long-running agent with no checkpoint/resume
 
-Agent runs a multi-step task with no durability. Browser closes, network drops, session times out — all progress lost. User starts from scratch. Violates Improvement Over Time: completed work should survive interruption.
+Agent runs a multi-step task with no durability. Browser closes, network drops, session times out, all progress lost. User starts from scratch. Violates Improvement Over Time: completed work should survive interruption.
 
 ## What goes wrong
 
-User asks the agent to refactor 15 files. Agent completes 12 over 4 minutes. Laptop sleeps. On reconnect the session is gone — no record of what was done. Agent redoes all 15, possibly making different choices.
+User asks the agent to refactor 15 files. Agent completes 12 over 4 minutes. Laptop sleeps. On reconnect the session is gone, with no record of what was done. Agent redoes all 15, possibly making different choices.
 
 ## Detection
 
@@ -50,7 +50,7 @@ async function refactorFiles(files: string[]) {
   for (const file of files) await agent.refactor(file);
 }
 
-// after — checkpoint after each step, resume on reconnect
+// after: checkpoint after each step, resume on reconnect
 async function refactorFiles(sessionId: string, files: string[]) {
   const cp = await loadCheckpoint(sessionId);
   const done = new Set(cp?.completed ?? []);
@@ -83,6 +83,6 @@ async function refactorFiles(sessionId: string, files: string[]) {
 ## Suppression
 
 ```tsx
-// ax-audit-ignore:context-no-checkpoint-resume — sub-second operation
+// ax-audit-ignore:context-no-checkpoint-resume, sub-second operation
 await agent.formatSingleFile(filePath);
 ```

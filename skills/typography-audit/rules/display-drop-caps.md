@@ -6,14 +6,14 @@ tags: drop-cap, initial-letter, initial-cap, editorial
 
 ## Implement Drop Caps or Initial Caps
 
-Drop caps (large initial letter spanning multiple lines) add editorial polish at the start of articles or major sections. Use CSS `initial-letter` where supported, with a float fallback — not a bare `font-size` bump, which breaks line alignment.
+Drop caps (large initial letter spanning multiple lines) add editorial polish at the start of articles or major sections. Use CSS `initial-letter` where supported, with a float fallback, not a bare `font-size` bump, which breaks line alignment.
 
 **Incorrect (oversized first letter with no drop-cap handling):**
 
 ```css
 .article > p:first-of-type::first-letter {
   font-size: 3.5em;
-  /* No initial-letter or float — the huge glyph sits on the first
+  /* No initial-letter or float, so the huge glyph sits on the first
      baseline and shoves line 1 away from the rest of the paragraph */
 }
 ```
@@ -38,4 +38,4 @@ Drop caps (large initial letter spanning multiple lines) add editorial polish at
 }
 ```
 
-Keep drop caps simple — overly decorative versions work in print but look heavy on screen. Use them at the start of articles or major sections, never on every paragraph. Small caps after the drop cap create an elegant transition to body text.
+Keep drop caps simple; overly decorative versions work in print but look heavy on screen. Use them at the start of articles or major sections, never on every paragraph. Small caps after the drop cap create an elegant transition to body text.

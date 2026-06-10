@@ -6,12 +6,12 @@ Investor pitch decks that work without a presenter. Denser copy, structured fram
 
 | Aspect | Pitch deck | Presented deck |
 |--------|------------|----------------|
-| Text density | Higher — must stand alone | Minimal — speaker adds context |
+| Text density | Higher (must stand alone) | Minimal (speaker adds context) |
 | Structure | Expected frameworks (Sequoia, YC) | Flexible narrative |
 | Traction | Shown prominently with charts | Discussed verbally |
 | The ask | Explicit dedicated slide | Built to naturally |
-| Length | 10–15 slides max | Flexible |
-| Reading speed | 30–60 sec/slide (studied) | 3 sec/slide (glance) |
+| Length | 10-15 slides max | Flexible |
+| Reading speed | 30-60 sec/slide (studied) | 3 sec/slide (glance) |
 
 ## The 10-slide framework
 
@@ -56,8 +56,8 @@ Amount raising, use of funds breakdown, milestones it unlocks, clear CTA.
 
 ## Writing for async reading
 
-- Headlines must be complete, not sparse — "1,000+ Customers, $10M ARR" not just "Traction"
-- 2–3 bullet points per section, each a complete thought
+- Headlines must be complete, not sparse: "1,000+ Customers, $10M ARR" not just "Traction"
+- 2-3 bullet points per section, each a complete thought
 - Bold the key phrase, explain after
 - Charts > Tables > Bullets > Paragraphs
 - **Forwardable test**: if an associate forwards this with no context, does it make sense?
@@ -82,6 +82,6 @@ VCs use AI to screen decks. Optimize for extraction:
 
 ## Format guidelines
 
-- **PDF for sending** — under 10MB, named `Company - Stage Deck - Month Year.pdf`
+- **PDF for sending:** under 10MB, named `Company - Stage Deck - Month Year.pdf`
 - **16:9 aspect ratio**, high contrast, readable at 50% zoom
 - Same dark-first visual system as presented decks (see [visual-design.md](visual-design.md))

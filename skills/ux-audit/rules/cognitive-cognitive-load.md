@@ -9,7 +9,7 @@ related: cognitive-millers-law, cognitive-chunking, decision-hicks-law, decision
 
 ## Cognitive Load
 
-Cognitive load is the total mental effort a user spends to understand and operate a UI. Split it into two budgets: intrinsic load is the unavoidable effort tied to the user's goal (filling the form, comparing the plans). Extraneous load is everything else — decorative noise, unclear copy, redundant controls, gratuitous animation, jargon. Cut extraneous load aggressively; intrinsic load is the work, not the waste.
+Cognitive load is the total mental effort a user spends to understand and operate a UI. Split it into two budgets: intrinsic load is the unavoidable effort tied to the user's goal (filling the form, comparing the plans). Extraneous load is everything else: decorative noise, unclear copy, redundant controls, gratuitous animation, jargon. Cut extraneous load aggressively; intrinsic load is the work, not the waste.
 
 A surface fails when it crosses the working-memory threshold of ~7 simultaneous decisions (Miller, 1956), shows competing primary actions, or buries the critical action in walls of unbroken copy.
 
@@ -34,7 +34,7 @@ rg -c 'variant="(primary|default)"|className=".*bg-(primary|brand)' src/Componen
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | ≤7 interactive elements AND ≤1 primary CTA AND ≤3 distinct content blocks | — |
+| pass | ≤7 interactive elements AND ≤1 primary CTA AND ≤3 distinct content blocks |: |
 | warn | 8-10 interactive elements OR 2 primary CTAs | MEDIUM |
 | fail | >10 interactive elements OR ≥3 primary CTAs OR walls of body copy without breaks | HIGH |
 

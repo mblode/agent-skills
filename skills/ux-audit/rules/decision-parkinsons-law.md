@@ -9,9 +9,9 @@ related: memory-goal-gradient, memory-zeigarnik, decision-teslers-law
 
 ## Parkinson's Law
 
-A task expands to fill the time allotted to it (C. Northcote Parkinson, 1955). In product UX, perceived task time stretches to match whatever the interface implies the task should take. If checkout looks like a 5-minute job, users will spend 5 minutes on it — even when 30 seconds would suffice.
+A task expands to fill the time allotted to it (C. Northcote Parkinson, 1955). In product UX, perceived task time stretches to match whatever the interface implies the task should take. If checkout looks like a 5-minute job, users will spend 5 minutes on it, even when 30 seconds would suffice.
 
-Compress perceived effort with three levers: shorten the actual work (autofill, smart defaults, saved values), shorten the visual work (one-screen flows, condensed layouts), and set credible expectations (progress meters, step counts, "1 of 3" labels). Be honest — overstating speed and under-delivering damages trust on the next step.
+Compress perceived effort with three levers: shorten the actual work (autofill, smart defaults, saved values), shorten the visual work (one-screen flows, condensed layouts), and set credible expectations (progress meters, step counts, "1 of 3" labels). Be honest: overstating speed and under-delivering damages trust on the next step.
 
 ## Check
 
@@ -34,7 +34,7 @@ rg '<ApplePayButton|<PayPalButton|<ShopPayButton|AddressAutocomplete' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | visible progress indicator AND ≥1 smart-fill mechanism | — |
+| pass | visible progress indicator AND ≥1 smart-fill mechanism |: |
 | warn | progress shown but no smart-fill (or vice versa) | MEDIUM |
 | fail | no progress AND no smart-fill in flows ≥3 steps | HIGH |
 
@@ -42,7 +42,7 @@ rg '<ApplePayButton|<PayPalButton|<ShopPayButton|AddressAutocomplete' src/
 
 **If fail:** Add a `<Stepper current={n} total={N}>` at the top, wire `autoComplete` on every known-format input (`cc-number`, `shipping street-address`, `one-time-code`), and offer ≥1 express-checkout option (Apple Pay, Pay Link, PayPal) above the manual form.
 
-**If warn:** Add the missing half — either a step count / progress bar, or `autoComplete` hints + an address autocomplete component.
+**If warn:** Add the missing half: either a step count / progress bar, or `autoComplete` hints + an address autocomplete component.
 
 ## Examples
 
@@ -70,7 +70,7 @@ rg '<ApplePayButton|<PayPalButton|<ShopPayButton|AddressAutocomplete' src/
 **Applied (autofill, fast-path, explicit progress):**
 
 ```tsx
-<Stepper current={2} total={3} label="Step 2 of 3 — Payment" />
+<Stepper current={2} total={3} label="Step 2 of 3: Payment" />
 
 <ExpressCheckout>
   <ApplePayButton />
