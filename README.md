@@ -37,7 +37,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product copy. Strips AI patterns, seven auditing sweeps, before/after diffs.
 - **[blog-post](./skills/blog-post/SKILL.md)**: Blog posts from source materials or topic briefs.
-- **[docs-writing](./skills/docs-writing/SKILL.md)**: Technical docs. Diataxis, Stripe-style clarity, 52 rules.
+- **[docs-writing](./skills/docs-writing/SKILL.md)**: Technical docs. Diataxis doc types, 52 rules, audit and writing workflows.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: README files matched to the project type.
 
 ### Quality
@@ -59,7 +59,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 ### Authoring
 
 - **[agents-md](./skills/agents-md/SKILL.md)**: Audits AGENTS.md and CLAUDE.md for stale commands and bloat.
-- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Skill creation following the open format spec.
+- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Skill creation and improvement following the open format spec.
 
 ## License
 

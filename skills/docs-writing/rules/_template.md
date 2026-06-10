@@ -21,3 +21,13 @@ Good documentation example showing the solution.
 ```
 
 Reference: [Link to documentation or resource](https://example.com)
+
+<!--
+Conventions:
+- Filename: <prefix>-<slug>.md where <prefix> matches a section in _sections.md
+- impact: must match the section's impact level (CRITICAL, HIGH, MEDIUM-HIGH, MEDIUM, LOW-MEDIUM)
+- H2 title matches the frontmatter title
+- The Incorrect/Correct parentheticals name the specific failure/fix, not just "bad"/"good"
+- Use ````markdown fences (four backticks) when the example itself contains code fences
+- Adding or removing a rule: update the count in _sections.md, the SKILL.md priority table, and the SKILL.md description
+-->
