@@ -10,19 +10,20 @@ Use this reference for routing, tenant resolution, data isolation, content patte
 - Handle three environments: `*.localhost` (dev), `tenant---branch.vercel.app` (preview), `*.yourdomain.com` (production).
 - 404 when no tenant mapping exists; never fall through to default content.
 
-## Tenant identification strategies
+## Tenant identification (Vercel mechanics)
 
-- **Subdomain-based**: Extract tenant from `hostname.split('.')[0]`. Requires wildcard DNS. Simplest for platforms with many tenants.
-- **Custom domain**: Map full hostname to tenant via Edge Config or DB lookup. Tenant sets CNAME/A record.
-- **Path-based**: Extract tenant from first path segment. No DNS/SSL per tenant, but limits branding and complicates cookie isolation.
-- Pick one primary strategy; offer custom domain as an upgrade path for serious tenants.
+Strategy choice lives in the SKILL.md workflow; this is the per-strategy extraction logic.
+
+- **Subdomain-based**: extract tenant from `hostname.split('.')[0]`. Requires wildcard DNS on the tenant domain.
+- **Custom domain**: map the full hostname to a tenant via Edge Config or DB lookup. Tenant sets a CNAME/A record.
+- **Path-based**: extract tenant from the first path segment. No per-tenant DNS/SSL.
 
 ## App Router folder structure
 
-- `app/(main)/` — brand/marketing pages on the apex domain.
-- `app/domains/[domain]/` — tenant-specific routes; Middleware rewrites all tenant traffic here.
-- `app/domains/[domain]/layout.tsx` — tenant layout with branding (logo, fonts, theme from DB).
-- `app/domains/[domain]/[slug]/page.tsx` — tenant content pages.
+- `app/(main)/`: brand/marketing pages on the apex domain.
+- `app/domains/[domain]/`: tenant-specific routes; Middleware rewrites all tenant traffic here.
+- `app/domains/[domain]/layout.tsx`: tenant layout with branding (logo, fonts, theme from DB).
+- `app/domains/[domain]/[slug]/page.tsx`: tenant content pages.
 - `generateMetadata` per tenant for title, description, favicon, canonical URL, and OG images.
 
 ## Tenant context passing
