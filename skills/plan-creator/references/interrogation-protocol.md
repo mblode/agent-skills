@@ -33,9 +33,9 @@ Intent clear?
                     └── YES → Synthesize. You have enough.
 ```
 
-Do not exhaust this tree mechanically. Skip branches where the codebase scan already gave you the answer. The tree is a guide for what matters, not a script to follow.
+Do not exhaust this tree mechanically. Skip branches where the codebase scan already gave you the answer. The tree ranks what matters; it is not a script to recite.
 
-**Budget:** 5-10 questions total. If you reach 10 without convergence, the scope is too large — say so and suggest splitting.
+**Budget:** 5-10 questions total. If you reach 10 without convergence, the scope is too large: say so and suggest splitting the work into separate plans.
 
 ## Recommended answer format
 
@@ -61,7 +61,7 @@ Every question includes a concrete recommendation. The user reacts to something 
 
 (Still asking the user to decide without a concrete suggestion.)
 
-**The rule:** name the file, name the function, name the approach. If you can't be specific, you haven't explored enough — go read more code.
+**The rule:** name the file, name the function, name the approach. If you can't be specific, you haven't explored enough; go read more code before asking.
 
 ## Fuzzy term patterns
 
@@ -78,7 +78,7 @@ When you hear these, sharpen them:
 | "refactor this" | What's the pain? Readability? Coupling? Performance? | "Extract the payment logic into its own module" |
 | "add error handling" | Which errors? What should the user see? | "Show a retry button on network timeout" |
 
-When the user gives you a fuzzy term, suggest the sharp version and ask if it's right. Don't ask "what do you mean?" in the abstract — propose a specific interpretation.
+When the user gives you a fuzzy term, suggest the sharp version and ask if it's right. Don't ask "what do you mean?" in the abstract; propose a specific interpretation they can confirm or correct.
 
 ## Anti-rationalization table
 
@@ -87,7 +87,7 @@ Users will try to skip the interrogation. Push back with these:
 | User says | Why it's a trap | Your response |
 |---|---|---|
 | "Just write the plan" | Plans without shared understanding produce rework | "I'll keep it to 3 more questions. The plan will be better for it." |
-| "I already know what I want" | They know the goal, not the implementation path | "Great — then these questions will be fast. Let me confirm a few things." |
+| "I already know what I want" | They know the goal, not the implementation path | "Great, then these questions will be fast. Let me confirm a few things." |
 | "Skip the questions, I'm in a hurry" | Rushed plans cause more time loss than 5 questions | "5 minutes now saves hours of wrong-direction work. Let me ask the fastest 3." |
 | "It's simple, just do it" | "Simple" things that don't need a plan don't need this skill | "If it's truly simple, should we skip the plan entirely and just implement?" |
 | "I'll figure it out as I go" | Exploration without a plan leads to backtracking | "Let me at least confirm scope so you don't build something you'll throw away." |

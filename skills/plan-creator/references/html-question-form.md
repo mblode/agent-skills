@@ -11,7 +11,7 @@ Optional alternative to one-at-a-time interrogation: generate a single local HTM
 | 8+ questions that mostly stand alone | Fewer than ~6 questions |
 | User explicitly asks for "a form" or "questionnaire" | The codebase scan already answers most of it |
 
-If answers are interdependent, stay one-at-a-time — a form can't branch.
+If answers are interdependent, stay one-at-a-time: a form can't branch.
 
 ## How it works
 
@@ -19,7 +19,7 @@ If answers are interdependent, stay one-at-a-time — a form can't branch.
 2. Tell the user to open it, fill it in, click **Copy answers**, and paste the result back into chat.
 3. Parse the pasted block, fold answers into the plan, and continue at Step 3 (Synthesize). For any blanks, fall back to a recommended answer or a quick follow-up.
 
-Each question still carries a **recommended answer** (pre-selected / pre-filled) so the user reacts to a concrete suggestion — same rule as one-at-a-time.
+Each question still carries a **recommended answer** (pre-selected or pre-filled) so the user reacts to a concrete suggestion, the same rule as one-at-a-time.
 
 ## Template
 
@@ -49,7 +49,7 @@ Self-contained, no dependencies. The **Copy answers** button serializes every fi
   <!-- Repeat one fieldset per question. data-q = the question key. -->
   <fieldset data-q="storage">
     <legend>Where should sessions be stored?</legend>
-    <p class="rec">Recommended: Redis — the app already runs one for caching.</p>
+    <p class="rec">Recommended: Redis (the app already runs one for caching).</p>
     <label><input type="radio" name="storage" value="Redis" checked /> Redis</label>
     <label><input type="radio" name="storage" value="Postgres" /> Postgres</label>
     <label><input type="radio" name="storage" value="Other" /> Other (note below)</label>
