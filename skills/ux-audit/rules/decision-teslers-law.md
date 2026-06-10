@@ -1,7 +1,7 @@
 ---
 title: Tesler's Law
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: decision
 tags: complexity, conservation, defaults, system-burden
 related: decision-postels-law, decision-occams-razor, cognitive-cognitive-load

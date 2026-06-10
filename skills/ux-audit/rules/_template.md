@@ -1,7 +1,7 @@
 ---
 title: Law Name
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: cognitive
 tags: tag1, tag2, tag3
 related: prefix-other-law, prefix-other-law

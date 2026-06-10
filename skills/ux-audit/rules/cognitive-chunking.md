@@ -1,7 +1,7 @@
 ---
 title: Chunking
 impact: CRITICAL
-tier: programmatic
+kind: programmatic
 prefix: cognitive
 tags: grouping, hierarchy, scannability, information-architecture
 related: cognitive-millers-law, cognitive-working-memory, perception-proximity, perception-common-region

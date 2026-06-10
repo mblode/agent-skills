@@ -1,7 +1,7 @@
 ---
 title: Von Restorff Effect
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: perception
 tags: isolation, emphasis, memory, attention, perception
 related: perception-selective-attention, memory-serial-position, decision-hicks-law

@@ -1,7 +1,7 @@
 ---
 title: Doherty Threshold
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: interaction
 tags: latency, response-time, loading, skeleton, optimistic-ui
 related: interaction-flow, memory-zeigarnik, interaction-fittss-law

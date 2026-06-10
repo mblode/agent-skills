@@ -2,7 +2,7 @@
 
 Layer 2 of the audit: 33 modern frontend UX failure modes that no other tool catches statically. Each rule lives at `rules-modern/<category>-<slug>.md` and follows the format in `rules-modern/_template.md`.
 
-These rules are ordered by impact (frequency × severity), informed by 2025-2026 production failure-mode research and senior-vs-junior code-review catches.
+These rules are ordered by impact (frequency × severity) — the failure modes senior reviewers catch and juniors ship.
 
 ## Table of contents
 

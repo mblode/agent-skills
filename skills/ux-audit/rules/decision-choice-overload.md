@@ -1,7 +1,7 @@
 ---
 title: Choice Overload
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: decision
 tags: choices, comparison, filtering, defaults
 related: decision-hicks-law, decision-pareto-principle, cognitive-cognitive-load

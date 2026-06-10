@@ -1,7 +1,7 @@
 ---
 title: Law of Uniform Connectedness
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: perception
 tags: gestalt, grouping, connection, perception
 related: perception-common-region, perception-proximity, cognitive-chunking

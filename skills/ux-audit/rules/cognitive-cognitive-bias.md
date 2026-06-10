@@ -1,7 +1,7 @@
 ---
 title: Cognitive Bias
 impact: MEDIUM-HIGH
-tier: rubric
+kind: rubric
 prefix: cognitive
 tags: heuristics, decision-making, framing, defaults
 related: cognitive-cognitive-load, memory-mental-model, memory-jakobs-law

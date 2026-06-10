@@ -1,7 +1,7 @@
 ---
 title: Pareto Principle
 impact: MEDIUM
-tier: rubric
+kind: rubric
 prefix: decision
 tags: 80-20, prioritization, vital-few, analytics
 related: decision-choice-overload, decision-occams-razor

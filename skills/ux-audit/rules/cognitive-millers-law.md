@@ -1,7 +1,7 @@
 ---
 title: Miller's Law
 impact: CRITICAL
-tier: programmatic
+kind: programmatic
 prefix: cognitive
 tags: working-memory, chunks, magical-number-seven, grouping
 related: cognitive-chunking, cognitive-working-memory, decision-hicks-law

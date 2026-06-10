@@ -1,7 +1,7 @@
 ---
 title: Peak-End Rule
 impact: MEDIUM-HIGH
-tier: programmatic
+kind: programmatic
 prefix: memory
 tags: memory, emotion, onboarding, completion, microcopy
 related: memory-serial-position, interaction-flow, memory-zeigarnik

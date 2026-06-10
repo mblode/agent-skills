@@ -1,7 +1,7 @@
 ---
 title: Goal-Gradient Effect
 impact: MEDIUM-HIGH
-tier: programmatic
+kind: programmatic
 prefix: memory
 tags: memory, motivation, progress, onboarding, gamification
 related: memory-zeigarnik, memory-peak-end-rule, decision-parkinsons-law

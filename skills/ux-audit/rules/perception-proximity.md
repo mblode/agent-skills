@@ -1,7 +1,7 @@
 ---
 title: Law of Proximity
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: perception
 tags: gestalt, grouping, spacing, layout, perception
 related: perception-similarity, perception-common-region, perception-uniform-connectedness, cognitive-chunking

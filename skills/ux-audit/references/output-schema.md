@@ -134,7 +134,7 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 {
   "rule": "interaction-aesthetic-usability",
   "layer": "laws",
-  "tier": "rubric",
+  "kind": "rubric",
   "feature": "marketing-hero",
   "surface": "Hero",
   "file": "src/Hero.tsx",
@@ -172,7 +172,7 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 | `layer` | always | `modern` (Layer 2) or `laws` (Layer 3) |
 | `category` | layer=modern | `forms | states | async | focus | mobile | dark-i18n | microcopy` |
 | `prefix` | layer=laws | `cognitive | decision | perception | memory | interaction` |
-| `tier` | layer=laws + rubric | `rubric` (only Layer 3 rubric rules) |
+| `kind` | layer=laws | `programmatic | rubric` (from the rule's frontmatter; rubric rules also emit `score` + `anchor`) |
 | `feature` | always | feature playbook this finding came from (`checkout`, `sign-in`, etc.) |
 | `surface` | always | component or page name (PascalCase, no extension) |
 | `file` | when result ≠ unknown | source file path |

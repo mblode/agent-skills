@@ -1,7 +1,7 @@
 ---
 title: Occam's Razor
 impact: MEDIUM
-tier: rubric
+kind: rubric
 prefix: decision
 tags: simplicity, reduction, parsimony, minimal-ui
 related: decision-teslers-law, cognitive-cognitive-load, interaction-aesthetic-usability

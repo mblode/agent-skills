@@ -1,7 +1,7 @@
 ---
 title: Law of Prägnanz
 impact: MEDIUM
-tier: rubric
+kind: rubric
 prefix: perception
 tags: gestalt, simplicity, perception, cognitive-effort
 related: perception-similarity, decision-occams-razor, cognitive-cognitive-load

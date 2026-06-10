@@ -1,7 +1,7 @@
 ---
 title: Aesthetic-Usability Effect
 impact: MEDIUM-HIGH
-tier: rubric
+kind: rubric
 prefix: interaction
 tags: visual-polish, perception, first-impression, branding, trust
 related: decision-postels-law, decision-occams-razor, perception-von-restorff

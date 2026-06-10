@@ -1,6 +1,6 @@
 # Observational Rubrics
 
-Tier-3 rules score on a 1–5 scale. This file aggregates all 10 rubrics so two agents auditing the same surface produce the same score. Each anchor describes a concrete UI, not "good/bad."
+Layer 3 rules with `kind: rubric` score on a 1–5 scale. This file aggregates all 10 rubrics so two agents auditing the same surface produce the same score. Each anchor describes a concrete UI, not "good/bad."
 
 When scoring: choose the closest anchor, then emit `score` + the verbatim anchor text in the finding's `anchor` field. Pass at ≥4. Warn at 3. Fail at ≤2.
 

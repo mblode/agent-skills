@@ -1,7 +1,7 @@
 ---
 title: Jakob's Law
 impact: MEDIUM-HIGH
-tier: programmatic
+kind: programmatic
 prefix: memory
 tags: memory, conventions, web-patterns, familiarity, transfer
 related: memory-mental-model, decision-paradox-of-the-active-user, cognitive-cognitive-bias

@@ -1,7 +1,7 @@
 ---
 title: Postel's Law
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: decision
 tags: input, validation, error-messages, robustness
 related: decision-teslers-law, interaction-aesthetic-usability, cognitive-cognitive-load

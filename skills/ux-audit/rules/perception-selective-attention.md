@@ -1,7 +1,7 @@
 ---
 title: Selective Attention
 impact: HIGH
-tier: rubric
+kind: rubric
 prefix: perception
 tags: attention, banner-blindness, change-blindness, perception
 related: perception-von-restorff, cognitive-cognitive-load, memory-mental-model

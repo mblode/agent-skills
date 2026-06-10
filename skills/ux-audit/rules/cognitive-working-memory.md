@@ -1,7 +1,7 @@
 ---
 title: Working Memory
 impact: MEDIUM-HIGH
-tier: rubric
+kind: rubric
 prefix: cognitive
 tags: recognition, recall, persistence, short-term-memory
 related: cognitive-millers-law, cognitive-chunking, cognitive-cognitive-load

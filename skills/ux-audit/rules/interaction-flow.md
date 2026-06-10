@@ -1,7 +1,7 @@
 ---
 title: Flow
 impact: MEDIUM-HIGH
-tier: rubric
+kind: rubric
 prefix: interaction
 tags: focus, immersion, friction, feedback, interruptions
 related: interaction-doherty-threshold, memory-peak-end-rule, cognitive-cognitive-load

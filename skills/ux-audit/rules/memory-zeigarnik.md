@@ -1,7 +1,7 @@
 ---
 title: Zeigarnik Effect
 impact: MEDIUM-HIGH
-tier: programmatic
+kind: programmatic
 prefix: memory
 tags: memory, motivation, completion, progress, onboarding
 related: memory-goal-gradient, memory-peak-end-rule, decision-parkinsons-law

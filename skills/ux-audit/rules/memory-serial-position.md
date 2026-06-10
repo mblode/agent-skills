@@ -1,7 +1,7 @@
 ---
 title: Serial Position Effect
 impact: MEDIUM-HIGH
-tier: programmatic
+kind: programmatic
 prefix: memory
 tags: memory, navigation, primacy, recency, ordering
 related: memory-peak-end-rule, perception-von-restorff, cognitive-millers-law

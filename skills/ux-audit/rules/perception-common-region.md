@@ -1,7 +1,7 @@
 ---
 title: Law of Common Region
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: perception
 tags: gestalt, grouping, container, card, perception
 related: perception-proximity, perception-uniform-connectedness, cognitive-chunking

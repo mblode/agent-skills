@@ -1,7 +1,7 @@
 ---
 title: Mental Model
 impact: MEDIUM-HIGH
-tier: rubric
+kind: rubric
 prefix: memory
 tags: memory, expectation, conventions, familiarity, research
 related: memory-jakobs-law, decision-paradox-of-the-active-user, perception-selective-attention

@@ -1,7 +1,7 @@
 ---
 title: Hick's Law
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: decision
 tags: choices, navigation, decision-time, progressive-disclosure
 related: decision-choice-overload, cognitive-millers-law, cognitive-cognitive-load, perception-von-restorff

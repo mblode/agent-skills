@@ -1,7 +1,7 @@
 ---
 title: Fitts's Law
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: interaction
 tags: hit-targets, buttons, touch, accessibility, motor
 related: interaction-doherty-threshold, perception-proximity, decision-hicks-law

@@ -1,7 +1,7 @@
 ---
 title: Paradox of the Active User
 impact: MEDIUM
-tier: rubric
+kind: rubric
 prefix: decision
 tags: onboarding, documentation, in-context-help, learnability
 related: memory-jakobs-law, memory-mental-model, cognitive-cognitive-load

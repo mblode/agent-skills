@@ -1,7 +1,7 @@
 ---
 title: Parkinson's Law
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: decision
 tags: time, deadlines, autofill, perceived-effort
 related: memory-goal-gradient, memory-zeigarnik, decision-teslers-law

@@ -1,7 +1,7 @@
 ---
 title: Law of Similarity
 impact: HIGH
-tier: programmatic
+kind: programmatic
 prefix: perception
 tags: gestalt, grouping, color, shape, perception
 related: perception-proximity, perception-common-region, cognitive-chunking
