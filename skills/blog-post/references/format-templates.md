@@ -14,7 +14,7 @@ Structural templates for each blog post format. Load only the template matching 
 ```markdown
 # [Compelling Headline with Specific Promise]
 
-[Hook: 1-2 sentences — relatable problem or surprising fact]
+[Hook: 1-2 sentences, a relatable problem or surprising fact]
 
 [Bridge: why this matters now]
 
@@ -24,7 +24,7 @@ Structural templates for each blog post format. Load only the template matching 
 
 [2-4 sentence explanation. Analyze why this is interesting, don't just summarize.]
 
-> "[Powerful quote from source]" — [Attribution]
+> "[Powerful quote from source]" ([Attribution])
 
 [What this means for the reader.]
 
@@ -50,7 +50,7 @@ Structural templates for each blog post format. Load only the template matching 
 
 ## What You Need
 
-[Prerequisites, tools, or context — keep brief]
+[Prerequisites, tools, or context; keep brief]
 
 ## Step 1: [Action Verb + Outcome]
 
@@ -68,7 +68,7 @@ Structural templates for each blog post format. Load only the template matching 
 
 ## What's Next
 
-[Where to go from here — next steps, related topics, or CTA]
+[Where to go from here: next steps, related topics, or CTA]
 ```
 
 ## Narrative Template
@@ -76,13 +76,13 @@ Structural templates for each blog post format. Load only the template matching 
 ```markdown
 # [Headline That Hints at the Journey]
 
-[Opening scene or moment — specific, concrete, grounded in experience]
+[Opening scene or moment: specific, concrete, grounded in experience]
 
 [Tension: what was uncomfortable, uncertain, or challenging]
 
 ## [The Shift]
 
-[What changed — the discovery, realization, or turning point]
+[What changed: the discovery, realization, or turning point]
 
 [Specific details: tool names, commands, real examples]
 
@@ -92,7 +92,7 @@ Structural templates for each blog post format. Load only the template matching 
 
 ## [Where This Goes]
 
-[Forward-looking close — tie back to the opening]
+[Forward-looking close that ties back to the opening]
 ```
 
 ## Thought Leadership Template
