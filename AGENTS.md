@@ -71,6 +71,7 @@ For full authoring rules, run the `agent-skills-creator` skill. The highest-sign
 | References | one level deep only (no reference-to-reference chains) |
 | Content | only context Claude doesn't already have; no time-sensitive content |
 | Paths | forward slashes only |
+| Boundaries | open the body with an IS/IS-NOT pair when sibling skills exist |
 
 ## Testing
 
@@ -90,6 +91,6 @@ No automated test suite. See smoke-test above.
 
 ## Maintenance
 
-- When adding or removing a skill, update `README.md` skill count and table.
+- When adding or removing a skill, update the `README.md` skill count and add/remove the bullet under the matching category heading.
 - When renaming folders or reference files, grep all `SKILL.md` files for stale paths.
-- Verify README row count equals `ls skills/ | wc -l`.
+- Verify the README bullet count equals `ls skills/ | wc -l`.
