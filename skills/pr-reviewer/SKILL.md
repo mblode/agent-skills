@@ -1,42 +1,34 @@
 ---
 name: pr-reviewer
-description: Produces a read-only review report of the current local diff or branch — it lists findings and does NOT edit files. Use when asked to run `/pr-reviewer` before commit, before push, or before handing changes off for PR creation or update; also use for "review my changes", "code review", or "code quality review". Also use for "thermo-nuclear review", "deep code quality audit", "structural review", "harsh maintainability review", or "code judo" — these load the structural quality rubric for an unusually strict maintainability pass. Also use for "deslop this", "clean up AI code", "remove slop", or "review for AI patterns" — these load the AI slop detection catalog. Also use for "security audit", "find vulnerabilities", "deepsec", "security review", "threat model", or "audit for security" — these switch to a whole-codebase security sweep instead of diff-only. For automatic fix-in-place (no manual review step needed), use the private `simplify` skill instead.
+description: Reviews the current local diff or branch and returns a read-only, severity-tiered findings report. It never edits files. Four modes: standard bug and compliance review, structural quality, AI slop detection, and whole-codebase security audit. Use when asked to run /pr-reviewer, "review my changes", or "code review" before commit, push, or handoff. "Thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", and "code judo" load the strict structural quality rubric. "Deslop this", "clean up AI code", "remove slop", and "review for AI patterns" load the AI slop catalog. "Security audit", "find vulnerabilities", "deepsec", "threat model", and "audit for security" sweep the whole codebase instead of the diff. To apply fixes automatically use simplify; to create the PR use pr-creator; to watch CI or handle inbound review comments use pr-babysitter; to review a plan document use plan-reviewer.
 ---
 
 # Local Review
 
-Perform systematic review with actionable, validated feedback only.
-Use this skill as an explicit local self-review step before handoff, not as a generic replacement for native PR review tools.
-Run it before `/done` when a coding session produced changes worth checking.
+- **IS:** a read-only review of the current local diff or branch that ends in a severity-tiered findings report. The working tree is identical before and after.
+- **IS NOT:** applying fixes (use `simplify` where installed), creating the PR (use `pr-creator`), monitoring CI or resolving inbound review threads (use `pr-babysitter`), or reviewing plan documents (use `plan-reviewer`).
 
-## Reference Files
+Run as an explicit self-review step before commit, push, or handoff, not as a replacement for native PR review tools. Every flagged issue should be something a senior engineer would catch.
 
-| File | Read When |
-|------|-----------|
-| `references/severity-rubric.md` | Default: choosing severity labels and filtering weak findings |
-| `references/comment-examples.md` | Before producing a local review report |
-| `references/review-surfaces.md` | When deciding whether the work stays in local self-review or should hand off to PR-specific workflows |
-| `references/security-checklist.md` | When the diff touches auth, input handling, external APIs, file uploads, or environment configuration — and always in Security audit mode (whole-codebase) |
-| `references/performance-checklist.md` | When the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports |
-| `references/structural-quality-rubric.md` | When the user asks for a structural quality review, thermo-nuclear review, deep code quality audit, or when reviewing large diffs that touch module boundaries |
-| `references/ai-slop-patterns.md` | When the user asks to deslop, clean up AI code, remove slop, or when reviewing AI-assisted code changes |
+## Mode dispatch
 
-## Scope
-- Default target: staged or uncommitted local changes
-- Secondary target: current branch diff against base when the working tree is clean or the user asks for branch review
-- Explicit PR requests are secondary: keep the same review criteria, but treat them as a handoff path rather than the main workflow
-- Keep the skill focused on concrete bugs, missing validation/tests that clearly matter, and repository instruction-file compliance
-- Do not use this skill for inbound PR comments or thread resolution; use `pr-comments` for that
+Pick exactly one mode from the user's wording before reading anything else. Each mode loads only its own reference: loading every rubric on every run buries the high-signal bar under hundreds of lines of unused criteria.
 
-## Security audit mode (whole-codebase)
+| Mode | Dispatch when the user says | Load | Scope |
+|------|-----------------------------|------|-------|
+| **Standard** (default) | `/pr-reviewer`, "review my changes", "code review", or no mode keyword | `references/severity-rubric.md` | Local diff, or branch vs base |
+| **Structural** | "thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", "code judo" | `references/structural-quality-rubric.md` plus the severity rubric | Local diff, or branch vs base |
+| **Deslop** | "deslop this", "clean up AI code", "remove slop", "review for AI patterns" | `references/ai-slop-patterns.md` plus the severity rubric | Local diff, or branch vs base |
+| **Security audit** | "security audit", "find vulnerabilities", "deepsec", "threat model", "audit for security" | `references/security-checklist.md` (threat-model lens and vulnerability-class sweep) | Named subsystem, or whole repo if unscoped; diff status is irrelevant |
 
-Triggered by an explicit security ask ("security audit", "find vulnerabilities", "deepsec", "security review", "threat model", "audit for security"). This mode **overrides the default diff scope** — it proactively sweeps the relevant subsystem or the whole repo by vulnerability class, not just changed lines. Everything else about the skill is unchanged: it stays report-only and uses the same three-tier output.
+Security audit mode overrides the default diff scope: review code as it stands, walking by vulnerability class rather than by file. Everything else is unchanged: report-only, the same three tiers, and the same bar (each finding names the vulnerability class, the path/line, and a plausible exploit path; never "could be risky").
 
-- **Scope:** the subsystem the user names, or the whole codebase if unscoped. Diff status is irrelevant here — review code as it stands, not just what changed.
-- **Always load `references/security-checklist.md`** and walk the threat-model lens and vulnerability-class sweep it defines, rather than waiting for a diff to touch a sensitive area.
-- **Walk by vulnerability class, not by file** — for each OWASP-aligned class, search the codebase for the pattern (e.g. query construction, auth checks, deserialization, secret handling) and confirm each hit against the actual code before reporting.
-- **High-signal bar still applies** — report only concrete, exploitable findings with a path/line and a plausible attack; never speculative "could be risky" items. Drop anything you can't tie to a real exploit path.
-- **Output:** the same `Must fix before push` / `Should fix soon` / `Ready for handoff` tiers, with each finding naming the vulnerability class, the location, and the exploit path.
+Conditional loads in any mode:
+
+- `references/security-checklist.md` when the diff touches auth, input handling, external APIs, file uploads, or environment configuration
+- `references/performance-checklist.md` when the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports
+- `references/comment-examples.md` before writing the report, if you need a formatting refresher
+- `agents/openai.yaml` only when dispatching the optional second-opinion pass to an external engine (workflow step 3); its `default_prompt` is the instruction to pass to that engine
 
 ## Workflow
 
@@ -44,76 +36,70 @@ Copy this checklist to track progress:
 
 ```text
 Review progress:
-- [ ] Discover local review target
+- [ ] Dispatch mode and load its reference
+- [ ] Discover the review target
 - [ ] Gather context and scoped instruction files
-- [ ] Choose the local review path
-- [ ] Validate findings
-- [ ] Produce the review report
+- [ ] Run the review (shard large diffs; optional second opinion)
+- [ ] Validate findings against exact lines
+- [ ] Produce the report
 ```
 
-1. **Discover the review target**:
-   - If staged or unstaged changes exist, review those first
-   - Otherwise review the current branch diff against its base
-   - Only switch to a PR handoff summary when the user explicitly points at an existing PR
-   - Record the current branch and changed files so the report is grounded in the local session
-2. **Gather context**:
-   - Capture the change intent from the session, recent commits, or the user's request
-   - Load relevant repository instruction files (`AGENTS.md` / `CLAUDE.md` as applicable, including any in nested package/MFE directories whose code is in the diff)
-   - Apply only in-scope instruction-file rules for the changed paths
-   - Run the project's lint, type check, and test commands (from `package.json` scripts) to capture current status — note pre-existing failures so they are distinguishable from regressions caused by the change. Include the lint/type-check/test status in the report so the reader knows the baseline at review time
-3. **Choose the local review path**:
-   - Local self-review is the default: current diff/branch with a local report in chat
-   - Existing PR requests are secondary: apply the same validation bar, then produce a concise handoff summary instead of changing the main workflow
-   - For large changes, shard by subsystem and keep the final report consolidated
-   - Optional, non-trivial diffs only: if an independent review CLI is already installed (e.g. `codex exec`, `droid exec`), you may run it read-only as a *different-model* second opinion and fold any validated findings into the same report. This hedges against Claude reviewing Claude-authored code. Skip silently if none is installed — never add it as a dependency
-   - Treat external-engine output as **advisory**: validate every finding against the actual diff before including it, and drop anything this skill would not have flagged on its own
-4. **Validate issues**:
-   - Re-check exact lines before reporting
-   - Keep only high-confidence issues; drop speculative or duplicate items
-   - Confirm each issue still applies to the latest diff and maps to a changed line
-   - Collapse multiple comments that share the same root cause into one finding
-5. **Produce the report**:
-   - Default output: a local review report in chat
-   - Organize findings into `Must fix before push`, `Should fix soon`, and `Ready for handoff`
-   - Do not post inline comments, resolve threads, or handle inbound review feedback from this skill
-   - Hand off inbound PR feedback to `pr-comments`
+1. **Discover the review target**
+   - Staged or unstaged changes exist: review those.
+   - Working tree clean: review the current branch diff against its base.
+   - User points at an existing PR: apply the same criteria, but output the PR handoff summary instead of the local report.
+   - Record the current branch and changed files so the report is grounded in the session.
+2. **Gather context**
+   - Capture the change intent from the session, recent commits, or the user's request.
+   - Load instruction files (`AGENTS.md` / `CLAUDE.md`) scoped to the changed paths, including any in nested package or MFE directories whose code is in the diff. Apply only in-scope rules.
+   - Run the project's lint, type-check, and test commands (from `package.json` scripts or equivalent) and record pre-existing failures, so regressions caused by the change are distinguishable. Include this baseline in the report.
+3. **Run the review**
+   - Apply the loaded mode reference plus the High signal only criteria below.
+   - Large diffs: shard by subsystem, consolidate into one final report.
+   - Optional, non-trivial diffs only: if a different-model review CLI is already installed (`codex exec`, `droid exec`), run it read-only as a second opinion, passing the `default_prompt` from `agents/openai.yaml`. This hedges against Claude reviewing Claude-authored code. Skip silently if none is installed; never add one as a dependency.
+   - External-engine output is advisory: validate every finding against the actual diff and drop anything this skill would not flag on its own.
+4. **Validate findings**
+   - Re-check the exact lines before reporting. Keep only high-confidence issues; drop speculative or duplicate items.
+   - Confirm each finding maps to a changed line in the latest diff (security audit mode: to real code in scope).
+   - Collapse findings that share one root cause into a single item listing all affected locations.
+5. **Produce the report**
+   - Use the output format below, with severities from `references/severity-rubric.md`.
+   - Structural-rubric findings use the same tiers: presumptive blockers map to `Must fix before push`, other structural issues to `Should fix soon`.
 
 ## High signal only
 
 Flag only when certain:
+
 - Code will fail to compile (syntax, types, imports)
 - Code will produce incorrect behavior (clear logic or state errors)
-- Code introduces a concrete security risk with direct exploit path — load `references/security-checklist.md` for the three-tier classification when the diff touches auth, input handling, external APIs, or environment configuration
-- Code introduces a measurable performance regression — load `references/performance-checklist.md` for common bottleneck patterns when the diff touches data fetching, rendering, images, or dependencies
-- Changed behavior is clearly missing a necessary regression or validation test, including: a new component or hook shipped with no co-located test file, or an existing test where every assertion is a render-only presence check (`expect(getByText(...)).toBeInTheDocument()`) with no user interaction or branch coverage
-- Bug fix without a failing test that reproduces it first (Prove-It Pattern: if the fix is correct, a test for the bug should fail before and pass after)
-- Test code over-abstracts shared setup to the point where individual tests are unreadable without tracing helpers (prefer DAMP — Descriptive And Meaningful Phrases — over DRY in test code)
-- Lint, type check, or tests fail as a result of the change (distinguish from pre-existing failures captured in step 2)
-- Unambiguous instruction-file violation (quote rule, verify scope)
-- YAGNI violation: code adds abstractions, config systems, or extension points not justified by a current requirement (three similar lines is better than a premature abstraction)
-- KISS violation: implementation is more complex than the problem demands — a simpler approach exists that achieves the same result
-- Code exhibits AI-generated patterns (over-commenting, unnecessary wrapping, type bypasses, premature abstraction) — load `references/ai-slop-patterns.md` for the detection catalog
-- File pushed past ~1000 lines by the diff when the new code could be extracted into a focused module
+- Concrete security risk with a direct exploit path
+- Measurable performance regression
+- Changed behavior clearly missing a necessary test: a new component or hook with no co-located test file, or a test whose every assertion is a render-only presence check (`expect(getByText(...)).toBeInTheDocument()`) with no interaction or branch coverage
+- Bug fix without a failing test that reproduces it first (Prove-It Pattern: the test fails before the fix and passes after)
+- Test setup over-abstracted until individual tests are unreadable without tracing helpers (prefer DAMP, Descriptive And Meaningful Phrases, over DRY in test code)
+- Lint, type check, or tests fail as a result of the change (vs the step-2 baseline)
+- Unambiguous instruction-file violation (quote the rule, verify its scope covers the changed path)
+- YAGNI violation: abstractions, config systems, or extension points not justified by a current requirement (three similar lines beat a premature abstraction)
+- KISS violation: a simpler approach achieves the same result
+- AI-generated patterns: over-commenting, unnecessary wrapping, type bypasses, premature abstraction (load `references/ai-slop-patterns.md` for the catalog)
+- Diff pushes a file past ~1000 lines when the new code could be a focused module
 - Ad-hoc conditionals or feature-specific branches inserted into unrelated shared code paths
-- Bespoke helper duplicating an existing canonical utility in the codebase
-- Logic placed in the wrong layer when there is a clear canonical home elsewhere
+- Bespoke helper duplicating an existing canonical utility
+- Logic placed in the wrong layer when a clear canonical home exists
 
 Never flag:
+
 - Style, quality, or subjective preferences
 - Pre-existing issues unrelated to the change
-- Potential issues dependent on unknown inputs
-- Unrealistic edge cases or speculative risks that don't map to a concrete exploit or repro path
+- Potential issues dependent on unknown inputs, or speculative risks with no concrete exploit or repro path
 - Broad rewrites or architectural changes beyond the diff's intent
 - Linter-only issues likely caught automatically
 - Explicitly silenced violations
 
 ## Output format
 
-Read `references/comment-examples.md` before producing the report if you need a formatting refresher.
-
-When the structural quality rubric is loaded, structural findings use the same tiers — presumptive blockers from the rubric map to `Must fix before push`, and other structural issues map to `Should fix soon`.
-
 Default local output:
+
 ```markdown
 ## Local review
 
@@ -128,10 +114,13 @@ Default local output:
   Fix: <committable fix or clear implementation guidance>
 
 ### Ready for handoff
-- <brief readiness summary>
+- <brief readiness summary, including the lint/type-check/test baseline from step 2>
 ```
 
+If no issues: write `None.` under the first two tiers and state what was checked under `Ready for handoff`.
+
 If the user explicitly points at an existing PR, adapt the same validated findings into a concise handoff summary:
+
 ```markdown
 ## PR handoff summary
 
@@ -140,38 +129,20 @@ If the user explicitly points at an existing PR, adapt the same validated findin
   Fix: <committable fix or clear implementation guidance>
 ```
 
-**Summary** (if no issues):
-```
-## Local review
+## Gotchas
 
-### Must fix before push
-- None.
-
-### Should fix soon
-- None.
-
-### Ready for handoff
-- No blocking issues found. Checked for high-confidence bugs, missing validation/tests, and instruction-file compliance on the current local changes.
-```
-
-## Anti-patterns
-- Starting by asking for a PR number when local changes are available -> review the local diff first
-- Teaching inline review comments as the default output -> keep the main path local-first
-- "This might cause issues" -> "Variable `x` is undefined at `src/foo.ts:45`, causing `ReferenceError` at runtime."
-- "Consider refactoring" -> "Violates instruction-file rule '<quoted rule>' in scoped file `src/foo.ts`."
-- Multiple comments for the same root cause -> one comment linking all affected locations
-- Pasting an external engine's output verbatim -> re-validate each finding against changed lines first; advisory input is not a finding until you confirm it
-
-## Boundary with `simplify` (private)
-
-This skill produces a **report only** — findings organized by severity (`Must fix before push`, `Should fix soon`, `Ready for handoff`) with no automatic file edits. The working tree is unchanged when the skill finishes.
-
-Use the private `simplify` skill instead when you want fixes applied automatically: it fans out four concurrent agents over the diff and edits files in-place, then re-runs lint/type-check/tests to verify. Both skills cover reuse, quality, and efficiency issues; the difference is report-only vs fix-in-place.
+- Asking for a PR number when local changes exist: the default target is the working tree; a PR-first habit reviews stale code and misses uncommitted bugs. Review the local diff first.
+- Loading every rubric regardless of mode: a standard review run through the structural rubric flags subjective maintainability items the user never asked for, and the report loses its high-confidence guarantee. Load only the dispatched mode's reference.
+- Editing files mid-review: this skill guarantees an untouched working tree. If you catch yourself fixing, stop and tell the user to run `simplify`.
+- "This might cause issues" phrasing: a finding without `file:line` and a concrete failure gets ignored. Write "`x` is undefined at `src/foo.ts:45`, causing `ReferenceError` at runtime."
+- "Consider refactoring" phrasing: either quote the violated instruction-file rule with its scoped path, or drop the finding.
+- Multiple findings for one root cause: the reader fixes one and assumes the rest are separate bugs. Emit one finding linking all affected locations.
+- Pasting external-engine output verbatim: unvalidated advisory findings break the high-confidence contract. Re-validate each against changed lines first.
+- Skipping the lint/test baseline in step 2: pre-existing failures get reported as regressions and the whole report loses credibility.
 
 ## Related skills
 
-- `done` for session capture after the review is complete
-- `pr-babysitter` for triaging and resolving inbound review threads after feedback has been left
-- `simplify` (private) for automatic fix-in-place rather than a review report
-
-Every flagged issue should be something a senior engineer would catch.
+- `simplify` (where installed): applies fixes in-place and verifies the build. Both skills cover reuse, quality, and efficiency; the difference is report-only vs fix-in-place.
+- `pr-creator`: creates the PR after the review passes.
+- `pr-babysitter`: monitors CI and triages inbound review comments after the PR exists.
+- `plan-reviewer`: stress-tests plan documents before implementation; this skill reviews code, not plans.

@@ -1,6 +1,6 @@
 # Structural Quality Rubric
 
-Unusually strict review focused on implementation quality, maintainability, and codebase health. Load when the user asks for a structural quality review, thermo-nuclear review, deep code quality audit, or when reviewing large diffs that touch module boundaries.
+Unusually strict review focused on implementation quality, maintainability, and codebase health. Loaded by pr-reviewer's Structural mode ("thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", "code judo").
 
 The core question is not "will this code break?" but "should this code exist in this form?"
 
@@ -18,7 +18,7 @@ The core question is not "will this code break?" but "should this code exist in 
 
 ## Core Philosophy
 
-Push hard for ambitious structural simplification. Do not stop at "this could be a bit cleaner." Look for **code judo** moves — re-organizations that use the existing architecture more effectively and make the change dramatically simpler and more elegant. Prefer the solution that makes the code feel inevitable in hindsight. If there is a path to delete complexity rather than rearrange it, push hard for that path.
+Push hard for ambitious structural simplification. Do not stop at "this could be a bit cleaner." Look for **code judo** moves: re-organizations that use the existing architecture more effectively and make the change dramatically simpler and more elegant. Prefer the solution that makes the code feel inevitable in hindsight. If there is a path to delete complexity rather than rearrange it, push hard for that path.
 
 Rethink how to structure and implement the changes to meaningfully improve code quality without impacting behavior. Improve abstractions, modularity, reduce spaghetti code, improve succinctness and legibility. If there is a clear path to improving the implementation that involves restructuring some of the codebase, go for it.
 
@@ -153,26 +153,26 @@ Treat these as `Must fix before push` unless the author can justify them clearly
 Be direct, serious, and demanding about quality. Do not be rude, but do not soften major maintainability issues into mild suggestions. If the code is making the codebase messier, say so clearly. If the implementation missed an opportunity for a dramatic simplification, say that clearly too.
 
 Effective phrases:
-- "this pushes the file past 1k lines — can we decompose this first?"
-- "this adds another special-case branch into an already busy flow — can we move this behind its own abstraction?"
-- "this works, but it makes the surrounding code more spaghetti — let's keep the behavior and restructure the implementation"
-- "this feels like feature logic leaking into a shared path — can we isolate it?"
-- "this abstraction seems unnecessary — can we just keep the direct flow?"
+- "this pushes the file past 1k lines. can we decompose this first?"
+- "this adds another special-case branch into an already busy flow. can we move this behind its own abstraction?"
+- "this works, but it makes the surrounding code more spaghetti. let's keep the behavior and restructure the implementation"
+- "this feels like feature logic leaking into a shared path. can we isolate it?"
+- "this abstraction seems unnecessary. can we just keep the direct flow?"
 - "why does this need a cast / optional here? can we make the boundary more explicit instead?"
-- "this looks like a bespoke helper for something we already have — can we reuse the canonical one?"
-- "i think there's a code judo move here — can we reframe this so these branches disappear?"
-- "this refactor moves complexity around but doesn't really delete it — is there a way to make the model itself simpler?"
+- "this looks like a bespoke helper for something we already have. can we reuse the canonical one?"
+- "i think there's a code judo move here. can we reframe this so these branches disappear?"
+- "this refactor moves complexity around but doesn't really delete it. is there a way to make the model itself simpler?"
 
 ## Anti-Rationalizations
 
 | Excuse | Rebuttal |
 |--------|----------|
 | "It works." | Working code is not the bar. The bar is working code that doesn't make the codebase worse. |
-| "The complexity is necessary." | Show why. If you can't point to a constraint that forces it, it's not necessary — it's unexamined. |
+| "The complexity is necessary." | Show why. If you can't point to a constraint that forces it, it's not necessary, it's unexamined. |
 | "The file is fine at 1200 lines." | It wasn't 1200 lines before your PR. Extract the new code into a focused module. |
 | "This is just a small if-statement." | Small if-statements in shared paths compound. Move the logic behind its own abstraction. |
 | "We can clean it up later." | There is no later. The next person inherits this shape. Clean it now. |
-| "It's the same pattern as the existing code." | If the existing pattern is bad, don't extend it — fix it. Broken windows compound. |
+| "It's the same pattern as the existing code." | If the existing pattern is bad, don't extend it, fix it. Broken windows compound. |
 | "Splitting this would be over-engineering." | Extracting a focused module is the opposite of over-engineering. Over-engineering is the 1200-line file. |
 | "The abstraction is just a thin wrapper." | Then delete it. Thin wrappers add indirection without buying clarity. |
 | "I need this cast because the types are wrong upstream." | Then fix the types upstream. Don't paper over a boundary problem with a cast. |

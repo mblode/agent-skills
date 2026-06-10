@@ -25,22 +25,22 @@ Common bottlenecks to check during review. Load when the diff touches data fetch
 
 | Problem | What to flag |
 |---------|-------------|
-| N+1 queries | Loop containing a query — batch with `dataloader`, `JOIN`, or ORM `include` |
+| N+1 queries | Loop containing a query. Batch with `dataloader`, `JOIN`, or ORM `include` |
 | Unbounded data fetching | Missing pagination or limit on list endpoints |
 | Missing indexes | `WHERE`, `ORDER BY`, or `JOIN` on unindexed columns |
-| Redundant queries | Same data fetched multiple times — use `cache()`, Redis, or `unstable_cache` |
+| Redundant queries | Same data fetched multiple times. Use `cache()`, Redis, or `unstable_cache` |
 | No response caching | Missing `Cache-Control` or `stale-while-revalidate` headers on stable data |
 
 ## React and Frontend
 
 | Problem | What to flag |
 |---------|-------------|
-| Unnecessary re-renders | State too high in the tree — move state down or split components |
-| Large tree re-rendering | Parent state change re-renders all children — use `children` pattern to isolate |
-| Heavy initial JS | Large page components not code-split — use `dynamic()` or `lazy()` |
+| Unnecessary re-renders | State too high in the tree. Move state down or split components |
+| Large tree re-rendering | Parent state change re-renders all children. Use `children` pattern to isolate |
+| Heavy initial JS | Large page components not code-split. Use `dynamic()` or `lazy()` |
 | Layout shift from async content | Missing explicit dimensions on async-loaded elements |
-| Blocking hydration | Client-heavy components blocking server render — use RSC or Suspense boundaries |
-| Waterfall data fetching | Sequential client-side fetches — move to Server Components or `Promise.all` |
+| Blocking hydration | Client-heavy components blocking server render. Use RSC or Suspense boundaries |
+| Waterfall data fetching | Sequential client-side fetches. Move to Server Components or `Promise.all` |
 
 ## Images and Assets
 
@@ -54,13 +54,14 @@ Common bottlenecks to check during review. Load when the diff touches data fetch
 
 | Problem | What to flag |
 |---------|-------------|
-| Large dependencies | Heavy libraries where lighter alternatives exist (`lodash` → native, `moment` → `date-fns`) |
-| Importing entire libraries | Barrel imports pulling in unused code — use named imports, verify tree-shaking |
-| Duplicate dependencies | Same package at multiple versions — check `npm ls`, deduplicate |
+| Large dependencies | Heavy libraries where lighter alternatives exist (`lodash` to native, `moment` to `date-fns`) |
+| Importing entire libraries | Barrel imports pulling in unused code. Use named imports, verify tree-shaking |
+| Duplicate dependencies | Same package at multiple versions. Check `npm ls`, deduplicate |
 
 ## Red Flags
 
-Flag these during review even without profiling data — they are almost always problems:
+Flag these during review even without profiling data; they are almost always problems:
+
 - N+1 query pattern (query inside a loop)
 - List endpoint without pagination
 - Images without explicit dimensions

@@ -4,6 +4,18 @@ Detection catalog for AI-generated code patterns that pass lint and tests but re
 
 Focus on patterns that are distinctively AI-generated, not general code quality issues (those belong in `structural-quality-rubric.md`).
 
+## Contents
+
+- Over-commenting
+- Unnecessary error handling
+- Type bypasses
+- Premature abstraction
+- Verbose naming
+- Structural bloat
+- Defensive excess
+- Template residue
+- Applying fixes
+
 ## Over-commenting
 
 Comments that restate what the code already says.
@@ -26,7 +38,7 @@ Wrapping infallible operations in try-catch or guarding against impossible state
 - try-catch around pure computations (string manipulation, array mapping, object destructuring)
 - Null checks on values the type system guarantees are non-null
 - `|| []` on a value already typed as an array
-- `?? undefined` (no-op — `undefined` is already the default)
+- `?? undefined` (a no-op: `undefined` is already the default)
 - `|| ''` on a `string` (not `string | undefined`) type
 - Catch blocks that just rethrow without modification
 - Error boundaries wrapping components that cannot throw
@@ -38,8 +50,8 @@ Wrapping infallible operations in try-catch or guarding against impossible state
 Casting or suppressing types instead of fixing the underlying type issue.
 
 **Flag:**
-- `as any` — always a smell; fix the type or narrow with a type guard
-- `as unknown as T` — double-cast to force an incompatible type
+- `as any`: always a smell; fix the type or narrow with a type guard
+- `as unknown as T`: double-cast to force an incompatible type
 - `@ts-ignore` / `@ts-expect-error` without an explanation comment
 - Unnecessary type assertions on values that already match the target type
 - `!` (non-null assertion) when the value could genuinely be null
@@ -67,12 +79,12 @@ Abstractions created before repetition justifies them.
 Names that repeat information already conveyed by the type system or context.
 
 **Flag:**
-- `userArray`, `nameString`, `isLoadingBoolean` — type is in the name
-- `handleOnClickButton` — redundant event + element in handler name
-- `fetchDataFromAPIAndTransformResponse` — implementation in the name
-- `getUserByIdFromDatabase` — storage detail in the name
-- `IUserInterface`, `UserType` — type-system prefix/suffix on types
-- `setIsLoadingToTrue` — value in the setter name
+- `userArray`, `nameString`, `isLoadingBoolean` (type is in the name)
+- `handleOnClickButton` (redundant event + element in handler name)
+- `fetchDataFromAPIAndTransformResponse` (implementation in the name)
+- `getUserByIdFromDatabase` (storage detail in the name)
+- `IUserInterface`, `UserType` (type-system prefix/suffix on types)
+- `setIsLoadingToTrue` (value in the setter name)
 
 **Fix:** Use the simplest name that is unambiguous in context. `users`, `name`, `loading`, `handleClick`, `fetchUser`, `getUser`.
 
@@ -102,7 +114,7 @@ Guarding against states that the language or framework prevents.
 - `try { JSON.parse(knownValidJSON) }` on a value that is always valid JSON
 - Fallback UI for error states that cannot occur in the component's data flow
 
-**Fix:** Remove the guard. If the type system says it's safe, it's safe. If you're unsure, fix the type — don't add a runtime check.
+**Fix:** Remove the guard. If the type system says it's safe, it's safe. If you're unsure, fix the type instead of adding a runtime check.
 
 ## Template residue
 
@@ -122,8 +134,8 @@ Placeholder content left behind from AI generation.
 
 When reviewing for slop:
 
-1. Read the diff with slop detection in mind — don't fix pre-existing patterns outside the diff
+1. Read the diff with slop detection in mind; don't flag pre-existing patterns outside the diff
 2. Group findings by category, not by file
-3. Prioritize behavioral preservation — deslop changes should never alter runtime behavior
+3. Prioritize behavioral preservation: deslop changes should never alter runtime behavior
 4. Apply the codebase's existing conventions, not an ideal standard
-5. When in doubt about whether something is slop or intentional, check git blame — if the same author wrote it recently in an AI-assisted session, it's likely slop
+5. When in doubt about whether something is slop or intentional, check git blame: if the same author wrote it recently in an AI-assisted session, it's likely slop

@@ -1,5 +1,7 @@
 # Output Examples
 
+Read before producing the report if you need a formatting refresher. The `Ready for handoff` tier always states the lint/type-check/test baseline captured in workflow step 2.
+
 ## End-of-session self-review
 
 ```markdown
@@ -16,7 +18,7 @@
   Fix: Move the payload transformation into the existing mapper module and pass the mapped UI model to the component.
 
 ### Ready for handoff
-- Not ready until the must-fix items are addressed.
+- Not ready until the must-fix items are addressed. Baseline: lint and type check clean; 2 test failures in `payments` pre-date this change.
 ```
 
 ## Ready for handoff
@@ -31,7 +33,7 @@
 - None.
 
 ### Ready for handoff
-- No blocking issues found. Checked for high-confidence bugs, missing validation/tests, and instruction-file compliance on the current local changes.
+- No blocking issues found. Checked for high-confidence bugs, missing validation/tests, and instruction-file compliance on the current local changes. Baseline: lint, type check, and tests all green.
 ```
 
 ## PR handoff summary

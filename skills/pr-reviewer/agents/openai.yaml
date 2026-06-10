@@ -1,7 +1,7 @@
 interface:
   display_name: "Local Review"
-  short_description: "End-of-session review before commit, push, or handoff"
-  default_prompt: "Use $review-pr to review my current local diff at the end of a coding session. Check for high-confidence bugs, missing validation/tests, and repository instruction-file compliance, then return a local review report before commit, push, or handoff. Keep the default path local-first."
+  short_description: "Read-only review of the local diff before commit, push, or handoff"
+  default_prompt: "Review the current local diff (or the branch diff against its base if the working tree is clean) as a read-only second opinion. Report only high-confidence findings: code that fails to compile, incorrect behavior, concrete security risks with a direct exploit path, clearly missing regression tests, or unambiguous repository instruction-file violations. For each finding give file:line, a one-sentence factual impact, and a committable fix. Do not edit any files. Skip style preferences, pre-existing issues unrelated to the change, and speculative concerns."
 
 policy:
   allow_implicit_invocation: false
