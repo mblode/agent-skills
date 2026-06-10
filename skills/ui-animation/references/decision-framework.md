@@ -74,16 +74,7 @@ Duration and easing are inseparable. A steep curve can afford a longer duration 
 
 ## 4. How fast should it be?
 
-| Element | Duration |
-|---|---|
-| Button press feedback | 100–160ms |
-| Tooltips, small popovers | 125–200ms |
-| Dropdowns, selects | 150–250ms |
-| Modals, drawers | 200–350ms |
-| Page transitions | 250–400ms |
-| Illustrative / marketing | Up to 1000ms |
-
-**Rule: keep routine UI animation under 300ms.** Scale duration with distance traveled — a full-screen menu sliding from off-screen can exceed 300ms, while a 6px tooltip shift should be under 150ms.
+Pick the duration from the easing defaults table in SKILL.md. Keep routine UI animation under 300ms and scale duration with distance traveled — a full-screen menu sliding from off-screen can exceed 300ms, while a 6px tooltip shift should be under 150ms.
 
 ### Perceived performance
 
@@ -136,19 +127,4 @@ It does not apply to:
 - Rare interactions (modals, onboarding) — use standard asymmetric timing
 - Content that needs orientation (drawers with navigation) — enter animation provides spatial context
 
-## Choosing a transition recipe
-
-Once you know the element should animate (question 1), match the UI pattern to a recipe in [references/transition-recipes.md](references/transition-recipes.md). Start from the element type:
-
-- **Floating indicator on a trigger** → notification badge
-- **Anchored surface from trigger** → menu dropdown
-- **Centred overlay** → modal dialog
-- **Inline panel** → panel reveal
-- **Adjacent pages** → page side-by-side slides
-- **Resizing container** → card resize
-- **In-place text change** → text state swap
-- **Icon toggle** → icon swap
-- **Number change** → number pop-in
-- **Confirmation moment** → success celebration
-- **Row hover with neighbors** → avatar group hover
-- **Validation error** → error state shake
+Once you know the element should animate, match the UI pattern to a recipe using the "Transition decision rules" table in SKILL.md.

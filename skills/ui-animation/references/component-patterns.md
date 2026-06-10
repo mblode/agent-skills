@@ -7,8 +7,10 @@
 - [Drawers and panels](#drawers-and-panels)
 - [Modals and dialogs](#modals-and-dialogs)
 - [Toasts](#toasts)
+- [Crossfade transitions](#crossfade-transitions)
 - [Lists and stagger](#lists-and-stagger)
 - [Hover effects](#hover-effects)
+- [Step form navigation](#step-form-navigation)
 
 ## Buttons
 
