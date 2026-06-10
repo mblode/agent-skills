@@ -13,6 +13,8 @@
 
 ## src/cli.ts
 
+No shebang here: tsdown's `banner` option injects it at build time, and a source shebang would double it in `dist/cli.js`.
+
 ```typescript
 import { Command } from "commander";
 
@@ -45,7 +47,7 @@ program.parse();
 
 ## AGENTS.md
 
-After writing AGENTS.md, create a symlink: `ln -s AGENTS.md CLAUDE.md`
+The CLAUDE.md symlink is created later by the post-scaffold command sequence, not here.
 
 ```markdown
 # {{name}}
@@ -55,13 +57,13 @@ After writing AGENTS.md, create a symlink: `ln -s AGENTS.md CLAUDE.md`
 ## Commands
 
 \`\`\`bash
-npm install              # setup (requires Node >= 22)
-npm run build            # tsdown → dist/
-npm run dev              # tsdown --watch
-npm run test             # vitest run
-npm run typecheck        # tsc --noEmit
-npm exec -- ultracite fix   # format + lint autofix
-npm exec -- ultracite check # lint check (CI)
+npm install        # setup (requires Node >= 22)
+npm run build      # tsdown, outputs to dist/
+npm run dev        # tsdown --watch
+npm run test       # vitest run --passWithNoTests
+npm run typecheck  # tsc --noEmit
+npm run fix        # ultracite fix: format + lint autofix
+npm run check      # ultracite check: lint (CI)
 \`\`\`
 
 ## Architecture
@@ -75,11 +77,11 @@ src/
 
 ## Gotchas
 
-- **ESM only**: This project uses `"type": "module"`. Use `.js` extensions in imports (e.g., `import { foo } from "./foo.js"`).
-- **Dual build**: `tsdown.config.ts` produces two entry points — `cli.js` (with shebang) and `index.js` (with .d.ts). Do not merge them.
-- **Linting via ultracite**: Run `npm exec -- ultracite fix` instead of calling oxlint or oxfmt directly.
-- **Git hooks via ultracite**: Ultracite sets up lefthook for pre-commit hooks. Run `npx ultracite init` after cloning to wire them into git.
-- **No chalk/ora**: Use `import { styleText } from "node:util"` for colors (stable in Node 22.13+) and `@clack/prompts` spinner for progress indicators.
+- **ESM only**: This project uses `"type": "module"`. Use `.js` extensions in imports (e.g., `import { foo } from "./foo.js"`); extensionless imports fail the NodeNext typecheck.
+- **Dual build**: `tsdown.config.ts` produces two entry points, `cli.js` (with shebang) and `index.js` (with .d.ts). Do not merge them, and do not add a shebang to `src/cli.ts`.
+- **Linting via ultracite**: Run `npm run fix` (autofix) or `npm run check` (CI lint) instead of calling oxlint or oxfmt directly.
+- **Git hooks via lefthook**: The `prepare` script runs `lefthook install` on every `npm install`; no manual hook setup.
+- **No chalk/ora**: Use `import { styleText } from "node:util"` for colors (stable in Node 22.13+) and the `@clack/prompts` spinner for progress indicators.
 ```
 
 ## README.md
@@ -134,16 +136,14 @@ This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, O
 
 ## skills/SKILL.md
 
-Create at `skills/{{bin}}/SKILL.md`:
+Create at `skills/{{bin}}/SKILL.md`. The frontmatter and body go in one file:
 
-```yaml
+```markdown
 ---
 name: {{bin}}
 description: {{description}}. Use when the user wants to use {{bin}}, run {{bin}} commands, or asks about {{name}} features.
 ---
-```
 
-```markdown
 # {{name}}
 
 {{description}}

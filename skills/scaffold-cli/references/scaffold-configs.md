@@ -44,14 +44,10 @@
     "dev": "tsdown --watch",
     "start": "node dist/cli.js",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "changeset": "changeset",
     "changeset:version": "changeset version",
-    "release": "npm run build && changeset publish",
-    "lint": "oxlint .",
-    "lint:fix": "oxlint --fix .",
-    "format": "oxfmt --write .",
-    "format:check": "oxfmt ."
+    "release": "npm run build && changeset publish"
   },
   "keywords": [],
   "author": "{{author}}",
@@ -83,7 +79,10 @@
 }
 ```
 
-`ultracite init --linter oxlint --integrations lefthook` adds `oxlint`, `oxfmt`, `lefthook` to devDependencies and a `prepare: lefthook install` script — do not list them by hand here.
+Notes:
+
+- `--passWithNoTests` is required: the scaffold ships zero test files, and plain `vitest run` exits 1, failing the first CI run.
+- `ultracite init --linter oxlint --integrations lefthook` (run in the post-scaffold sequence) adds `oxlint`, `oxfmt`, and `lefthook` to devDependencies plus `check`, `fix`, and `prepare: lefthook install` scripts. Do not list any of those by hand here; doing so causes duplicate script entries and version skew against what ultracite pins.
 
 ## tsconfig.json
 
@@ -134,6 +133,8 @@ export default defineConfig([
   },
 ]);
 ```
+
+The `banner` option injects the shebang into `dist/cli.js` at build time. Never add `#!/usr/bin/env node` to `src/cli.ts` itself or the built file gets a doubled shebang. Keep the two configs separate: the CLI entry needs the shebang and no `.d.ts`, the library entry needs `.d.ts` and no shebang.
 
 ## .gitignore
 
@@ -232,7 +233,7 @@ jobs:
         run: npx changeset status --since origin/main
 
       - name: Lint
-        run: npm run lint
+        run: npm run check
 
       - name: Typecheck
         run: npm run typecheck
@@ -243,6 +244,11 @@ jobs:
       - name: Build
         run: npm run build
 ```
+
+Notes:
+
+- `npm run check` is the ultracite-added lint script. It exists by the time CI runs because the post-scaffold `ultracite init` runs before the initial commit.
+- `Changeset Status` makes PRs without a changeset fail CI on purpose; `fetch-depth: 0` is required for the `--since origin/main` comparison.
 
 ## .github/workflows/npm-publish.yml
 
