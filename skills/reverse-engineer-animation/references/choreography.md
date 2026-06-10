@@ -1,7 +1,7 @@
 # Choreography
 
 A single fitted curve is rarely the whole story. The polish in a great transition lives in
-*orchestration* — what leads, what lags, what settles independently. Annotate these from
+*orchestration*: what leads, what lags, what settles independently. Annotate these from
 the contact sheet and frame timeline, then express them per target.
 
 ## Contents
@@ -39,14 +39,14 @@ more of the feel than any single easing curve.
 
 ## Expressing it per target
 
-- **Stagger** — Motion `transition={{ staggerChildren: 0.04 }}`; CSS `animation-delay` per
+- **Stagger:** Motion `transition={{ staggerChildren: 0.04 }}`; CSS `animation-delay` per
   item; SwiftUI `.delay(i * 0.04)`; Reanimated `withDelay(i * 40, ...)`.
-- **Lead/lag between properties** — give each property its own delay/duration. CSS:
+- **Lead/lag between properties:** give each property its own delay/duration. CSS:
   comma-separate the transitions (`transform 300ms ... 100ms, filter 200ms ... 0ms`).
   Motion/Reanimated: separate the animated values with their own `delay`.
-- **Over-stretch** — a keyframe past 1.0 (CSS `scaleY(1.06)` at 70%) or a spring with
+- **Over-stretch:** a keyframe past 1.0 (CSS `scaleY(1.06)` at 70%) or a spring with
   `overshoot: true`; don't flatten it to a monotonic ease.
-- **Independent edge settling** — animate `scaleX`/`scaleY` (or `transform-origin`-anchored
+- **Independent edge settling:** animate `scaleX`/`scaleY` (or `transform-origin`-anchored
   edges) on separate curves rather than uniform `scale`.
-- **Asymmetric open/close** — two distinct transitions; the enter is slower/springier, the
+- **Asymmetric open/close:** two distinct transitions; the enter is slower/springier, the
   exit faster/flatter. Never reuse the open curve reversed.

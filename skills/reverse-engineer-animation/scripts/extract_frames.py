@@ -5,7 +5,7 @@ Run:
     python3 scripts/extract_frames.py <video> <outdir> [--fps N] [--cols C]
                                       [--start SECONDS] [--duration SECONDS]
 
-On a multi-second recording, trim to just the transition with --start/--duration —
+On a multi-second recording, trim to just the transition with --start/--duration;
 extracting the whole clip floods the contact sheet and dilutes tracking.
 
 Produces:
@@ -83,7 +83,7 @@ def main():
 
     frames = sorted(f for f in os.listdir(args.outdir) if f.startswith("frame_") and f.endswith(".png"))
     if not frames:
-        sys.exit("ffmpeg produced no frames — is the video readable and non-empty?")
+        sys.exit("ffmpeg produced no frames. Is the video readable and non-empty?")
 
     rows = (len(frames) + args.cols - 1) // args.cols
     sheet = os.path.join(args.outdir, "contact_sheet.png")

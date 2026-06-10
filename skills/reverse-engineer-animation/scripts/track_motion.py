@@ -5,6 +5,10 @@ Run:
     python3 scripts/track_motion.py <framedir> [--out metrics.json]
                                     [--bbox X,Y,W,H] [--invert] [--threshold T]
 
+--bbox restricts frame-diff detection to that region (use when several elements
+move and you want just one; run once per element). The element is still tracked
+inside the region, so position/scale/opacity stay meaningful.
+
 Outputs a JSON timeline of per-frame measurements for the tracked element:
     x, y            top-left of its bounding box (pixels)
     cx, cy          centroid (pixels)
@@ -30,9 +34,10 @@ try:
 except ImportError:
     sys.exit("missing deps. Install with:  pip install opencv-python numpy")
 
-# Frames whose foreground mask covers less than this fraction of the canvas are
-# treated as "element not present yet" (empty) rather than noise-filled. 0.2% of
-# pixels is below any real UI element but above stray anti-aliasing specks.
+# Frames whose foreground mask covers less than this fraction of the searched
+# area (full canvas, or the --bbox region when given) are treated as "element
+# not present yet" (empty) rather than noise-filled. 0.2% of pixels is below any
+# real UI element but above stray anti-aliasing specks.
 MIN_AREA_FRAC = 0.002
 
 # Laplacian variance saturates well before pixel max; 1000 is a generous ceiling
@@ -47,7 +52,7 @@ DEFAULT_THRESHOLD = 25
 def load_frames(framedir):
     names = sorted(f for f in os.listdir(framedir) if f.startswith("frame_") and f.endswith(".png"))
     if not names:
-        sys.exit(f"no frame_*.png in {framedir} — run extract_frames.py first")
+        sys.exit(f"no frame_*.png in {framedir}; run extract_frames.py first")
     frames = []
     for n in names:
         img = cv2.imread(os.path.join(framedir, n))
@@ -61,7 +66,7 @@ def foreground_mask(gray, ref, threshold, invert):
     """Foreground = pixels that differ from the first frame (the resting background).
 
     Works for an element that enters/moves over a static backdrop, which is the
-    common screen-recording case. Pass --bbox to measure a fixed region instead.
+    common screen-recording case. Pass --bbox to restrict detection to a region.
     """
     diff = cv2.absdiff(gray, ref)
     # Fixed intensity-difference threshold. ~25/255 sits above JPEG/video
@@ -77,11 +82,10 @@ def foreground_mask(gray, ref, threshold, invert):
     return mask
 
 
-def measure(img, mask):
-    h, w = mask.shape
+def measure(img, mask, min_area):
     ys, xs = np.where(mask > 0)
     area = xs.size
-    if area < MIN_AREA_FRAC * h * w:
+    if area < min_area:
         return None  # element effectively absent in this frame
 
     x0, x1 = int(xs.min()), int(xs.max())
@@ -119,7 +123,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("framedir", help="directory of frame_*.png from extract_frames.py")
     p.add_argument("--out", default=None, help="output JSON path (default: <framedir>/metrics.json)")
-    p.add_argument("--bbox", default=None, help="fixed region X,Y,W,H to measure instead of auto-detect")
+    p.add_argument("--bbox", default=None, help="restrict detection to region X,Y,W,H (one run per element)")
     p.add_argument("--threshold", type=int, default=None, help="fixed foreground diff threshold (0-255)")
     p.add_argument("--invert", action="store_true", help="treat the matched region as background, not foreground")
     args = p.parse_args()
@@ -127,24 +131,31 @@ def main():
     names, frames = load_frames(args.framedir)
     ref = cv2.cvtColor(frames[0], cv2.COLOR_BGR2GRAY)
 
-    fixed = None
+    clip = None
     if args.bbox:
         try:
-            fixed = tuple(int(v) for v in args.bbox.split(","))
-            assert len(fixed) == 4
-        except (ValueError, AssertionError):
+            X, Y, W, H = (int(v) for v in args.bbox.split(","))
+        except ValueError:
             sys.exit("--bbox must be X,Y,W,H integers, e.g. --bbox 40,120,300,400")
+        fh, fw = ref.shape
+        if X < 0 or Y < 0 or W <= 0 or H <= 0 or X + W > fw or Y + H > fh:
+            sys.exit(f"--bbox {args.bbox} falls outside the {fw}x{fh} frame")
+        clip = np.zeros(ref.shape, np.uint8)
+        clip[Y:Y + H, X:X + W] = 255
+
+    # Presence cutoff scales with the searched area: the bbox when given (a small
+    # element in a small region should still register), else the full canvas.
+    min_area = MIN_AREA_FRAC * (W * H if clip is not None else ref.size)
 
     timeline = []
     for i, (name, img) in enumerate(zip(names, frames)):
-        if fixed:
-            X, Y, W, H = fixed
-            mask = np.zeros(ref.shape, np.uint8)
-            mask[Y:Y + H, X:X + W] = 255
-        else:
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            mask = foreground_mask(gray, ref, args.threshold, args.invert)
-        m = measure(img, mask)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        mask = foreground_mask(gray, ref, args.threshold, args.invert)
+        if clip is not None:
+            # Keep only motion inside the bbox so neighboring elements don't
+            # pollute the measurement; the element is still tracked within it.
+            mask = cv2.bitwise_and(mask, clip)
+        m = measure(img, mask, min_area)
         timeline.append({"frame": i, "file": name, **(m or {"present": False})})
 
     present = [t for t in timeline if t.get("present") is not False]
@@ -157,7 +168,7 @@ def main():
         json.dump({"frame_count": len(timeline), "tracked_frames": len(present), "timeline": timeline}, f, indent=2)
     print(f"measured {len(present)}/{len(timeline)} frames -> {out}")
     if len(present) < len(timeline):
-        print(f"({len(timeline) - len(present)} frames had no element — likely before entry or after exit)")
+        print(f"({len(timeline) - len(present)} frames had no element; likely before entry or after exit)")
 
 
 if __name__ == "__main__":

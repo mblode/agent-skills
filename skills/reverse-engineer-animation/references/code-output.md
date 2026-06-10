@@ -18,7 +18,7 @@ Throughout, `D` = `duration_ms`, `BEZIER` = the fitted `cubic-bezier(...)`, and
 
 ## CSS
 
-Monotonic easing — use the fitted bezier:
+Monotonic easing: use the fitted bezier:
 
 ```css
 .element {
@@ -26,7 +26,7 @@ Monotonic easing — use the fitted bezier:
 }
 ```
 
-Overshoot/spring — a bezier can't ring, so sample the spring into `linear()`:
+Overshoot/spring: a bezier can't ring, so sample the spring into `linear()`:
 
 ```css
 /* generated from the spring response; more points = smoother overshoot */
@@ -35,7 +35,7 @@ Overshoot/spring — a bezier can't ring, so sample the spring into `linear()`:
 }
 ```
 
-Multi-phase — express each phase as a keyframe stop with its own implied easing:
+Multi-phase: express each phase as a keyframe stop with its own implied easing:
 
 ```css
 @keyframes morph {
@@ -94,7 +94,7 @@ offset.value = withTiming(target, {
 
 ## UIKit
 
-Spring — `CASpringAnimation` carries the fitted params directly:
+Spring: `CASpringAnimation` carries the fitted params directly:
 
 ```swift
 let a = CASpringAnimation(keyPath: "transform.translation.y")
@@ -104,7 +104,7 @@ a.duration = a.settlingDuration   // let the physics decide
 layer.add(a, forKey: "morph")
 ```
 
-Monotonic — `UIViewPropertyAnimator` with the fitted bezier control points:
+Monotonic: `UIViewPropertyAnimator` with the fitted bezier control points:
 
 ```swift
 let curve = UICubicTimingParameters(controlPoint1: CGPoint(x: x1, y: y1),
@@ -120,16 +120,16 @@ The goal is a self-contained artifact someone can implement without the video. E
 per direction (open and close). Fill it from `fit_curves.py` + the choreography table:
 
 ```markdown
-## Motion spec — <element> (open)
+## Motion spec: <element> (open)
 
 Duration: <duration_ms> ms · Trigger: <what starts it>
 
 | Property | Model | Params | Easing / config | Fit err |
 |----------|-------|--------|-----------------|---------|
-| translate | bezier | — | cubic-bezier(0.32,0,0,1) | 0.012 |
+| translate | bezier | n/a | cubic-bezier(0.32,0,0,1) | 0.012 |
 | scaleY | spring | k=180 c=14 m=1 | overshoot, zeta 0.53 | 0.024 |
-| opacity | bezier | — | ease-out, 0–220ms | 0.02 |
-| blur | — | 8px→0 | leads move by ~100ms | — |
+| opacity | bezier | n/a | ease-out, 0-220ms | 0.02 |
+| blur | n/a | 8px→0 | leads move by ~100ms | n/a |
 
 Choreography: blur+opacity lead; translate lags ~100ms; scaleY over-stretches to 1.06
 then settles. Bottom/side edges settle independently.
@@ -143,9 +143,9 @@ against the source.
 
 ## Notes
 
-- Map fitted numbers onto each API's own parameters — don't hardcode a different look than
+- Map fitted numbers onto each API's own parameters; don't hardcode a different look than
   you measured.
 - Web targets should respect the repo's motion rules (animate `transform`/`opacity` only,
   make it interruptible). Hand the spec to the `ui-animation` skill to productionize.
 - Emit **two** transitions when open and close differ (see `references/curve-fitting.md`
-  and `references/choreography.md`) — a single shared transition flattens the asymmetry.
+  and `references/choreography.md`): a single shared transition flattens the asymmetry.

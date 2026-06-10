@@ -13,7 +13,7 @@ to its normalized 0->1 progress over time:
 Both report a normalized RMS fit error. Lower is better; a spring that clearly
 overshoots will beat a bezier (and vice versa). Read references/curve-fitting.md
 to interpret the numbers and pick the model. A high error on BOTH usually means
-the motion is multi-phase — split it and fit each phase separately.
+the motion is multi-phase: split it and fit each phase separately.
 
 Requires: numpy, scipy  (pip install numpy scipy)
 """
@@ -33,7 +33,7 @@ DEFAULT_FPS = 30  # must match the fps used in extract_frames.py
 # Properties to attempt, mapped to the timeline field(s) that express them.
 # Position uses centroid distance from the first tracked frame. Width and height
 # are fit as SEPARATE axes: a "fluid" morph over-stretches one axis (usually
-# vertical) ahead of the other, and the edges settle independently — fitting a
+# vertical) ahead of the other, and the edges settle independently; fitting a
 # single uniform scale would erase that signature effect.
 PROPERTIES = {
     "translate": ("cx", "cy"),
@@ -97,6 +97,8 @@ def fit_property(prog, t):
 
     # Spring fit. Bounded so the optimizer stays in physically sane territory:
     # zeta in (0,2] spans bouncy->overdamped; omega in (0,50] covers fast UI.
+    # p0 starts mid-range, zeta 0.6 (mildly bouncy) at omega 8 rad/s (~0.8s
+    # settle), so the optimizer can converge toward either extreme.
     try:
         (zeta, omega), _ = curve_fit(spring_model, t, prog, p0=[0.6, 8.0],
                                      bounds=([0.01, 0.1], [2.0, 50.0]), maxfev=10000)
@@ -116,8 +118,10 @@ def fit_property(prog, t):
     except (RuntimeError, ValueError):
         out["spring"] = {"error": None, "note": "spring fit failed to converge"}
 
-    # Bezier fit. Control-point x in [0,1] (monotonic time), y unbounded a bit
-    # past [0,1] so it can express overshoot like cubic-bezier(.2,1.4,.3,1).
+    # Bezier fit. Control-point x in [0,1] (monotonic time), y bounded a bit
+    # past [0,1] (here ±0.5) so it can express overshoot like
+    # cubic-bezier(.2,1.4,.3,1). p0 = [0.25, 0.1, 0.25, 1.0] ≈ the CSS `ease`
+    # default, a neutral curve every UI easing is a small step away from.
     try:
         (x1, y1, x2, y2), _ = curve_fit(bezier_progress, t / t[-1], prog, p0=[0.25, 0.1, 0.25, 1.0],
                                         bounds=([0, -0.5, 0, 0.5], [1, 1.5, 1, 1.5]), maxfev=10000)
