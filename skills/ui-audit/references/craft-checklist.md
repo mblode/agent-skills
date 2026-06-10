@@ -1,6 +1,6 @@
 # Craft Checklist (Detailed)
 
-Use this as a final polish pass.
+Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes — this catches the craft details the rules layer does not encode (chrome hierarchy, optical alignment, concentric radii, hover affordances).
 
 ## Contents
 - Legibility and typography
@@ -17,21 +17,15 @@ Use this as a final polish pass.
 - Resources
 
 ## Legibility and typography
-- Use correct punctuation (quotes, apostrophes, dashes); use `&hellip;` for ellipsis.
-- Keep sentence case; avoid underlines except links.
-- Use British/Australian spelling in user-facing copy.
-- Body size: 18-24px desktop, 14-19px mobile; line length 45-75 chars; line-height ~1.45.
-- Avoid letter-spacing on body; add slight tracking to all-caps and small labels.
-- Limit to <= 2 typefaces; weights >= 400; use `clamp()` for fluid sizes.
-- Use `font-variant-numeric: tabular-nums` for data; use monospaced or tabular numbers in tables.
-- Prevent widows/orphans; use `text-wrap: balance` or non-breaking spaces.
-- Use non-breaking spaces for glued terms (10&nbsp;MB, Cmd&nbsp;+&nbsp;K, brand names).
-- Avoid pure black/white; improve contrast for links and text-on-images.
-- Avoid link hover effects that shift layout (no font-weight or size changes).
-- Enable `-webkit-font-smoothing` and `text-rendering: optimizeLegibility`.
+- Full punctuation, sizing, measure, and OpenType sweep: run `typography-checklist.md` — do not duplicate it here.
+- Quick spot-checks unique to this pass:
+  - British/Australian spelling in user-facing copy.
+  - Limit to <= 2 typefaces; weights >= 400; `clamp()` for fluid sizes.
+  - `font-variant-numeric: tabular-nums` on data and tables.
+  - Enable `-webkit-font-smoothing: antialiased` and `text-rendering: optimizeLegibility`.
 
 ## Motion
-- Validate against `ui-animation` (timing, easing, transform/opacity only).
+- Validate against the `ui-animation` skill (timing, easing, transform/opacity only).
 
 ## Keyboard, focus, and targets
 - Provide full keyboard support and visible focus styles.
