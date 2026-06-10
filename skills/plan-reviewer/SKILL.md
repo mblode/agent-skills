@@ -1,36 +1,36 @@
 ---
 name: plan-reviewer
-description: Reviews and strengthens implementation plans through adversarial rubber-duck dialogue. Scores completeness, feasibility, scope, testability, risk, and assumptions, then iterates one pointed question at a time to drive every dimension to 5/5, re-scoring after each round. Verifies checkable claims with local evidence. Updates the plan with resolved answers. Use when asked to "review my plan", "rubber duck this", "stress test this plan", "is this plan ready", "challenge my plan", "get this plan to 5/5", "make this plan bulletproof", "drive every dimension to 5/5", "what am I missing", "verify this", "is this true", "prove it", "check this claim", "fact-check", or before starting implementation on a non-trivial plan.
+description: Reviews and strengthens an existing implementation plan through adversarial rubber-duck dialogue. Scores completeness, feasibility, scope, testability, risk, and assumptions, asks one pointed question at a time, verifies checkable claims against local code and docs, and writes resolved answers back into the plan file until every dimension reaches 5/5. Use when asked to "review my plan", "rubber duck this", "stress test this plan", "is this plan ready", "challenge my plan", "get this plan to 5/5", "make this plan bulletproof", "what am I missing", "verify this", "is this true", "prove it", "check this claim", "fact-check", or before starting implementation on a non-trivial plan. For creating a plan from scratch, use plan-creator. For reviewing a code diff, use pr-reviewer.
 ---
 
 # Plan Reviewer
 
-Strengthen implementation plans through adversarial questioning before coding starts.
+Strengthen an existing implementation plan through adversarial questioning before coding starts.
 
-- **IS:** A dialogue partner that exposes gaps through pointed, specific questions
-- **IS NOT:** A gate/approval mechanism, a code reviewer, or a plan generator
+- **IS:** Adversarial review of an existing plan: pointed questions one at a time, claim verification against local code and docs, resolutions written directly into the plan file
+- **IS NOT:** Creating a plan from scratch (use `plan-creator`), reviewing a code diff (use `pr-reviewer`), or a gate that approves and rejects
 
-**Objective:** drive every dimension to **5/5**. Work each sub-5 dimension upward, re-scoring after each round, until all six are 5/5 — or a dimension provably stalls on a decision only the user can make.
+**Objective:** drive all six dimensions to **5/5**. Work each sub-5 dimension upward, re-scoring after each round, until every dimension is 5/5 or provably stalled on a decision only the user can make.
 
 ## Core Lens
 
-Every question filters through these principles (ordered by priority):
+Filter every question through these principles, in priority order:
 
-1. **KISS** — Is this the simplest thing that could work? Could a junior understand the plan in one read?
-2. **YAGNI** — Is every piece justified by a current requirement, not a hypothetical future one?
-3. **Tracer bullet** — Does the plan deliver a minimal working slice across the full stack first?
-4. **Small functions** — Are responsibilities clearly separated? Does each piece do one thing well?
-5. **Easier to change** — Does the design isolate concerns so future changes are local?
-6. **Duplication over wrong abstraction** — Are abstractions earned by repetition, not speculated?
+1. **KISS**: is this the simplest thing that could work? Could a junior understand the plan in one read?
+2. **YAGNI**: is every piece justified by a current requirement, not a hypothetical future one?
+3. **Tracer bullet**: does the plan deliver a minimal working slice across the full stack first?
+4. **Small functions**: are responsibilities clearly separated? Does each piece do one thing well?
+5. **Easier to change**: does the design isolate concerns so future changes are local?
+6. **Duplication over wrong abstraction**: are abstractions earned by repetition, not speculated?
 
 ## Reference Files
 
 | File | Read When |
 |------|-----------|
-| `references/questioning-framework.md` | Default: question templates per dimension, pushback patterns |
-| `references/plan-quality-rubric.md` | During triage: scoring criteria per dimension (1-5) |
-| `references/dialogue-examples.md` | Before starting dialogue: tone calibration and move examples |
-| `references/claim-verification.md` | When a claim in the plan can be verified against local code, documentation, or specs — or when the user explicitly asks to verify a claim |
+| `references/questioning-framework.md` | Default: question templates and pushback patterns per dimension |
+| `references/plan-quality-rubric.md` | During triage: 1-5 scoring criteria per dimension |
+| `references/dialogue-examples.md` | Before starting dialogue: tone calibration and all four moves in action |
+| `references/claim-verification.md` | Whenever a claim is checkable against local code, docs, or specs, or the user asks to verify a claim |
 
 ## Workflow
 
@@ -39,22 +39,25 @@ Copy this checklist to track progress:
 ```text
 Plan review progress:
 - [ ] Step 1: Load the plan
-- [ ] Step 2: Triage — score all six dimensions
-- [ ] Step 3: Rubber duck loop — drive each dimension <5 to 5/5 (max 2 pushes per question)
+- [ ] Step 2: Triage: verify checkable claims, score all six dimensions
+- [ ] Step 3: Rubber duck loop: drive each dimension <5 to 5/5 (max 2 pushes per question)
 - [ ] Step 4: Re-score after each dimension; repeat the sweep until all 5/5 or stalled
-- [ ] Step 5: Gap summary (final scores + residual blockers)
-- [ ] Step 6: Update the plan file with resolved answers and unresolved annotations
+- [ ] Step 5: Gap summary (before/after scores + residual blockers)
+- [ ] Step 6: Confirm the plan file contains every resolution and unresolved annotation
 ```
 
 ### Step 1: Load the plan
 
-- If user provides a path, read it
-- If no path provided, list `~/.claude/plans/` sorted by modification time, pick most recent, and confirm with user
+- If the user provides a path, read it
+- If no path is provided, list `~/.claude/plans/` sorted by modification time, pick the most recent, and confirm with the user
 - Read the full plan; note the stated goal, structure, and length
+- If the document turns out to be a diff or code rather than a plan, stop and route to `pr-reviewer`
 
 ### Step 2: Triage
 
-Load `references/plan-quality-rubric.md`. Do a silent pass across six dimensions, scoring each 1-5.
+Load `references/plan-quality-rubric.md`. Do a silent pass across the six dimensions, scoring each 1-5.
+
+While scoring, mark every claim that is checkable against local code, docs, or specs ("nobody uses this", "the library supports X", "we already handle that case"). Verify the load-bearing ones yourself now (load `references/claim-verification.md`) and fold the verdicts into the scores. Never spend a dialogue turn asking the user something the codebase can answer.
 
 Output a triage table:
 
@@ -70,91 +73,94 @@ PLAN TRIAGE:
 
 State: "I'll work each dimension up to 5/5, starting with the weakest."
 
+If more than 3 dimensions start at 1-2, the plan needs rewriting, not review. Say so directly and suggest `plan-creator` instead of grinding the loop.
+
 ### Step 3: Rubber duck loop
 
 Load `references/questioning-framework.md` and `references/dialogue-examples.md`.
 
-Pick the lowest-scoring dimension. Ask ONE question that references a specific section or claim in the plan. After the user responds, choose one move:
+Each round:
 
-- **PUSH DEEPER** — answer is vague or hand-waves complexity. Ask a sharper follow-up demanding specificity. Maximum 2 pushes per question.
-- **ACCEPT AND RECORD** — answer is specific and addresses the gap. Note the resolution and move on.
-- **REFRAME** — the concern doesn't apply as framed. Acknowledge and redirect to the actual gap.
-- **VERIFY** — claim can be checked with local evidence ("this function is under 100 lines", "we already handle that case") or against documentation/specs/ADRs ("the RFC says writes are idempotent", "the library supports this natively"). Load `references/claim-verification.md`, gather evidence — including quoting the authoritative doc when the claim is about a documented decision — return a VERIFIED/NOT VERIFIED/INCONCLUSIVE verdict, then continue dialogue informed by the result.
+1. Pick the lowest-scoring dimension still below 5.
+2. Ask ONE question that quotes or names a specific section, claim, or omission in the plan. Never bundle two questions into one turn.
+3. On the user's answer, choose exactly one move:
 
-When a gap closes, **write the resolution into the plan (Step 6) and re-score that dimension.** Stay on the same dimension until it reaches 5/5 or stalls, then move to the next-lowest dimension still below 5.
+- **VERIFY**: the answer (or the plan text it defends) is checkable with local evidence ("this function is under 100 lines", "the RFC says writes are idempotent"). Load `references/claim-verification.md`, gather evidence, quote the authoritative doc when the claim is about a documented decision, return a VERIFIED / NOT VERIFIED / INCONCLUSIVE verdict, then continue informed by it. Prefer VERIFY over asking whenever evidence can settle the point.
+- **PUSH DEEPER**: the answer is vague or hand-waves complexity. Ask a sharper follow-up demanding specifics. Maximum 2 pushes per question.
+- **ACCEPT AND RECORD**: the answer is specific and closes the gap. Write the resolution into the plan file immediately, then re-score the dimension.
+- **REFRAME**: the concern does not apply as framed. Acknowledge what the user got right, then redirect to the actual gap.
 
-**Stall rule:** After 2 pushes without a 5/5-grade answer, **propose a concrete fix** for the user to accept or reject. If accepted, write it in and re-score. If the user defers or declines, record the residual gap as exactly what blocks 5/5 for that dimension, and move on.
+Stay on the same dimension until it reaches 5/5 or stalls, then move to the next-lowest dimension still below 5.
+
+**Stall rule:** after 2 pushes without a 5/5-grade answer, propose a concrete fix for the user to accept or reject. If accepted, write it into the plan and re-score. If the user defers or declines, record exactly what blocks 5/5 for that dimension and move on. This is the only stall procedure; do not keep re-asking in different words.
 
 ### Step 4: Re-score and repeat
 
-After each dimension, re-render the triage table so the climb toward 5/5 is visible. Repeat the full sweep over any dimension still below 5.
+After each dimension closes or stalls, re-render the triage table so the climb toward 5/5 is visible. Sweep again over any dimension still below 5.
 
-**The loop ends when:**
+The loop ends when:
+
 - All six dimensions score 5/5, OR
 - The user invokes the escape hatch ("enough questions" / "just tell me the gaps"), OR
-- A full sweep produces no further progress (every sub-5 dimension is stalled) — summarize what blocks 5/5 and stop.
-
-If more than 3 dimensions start at 1-2, the plan likely needs rewriting — say so directly rather than grinding the loop.
+- A full sweep produces no progress (every sub-5 dimension is stalled): summarize what blocks 5/5 and stop
 
 ### Step 5: Gap summary
 
-Lead with the final triage table showing the before → after scores. Then list any **residual** gaps still blocking 5/5, in three tiers (if every dimension reached 5/5, say so and leave the "Must address" tier empty):
+Lead with the final triage table showing before and after scores. Then list any residual gaps still blocking 5/5 in three tiers. If every dimension reached 5/5, say so and leave the "Must address" tier empty.
 
 ```markdown
 ## Plan Review
 
 ### Must address before implementation
-- [SCOPE] `## Data Migration` — no incremental path; what if migration fails halfway?
+- [SCOPE] `## Data Migration`: no incremental path; what if migration fails halfway?
   Resolved: NO
 
 ### Should address soon
 - [ASSUMPTION] Plan assumes API rate limits won't be hit at projected scale
-  Resolved: YES — user confirmed 80/min volume is within 100/min limit with headroom
+  Resolved: YES (user confirmed 80/min volume is within the 100/min limit with headroom)
 
 ### Noted for awareness
 - [RISK] Single dependency on third-party service with no fallback
   Resolved: NO
 ```
 
-Each finding references the plan section, states the concrete gap, and marks whether it reached 5/5 during the loop.
+Each finding references the plan section, states the concrete gap, and marks whether it was resolved during the loop.
 
-### Step 6: Update the plan
+### Step 6: Confirm the plan file
 
-Plan edits happen **incrementally during the loop** — each resolved gap is written in as it closes (Step 3). The final pass:
+Plan edits happen incrementally during the loop: each resolved gap is written in the moment it closes (Step 3). This final pass confirms the file is the deliverable:
 
-- Confirms resolved answers are inline where each gap was identified
-- Adds `<!-- UNRESOLVED: what blocks 5/5 -->` comments for any dimension that stalled
-- Appends a Review Notes section with the before → after triage scores and date
+- Every resolution is inline where its gap was identified
+- Every stalled dimension has a `<!-- UNRESOLVED: what blocks 5/5 -->` comment at the relevant section
+- A Review Notes section is appended with the before/after triage scores and the date
 
-Do not ask permission — updating the plan is the point of the review. If the plan was loaded from a file, edit that file. If the user objects, they can revert.
+Do not ask permission to edit. Updating the plan file is the point of the review; if the user objects, they can revert. If the plan arrived as pasted text with no file, output the full updated plan in a code block and offer to write it to `~/.claude/plans/`.
 
 ## Dialogue Protocol
 
-- Every question must reference a specific section, claim, or omission — never generic
-- No "great plan, but..." — start with triage, go straight to gaps
-- Direct but constructive — the goal is strengthening, not criticism
-- Do not linger on strengths; acknowledge briefly and move to the next gap
-- After 2 pushes without a 5/5-grade answer, propose a concrete fix; if the user defers, record what blocks 5/5 and move on
-- When a plan violates KISS or YAGNI, name it directly: "This is more complex than it needs to be because..."
+- Quote the plan's own words when challenging them; paraphrase invites "that's not what I meant" detours
+- No "great plan, but...": start with the triage table and go straight to gaps
+- Acknowledge strengths in one clause at most, then move to the next gap
+- Direct but constructive; the goal is strengthening, not criticism
+- Name KISS and YAGNI violations explicitly: "This is more complex than the goal requires because..."
 - Challenge premature abstractions: "Do not remove a fence until you know why it was put up"
 - Push for tracer bullets: "What's the minimum viable slice that proves this works end-to-end?"
 
 ## Gotchas
 
-- Keep going until every dimension is 5/5 — don't stop at the weakest few. Re-score after each dimension and re-sweep anything still below 5.
-- Don't ask generic questions ("have you considered error handling?") — always reference specific plan content ("What happens when the Stripe webhook in your payment flow returns a 429?").
-- Don't praise the plan before questioning it. Anti-sycophancy is critical here.
-- Don't push more than twice on the same question. When stalled, propose a concrete fix rather than re-asking.
-- End the loop on no-progress — if a full sweep moves nothing, summarize what blocks 5/5 and stop. Don't badger.
-- If more than 3 dimensions start at 1-2, recommend rewriting rather than grinding the loop.
-- Always update the plan file after review — that's the deliverable, not just the conversation.
-- Don't review code — use `pr-reviewer` for that. This skill reviews plan documents only.
-- Don't generate a new plan. If the plan is too weak to salvage, say so and suggest rewriting.
-- Don't accept "we might need this later" as justification — YAGNI means build it when you need it, not before.
-- Don't let complexity slide because it's "elegant" — KISS beats clever every time.
+- Asking the user a question grep can answer ("is legacyHelper still used?") wastes a turn and invites guessing; run the verification yourself and present the evidence.
+- Bundling two questions into one turn gets one answered and one silently dropped, usually the harder one. One question per turn.
+- Praising the plan before the first question anchors the user defensively and produces softer answers. Open with the triage table, not a compliment.
+- A third push on the same question stops yielding information; users start inventing answers to end the interrogation. Invoke the stall rule instead.
+- Accepting "we might need this later" leaves a YAGNI violation in the plan; require a current requirement or cut the item.
+- Deferring plan edits to the end loses resolutions agreed mid-dialogue; write each one into the file the moment it closes.
+- Asking permission to update the plan file undermines the deliverable; edit directly, the user can revert.
+- Skipping the re-rendered triage table after each dimension hides whether the loop is progressing; without it, stalls and progress look identical.
+- Generic questions ("have you considered error handling?") get generic answers; every question must name a section, claim, or omission from this plan.
+- Reviewing a code diff here produces plan-shaped feedback about code; route to `pr-reviewer` the moment the input is code, not a plan.
 
 ## Related Skills
 
-- `plan-creator` — collaborative interrogation to build a plan before reviewing it
-- `pr-reviewer` — code review after implementation
-- `define-architecture` — architectural decisions that feed into plans
+- `plan-creator`: collaborative interrogation to build a plan before reviewing it
+- `pr-reviewer`: code review after implementation
+- `define-architecture`: architectural decisions that feed into plans

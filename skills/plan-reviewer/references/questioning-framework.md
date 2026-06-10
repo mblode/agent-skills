@@ -1,17 +1,19 @@
 # Questioning Framework
 
-Six dimensions for plan review. Each includes question templates and pushback patterns. Adapt templates to the specific plan content — never ask verbatim generic questions.
+Six dimensions for plan review. Each includes question templates and pushback patterns. Adapt templates to the specific plan content; never ask verbatim generic questions.
 
 Every question is filtered through the core principles: **KISS > YAGNI > Clean Code**. Simpler plans are better plans. Earned abstractions only. Design before code, but design the simplest thing that works.
 
+When a "what to look for" item is checkable against local code or docs (an unused helper, an unconfirmed library capability, a doc that contradicts the plan), verify it yourself first (`claim-verification.md`) and lead with the evidence instead of a question.
+
 ## Contents
 
-1. [Completeness](#1-completeness) — missing flows, error paths, rollback
-2. [Feasibility](#2-feasibility) — unproven steps, external dependencies
-3. [Scope](#3-scope) — YAGNI, premature abstractions, wrong abstractions
-4. [Testability](#4-testability) — verification, "done" criteria, boundary tests
-5. [Risk](#5-risk) — blast radius, failure modes, broken windows
-6. [Assumptions](#6-assumptions) — unstated conditions, invalidation
+1. [Completeness](#1-completeness): missing flows, error paths, rollback
+2. [Feasibility](#2-feasibility): unproven steps, external dependencies
+3. [Scope](#3-scope): YAGNI, premature abstractions, wrong abstractions
+4. [Testability](#4-testability): verification, "done" criteria, boundary tests
+5. [Risk](#5-risk): blast radius, failure modes, broken windows
+6. [Assumptions](#6-assumptions): unstated conditions, invalidation
 
 ## 1. Completeness
 
@@ -24,7 +26,7 @@ What must exist for this plan to work that is not mentioned? Detect errors at a 
 - "What edge cases does [feature] need to handle that aren't listed?"
 - "Where are the boundaries of this system? What gets validated at the edges?"
 
-**Push pattern:** "You said 'handle errors appropriately' — name the three most likely errors and what the user sees for each one."
+**Push pattern:** "You said 'handle errors appropriately'. Name the three most likely errors and what the user sees for each one."
 
 **What to look for in the plan:**
 - New API calls or data flows without error handling
@@ -32,32 +34,32 @@ What must exist for this plan to work that is not mentioned? Detect errors at a 
 - "Happy path only" descriptions
 - Missing cleanup or teardown steps
 - No mention of what happens when external services are unavailable
-- No boundary validation (user input, external APIs) — program defensively at system edges
+- No boundary validation (user input, external APIs): program defensively at system edges
 
 ## 2. Feasibility
 
-Which step requires something unproven, unfamiliar, or outside your control? Scope like a tracer bullet — get a minimum viable slice working across the full stack first.
+Which step requires something unproven, unfamiliar, or outside your control? Scope like a tracer bullet: get a minimum viable slice working across the full stack first.
 
 **Question templates:**
 - "Which step in this plan requires something you haven't built before?"
 - "What is the hardest technical problem here, and how confident are you in the approach?"
 - "Does any step depend on an external system you don't control? What's its reliability?"
-- "You're proposing [approach] — have you verified this works at the scale you need?"
+- "You're proposing [approach]. Have you verified this works at the scale you need?"
 - "Section [N] assumes [library/service] can do [X]. Have you confirmed this, or is it an assumption?"
-- "What's the tracer bullet here — the thinnest slice that proves the approach works end-to-end?"
+- "What's the tracer bullet here, the thinnest slice that proves the approach works end-to-end?"
 
-**Push pattern:** "You said this is 'straightforward' — describe the implementation in 3 sentences. If you can't, it's not straightforward."
+**Push pattern:** "You said this is 'straightforward'. Describe the implementation in 3 sentences. If you can't, it's not straightforward."
 
 **What to look for in the plan:**
 - Steps described in one sentence that actually require significant implementation
-- References to libraries or APIs without evidence they support the use case
+- References to libraries or APIs without evidence they support the use case (checkable: read the library docs or types before asking)
 - Performance assumptions without benchmarks
 - "Then we just..." phrasing (minimizing complexity)
-- No tracer bullet — plan builds horizontal layers instead of a vertical slice first
+- No tracer bullet: plan builds horizontal layers instead of a vertical slice first
 
 ## 3. Scope
 
-What's not strictly necessary to achieve the stated goal? YAGNI — build it when you need it. Duplication is far cheaper than the wrong abstraction.
+What's not strictly necessary to achieve the stated goal? YAGNI: build it when you need it. Duplication is far cheaper than the wrong abstraction.
 
 **Question templates:**
 - "Which parts of this plan are not required to achieve the goal stated in the Context section?"
@@ -92,7 +94,7 @@ How will you verify that each step worked correctly? Write tests often and early
 - "What are the boundary conditions for [input/state]? Are you testing those edges?"
 - "Can you build in one step and run the tests in one step?"
 
-**Push pattern:** "You said 'we'll add tests' — name three specific test cases right now. If you can't, the plan doesn't understand its own behavior well enough."
+**Push pattern:** "You said 'we'll add tests'. Name three specific test cases right now. If you can't, the plan doesn't understand its own behavior well enough."
 
 **What to look for in the plan:**
 - No verification section or test strategy
@@ -116,16 +118,16 @@ What is the worst realistic outcome if this plan is implemented as written? Firs
 - "You're removing/changing [existing code]. Do you know why it was originally there?"
 - "Is this leaving the campground cleaner than you found it, or creating technical debt?"
 
-**Push pattern:** "You said risk is 'low' — what specific evidence supports that? Have you traced the failure modes?"
+**Push pattern:** "You said risk is 'low'. What specific evidence supports that? Have you traced the failure modes?"
 
 **What to look for in the plan:**
 - Shared state modifications without concurrency consideration
 - Database migrations on large tables without downtime strategy
 - Changes to authentication or authorization paths
-- Removing or modifying code used by other teams
+- Removing or modifying code used by other teams (checkable: grep for call sites before asking)
 - Deploying without a feature flag or gradual rollout
-- Removing existing code without understanding why it exists (Chesterton's fence)
-- Ignoring technical debt — broken windows accumulate
+- Removing existing code without understanding why it exists (Chesterton's fence; `git log` the file before accepting "it's unused")
+- Ignoring technical debt: broken windows accumulate
 
 ## 6. Assumptions
 
@@ -135,7 +137,7 @@ What does this plan take for granted that could be wrong?
 - "What does this plan assume about [users / infrastructure / data / performance] that you haven't verified?"
 - "What external conditions must be true for this to work?"
 - "What would invalidate this entire approach?"
-- "You're assuming [X based on plan text]. Where did this come from — measurement, documentation, or intuition?"
+- "You're assuming [X based on plan text]. Where did this come from: measurement, documentation, or intuition?"
 - "If [stated assumption] turns out to be false, which parts of the plan survive?"
 
 **Push pattern:** "What happens if that assumption is false? Is there a Plan B, or does the whole thing collapse?"

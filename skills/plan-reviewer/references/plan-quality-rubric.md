@@ -24,7 +24,7 @@ Used during Step 2 (Triage) to score each dimension 1-5 and identify the weakest
 
 ### Feasibility
 
-A good plan delivers a tracer bullet first — minimum viable slice across the full stack to prove the approach works.
+A good plan delivers a tracer bullet first: a minimum viable slice across the full stack to prove the approach works.
 
 - **5:** Technical approach validated. Dependencies confirmed. Performance characteristics known. Hardest parts explicitly identified with solutions. Tracer bullet or vertical slice identified.
 - **4:** Approach is reasonable. Most dependencies verified. One or two unvalidated assumptions about capabilities.
@@ -70,6 +70,6 @@ KISS > YAGNI. The simplest plan that solves the problem is the best plan. Duplic
 
 The goal is to drive every dimension to 5/5. After scoring all six:
 1. Work each dimension scoring <5 upward in ascending order (weakest first). Re-score after each round and re-sweep anything still below 5; repeat until all six are 5/5 or stalled.
-2. A dimension is **stalled** when it can't reach 5/5 after 2 pushes and the user defers or declines the proposed fix — record what blocks 5/5 and move on.
-3. If more than 3 dimensions score 1-2, the plan likely needs rewriting — say so directly rather than grinding the loop.
-4. Always check Scope regardless of score — KISS/YAGNI violations are the most common plan weakness and the easiest to miss because complexity feels like thoroughness. Driving toward 5/5 means tightening scope, not padding the plan to look thorough.
+2. A dimension is **stalled** when it can't reach 5/5 after 2 pushes and the user defers or declines the proposed fix. Record what blocks 5/5 and move on.
+3. If more than 3 dimensions score 1-2, the plan needs rewriting; say so directly and suggest `plan-creator` rather than grinding the loop.
+4. Always check Scope regardless of score. KISS/YAGNI violations are the most common plan weakness and the easiest to miss because complexity feels like thoroughness. Driving toward 5/5 means tightening scope, not padding the plan to look thorough.
