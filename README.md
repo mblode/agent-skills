@@ -53,7 +53,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 - **[plan-reviewer](./skills/plan-reviewer/SKILL.md)**: Adversarial plan review: scores six dimensions, verifies claims locally, writes fixes into the plan file.
 - **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only review of your local diff: bugs, structural quality, AI slop, and on-request security audits.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: Creates PRs with short human-sounding descriptions, Linear ID titles, commit restructuring, and reviewer guidance.
-- **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Polls for merge conflicts, CI failures, and review comments. Fixes what it can.
+- **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Autonomously monitors an open PR: conflicts, CI, review comments, merge readiness. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: End-to-end npm releases with changesets: fix loop, CI watch, Version Packages merge, publish verify.
 
 ### Authoring

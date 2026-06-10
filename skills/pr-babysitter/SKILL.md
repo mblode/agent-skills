@@ -1,56 +1,67 @@
 ---
 name: pr-babysitter
-description: Autonomous PR monitor — polls every 2 minutes for merge conflicts, CI/CD failures across GitHub Actions, Buildkite, Vercel, and Fly.io, review comments, and merge readiness. Auto-detects PR from current branch, fixes what it can, notifies on state changes. No setup questions. Also runs as one-shot for specific concerns. Use when asked to babysit a PR, watch a PR, monitor CI, keep a PR green, handle merge conflicts, poll PR status, run `/pr-babysitter`, fix CI, diagnose CI failure, why is CI red, CI is broken, loop on CI, fix CI checks, resolve merge conflicts, or fix conflicts.
+description: Autonomous monitor for an open PR. Polls every 2 minutes for merge conflicts, CI failures across GitHub Actions, Buildkite, Vercel, and Fly.io, review comments, and merge readiness, then fixes what it can and notifies only on state changes. Auto-detects the PR from the current branch with no setup questions. Also runs one-shot for a single concern. Use when asked to "babysit a PR", "watch a PR", "monitor CI", "keep a PR green", "poll PR status", run /pr-babysitter, "fix CI", "diagnose CI failure", "why is CI red", "CI is broken", "loop on CI", "fix CI checks", "resolve merge conflicts", or "fix conflicts". For creating the PR use pr-creator; for reviewing the diff for bugs use pr-reviewer; for npm release pipelines use autoship, which watches its own release CI.
 ---
 
 # PR Babysitter
 
-Autonomous PR monitor. Detects the PR from your current branch and starts polling every 2 minutes. No setup questions — auto-detects everything and applies sensible defaults.
+Autonomous monitor for an open PR. Detects the PR from the current branch, polls every 2 minutes, fixes what it can, and speaks only when state changes.
 
-## Scope
+- **IS:** autonomous monitoring of an open PR (merge conflicts, CI across GitHub Actions, Buildkite, Vercel, and Fly.io, review comments, merge readiness) with auto-fixes, plus one-shot CI diagnosis or conflict resolution.
+- **IS NOT:** creating the PR (use `pr-creator`), reviewing the diff for bugs (use `pr-reviewer`), or npm release pipelines (use `autoship`, which watches its own release CI; never start a babysitter on a release or Version Packages PR that autoship is driving).
 
-- Ongoing PR health: merge conflicts, CI checks, review comments, merge readiness
-- Comment triage runs autonomously within the monitor cycle — no plan approval
-- One-shot mode: when invoked for a specific concern (fix CI, resolve conflicts, why is CI red) without asking to babysit, run only the relevant phase (Phase 2 for conflicts, Phase 3 for CI) without starting the cron monitor
-- Skip: closed or merged PRs, draft PRs unless explicitly requested
+## Mode Selection
+
+| Invocation | Mode |
+|------------|------|
+| "babysit", "watch this PR", "monitor", "keep it green" | Monitor: Phase 1 once, then phases 2-5 on every cron tick |
+| "fix CI", "why is CI red", "CI is broken", "loop on CI" | One-shot Phase 3 loop, no cron |
+| "resolve conflicts", "fix conflicts" | One-shot Phase 2, no cron |
+| "triage review comments", "address the comments" | One-shot Comment Triage Workflow, no cron |
+
+Rules that apply in every mode:
+
+- No setup questions. Auto-detect the PR, platforms, and defaults; start immediately. Overrides arrive inline only ("poll every 5 minutes", "enable auto-merge").
+- Skip closed or merged PRs. Skip draft PRs unless the user explicitly asks.
+- Comment triage runs autonomously inside the cycle, with no plan approval gate.
 
 ## Reference Files
 
-| File                              | Read When                                                                                            |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `references/github-api.md`        | Default: GraphQL queries for fetching, replying, and resolving threads                               |
-| `references/bot-patterns.md`      | Comment triage: bot detection, severity parsing, deduplication, false positive rules                 |
-| `references/fix-plan-template.md` | Comment triage: generating the fix plan document                                                     |
-| `references/monitoring-setup.md`  | Default: CronCreate configuration, state file, defaults                                              |
-| `references/ci-platforms.md`      | CI/CD check: `gh` for GitHub, Buildkite auth fallback chain, `vercel`/`flyctl` for platform logs, stale-dependency and `knip` failures |
-| `references/merge-conflicts.md`   | Conflict check: detecting and resolving merge conflicts                                              |
-| `references/verification-gate.md` | Before any commit/push: lint, type-check, test, `knip` gate and stray-artifact sweep                 |
-| `references/git-resilience.md`    | When a `git` command hangs or fails transiently (core.fsmonitor, stale lock, IPC hiccup)             |
+| File | Read when |
+|------|-----------|
+| `references/monitoring-setup.md` | Starting monitor mode: CronCreate config, state file format, defaults |
+| `references/merge-conflicts.md` | Phase 2: mergeStateStatus table, rebase workflow, auto-resolvable file types |
+| `references/ci-platforms.md` | Phase 3: per-platform log and retry commands, Buildkite auth fallback chain, failure classification, stale-dependency and `knip` handling |
+| `references/github-api.md` | Comment triage: GraphQL queries for fetching, replying to, and resolving threads |
+| `references/bot-patterns.md` | Comment triage: bot detection, severity parsing, deduplication, false-positive rules |
+| `references/fix-plan-template.md` | Comment triage: the audit-trail plan document format |
+| `references/verification-gate.md` | Before any commit or push: lint, type-check, test, `knip` gate, stray-artifact sweep |
+| `references/git-resilience.md` | Any git command hangs or fails transiently (fsmonitor wedge, stale index.lock, IPC blip) |
 
----
+## Monitor Loop
 
-## Monitor Workflow
+Phase 1 runs once in the foreground and registers the cron job. Each tick then runs phases 2-5 in order: read the state file, check conflicts, check CI, check comments, evaluate readiness, write the state file. Every notification is a transition against the previous tick's state; a quiet poll produces no output.
 
 Copy this checklist to track progress:
 
 ```
 PR babysit progress:
-- [ ] Phase 1: Initialize — auto-detect PR, snapshot state, start cron
-- [ ] Phase 2: Conflict check — detect and resolve merge conflicts
-- [ ] Phase 3: CI/CD check — poll checks, diagnose failures, fix and push
-- [ ] Phase 4: Comment check — detect new comments, triage autonomously
-- [ ] Phase 5: Readiness check — evaluate merge readiness, notify user
+- [ ] Phase 1: Initialize (auto-detect PR, snapshot state, start cron)
+- [ ] Phase 2: Conflict check (detect and resolve merge conflicts)
+- [ ] Phase 3: CI/CD check (poll checks, diagnose failures, fix and push)
+- [ ] Phase 4: Comment check (detect new comments, triage autonomously)
+- [ ] Phase 5: Readiness check (evaluate merge readiness, notify user)
 ```
 
 ### Phase 1: Initialize
 
 Load `references/monitoring-setup.md` for CronCreate configuration and defaults.
 
-1. **Auto-detect the PR** — `gh pr view --json number,url,title,headRefName,baseRefName,mergeable,mergeStateStatus,reviewDecision` from the current branch. If no PR found, tell the user and stop. If a PR number was passed as an argument, use it directly
-2. **Extract owner/repo** — `gh repo view --json owner,name`
-3. **Snapshot current state** — write to `.claude/scratchpad/babysit-pr-{N}.md`: current HEAD SHA, mergeable status, check statuses, unresolved thread count, review decision
-4. **Detect CI platforms** — scan check names from `gh pr checks` to identify active platforms (GitHub Actions, Buildkite, Vercel, Fly.io)
-5. **Create cron job** — CronCreate with `*/2 * * * *` schedule running phases 2-5. Print a single confirmation:
+1. **Auto-detect the PR**: `gh pr view --json number,url,title,headRefName,baseRefName,mergeable,mergeStateStatus,reviewDecision`. If a PR number was passed as an argument, use it directly. If no PR exists for the branch, say so and stop.
+2. **Extract owner/repo**: `gh repo view --json owner,name`
+3. **Snapshot state** to `.claude/scratchpad/babysit-pr-{N}.md`: HEAD SHA, mergeable status, check statuses, unresolved thread count, review decision
+4. **Detect CI platforms** from `gh pr checks` check names (dispatch table in Phase 3)
+5. **Create cron job**: CronCreate with `*/2 * * * *` running phases 2-5. Print a single confirmation:
 
 ```
 Monitoring PR #{N}: {title}
@@ -61,123 +72,117 @@ Current state: {mergeable} | {reviewDecision} | {check_summary}
 
 ### Phase 2: Conflict Check
 
-Load `references/merge-conflicts.md` for resolution strategy.
+Load `references/merge-conflicts.md` for the mergeStateStatus table and resolution strategy.
 
-1. **Check mergeable status** — `gh pr view --json mergeable,mergeStateStatus`
-   - `MERGEABLE` → skip to Phase 3
-   - `CONFLICTING` → proceed to resolve
-   - `UNKNOWN` → wait, recheck next cycle
-2. **Attempt rebase** — `git fetch origin {base_branch} && git rebase origin/{base_branch}`
-   - Clean rebase → `git push --force-with-lease` → notify user
-   - Conflicts in safe files (lockfiles, generated) → auto-resolve, push
-   - Complex conflicts → `git rebase --abort` → notify user with details
+1. **Check mergeable status**: `gh pr view --json mergeable,mergeStateStatus`
+   - `MERGEABLE` and up to date → skip to Phase 3
+   - `CONFLICTING` → resolve
+   - `UNKNOWN` → GitHub is still computing; recheck next tick
+2. **Attempt rebase**: `git fetch origin {base_branch} && git rebase origin/{base_branch}`
+   - Clean rebase → `git push --force-with-lease` → notify
+   - Conflicts only in safe files (lockfiles, generated files, changelogs) → auto-resolve per the reference, push
+   - Logic conflicts in source → `git rebase --abort` → notify with the conflicting files and what each side changed
 
-**Never force-push without `--force-with-lease`.** If the lease fails, someone else pushed — abort and notify. If `git fetch`/`rebase` hangs, see `references/git-resilience.md`.
+Never push with bare `--force`. A failed `--force-with-lease` means someone else pushed; abort and notify rather than overwrite their commits. If `git fetch` or `git rebase` hangs, see `references/git-resilience.md`.
 
 ### Phase 3: CI/CD Check
 
-Load `references/ci-platforms.md` for platform-specific commands and the Buildkite auth fallback chain.
+Load `references/ci-platforms.md` for full per-platform commands, the Buildkite auth fallback chain, and the failure-classification decision tree.
 
-1. **Poll check status** — `gh pr checks --json name,state,conclusion,detailsUrl`
-2. **Classify each check** — passing, pending (wait), or failing
-3. **If all passing** → proceed to Phase 4
-4. **If any failing** → diagnose:
-   - Identify platform from check name (see reference for patterns)
-   - Fetch logs via `gh run view --log-failed` (GitHub Actions), Buildkite auth fallback chain (Buildkite), `vercel logs` (Vercel), `flyctl logs` (Fly.io)
-   - Classify failure: flaky test (re-run), code error (fix + push), infrastructure (notify user), dependency issue (reinstall/rebuild)
-   - Before treating a type-check failure as a code bug, check the stale-dependency branch in the reference — a monorepo type error is often out-of-date deps/generated types, fixable by reinstall + rebuild
-   - Fix, then run the verification gate (`references/verification-gate.md`) before pushing
-5. **Compare with previous state** — flag regressions (previously passing, now failing)
+1. **Poll**: `gh pr checks --json name,state,conclusion,detailsUrl`
+2. **Classify each check**: passing, pending (wait for completion before diagnosing), or failing
+3. **All passing** → proceed to Phase 4
+4. **Failing** → dispatch on check name to fetch logs:
 
-If any `git` command hangs or fails transiently here, see `references/git-resilience.md` before aborting.
+| Check name / detailsUrl | Platform | Failure logs via |
+|-------------------------|----------|------------------|
+| `buildkite/` prefix | Buildkite | Auth fallback chain: `bk` CLI, then REST API, then detailsUrl |
+| `vercel` in name or `vercel.com` in URL | Vercel | `vercel logs {deployment_url}` |
+| `fly-` prefix or `fly.io` in URL | Fly.io | `flyctl logs --app {app_name} --no-tail` |
+| Anything else | GitHub Actions | `gh run view {run_id} --log-failed` |
+
+5. **Classify the failure** per the decision tree: flaky (re-run), stale dependency (reinstall and rebuild before touching source), code error (fix), `knip` (remove dead code or configure), infrastructure (notify; not fixable from code)
+6. **Fix, gate, push**: run the verification gate (`references/verification-gate.md`) locally before any push
+7. **Compare with previous state**: flag regressions (previously passing, now failing)
+
+**One-shot loop ("fix CI"):** after pushing a fix, run `gh pr checks --watch` and re-diagnose if still red. Exit when all checks are green (report the green run), when the failure is infrastructure, or when the same check fails twice with the same error after a fix attempt; then summarize the diagnosis instead of thrashing.
 
 ### Phase 4: Comment Check
 
-1. **Count unresolved threads** — quick GraphQL count or `gh pr view --json`
-2. **Compare with state file** — if new unresolved threads since last poll:
-   - Notify user: "N new review comments on PR #{N}"
-   - Run comment triage autonomously (fetch → classify → fix → resolve, no plan approval)
-3. **Auto-resolve noise** — resolve unambiguous noise bots (vercel, linear, changeset) with brief reason. Never auto-resolve human comments or critical/major findings
+1. **Count unresolved threads**: GraphQL count via `references/github-api.md`
+2. **Compare with the state file**. New unresolved threads since last tick → notify "N new review comments on PR #{N}" and run the Comment Triage Workflow below
+3. **Auto-resolve noise**: resolve unambiguous noise bots (vercel, linear, changeset linkbacks) with a one-line reason. Never auto-resolve human comments or critical/major findings
 
 ### Phase 5: Readiness Check
 
-1. **Evaluate merge readiness** — all of:
-   - `mergeable == MERGEABLE` (no conflicts)
-   - All required checks passing
-   - `reviewDecision == APPROVED`
-   - No unresolved blocking threads
-2. **If ready** → notify user: "PR #{N} is ready to merge. All checks green, reviews approved, no conflicts."
-3. **If not ready** → report blockers: "Waiting on: 2 checks pending" / "Blocked by: merge conflict"
-4. **Notify only on state changes** — compare with previous poll:
-   - Check went green → "Build is green"
-   - Check broke → "Build broke: {check_name}"
-   - New review → "New review from @{reviewer}: {state}"
-   - Conflict detected → "Merge conflict with {base_branch}"
-   - All clear → "PR #{N} is green and ready"
-5. **Update state file** for next poll cycle
+1. **Ready** means all of: `mergeable == MERGEABLE`, all required checks passing, `reviewDecision == APPROVED`, zero unresolved blocking threads
+2. **Ready** → notify: "PR #{N} is ready to merge. All checks green, reviews approved, no conflicts." Do not merge; auto-merge requires explicit opt-in
+3. **Not ready** → report blockers: "Waiting on: 2 checks pending" / "Blocked by: merge conflict"
+4. **Notify only on transitions**: check went green or red, new review, conflict appeared or cleared, all clear
+5. **Write the state file** so the next tick can diff against it
 
 ## Comment Triage Workflow
 
-When Phase 4 detects new comments, run this inline — no separate invocation needed.
+Runs inline when Phase 4 finds new comments, or one-shot when invoked directly. No plan approval; the plan file is an audit trail.
 
 Load `references/github-api.md` for query templates and `references/bot-patterns.md` for detection rules.
 
 ### Fetch
 
-1. **Fetch all review threads** — GraphQL `reviewThreads` query with pagination. Filter to `isResolved == false`
-2. **Fetch PR reviews** — REST reviews endpoint. Collect all reviews with state, body, and author
-3. **Fetch issue-level comments** — REST endpoint for PR conversation comments
-4. **Early exit** — if zero unresolved threads and zero actionable reviews and zero actionable issue comments, skip triage
+1. **Review threads**: GraphQL `reviewThreads` query with pagination; filter to `isResolved == false`
+2. **PR reviews**: REST reviews endpoint (state, body, author)
+3. **Issue-level comments**: REST endpoint for PR conversation comments
+4. **Early exit** if zero unresolved threads, zero actionable reviews, and zero actionable issue comments
 
 ### Classify
 
-For each item:
+1. **Author type**: human or bot. Bots classify by content first, then username (`github-actions[bot]` is a shared identity)
+2. **Skip noise** per the bot-patterns reference
+3. **Severity**: parse bot-specific markers; humans default to Major for `CHANGES_REQUESTED`, Minor for `APPROVED` plus a question
+4. **Deduplicate**: comments on the same file within a 3-line range are one issue; keep the highest severity. Never deduplicate human comments
+5. **Disposition**: category, severity, confidence, then fix or ignore with a stated reason
 
-1. **Identify author type** — human or bot. For bots, classify by content first, then username
-2. **Skip noise** — auto-classify noise items per bot-patterns reference
-3. **Parse severity** — extract from bot-specific format. Human comments: Major for `CHANGES_REQUESTED`, Minor for `APPROVED` + question
-4. **Deduplicate** — group inline comments on the same file within a 3-line range. Keep highest-severity
-5. **Classify** — category (bug/security/performance/style/correctness/docs/test-coverage), severity (critical/major/minor/nitpick), confidence (high/medium/low), disposition (fix or ignore with reason)
-
-**Human comments are never auto-ignored.** Always classify as fix unless clearly already resolved or explicitly marked optional by the reviewer.
+Human comments are never auto-ignored. Classify as fix unless clearly already resolved or the reviewer explicitly marked it optional.
 
 ### Fix
 
-1. **Write plan file** to `.claude/scratchpad/pr-{N}-review-plan.md` as audit trail
-2. **Report summary** — print counts (N to fix, K conversation items, M to ignore) and proceed immediately
-3. **Resolve ignored threads** — post brief reply, resolve via GraphQL
-4. **Fix real issues** — group by commit group, parallelize independent file fixes
-5. **Commit and push** — run the verification gate (`references/verification-gate.md`): lint, type-check, test, and `knip` where present must pass, and strip stray artifacts (e.g. a root `schema.gql` left by a hook) before staging. Do not push until green. One commit per logical fix group, staging only the fix's files
-6. **Resolve and reply** — post reply on fixed threads, resolve via GraphQL
-7. **Verify** — re-fetch threads to confirm zero unresolved remain, check CI status
+1. **Write the plan** to `.claude/scratchpad/pr-{N}-review-plan.md` per `references/fix-plan-template.md`, as the audit trail
+2. **Print counts** (N to fix, K conversation items, M ignored) and proceed immediately
+3. **Resolve ignored threads**: post a brief reply, then resolve via GraphQL
+4. **Fix real issues** grouped by commit group; parallelize independent file fixes
+5. **Gate, commit, push**: the verification gate (`references/verification-gate.md`) must pass; sweep stray artifacts (e.g. a root `schema.gql` left by a hook); one commit per logical group, staging only that group's files
+6. **Reply and resolve** each fixed thread via GraphQL
+7. **Verify**: re-fetch threads and report zero unresolved remaining (or list what remains), plus current CI status
 
-## Stopping the Monitor
+## Stopping
 
-- "Stop babysitting" / "cancel the PR monitor" → CronDelete to remove the job
-- Session exit → jobs auto-clean (session-scoped)
-- PR merged or closed → auto-detect on next poll, self-cancel
+- "Stop babysitting" / "cancel the PR monitor" → CronDelete using the job ID from the state file
+- PR merged or closed → detected on the next tick, self-cancel
+- Session exit → jobs are session-scoped and auto-clean
 
-On stop, report a final summary: total polls, fixes applied, conflicts resolved, current state.
+On stop, report a final summary: total polls, fixes applied, conflicts resolved, comments triaged, current state.
 
-## Anti-patterns
+## Gotchas
 
-- Asking setup questions before starting — auto-detect everything, use defaults, start immediately
-- Force-pushing without `--force-with-lease` — risks overwriting teammate commits
-- Auto-resolving human comments — never auto-resolve human feedback
-- Resolving threads without posting a reply — reviewers need to see the reasoning
-- Fixing items the triage classified as ignore — respect the classification
-- One commit per individual comment — group related fixes by commit group label
-- Pushing before the verification gate (lint/type-check/test/`knip`) passes locally
-- Committing stray generated artifacts (e.g. a root `schema.gql`) emitted by pre-commit hooks — sweep the tree and stage only the fix's files
-- Treating a monorepo type-check failure as a code bug before ruling out stale deps (reinstall + rebuild first)
-- Aborting the monitor on a single hung or transient `git` command instead of recovering (see `git-resilience.md`)
-- Re-diagnosing failures while checks are still running — wait for completion
-- Polling more frequently than every 2 minutes — 2 minutes is the floor
-- Notifying on every poll with no state change — only notify on transitions
-- Auto-merging without explicit user opt-in — merge is a one-way door
-- Classifying `github-actions[bot]` as always noise — it is a shared identity used by DangerJS, schema checkers, and other active tools. Classify by content
-- Using `bk` CLI without checking auth first — test with `bk auth status` and fall back to REST API or `gh pr checks`
+- Asking setup questions before starting: every question defeats the point of an autonomous monitor. Auto-detect, apply defaults, start.
+- `git push --force` instead of `--force-with-lease`: silently overwrites a teammate's commits. A failed lease means someone pushed; abort and notify.
+- Auto-resolving or auto-ignoring human comments: reviewers re-open the threads and stop trusting the monitor. Humans always classify as fix unless marked optional.
+- Resolving a thread without posting a reply first: the reviewer sees a silent resolve with no reasoning and unresolves it.
+- Fixing items the triage classified as ignore: produces churn nobody asked for and contradicts the audit trail.
+- One commit per individual comment: makes review history unreadable. Group related fixes by commit-group label.
+- Pushing before the verification gate (lint, type-check, test, `knip`) passes locally: a red push wastes the whole poll cycle plus a CI run.
+- Committing stray hook artifacts (e.g. a root `schema.gql`): pollutes the PR diff. Sweep `git status --porcelain` and stage only the fix's files.
+- Treating a monorepo type-check failure as a code bug: it is often stale deps or generated types. Reinstall and rebuild first; edit source only if it persists.
+- Aborting the monitor on one hung or transient git command: fsmonitor wedges and stale locks are recoverable (`references/git-resilience.md`). Retry before giving up.
+- Re-diagnosing while checks are still pending: you diagnose a half-finished run and fix the wrong thing. Wait for completion.
+- Polling faster than every 2 minutes: burns GitHub API rate limit for no signal. 2 minutes is the floor.
+- Notifying on every poll with no state change: notification fatigue trains the user to ignore the monitor. Only transitions speak.
+- Auto-merging without explicit user opt-in: merge is a one-way door. "Ready to merge" is a notification, not an action.
+- Classifying `github-actions[bot]` as always noise: it is a shared identity used by DangerJS, schema checkers, and other active reviewers. Classify by content.
+- Using the `bk` CLI without checking `bk auth status` first: Keychain tokens expire, and a dead token stalls the cycle. Fall back to the REST API or `gh pr checks`.
 
-## Related skills
+## Related Skills
 
-- `pr-reviewer` for local self-review before pushing fixes
+- `pr-creator`: opens the PR; babysitting starts after it exists
+- `pr-reviewer`: local diff review for bugs; run it on monitor-authored fixes that grow beyond a trivial patch
+- `autoship`: npm release pipelines; it watches its own release CI, so never babysit a release PR autoship is driving

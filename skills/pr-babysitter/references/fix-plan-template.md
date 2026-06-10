@@ -2,7 +2,7 @@
 
 Write the fix plan to `.claude/scratchpad/pr-{N}-review-plan.md`. Create the `.claude/scratchpad/` directory if it does not exist.
 
-The plan is a working document — the user may edit it before approving. Re-read the file before executing Phase 4.
+The plan is an audit trail: triage proceeds without waiting for approval. If the user edits the file mid-run, re-read it before executing the Fix step and respect their edits.
 
 ## Template
 
@@ -39,7 +39,7 @@ Ordered by severity (critical first), grouped by file proximity.
 - **Fix approach:** {concrete description of what to change}
 - **Commit group:** {group_label}
 
-> Original: {relevant excerpt from comment — strip boilerplate}
+> Original: {relevant excerpt from comment, boilerplate stripped}
 
 ---
 
@@ -47,10 +47,10 @@ Ordered by severity (critical first), grouped by file proximity.
 
 ---
 
-## Conversation Items (no thread — reply only)
+## Conversation Items (no thread, reply only)
 
 Items from issue-level comments or review bodies. These cannot be resolved via
-GraphQL — reply to acknowledge, but there is no resolve action.
+GraphQL; reply to acknowledge, but there is no resolve action.
 
 ### C1. [{severity}] {short title}
 
@@ -82,7 +82,7 @@ GraphQL — reply to acknowledge, but there is no resolve action.
 ## Template notes
 
 - Replace all `{placeholders}` with actual values
-- Thread IDs are GraphQL node IDs (used for resolve mutations in Phase 4)
+- Thread IDs are GraphQL node IDs (used for resolve mutations in the triage Fix step)
 - Comment IDs are REST `id` or `databaseId` fields (used for reply endpoints)
 - Commit group labels batch related fixes into single commits (e.g., "golden-events", "lint-cleanup")
 - Keep resolution reply comments to one sentence

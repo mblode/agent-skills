@@ -29,18 +29,15 @@ gh pr view --json mergeable,mergeStateStatus
 
 ## Resolution Strategy
 
-**Prefer rebase when:**
-- Branch has clean linear history
-- Few commits (< 10)
-- Only you are working on the branch
-- Team convention is rebase
+**Default to rebase.** Use merge instead only when the branch is shared: rebase rewrites commits other contributors have based work on.
 
-**Prefer merge when:**
-- Branch is shared with other contributors
-- Rebase would rewrite commits others have based work on
-- User explicitly prefers merge
+Detect a shared branch without asking the user:
 
-If unsure about team convention, ask the user.
+```bash
+git log origin/{base_branch}..HEAD --format='%ae' | sort -u
+```
+
+More than one author email means the branch is shared; merge `origin/{base_branch}` instead of rebasing. A user who explicitly prefers merge overrides the default.
 
 ## Rebase Workflow
 
@@ -54,10 +51,10 @@ git fetch origin {base_branch}
 # 3. Attempt rebase
 git rebase origin/{base_branch}
 
-# 4a. If clean — push
+# 4a. If clean: push
 git push --force-with-lease
 
-# 4b. If conflicts — evaluate (see below)
+# 4b. If conflicts: evaluate (see below)
 # On abort:
 git rebase --abort
 git stash pop
@@ -94,11 +91,11 @@ These file types can be resolved automatically:
 
 Notify the user and provide details for these:
 
-- **Source code with logic conflicts** — both sides modified the same function body
-- **Database migrations** — ordering matters, incorrect resolution breaks the migration chain
-- **API contracts / OpenAPI specs** — semantic changes require human judgment
-- **Files where both sides deleted and added on overlapping lines** — intent is ambiguous
-- **Test files with conflicting assertions** — the correct assertion depends on intent
+- **Source code with logic conflicts**: both sides modified the same function body
+- **Database migrations**: ordering matters; incorrect resolution breaks the migration chain
+- **API contracts / OpenAPI specs**: semantic changes require human judgment
+- **Files where both sides deleted and added on overlapping lines**: intent is ambiguous
+- **Test files with conflicting assertions**: the correct assertion depends on intent
 
 When aborting, provide the user with:
 - List of conflicting files
@@ -107,9 +104,9 @@ When aborting, provide the user with:
 
 ## Safety Guardrails
 
-1. **Always `--force-with-lease`, never `--force`** — lease check ensures no one else pushed since your last fetch. If the lease fails, someone else has pushed — abort and notify
-2. **Stash before rebase** — `git stash` saves uncommitted work. Pop after resolution
-3. **Abort on failure** — if auto-resolution fails or produces unexpected results, always `git rebase --abort` to restore the branch
-4. **Never rebase a shared branch without asking** — if other contributors have pushed to this branch, rebase rewrites their history
-5. **Verify after resolution** — after pushing, check that `gh pr view --json mergeable` returns `MERGEABLE`
-6. **One resolution per cycle** — if a conflict reappears on the next poll (base advanced again), resolve again. Do not batch multiple base updates
+1. **Always `--force-with-lease`, never `--force`**: the lease check ensures no one else pushed since your last fetch. If the lease fails, someone else has pushed; abort and notify
+2. **Stash before rebase**: `git stash` saves uncommitted work. Pop after resolution
+3. **Abort on failure**: if auto-resolution fails or produces unexpected results, always `git rebase --abort` to restore the branch
+4. **Never rebase a shared branch**: if other contributors have pushed to this branch (multiple author emails in the detection command above), rebase rewrites their history; merge instead
+5. **Verify after resolution**: after pushing, check that `gh pr view --json mergeable` returns `MERGEABLE`
+6. **One resolution per cycle**: if a conflict reappears on the next poll (base advanced again), resolve again. Do not batch multiple base updates

@@ -79,7 +79,7 @@ gh api graphql \
 
 Post-fetch filtering:
 - Keep threads where `isResolved == false`
-- Note `isOutdated` threads — the diff may have moved; flag for extra scrutiny
+- Note `isOutdated` threads: the diff may have moved; flag for extra scrutiny
 - Threads with `path: null` are PR-level comments (not inline)
 
 ## Fetch PR reviews (REST)
@@ -92,7 +92,7 @@ gh api --paginate "repos/{owner}/{repo}/pulls/{pr}/reviews"
 
 Each review has:
 - `state`: `APPROVED`, `CHANGES_REQUESTED`, `COMMENTED`, `DISMISSED`
-- `body`: review-level comment (may be empty — reviewer put content in inline comments instead)
+- `body`: review-level comment (may be empty when the reviewer put content in inline comments instead)
 - `user.login`: reviewer username
 
 Triage rules:
@@ -116,12 +116,12 @@ Top-level PR conversation comments (not inline review threads):
 gh api --paginate "repos/{owner}/{repo}/issues/{pr}/comments?per_page=100"
 ```
 
-These cannot be "resolved" via the thread mechanism. Include in triage but handle differently — they need a reply, not a resolve mutation.
+These cannot be "resolved" via the thread mechanism. Include in triage but handle differently: they need a reply, not a resolve mutation.
 
 **Do not filter by author type.** Both human and bot issue-level comments may be actionable:
 - `github-actions[bot]` posts DangerJS warnings and schema compatibility checks here
 - Human reviewers post suggestions and questions here
-- `linear[bot]` posts linkbacks here (noise — classify by content)
+- `linear[bot]` posts linkbacks here (noise; classify by content)
 
 Classify each comment by its content using the rules in `bot-patterns.md`.
 
@@ -132,7 +132,7 @@ Use the REST reply endpoint (most reliable):
 ```bash
 gh api "repos/{owner}/{repo}/pulls/{pr}/comments/{comment_database_id}/replies" \
   -X POST \
-  -f body="Done — fixed in latest push."
+  -f body="Done: fixed in latest push."
 ```
 
 The `comment_database_id` is the `databaseId` of the last comment in the thread (reply to the most recent message).
@@ -152,12 +152,12 @@ mutation($threadId: ID!, $body: String!) {
 
 ## Reply to an issue-level comment
 
-Issue-level comments use a different endpoint. There is no thread mechanism — just post a new comment on the PR:
+Issue-level comments use a different endpoint. There is no thread mechanism; just post a new comment on the PR:
 
 ```bash
 gh api "repos/{owner}/{repo}/issues/{pr}/comments" \
   -X POST \
-  -f body="Acknowledged — addressed in latest push."
+  -f body="Acknowledged: addressed in latest push."
 ```
 
 To reply to a specific comment contextually, quote the original in your reply body.
@@ -182,7 +182,7 @@ gh api graphql \
 
 Always post a reply before resolving so the reviewer sees the resolution reason.
 
-Issue-level comments and review bodies cannot be resolved — they have no thread mechanism. Reply to acknowledge, but there is no "resolve" action.
+Issue-level comments and review bodies cannot be resolved; they have no thread mechanism. Reply to acknowledge, but there is no "resolve" action.
 
 ## Pagination pattern
 

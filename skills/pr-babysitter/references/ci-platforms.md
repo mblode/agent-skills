@@ -92,7 +92,7 @@ gh run cancel {run_id}
 
 ## Buildkite
 
-Buildkite registers as GitHub checks with a `buildkite/` prefix. Status is always available via `gh pr checks`. Logs and retries require authenticated access — use the fallback chain below.
+Buildkite registers as GitHub checks with a `buildkite/` prefix. Status is always available via `gh pr checks`. Logs and retries require authenticated access: use the fallback chain below.
 
 ### Status (always works)
 
@@ -114,7 +114,7 @@ Test auth first:
 bk auth status 2>&1
 ```
 
-If this returns a 401, expired token, or any error — skip to option 2. Do not retry or prompt the user to re-authenticate during a monitor cycle.
+If this returns a 401, expired token, or any error, skip to option 2. Do not retry or prompt the user to re-authenticate during a monitor cycle.
 
 If auth is valid:
 
@@ -152,15 +152,15 @@ If neither `bk` CLI nor `BUILDKITE_API_TOKEN` is available:
 
 - Use `gh pr checks` for pass/fail status (always available)
 - Provide the `detailsUrl` link for the user to check logs manually
-- Cannot retry builds without auth — notify the user: "Buildkite build failed. Unable to fetch logs (no Buildkite auth). See: {detailsUrl}"
+- Cannot retry builds without auth. Notify the user: "Buildkite build failed. Unable to fetch logs (no Buildkite auth). See: {detailsUrl}"
 
 ### BK CLI Auth Recovery
 
 If `bk auth status` fails and the user wants to fix it:
 
-1. The `bk` CLI stores tokens in the macOS Keychain as `bkua_*` entries — these expire or get revoked periodically
+1. The `bk` CLI stores tokens in the macOS Keychain as `bkua_*` entries; these expire or get revoked periodically
 2. Tell the user: "Run `! bk auth login` to re-authenticate. I'll use the fallback until then."
-3. Do not block the monitor cycle on auth recovery — continue with fallback options
+3. Do not block the monitor cycle on auth recovery; continue with fallback options
 4. On the next cycle, re-test `bk auth status` to pick up restored auth
 
 ### Parsing detailsUrl
@@ -220,9 +220,9 @@ vercel --force
 ```
 
 **Common Vercel failures:**
-- Build errors — read logs for compilation/bundling errors
-- Environment variable missing — check `vercel env ls`
-- Timeout — notify user (infrastructure issue)
+- Build errors: read logs for compilation/bundling errors
+- Environment variable missing: check `vercel env ls`
+- Timeout: notify user (infrastructure issue)
 
 ## Fly.io
 
@@ -269,9 +269,9 @@ flyctl checks list --app {app_name}
 ```
 
 **Common Fly failures:**
-- Health check failure — check logs for crash/startup errors
-- OOM — notify user (increase memory in `fly.toml`)
-- Migration error — read logs, may need manual intervention
+- Health check failure: check logs for crash/startup errors
+- OOM: notify user (increase memory in `fly.toml`)
+- Migration error: read logs, may need manual intervention
 
 **Discovering the app name:**
 
@@ -288,7 +288,7 @@ Decision tree for diagnosing CI/CD failures:
 4. **`knip` failure (unused files, exports, or dependencies)** → remove the dead export/file/dep. If the report is intentional (e.g. a public API entry point), add it to the `knip` config's `ignore`/`entry` instead. Commit, push
 5. **"rate limit", "quota", "infrastructure", "service unavailable"** → notify user (not fixable from code)
 6. **"npm ERR!", "dependency", "resolution", "peer dep"** → reinstall (delete lockfile + `node_modules` if needed), and in a monorepo rebuild dependency packages so workspace types resolve, commit, push
-7. **"OOM", "memory", "killed"** → notify user (infrastructure — needs config change)
+7. **"OOM", "memory", "killed"** → notify user (infrastructure; needs a config change)
 8. **Test assertion failure (not flaky)** → read failing test and source, fix, commit, push
 9. **Unknown** → fetch full logs, attempt diagnosis, notify user if unsure
 
@@ -309,4 +309,4 @@ turbo run build --filter=...[changed]   # or: nx affected -t build / make build-
 # then re-run the type-check
 ```
 
-If the type-check passes after the refresh, it was a stale-dependency issue — no source change needed. If it still fails, treat it as a real code error (item 3).
+If the type-check passes after the refresh, it was a stale-dependency issue and no source change is needed. If it still fails, treat it as a real code error (item 3).

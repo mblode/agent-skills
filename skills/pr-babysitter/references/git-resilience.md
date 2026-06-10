@@ -19,7 +19,7 @@ How to recover when a git command hangs or fails transiently inside the poll cyc
 git config --get core.fsmonitor    # true / a hook path = fsmonitor is active
 ```
 
-**Recovery** — disable it for the session and retry the command:
+**Recovery**: disable it for the session and retry the command:
 
 ```bash
 git config core.fsmonitor false
@@ -37,10 +37,10 @@ GIT_OPTIONAL_LOCKS=0 git status --porcelain
 
 **Symptom:** `fatal: Unable to create '.../.git/index.lock': File exists`.
 
-**Recovery:** remove the lock **only** when no git process is running — deleting it under a live process corrupts the index.
+**Recovery:** remove the lock **only** when no git process is running; deleting it under a live process corrupts the index.
 
 ```bash
-pgrep -f '[g]it ' && echo "git running — wait, do not delete lock" || rm -f .git/index.lock
+pgrep -f '[g]it ' && echo "git running: wait, do not delete lock" || rm -f .git/index.lock
 ```
 
 Then retry the original command.
@@ -59,5 +59,5 @@ done
 ## Safe-retry posture
 
 - Treat a hang or transient git error as retryable: apply the fsmonitor/lock recovery above, then retry once or twice with backoff.
-- Only abort the current phase (and notify the user) if the command still fails after recovery + retries — never let a single transient git failure kill the monitor.
+- Only abort the current phase (and notify the user) if the command still fails after recovery + retries; never let a single transient git failure kill the monitor.
 - Keep recovery changes session-local (`git config core.fsmonitor false` affects the local repo config only); don't push config changes as part of a PR.

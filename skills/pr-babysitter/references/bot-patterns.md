@@ -15,7 +15,7 @@ Detection, severity parsing, deduplication, and false positive rules for PR revi
 
 ## Bot classification
 
-Bots cannot be classified by username alone. `github-actions[bot]` is a shared identity used by many workflows — some are active reviewers, others are pure noise. Classify by **content first**, then username.
+Bots cannot be classified by username alone. `github-actions[bot]` is a shared identity used by many workflows: some are active reviewers, others are pure noise. Classify by **content first**, then username.
 
 | Tier | Behavior | Action |
 |------|----------|--------|
@@ -27,7 +27,7 @@ Bots cannot be classified by username alone. `github-actions[bot]` is a shared i
 
 `github-actions[bot]` is used by many different workflows. Match on comment **content** to determine which:
 
-### DangerJS — active reviewer
+### DangerJS: active reviewer
 
 Detection:
 - HTML comment contains `DangerID: danger-id-` at the top of the body
@@ -48,9 +48,9 @@ Severity: parse from the HTML comment metadata at the top:
 
 The comment body is an HTML table with actionable warnings. Treat these as real findings.
 
-DangerJS updates its comment in place on each push — the same comment ID gets new content.
+DangerJS updates its comment in place on each push: the same comment ID gets new content.
 
-### Schema compatibility checker — active reviewer
+### Schema compatibility checker: active reviewer
 
 Detection:
 - Heading contains a schema filename in `<code>` tags (e.g., `## <code>profileShareIntended_2-0-2.schema.json</code>`)
@@ -62,17 +62,17 @@ Severity markers in the Status column:
 - `🔴 Error` → major (likely present for breaking changes)
 - `> 💡 **Tip**:` blockquotes are informational, not findings
 
-### Event-lib RC trigger — noise
+### Event-lib RC trigger: noise
 
 Detection: single-line comment starting with "Event-lib RC version is triggered" followed by a Buildkite URL.
 
-### Changeset releases — noise
+### Changeset releases: noise
 
 Detection: comment body starts with "This PR was opened by the [Changesets release]" or contains `# Releases` heading with version changelogs.
 
-### Auto-approval — noise
+### Auto-approval: noise
 
-Detection: review with state `APPROVED` and empty body from `github-actions[bot]`. Skip — this is a programmatic approval from a passing workflow.
+Detection: review with state `APPROVED` and empty body from `github-actions[bot]`. Skip: this is a programmatic approval from a passing workflow.
 
 ## Active review bots
 
@@ -82,7 +82,7 @@ Devin posts a PR review (state: `COMMENTED`) and may inject a badge into the PR 
 
 **No findings (noise):**
 - Review body starts with `## ✅ Devin Review: No Issues Found`
-- Followed by "View in Devin Review to see N additional findings" — this is a teaser to their platform
+- Followed by "View in Devin Review to see N additional findings", a teaser to their platform
 - Classify as noise; the "additional findings" are paywalled
 
 **Findings (active reviewer):**
@@ -90,12 +90,12 @@ Devin posts a PR review (state: `COMMENTED`) and may inject a badge into the PR 
 - May include inline review comments with actual code findings
 - Triage these like any other review finding
 
-**Badge injection — always ignore:**
+**Badge injection (always ignore):**
 - Devin injects `<!-- devin-review-badge-begin -->` / `<!-- devin-review-badge-end -->` into the PR body itself
 - These are `<picture>` elements with dark/light mode SVGs linking to `app.devin.ai`
-- Not a comment — appears in the PR description. Ignore completely.
+- Not a comment; it appears in the PR description. Ignore completely.
 
-**CI check:** `check-devin-approval` GitHub Action — this gates merging on Devin's review. Not a comment; skip.
+**CI check:** `check-devin-approval` GitHub Action gates merging on Devin's review. Not a comment; skip.
 
 ### CodeRabbit (`coderabbitai[bot]`)
 
@@ -112,12 +112,12 @@ Severity markers use emoji in the comment body:
 
 Comment structure:
 - Multi-section with collapsible `<details>` blocks
-- "Analysis chain" section — skip (internal reasoning)
-- Bold imperative summary — the actual finding
-- "Proposed fix" section — diff block (` ```diff `)
-- "Prompt for AI Agents" section — extract this for fix guidance
+- "Analysis chain" section: skip (internal reasoning)
+- Bold imperative summary: the actual finding
+- "Proposed fix" section: diff block (` ```diff `)
+- "Prompt for AI Agents" section: extract this for fix guidance
 
-Summary comments (PR-level, not inline) include walkthrough narratives and base64 metadata in HTML comments. These are not findings — skip.
+Summary comments (PR-level, not inline) include walkthrough narratives and base64 metadata in HTML comments. These are not findings; skip.
 
 ### Gemini Code Assist (`gemini-code-assist[bot]`)
 
@@ -133,11 +133,11 @@ Severity markers use SVG image references:
 
 Scan for `gstatic.com/codereviewagent/` in image URLs.
 
-Uses GitHub native ` ```suggestion ` blocks with exact proposed fix. Summary comment starts with "Hello @author, I'm Gemini Code Assist!" — skip.
+Uses GitHub native ` ```suggestion ` blocks with the exact proposed fix. Summary comment starts with "Hello @author, I'm Gemini Code Assist!"; skip it.
 
 ## Noise bots
 
-Always ignore — no actionable findings:
+Always ignore; no actionable findings:
 
 | Bot | Detection | What it posts |
 |-----|-----------|---------------|
@@ -151,10 +151,10 @@ Always ignore — no actionable findings:
 
 These appear in `gh pr checks` but leave no comments. Nothing to triage:
 
-- **Cursor Bugbot** — code review check from cursor.com, results only in check status
-- **mergefreeze** — merge control gate, status only ("Ok to merge")
-- **Buildkite** — CI pipeline checks (`buildkite/{project}/{step}`)
-- **Telemetry service attributes** — service metadata validation from `blstrco/telemetry`
+- **Cursor Bugbot**: code review check from cursor.com, results only in check status
+- **mergefreeze**: merge control gate, status only ("Ok to merge")
+- **Buildkite**: CI pipeline checks (`buildkite/{project}/{step}`)
+- **Telemetry service attributes**: service metadata validation from `blstrco/telemetry`
 
 ## Human review patterns
 
@@ -162,10 +162,10 @@ Humans don't use structured severity markers. Classify by review state and comme
 
 | Pattern | Severity | Blocking? |
 |---------|----------|-----------|
-| `CHANGES_REQUESTED` review with body text | Major | Yes — merge blocked |
+| `CHANGES_REQUESTED` review with body text | Major | Yes (merge blocked) |
 | `CHANGES_REQUESTED` review, empty body + inline comments | Major | Yes |
-| `COMMENTED` review + inline question → then `APPROVED` seconds later | Minor | No — conversational |
-| `APPROVED` review, empty body | — | No — skip |
+| `COMMENTED` review + inline question → then `APPROVED` seconds later | Minor | No (conversational) |
+| `APPROVED` review, empty body | n/a | No (skip) |
 | Issue-level comment with soft language ("I'd also...", "but up to you") | Minor | No |
 | Issue-level comment with directive language ("please use...", "must...") | Major | Depends on review state |
 
@@ -177,13 +177,13 @@ Unified four-level scale:
 
 | Source | Critical | Major | Minor | Nitpick |
 |--------|----------|-------|-------|---------|
-| CodeRabbit | 🔴 | 🟠 | 🟡 | — |
-| Gemini | high-priority | medium-priority | low-priority | — |
-| DangerJS | — | failure count > 0 | warning count > 0 | — |
-| Schema checker | — | 🔴 Error | 🟡 Warning | — |
-| Devin (with findings) | — | Major (default) | — | — |
+| CodeRabbit | 🔴 | 🟠 | 🟡 | n/a |
+| Gemini | high-priority | medium-priority | low-priority | n/a |
+| DangerJS | n/a | failure count > 0 | warning count > 0 | n/a |
+| Schema checker | n/a | 🔴 Error | 🟡 Warning | n/a |
+| Devin (with findings) | n/a | Major (default) | n/a | n/a |
 | Human (CHANGES_REQUESTED) | "critical"/"blocker" | Default | "nit"/"minor" | "nit"/"nitpick" |
-| Human (APPROVED + question) | — | — | Minor (default) | — |
+| Human (APPROVED + question) | n/a | n/a | Minor (default) | n/a |
 
 When multiple sources flag the same issue, use the highest severity.
 
@@ -199,8 +199,8 @@ Multiple bots may flag the same issue on overlapping lines.
 3. Mark others as `ignore-duplicate` referencing the kept thread ID
 
 **Exceptions:**
-- Never deduplicate human comments — each gets its own entry
-- Human + bot on the same issue: keep both (human confirms the bot, increases confidence)
+- Never deduplicate human comments; each gets its own entry
+- Human + bot on the same issue: keep both (the human confirms the bot, increasing confidence)
 
 ## False positive detection
 
@@ -228,4 +228,4 @@ If a bot finding contradicts a rule in the project's `CLAUDE.md` or `AGENTS.md`,
 
 ### Outdated threads
 
-Threads where `isOutdated == true` and the flagged code no longer exists. Verify by reading the current file — if the code has changed substantially, mark as `ignore-outdated`.
+Threads where `isOutdated == true` and the flagged code no longer exists. Verify by reading the current file; if the code has changed substantially, mark as `ignore-outdated`.

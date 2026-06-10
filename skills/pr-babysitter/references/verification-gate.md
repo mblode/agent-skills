@@ -1,6 +1,6 @@
 # Verification Gate
 
-The checks that must pass before any commit the monitor pushes, plus the stray-artifact sweep that runs before commit. Replaces the soft "run lint/test if available" — pushing red work or stray files wastes a whole poll cycle.
+The checks that must pass before any commit the monitor pushes, plus the stray-artifact sweep that runs before commit. Replaces the soft "run lint/test if available": pushing red work or stray files wastes a whole poll cycle.
 
 ## Contents
 
@@ -13,7 +13,7 @@ The checks that must pass before any commit the monitor pushes, plus the stray-a
 
 ## When the gate runs
 
-Run the gate after applying a fix (CI fix in Phase 3, or a review-comment fix in triage) and **before** the commit/push for that fix. If the gate fails, fix and re-run — do not push until it is green. This is local verification; CI is the backstop, not the first line of defence.
+Run the gate after applying a fix (CI fix in Phase 3, or a review-comment fix in triage) and **before** the commit/push for that fix. If the gate fails, fix and re-run; do not push until it is green. This is local verification; CI is the backstop, not the first line of defence.
 
 ## Detect available checks
 
@@ -39,12 +39,12 @@ Also handle non-npm runners: `turbo run <task>`, `nx run <task>`, or `make <targ
 
 Run in increasing cost order; stop and fix on the first failure.
 
-1. **type-check** — fastest signal on a fix. Scope to changed files only where the tooling supports it; otherwise run the project script.
-2. **lint** — scope to changed files (`eslint <files>`, `oxlint <files>`) when possible.
-3. **test** — run the project test script. Scope to affected tests where a watch/affected mode exists; otherwise run the full suite.
-4. **knip** — run last (project-wide by design). See the `knip` entry in `ci-platforms.md` for handling failures.
+1. **type-check**: fastest signal on a fix. Scope to changed files only where the tooling supports it; otherwise run the project script.
+2. **lint**: scope to changed files (`eslint <files>`, `oxlint <files>`) when possible.
+3. **test**: run the project test script. Scope to affected tests where a watch/affected mode exists; otherwise run the full suite.
+4. **knip**: run last (project-wide by design). See the `knip` entry in `ci-platforms.md` for handling failures.
 
-**All present checks must pass before committing.** A type-check failure may be a stale-dependency issue, not a code bug — check the stale-dependency branch in `ci-platforms.md` before treating it as a code error.
+**All present checks must pass before committing.** A type-check failure may be a stale-dependency issue, not a code bug; check the stale-dependency branch in `ci-platforms.md` before treating it as a code error.
 
 ## Stray-artifact sweep
 
@@ -58,15 +58,15 @@ git status --porcelain
 
 For each untracked or modified file, decide:
 
-- **Intended** — the file is part of the fix, or a tracked generated file the change is supposed to update. Keep it.
-- **Stray** — a generated artifact the fix did not intend to touch (root `schema.gql`, stray build output, an unrelated file a broad formatter rewrote). Revert or remove it before staging:
+- **Intended**: the file is part of the fix, or a tracked generated file the change is supposed to update. Keep it.
+- **Stray**: a generated artifact the fix did not intend to touch (root `schema.gql`, stray build output, an unrelated file a broad formatter rewrote). Revert or remove it before staging:
 
 ```bash
 git restore <stray-tracked-file>     # revert an unintended modification
 rm <stray-untracked-file>            # remove an unintended new file (e.g. root schema.gql)
 ```
 
-Stage only the files belonging to the fix — prefer `git add <paths>` over `git add -A` so stray files never get committed in the first place.
+Stage only the files belonging to the fix: prefer `git add <paths>` over `git add -A` so stray files never get committed in the first place.
 
 ## Pre-commit hooks that emit artifacts
 
@@ -87,6 +87,6 @@ Never amend a commit that has already been pushed and may be on a teammate's mac
 
 ## Gate failure handling
 
-- **Lint/type/test failure on the fix** — read the error, fix, re-run the gate. Do not push.
-- **Failure unrelated to the fix** (a flaky test, a pre-existing type error elsewhere) — note it; do not expand scope to fix unrelated breakage inside a comment-triage commit. If it blocks the gate, surface it to the user rather than silently pushing past it.
-- **Gate can't run** (no scripts, missing deps) — say so in the notification; rely on CI and flag that local verification was unavailable.
+- **Lint/type/test failure on the fix**: read the error, fix, re-run the gate. Do not push.
+- **Failure unrelated to the fix** (a flaky test, a pre-existing type error elsewhere): note it; do not expand scope to fix unrelated breakage inside a comment-triage commit. If it blocks the gate, surface it to the user rather than silently pushing past it.
+- **Gate can't run** (no scripts, missing deps): say so in the notification; rely on CI and flag that local verification was unavailable.
