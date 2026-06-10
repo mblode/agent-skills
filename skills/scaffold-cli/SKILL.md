@@ -93,7 +93,7 @@ Run the validation checklist in `references/post-scaffold.md`. Every item must p
 
 ## Dependencies
 
-**Runtime:** `@clack/prompts`, `commander`, `gray-matter`
+**Runtime:** `@clack/prompts`, `commander`
 
 **Development (in the package.json template):** `@changesets/cli`, `@types/node`, `tsdown`, `typescript`, `ultracite`, `vitest`
 

@@ -65,13 +65,12 @@
   },
   "dependencies": {
     "@clack/prompts": "^1.0.0",
-    "commander": "^14.0.3",
-    "gray-matter": "^4.0.3"
+    "commander": "^14.0.3"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",
     "@types/node": "^22.19.11",
-    "tsdown": "^0.12.0",
+    "tsdown": "^0.22.2",
     "typescript": "^5.8.0",
     "ultracite": "^7.2.2",
     "vitest": "^4.0.0"

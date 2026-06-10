@@ -27,7 +27,6 @@ Each finding is a JSON object (schema is deliberately compatible with ux-audit f
   "defaultTier": "fix-this-sprint",
   "assignedTier": "fix-this-sprint",
   "tierReason": "Default tier; agent chat surface.",
-  "severity": "MEDIUM",
   "observed": "Agent output rendered in <AssistantMessage> with no citation, source, or reasoning child components.",
   "evidence": ["src/chat/ChatPanel.tsx:42, <AssistantMessage content={message.content} /> with no children"],
   "fix": "Add a <Sources> or <Reasoning> component inside agent message rendering.",
@@ -46,8 +45,7 @@ Each finding is a JSON object (schema is deliberately compatible with ux-audit f
 | `surface` | Component or page name the finding sits on (groups the report) |
 | `file`, `line` | Evidence location; required on every `fail`/`warn` |
 | `result` | `pass \| warn \| fail \| unknown`: `unknown` requires a reason in `observed` |
-| `defaultTier`, `assignedTier`, `tierReason` | Tier from the rule file, tier after surface override, and one-sentence justification |
-| `severity` | `HIGH \| MEDIUM \| LOW`: orthogonal to tier; how bad the user impact is when it fires |
+| `defaultTier`, `assignedTier`, `tierReason` | Tier from the rule file, tier after surface override, and one-sentence justification. The tier is the single ship-impact signal; there is no separate severity field |
 | `observed` | What the code actually does, in one sentence |
 | `evidence` | Array of `file:line: excerpt` strings backing the finding |
 | `fix` | Concrete change; a snippet or one-sentence instruction |
