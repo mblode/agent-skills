@@ -23,10 +23,10 @@ Optionally localise the slugs too (`/de/produkte` not `/de/products`).
 ## hreflang
 
 Declare each language/regional alternate with **BCP 47** codes (`en`, `en-GB`, `de`, `pt-BR`). Rules:
-- **Reciprocal** — every alternate must list every other alternate, including itself.
+- **Reciprocal:** every alternate must list every other alternate, including itself.
 - Include a self-reference.
 - Add `x-default` for the unmatched-locale fallback.
-- Place in **one** location only: HTML `<head>`, HTTP `Link` headers, **or** the XML sitemap (see below) — not duplicated.
+- Place in **one** location only (HTML `<head>`, HTTP `Link` headers, **or** the XML sitemap, see below), not duplicated.
 
 ```html
 <link rel="alternate" hreflang="en" href="https://example.com/en/page" />
@@ -34,7 +34,7 @@ Declare each language/regional alternate with **BCP 47** codes (`en`, `en-GB`, `
 <link rel="alternate" hreflang="x-default" href="https://example.com/en/page" />
 ```
 
-In the sitemap (good for scale — keeps localisation metadata out of the head):
+In the sitemap (good for scale: keeps localisation metadata out of the head):
 
 ```xml
 <url>
@@ -58,5 +58,5 @@ See `nextjs-implementation.md` for the `generateMetadata` + `alternates.language
 
 Do **not** auto-redirect visitors to a locale based on IP geolocation or `Accept-Language`. It traps users in the wrong language, breaks search crawlers (which crawl from one region), and breaks shared links. Instead:
 - Serve the requested URL's locale as-is.
-- Optionally show a dismissible banner suggesting another locale ("View this page in Deutsch?") — never a hard redirect.
+- Optionally show a dismissible banner suggesting another locale ("View this page in Deutsch?"), never a hard redirect.
 - Let the user choose via the language switcher.

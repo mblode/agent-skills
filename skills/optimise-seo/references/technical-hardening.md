@@ -1,6 +1,6 @@
 # Technical Hardening: Security, Privacy, Resilience
 
-The non-content layer a good site ships: transport and header security, privacy/consent obligations, and graceful failure. These complement SEO — a site that leaks data, ignores consent law, or returns 200 for an error page loses trust and rankings. No visual redesigns; these are headers, policies, and error/status behaviour.
+The non-content layer a good site ships: transport and header security, privacy/consent obligations, and graceful failure. These complement SEO: a site that leaks data, ignores consent law, or returns 200 for an error page loses trust and rankings. No visual redesigns; these are headers, policies, and error/status behaviour.
 
 ## Contents
 - [Security headers](#security-headers)
@@ -15,7 +15,7 @@ Set these on every HTML response (see `nextjs-implementation.md` for the `next.c
 
 | Header | Recommended value | Why |
 |---|---|---|
-| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | Forces HTTPS. **Irreversible-ish** — only add `preload`/`includeSubDomains` once every subdomain is HTTPS. |
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | Forces HTTPS. **Effectively irreversible:** only add `preload`/`includeSubDomains` once every subdomain is HTTPS. |
 | `Content-Security-Policy` | start with `default-src 'self'`, allow-list real origins; prefer nonces/hashes over `'unsafe-inline'` | Stops most XSS and data exfiltration. Roll out in `Content-Security-Policy-Report-Only` first. |
 | `X-Content-Type-Options` | `nosniff` | Stops MIME-sniffing a benign file into script/style. |
 | `Content-Security-Policy: frame-ancestors` | `'self'` (or trusted embedders) | Clickjacking protection. `X-Frame-Options: SAMEORIGIN` is the legacy fallback. |
@@ -52,19 +52,19 @@ Expires: 2027-01-01T00:00:00.000Z
 
 ## Privacy
 
-- **Privacy policy** — state what personal data is collected, why, legal basis, sharing, retention, and user rights.
-- **Cookie consent** — in the EU/UK, non-essential cookies/storage need freely-given, specific, **opt-in** consent *before* they are set. No pre-ticked boxes; reject must be as easy as accept.
-- **Global Privacy Control (GPC)** — honour the `Sec-GPC: 1` request signal as an opt-out of sale/sharing (legally required in California and Colorado).
-- **Privacy-respecting analytics** — prefer aggregate, cookieless, EU-hostable analytics (e.g. Plausible, Fathom, server-side) to avoid consent and data-transfer problems.
-- **Data minimisation** — collect only what a specific purpose needs, keep it only as long as needed, and redact it from logs/URLs where it leaks.
-- **Audit third-party scripts** — any cross-origin script can read cookies and the URL and exfiltrate page data. Justify each one; lock down with CSP + SRI.
+- **Privacy policy:** state what personal data is collected, why, legal basis, sharing, retention, and user rights.
+- **Cookie consent:** in the EU/UK, non-essential cookies/storage need freely-given, specific, **opt-in** consent *before* they are set. No pre-ticked boxes; reject must be as easy as accept.
+- **Global Privacy Control (GPC):** honour the `Sec-GPC: 1` request signal as an opt-out of sale/sharing (legally required in California and Colorado).
+- **Privacy-respecting analytics:** prefer aggregate, cookieless, EU-hostable analytics (e.g. Plausible, Fathom, server-side) to avoid consent and data-transfer problems.
+- **Data minimisation:** collect only what a specific purpose needs, keep it only as long as needed, and redact it from logs/URLs where it leaks.
+- **Audit third-party scripts:** any cross-origin script can read cookies and the URL and exfiltrate page data. Justify each one; lock down with CSP + SRI.
 
 ## Resilience
 
-- **Custom 404 / 500** — return the **correct** status code (a "not found" page must be `404`, not `200` — see soft-404 in `SKILL.md`). Explain the problem in plain language and offer a way forward; never leak stack traces.
-- **Maintenance** — return `503` with a `Retry-After` header so crawlers don't deindex; show when the site will return.
-- **Web app manifest** — ship `app/manifest.ts` (name, icons, `start_url`, `theme_color`, `display`) so the site installs cleanly.
-- **Monitoring** — monitor from outside your own infra (synthetic + real-user), and host the status page on a separate provider so it stays up when the site doesn't.
+- **Custom 404 / 500:** return the **correct** status code (a "not found" page must be `404`, not `200`; see soft-404 in `SKILL.md`). Explain the problem in plain language and offer a way forward; never leak stack traces.
+- **Maintenance:** return `503` with a `Retry-After` header so crawlers don't deindex; show when the site will return.
+- **Web app manifest:** ship `app/manifest.ts` (name, icons, `start_url`, `theme_color`, `display`) so the site installs cleanly.
+- **Monitoring:** monitor from outside your own infra (synthetic + real-user), and host the status page on a separate provider so it stays up when the site doesn't.
 
 ```ts
 // Maintenance response

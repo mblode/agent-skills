@@ -86,7 +86,7 @@ For sites over 50,000 URLs (or to split by type), return a sitemap **index** by 
 ## Redirects, headers, and indexing
 
 ```ts
-// next.config.ts — permanent (308) vs temporary (307). Avoid redirect chains.
+// next.config.ts: permanent (308) vs temporary (307). Avoid redirect chains.
 const config = {
   async redirects() {
     return [
@@ -97,7 +97,7 @@ const config = {
 }
 ```
 
-Indexing policy: public pages default to `index, follow`. Mark staging, admin, thin, or private pages explicitly — via `metadata.robots` for HTML routes, or `X-Robots-Tag` for non-HTML (PDFs, APIs) and whole environments.
+Indexing policy: public pages default to `index, follow`. Mark staging, admin, thin, or private pages explicitly, via `metadata.robots` for HTML routes, or `X-Robots-Tag` for non-HTML (PDFs, APIs) and whole environments.
 
 ```tsx
 // Per-page noindex
@@ -105,7 +105,7 @@ export const metadata: Metadata = { robots: { index: false, follow: false } }
 ```
 
 ```ts
-// next.config.ts — X-Robots-Tag for non-HTML / staging
+// next.config.ts: X-Robots-Tag for non-HTML / staging
 async headers() {
   return [{
     source: '/:path*',
@@ -140,7 +140,7 @@ export async function generateMetadata(
 ## Security headers
 
 ```ts
-// next.config.ts — applied to every HTML response
+// next.config.ts: applied to every HTML response
 async headers() {
   return [{
     source: '/:path*',
@@ -190,10 +190,10 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 }
 ```
 
-Note: `JSON.stringify` on schema objects produces safe output — no user-supplied HTML.
+Note: `JSON.stringify` on schema objects produces safe output (no user-supplied HTML).
 
 ```tsx
-// app/layout.tsx — Organization & WebSite
+// app/layout.tsx: Organization & WebSite
 <JsonLd data={{
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -279,7 +279,7 @@ app/
 components/
 └── JsonLd.tsx
 
-next.config.ts          # redirects(), headers() — security + X-Robots-Tag
+next.config.ts          # redirects(), headers(): security + X-Robots-Tag
 public/.well-known/
 └── security.txt
 ```
