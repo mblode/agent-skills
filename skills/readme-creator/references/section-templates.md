@@ -71,7 +71,7 @@ const result = await {{mainExport}}({{args}});
 ### Notes
 
 - Lead with the centered title + one-liner + badges block for visual impact.
-- Feature list goes above the fold — no heading needed, just a bullet list.
+- Feature list goes above the fold (no heading needed, just a bullet list).
 - Show `npm install -g` first (global install for CLIs), then `npx` as alternative if applicable.
 - Usage section: 3-5 real commands, simplest first. Show actual flags, not pseudocode.
 - Options: copy from `--help` output. Keep formatting as a code block, not a table.
@@ -120,7 +120,7 @@ import { B } from "{{name}}/b"
 
 All components/functions accept these props/options:
 
-- `option` — description (default: `value`)
+- `option`: description (default: `value`)
 
 ## License
 
@@ -129,7 +129,7 @@ All components/functions accept these props/options:
 
 ### Notes
 
-- "Highlights" instead of "Features" — it's a library, show what makes it stand out.
+- "Highlights" instead of "Features": it's a library, so show what makes it stand out.
 - Quick Start = install + minimal working example in under 10 lines total.
 - Usage section shows import patterns and common configurations.
 - Prop/option list uses inline code for names and defaults.
@@ -171,9 +171,9 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/) — framework
-- [TypeScript](https://www.typescriptlang.org/) — language
-- [Tailwind CSS](https://tailwindcss.com/) — styling
+- [Next.js](https://nextjs.org/): framework
+- [TypeScript](https://www.typescriptlang.org/): language
+- [Tailwind CSS](https://tailwindcss.com/): styling
 
 ## License
 
@@ -184,7 +184,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - No badges for apps (they're not published to a registry).
 - No centered title (apps are simpler, less "brand" presence).
-- Getting Started replaces Install — readers need to clone and configure.
+- Getting Started replaces Install: readers need to clone and configure.
 - Environment variables table is critical. Include `.env.example` in the repo.
 - Tech Stack is optional but helps contributors understand the codebase.
 - Never ship the default create-next-app README. Replace it immediately.
@@ -203,9 +203,9 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Features
 
-- **Feature one** — detailed explanation of what it does and why it matters.
-- **Feature two** — detailed explanation.
-- **Feature three** — detailed explanation.
+- **Feature one:** detailed explanation of what it does and why it matters.
+- **Feature two:** detailed explanation.
+- **Feature three:** detailed explanation.
 
 ## Install
 
@@ -251,10 +251,10 @@ npm install {{name}}
 
 ### Notes
 
-- Feature descriptions are longer than for CLIs/libraries — explain the "why" alongside the "what".
+- Feature descriptions are longer than for CLIs and libraries: explain the "why" alongside the "what".
 - Progressive disclosure: Quick Start (5 lines) → Basic Usage → Advanced Usage → Configuration reference.
 - Configuration table with types and defaults is essential for frameworks.
-- Requirements section is more important here — frameworks often have specific runtime needs.
+- Requirements section is more important here: frameworks often have specific runtime needs.
 
 ---
 
@@ -300,7 +300,7 @@ See individual package READMEs for package-specific setup.
 
 ### Notes
 
-- The packages table is the centerpiece — it's how readers discover what's in the monorepo.
+- The packages table is the centerpiece: it's how readers discover what's in the monorepo.
 - Link each package name to its directory (which should have its own README).
 - Version badges in the table give at-a-glance status for each package.
 - Development commands run from root using the workspace tool (turbo, nx, etc.).
@@ -318,7 +318,7 @@ Use this when the monorepo is not published to a registry (`"private": true` in 
 
 ## Requirements
 
-- Node {{node-version}}+ (npm {{npm-version}} — see `packageManager` in `package.json`)
+- Node {{node-version}}+ (npm {{npm-version}}, see `packageManager` in `package.json`)
 - {{additional-runtime}} (e.g., Python 3 for pipeline scripts)
 
 ## Quick start
@@ -350,12 +350,12 @@ npm run typecheck        # type-check applicable workspaces
 
 ### Notes
 
-- No badges, no version column — private packages have no registry presence.
-- "Workspaces" instead of "Packages" — clearer for mixed app + package monorepos.
-- "Purpose" column instead of "Description" — encourages specific, action-oriented text.
+- No badges, no version column: private packages have no registry presence.
+- "Workspaces" instead of "Packages" reads clearer for mixed app + package monorepos.
+- "Purpose" column instead of "Description" encourages specific, action-oriented text.
 - Requirements section is critical when multiple runtimes are needed (Node + Python, Node + Rust).
 - List setup commands for secondary runtimes in Quick start (e.g., `npm run setup:python`).
-- Common commands section replaces "Development" — show the commands people actually run, not generic build/test/lint.
+- Common commands section replaces "Development": show the commands people actually run, not generic build/test/lint.
 
 ---
 
@@ -369,10 +369,10 @@ npm run typecheck        # type-check applicable workspaces
 ## Quick Start
 
 \`\`\`bash
-npx skills add {{owner}}/{{repo}}
+npx skills add {{owner}}/{{repo}} -g --all -y
 \`\`\`
 
-Supports OpenCode, Claude Code, Codex, and Cursor.
+Supports OpenCode, Claude Code, Codex, and Cursor. Install a single skill with `--skill <name>`.
 
 ## Skills
 
@@ -388,9 +388,9 @@ Edit the files in `skills/`. Keep `SKILL.md` concise and use reference files for
 
 ### Notes
 
-- Quick Start is the single install command — nothing else needed.
+- Quick Start is the single install command, nothing else needed.
 - Skills table is the core content. One row per skill with phase and description.
-- Contributing section is minimal — point to the skills/ directory.
+- Contributing section is minimal: point to the skills/ directory.
 - No license section needed if the bundle is not a published package (add one if it is).
 
 ---

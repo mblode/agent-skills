@@ -6,7 +6,7 @@ Badges go directly below the title and one-liner. Only add badges for published 
 
 - Project is published to a package registry (npm, crates.io, PyPI)
 - Project has CI that actually runs
-- Maximum 4 badges — more than that adds noise without value
+- Maximum 4 badges; more than that adds noise without value
 
 ## When NOT to Add Badges
 

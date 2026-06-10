@@ -38,7 +38,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product copy. Strips AI patterns, seven auditing sweeps, before/after diffs.
 - **[blog-post](./skills/blog-post/SKILL.md)**: Long-form blog posts (listicles, tutorials, narratives, thought leadership) with research, SEO, and polish.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Technical docs. Diataxis doc types, 52 rules, audit and writing workflows.
-- **[readme-creator](./skills/readme-creator/SKILL.md)**: README files matched to the project type.
+- **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README tailored to the project type, validated against quality checks.
 
 ### Quality
 
