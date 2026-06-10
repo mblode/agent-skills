@@ -1,12 +1,8 @@
-# Quick Checklist (10)
+# Quick Checklist (10 Checks)
 
-Use this for a fast triage pass.
+Fast triage pass for any AGENTS.md/CLAUDE.md root file.
 
-Scoring:
-- `Yes` = 1
-- `No` = 0
-- `N/A` = exclude from denominator
-- Quick target: `>= 8/10` (or equivalent with `N/A`)
+Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 8/10` (or equivalent with `N/A`).
 
 1. Core run/test/build/lint commands exist when applicable
 2. Commands appear runnable and match project scripts/tooling
@@ -20,10 +16,12 @@ Scoring:
 10. Non-universal detail is linked out (via `@import` or child files), not inlined
 
 Quick grade:
-- Pass: >= 8
-- Borderline: 6-7
-- Fail: <= 5
 
-Automatic fail:
+- Pass: >= 8
+- Borderline: 6-7 — escalate to the full criteria
+- Fail: <= 5 — escalate to the full criteria; likely needs the refactor workflow
+
+Automatic fail regardless of score:
+
 - Commands are mostly broken/stale
 - Content is mostly generic advice/template text

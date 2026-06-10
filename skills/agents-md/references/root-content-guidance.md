@@ -1,12 +1,12 @@
 # Root Content Guidance
 
-Use this when deciding what stays in root instruction files.
+Use this when deciding what stays in a root instruction file vs moves out.
 
 ## Keep in root
 
-- Copy-paste commands (`dev`, `test`, `build`, `lint/typecheck`, deploy/migrate when relevant)
+- Copy-paste commands (`dev`, `test`, `build`, `lint`/`typecheck`, deploy/migrate when relevant)
 - High-frequency failure modes with fixes
-- Non-obvious conventions that affect implementation choices
+- Non-obvious conventions that change implementation choices
 - Required environment/setup facts needed to execute tasks
 - Pointers to deeper docs (`.claude/*.md`, workspace-level instruction files)
 
@@ -16,9 +16,9 @@ Use this when deciding what stays in root instruction files.
 - Copy-pasted templates
 - Exhaustive file inventories
 - Generic advice not tied to this codebase
-- Rules already enforced by linters/CI defaults
+- Rules already enforced by linters/CI
 
-Use `@path/to/file.md` import syntax to link detail files from root:
+Link detail files from root with `@import` syntax:
 
 ```markdown
 # Additional context
@@ -27,32 +27,27 @@ Use `@path/to/file.md` import syntax to link detail files from root:
 - Personal overrides: @~/.claude/my-project-instructions.md
 ```
 
-## Framework note
-
-- Do not paste framework docs into AGENTS.md.
-- If framework behavior causes repeated mistakes, add one short gotcha plus the command/link that resolves it.
+If framework behavior causes repeated mistakes, do not paste the framework docs — add one short gotcha plus the command or link that resolves it.
 
 ## File placement hierarchy
 
-AGENTS.md is the source of truth. Claude Code loads both `AGENTS.md` and `CLAUDE.md` natively — no symlink required.
+Instruction files load from multiple locations; each has a distinct job:
 
-Instruction files are loaded from multiple locations:
-
-- **`~/.claude/CLAUDE.md`** — applies to all sessions (personal defaults)
-- **Project root `./AGENTS.md`** — shared with team via git (tool-agnostic name)
+- **`~/.claude/CLAUDE.md`** — applies to every session; personal defaults only, never project-specific commands
+- **Project root `./AGENTS.md`** — shared with the team via git; the tool-agnostic source of truth
 - **`./CLAUDE.local.md`** — gitignored personal overrides at project level
 - **Parent directories** — inherited in monorepos (root + child both load)
-- **Child directories** — loaded on demand when working in that directory
+- **Child directories** — loaded on demand when the agent works in that subtree
 
-Always write to AGENTS.md (the tool-agnostic name). Audit each level independently. Root should contain only universal rules; child files should contain directory-specific rules.
+Always write shared rules to AGENTS.md. Audit each level independently: root holds only universal rules; child files hold directory-specific rules. A universal rule placed only in a child file is invisible to most tasks.
 
 ## Emphasis for critical rules
 
-Use emphasis markers ("IMPORTANT:", "YOU MUST", "NEVER") on rules that agents tend to skip. This improves adherence for high-stakes constraints (security, data loss, deployment). Do not overuse — if everything is "IMPORTANT", nothing is.
+Use emphasis markers ("IMPORTANT:", "YOU MUST", "NEVER") only on rules agents demonstrably skip — typically security, data-loss, and deployment constraints. If everything is "IMPORTANT", nothing is.
 
 ## Common anti-patterns
 
 - "Follow best practices." -> replace with explicit commands/rules
 - "Use TypeScript." in an all-TypeScript repo -> remove
 - 300+ line root file with no links -> split with `@import` progressive disclosure
-- Commands copied from stale CI config -> verify or delete
+- Commands copied from stale CI config -> verify against the manifest or delete

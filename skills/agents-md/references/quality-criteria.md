@@ -1,25 +1,23 @@
-# Full Quality Criteria (File 45 + Audit 2)
+# Full Quality Criteria (45 Checks)
 
-Score each AGENTS.md root file with this checklist.
+Score each AGENTS.md root file against this checklist. The standard: the file should help an agent execute correctly with minimal context.
 
 ## Contents
+
+- Scoring
 - A. Commands and execution readiness (12 checks)
 - B. Gotchas and repeated mistakes (10 checks)
 - C. Conventions and decision boundaries (8 checks)
 - D. Signal-to-noise and bloat control (8 checks)
 - E. Currency and validation (7 checks)
-- F. Audit execution checks (2 checks)
-- Grade mapping and automatic fails
-
-**Target:** >= 91% of applicable points for grade A
+- Grade mapping
+- Automatic fails
 
 ## Scoring
 
-- File quality (`1-45`): `Yes` = 1, `No` = 0, `N/A` = excluded from denominator
-- Audit execution (`46-47`): score only when producing a report/edit proposal
-- File grade uses `earned / applicable`
-
-Use this when auditing from first principles: the file should help an agent execute correctly with minimal context.
+- `Yes` = 1, `No` = 0, `N/A` = excluded from the denominator
+- Grade uses `earned / applicable`
+- **Target:** >= 91% of applicable points (grade A)
 
 ## A. Commands and execution readiness (12)
 
@@ -78,15 +76,10 @@ Use this when auditing from first principles: the file should help an agent exec
 41. Commands have been run (or limitations are explicitly documented when run is not possible)
 42. Removed references to deleted folders/APIs
 43. Version-sensitive guidance is date/version scoped where needed
-44. Includes a clear maintenance loop (how to keep file current)
+44. Includes a clear maintenance loop (how to keep the file current)
 45. CLAUDE.local.md used for personal/gitignored overrides (not mixed into shared AGENTS.md)
 
-## F. Audit execution checks (2)
-
-46. Post-change report includes concrete issues and resulting score
-47. Suggested edits are minimal and traceable (diff-first)
-
-## Grade mapping (file quality only)
+## Grade mapping
 
 Use `earned / applicable` percentage:
 
@@ -101,6 +94,7 @@ Example: `36/40 = 90%` -> Grade `B`.
 ## Automatic fails
 
 Mark grade as `F` regardless of score if any are true:
+
 - Commands are mostly broken/stale
 - Instructions are primarily generic advice
-- File is dominated by copied docs/templates and not executable guidance
+- File is dominated by copied docs/templates rather than executable guidance

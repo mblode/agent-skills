@@ -58,7 +58,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Authoring
 
-- **[agents-md](./skills/agents-md/SKILL.md)**: Audits AGENTS.md and CLAUDE.md for stale commands and bloat.
+- **[agents-md](./skills/agents-md/SKILL.md)**: Audits, scores, and refactors AGENTS.md/CLAUDE.md — 10-check triage or 45-check full audit with grades.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Skill creation and improvement following the open format spec.
 
 ## License
