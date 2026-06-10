@@ -31,7 +31,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, drag, clip-path, easing, CSS transition recipes, and animation review.
 - **[reverse-engineer-animation](./skills/reverse-engineer-animation/SKILL.md)**: Extract easing, spring, and choreography from a screen recording and emit CSS, Motion, SwiftUI, RN, or UIKit code.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 90-rule typography audit — punctuation, fonts, sizing, spacing, OpenType, hierarchy, pairing.
-- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first slide decks with narrative arcs and speaker notes.
+- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first slide decks with narrative arcs, speaker notes, investor pitch decks, and a QA pass.
 
 ### Writing
 
