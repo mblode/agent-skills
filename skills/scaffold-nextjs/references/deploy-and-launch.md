@@ -37,6 +37,8 @@ Or via the dashboard:
 
 Then add custom domain: `{{domain}}` (via dashboard Settings > Domains, or `npx vercel domains add {{domain}}`).
 
+If the deployment serves a 404 or the wrong app, set the project Root Directory to `apps/web` (dashboard Settings > General > Root Directory) and redeploy. Vercel does not always infer the app location in a fresh turborepo.
+
 Verify: `https://{{domain}}` loads the default Next.js page.
 
 ## Phase 8: Pre-launch checklist
@@ -59,9 +61,9 @@ Next.js App Router automatically serves these as OG and Twitter card images via 
 
 Run these skills in order after deployment:
 
-1. `optimise-seo` — metadata, structured data, sitemap, robots, Core Web Vitals
-2. `ui-audit` — accessibility, typography, interaction quality, craft polish
-3. `ui-animation` — motion easing, timing, gestures, and review rules
+1. `optimise-seo`: metadata, structured data, sitemap, robots, Core Web Vitals
+2. `ui-audit`: accessibility, typography, interaction quality, craft polish
+3. `ui-animation`: motion easing, timing, gestures, and review rules
 
 ## Validation checklist
 
@@ -71,7 +73,7 @@ After all phases complete, verify:
 - [ ] `npm run build` succeeds with no errors
 - [ ] `npm run check` passes Ultracite checks
 - [ ] `npm run check-types` passes TypeScript checks
-- [ ] `prek run --all-files` passes all hooks
+- [ ] `npx lefthook run pre-commit --all-files` passes all hooks
 - [ ] GitHub repo has the initial commit pushed
 - [ ] Vercel deployment is live at `{{domain}}`
 - [ ] Favicon appears in browser tab

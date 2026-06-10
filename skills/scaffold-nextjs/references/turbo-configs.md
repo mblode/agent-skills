@@ -123,7 +123,7 @@ Create at `{{name}}/knip.json`:
 }
 ```
 
-Add workspace-specific entry points as needed (e.g. for CLI apps or docs sites with custom entry files).
+Run dead-code analysis on demand with `npx knip` from the root (knip is not a devDependency; npx fetches it). Add workspace-specific entry points to `knip.json` as needed (e.g. for CLI apps or docs sites with custom entry files).
 
 ## apps/web/package.json scripts
 
@@ -139,14 +139,12 @@ Update the `scripts` block in `apps/web/package.json` to include turbo-compatibl
     "lint:fix": "oxlint --fix .",
     "format": "oxfmt --write .",
     "format:check": "oxfmt .",
-    "check-types": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "check-types": "tsc --noEmit"
   }
 }
 ```
 
-These script names match the tasks defined in `turbo.json`, allowing turbo to orchestrate them across workspaces.
+These script names match the tasks defined in `turbo.json`, allowing turbo to orchestrate them across workspaces. The `oxlint`/`oxfmt` invocations here are for turbo orchestration only; for ad-hoc lint or format runs use `npx ultracite fix` / `npx ultracite check` so config resolution matches the pre-commit hook. If the project adds a test runner later, add a matching `test` task to `turbo.json` at the same time.
 
 ## apps/web/next.config.ts
 

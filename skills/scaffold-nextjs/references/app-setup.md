@@ -19,7 +19,7 @@ Run non-interactively with all flags:
 npx create-next-app@latest {{name}} --typescript --tailwind --biome --react-compiler --app --no-src-dir --import-alias "@/*" --use-npm
 ```
 
-This sets up: TypeScript, Tailwind CSS v4, Biome (placeholder — will be replaced by Oxlint + Oxfmt via Ultracite), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm as package manager.
+This sets up: TypeScript, Tailwind CSS v4, Biome (a placeholder, replaced by Oxlint + Oxfmt via Ultracite in Phase 5), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm as package manager.
 
 If running interactively, select "No, customize settings" at the defaults prompt, then choose:
 - **TypeScript:** Yes
@@ -49,10 +49,12 @@ npx shadcn@latest registry add @blode=https://ui.blode.co/r/{name}.json
 npx shadcn@latest add @blode/button
 ```
 
+Order matters: `registry add` must run before any `add @blode/...` call, otherwise the namespace is unknown and the add fails.
+
 This creates:
-- `components.json` — shadcn configuration + Blode registry mapping
-- `lib/utils.ts` — `cn()` helper (clsx + tailwind-merge)
-- `components/ui/button.tsx` — button from the `ui.blode.co` registry
+- `components.json`: shadcn configuration plus the Blode registry mapping
+- `lib/utils.ts`: `cn()` helper (clsx + tailwind-merge)
+- `components/ui/button.tsx`: button from the `ui.blode.co` registry
 - CSS variable updates in `app/globals.css`
 
 Icon library requirement:
@@ -162,17 +164,17 @@ Notes on the flags:
 - Omit `--quiet` if you want to confirm the generated file list interactively.
 
 This sets up:
-- `oxlint.config.ts` — extends `ultracite/oxlint/{core,next,react}`
-- `oxfmt.config.ts` — extends `ultracite/oxfmt`
-- `lefthook.yml` — pre-commit hook running `npx ultracite fix` on staged JS/TS/JSON/CSS with `stage_fixed: true`
+- `oxlint.config.ts`: extends `ultracite/oxlint/{core,next,react}`
+- `oxfmt.config.ts`: extends `ultracite/oxfmt`
+- `lefthook.yml`: pre-commit hook running `npx ultracite fix` on staged JS/TS/JSON/CSS with `stage_fixed: true`
 - Adds `oxlint`, `oxfmt`, `lefthook` to devDependencies and `prepare: lefthook install` to scripts
 
 3. Install and verify:
 
 ```bash
 npm install
-npm run fix     # oxfmt --write + oxlint --fix
-npm run check   # oxfmt --check + oxlint
+npx ultracite fix     # oxfmt --write + oxlint --fix
+npx ultracite check   # oxfmt --check + oxlint
 ```
 
 Both pass with zero errors and the generated `oxlint.config.ts` needs no tuning. AGENTS.md is generated automatically with the Ultracite code-standards reference; create `CLAUDE.md` as a symlink or one-line `@AGENTS.md` reference.
