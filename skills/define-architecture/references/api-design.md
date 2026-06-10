@@ -13,7 +13,7 @@ Contract-first patterns for REST APIs, module boundaries, and TypeScript interfa
 
 ### Hyrum's Law
 
-Every observable behavior of your API will be depended on by somebody, regardless of your documented contract. Be intentional about what you expose — implementation details leak into de facto contracts.
+Every observable behavior of your API will be depended on by somebody, regardless of your documented contract. Be intentional about what you expose: implementation details leak into de facto contracts.
 
 ### Contract first
 

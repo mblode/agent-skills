@@ -1,6 +1,6 @@
 # Shipping Practices
 
-Keep shipping lightweight without sacrificing safety.
+Keep shipping lightweight without sacrificing safety. Load when writing the rollout and rollback section of the brief.
 
 ## Default mode (small teams)
 - Small changes, frequent merges.

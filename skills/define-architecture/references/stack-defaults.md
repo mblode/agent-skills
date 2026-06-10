@@ -1,6 +1,6 @@
 # Stack Defaults
 
-Use these as a starting point and adjust per project constraints.
+Use these as the default baseline; deviate only when a project constraint requires it, and record the deviation in the brief.
 
 - Turborepo + npm workspaces.
 - Next.js App Router + React.

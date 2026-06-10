@@ -1,70 +1,39 @@
 # Craftsmanship Checklists
 
-Use these checklists when setting conventions or reviewing code quality.
+Convention checklists worth encoding in an architecture brief. Load when writing the team-conventions or testing sections; copy the relevant items into the brief rather than linking here.
 
-## Code style
+## Code style conventions
 
-- Use active names for functions; names should say what they do.
-- Pick one word per concept — don't mix `get`/`fetch`/`retrieve`.
-- Keep functions small; do one thing well; one level of abstraction per function.
-- Prefer minimal arguments; avoid boolean flag parameters.
-- Avoid negative conditionals.
-- Delete commented-out code and unused code.
-- Give names to magic numbers.
-- Comments must not contradict the code; use them for intent, not description.
-- Be careful with side effects.
+- Pick one word per concept across the codebase; don't mix `get`/`fetch`/`retrieve` for the same operation.
+- One level of abstraction per function; a function that mixes orchestration and detail gets split.
+- No boolean flag parameters; split into two functions or pass an options object with named fields.
+- Avoid negative conditionals (`if (!isNotReady)` reads twice as slowly).
+- Name magic numbers; an unexplained `86400` is a bug waiting for a timezone.
+- Comments carry intent, never description; a comment that restates the code rots the moment the code changes.
 
 ## Interfaces and errors
 
 - Hide implementation details; design small orthogonal primitives.
-- Do the same thing the same way everywhere; avoid surprises.
-- Detect errors at low levels; handle them at high levels.
-- Use exceptions only for exceptional situations.
-
-## Debugging checklist
-
-- Debug it now, not later; don't make the same mistake twice.
-- Reproduce the bug; read before typing; get a stack trace.
-- Inspect recent changes; look for patterns or failure numerology.
-- Explain the code to someone else.
-- Divide and conquer; localize with logging or output.
-- Draw pictures; use tools; keep records.
-- Write self-checking code and log files when needed.
+- Do the same thing the same way everywhere; an API that surprises once is distrusted everywhere.
+- Detect errors at low levels; handle them at high levels. Mid-layer catch-and-rethrow loses the stack for nothing.
+- Exceptions are for exceptional situations, not control flow.
 
 ## Testing discipline
 
-- Write unit tests early and often; test incrementally.
-- Test boundaries; pre/post-conditions; program defensively.
-- Check error returns; start with simple parts.
-- Know expected output; verify conservation properties.
-- Compare independent implementations when possible.
-- Automate regression tests; measure coverage.
-- Prefer self-contained tests; aim for one assertion per test.
+- Test boundaries and pre/post-conditions first; that's where the bugs cluster.
+- Prefer self-contained tests with one logical assertion each; a test that needs another test's side effects flakes under parallel runs.
+- Automate regression tests for every fixed bug; a bug that recurs untested recurs again.
+- Compare independent implementations when correctness is critical (e.g. a fast path against a naive reference).
 
 ## Performance
 
-- Measure first: automate timings, use a profiler, focus on hot spots.
-- Prefer better algorithms/data structures; avoid useless optimization.
-- Cache or precompute; buffer I/O; handle special cases separately.
-- Replace expensive operations; collect common subexpressions.
-- Unroll or eliminate loops when it helps measurably.
-- Consider approximation or lower-level code only when needed.
-- Do not store what is easy to recompute.
+- Measure first with a profiler; intuition about hot spots is usually wrong, and optimizing a cold path adds complexity for zero gain.
+- Prefer better algorithms and data structures over micro-tuning.
+- Do not store what is easy to recompute; caches need invalidation, recomputation doesn't.
 
-## Portability
+## Pragmatism
 
-- Stick to standards and mainstream tools; use standard libraries.
-- Beware language trouble spots; hide system dependencies behind interfaces.
-- Maintain compatibility; rename if the specification changes.
-
-## Professionalism and pragmatism
-
-- Design before writing code; be prepared and communicate early.
-- Avoid harmful changes; prefer reversible steps when risk is unclear.
-- Communicate requirements with a brief spec or acceptance criteria.
-- Create acceptance tests; leave the codebase cleaner than found.
-- Do not remove a fence until its purpose is known.
-- Treat DRY as duplication of knowledge; prefer duplication over wrong abstraction.
-- Track and surface technical debt; favor designs that are easy to change.
-- Use tracer bullets; decouple concerns; apply SRP.
-- Review changes for regressions before final output.
+- Do not remove a fence until its purpose is known; "unused" code guarding an edge case fails in production, not review.
+- Treat DRY as duplication of knowledge, not of text; two similar-looking functions encoding different business rules must stay separate.
+- Track and surface technical debt in the brief's Open risks section; invisible debt compounds.
+- Prefer reversible steps when risk is unclear; an irreversible change needs a documented fallback first.
