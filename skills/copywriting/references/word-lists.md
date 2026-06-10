@@ -2,15 +2,15 @@
 
 ## Table of contents
 
-- [Tier 1 — always replace](#tier-1--always-replace)
-- [Tier 2 — flag when 2+ appear in the same paragraph](#tier-2--flag-when-2-appear-in-the-same-paragraph)
-- [Tier 3 — flag only at high density](#tier-3--flag-only-at-high-density)
+- [Tier 1: always replace](#tier-1-always-replace)
+- [Tier 2: flag when 2+ appear in the same paragraph](#tier-2-flag-when-2-appear-in-the-same-paragraph)
+- [Tier 3: flag only at high density](#tier-3-flag-only-at-high-density)
 
 ---
 
-## Tier 1 — always replace
+## Tier 1: always replace
 
-These appear 5–20x more often in AI text than in human writing. Replace on sight.
+These appear 5-20x more often in AI text than in human writing. Replace on sight.
 
 | Word / phrase | Replace with |
 |---------------|--------------|
@@ -52,9 +52,9 @@ These appear 5–20x more often in AI text than in human writing. Replace on sig
 
 ---
 
-## Tier 2 — flag when 2+ appear in the same paragraph
+## Tier 2: flag when 2+ appear in the same paragraph
 
-One instance is survivable. Two or more in the same paragraph signals a pattern — flag and suggest replacements.
+One instance is survivable. Two or more in the same paragraph signals a pattern: flag and suggest replacements.
 
 | Word / phrase | Replace with |
 |---------------|--------------|
@@ -86,9 +86,9 @@ One instance is survivable. Two or more in the same paragraph signals a pattern 
 
 ---
 
-## Tier 3 — flag only at high density
+## Tier 3: flag only at high density
 
-These words are fine in moderation. Flag them only when they appear at roughly 3%+ of the text — that density signals AI-generated filler rather than genuine description.
+These words are fine in moderation. Flag them only when they appear at roughly 3%+ of the text: that density signals AI-generated filler rather than genuine description.
 
 | Word | Fix |
 |------|-----|

@@ -1,4 +1,4 @@
-# AI writing patterns — detection and fixes
+# AI writing patterns: detection and fixes
 
 ## Table of contents
 
@@ -16,11 +16,11 @@
 
 ### Em dashes
 
-Hard max: 1 per 1,000 words. Zero is better. Replace with a comma, full stop, parentheses, or rewrite as two sentences. Applies to headings and body copy alike. Catch both the Unicode em dash (—) and the double-hyphen substitute (--).
+Hard max: 1 per 1,000 words. Zero is better. Replace with a comma, full stop, parentheses, or two sentences. Applies to headings and body copy alike. Catch both the Unicode em dash (`—`) and the double-hyphen substitute (`--`). The em dash is the single most reliable AI tell in product copy, so flag every instance.
 
 ### Bold overuse
 
-Strip bold from most phrases. Maximum one bolded phrase per major section — ideally none. If something is important enough to bold, restructure the sentence to lead with it instead.
+Strip bold from most phrases. Maximum one bolded phrase per major section, ideally none. If something is important enough to bold, restructure the sentence to lead with it instead.
 
 ### Emoji in headers
 
@@ -82,7 +82,7 @@ Remove or rewrite these:
 - "Here's what's interesting" / "Here's what caught my eye" → let the content signal its own importance. If you need a lead-in, make it specific: "The revenue number matters because..."
 - "In conclusion" / "In summary" / "To summarise" → your conclusion should be obvious without the label
 - "At the end of the day" → cut
-- "That said" / "That being said" → cut or use "but," "yet," or "however" — don't overuse any one of them
+- "That said" / "That being said" → cut, or use "but," "yet," or "however" (don't overuse any one of them)
 
 ---
 
@@ -135,14 +135,14 @@ Remove entirely from published prose:
 
 Use these to prioritise fixes when time is limited.
 
-### P0 — credibility killers (fix immediately)
+### P0: credibility killers (fix immediately)
 
 - Cutoff disclaimers: "As of my last update," "I don't have access to real-time data"
 - Chatbot artefacts: "I hope this helps!", "Great question!"
 - Vague attributions without named sources: "Experts believe"
 - Significance inflation on routine events: "a watershed moment for the industry"
 
-### P1 — obvious AI smell (fix before publishing)
+### P1: obvious AI smell (fix before publishing)
 
 - Tier 1 word violations (delve, leverage, robust, seamless, etc.)
 - Template phrases and slot-fill constructions
@@ -151,7 +151,7 @@ Use these to prioritise fixes when time is limited.
 - Bold overuse
 - Em dash frequency above 1 per 1,000 words
 
-### P2 — stylistic polish (fix when time allows)
+### P2: stylistic polish (fix when time allows)
 
 - Generic conclusions ("The future looks bright", "Only time will tell")
 - Compulsive rule of three

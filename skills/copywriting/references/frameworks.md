@@ -25,7 +25,7 @@ Most product copy starts with **What** (the product) or **How** (the mechanism).
 | Layer | Question it answers | Example |
 |-------|---------------------|---------|
 | Why | Why does this matter to the user? | "Most teams lose hours chasing stale data across tabs." |
-| How | How does the product address it? | "StrataSync keeps every client in sync — automatically." |
+| How | How does the product address it? | "StrataSync keeps every client in sync, automatically." |
 | What | What is the product? | "A real-time data layer for React apps." |
 
 **Correct order:** Why → How → What.
@@ -34,7 +34,7 @@ Most product copy starts with **What** (the product) or **How** (the mechanism).
 > "StrataSync is a real-time data sync engine for React apps. It uses WebSocket connections to keep your data current. Never deal with stale dashboards again."
 
 **After (Why first):**
-> "Stale dashboards kill trust. StrataSync keeps every client in sync automatically — no polling, no refresh buttons."
+> "Stale dashboards kill trust. StrataSync keeps every client in sync automatically. No polling, no refresh buttons."
 
 **Common mistake:** Leading with What ("StrataSync is a real-time data sync engine for...") buries the user's motivation.
 
@@ -49,19 +49,19 @@ Identify the pain, amplify the consequences of ignoring it, then present the sol
 **Best for:** Problem-aware audiences. Works well in long-form landing pages, email, and ad copy.
 
 **Template:**
-1. **Problem** — name the pain the user recognises.
-2. **Agitate** — make the consequences feel real and urgent.
-3. **Solution** — show how the product resolves it cleanly.
+1. **Problem.** Name the pain the user recognises.
+2. **Agitate.** Make the consequences feel real and urgent.
+3. **Solution.** Show how the product resolves it cleanly.
 
 **Example (developer tool):**
 > **Problem:** Your API keys are scattered across .env files, CI configs, and Slack messages.
-> **Agitate:** One leaked key can bring down production — and you won't know until a customer calls.
+> **Agitate:** One leaked key can bring down production, and you won't know until a customer calls.
 > **Solution:** Vault centralises every secret with per-environment rotation and zero-config CI integration.
 
 **Example (SaaS):**
 > **Problem:** Your team is running three different project trackers.
 > **Agitate:** Work gets duplicated. Priorities drift. Nobody knows what "done" actually means.
-> **Solution:** Grove gives every team one source of truth — set up in 10 minutes.
+> **Solution:** Grove gives every team one source of truth, set up in 10 minutes.
 
 **Flag:** No flag. PAS is a structural choice, not an error pattern.
 
@@ -71,24 +71,24 @@ Identify the pain, amplify the consequences of ignoring it, then present the sol
 
 A sequential funnel that moves a cold reader from awareness to click. Each stage must earn the next.
 
-**Best for:** Cold traffic — ads, cold email, splash pages where the reader has no prior context.
+**Best for:** Cold traffic (ads, cold email, splash pages where the reader has no prior context).
 
 **Template:**
-1. **Attention** — interrupt the scroll with a bold claim, question, or specific fact.
-2. **Interest** — explain why this is relevant to *them* specifically.
-3. **Desire** — show the outcome they want; use social proof or concrete results.
-4. **Action** — a single, clear CTA that matches the desire just created.
+1. **Attention.** Interrupt the scroll with a bold claim, question, or specific fact.
+2. **Interest.** Explain why this is relevant to *them* specifically.
+3. **Desire.** Show the outcome they want; use social proof or concrete results.
+4. **Action.** A single, clear CTA that matches the desire just created.
 
 **Example (B2B SaaS):**
 > **Attention:** "73% of SaaS churn happens before users hit their first 'aha' moment."
 > **Interest:** "If your onboarding takes more than one session, you're already losing."
-> **Desire:** "Teams using Onramp reduce time-to-value by 40% — measured from signup to first export."
+> **Desire:** "Teams using Onramp reduce time-to-value by 40%, measured from signup to first export."
 > **Action:** "See your onboarding score free →"
 
 **Example (consumer app):**
 > **Attention:** "Your photos are one hard drive failure away from gone."
 > **Interest:** "Insurance won't replace them. Neither will a new laptop."
-> **Desire:** "Lumen backs up everything in the background — no app to open, no quota to manage."
+> **Desire:** "Lumen backs up everything in the background. No app to open, no quota to manage."
 > **Action:** "Start your free backup →"
 
 **Flag:** No flag. AIDA is a structural choice. Flag individual components using [WHAT-NOT-WHY], [TELL-NOT-SHOW], or [WEAK-CTA] as appropriate.
@@ -117,7 +117,7 @@ The customer is the hero of the story. The product is the guide. The guide's job
 > "We built Relayer after years of fighting broken CI pipelines. Our team is obsessed with developer experience."
 
 **After (customer as hero):**
-> "You shouldn't have to babysit your pipeline. Relayer watches it for you — so you can ship and move on."
+> "You shouldn't have to babysit your pipeline. Relayer watches it for you, so you can ship and move on."
 
 **Flag:** `[WHAT-NOT-WHY]` when the product, not the customer, is centred.
 
@@ -128,9 +128,9 @@ The customer is the hero of the story. The product is the guide. The guide's job
 Paint the current painful state, show the desirable future state, then explain how the product gets them there.
 
 **Template:**
-1. **Before** — describe the frustration or friction the user recognises right now.
-2. **After** — describe the world as they want it to be.
-3. **Bridge** — explain how the product creates that transition.
+1. **Before.** Describe the frustration or friction the user recognises right now.
+2. **After.** Describe the world as they want it to be.
+3. **Bridge.** Explain how the product creates that transition.
 
 **Example (analytics tool):**
 > **Before:** You spend two hours every Monday pulling reports from four different tools before you can answer one question.
@@ -140,7 +140,7 @@ Paint the current painful state, show the desirable future state, then explain h
 **Example (writing tool):**
 > **Before:** You open a blank doc, write a paragraph, delete it, and close the tab.
 > **After:** You finish a first draft in the same session you started it.
-> **Bridge:** Draft gives you structure before you start — so the thinking is done before the typing begins.
+> **Bridge:** Draft gives you structure before you start, so the thinking is done before the typing begins.
 
 **When to use over PAS:** BAB is warmer and more aspirational. PAS is more confrontational. Use BAB when the audience is motivated but stuck; use PAS when they're not yet urgent.
 
@@ -155,10 +155,10 @@ Adjectives claim. Specifics prove. Every unearned adjective is a missed opportun
 | Tell | Show |
 |------|------|
 | "Powerful analytics" | "See which pages kill signups before users leave" |
-| "Easy to set up" | "Live in 5 minutes — no config files" |
+| "Easy to set up" | "Live in 5 minutes, no config files" |
 | "Seamless sync" | "Edit on mobile, see it on desktop instantly" |
 | "Beautifully designed" | "Built to feel native on every device" |
-| "Robust infrastructure" | "99.97% uptime across 3 regions — verified by StatusPage" |
+| "Robust infrastructure" | "99.97% uptime across 3 regions, verified by StatusPage" |
 
 **Banned adjectives** (flag every instance in hero copy):
 - powerful, simple, easy, seamless, beautiful, robust, flexible, scalable, smart, intuitive, modern, next-generation, cutting-edge, best-in-class
@@ -202,7 +202,7 @@ Every sentence must earn its space. If removing it changes nothing, cut it.
 
 **Tests:**
 - Remove the sentence. Does the meaning change? If not, cut it.
-- Does the opener add anything? "In order to", "It is important to note that", "The fact is" — cut the opener.
+- Does the opener add anything? "In order to", "It is important to note that", "The fact is": cut the opener.
 - Is the sentence over 25 words? Break it at the strongest claim.
 - Does this sentence restate the headline? Cut it.
 
@@ -210,7 +210,7 @@ Every sentence must earn its space. If removing it changes nothing, cut it.
 
 | Pattern | Why it fails |
 |---------|-------------|
-| "We believe that..." | Softens the claim — just make the claim |
+| "We believe that..." | Softens the claim; just make the claim |
 | "X is a Y that helps you Z" | Just say "X does Z" |
 | "Whether you're a [A] or a [B]..." | Avoidable hedge that weakens positioning |
 | "Our mission is to..." | Founder voice, not user benefit |
@@ -238,10 +238,10 @@ CTAs fail when they describe the action, not the outcome. A CTA must answer: wha
 
 | Weak CTA | Why it fails | Strong CTA |
 |----------|-------------|------------|
-| "Get started" | Vague — started on what? | "Start syncing free" |
+| "Get started" | Vague; started on what? | "Start syncing free" |
 | "Learn more" | Passive, no commitment signal | "See how it works" |
 | "Sign up" | Describes the form, not the value | "Create your workspace" |
-| "Try it now" | No qualifier, implies risk | "Try it free — no card required" |
+| "Try it now" | No qualifier, implies risk | "Try it free, no card required" |
 | "Submit" | Bureaucratic | "Send my request" |
 | "Click here" | Never acceptable | "Download the guide" |
 

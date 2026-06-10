@@ -1,6 +1,6 @@
 # Seven-Sweep Editing Framework
 
-A structured audit process for existing copy. Run each sweep in order — do not combine them. Finishing one sweep before starting the next forces focused attention and prevents the instinct to fix everything at once.
+A structured audit process for existing copy. Run each sweep in order; do not combine them. Finishing one sweep before starting the next forces focused attention and prevents the instinct to fix everything at once.
 
 ## Table of contents
 
@@ -19,7 +19,7 @@ A structured audit process for existing copy. Run each sweep in order — do not
 
 ## How to use this framework
 
-1. Work through sweeps in sequence — each one builds on the previous.
+1. Work through sweeps in sequence; each one builds on the previous.
 2. Flag issues using the inline tags defined in each sweep (e.g. `[VAGUE]`, `[NO-PROOF]`).
 3. Complete all flagging before making fixes. This prevents scope creep mid-sweep.
 4. After all seven sweeps, resolve every open flag before publishing.
@@ -38,12 +38,12 @@ A structured audit process for existing copy. Run each sweep in order — do not
 - Missing context that the writer assumed the reader has
 
 **Flags to insert:**
-- `[JARGON]` — term that needs definition or replacement
-- `[VAGUE]` — statement that could mean multiple things
+- `[JARGON]`: term that needs definition or replacement
+- `[VAGUE]`: statement that could mean multiple things
 
 **Example fix:**
 - Before: "It integrates with the tools your team already uses to streamline it."
-- After: "The app connects to Slack, Notion, and Google Drive — no new workflows required."
+- After: "The app connects to Slack, Notion, and Google Drive. No new workflows required."
 
 ---
 
@@ -57,7 +57,7 @@ A structured audit process for existing copy. Run each sweep in order — do not
 - Tense changes without narrative reason
 - Mismatched word register (technical in one sentence, colloquial in the next)
 
-**Action:** Identify the dominant voice first, then standardise everything to it. Do not average out — pick one and commit.
+**Action:** Identify the dominant voice first, then standardise everything to it. Do not average out; pick one and commit.
 
 **Common mismatches:**
 - Marketing page sounds enthusiastic; product description sounds like a manual
@@ -73,15 +73,15 @@ A structured audit process for existing copy. Run each sweep in order — do not
 **The test:** Read each sentence and ask "so what?" aloud. If you cannot answer in one sentence, the copy has not done its job.
 
 **Flags to insert:**
-- `[DEAD-WEIGHT]` — sentence that adds no value for the reader
-- `[FEATURE-NOT-BENEFIT]` — statement describes what the product does, not what it does for the reader
+- `[DEAD-WEIGHT]`: sentence that adds no value for the reader
+- `[FEATURE-NOT-BENEFIT]`: statement describes what the product does, not what it does for the reader
 
 **Examples:**
 - Feature: "Automatic daily backups." → `[FEATURE-NOT-BENEFIT]`
 - Benefit: "Your data is safe even if your laptop dies tonight."
 - Dead weight: "We are committed to excellence in everything we do." → `[DEAD-WEIGHT]`
 
-**Note:** Not every sentence needs to be a direct benefit statement. Supporting sentences (context, transitions, proof) earn their place too — but flag anything that neither informs nor motivates.
+**Note:** Not every sentence needs to be a direct benefit statement. Supporting sentences (context, transitions, proof) earn their place too, but flag anything that neither informs nor motivates.
 
 ---
 
@@ -98,12 +98,12 @@ A structured audit process for existing copy. Run each sweep in order — do not
 
 **Flag:** `[NO-PROOF]` on any claim that makes a strong assertion without support.
 
-**Placeholder to insert:** `[PLACEHOLDER: add proof — stat / testimonial / example]`
+**Placeholder to insert:** `[PLACEHOLDER: add proof: stat / testimonial / example]`
 
 **Examples of claims that need proof:**
-- "Trusted by thousands of teams worldwide." → `[NO-PROOF]` → `[PLACEHOLDER: add proof — exact customer count or named logos]`
-- "The fastest solution on the market." → `[NO-PROOF]` → `[PLACEHOLDER: add proof — benchmark stat or third-party comparison]`
-- "Our customers see results immediately." → `[NO-PROOF]` → `[PLACEHOLDER: add proof — testimonial with timeframe]`
+- "Trusted by thousands of teams worldwide." → `[NO-PROOF]` → `[PLACEHOLDER: add proof: exact customer count or named logos]`
+- "The fastest solution on the market." → `[NO-PROOF]` → `[PLACEHOLDER: add proof: benchmark stat or third-party comparison]`
+- "Our customers see results immediately." → `[NO-PROOF]` → `[PLACEHOLDER: add proof: testimonial with timeframe]`
 
 ---
 
@@ -138,12 +138,12 @@ A structured audit process for existing copy. Run each sweep in order — do not
 - Pain points that are named and acknowledged (not just implied)
 - Aspirational outcomes that let the reader picture success
 - Sensory or visceral language that makes abstract benefits feel real
-- Emotional pacing — does the copy move from problem to possibility?
+- Emotional pacing: does the copy move from problem to possibility?
 
 **Guidance:**
 - Do not manufacture emotion. Forced enthusiasm reads as inauthentic.
 - Mirror the reader's actual emotional state at the point they encounter this copy.
-- Pain acknowledgment often does more work than benefit statements — readers feel understood before they feel sold to.
+- Pain acknowledgment often does more work than benefit statements: readers feel understood before they feel sold to.
 
 **Questions to ask on each section:**
 - What is the reader feeling right now, before they read this?
@@ -164,14 +164,14 @@ A structured audit process for existing copy. Run each sweep in order — do not
 **Check for:**
 - Objections that have not been addressed before the CTA
 - Absence of trust signals (security badges, customer logos, review counts)
-- Unclear next steps — what exactly happens when I click?
+- Unclear next steps: what exactly happens when I click?
 - Missing risk reversal: free trial, money-back guarantee, no-credit-card-required, cancel-anytime
 
 **Flag:** `[WEAK-CTA]` on any CTA that stands alone without a qualifier or supporting trust signal.
 
 **Examples:**
 - Weak: "Sign up now."
-- Stronger: "Start free — no credit card required."
+- Stronger: "Start free. No credit card required."
 - Stronger still: "Start your 14-day free trial. Cancel anytime. No card needed."
 
 **CTA qualifier checklist:**
@@ -203,7 +203,7 @@ Apply these at the end of all seven sweeps as a final line-level pass.
 
 ### Word level
 
-Cut these words on sight — they almost never add meaning:
+Cut these words on sight; they almost never add meaning:
 - "very", "really", "truly", "highly"
 - "just", "simply", "easily"
 - "actually", "basically", "essentially"
@@ -215,7 +215,7 @@ Cut these words on sight — they almost never add meaning:
 
 - One idea per sentence.
 - Maximum approximately 25 words for web and marketing copy.
-- Front-load the key claim — put the most important word or phrase early.
+- Front-load the key claim: put the most important word or phrase early.
 - Avoid opening with "There is", "It is", or "We believe".
 
 **Test:** Read each sentence aloud. If you run out of breath or lose the thread, split the sentence.
