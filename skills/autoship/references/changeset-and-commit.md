@@ -26,7 +26,7 @@ Prefer non-interactive changeset creation for agent mode:
 # Interactive (TTY required)
 npm run changeset
 
-# Non-interactive — write the changeset file directly
+# Non-interactive: write the changeset file directly
 cat > .changeset/<short-id>.md << 'EOF'
 ---
 "<package-name>": patch
@@ -68,20 +68,22 @@ cat package.json | jq '.scripts | keys[]' -r
 
 ### Gate Order
 
-1. **Lint** -- `npm run lint` or the project's lint script
-   - Auto-fix: `npm run lint -- --fix` or `npx eslint --fix .`
-2. **Type-check** -- `npm run typecheck` or `npx tsc --noEmit`
-   - Fix type errors manually if they occur
-3. **Tests** -- `npm test` or `npm run test`
-   - Fix failing tests; do not skip them
-4. **Format** -- `npm run format` or `npx prettier --write .`
-   - Auto-fix: formatters are safe to run automatically
+1. **Lint:** `npm run lint` or the project's lint script
+   - Auto-fix: `npm run lint -- --fix` or `npx eslint --fix <changed-paths>`
+2. **Type-check:** `npm run typecheck` or `npx tsc --noEmit`
+   - Fix type errors manually; there is no safe auto-fixer
+3. **Tests:** `npm test` or `npm run test`
+   - Fix failing tests; do not skip or delete them to get green
+4. **Format:** `npm run format` or `npx prettier --write <changed-paths>`
+   - Scope to changed files; project-wide formatting reformats files outside the change
+
+After any auto-fixer runs, check `git status` and revert files it touched outside your change (`git restore <path>`) before continuing.
 
 ### Retry Logic
 
-- Retry each gate up to 3 times after applying fixes.
-- If a gate still fails after 3 attempts, stop and report to the user.
-- Re-run all gates from the beginning after any code change to ensure no regressions.
+- Retry each gate up to 5 fix iterations; report the remaining error count each pass.
+- If a gate still fails after 5 iterations, stop and report to the user.
+- Re-run all gates from the beginning after any code change to catch regressions one fix introduces in an earlier gate.
 
 ## What Happens Next (CI Handles Versioning)
 
@@ -94,3 +96,5 @@ The local job ends at "commit + push the changeset file".
 ## Commit and Push
 
 Use `chore: add <type> changeset for <package>` as the commit message convention.
+
+Stage explicit paths only (`git add <paths>`, never `git add -A`): pre-commit hooks can emit stray artifacts (e.g. a root `schema.gql`) that broad staging silently commits into the release.

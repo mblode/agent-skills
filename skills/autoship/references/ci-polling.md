@@ -13,7 +13,7 @@
 
 ## Why Monitor, not /loop
 
-`Monitor` runs a small script in the background and feeds each output line back to the agent as it arrives. The agent reacts mid-conversation — no scheduled re-prompt, no fixed interval cadence, no extra context per poll. For CI watching this is strictly better than `/loop`:
+`Monitor` runs a small script in the background and feeds each output line back to the agent as it arrives. The agent reacts mid-conversation: no scheduled re-prompt, no fixed interval cadence, no extra context per poll. For CI watching this is strictly better than `/loop`:
 
 - The watch script controls the cadence (one `sleep` line) instead of CronCreate firing a whole prompt.
 - The agent only sees output when state actually changes, not on every tick.
@@ -33,11 +33,11 @@ while true; do
     --json status,conclusion,workflowName,databaseId \
     --jq 'map("\(.databaseId)|\(.workflowName)|\(.status)|\(.conclusion // "")") | .[]')
   if [ "$CUR" != "$LAST" ]; then echo "---"; echo "$CUR"; LAST="$CUR"; fi
-  # No runs registered yet — keep waiting
+  # No runs registered yet: keep waiting
   [ -z "$CUR" ] && { sleep 30; continue; }
-  # Any run still in flight — keep waiting
+  # Any run still in flight: keep waiting
   echo "$CUR" | grep -qv '|completed|' && { sleep 30; continue; }
-  # All runs completed — classify
+  # All runs completed: classify
   if echo "$CUR" | grep -qv '|success$'; then
     echo "TERMINAL: failure"
   else
@@ -93,7 +93,7 @@ done
 
 Pipe (`|`) is used as the field delimiter instead of tab so the case patterns can anchor on the end of the string and avoid the trailing-delimiter trap. Any conclusion other than `success` is treated as a failure so non-standard terminal states (`neutral`, `skipped`, `action_required`, etc.) are surfaced rather than silently looped.
 
-Do not auto-retry on publish failure — these are real (auth, OIDC, tag conflict).
+Do not auto-retry on publish failure; these are real (auth, OIDC, tag conflict).
 
 ## Failure Diagnosis
 
@@ -128,7 +128,7 @@ Changesets repos typically run `npx changeset status --since origin/<baseBranch>
 
 Common failure modes:
 
-- **"no changeset found"** — the PR touches code but adds no changeset. Fix: run Step 1 of autoship to add one.
-- **"changeset consumed"** — a local `npx changeset version` was run; the changeset file is gone and `package.json` version has already been bumped. Fix: revert the version bump + `CHANGELOG.md` edit, re-add the changeset file, force-push. Do NOT retry CI — the state is broken at the commit level.
+- **"no changeset found":** the PR touches code but adds no changeset. Fix: run Step 1 of autoship to add one.
+- **"changeset consumed":** a local `npx changeset version` was run; the changeset file is gone and the `package.json` version has already been bumped. Fix: revert the version bump and `CHANGELOG.md` edit, re-add the changeset file, force-push. Do NOT retry CI; the state is broken at the commit level.
 
 This check is what you read first when a release PR fails CI.

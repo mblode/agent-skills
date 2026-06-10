@@ -1,6 +1,6 @@
 # Version Packages PR and npm Publish
 
-> **Companion reference:** this file points to reusable Monitor snippets in `references/ci-polling.md` (sections "Waiting for the Version Packages PR to Appear" and "Watching the Publish Workflow"). Load `ci-polling.md` alongside this file whenever you work through autoship Steps 4 or 5.
+> **Companion reference:** the reusable Monitor snippets for this file live in `references/ci-polling.md` (sections "Waiting for the Version Packages PR to Appear" and "Watching the Publish Workflow"). SKILL.md Steps 4 and 5 load both files together, so they should already be in context.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ The action has two modes, chosen automatically by state on `main`:
 1. **Pending changesets present** → it runs `changeset version` internally, then opens or updates a PR titled "Version Packages" on branch `changeset-release/main` containing the version bump and `CHANGELOG.md` updates. No publish yet.
 2. **No pending changesets (Version Packages PR just merged)** → it runs the `publish:` script, which calls `changeset publish` to push tags and publish to npm.
 
-So the SAME workflow run that opens the Version Packages PR does not publish; a second run of the SAME workflow, triggered by merging that PR, publishes. When monitoring, you are watching two successive runs of one workflow — not two different workflows.
+So the SAME workflow run that opens the Version Packages PR does not publish; a second run of the SAME workflow, triggered by merging that PR, publishes. When monitoring, you are watching two successive runs of one workflow, not two different workflows.
 
 Reference best-practice `release.yml` shape (OIDC trusted publishing):
 
@@ -52,8 +52,8 @@ The `release` script is typically `changeset publish` (optionally preceded by a 
 ### With `gh` CLI
 
 ```bash
-# Search by title
-gh pr list --search "Version Packages" --state open --json number,title,headBranch,statusCheckRollup
+# Search by title (the JSON field is headRefName; headBranch is not a valid field)
+gh pr list --search "Version Packages" --state open --json number,title,headRefName,statusCheckRollup
 
 # Search by branch pattern
 gh pr list --head changeset-release/main --state open --json number,title,statusCheckRollup
@@ -72,10 +72,10 @@ The changesets bot may take a few minutes. Use the `Monitor` tool to watch for t
 Before merging the Version Packages PR, verify all CI checks pass:
 
 ```bash
-gh pr checks <pr-number> --json name,state,conclusion
+gh pr checks <pr-number> --json name,state,bucket
 ```
 
-All checks must show `state: completed` and `conclusion: success`.
+Every check must report `bucket: pass`. (`gh pr checks` has no `conclusion` field; requesting it errors with "Unknown JSON field". A `bucket` of `pending`, `fail`, `skipping`, or `cancel` blocks the merge.)
 
 If checks are still running, use the `Monitor` tool (see `references/ci-polling.md`) to wait for them to complete.
 
@@ -86,13 +86,13 @@ YELLOW-tier within autoship: invoking the skill is standing consent for the merg
 Preconditions (all must hold):
 
 - PR title is exactly "Version Packages" OR head branch is `changeset-release/main`. Never merge a PR that does not match.
-- All checks on the PR show `state: completed` and `conclusion: success` (verify with `gh pr checks <pr-number> --json name,state,conclusion`).
-- PR is mergeable: `mergeable: MERGEABLE` (not `CONFLICTING` or `UNKNOWN`). If `UNKNOWN`, wait briefly and re-query.
+- Every check on the PR reports `bucket: pass` (verify with `gh pr checks <pr-number> --json name,bucket`).
+- PR is mergeable: `gh pr view <pr-number> --json mergeable` reports `MERGEABLE` (not `CONFLICTING` or `UNKNOWN`). If `UNKNOWN`, wait briefly and re-query.
 
 Announce in one short line, then execute:
 
 ```text
-Merging Version Packages PR #<n> — <package>@<version>
+Merging Version Packages PR #<n>: <package>@<version>
 ```
 
 ```bash
@@ -109,7 +109,7 @@ After merging the Version Packages PR, the push to the default branch triggers t
 
 ### Detecting the Workflow Run
 
-Find the workflow file by inspecting `.github/workflows/` — common names are `release.yml`, `npm-publish.yml`, `publish.yml`. Then:
+Find the workflow file by inspecting `.github/workflows/`; common names are `release.yml`, `npm-publish.yml`, `publish.yml`. Then:
 
 ```bash
 # Replace release.yml with the actual file name
@@ -125,9 +125,9 @@ Start a `Monitor` watch on the release workflow's latest run on `main`. See the 
 
 Terminal conditions:
 
-- **Success:** Workflow completes with `conclusion: success` -- report and stop
-- **Failure:** Workflow completes with `conclusion: failure` -- report with logs and stop
-- Do NOT auto-retry publish failures. These typically indicate real issues (auth, registry, permissions)
+- **Success:** workflow completes with `conclusion: success`. Report and stop.
+- **Failure:** workflow completes with any other conclusion. Report with logs and stop.
+- Do NOT auto-retry publish failures. These typically indicate real issues (npm auth, registry, OIDC/provenance, tag conflict).
 
 ### Verifying the Published Version
 

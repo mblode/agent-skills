@@ -54,7 +54,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 - **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Catches bugs, structural issues, and AI slop before you push; runs whole-codebase security audits on request.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: Creates PRs with short human-sounding descriptions, Linear ID titles, commit restructuring, and reviewer guidance.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Polls for merge conflicts, CI failures, and review comments. Fixes what it can.
-- **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets, compiler fix loops, and CI monitoring.
+- **[autoship](./skills/autoship/SKILL.md)**: End-to-end npm releases with changesets: fix loop, CI watch, Version Packages merge, publish verify.
 
 ### Authoring
 
