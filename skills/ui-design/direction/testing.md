@@ -29,7 +29,7 @@ Prioritised by typical impact on conversion rate:
 | 3 | **Hero image/video** | Sets emotional tone; context-of-use images outperform stock |
 | 4 | **Social proof placement** | Moving proof above the fold or near the CTA can shift conversion significantly |
 | 5 | **Form length** | Every field removed reduces friction; test 3-field vs 5-field |
-| 6 | **Page length** | Short vs long; see `references/cro.md` for the decision matrix |
+| 6 | **Page length** | Short vs long; see `cro.md` for the decision matrix |
 | 7 | **CTA colour/size** | Lower-leverage but easy to test; button size change can yield +90% |
 
 Test high-leverage elements first. Don't optimise button colour when the headline doesn't match the ad.

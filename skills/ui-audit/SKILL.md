@@ -96,4 +96,4 @@ Report findings in this format:
 - `ax-audit`: agentic application patterns and trust design.
 - `typography-audit`: deep typography, covering pairing, OpenType systems, brand and display type.
 - `ui-animation`: motion implementation and review (springs, easing, gestures); apply it when audit findings require motion work.
-- `ui-design`: visual direction, palettes, and design tokens when the fix is "redesign", not "repair".
+- `ui-design`: visual direction and rebuilding the UI when the fix is "redesign", not "repair"; its Responsive and Dark mode modes cover breakpoint repairs and dark-mode contrast work.

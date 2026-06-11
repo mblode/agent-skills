@@ -127,7 +127,7 @@ If deleting 30 percent of the copy improves the page, keep deleting.
 
 ## Conversion strategy
 
-For pages with a conversion goal, load [references/cro.md](references/cro.md) (persuasion, social proof, benchmarks, page length), [references/testing.md](references/testing.md) (experiment planning), and [references/modern.md](references/modern.md) (mobile, speed, personalisation, microcopy). The layout rules below are the track-level decisions; the references cover the psychology and the numbers.
+For pages with a conversion goal, load [cro.md](cro.md) (persuasion, social proof, benchmarks, page length), [testing.md](testing.md) (experiment planning), and [modern.md](modern.md) (mobile, speed, personalisation, microcopy). The layout rules below are the track-level decisions; the references cover the psychology and the numbers.
 
 ### Conversion-aware layout
 
@@ -135,6 +135,6 @@ For pages with a conversion goal, load [references/cro.md](references/cro.md) (p
 - **Strip navigation** on landing pages. Every link that isn't the CTA is a leak.
 - **Every section must earn its place.** Each section either builds confidence, handles an objection, or drives toward the CTA. Sections that just describe the company are page furniture; cut them.
 - **Message match.** The hero headline must echo the promise that brought the reader here (ad, email, referral). If the ad said "Cut your AWS bill in half" and the page opens with "Welcome to CloudSave", the reader bounces.
-- **Proof near every conversion point:** within one scroll of each CTA, with 3-5 logos or one credibility stat above the fold. Placement rules and the proof credibility hierarchy are in [references/cro.md](references/cro.md).
-- **Mobile is a separate design**, not a reflow: above-the-fold CTA kept visible via sticky bar, proof within two scroll-lengths, single-column 16px+ forms. Full rules in [references/modern.md](references/modern.md).
+- **Proof near every conversion point:** within one scroll of each CTA, with 3-5 logos or one credibility stat above the fold. Placement rules and the proof credibility hierarchy are in [cro.md](cro.md).
+- **Mobile is a separate design**, not a reflow: above-the-fold CTA kept visible via sticky bar, proof within two scroll-lengths, single-column 16px+ forms. Full rules in [modern.md](modern.md).
 

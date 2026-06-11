@@ -1,6 +1,6 @@
 # Modern Conversion Techniques
 
-Reference for personalisation, mobile-first conversion, page speed, accessible copy, and microcopy. Load alongside `references/cro.md` when building or auditing marketing pages.
+Reference for personalisation, mobile-first conversion, page speed, accessible copy, and microcopy. Load alongside `cro.md` when building or auditing marketing pages.
 
 ## Table of contents
 

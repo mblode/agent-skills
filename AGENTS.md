@@ -90,6 +90,12 @@ No automated test suite. See smoke-test above.
 - PRs: brief summary, list of skills changed/added, README updates (especially when adding a new skill).
 - When adding reference files, note how they are used by the corresponding `SKILL.md`.
 
+## ui.sh-sourced skills
+
+- `ui-design` (Build mode guidelines, `ideas.md`, `markup-from-image.md`, `add-dark-mode.md`, `dark-mode-image.md`, `make-responsive.md`, `guidelines/`) and `componentize` (`references/canonicalize-tailwind.md`) contain content pulled from the ui.sh skills API (`npx @uidotsh/install` with the account token, or `GET https://ui.sh/api/skills/<name>`). Published here with permission.
+- Upstream ships nine separate skills; this repo consolidates them into ui-design (six modes) and componentize. A re-pull is a manual merge: it would resurface upstream's split structure, short descriptions, and em dashes, so diff carefully and re-apply the local curation (mode dispatch, IS/IS-NOT blocks, trigger descriptions, dash stripping).
+- Never commit the ui.sh token. It lives only in the maintainer's environment.
+
 ## Maintenance
 
 - When adding or removing a skill, update the `README.md` skill count and add/remove the bullet under the matching category heading.
