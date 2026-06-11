@@ -73,10 +73,6 @@ Rules:
 
 Options mode follows [ideas.md](./ideas.md); Scaffold mode follows [markup-from-image.md](./markup-from-image.md); Dark mode follows [add-dark-mode.md](./add-dark-mode.md); Responsive follows [make-responsive.md](./make-responsive.md); Componentize follows [componentize.md](./componentize.md).
 
-## Progress Updates
-
-Keep the user informed so longer runs do not look stuck: a one-line status update before each major phase, concrete and lightweight.
-
 ## Quality Bar
 
 Calibrate taste against gold-standard product and UI design. When making judgment calls the guidelines leave open, ask what these teams would ship, and channel the craft, not the trade dress:
@@ -96,7 +92,6 @@ A design that would look out of place beside these products is not done.
 
 - Check desktop and mobile layouts.
 - Confirm every applicable guideline or track file was loaded and followed.
-- Run relevant formatting, lint, typecheck, or tests when available.
 
 ## Gotchas
 

@@ -4,47 +4,11 @@ Use this when the user wants to use the ui.sh picker to see and pick between mul
 
 ## Contents
 
-- [Activation](#activation)
-- [Load First](#load-first)
-- [Progress Updates](#progress-updates)
 - [Start](#start)
 - [Workflow](#workflow)
 - [Verify](#verify)
 - [Markup Patterns](#markup-patterns)
 - [Guardrails](#guardrails)
-
-## Activation
-
-### Use For
-
-- adding ui.sh picker scaffolding to compare multiple UI options
-- annotating option groups with `data-uidotsh-pick` and `data-uidotsh-option`
-- injecting, verifying, or removing the ui.sh picker toolbar
-- asking the user to choose between visible picker options
-- cleaning up unselected options and picker-only artifacts
-
-### Do Not Use For
-
-- creating design concepts or visual directions only, with no implementations to compare (use Direction mode in `SKILL.md`)
-- applying design guidelines (use Build mode in `SKILL.md`)
-- one definitive implementation without picker comparison (use Build mode in `SKILL.md`)
-- non-UI variation work, such as purely logic or data work
-
-## Load First
-
-- No companion files are required.
-
-## Progress Updates
-
-Suggested phase updates (one line each; on larger codebases post another brief update when a step runs long):
-
-- Cleaning prior picker scaffolding from earlier rounds.
-- Scanning current UI and identifying picker decision points.
-- Annotating option groups in existing files.
-- Injecting/verifying the picker toolbar.
-- Preparing selection question(s).
-- Finalizing selected variant with partial or full cleanup.
-- Running validation checks.
 
 ## Start
 
@@ -118,7 +82,6 @@ Suggested phase updates (one line each; on larger codebases post another brief u
 - Check desktop and mobile layouts.
 - Ensure no broken semantics or duplicate `id` attributes across surviving markup.
 - Ensure no old picker artifacts remain before ending the run unless intentionally preparing a fresh new comparison immediately.
-- Run relevant lint, typecheck, or tests when available.
 
 ## Markup Patterns
 

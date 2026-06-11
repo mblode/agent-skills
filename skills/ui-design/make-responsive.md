@@ -2,24 +2,8 @@
 
 Use this when the user wants an existing desktop-oriented UI to work well across mobile, tablet, and desktop breakpoints.
 
-## Activation
-
-### Use For
-
-- making an existing UI responsive
-- fixing mobile, tablet, or breakpoint-specific layout issues
-- adapting a desktop-only design to smaller screens
-- resolving overflow, wrapping, clipping, or cramped layout problems on narrow viewports
-
-### Do Not Use For
-
-- brand-new design or layout work (use Build mode in `SKILL.md`)
-- code structure or component extraction only (use Componentize mode in `SKILL.md`)
-- dark mode or standalone image adaptation only (use the Dark mode mode in `SKILL.md`)
-
 ## Load First
 
-- No companion files are required.
 - Responsive design guidance is inline below.
 
 ## Workflow
@@ -76,4 +60,3 @@ Use these rule groups as an audit order: page shell first, navigation second, th
 - Confirm the UI works at narrow, medium, and desktop widths.
 - Confirm mobile navigation exists and desktop navigation is hidden below `lg`.
 - Confirm tables, tabs, pagination, form controls, stat grids, and divider-separated grids behave correctly on narrow screens.
-- Run relevant formatting, lint, typecheck, or tests when available.

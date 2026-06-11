@@ -93,10 +93,6 @@ Default to Linear-style restraint: calm surface hierarchy, strong typography and
 - Keep motion subtle and functional.
 - Follow `ui-animation` guidelines.
 
-## Interaction baseline
-
-- Use `ui-audit` for UX/a11y polish and QA.
-
 ## Utility copy
 
 When the work is a dashboard, app surface, admin tool, or operational workspace, default to utility copy over marketing copy.

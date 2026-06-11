@@ -21,13 +21,6 @@ Shared calibration layer for both tracks. Goal: make the UI look human-designed,
 
 - Linear, Stripe, Notion, Raycast, ElevenLabs, Zed.
 
-## Copy to learn (not to ship)
-
-- Find a tasteful UI.
-- Replicate it precisely (layout, type, spacing, motion).
-- Inspect code and measure values.
-- Iterate until it matches; then adapt to your context.
-
 ## Upgrade choices
 
 - Icon sets: Phosphor, Heroicons, Tabler.
@@ -39,10 +32,6 @@ Shared calibration layer for both tracks. Goal: make the UI look human-designed,
 - Match box-shadows to references.
 - Dark-mode aware SVG favicon.
 - Intentional hover/active states and loading/error/empty states.
-
-## Craft baseline
-
-- Full keyboard support, visible focus, hit targets >= 24px (>= 44px mobile), accessible forms. See `ui-audit` for the complete interaction and accessibility standards.
 
 ## Reject these failures
 

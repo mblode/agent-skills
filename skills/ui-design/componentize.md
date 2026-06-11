@@ -2,24 +2,6 @@
 
 Use this when the user wants to componentize, extract, or organize UI code into reusable components, or clean up Tailwind class lists.
 
-## Activation
-
-### Use For
-
-- componentizing an existing page, section, or prototype
-- extracting a page or section into components
-- extracting repeated UI into reusable components
-- reducing duplication in UI code
-- turning a draft implementation into production-ready code structure
-- splitting a large UI file into smaller, focused modules
-- sorting, normalizing, deduplicating, or resolving conflicting Tailwind classes (standalone or as a finishing pass)
-
-### Do Not Use For
-
-- brand-new design or layout work (use Build mode in `SKILL.md`)
-- visual polish without code structure changes (use Build mode in `SKILL.md`)
-- responsive behavior or dark mode only (use the Responsive or Dark mode modes in `SKILL.md`)
-
 ## Load First
 
 - For Tailwind class cleanup (standalone or finishing pass), load [canonicalize-tailwind.md](./canonicalize-tailwind.md) for the `npx @tailwindcss/cli canonicalize` workflow and command reference.
@@ -46,5 +28,4 @@ Use this when the user wants to componentize, extract, or organize UI code into 
 
 ## Verify
 
-- Run relevant formatting, lint, typecheck, or tests when available.
 - Confirm extracted components preserve the original UI and behavior.

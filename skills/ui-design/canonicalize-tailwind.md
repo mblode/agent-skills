@@ -2,32 +2,6 @@
 
 Use this when the user wants to clean up, canonicalize, or normalize Tailwind class lists.
 
-## Activation
-
-### Use For
-
-- cleaning up Tailwind classes
-- canonicalizing Tailwind utility lists
-- sorting, normalizing, or deduplicating Tailwind classes
-- resolving conflicting Tailwind utilities in class strings
-
-### Do Not Use For
-
-- new design or layout work (use Build mode in `SKILL.md`)
-- component extraction or code organization (covered by the main Componentize workflow in [componentize.md](./componentize.md))
-- visual changes rather than class-list cleanup (use Build mode in `SKILL.md`)
-
-## Load First
-
-- No companion modules are required.
-
-## Progress Updates
-
-Keep the user informed so longer runs do not look stuck.
-
-- One-line status update before each major phase.
-- Concrete and lightweight: what you are doing now, not verbose logs.
-
 ## Workflow
 
 1. Identify Tailwind class strings in the requested files or components.
@@ -78,4 +52,3 @@ Keep the user informed so longer runs do not look stuck.
 ## Verify
 
 - Confirm class strings still express the same visual intent after canonicalization.
-- Run relevant lint, typecheck, or formatting commands when available.

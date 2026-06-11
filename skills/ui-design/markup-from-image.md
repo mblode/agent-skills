@@ -2,26 +2,6 @@
 
 Use this when the user wants to turn a UI image into semantic, unstyled HTML or JSX markup as a scaffold before styling.
 
-## Activation
-
-### Use For
-
-- converting a screenshot, Figma export, mockup, wireframe, or UI image into semantic markup
-- generating plain HTML or JSX structure from an attached UI image
-- scaffolding unstyled markup for a design that will be styled later
-- inserting unstyled markup for a UI image into an existing file
-
-### Do Not Use For
-
-- building or styling a finished UI from an image (use Build mode in `SKILL.md` after scaffolding)
-- componentizing, refactoring, or extracting existing UI code (use Componentize mode in `SKILL.md`)
-- recreating an image as a raster or vector asset
-- extracting text or data from non-UI images only
-
-## Load First
-
-- No companion modules are required.
-
 ## Workflow
 
 1. Inspect the source image and prompt for intended output format, target file, insertion location, and source scope (`full page`, `page section`, `component`, or `embedded media`).
@@ -73,4 +53,3 @@ Use this when the user wants to turn a UI image into semantic, unstyled HTML or 
 - Confirm embedded app/interface screenshots are represented as placeholder media, not recreated as nested controls, tables, charts, browser chrome, or device UI markup.
 - Confirm the markup is one contiguous block and no new components, helpers, data arrays, or mapping abstractions were introduced.
 - Confirm the markup was inserted at the requested location when editing files.
-- Run relevant formatting, lint, typecheck, or tests when available.

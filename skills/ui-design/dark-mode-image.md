@@ -4,32 +4,9 @@ Use this when the user wants to adapt a standalone source image into a dark-mode
 
 > **Model requirement:** the image-generation steps below need the `imagegen` skill (Codex, gpt-image-2). In agents without it (such as Claude Code), identify the images needing dark variants and list them with the target background colors, then ask the user to generate them or source dark versions manually. Never substitute CSS filter workarounds.
 
-## Activation
-
-### Use For
-
-- creating a dark-mode version of an image, illustration, screenshot, photo, product mockup, decorative background, or texture
-- adapting an existing raster image so it presents correctly on a dark background
-- generating a dark-mode image variant for use in a dark-mode UI
-
-### Do Not Use For
-
-- adding dark mode to a page, section, component, or site (use `add-dark-mode`)
-- SVG-only assets, which are code changes
-- general image styling in a UI without dark-mode conversion
-
-When the main `add-dark-mode` workflow identifies raster images that need dark-mode variants, use this reference for that image-generation work. It is the required handoff point between dark-mode UI work and raster image generation.
-
 ## Load First
 
 - Before image generation or editing, load and follow the `imagegen` skill.
-
-## Progress Updates
-
-Keep the user informed so longer runs do not look stuck.
-
-- One-line status update before each major phase.
-- Concrete and lightweight: what you are doing now, not verbose logs.
 
 ## Workflow
 
