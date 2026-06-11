@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
-26 skills for shipping better software.
+25 skills for shipping better software.
 
 ## Quickstart
 
@@ -27,8 +27,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Design
 
-- **[ui-design](./skills/ui-design/SKILL.md)**: Designs and builds UI end to end: visual direction (palettes, type scales, tokens, CRO, brand kits), Tailwind implementation with the ui.sh design guidelines, multi-variant browser picker, screenshot-to-markup scaffolding, and dark-mode or responsive retrofits.
-- **[componentize](./skills/componentize/SKILL.md)**: Refactors UI into reusable components and canonicalizes Tailwind class lists.
+- **[ui-design](./skills/ui-design/SKILL.md)**: Designs and builds UI end to end: visual direction (palettes, type scales, tokens, CRO, brand kits), Tailwind implementation with the ui.sh design guidelines, multi-variant browser picker, screenshot-to-markup scaffolding, dark-mode and responsive retrofits, and componentization with Tailwind class cleanup.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Designs, implements, and reviews UI motion: springs, gestures, easing, CSS transition recipes.
 - **[reverse-engineer-animation](./skills/reverse-engineer-animation/SKILL.md)**: Extract easing, spring, and choreography from a screen recording and emit CSS, Motion, SwiftUI, RN, or UIKit code.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 90-rule typography audit: punctuation, fonts, sizing, spacing, OpenType, hierarchy, pairing.

@@ -1,8 +1,3 @@
----
-name: componentize
-description: Refactors large chunks of UI code into organized, reusable components with thoughtful APIs, extracting repeated patterns, logical sections, and self-contained blocks while preserving layout and behavior and reusing project components where possible. Also sorts, normalizes, deduplicates, and resolves conflicting Tailwind utility classes as a finishing pass or standalone cleanup. Use when asked to "componentize this page", "extract this into components", "turn this draft into production code", "organize this UI file", "clean up the Tailwind", "sort these classes", or "fix conflicting utilities". For building new UI use ui-design.
----
-
 # Componentize
 
 Use this when the user wants to componentize, extract, or organize UI code into reusable components, or clean up Tailwind class lists.
@@ -21,21 +16,14 @@ Use this when the user wants to componentize, extract, or organize UI code into 
 
 ### Do Not Use For
 
-- brand-new design or layout work (use `ui-design`)
-- visual polish without code structure changes (use `ui-design`)
-- responsive behavior or dark mode only (use `ui-design`)
+- brand-new design or layout work (use Build mode in `SKILL.md`)
+- visual polish without code structure changes (use Build mode in `SKILL.md`)
+- responsive behavior or dark mode only (use the Responsive or Dark mode modes in `SKILL.md`)
 
 ## Load First
 
-- For Tailwind class cleanup (standalone or finishing pass), load [references/canonicalize-tailwind.md](./references/canonicalize-tailwind.md) for the `npx @tailwindcss/cli canonicalize` workflow and command reference.
+- For Tailwind class cleanup (standalone or finishing pass), load [canonicalize-tailwind.md](./canonicalize-tailwind.md) for the `npx @tailwindcss/cli canonicalize` workflow and command reference.
 - Component extraction itself needs no companion files.
-
-## Progress Updates
-
-Keep the user informed so longer runs do not look stuck.
-
-- One-line status update before each major phase.
-- Concrete and lightweight: what you are doing now, not verbose logs.
 
 ## Workflow
 
@@ -44,7 +32,7 @@ Keep the user informed so longer runs do not look stuck.
 3. Extract components with call-site spacing and configurable class merging.
 4. Reuse or extend existing project components where available.
 5. Re-scan extracted components for remaining duplication.
-6. Finish with a Tailwind canonicalize pass over the touched class lists ([references/canonicalize-tailwind.md](./references/canonicalize-tailwind.md)).
+6. Finish with a Tailwind canonicalize pass over the touched class lists ([canonicalize-tailwind.md](./canonicalize-tailwind.md)).
 
 ## Rules
 

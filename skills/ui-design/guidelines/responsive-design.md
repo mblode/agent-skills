@@ -1,6 +1,6 @@
 # Responsive Design
 
-Covers: mobile, tablet, desktop, breakpoints, container queries, overflow, wrapping, clipping, and cramped narrow viewports.
+Covers: mobile, tablet, desktop, breakpoints, container queries, overflow, wrapping, clipping, and cramped narrow viewports. For the comprehensive retrofit ruleset (navigation, tables, pagination, touch targets, overflow patterns), see [../make-responsive.md](../make-responsive.md).
 
 ## Design Rules
 

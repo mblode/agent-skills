@@ -36,14 +36,7 @@ Use this when the user wants to use the ui.sh picker to see and pick between mul
 
 ## Progress Updates
 
-While running this skill, keep the user informed so longer runs do not look stuck.
-
-- Send a short (one line) status update before each major phase.
-- Keep updates concrete and lightweight: what you are doing now, not verbose logs.
-- On larger codebases, post another brief update every few tool calls or when a step is taking longer than expected.
-- If blocked, say what is blocking you and what you will try next.
-
-Suggested phase updates:
+Suggested phase updates (one line each; on larger codebases post another brief update when a step runs long):
 
 - Cleaning prior picker scaffolding from earlier rounds.
 - Scanning current UI and identifying picker decision points.
@@ -55,7 +48,7 @@ Suggested phase updates:
 
 ## Start
 
-- If this skill has already been used in the same conversation/project, run an iteration reset pass first.
+- If Options mode has already been run in the same conversation/project, run an iteration reset pass first.
 - Use the currently selected/visible UI as the baseline.
 - Remove lingering artifacts from earlier rounds: old unselected branches, stale `hidden` attributes, and picker wrappers/attributes that are no longer needed.
 - Keep one toolbar script tag if the user is still comparing options; remove duplicates only.

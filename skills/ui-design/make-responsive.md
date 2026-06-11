@@ -14,20 +14,13 @@ Use this when the user wants an existing desktop-oriented UI to work well across
 ### Do Not Use For
 
 - brand-new design or layout work (use Build mode in `SKILL.md`)
-- code structure or component extraction only (use `componentize`)
+- code structure or component extraction only (use Componentize mode in `SKILL.md`)
 - dark mode or standalone image adaptation only (use the Dark mode mode in `SKILL.md`)
 
 ## Load First
 
 - No companion files are required.
 - Responsive design guidance is inline below.
-
-## Progress Updates
-
-Keep the user informed so longer runs do not look stuck.
-
-- One-line status update before each major phase.
-- Concrete and lightweight: what you are doing now, not verbose logs.
 
 ## Workflow
 

@@ -1,8 +1,3 @@
----
-name: brand-kit-prompt
-description: Generate an image prompt for one fixed-structure 4K marketing-site brand case-study board with two large page mockups and a narrow design-system rail documenting typography and hierarchical colors. Use when Codex is asked to write a brand kit prompt, website mockup prompt, marketing site prompt, landing page prompt, product mockup prompt, or image-generation prompt for a visual brand identity.
----
-
 # Brand Kit Prompt
 
 ## Contents

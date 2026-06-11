@@ -18,7 +18,7 @@ Use this workflow when the output should emphasize memorable frontend art direct
 1. Treat the user's concept, brief, notes, constraints, references, audience, tone, avoid-list items, and attached images as the source input.
 2. Use [Brand Kit Prompt](./brand-kit-prompt.md) with the source input to generate one production-ready mockup-first image prompt. If images are attached, describe them as visual inspiration only using the rules in `Attached Images`.
 3. Capture the full prompt text from step 2 as intermediate working content. Do not present it as the final answer unless the user explicitly asks to see it.
-4. Use `$imagegen` with the full generated prompt from step 2 as its input, including any attached images as visual references when the imagegen interface supports reference images.
+4. Use the `imagegen` skill with the full generated prompt from step 2 as its input, including any attached images as visual references when the imagegen interface supports reference images.
 5. Generate exactly one high-quality 3840 x 2160 px 16:9 landscape image: a fixed three-column marketing-site case-study board with page mockup 1 in the left 40%, page mockup 2 in the middle 40%, and a right-side design-system details rail in the final 20%.
 6. Return the rendered image. Keep final commentary minimal.
 
@@ -29,7 +29,7 @@ If the user attaches images, use them as design inspiration only:
 - Use attached images to infer aesthetic direction, composition style, visual density, color atmosphere, type mood, spacing feel, texture, lighting, layout rhythm, and interaction/presentation patterns.
 - Do not copy or recreate attached-image content, logos, wordmarks, brand marks, icons, mascots, characters, product names, readable text, photography subjects, proprietary UI, exact layouts, or distinctive artwork.
 - Do not treat attached images as mandatory content for the generated brand kit unless the user explicitly says the image is their own brand asset and asks to use it.
-- When passing the generated prompt to `$imagegen`, explicitly state that attached images are style references only and must not be replicated.
+- When passing the generated prompt to `imagegen`, explicitly state that attached images are style references only and must not be replicated.
 - If attached images conflict with the user's written concept, preserve the written concept and use the images only for visual direction.
 
 ## Routing Rules
@@ -39,7 +39,6 @@ If the user attaches images, use them as design inspiration only:
 - Preserve all user-supplied constraints through both steps, especially names, audience, positioning, tone, visual references, attached-image inspiration, required deliverables, and avoid-list items.
 - If the user asks for the image plus the generated prompt, render the image first, then include the prompt text afterward.
 - If the prompt-generation step produces multiple boards, extra alternatives, a flexible metadata placement, or any output shape other than the fixed structure, normalize the result to match `brand-kit-prompt` before passing it to `imagegen`.
-- Do not route this workflow through `brand-kit-images`.
 
 ## Output Discipline
 

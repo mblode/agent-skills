@@ -21,7 +21,7 @@ Covers: dark-mode styling, light-to-dark conversion, dark-mode contrast audits, 
 
 - When adding or improving dark mode, audit the page for rasterized images that need dark-mode versions: photos, screenshots, product mockups, decorative backgrounds, textures, and rasterized illustrations
 - Never use CSS filters (`invert`, `brightness`, `contrast`, `opacity`) as the final dark-mode treatment for raster images; always create real dark-mode image files
-- Generate dark-mode raster image variants with the `dark-mode-image` skill, which MUST load and use the `imagegen` skill before creating or editing any raster image assets
+- Generate dark-mode raster image variants by following [../dark-mode-image.md](../dark-mode-image.md), which requires the `imagegen` skill before creating or editing any raster image assets
 
 ## SVG Rules
 

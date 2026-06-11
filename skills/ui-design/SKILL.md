@@ -1,14 +1,14 @@
 ---
 name: ui-design
-description: Designs and builds UI end to end, from visual direction (palettes, type scales, design tokens, layout systems, landing-page CRO strategy, brand kits) to Tailwind implementation with the ui.sh design guideline system, including multiple variants with an in-browser picker, semantic markup scaffolds from screenshots, and retrofitting dark mode or responsive behavior onto existing UI. Use when asked to "build a landing page", "create a dashboard", "make this look good", "make this look premium", "pick a visual style", "design the UI for", "show me 3 hero options", "improve conversions", "create a brand kit", "turn this screenshot into markup", "add dark mode", "make a dark version of this image", "make this responsive", "fix this on mobile", or any prompt that designs, creates, or visually refines UI. For component extraction and Tailwind class cleanup use componentize; for auditing existing UI use ui-audit; for motion use ui-animation; for landing page copy use copywriting.
+description: Designs and builds UI end to end, from visual direction (palettes, type scales, design tokens, layout systems, landing-page CRO strategy, brand kits) to Tailwind implementation with the ui.sh design guideline system, including multiple variants with an in-browser picker, semantic markup scaffolds from screenshots, retrofitting dark mode or responsive behavior, and componentizing or canonicalizing Tailwind code. Use when asked to "build a landing page", "create a dashboard", "make this look good", "make this look premium", "pick a visual style", "design the UI for", "show me 3 hero options", "improve conversions", "create a brand kit", "turn this screenshot into markup", "add dark mode", "make a dark version of this image", "make this responsive", "fix this on mobile", "componentize this page", "clean up the Tailwind", or any prompt that designs, creates, or refines UI code. For auditing existing UI use ui-audit; for motion use ui-animation; for landing page copy use copywriting.
 ---
 
-# Design
+# UI Design
 
 Design and build UI: pick the visual direction, then implement it in code following the ui.sh design guideline system.
 
-- **IS:** choosing visual direction (palettes, type scales, tokens, layout systems, CRO strategy, brand boards) and building or visually refining UI in code: one definitive design, multiple variants compared in the browser, a semantic markup scaffold from a UI image, or retrofitting dark mode and responsive behavior.
-- **IS NOT:** component extraction or Tailwind cleanup on existing code (use `componentize`); auditing existing UI quality (use `ui-audit`); deep typography audits (use `typography-audit`); motion design (use `ui-animation`); landing-page copy (use `copywriting`).
+- **IS:** choosing visual direction (palettes, type scales, tokens, layout systems, CRO strategy, brand boards) and building or refining UI in code: one definitive design, multiple variants compared in the browser, a semantic markup scaffold from a UI image, retrofitting dark mode and responsive behavior, or extracting components and canonicalizing Tailwind classes.
+- **IS NOT:** auditing existing UI quality (use `ui-audit`); deep typography audits (use `typography-audit`); motion design (use `ui-animation`); landing-page copy (use `copywriting`).
 
 ## Modes
 
@@ -22,6 +22,7 @@ Pick exactly one mode from the user's wording, then load only that mode's files:
 | **Scaffold** | semantic, unstyled markup from a screenshot, Figma export, mockup, or wireframe: "turn this screenshot into markup" | [markup-from-image.md](./markup-from-image.md) only; the scaffold stays unstyled |
 | **Dark mode** | retrofitting dark mode onto existing UI, or a dark variant of an image: "add dark mode", "make a dark version of this image" | [add-dark-mode.md](./add-dark-mode.md); for raster images also [dark-mode-image.md](./dark-mode-image.md), which requires the `imagegen` skill (Codex) |
 | **Responsive** | adapting existing desktop-oriented UI across breakpoints: "make this responsive", "fix this on mobile" | [make-responsive.md](./make-responsive.md) |
+| **Componentize** | extracting reusable components or cleaning up Tailwind class lists: "componentize this page", "clean up the Tailwind" | [componentize.md](./componentize.md); for class cleanup also [canonicalize-tailwind.md](./canonicalize-tailwind.md) |
 
 Direction and Build chain naturally: when the user wants a new surface and no direction exists, run Direction first (or propose one inline for small surfaces), then Build. When a direction already exists in the project, go straight to Build.
 
@@ -70,7 +71,7 @@ Rules:
 - Err on the side of loading too many applicable guideline files rather than too few.
 - Preserve user constraints unless a guideline explicitly requires asking about a design conflict.
 
-Options mode follows [ideas.md](./ideas.md); Scaffold mode follows [markup-from-image.md](./markup-from-image.md); Dark mode follows [add-dark-mode.md](./add-dark-mode.md); Responsive follows [make-responsive.md](./make-responsive.md).
+Options mode follows [ideas.md](./ideas.md); Scaffold mode follows [markup-from-image.md](./markup-from-image.md); Dark mode follows [add-dark-mode.md](./add-dark-mode.md); Responsive follows [make-responsive.md](./make-responsive.md); Componentize follows [componentize.md](./componentize.md).
 
 ## Progress Updates
 
@@ -107,7 +108,6 @@ A design that would look out of place beside these products is not done.
 
 ## Related Skills
 
-- `componentize`: extract the built UI into reusable components and canonicalize Tailwind classes
 - `ui-audit`: page-level quality and accessibility audit of the built result
 - `typography-audit`: rule-level audit of existing typography; route "fix the fonts" on shipped CSS there
 - `ui-animation`: motion timing, easing, and review

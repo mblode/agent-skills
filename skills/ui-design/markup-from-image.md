@@ -14,20 +14,13 @@ Use this when the user wants to turn a UI image into semantic, unstyled HTML or 
 ### Do Not Use For
 
 - building or styling a finished UI from an image (use Build mode in `SKILL.md` after scaffolding)
-- componentizing, refactoring, or extracting existing UI code (use `componentize`)
+- componentizing, refactoring, or extracting existing UI code (use Componentize mode in `SKILL.md`)
 - recreating an image as a raster or vector asset
 - extracting text or data from non-UI images only
 
 ## Load First
 
 - No companion modules are required.
-
-## Progress Updates
-
-Keep the user informed so longer runs do not look stuck.
-
-- One-line status update before each major phase.
-- Concrete and lightweight: what you are doing now, not verbose logs.
 
 ## Workflow
 

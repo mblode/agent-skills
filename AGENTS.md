@@ -92,8 +92,8 @@ No automated test suite. See smoke-test above.
 
 ## ui.sh-sourced skills
 
-- `ui-design` (Build mode guidelines, `ideas.md`, `markup-from-image.md`, `add-dark-mode.md`, `dark-mode-image.md`, `make-responsive.md`, `guidelines/`) and `componentize` (`references/canonicalize-tailwind.md`) contain content pulled from the ui.sh skills API (`npx @uidotsh/install` with the account token, or `GET https://ui.sh/api/skills/<name>`). Published here with permission.
-- Upstream ships nine separate skills; this repo consolidates them into ui-design (six modes) and componentize. A re-pull is a manual merge: it would resurface upstream's split structure, short descriptions, and em dashes, so diff carefully and re-apply the local curation (mode dispatch, IS/IS-NOT blocks, trigger descriptions, dash stripping).
+- `ui-design` (Build mode guidelines plus the `ideas.md`, `markup-from-image.md`, `add-dark-mode.md`, `dark-mode-image.md`, `make-responsive.md`, `componentize.md`, `canonicalize-tailwind.md`, and `guidelines/` files) contains content pulled from the ui.sh skills API (`npx @uidotsh/install` with the account token, or `GET https://ui.sh/api/skills/<name>`). Published here with permission.
+- Upstream ships nine separate skills; this repo consolidates them all into ui-design (seven modes). A re-pull is a manual merge: it would resurface upstream's split structure, short descriptions, and em dashes, so diff carefully and re-apply the local curation (mode dispatch, IS/IS-NOT blocks, trigger descriptions, dash stripping).
 - Never commit the ui.sh token. It lives only in the maintainer's environment.
 
 ## Maintenance

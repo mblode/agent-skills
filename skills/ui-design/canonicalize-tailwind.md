@@ -13,9 +13,9 @@ Use this when the user wants to clean up, canonicalize, or normalize Tailwind cl
 
 ### Do Not Use For
 
-- new design or layout work (use `ui-design`)
-- component extraction or code organization (covered by the main `componentize` workflow)
-- visual changes rather than class-list cleanup (use `ui-design`)
+- new design or layout work (use Build mode in `SKILL.md`)
+- component extraction or code organization (covered by the main Componentize workflow in [componentize.md](./componentize.md))
+- visual changes rather than class-list cleanup (use Build mode in `SKILL.md`)
 
 ## Load First
 
