@@ -45,6 +45,8 @@ Not every opportunity is worth acting on. Score each against the Principles in t
 
 Prefer the opportunity that makes the most future changes local for the least churn. Defer or drop the rest.
 
+Record every dropped or deferred opportunity in the output's "Out of scope (deferred)" section with its reason. The list is load-bearing: a future audit starts by reading it so rejected ideas are not re-evaluated from scratch, and a reason that no longer holds ("no current requirement") is the signal to promote the item.
+
 ## Output template
 
 ```markdown

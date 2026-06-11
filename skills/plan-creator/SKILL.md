@@ -104,11 +104,16 @@ Write the plan file to `~/.claude/plans/`. Match the format to the scope:
 ## Files to modify
 [Critical files, grouped by purpose]
 
+## Out of scope
+[Files or behaviors that look related but must not change, each with a one-line reason]
+
 ## Verification
-[How to test end-to-end]
+[How to test end-to-end: each item is a command plus its expected result, so success is never a judgment call]
 ```
 
 Keep plans concise enough to scan quickly, detailed enough to execute without re-reading the conversation. Record only the chosen approach; rejected alternatives belong in Key decisions as one-line rationale, not as parallel options.
+
+**Handoff plans:** when the plan will be executed by a different agent or session (captain, cmux, handoff), the executor has not seen this conversation. Inline any code excerpts and conventions it needs (with `file:line` markers), and add a **STOP conditions** section: assumptions that, if false, mean stop and report back rather than improvise.
 
 ### Step 4: Validate
 
@@ -135,6 +140,7 @@ Offer the next pipeline stage: "Plan written to `<path>`. Run `plan-reviewer` to
 - Don't turn adversarial ("that won't work because..."); stress-testing is `plan-reviewer`'s job. Here you propose, the user reacts, you refine.
 - Don't exceed 10 questions; past that, the scope is too large for one plan. Say so and propose a split instead of question 11.
 - Don't close with "anything else?"; it invites noise answers that bloat the plan. Synthesize what you have.
+- Don't write "verify it works" as a verification step; pair every check with the command to run and its expected result, so the executor never judges success by feel.
 - Don't use the standard template for a trivial one-file change; a heavyweight plan buries the one instruction that matters.
 
 ## Related skills

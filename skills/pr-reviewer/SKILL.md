@@ -60,6 +60,7 @@ Review progress:
    - External-engine output is advisory: validate every finding against the actual diff and drop anything this skill would not flag on its own.
 4. **Validate findings**
    - Re-check the exact lines before reporting. Keep only high-confidence issues; drop speculative or duplicate items.
+   - Expect three vetting failure classes: by-design behavior misread as a bug (e.g. code honoring a documented convention flagged as an error), mis-attributed evidence (real issue, wrong file or line), and duplicates across shards or external engines. Check each finding against all three before it reaches the report.
    - Confirm each finding maps to a changed line in the latest diff (security audit mode: to real code in scope).
    - Collapse findings that share one root cause into a single item listing all affected locations.
 5. **Produce the report**
