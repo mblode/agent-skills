@@ -11,7 +11,7 @@
 ### Primary install (recommended)
 
 ```bash
-npx skills add mblode/agent-skills -g --all -y
+npx skills add mblode/agent-skills
 ```
 
 Installs all skills into `~/.claude/skills/` via the `skills` CLI. Works with Claude Code, OpenCode, Codex, and Cursor.
@@ -64,15 +64,15 @@ The list should match the folders in `skills/` here.
 
 For full authoring rules, run the `agent-skills-creator` skill. The highest-signal constraints:
 
-| Rule | Detail |
-|------|--------|
-| `name` | max 64 chars, lowercase letters/numbers/hyphens only; no "anthropic" or "claude" |
+| Rule          | Detail                                                                                   |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| `name`        | max 64 chars, lowercase letters/numbers/hyphens only; no "anthropic" or "claude"         |
 | `description` | max 1024 chars, non-empty, no XML tags; third-person voice; include "Use when…" triggers |
-| Body length | under 500 lines; split into reference files if longer |
-| References | one level deep only (no reference-to-reference chains) |
-| Content | only context Claude doesn't already have; no time-sensitive content |
-| Paths | forward slashes only |
-| Boundaries | open the body with an IS/IS-NOT pair when sibling skills exist |
+| Body length   | under 500 lines; split into reference files if longer                                    |
+| References    | one level deep only (no reference-to-reference chains)                                   |
+| Content       | only context Claude doesn't already have; no time-sensitive content                      |
+| Paths         | forward slashes only                                                                     |
+| Boundaries    | open the body with an IS/IS-NOT pair when sibling skills exist                           |
 
 ## Testing
 
