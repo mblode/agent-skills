@@ -11,6 +11,7 @@
 - [Lists and stagger](#lists-and-stagger)
 - [Hover effects](#hover-effects)
 - [Step form navigation](#step-form-navigation)
+- [3D transforms](#3d-transforms)
 
 ## Buttons
 
@@ -284,3 +285,26 @@ const variants = {
   />
 </AnimatePresence>
 ```
+
+## 3D transforms
+
+For depth effects (card flips, coin spins, orbits), use `rotateX()`/`rotateY()` with `transform-style: preserve-3d` on the wrapper. This stays on the GPU and needs no JavaScript. Reserve it for illustrative or delight moments, not high-frequency UI.
+
+```css
+.flip {
+  transform-style: preserve-3d;
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flip[data-flipped="true"] {
+  transform: rotateY(180deg);
+}
+.flip .front,
+.flip .back {
+  backface-visibility: hidden;
+}
+.flip .back {
+  transform: rotateY(180deg);
+}
+```
+
+Set `perspective` on the parent (for example `perspective: 1000px`) to control depth intensity; smaller values exaggerate the effect. As with SVG, set `transform-box: fill-box; transform-origin: center` if the rotation pivots around the wrong point.

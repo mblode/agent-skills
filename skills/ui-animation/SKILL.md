@@ -18,7 +18,7 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 | [references/clip-path-techniques.md](references/clip-path-techniques.md)   | Using clip-path for reveals, tabs, hold-to-delete, comparison sliders        |
 | [references/gesture-drag.md](references/gesture-drag.md)                   | Implementing drag, swipe-to-dismiss, momentum, pointer capture               |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Debugging jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats  |
-| [references/review-format.md](references/review-format.md)                 | Reviewing animation code: Before/After/Why table and issue checklist        |
+| [references/review-format.md](references/review-format.md)                 | Reviewing animation code: strict review with ten standards, escalation triggers, Before/After/Why table, and a Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Implementing contextual icon swaps, word-level stagger entrances, or fixed-offset exit animations |
 | [references/transition-recipes.md](references/transition-recipes.md)       | Installing a CSS transition: card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, text swap, success animation, avatar hover, error shake |
 
@@ -49,6 +49,7 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 - Never use `transition: all`; it animates unintended properties and silently picks up future ones. List properties explicitly.
 - Avoid `filter` animation for core interactions; keep blur ≤ 20px if unavoidable, since heavy blur is expensive, especially in Safari.
 - SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it, transforms rotate/scale around the SVG canvas origin.
+- `transform: scale()` also scales an element's children (icons, text, borders scale proportionally), unlike `width`/`height`. This is a feature for press feedback; account for it when an inner element must keep a fixed size.
 - Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`); otherwise every themed property animates at once.
 
 ## Easing defaults
@@ -144,7 +145,7 @@ Animation progress:
 2. Pick duration from the easing defaults table above.
 3. Choose implementation: CSS transition > WAAPI > spring > keyframe > JS.
 4. Load the relevant reference for your component type or technique.
-5. When reviewing, use the Before/After/Why table format from [references/review-format.md](references/review-format.md).
+5. When reviewing, apply the strict posture in [references/review-format.md](references/review-format.md): measure against the ten standards, output the Before/After/Why table, then a tiered verdict ending in an explicit Block/Approve decision.
 
 ## Validation
 
