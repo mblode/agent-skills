@@ -30,10 +30,15 @@ Intent clear?
                 └── YES
                     Verification strategy?
                     ├── NO → Ask: "How will we know this works? I'd verify with [X]."
-                    └── YES → Synthesize. You have enough.
+                    └── YES
+                        Whole change as simple as it can be?
+                        ├── NO → Ask: "Can this whole PR be radically simpler? I'd cut [X] / collapse [Y]."
+                        └── YES → Synthesize. You have enough.
 ```
 
 Do not exhaust this tree mechanically. Skip branches where the codebase scan already gave you the answer. The tree ranks what matters; it is not a script to recite.
+
+The simplicity node is the one branch you always voice, even when you believe the change is already simple: the whole-change view only exists once every other decision is on the table, so the step-back catches scope that no single earlier question could. This is the mandatory simplicity challenge from SKILL.md Step 2.
 
 **Budget:** 5-10 questions total. If you reach 10 without convergence, the scope is too large: say so and suggest splitting the work into separate plans.
 

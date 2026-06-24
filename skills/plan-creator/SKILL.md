@@ -16,11 +16,13 @@ Pipeline position: `plan-creator` → `plan-reviewer` → implementation → `pr
 
 Every question and recommendation filters through these principles (ordered by priority):
 
-1. **KISS:** Is this the simplest thing that could work?
-2. **YAGNI:** Is every piece justified by a current requirement?
-3. **Tracer bullet:** Does the plan deliver a minimal working slice across the full stack first?
-4. **Small functions:** Are responsibilities clearly separated?
-5. **Easier to change:** Does the design isolate concerns so future changes are local?
+1. **KISS:** the simplest thing that works. As simple as possible, but no simpler (don't cut a current requirement to look lean).
+2. **YAGNI:** every piece justified by a current requirement.
+3. **Easier to change:** isolate concerns so future changes stay local.
+4. **Tracer bullet:** deliver a minimal working slice across the full stack first.
+5. **Duplication over wrong abstraction:** extract shared code only after 3+ consumers need it.
+
+These mirror `define-architecture`'s principles; when two conflict, the higher-numbered yields.
 
 ## Reference files
 
@@ -35,7 +37,7 @@ Every question and recommendation filters through these principles (ordered by p
 ```text
 Plan creation progress:
 - [ ] Step 1: Understand intent (read the request, scan code and docs, state findings)
-- [ ] Step 2: Interrogate (one question at a time, each with a recommended answer)
+- [ ] Step 2: Interrogate (one question at a time; end with the "radically simpler?" challenge)
 - [ ] Step 3: Synthesize (write the plan file, format matched to scope)
 - [ ] Step 4: Validate (check the plan against the original request, report the path)
 - [ ] Step 5: Hand off (offer plan-reviewer)
@@ -66,6 +68,8 @@ Key rules:
 - **Grill the core decisions:** when docs reveal a decision (a chosen approach, a constraint, a rejected alternative), interrogate *why* it was made and whether the rationale still holds for this work. Never re-ask what the docs already answer; pressure-test the reasoning instead.
 
 **Budget:** 5-10 questions, then synthesize.
+
+**Mandatory simplicity challenge (ask before synthesizing):** Step back from the individual decisions and ask the user: "Can this whole PR be radically simpler?" Look for scope that can be cut, decisions that collapse into one, a new abstraction that duplication would beat, and layers a tracer-bullet slice could defer. Carry a recommended answer like every other question. This challenges the *sum* of the plan, not each piece.
 
 **Batch mode (optional):** For large or greenfield specs with many independent questions, generate a single local HTML form the user fills in at once. Load `references/html-question-form.md` for the template and the batch-vs-sequential decision table. Keep one-at-a-time as the default whenever answers should shape later questions.
 
@@ -121,7 +125,7 @@ Before handing off, check:
 
 - Does the plan answer the user's original request?
 - Did every interrogation answer land in the plan? An answer that never made it in was a wasted question.
-- Does the approach pass the core lens (KISS, YAGNI, tracer bullet)?
+- **Radically-simpler gate:** Is this the simplest viable slice? Re-run the Core lens against the whole plan. If any scope, decision, or abstraction could be cut or deferred without dropping a current requirement, cut it now before handing off. The plan does not pass until this is true.
 - Are there unstated assumptions that should be explicit?
 
 If anything fails, fix it in the plan directly; don't reopen the interrogation. Then report the evidence: the plan file path and a one-line confirmation that each check passed.
@@ -142,6 +146,7 @@ Offer the next pipeline stage: "Plan written to `<path>`. Run `plan-reviewer` to
 - Don't close with "anything else?"; it invites noise answers that bloat the plan. Synthesize what you have.
 - Don't write "verify it works" as a verification step; pair every check with the command to run and its expected result, so the executor never judges success by feel.
 - Don't use the standard template for a trivial one-file change; a heavyweight plan buries the one instruction that matters.
+- Don't let the plan accrete scope question by question; the Step 2 simplicity challenge exists to claw it back before synthesis.
 
 ## Related skills
 
