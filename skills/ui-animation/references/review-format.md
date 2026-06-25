@@ -122,10 +122,15 @@ Close with an explicit decision, citing `file:line`:
 
 ## Component design principles
 
+For reusable components, the polish that earns adoption lives mostly outside the motion itself. Beauty and good defaults are leverage: when every competitor's software is "good enough", the experience is the differentiator.
+
 - **Good defaults over options.** Most users never customise. The default easing, timing, and design should be excellent out of the box.
+- **Developer experience first.** A component people reach for is trivial to adopt: no required hooks, context, or setup beyond a single drop-in. The less friction to adopt, the more it gets used. (Sonner: insert `<Toaster />` once, call `toast()` from anywhere.)
 - **Transitions over keyframes for dynamic UI.** Elements added rapidly (toasts, list items) need interruptible animations. Keyframes restart from zero on interruption; transitions retarget smoothly.
 - **Cohesion.** The animation style should match the component's personality. A playful component can be bouncier. A professional dashboard should be crisp and fast.
 - **Invisible edge cases.** Pause timers when the tab is hidden. Fill gaps between stacked elements with pseudo-elements to maintain hover state. Capture pointer events during drag.
+- **Naming creates identity.** A memorable name ("Sonner" over "react-toast") earns more reach than a descriptive one. Trade discoverability for memorability when the component deserves an identity.
+- **Build a touchable docs site.** Let people play with the component and copy ready-to-use snippets before adopting. Interactive examples lower the barrier more than prose.
 
 ## Debugging animations
 
