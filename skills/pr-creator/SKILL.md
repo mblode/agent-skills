@@ -5,10 +5,12 @@ description: >
   Linear issue ID prefix when available, keeps titles under 60 chars, and
   defaults to one short paragraph instead of generated summaries or test-plan
   sections. Restructures noisy commit history into reviewable order and adds
-  reviewer guidance for large diffs. Use when "create a PR", "make a PR",
-  "open a pull request", "PR this", "ship it", "make this PR easy to review",
-  "polish this PR", "tidy the PR", "clean up commits", "restructure commits",
-  or "split this PR". For reviewing a diff for bugs, use pr-reviewer. For
+  reviewer guidance for large diffs. Also updates an existing open PR's title
+  and description in place with gh pr edit instead of erroring. Use when
+  "create a PR", "make a PR", "open a pull request", "PR this", "ship it",
+  "update the PR description", "update the PR title", "make this PR easy to
+  review", "polish this PR", "tidy the PR", "clean up commits", "restructure
+  commits", or "split this PR". For reviewing a diff for bugs, use pr-reviewer. For
   monitoring a PR after creation, use pr-babysitter. For npm releases, use
   autoship.
 ---
@@ -17,7 +19,7 @@ description: >
 
 Write PR descriptions like a developer posting in Slack, not like an AI summarizing a diff.
 
-- **IS:** creating the GitHub PR: a short human-sounding description, a Linear ID title prefix, commit restructuring, and reviewer guidance for large diffs.
+- **IS:** creating the GitHub PR (or updating an existing one's title and body): a short human-sounding description, a Linear ID title prefix, commit restructuring, and reviewer guidance for large diffs.
 - **IS NOT:** reviewing the diff for bugs (use `pr-reviewer`), watching CI and review comments after creation (use `pr-babysitter`), or cutting npm releases (use `autoship`).
 
 ## Reference Files
@@ -33,15 +35,16 @@ Copy this checklist and work through it:
 ```text
 PR creation progress:
 - [ ] Inspect: git status, git log origin/main..HEAD, git diff origin/main...HEAD
+- [ ] Check for an existing PR: gh pr view --json url,number,state (update instead of create if one exists)
 - [ ] Find the Linear ID (branch, commits, prompt, PR context); skip the prefix if none
 - [ ] Noisy commits or >500-line diff? Read references/pr-polish.md and restructure first
 - [ ] Push with upstream: git push -u origin HEAD
 - [ ] Draft title and body against the rules and anti-pattern list below
 - [ ] Check for .github/PULL_REQUEST_TEMPLATE.md; fill its sections briefly if present
-- [ ] Create with gh pr create; verify with gh pr view; return the URL
+- [ ] New PR: gh pr create. Existing open PR: gh pr edit. Verify with gh pr view; return the URL
 ```
 
-Do not ask the user to confirm the description before creating. The whole point is speed.
+Do not ask the user to confirm the description before creating or updating. The whole point is speed.
 
 ## Rules
 
@@ -143,6 +146,14 @@ Same retry behavior we had in three places, now in one withRetry helper. No beha
 
 ## Creating the PR
 
+First check whether a PR already exists for the branch:
+
+```bash
+gh pr view --json url,number,state   # errors if none exists; check state == OPEN
+```
+
+### No PR yet: create
+
 ```bash
 git push -u origin HEAD   # skip if upstream already set
 
@@ -154,6 +165,23 @@ EOF
 gh pr view --json url,title   # evidence the PR exists; return the url
 ```
 
+### PR already open: update title and body
+
+Do not run `gh pr create`; it errors with "a pull request already exists". Push any new commits, then edit the existing PR:
+
+```bash
+git push origin HEAD   # push any local commits the PR doesn't have yet
+
+gh pr edit --title "ABC-123: Add auth flow" --body "$(cat <<'EOF'
+One short paragraph that explains what changed and why it matters.
+EOF
+)"
+
+gh pr view --json url,title   # confirm the update; return the url
+```
+
+`gh pr edit` overwrites the title and body wholesale, so draft the full replacement, not a patch. Same rules and anti-patterns apply.
+
 ## Gotchas
 
 - `gh pr create` on a branch with no upstream hangs on an interactive "Where should we push?" prompt; agents stall there forever. Run `git push -u origin HEAD` first.
@@ -161,6 +189,7 @@ gh pr view --json url,title   # evidence the PR exists; return the url
 - `--body` silently discards `.github/PULL_REQUEST_TEMPLATE.md`. If the template exists, fill its sections with short answers instead of ignoring it, and do not add sections it does not ask for.
 - Derive the Linear ID from the branch name (`mblode/abc-123-add-auth` gives `ABC-123`, uppercased). Never guess one: Linear's GitHub integration links the PR to whatever ID the title contains.
 - `gh pr create` from the default branch fails with "no commits between main and main". Check `git branch --show-current` during inspection.
+- `gh pr create` on a branch that already has an open PR fails with "a pull request for branch ... already exists". Check `gh pr view` first and switch to `gh pr edit` to update the title and body.
 - Plain `git diff` shows only uncommitted changes, so on a committed branch it is empty and the description will be written blind. Diff against the merge base: `git diff origin/main...HEAD`.
 
 ## Related skills
