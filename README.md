@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
-25 skills for shipping better software.
+26 skills for shipping better software.
 
 ## Quickstart
 
@@ -27,6 +27,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Design
 
+- **[product-design](./skills/product-design/SKILL.md)**: Product and UX judgment and correctness: the right interaction, action naming by object, scope, and consequence, reachable-state coverage, resilience, and accessibility as a product concern. Routes by mode (shape, implement, review, copy, harden), ships a runnable ESLint plugin, and defers visual build to ui-design, audits to ui-audit and ux-audit, and copy to copywriting.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Designs and builds UI end to end: visual direction (palettes, type scales, tokens, CRO, brand kits), Tailwind implementation with the ui.sh design guidelines, multi-variant browser picker, screenshot-to-markup scaffolding, dark-mode and responsive retrofits, and componentization with Tailwind class cleanup.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Designs, implements, and reviews UI motion: springs, gestures, easing, CSS transition recipes.
 - **[reverse-engineer-animation](./skills/reverse-engineer-animation/SKILL.md)**: Extract easing, spring, and choreography from a screen recording and emit CSS, Motion, SwiftUI, RN, or UIKit code.
@@ -35,7 +36,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Writing
 
-- **[copywriting](./skills/copywriting/SKILL.md)**: Short product and marketing copy; persuasion frameworks, seven sweeps, AI-ism removal, before/after diffs.
+- **[copywriting](./skills/copywriting/SKILL.md)**: Short product and marketing copy; persuasion frameworks, seven sweeps, AI-ism removal, before/after diffs, and product-state copy (destructive CTAs, error, empty, and loading strings).
 - **[blog-post](./skills/blog-post/SKILL.md)**: Long-form blog posts (listicles, tutorials, narratives, thought leadership) with research, SEO, and polish.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Technical docs. Diataxis doc types, 52 rules, audit and writing workflows.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README tailored to the project type, validated against quality checks.
