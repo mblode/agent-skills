@@ -1,99 +1,213 @@
 ---
 name: ui-audit
-description: Audits web UI quality at page or feature level across accessibility, keyboard interaction, forms, typography surface checks, navigation feedback, layout resilience, performance, motion, and microcopy. 35 prefix-dispatched rules plus craft and typography sweep checklists; reports findings by file with impact ratings and concrete fixes. Use when reviewing or refining frontend UI before merge or release, asking "check my UI", "is this accessible", "polish this page", "design QA this", or requesting a UI or accessibility audit. For code-level React/Next.js UX bugs in a diff (state coverage, focus management, optimistic UI), use ux-audit. For agentic-app patterns and trust design, use ax-audit. For deep typography (typeface pairing, brand identity, display type), use typography-audit. For motion implementation (springs, easing, gestures), use ui-animation.
+description: >-
+  Audits built frontends for product-impacting defects in React/Next.js code
+  and rendered web surfaces. Catches state coverage gaps, form data loss,
+  double-submit, broken focus, optimistic UI without rollback, stale async,
+  accessibility markup gaps, keyboard failures, layout resilience, performance
+  setup, motion hazards, surface typography, and microcopy. 95 rules across
+  behavior, rendered-quality, and Laws of UX layers; returns a 3-tier ship
+  verdict with concrete fixes. Use when reviewing a frontend PR or when asked
+  "review this PR for UX bugs", "audit this component", "check my UI", "is this
+  accessible", "polish this page", "design QA this", or "is this ready to
+  ship". For deciding what should exist use product-design; for agentic apps
+  use ax-audit; for deep typography use typography-audit; for motion use
+  ui-animation.
 ---
 
 # UI Audit
 
-Page/feature-level audit of web UI quality. Loads only the rule categories the current surfaces need, reports findings with `file:line` and a concrete fix for each.
+Audits the **built frontend** for quality and correctness. Operates at the **feature level** (a checkout flow, an onboarding flow, a dashboard) and answers one question for a dev with a PR open: "**which of these will hurt users in production, and which are nice-to-haves?**" It reasons about both the code behavior (from the React/Next source) and the rendered quality (accessibility, layout, performance, type, motion).
 
-- **IS:** a broad quality audit of rendered web UI (accessibility, keyboard, forms, typography surface checks, navigation feedback, layout resilience, performance, motion, microcopy) at the page or feature level.
-- **IS NOT:** a diff-level React/Next.js UX bug hunt (use `ux-audit`), an agentic-app pattern review (use `ax-audit`), a typography system design or pairing audit (use `typography-audit`), or motion implementation work (use `ui-animation`).
+- **IS:** a diff-aware reviewer of a built frontend that detects which feature each changed file implements, runs that feature's playbook across behavior, rendered-quality, and Laws of UX rules, and emits a 3-tier ship verdict with `file:line` evidence and concrete fixes.
+- **IS NOT:** the product decision of what *should* exist (the right interaction, action naming, which states should be reachable → use `product-design`), an agentic-app pattern review (tool parity, trust cues, approval gates → use `ax-audit`), a deep typography or motion-implementation pass (→ use `typography-audit` or `ui-animation`), or a re-implementation of Lighthouse/axe/Chromatic (→ see "Defer to other tools").
 
-## Audit Workflow
+## product-design or ui-audit?
 
-Copy and track this checklist during the audit:
+The dispatch signal is the artifact, not the topic. Both care about states and interaction; they act at different moments.
+
+| You have... | The question is | Use |
+|---|---|---|
+| A brief, spec, mockup, intent, or a UI you are deciding *about* | What should exist: the right interaction, the action's name, which states *should* be reachable | `product-design` |
+| Code, a diff, or a running UI you are deciding *on* | Is the built result right: does the code cover the states, is it accessible, does it render and behave correctly, is it ready to ship | `ui-audit` |
+
+One artifact often needs both in sequence: `product-design` decides the states that must exist, `ui-audit` verifies the built code and rendered result implement them.
+
+## Contents
+
+- [Audit workflow](#audit-workflow)
+- [Rule layers and dispatch](#rule-layers-and-dispatch)
+- [Scope: diff-aware by default](#scope-diff-aware-by-default)
+- [Ship-readiness verdict](#ship-readiness-verdict)
+- [Output adapters](#output-adapters)
+- [Suppressions](#suppressions)
+- [Defer to other tools](#defer-to-other-tools)
+- [Reference files](#reference-files)
+- [Related skills](#related-skills)
+- [Gotchas](#gotchas)
+- [Audit self-check](#audit-self-check)
+
+## Audit workflow
+
+Copy and track this checklist:
 
 ```text
-Audit progress:
-- [ ] Step 1: Scope. List the surfaces under audit and the rule prefixes they need
-- [ ] Step 2: Load rules. Read rules/<prefix>-*.md for selected prefixes only
-- [ ] Step 3: CRITICAL pass. a11y, interaction, forms against every scoped file
-- [ ] Step 4: HIGH/MEDIUM pass. Remaining selected prefixes
-- [ ] Step 5: Optional sweeps. Craft/typography checklists if polish is in scope
-- [ ] Step 6: Report. Findings per file with rule id, impact, and fix; clean files as pass
+UI Audit progress:
+- [ ] Step 1: Determine scope (PR diff via `git diff --name-only main` OR explicit file/folder)
+- [ ] Step 2: Detect features in scope (sign-in / checkout / form / modal / list / dashboard / ...)
+- [ ] Step 3: For each feature, run its playbook from references/feature-playbooks.md in order
+- [ ] Step 4: For each check, load the named rule file (rules-modern/, rules-surface/, or rules/) and run its detection
+- [ ] Step 5: Assign each finding a ship tier per references/ship-readiness.md (surface can bump tiers)
+- [ ] Step 6: Build the JSON document, then render with the chosen output adapter
+- [ ] Step 7: Run the audit-self-check; report INCOMPLETE if it fails
 ```
 
-1. **Scope.** Default to changed pages/components only. A full-app sweep must be explicitly requested. Map each surface to the prefixes it can violate (a form screen needs `forms-`, `a11y-`, `interaction-`; a marketing page adds `type-`, `perf-`, `copy-`).
-2. **Load rules by prefix.** Read `rules/_sections.md` for the category map, then only the `rules/<prefix>-*.md` files for selected prefixes.
-3. **CRITICAL first.** Run `a11y-`, `interaction-`, and `forms-` before anything else. Do not start visual polish while an unlabeled icon button or keyboard trap is open.
-4. **HIGH/MEDIUM next.** Then `type-`, `nav-`, `layout-`, `perf-`, `motion-`, `copy-` as scoped.
-5. **Optional sweeps.** When the request includes polish, hierarchy, or chrome cleanup, run `references/craft-checklist.md`. When typography is a named concern, run `references/typography-checklist.md`.
-6. **Report and verify.** Emit the output contract below. After fixes are applied, rerun the same rule subset on touched files before marking them pass; the rerun output is the evidence the audit is done.
+Step notes:
 
-## Rule Categories by Priority
+1. **Scope.** Diff by default; never the whole codebase (see [Scope](#scope-diff-aware-by-default)).
+2. **Detect features.** Match element semantics + filenames + route paths: a `<form>` with email + password is sign-in; `role="dialog"` is a modal; route `/checkout` is checkout. Detection table in `references/feature-playbooks.md`.
+3. **Run playbooks.** Each feature has 5-7 ordered checks. Run every check even when you expect a pass; pass results feed the self-check's `rulesRun` count.
+4. **Load rules.** Only the rule files the playbook names, never a whole folder (see [dispatch](#rule-layers-and-dispatch)).
+5. **Tier.** Every finding gets `release-blocker | fix-this-sprint | backlog`; the surface context can bump the rule's default tier up or down (sign-in/checkout bump up; marketing/internal-admin bump down).
+6. **Render.** JSON first, then the adapter: the JSON document is what keeps findings comparable across runs.
+7. **Self-check.** Terminal evidence step; criteria at the bottom of this file.
 
-35 rules total. Per-rule frontmatter may override the category impact (e.g. `perf-image-dimensions-and-priority` is CRITICAL inside the HIGH `perf-` category), so report the rule's own impact, not the category's.
+## Rule layers and dispatch
 
-| Priority | Prefix | Category | Impact | Rules |
-|----------|--------|----------|--------|-------|
-| 1 | `a11y-` | Accessibility and Semantics | CRITICAL | 8 |
-| 2 | `interaction-` | Keyboard and Interaction | CRITICAL | 3 |
-| 3 | `forms-` | Forms and Validation | CRITICAL | 5 |
-| 4 | `type-` | Typography and Readability | HIGH | 3 |
-| 5 | `nav-` | Navigation and Feedback | HIGH | 3 |
-| 6 | `layout-` | Layout and Resilience | HIGH | 3 |
-| 7 | `perf-` | Performance and Visual Stability | HIGH | 6 |
-| 8 | `motion-` | Motion and Theme Behavior | HIGH | 2 |
-| 9 | `copy-` | Content and Microcopy | MEDIUM | 2 |
+Four layers, each with its own loading condition. Load rule files individually, on demand:
 
-## Reference Files
+| Layer | Location | Load when | Size |
+|---|---|---|---|
+| 1: Feature playbooks | `references/feature-playbooks.md` | Always, at Step 2, since it is the entry point that names which Layer 2/3/4 rules to run | 12 playbooks |
+| 2: Modern failure modes (behavior) | `rules-modern/<category>-<slug>.md` | A playbook check names the rule, or a changed file matches the rule's category (forms, states, async, focus, mobile, dark-i18n, microcopy) | 31 rules |
+| 3: Rendered quality (surface) | `rules-surface/<prefix>-<slug>.md` | A playbook check names the rule, or a surface needs a rendered-quality check (a11y, interaction, forms, type, nav, layout, perf, motion, copy) | 34 rules |
+| 4: Laws of UX | `rules/<prefix>-<slug>.md` | A playbook explicitly names a Laws rule, or a finding needs cognitive/perceptual reasoning no Layer 2/3 rule covers | 30 rules (20 programmatic, 10 rubric) |
 
-Load on condition, not by default:
+Layer-specific notes:
 
-- `rules/_sections.md`: category map with impact rationale. Read at Step 2 of every audit.
-- `rules/<prefix>-*.md`: rule-level guidance and examples. Read only the prefixes selected in Step 1.
-- `references/craft-checklist.md`: final polish sweep (hit targets, hover states, chrome hierarchy, optical alignment, concentric radii, anti-patterns). Read when the request includes "polish", visual hierarchy, or pre-release sign-off.
-- `references/typography-checklist.md`: typography surface sweep (punctuation, measure, leading, OpenType basics, link styling, table numerals). Read when typography is explicitly in scope. For typeface pairing, brand identity, or display type, route to the `typography-audit` skill instead.
+- **Layer 2 (behavior) reasons from the React/Next source:** state coverage, form data loss, async race conditions, focus management, optimistic-rollback, dark-mode/i18n. Category index: `rules-modern/_sections.md`; one-line summary with default tiers: `references/modern-failure-modes.md`. Each rule file contains detection greps, false-positive guards, surface-tier overrides, and a before/after fix.
+- **Layer 3 (rendered quality) reasons from the rendered output:** accessibility markup, keyboard operability, layout resilience, performance, motion, surface typography, copy specificity. Category index and per-rule impact: `rules-surface/_sections.md`. A rule's own frontmatter impact wins over its category default (e.g. `perf-image-dimensions-and-priority` is CRITICAL inside the HIGH `perf-` category).
+- **Layers 2 and 3 are complementary, not redundant:** for a form, Layer 2 catches data loss on validation while Layer 3 catches a missing label or 14px mobile input. Run both when a feature has both behavior and rendered surface in scope.
+- **Layer 4 is reserve.** Expect 1-2 Laws findings per audit, not 30. Category index: `rules/_sections.md`. The 10 rubric-kind rules score 1-5 against the anchor tables in `references/observational-rubrics.md`: emit the score plus the verbatim anchor text.
+- **When multiple layers fire on the same issue, keep the most concrete framing.** "Missing error state" (Layer 2) beats "Postel's Law violation" (Layer 4): it has a concrete fix and a specific surface match.
 
-## Review Output Contract
+## Scope: diff-aware by default
 
-Report findings in this format:
-
-```markdown
-## UI Audit Findings
-
-### path/to/file.tsx
-- [CRITICAL] `a11y-image-alt-text` (line 42): `<img src="/chart.png" />` has no alt attribute.
-  - Fix: Add `alt="Revenue grew 40% from Q1 to Q2"` (or `alt=""` if decorative).
-- [HIGH] `a11y-icon-controls-labeled` (line 58): Icon button has no accessible name.
-  - Fix: Add `aria-label="Close dialog"` (or a visible text label).
-- [HIGH] `layout-long-content-safety` (line 87): `.card-title` uses `white-space: nowrap` with no overflow handling.
-  - Fix: Add `min-width: 0` on the flex parent and `overflow: hidden; text-overflow: ellipsis` on the title.
-
-### path/to/clean-file.tsx
-- ✓ pass
+```bash
+git diff --name-only main -- '*.tsx' '*.jsx' '*.ts' '*.js' '*.css' '*.module.css'
 ```
 
-- Group findings by file; include `file:line` when line numbers are available.
-- Every finding states the issue and a concrete fix, never just "improve accessibility".
-- Use the rule's own impact from its frontmatter.
-- Include every scoped file, clean ones as `✓ pass`.
+Audit only those files, and surface the base in the output: `Auditing: 8 files changed vs main`.
+
+- Single component: `git diff --name-only HEAD -- src/Component.tsx`
+- Full sweep: only on explicit request (`--full src/`): e.g. when introducing the skill to a codebase. A default full sweep buries the 3 findings that matter under 60 that don't.
+
+## Ship-readiness verdict
+
+Every audit opens with a verdict block before per-finding detail:
+
+```text
+═══════════════════════════════════════════════════════════
+SHIP VERDICT: ❌ NOT READY (1 release-blocker)
+
+Surface count:           3 (CheckoutForm, PaymentStep, ConfirmStep)
+Findings:                7
+  Release blockers:      1   ⛔  Form data loss on validation (PaymentStep.tsx:42)
+  Fix this sprint:       3   ⚠️
+  Backlog:               3   📋
+
+Defer-to (not audited here):
+  Measured CWV (lab):    Run Lighthouse
+  Bundle size:           Run size-limit
+  Full WCAG conformance: Run axe-core
+═══════════════════════════════════════════════════════════
+```
+
+Verdict computation: ✅ READY (0 blockers, ≤3 sprint) · ⚠️ READY WITH FOLLOW-UP (0 blockers, ≥4 sprint) · ❌ NOT READY (≥1 blocker) · 🚫 INCOMPLETE (self-check failed). Tier definitions, surface bump rules, and worked examples: `references/ship-readiness.md`.
+
+## Output adapters
+
+All three formats render from the same JSON document. Templates and field mappings: `references/output-adapters.md`; strict schema: `references/output-schema.md`.
+
+| Adapter | When | Format |
+|---|---|---|
+| Terminal table | Local dev, agent chat | Tight table grouped by surface, tier-sorted |
+| PR comment | GitHub / Vercel review | Markdown summary + inline comments with `suggestion` blocks |
+| CI JSON | Pipelines, merge gates | Strict JSON; gate with `jq -e '.summary.releaseBlockers == 0'` |
+
+## Suppressions
+
+A finding is intentionally suppressed with an inline comment whose slug matches the rule:
+
+```tsx
+{/* ui-audit-ignore:focus-not-restored, intentional: parent owns focus */}
+<Dialog open={open} onClose={onClose}>
+```
+
+Suppressed findings still appear in the audit summary (`summary.suppressed`) so reviewers can verify intent.
+
+## Defer to other tools
+
+ui-audit reasons statically about behavior and rendered quality; it does not measure runtime metrics or replace conformance scanners. It does surface-level a11y and performance checks (alt text, labels, contrast cues, image dimensions, font loading), but defers comprehensive measurement. When a finding belongs to another tool, link out, don't restate:
+
+| Concern | Use instead |
+|---|---|
+| Measured Core Web Vitals (LCP, CLS, INP) | Lighthouse + web-vitals |
+| Full WCAG conformance scan | axe-core / eslint-plugin-jsx-a11y |
+| Visual regression | Chromatic / Percy |
+| Bundle size budgets | size-limit / bundle-analyzer |
+| Generic correctness bugs | CodeRabbit / Vercel Agent / `pr-reviewer` |
+
+Full coverage map plus the list of gaps only ui-audit catches: `references/defer-to-other-tools.md`.
+
+## Reference files
+
+| File | Read when |
+|------|-----------|
+| `references/feature-playbooks.md` | Steps 2-3: feature detection table + per-feature ordered checks |
+| `references/modern-failure-modes.md` | Browsing Layer 2: all 31 rules with categories and default tiers |
+| `references/states-coverage.md` | Validating loading/empty/error/disabled coverage; state-pair grep recipes |
+| `references/ship-readiness.md` | Step 5: tier definitions, surface bump table, verdict logic |
+| `references/output-adapters.md` | Step 6: verbatim terminal / PR-comment / JSON templates |
+| `references/output-schema.md` | Step 6: strict JSON schema and validation rules |
+| `references/observational-rubrics.md` | Scoring any of the 10 Layer 4 rubric-kind rules (1-5 anchors) |
+| `references/defer-to-other-tools.md` | Deciding whether a concern is another tool's job |
+| `references/craft-checklist.md` | Optional polish sweep (hit targets, hover states, chrome hierarchy, optical alignment, concentric radii) when "polish" or pre-release sign-off is in scope |
+| `references/typography-checklist.md` | Optional typography surface sweep (punctuation, measure, leading, OpenType basics, link styling, table numerals) when typography is named |
+| `rules-modern/_sections.md` | Layer 2 category index (behavior failure modes) |
+| `rules-modern/<category>-<slug>.md` | Step 4: running a named Layer 2 behavior check |
+| `rules-surface/_sections.md` | Layer 3 category index (rendered-quality, 9 prefixes) |
+| `rules-surface/<prefix>-<slug>.md` | Step 4: running a named Layer 3 rendered-quality check |
+| `rules/_sections.md` | Layer 4 category index (Laws of UX, 5 prefixes) |
+| `rules/<prefix>-<slug>.md` | Step 4: running a named Layer 4 Laws check |
+
+## Related skills
+
+- `product-design`: the product decision, not the build. This skill audits the built code and rendered result and returns line-level fixes; route to `product-design` when the question is "is this the right interaction or the right set of states", on a brief, spec, mockup, or intent.
+- `ax-audit`: agentic-feature PRs (agent dashboards, tool-use UIs, trust patterns). Run both on an agentic feature: ax-audit for the agent layer, ui-audit for the traditional surfaces around it.
+- `pr-reviewer`: correctness bugs and code quality in the same diff; ui-audit only covers user-facing quality and behavior.
+- `typography-audit`: deep typography (pairing, OpenType systems, brand and display type); ui-audit's `type-` rules and typography sweep are the shallower surface check.
+- `ui-animation`: motion implementation and review (springs, easing, gestures); ui-audit's `motion-` findings route here for the fix.
 
 ## Gotchas
 
-- Do not load all 35 rule files for a scoped audit; the context cost flattens finding quality. Load only the prefixes mapped in Step 1; a typical component audit needs 3-4 prefixes.
-- Do not invent rule ids. Citing a nonexistent id (e.g. `a11y-focus-trap`) breaks the user's ability to look up the rule; cite only filenames that exist under `rules/`, and describe id-less issues in prose.
-- Do not widen scope unprompted. Auditing the whole app when one component changed buries the real findings in noise; a full sweep requires an explicit request.
-- Do not reorder priorities for convenience. Reporting border-radius polish while an unlabeled form input (`forms-labels-and-autocomplete`) or keyboard-inoperable control (`interaction-keyboard-operable`) ships inverts the table's load-bearing order; CRITICAL categories always run first.
-- Do not mark `✓ pass` on a file you did not read against the loaded rules. An assumed pass that later surfaces a contrast or label failure costs more trust than a slower audit.
-- Do not report findings at category impact when the rule frontmatter says otherwise: `perf-image-dimensions-and-priority` is CRITICAL (CLS) even though `perf-` is a HIGH category.
-- The anti-patterns list in `references/craft-checklist.md` describes UI code being audited, not this skill's execution; do not flag the skill's own report format against it.
+- **Don't audit the whole codebase by default.** Full sweeps need an explicit request; otherwise the noise floor hides the release-blockers.
+- **Don't skip feature detection and run every rule on every file.** 95 rules × N files produces a wall of backlog nits; a playbook's checks per feature produce signal. Load only the `rules-modern/`, `rules-surface/`, and `rules/` files the playbook names.
+- **Don't assign `release-blocker` liberally.** Reserve it for data loss, broken critical paths, and dark patterns. If every finding is a blocker, the verdict stops gating merges.
+- **Don't prescribe fixes without the matching React 19 API.** "Add a loading state" is unactionable; "wrap in `<Suspense fallback={<InvoiceListSkeleton />}>`" gets applied.
+- **Don't render markdown before the JSON document is complete.** The adapters are projections of the JSON; skipping it loses `defaultTier`/`assignedTier`/`tierReason` and makes runs incomparable.
+- **Don't double-report the same issue from multiple layers.** When behavior (Layer 2), surface (Layer 3), and Laws (Layer 4) all touch one issue, keep the most concrete framing only; emitting all inflates the count and splits the fix. Layers 2 and 3 catching *different* issues on one feature (data loss vs missing label) is expected, not a duplicate.
+- **Don't report a rendered-quality rule at its category default when the rule frontmatter overrides it.** `perf-image-dimensions-and-priority` is CRITICAL (CLS) even though `perf-` is a HIGH category.
+- **Don't quote lawsofux.com verbatim.** It is CC BY-NC-SA; every Layer 4 rule paraphrases. Quoting contaminates the output's license.
+- **Don't fabricate detections.** No grep/Read evidence → `result: "unknown"` with a `reason`, never a `fail`. The self-check flags audits with >30% unknowns.
 
-## Related Skills
+## Audit self-check
 
-- `ux-audit`: diff-aware React/Next.js UX bug hunt (state coverage, form data loss, focus management); use it for code-level review of a PR.
-- `ax-audit`: agentic application patterns and trust design.
-- `typography-audit`: deep typography, covering pairing, OpenType systems, brand and display type.
-- `ui-animation`: motion implementation and review (springs, easing, gestures); apply it when audit findings require motion work.
-- `ui-design`: visual direction and rebuilding the UI when the fix is "redesign", not "repair"; its Responsive and Dark mode modes cover breakpoint repairs and dark-mode contrast work.
+Self-flag the audit as `INCOMPLETE` if any of these are true:
+
+- Fewer rules ran than the playbooks planned (`rulesRun < rulesPlanned`)
+- More than 30% of executed rules returned `unknown`
+- Any fail/warn finding lacks a `file:line` citation
+- Any fail/warn finding lacks a `fix` (and, where mechanical, a `fixSnippet`)
+- No Read or Grep tool calls between findings (the audit was guessed, not run)
+- Every finding landed in the same tier (suspect blanket assignment)

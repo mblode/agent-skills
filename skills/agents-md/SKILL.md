@@ -1,6 +1,16 @@
 ---
 name: agents-md
-description: Audits, scores, and refactors AGENTS.md and CLAUDE.md agent instruction files using execution-first standards: working commands, real-failure gotchas, signal-to-noise, and @import progressive disclosure. Runs a 10-check quick triage or a 45-check full audit with letter grades, then proposes minimal diffs. Use when asked to audit, review, score, refactor, or improve agent instruction files, fix stale commands, reduce bloat, write a new AGENTS.md, or when asking "my AGENTS.md is bad", "help me write a CLAUDE.md", or "improve my agent instructions". For SKILL.md skill files use agent-skills-creator; for general docs use docs-writing; for mining session history into instruction suggestions use cadence-advise.
+description: >-
+  Audits, scores, and refactors AGENTS.md and CLAUDE.md agent instruction
+  files using execution-first standards: working commands, real-failure
+  gotchas, signal-to-noise, and @import progressive disclosure. Runs a
+  10-check quick triage or a 45-check full audit with letter grades, then
+  proposes minimal diffs. Use when asked to audit, review, score, refactor, or
+  improve agent instruction files, fix stale commands, reduce bloat, write a
+  new AGENTS.md, or when asking "my AGENTS.md is bad", "help me write a
+  CLAUDE.md", or "improve my agent instructions". For SKILL.md skill files use
+  agent-skills-creator; for general docs use docs-writing; for mining session
+  history into instruction suggestions use cadence-advise.
 ---
 
 # AGENTS.md Audit

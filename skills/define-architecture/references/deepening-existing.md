@@ -36,12 +36,12 @@ Each is a concrete, nameable issue, not a vague "this could be cleaner".
 
 ## Rank by leverage
 
-Not every opportunity is worth acting on. Score each against the Principles in the SKILL.md:
+Not every opportunity is worth acting on. Score each by evidence:
 
-- **KISS:** does the change make the code simpler to understand, or just differently shaped?
-- **YAGNI:** is a *current* requirement made easier by this, or is it speculative tidiness?
-- **Easier to change:** how many future changes become local because of this move? Higher = more leverage.
-- **Duplication over wrong abstraction:** only unify concepts proven duplicated (3+ real instances), never speculated.
+- Does a current requirement become easier or safer?
+- Which named future changes become local because of this move?
+- How much churn is required?
+- Is the duplication proven by 3+ real instances, or only speculated?
 
 Prefer the opportunity that makes the most future changes local for the least churn. Defer or drop the rest.
 

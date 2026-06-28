@@ -7,6 +7,8 @@ Copy this checklist and check off items as you complete them.
 - [ ] `app/robots.ts` allows crawlers, links to sitemap
 - [ ] No unintended `noindex` on public pages
 - [ ] Canonical URL set and consistent on every page
+- [ ] Every indexable page has an internal-link crawl path (no orphans)
+- [ ] Sitemap `lastModified` derives from latest content, not a hardcoded date
 
 ## Meta Tags
 - [ ] Unique title (50-60 chars) per page
@@ -19,7 +21,10 @@ Copy this checklist and check off items as you complete them.
 - [ ] Organization + WebSite schemas on homepage
 - [ ] BreadcrumbList on all non-homepage pages
 - [ ] Article/Product/FAQ schemas where applicable
-- [ ] Passes Google Rich Results Test
+- [ ] Entities share stable `@id`s and interlink via a `@graph` (no duplicated entities)
+- [ ] Articles use an `Organization` publisher with a `logo`; `Person` is the author
+- [ ] `ProfilePage` on identity pages (about/now), linked to the Person
+- [ ] Recommended fields filled: Rich Results Test warnings cleared, not just errors
 
 ## Content & Semantics
 - [ ] Single h1 per page with logical h2-h6 hierarchy
@@ -31,6 +36,7 @@ Copy this checklist and check off items as you complete them.
 - [ ] INP < 200ms
 - [ ] CLS < 0.1 (images have width/height)
 - [ ] TTFB < 600ms
+- [ ] No oversized `public/` images (audit weight; recompress in place)
 
 ## Redirects & Status
 - [ ] Moved URLs return 301/308 (permanent), not 302/307; no redirect chains
@@ -67,3 +73,4 @@ Copy this checklist and check off items as you complete them.
 - [ ] Lighthouse Performance score >= 90
 - [ ] Social sharing previews render correctly
 - [ ] Structured data validated per URL
+- [ ] Post-deploy: Search Console Pages/Coverage clean and rich-result enhancement reports warning-free

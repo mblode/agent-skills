@@ -1,12 +1,25 @@
 ---
 name: pr-reviewer
-description: Reviews the current local diff or branch and returns a read-only, severity-tiered findings report. It never edits files. Four modes: standard bug and compliance review, structural quality, AI slop detection, and whole-codebase security audit. Use when asked to run /pr-reviewer, "review my changes", or "code review" before commit, push, or handoff. "Thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", and "code judo" load the strict structural quality rubric. "Deslop this", "clean up AI code", "remove slop", and "review for AI patterns" load the AI slop catalog. "Security audit", "find vulnerabilities", "deepsec", "threat model", and "audit for security" sweep the whole codebase instead of the diff. To apply fixes automatically use simplify; to create the PR use pr-creator; to watch CI or handle inbound review comments use pr-babysitter; to review a plan document use plan-reviewer.
+description: >-
+  Reviews the current local diff or branch and returns a read-only,
+  severity-tiered findings report. It never edits files. Four modes: standard
+  bug and compliance review, structural quality, AI slop detection, and
+  whole-codebase security audit. Use when asked to run /pr-reviewer, "review my
+  changes", or "code review" before commit, push, or handoff.
+  "Thermo-nuclear review", "structural review", "deep code quality audit",
+  "harsh maintainability review", and "code judo" load the strict structural
+  quality rubric. "Deslop this", "clean up AI code", "remove slop", and
+  "review for AI patterns" load the AI slop catalog. "Security audit", "find
+  vulnerabilities", "deepsec", "threat model", and "audit for security" sweep
+  the whole codebase instead of the diff. To apply fixes automatically use
+  simplify; to create the PR use pr-creator; to watch CI or handle inbound
+  review comments use pr-babysitter; to review a plan document use planning.
 ---
 
 # Local Review
 
 - **IS:** a read-only review of the current local diff or branch that ends in a severity-tiered findings report. The working tree is identical before and after.
-- **IS NOT:** applying fixes (use `simplify` where installed), creating the PR (use `pr-creator`), monitoring CI or resolving inbound review threads (use `pr-babysitter`), or reviewing plan documents (use `plan-reviewer`).
+- **IS NOT:** applying fixes (use `simplify` where installed), creating the PR (use `pr-creator`), monitoring CI or resolving inbound review threads (use `pr-babysitter`), or reviewing plan documents (use `planning`).
 
 Run as an explicit self-review step before commit, push, or handoff, not as a replacement for native PR review tools. Every flagged issue should be something a senior engineer would catch.
 
@@ -80,8 +93,8 @@ Flag only when certain:
 - Test setup over-abstracted until individual tests are unreadable without tracing helpers (prefer DAMP, Descriptive And Meaningful Phrases, over DRY in test code)
 - Lint, type check, or tests fail as a result of the change (vs the step-2 baseline)
 - Unambiguous instruction-file violation (quote the rule, verify its scope covers the changed path)
-- YAGNI violation: abstractions, config systems, or extension points not justified by a current requirement (three similar lines beat a premature abstraction)
-- KISS violation: a simpler approach achieves the same result
+- Speculative abstraction: config systems, extension points, or wrappers not justified by a current requirement (three similar call sites beat a premature abstraction)
+- Avoidable complexity: a simpler approach achieves the same result with less state, fewer branches, or fewer moving parts
 - AI-generated patterns: over-commenting, unnecessary wrapping, type bypasses, premature abstraction (load `references/ai-slop-patterns.md` for the catalog)
 - Diff pushes a file past ~1000 lines when the new code could be a focused module
 - Ad-hoc conditionals or feature-specific branches inserted into unrelated shared code paths
@@ -146,4 +159,4 @@ If the user explicitly points at an existing PR, adapt the same validated findin
 - `simplify` (where installed): applies fixes in-place and verifies the build. Both skills cover reuse, quality, and efficiency; the difference is report-only vs fix-in-place.
 - `pr-creator`: creates the PR after the review passes.
 - `pr-babysitter`: monitors CI and triages inbound review comments after the PR exists.
-- `plan-reviewer`: stress-tests plan documents before implementation; this skill reviews code, not plans.
+- `planning`: builds and stress-tests plan documents before implementation; this skill reviews code, not plans.

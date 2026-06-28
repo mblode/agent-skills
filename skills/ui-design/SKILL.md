@@ -107,4 +107,5 @@ A design that would look out of place beside these products is not done.
 - `typography-audit`: rule-level audit of existing typography; route "fix the fonts" on shipped CSS there
 - `ui-animation`: motion timing, easing, and review
 - `copywriting`: landing-page copy, message match, persuasion frameworks
+- `product-design`: the product decision before the build (which interaction should exist, action naming, reachable-state coverage); decide there, then build here
 - `optimise-seo`: meta descriptions and page titles

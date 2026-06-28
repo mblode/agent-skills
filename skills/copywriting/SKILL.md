@@ -1,6 +1,6 @@
 ---
 name: copywriting
-description: Writes and edits short product and marketing copy using persuasion frameworks, and removes AI writing patterns. Writing mode gathers context, locks a brief, discovers brand voice, picks a framework, and outputs 2-3 alternatives. Editing mode audits against frameworks, strips AI-isms, runs seven sweeps, and outputs a before/after diff. Use when writing landing pages, hero copy, CTAs, product descriptions, onboarding strings, or email subjects. Also use for "this is a bad sell", "write copy for", "rewrite from first principles", "use Simon Sinek", "show don't tell", "make this shorter", "fix the copy", "write a headline", "improve the CTA", "edit existing copy", "remove AI-isms", "clean up AI writing", "make this sound less like AI", "flag AI patterns", or "scan for AI tells". For long-form articles use blog-post; for slide copy use presentation-creator; for API or product docs use docs-writing.
+description: Writes and edits short product and marketing copy using persuasion frameworks, and removes AI writing patterns. Writing mode gathers context, locks a brief, discovers brand voice, picks a framework, and outputs 2-3 alternatives. Editing mode audits against frameworks, strips AI-isms, runs seven sweeps, and outputs a before/after diff. Use when writing landing pages, hero copy, CTAs, product descriptions, onboarding strings, or email subjects. Also use for naming actions, destructive CTAs, and error, empty, and loading-state copy. Also use for "this is a bad sell", "write copy for", "rewrite from first principles", "use Simon Sinek", "show don't tell", "make this shorter", "fix the copy", "write a headline", "improve the CTA", "edit existing copy", "remove AI-isms", "clean up AI writing", or "flag AI patterns". For long-form articles use blog-post; for slide copy use presentation-creator; for API or product docs use docs-writing; for the product decision behind an action use product-design.
 ---
 
 # Copywriting
@@ -23,6 +23,7 @@ Two modes. **Auto-detect, do not ask:**
 | `references/word-lists.md` | Flagging Tier 1/2/3 AI vocabulary (Edit Step 4) |
 | `references/ai-patterns.md` | Flagging structural and sentence-level AI tells and triaging by P0/P1/P2 severity (Edit Step 4) |
 | `references/sweeps.md` | Running the seven line-level sweeps (Edit Step 5) |
+| `references/ui-states.md` | Naming actions, writing destructive CTAs, or error, empty, and loading-state copy |
 
 ---
 
@@ -173,6 +174,7 @@ Attach a label inline to every weak line. Use exactly these labels:
 | `[JARGON]` | Technical term that obscures meaning for a non-expert reader |
 | `[NO-PROOF]` | Claim that needs a number, example, or testimonial to be credible |
 | `[WEAK-CTA]` | CTA describes the action, not the outcome |
+| `[STATE-COPY]` | Vague, leaky, or dead-end state string, or a destructive CTA labeled "Confirm"/"OK"/bare verb (see `references/ui-states.md` for the rule IDs) |
 | `[AI-ISM]` | AI writing pattern: Tier 1 word, Tier 2 cluster, or structural tell |
 
 Flag the 3-7 weakest elements. Prioritise by impact on conversion or comprehension.
@@ -257,3 +259,4 @@ Also ban **"simple"** used as a claim ("our simple onboarding"): never earned up
 | To optimise meta descriptions and page titles | `optimise-seo` |
 | To review the full UI including copy in context | `ui-audit` |
 | For landing page visual design, CRO strategy, and conversion benchmarks | `ui-design` (marketing track) |
+| For the product decision of which action exists and its scope and consequence | `product-design` |

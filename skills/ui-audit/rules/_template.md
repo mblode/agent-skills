@@ -1,24 +1,59 @@
 ---
-title: Rule Title Here
-impact: MEDIUM
-impactDescription: Optional one-line consequence (e.g., "prevents iOS zoom jumps")
-tags: tag1, tag2
+title: Law Name
+impact: HIGH
+kind: programmatic
+prefix: cognitive
+tags: tag1, tag2, tag3
+related: prefix-other-law, prefix-other-law
 ---
 
-## Rule Title Here
+## Law Name
 
-**Impact: MEDIUM (optional consequence note)**
+One-paragraph definition with the threshold and source citation inline (e.g. "Fitts's Law floor: 44×44 px per WCAG 2.5.5 AAA / Apple HIG; 48 dp per Material").
 
-One or two sentences on why the rule matters; name the user-facing failure, not just the best practice. Set `impact` higher than the category default only when the failure mode justifies it.
+A second paragraph if needed for nuance: common misreadings, scope limits, or what the law does *not* claim.
 
-**Incorrect (what is wrong and why):**
+## Check
 
-```tsx
-// Minimal failing example: only the lines that violate the rule
+**Surfaces:** comma-separated list of surfaces this check applies to (e.g. `nav, modal, form`).
+
+**Procedure:**
+1. Concrete step. Imperative voice. Cite the exact element/attribute/property.
+2. Each step produces intermediate evidence (a count, a px value, a boolean).
+3. Last step compares evidence to the threshold table below.
+
+**Concrete commands:**
+```bash
+# Optional: a grep / find / Read recipe for the agent.
+rg '<nav' --files-with-matches src/
 ```
 
-**Correct (what the fix looks like):**
+## Threshold
+
+| Tier | Condition | Severity |
+|---|---|---|
+| pass | <observable condition with a number> |: |
+| warn | <observable condition with a number> | MEDIUM |
+| fail | <observable condition with a number> | HIGH |
+
+## Fix
+
+**If fail:** literal change. Show diff or before/after when possible.
+
+**If warn:** literal change.
+
+## Examples
+
+**Anti-pattern (fails):**
 
 ```tsx
-// Same example, fixed; diff against the incorrect block should be obvious
+// Concrete violation example.
 ```
+
+**Applied (passes):**
+
+```tsx
+// Concrete fix example.
+```
+
+Reference: https://lawsofux.com/<slug>/

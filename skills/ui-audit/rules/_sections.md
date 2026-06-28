@@ -1,50 +1,83 @@
 # Sections
 
-Defines all rule categories in audit priority order. The ID in parentheses is the filename prefix that groups rules (`<prefix>-<slug>.md`). Category impact is the default; individual rules may override it in their frontmatter.
+This file defines all categories, their ordering, impact levels, descriptions, and kind breakdown.
+The category ID (in parentheses) is the filename prefix used to group rules.
 
 ---
 
-## 1. Accessibility and Semantics (a11y)
+## 1. Cognitive Load (cognitive)
 
 **Impact:** CRITICAL
-**Description:** Semantic structure, accessible names, contrast, media alternatives, and document language. Failures exclude assistive-tech users entirely, so run this category first on every audit.
+**Kind breakdown:** 3 programmatic + 2 rubric (5 total)
+**Description:** Principles that govern how much mental effort an interface demands. Excessive cognitive load is the most common cause of abandonment, error, and "I don't get it" friction. Includes the working-memory limit, chunking, and the systematic biases users carry into every screen.
 
-## 2. Keyboard and Interaction (interaction)
-
-**Impact:** CRITICAL
-**Description:** Every interactive element must be keyboard-operable with visible focus and adequate hit targets. A mouse-only control is broken for keyboard, switch, and many touch users.
-
-## 3. Forms and Validation (forms)
-
-**Impact:** CRITICAL
-**Description:** Forms are conversion paths. Labels, autocomplete, paste/IME support, error association, and mobile input sizing decide whether users can complete them at all.
-
-## 4. Typography and Readability (type)
+## 2. Decision-Making (decision)
 
 **Impact:** HIGH
-**Description:** Surface-level readability: scale, measure, leading, link distinction. Deep typography (pairing, brand, display) belongs to the typography-audit skill, not this category.
+**Kind breakdown:** 5 programmatic + 3 rubric (8 total)
+**Description:** Principles that govern how users choose between options or commit to actions. Covers choice architecture, simplification, the conservation of inherent complexity, and the gravitational pull users have toward whatever they already use.
 
-## 5. Navigation and Feedback (nav)
-
-**Impact:** HIGH
-**Description:** Real links for navigation, live-region announcements, and stable loading-indicator timing. Users need to know where they are and what the system is doing.
-
-## 6. Layout and Resilience (layout)
+## 3. Perception (perception)
 
 **Impact:** HIGH
-**Description:** Layouts must survive long content, sparse/dense data, and edge states without overflow or collapse. Empty, loading, and error states are designed, not accidental.
+**Kind breakdown:** 5 programmatic + 2 rubric (7 total)
+**Description:** Gestalt grouping laws and attention principles that determine how users parse a layout pre-attentively. What is visually grouped is read as semantically grouped, for better or worse.
 
-## 7. Performance and Visual Stability (perf)
+## 4. Memory & Expectation (memory)
 
-**Impact:** HIGH
-**Description:** Prevent layout shift, lazy-load offscreen work, and keep rendering predictable under realistic content loads. Image-dimension failures are CLS regressions and rate CRITICAL.
+**Impact:** MEDIUM-HIGH
+**Kind breakdown:** 5 programmatic + 1 rubric (6 total)
+**Description:** Principles about how users remember experiences (peak/end, position effects), how unfinished tasks linger (Zeigarnik), how proximity to a goal accelerates effort, and how prior products shape expectations for new ones (mental models, Jakob's Law).
 
-## 8. Motion and Theme Behavior (motion)
+## 5. Interaction (interaction)
 
-**Impact:** HIGH
-**Description:** Animate transform/opacity only and respect prefers-reduced-motion. Unreduced motion can cause vestibular distress; layout-property animation causes jank.
+**Impact:** MEDIUM-HIGH
+**Kind breakdown:** 2 programmatic + 2 rubric (4 total)
+**Description:** Motor, temporal, and aesthetic properties of interaction itself. Target acquisition (Fitts's), feedback latency (Doherty), engagement state (Flow), and the perception-of-quality bonus that visual polish confers (Aesthetic-Usability).
 
-## 9. Content and Microcopy (copy)
+---
 
-**Impact:** MEDIUM
-**Description:** Specific action labels and actionable error messages. Vague copy lowers completion rates and raises support load, so audit last, after structural issues are clear.
+## Rule Index by Kind
+
+### Programmatic (20 rules)
+Mechanical pass/warn/fail checks via grep, regex, or AST inspection. Returns numbers or booleans.
+
+```
+cognitive-cognitive-load            cognitive-millers-law              cognitive-chunking
+decision-hicks-law                  decision-choice-overload           decision-postels-law
+decision-teslers-law                decision-parkinsons-law
+perception-proximity                perception-similarity              perception-common-region
+perception-uniform-connectedness    perception-von-restorff
+memory-serial-position              memory-zeigarnik                   memory-goal-gradient
+memory-jakobs-law                   memory-peak-end-rule
+interaction-fittss-law              interaction-doherty-threshold
+```
+
+### Observational (10 rules)
+1-5 anchored rubric scoring. See `references/observational-rubrics.md` for full anchors.
+
+```
+cognitive-cognitive-bias            cognitive-working-memory
+decision-occams-razor               decision-paradox-of-the-active-user   decision-pareto-principle
+perception-pragnanz                 perception-selective-attention
+memory-mental-model
+interaction-flow                    interaction-aesthetic-usability
+```
+
+---
+
+## Cross-law interactions
+
+When auditing, these pairings often co-fire. Emit both findings with the same `surface` to make the link explicit.
+
+- **Hick's + Miller's**: Both push toward fewer choices. A nav with 12+ items fails both.
+- **Hick's + Chunking**: When count cannot drop, group. Chunking softens Hick's penalty.
+- **Doherty + Flow**: Sub-400 ms feedback isn't just speed; it preserves the Flow state.
+- **Jakob's + Mental Model**: Jakob's is the special case (other websites). Pick the more specific one; don't double-count.
+- **Fitts's + Proximity**: Tap targets need both adequate size and adequate spacing.
+- **Peak-End + Goal-Gradient**: A strong end matters more if the user accelerated into it.
+- **Aesthetic-Usability + Postel's**: Polish buys patience for input forgiveness.
+- **Von Restorff + Selective Attention**, Reciprocal: distinctive items break attention filters.
+- **Tesler's + Postel's**: Both relocate complexity. Tesler's says someone bears it; Postel's says the system should.
+- **Serial Position + Von Restorff**: Position effect predicts edge-recall; distinctiveness breaks the pattern.
+- **Zeigarnik + Goal-Gradient**: Open loops + visible progress accelerate completion.

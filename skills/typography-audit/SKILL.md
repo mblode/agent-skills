@@ -1,6 +1,18 @@
 ---
 name: typography-audit
-description: Audits web typography against 90 rules in 10 categories: punctuation, font selection and @font-face setup, sizing and measure, spacing and rhythm, OpenType features, hierarchy, alignment and layout, typeface pairing, brand identity, and display type. Reports file:line findings with concrete CSS/HTML fixes ordered by impact. Use when writing or reviewing CSS/HTML for text, selecting or pairing typefaces, configuring font-feature-settings or @font-face, building a type scale, or asking "audit my typography", "fix the fonts", "review my type system", "why does this text look off". Triggers on font-family, font-size, line-height, letter-spacing, smart quotes, em dashes, faux bold or italic, variable fonts, widows and orphans. For whole-UI audits beyond type (accessibility, forms, navigation), use ui-audit; for choosing a visual direction or designing a new type system, use ui-design.
+description: >-
+  Audits web typography against 90 rules in 10 categories: punctuation, font
+  selection and @font-face setup, sizing and measure, spacing and rhythm,
+  OpenType features, hierarchy, alignment and layout, typeface pairing, brand
+  identity, and display type. Reports file:line findings with concrete
+  CSS/HTML fixes ordered by impact. Use when writing or reviewing CSS/HTML for
+  text, selecting or pairing typefaces, configuring font-feature-settings or
+  @font-face, building a type scale, or asking "audit my typography", "fix the
+  fonts", "review my type system", "why does this text look off". Triggers on
+  font-family, font-size, line-height, letter-spacing, smart quotes, em dashes,
+  faux bold or italic, variable fonts, widows and orphans. For whole-UI audits
+  beyond type (accessibility, forms, navigation), use ui-audit; for choosing a
+  visual direction or designing a new type system, use ui-design.
 ---
 
 # Typography Audit
@@ -94,5 +106,5 @@ Report findings in this format:
 
 ## Related Skills
 
-- `ui-audit`: broad UI quality (accessibility, forms, navigation, motion); its typography coverage is shallower than this skill's.
+- `ui-audit`: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower than this skill's.
 - `ui-design`: choosing typefaces, scales, and visual direction from scratch; run it when an audit finding becomes a redesign request.

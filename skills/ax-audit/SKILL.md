@@ -9,12 +9,12 @@ description: >
   execution, agent config, agent dashboard). Produces a 3-tier ship-readiness
   verdict (release-blocker / fix-this-sprint / backlog) plus an AX
   Relationship Summary naming the evolution stage, trust signal, and key gap.
-  Use before merging an agentic feature PR, or when asked "is this
+  Use when reviewing an agentic feature PR, or when asked "is this
   agent-native?", "AX review", "AX critique", "critique this AI feature",
   "does this earn user trust?", "is this design actually agentic?", "trust
   review", "AX patterns check", or "audit this for AX". For traditional UX
-  audits (forms, states, focus, async, microcopy) use ux-audit; for broad web
-  UI quality (accessibility, layout, typography) use ui-audit.
+  audits (forms, states, focus, async, microcopy, accessibility, layout) use
+  ui-audit.
 ---
 
 # AX Audit
@@ -22,9 +22,9 @@ description: >
 Feature-level reviewer for applications where an agent acts on the user's behalf. Answers one question: **does this agent earn trust, and where does it break?**
 
 - **IS:** a rules-based audit of agentic surfaces (agent chat, tool execution panels, agent config, agent dashboards) across two layers (architecture correctness in `rules-arch/`, trust and relationship design in `rules-ax/`), ending in a ship-readiness verdict and an AX Relationship Summary.
-- **IS NOT:** traditional UX auditing: forms, states, focus, async, microcopy (use `ux-audit`); broad web UI quality: accessibility, layout, typography, performance (use `ui-audit`); agent instruction-file quality (use `agents-md`).
+- **IS NOT:** traditional frontend UX auditing: forms, states, focus, async, microcopy, accessibility, layout, typography, performance (use `ui-audit`); agent instruction-file quality (use `agents-md`).
 
-If the scope contains no agentic features (only forms, lists, modals), stop and route to `ux-audit`. Running AX rules against traditional UI produces only noise.
+If the scope contains no agentic features (only forms, lists, modals), stop and route to `ui-audit`. Running AX rules against traditional UI produces only noise.
 
 ## Contents
 
@@ -112,7 +112,7 @@ Rendered after findings whenever any agentic feature was detected. Findings are 
 - **Absence checks need a recorded file list.** "Find components lacking X" greps return nothing both when everything passes and when nothing was scanned. List candidate files first (`rg -l <feature-pattern>`), then check each for the counter-pattern, and cite the file list as evidence.
 - **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` require interaction-flow judgment; with static evidence only, return `unknown` with a reason instead of `fail`.
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the suppressed count in the verdict block; a suppression with no trailing reason is itself worth a `warn`.
-- **Don't duplicate ux-audit findings.** "Missing loading state" and "form clears on error" are `ux-audit` territory; duplicating them teaches engineers to dismiss the whole AX report.
+- **Don't duplicate ui-audit findings.** "Missing loading state" and "form clears on error" are `ui-audit` territory; duplicating them teaches engineers to dismiss the whole AX report.
 - **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. Promoting cosmetic findings to blocker trains the team to ignore ❌ verdicts.
 
 ## Audit self-check
@@ -127,7 +127,7 @@ Self-flag the audit `INCOMPLETE` if any of these are true, and include the count
 
 ## Related skills
 
-- `ux-audit`: traditional UX quality on the same surfaces (run both on agentic features; ax-audit covers the agent layer, ux-audit the rest)
-- `ui-audit`, broad web UI quality: accessibility, layout, typography, performance
+- `ui-audit`: traditional UX quality on the same surfaces (run both on agentic features; ax-audit covers the agent layer, ui-audit the rest)
+- `ui-audit`: traditional frontend UX quality around agentic surfaces
 - `agents-md`: audit CLAUDE.md / AGENTS.md agent instruction files
 - `define-architecture`: repo structure and module boundaries

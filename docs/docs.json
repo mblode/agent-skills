@@ -2,7 +2,7 @@
   "$schema": "https://blode.md/docs.json",
   "name": "Agent Skills",
   "slug": "agent-skills",
-  "description": "25 skills for shipping better software, for Claude Code, OpenCode, Codex, and Cursor",
+  "description": "Skills for shipping better software, for Claude Code, OpenCode, Codex, and Cursor",
   "navbar": {
     "links": [
       { "label": "skills.sh", "href": "https://skills.sh/mblode/agent-skills" },

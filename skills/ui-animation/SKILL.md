@@ -1,12 +1,14 @@
 ---
 name: ui-animation
-description: Creates, reviews, and debugs UI motion and animation implementations. Covers springs, gestures, drag interactions, clip-path reveals, easing curves, timing, CSS transition recipes, and animation review. Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, or asking "add animations to", "make this feel smooth", "review my animations", "should this animate", "add a swipe gesture", or "add a transition". For recreating motion from a screen recording or video, use reverse-engineer-animation; for overall visual direction and styling, use ui-design; for named text-effect specs (typewriter, line reveal, kinetic builds), use animate-text.
+description: Creates, reviews, debugs, and reverse-engineers UI motion and animation. Covers springs, gestures, drag interactions, clip-path reveals, easing curves, timing, CSS transition recipes, animation review, and measuring motion from a screen recording (extract frames, track per frame, fit easing and spring curves, emit CSS, Motion, SwiftUI, React Native, or UIKit plus a handoff spec). Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, or asking "add animations to", "make this feel smooth", "review my animations", "should this animate", "add a swipe gesture", "add a transition", "reverse engineer this animation", "recreate this animation from a video", "match this easing", or "extract the animation curve". For overall visual direction and styling, use ui-design; for named text-effect specs (typewriter, line reveal, kinetic builds), use animate-text.
 ---
 
 # UI Animation
 
-- **IS:** designing, implementing, reviewing, and debugging UI motion: springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion.
-- **IS NOT:** extracting an animation from a video or screen recording (use `reverse-engineer-animation`), choosing overall visual direction, palettes, or typography (use `ui-design`), or auditing a whole page's UI quality (use `ui-audit`).
+- **IS:** designing, implementing, reviewing, and debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), and measuring motion from a screen recording (extract frames, track, fit curves) to emit code plus a handoff spec.
+- **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design`), auditing a whole page's UI quality (use `ui-audit`), or named text-effect specs (use `animate-text`).
+
+If the input is a screen recording or video of an existing animation, you are MEASURING motion: follow the Reverse-engineer workflow below. Otherwise (designing, implementing, reviewing) use the rules and Workflow that follow.
 
 ## Reference files
 
@@ -21,6 +23,10 @@ description: Creates, reviews, and debugs UI motion and animation implementation
 | [references/review-format.md](references/review-format.md)                 | Reviewing animation code: strict review with ten standards, escalation triggers, Before/After/Why table, and a Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Implementing contextual icon swaps, word-level stagger entrances, or fixed-offset exit animations |
 | [references/transition-recipes.md](references/transition-recipes.md)       | Installing a CSS transition: card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, text swap, success animation, avatar hover, error shake |
+| [references/measurement-guide.md](references/measurement-guide.md)         | Reverse-engineer: deciding what to measure, eye vs script, reading `metrics.json`, choosing an ROI |
+| [references/curve-fitting.md](references/curve-fitting.md)                 | Reverse-engineer: reading `fit_curves.py` output, spring vs bezier, judging fit error, asymmetric open/close |
+| [references/code-output.md](references/code-output.md)                     | Reverse-engineer: emitting code for CSS, Motion/Framer Motion, SwiftUI, React Native, or UIKit |
+| [references/choreography.md](references/choreography.md)                   | Reverse-engineer: multi-element/multi-phase motion: staggers, blur-before-move, per-edge settling |
 
 ## Core rules
 
@@ -158,9 +164,40 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
 
+## Reverse-engineer workflow
+
+Use this branch when measuring an existing animation from a screen recording, then emitting code and a handoff spec that reproduce it. The scripts under `scripts/` are the canonical, deterministic path; run them rather than reconstructing their logic.
+
+**Dependencies:** `ffmpeg` for frame extraction (`brew install ffmpeg`); Python with `pip install opencv-python numpy scipy` for tracking and curve fitting. Extraction degrades gracefully: with only ffmpeg you can extract frames and reason visually; tracking and fitting need the Python packages.
+
+```text
+Reverse-engineer progress:
+- [ ] Step 1: Extract frames + contact sheet (per direction if open differs from close)
+- [ ] Step 2: Vision pass: identify element, effects, phases
+- [ ] Step 3: Decide precision (eye-only vs scripted)
+- [ ] Step 4: Track motion and fit curves (if escalating)
+- [ ] Step 5: Annotate choreography (delays, asymmetry)
+- [ ] Step 6: Emit code for the target(s)
+- [ ] Step 7: Validate against the recording
+```
+
+1. **Extract.** Run `python3 scripts/extract_frames.py <video> <outdir>`. Trim to just the transition with `--start`/`--duration`; if the interaction has both an open and a close, trim two windows and run the pipeline once per direction (they are almost never mirror images). Match `--fps` to the source (probe with `ffprobe`), and never sample above the source rate. Open `contact_sheet.png` first.
+2. **Vision pass.** Name the element(s) that move, every effect (translate, scale often anisotropic, opacity, blur, corner radius, shadow, color), and the phases, noting which property leads and which lags. Use the checklist in `references/measurement-guide.md`.
+3. **Decide precision.** Simple fade or linear slide: read timing off the contact sheet and skip to step 5. Elastic, springy, or multi-property motion: escalate to step 4 (eyeballing a spring is unreliable).
+4. **Track and fit.** Run `python3 scripts/track_motion.py <outdir>` for `metrics.json` (pass `--bbox X,Y,W,H` to isolate one element). Then `python3 scripts/fit_curves.py <outdir>/metrics.json` for spring params, cubic-bezier, and a per-property fit error. Pass the same `--fps` you extracted with. Read `references/curve-fitting.md` to pick the model; high error on both models means multi-phase motion (split and fit each segment).
+5. **Annotate.** Load `references/choreography.md`. Build the timing-offset table (when each property starts and settles); the lead/lag gaps and over-stretch carry more of the feel than any single curve.
+6. **Emit.** Substitute fitted parameters into the templates in `references/code-output.md` for the requested target. Keep movement on `transform`/`opacity`. Emit two transitions when open and close differ, plus the consolidated handoff motion spec so the result can be implemented without the video.
+7. **Validate.** Re-derive: play the emitted animation, screen-record it, run it back through `extract_frames.py`, and compare contact sheets side by side. Slow to 0.1x to confirm phase order and over-stretch survive. Confirm the emitted code only animates `transform`, `opacity`, and `filter`.
+
+**Reverse-engineer gotchas:**
+
+- `fit_curves.py` defaults to `--fps 30`. Extract at 60 and fit at the default and every `duration_ms` doubles while fitted stiffness drops to a quarter. Always pass the extraction fps to the fit.
+- Sampling above the source rate duplicates frames: a 24 fps GIF extracted at 60 yields plateaued runs in `metrics.json` that inflate fit error. Probe and match the source rate.
+- Screen recordings drop frames and iOS/QuickTime captures are variable-frame-rate; consecutive identical rows are duplicated frames, not a pause. Re-record at a steadier rate if plateaus dominate.
+- Open and close are never mirror images; measure each direction as its own clip. Treat a fit `error` above 0.08 as suspect.
+
 ## Related skills
 
-- `reverse-engineer-animation`: extracts an animation spec from a screen recording; hand its output here for production implementation.
 - `ui-design`: visual direction, palettes, typography; settle the visual system before tuning motion.
 - `ui-audit`: page/feature-level UI quality audit; its motion findings route back to this skill for fixes.
 - `animate-text`: curated catalog of named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.

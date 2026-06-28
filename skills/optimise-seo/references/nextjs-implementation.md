@@ -83,6 +83,20 @@ export default function robots(): MetadataRoute.Robots {
 
 For sites over 50,000 URLs (or to split by type), return a sitemap **index** by exporting `generateSitemaps()` and reading the `id`; Next.js serves `/sitemap/0.xml`, `/sitemap/1.xml`, … under one index. Add image/video entries with the `images`/`videos` fields on a sitemap row when media is JS-loaded or CDN-hosted and not reachable by link-following.
 
+Derive `lastModified` from the most recent content date, never a hardcoded constant (which goes stale and signals dead content). Index and homepage rows should reflect the freshest child item:
+
+```ts
+// app/sitemap.ts: freshest-content lastModified
+function latestDate(dates: string[], fallback: Date): Date {
+  const times = dates.map(d => new Date(d).getTime()).filter(t => !Number.isNaN(t))
+  return times.length > 0 ? new Date(Math.max(...times)) : fallback
+}
+
+const latestBlog = latestDate(posts.map(p => p.updatedAt ?? p.publishedAt), buildDate)
+// /blog index row uses latestBlog; the homepage row uses the freshest date
+// across every content type (e.g. Math.max of latestBlog and latestStudy).
+```
+
 ## Redirects, headers, and indexing
 
 ```ts
@@ -92,10 +106,19 @@ const config = {
     return [
       { source: '/old-path', destination: '/new-path', permanent: true },   // 308
       { source: '/promo', destination: '/sale', permanent: false },          // 307
+      {
+        // Canonicalise www -> apex with a permanent (308) redirect, matched by host.
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.example.com' }],
+        destination: 'https://example.com/:path*',
+        permanent: true,
+      },
     ]
   },
 }
 ```
+
+Pick one canonical host (apex or www) and 308 the other to it. If the platform already redirects at the edge (e.g. a Vercel domain redirect), set it to 308 there instead of duplicating the rule in `next.config.ts`.
 
 Indexing policy: public pages default to `index, follow`. Mark staging, admin, thin, or private pages explicitly, via `metadata.robots` for HTML routes, or `X-Robots-Tag` for non-HTML (PDFs, APIs) and whole environments.
 
@@ -192,26 +215,31 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 
 Note: `JSON.stringify` on schema objects produces safe output (no user-supplied HTML).
 
-```tsx
-// app/layout.tsx: Organization & WebSite
-<JsonLd data={{
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Brand',
-  url: 'https://example.com',
-  logo: 'https://example.com/logo.png',
-}} />
+**Entity graph.** Define each entity once with a stable `@id` and reference it by `@id` everywhere else, rather than duplicating entities inline. Emit the shared entities once (homepage or root layout) inside a single `@graph`, then let per-page schema (Article, Breadcrumb, ProfilePage) point back into it by `@id`. This lets search engines resolve one knowledge graph instead of disconnected snippets.
 
+```tsx
+// lib/site.ts: stable ids referenced everywhere
+export const personId = 'https://example.com/#person'
+export const websiteId = 'https://example.com/#website'
+export const orgId = 'https://example.com/#organization'
+
+// app/layout.tsx: emit shared entities once, interlinked
 <JsonLd data={{
   '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Brand',
-  url: 'https://example.com',
+  '@graph': [
+    { '@type': 'Person', '@id': personId, name: 'Author Name',
+      url: 'https://example.com', worksFor: { '@id': orgId },
+      sameAs: ['https://www.linkedin.com/in/...', 'https://github.com/...'] },
+    { '@type': 'Organization', '@id': orgId, name: 'Brand',
+      url: 'https://example.com', logo: 'https://example.com/logo.png' },
+    { '@type': 'WebSite', '@id': websiteId, name: 'Brand',
+      url: 'https://example.com', publisher: { '@id': orgId } },
+  ],
 }} />
 ```
 
 ```tsx
-// Breadcrumbs
+// Breadcrumbs (per inner page)
 <JsonLd data={{
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -225,16 +253,34 @@ Note: `JSON.stringify` on schema objects produces safe output (no user-supplied 
 ```
 
 ```tsx
-// Article
+// Article: Person authors, Organization (with logo) publishes
 <JsonLd data={{
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: post.title,
   image: [post.image],
   datePublished: post.publishedAt,
-  author: { '@type': 'Person', name: post.author },
+  dateModified: post.updatedAt,
+  author: { '@id': personId },
+  publisher: { '@id': orgId },   // Organization + logo, not the Person
+  isPartOf: { '@id': websiteId },
 }} />
 ```
+
+```tsx
+// ProfilePage: identity pages (/about, /now) point at the Person
+<JsonLd data={{
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': 'https://example.com/about#webpage',
+  url: 'https://example.com/about',
+  isPartOf: { '@id': websiteId },
+  about: { '@id': personId },
+  mainEntity: { '@id': personId },
+}} />
+```
+
+Fill recommended fields, not just required ones. Search Console reports missing recommended fields as rich-result *warnings* (e.g. an `Event` wants `endDate`, `offers`, `image`, `eventStatus`, `eventAttendanceMode`, a full `PostalAddress`, and `organizer.url`). Validate each type against the Rich Results Test and clear the enhancement-report warnings, not only the errors.
 
 ## OG Images
 
@@ -261,6 +307,8 @@ export default async function Image(
   )
 }
 ```
+
+Audit static image weight in `public/` as part of CWV work: recompress oversized assets in place (keep filenames and formats so references stay valid). Downscaling and re-encoding a handful of hero/avatar images often cuts total weight by most of its size, improving LCP and crawl overhead. Note that an avatar reused as the `Person` JSON-LD `image` is also served to crawlers, so its size matters twice.
 
 ## File Structure
 

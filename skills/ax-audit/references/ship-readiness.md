@@ -110,4 +110,4 @@ Verdict shows in the summary block at the top of every audit report.
 
 ## Cross-reference
 
-For traditional UX findings on agentic surfaces (form data loss, focus management, loading states), run `ux-audit` alongside `ax-audit`. The two skills are complementary: `ax-audit` covers agent-specific safety and interaction patterns while `ux-audit` covers general frontend quality.
+For traditional UX findings on agentic surfaces (form data loss, focus management, loading states), run `ui-audit` alongside `ax-audit`. The two skills are complementary: `ax-audit` covers agent-specific safety and interaction patterns while `ui-audit` covers general frontend quality.

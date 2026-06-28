@@ -1,12 +1,12 @@
 ---
 name: optimise-seo
-description: Optimises SEO and technical foundations for Next.js App Router apps, covering sitemaps, robots, meta tags, structured data, canonical URLs, redirects, indexing policy, hreflang and internationalisation, Core Web Vitals, programmatic SEO, security headers, privacy/consent, and error-page resilience. Use when asked to "improve SEO", "add a sitemap", "fix meta tags", "add structured data", "set canonical URLs", "set up redirects", "fix soft 404s", "add hreflang", "add security headers", "add cookie consent", "improve Core Web Vitals", "audit SEO", or "build SEO pages at scale". Performs no visual redesigns; for visual direction use ui-design, for page-level UI quality use ui-audit, for llms.txt and AI-agent readability use agent-ready-audit.
+description: Optimises SEO and technical foundations for Next.js App Router apps, covering sitemaps, robots, meta tags, structured data, canonical URLs, redirects, indexing policy, hreflang and internationalisation, Core Web Vitals, programmatic SEO, security headers, privacy/consent, and error-page resilience. Use when asked to "improve SEO", "add a sitemap", "fix meta tags", "add structured data", "set canonical URLs", "set up redirects", "fix soft 404s", "add hreflang", "add security headers", "add cookie consent", "improve Core Web Vitals", "audit SEO", or "build SEO pages at scale". Performs no visual redesigns; for visual direction use ui-design, for page-level UI quality use ui-audit. Does not cover llms.txt or AI-agent readability.
 ---
 
 # Optimise SEO
 
 - **IS:** crawlability, metadata, structured data, canonicals, redirects, hreflang, Core Web Vitals, programmatic SEO, security/privacy headers, and error-page status behaviour for Next.js App Router apps.
-- **IS NOT:** visual redesigns or layout changes (use `ui-design`), page-level UI quality review (use `ui-audit`), or making a site readable by AI agents via llms.txt and agent protocols (use `agent-ready-audit`).
+- **IS NOT:** visual redesigns or layout changes (use `ui-design`), or page-level UI quality review (use `ui-audit`). Making a site readable by AI agents (llms.txt, MCP discovery, WebMCP) is out of scope: those specs move fast, so look them up fresh rather than from a static skill.
 
 Allowed file surface: metadata, structured data, semantic HTML, internal links, alt text, `app/sitemap.ts`, `app/robots.ts`, `next.config.ts` redirects and headers, error pages, performance tuning. Never touch component styling or layout.
 
@@ -31,7 +31,7 @@ For steps 2-4, read [references/nextjs-implementation.md](references/nextjs-impl
 - Canonical URL set and consistent on every page (one host, one casing, one trailing-slash policy)
 - Unique title and description per page via `metadata` or `generateMetadata`
 - OpenGraph + Twitter Card tags with a 1200x630 image
-- JSON-LD: Organization and WebSite on the homepage, BreadcrumbList on inner pages, plus Article/Product/FAQ where the content type matches
+- JSON-LD: Organization and WebSite on the homepage, BreadcrumbList on inner pages, plus Article/Product/FAQ where the content type matches. Define each entity once in a `@graph` with a stable `@id` (`/#person`, `/#website`, `/#organization`) and reference it by `@id` elsewhere instead of duplicating. On articles, keep `Person` as `author` but use an `Organization` (with a `logo`) as `publisher`
 - One h1 per page with logical h2-h6 hierarchy
 - Descriptive alt text, internal links between related pages, CWV within targets (LCP < 2.5s, INP < 200ms, CLS < 0.1)
 
@@ -41,12 +41,14 @@ For steps 2-4, read [references/nextjs-implementation.md](references/nextjs-impl
 - Each page needs unique value backed by defensible data; templated text swaps are doorway pages
 - Clean subfolder URLs, hub-and-spoke linking, breadcrumbs on every page
 - Index only strong pages; `noindex` the long tail and monitor indexation and cannibalisation in Search Console
+- This applies to single pages too: `noindex` a thin page and omit it from the sitemap until it carries unique content, then add an internal link and index it
 
 ## SEO audit (triage order)
 
 1. Crawl/index: robots, sitemap, stray `noindex`, canonicals, redirect chains, soft 404s
 2. Technical: HTTPS, Core Web Vitals, mobile/desktop parity
 3. On-page: titles/H1 uniqueness, internal links, remove or `noindex` thin pages
+4. Orphans: pages that are indexable (metadata, canonical, breadcrumb) yet have no internal link or sitemap entry. Either give them a crawl path (nav/footer link plus sitemap) or `noindex` and drop from the sitemap
 
 ## Redirects and indexing policy
 
@@ -74,6 +76,10 @@ Security headers (HSTS, CSP, `nosniff`, `frame-ancestors`, `Referrer-Policy`, `P
 - Don't ship `hreflang` that isn't reciprocal across every alternate; search engines ignore non-mutual sets entirely.
 - Don't serve a maintenance window with 200 or 404: return 503 + `Retry-After` so the site isn't deindexed.
 - Don't add `Strict-Transport-Security` with `preload`/`includeSubDomains` before every subdomain is HTTPS; it's effectively irreversible.
+- Don't set a `Person` as the `publisher` on articles: Article rich results expect an `Organization` publisher with a `logo`. Keep the `Person` as `author`.
+- Don't stop at required schema fields; Search Console flags missing recommended fields as rich-result warnings (e.g. Event wants `endDate`, `offers`, `image`, `eventStatus`, `eventAttendanceMode`, address, `organizer.url`). Clear warnings, not just errors.
+- Don't hardcode the sitemap `lastModified` date: it goes stale and signals dead content. Derive it from the most recent content date.
+- Don't leave indexable pages orphaned: a page with no internal link wastes crawl equity and may never get discovered or ranked.
 
 ## References
 
@@ -86,8 +92,7 @@ Security headers (HSTS, CSP, `nosniff`, `frame-ancestors`, `Referrer-Policy`, `P
 
 - `ui-design`: visual direction, palettes, typography, landing-page CRO
 - `ui-audit`: page-level UI quality (a11y, forms, layout, microcopy)
-- `agent-ready-audit`: llms.txt, AI crawler policy, agent-readable content
-- `ux-audit`: runtime i18n behaviour (locale formatting, plurals, RTL)
+- `ui-audit`: runtime i18n behaviour (locale formatting, plurals, RTL)
 
 ## Validation (step 5, evidence required)
 
@@ -98,3 +103,4 @@ Security headers (HSTS, CSP, `nosniff`, `frame-ancestors`, `Referrer-Policy`, `P
 - Run Lighthouse; SEO and Performance >= 90
 - Validate JSON-LD per URL with Google's Rich Results Test
 - Report remaining blockers with exact URLs and owner/action
+- After deploy, close the loop in Search Console: the Pages/Coverage report (indexed vs excluded) and the rich-result enhancement reports should be free of new warnings, and impressions on optimised URLs should hold or climb

@@ -12,7 +12,7 @@ Defines the output structure for ax-audit results. Two sections: findings table,
 
 ## Findings table
 
-Each finding is a JSON object (schema is deliberately compatible with ux-audit findings so the two reports can be merged):
+Each finding is a JSON object (schema is deliberately compatible with ui-audit findings so the two reports can be merged):
 
 ```json
 {
@@ -102,6 +102,6 @@ AX Relationship:
   Key gap:     No session context; every interaction starts cold
   Question:    Will users accept inline rationale on every response?
 
-Cross-reference:     Run ux-audit for traditional UX findings
+Cross-reference:     Run ui-audit for traditional UX findings
 ═══════════════════════════════════════════════════════════
 ```

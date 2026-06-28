@@ -12,7 +12,6 @@ Define durable, easy-to-change architecture defaults for TypeScript full-stack a
 
 ## Contents
 
-- Principles
 - Workflow and references
 - Setup workflow (new codebase)
 - Adoption workflow (existing codebase)
@@ -20,16 +19,6 @@ Define durable, easy-to-change architecture defaults for TypeScript full-stack a
 - Output template
 - Related skills
 - Gotchas
-
-## Principles (ordered by priority)
-
-1. **KISS**: the simplest architecture that solves the problem. Complexity is a cost, not a feature.
-2. **YAGNI**: build what is needed now, not hypothetical futures.
-3. **Easier to change**: isolate concerns so future changes stay local.
-4. **Tracer bullet**: prove the approach with one minimum viable vertical slice before building layers.
-5. **Duplication over wrong abstraction**: extract shared code only after three or more consumers need it.
-
-When two recommendations conflict, the higher-numbered principle yields.
 
 ## Workflow
 
@@ -95,7 +84,7 @@ The goal is domain-informed deepening, not a rewrite. Load [references/deepening
 
 1. **Map the domain language.** Read the code for the ubiquitous language in actual use: entities, actions, and bounded contexts as the team names them. Note naming divergence (one concept with three names, or one name covering three concepts).
 2. **Find deepening opportunities.** Look for anemic domain concepts, leaking boundaries, naming divergence, duplicated concepts, primitive obsession, and misplaced logic. Record each as a concrete opportunity with file paths, never a vague smell.
-3. **Rank by leverage.** Score opportunities against the Principles. Prefer changes that make the most future changes local for the least churn. Drop speculative cleanups that no current requirement justifies.
+3. **Rank by leverage.** Prefer opportunities that make named future changes local, have low churn, and are justified by a current requirement. Drop speculative cleanups.
 4. **Migrate one vertical slice first.** Pick the highest-leverage opportunity and prove the move end to end through one slice before generalizing.
 5. **Add guardrails.** Enforce the new boundary with lint, type, or test checks so it cannot decay, then roll out module by module.
 
@@ -131,7 +120,7 @@ Use this structure for architecture recommendations:
 
 - `scaffold-nextjs` or `scaffold-cli`: scaffold the repo once the brief is agreed.
 - `multi-tenant-architecture`: tenant identification, isolation, and domain strategy.
-- `plan-creator`: turn an Adoption opportunity into an implementation plan.
+- `planning`: turn an Adoption opportunity into an implementation plan, then stress-test it.
 
 ## Gotchas
 

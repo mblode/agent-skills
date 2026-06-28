@@ -1,6 +1,6 @@
 # Internationalisation (SEO layer)
 
-How multilingual/multi-regional sites tell search engines which version to serve. Covers URL strategy, `hreflang`, and localised metadata. For runtime formatting (dates/numbers/plurals) and the language switcher UI, that's the `ux-audit` skill's `dark-i18n-*` rules.
+How multilingual/multi-regional sites tell search engines which version to serve. Covers URL strategy, `hreflang`, and localised metadata. For runtime formatting (dates/numbers/plurals) and the language switcher UI, that's the `ui-audit` skill's `dark-i18n-*` rules.
 
 ## Contents
 - [URL strategy](#url-strategy)

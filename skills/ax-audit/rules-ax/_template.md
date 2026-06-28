@@ -81,8 +81,8 @@ rg 'pattern' --type=ts src/
 
 ## Cross-reference
 
-If a finding overlaps with ux-audit rules, link out:
-- `ux-audit` rule `<slug>` for the traditional UX dimension
+If a finding overlaps with ui-audit rules, link out:
+- `ui-audit` rule `<slug>` for the traditional UX dimension
 
 ## Suppression
 
