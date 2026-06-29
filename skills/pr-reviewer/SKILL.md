@@ -73,6 +73,12 @@ Report only when certain:
 - Feature-specific conditionals added to unrelated shared paths.
 - Bespoke helper duplicating a canonical utility.
 - Logic in the wrong layer when the canonical home is clear.
+- Retried or at-least-once write with no idempotency key or dedupe barrier, so a duplicate delivery applies twice.
+- Database commit plus an external publish (queue, webhook, email) without an outbox or transactional guarantee (dual-write): one side can fail independently.
+- External input (webhook/callback) trusted blindly: signature not verified over the raw bytes, or state overwritten directly from the payload instead of confirming against the source.
+- Floats or other lossy types used for money or precision-sensitive values, or money serialized as a bare JSON number rather than a string or integer minor-units.
+- Multi-step flow with an irreversible external effect and no compensation or resume path if a later step fails.
+- Sensitive mutation (funds, permissions, config) with no audit trail of what changed, who changed it, and why.
 
 Do not report style preferences, unrelated pre-existing issues, risks without a repro or exploit path, broad rewrites outside the diff's intent, linter-only noise, or explicitly silenced violations.
 

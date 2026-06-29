@@ -39,6 +39,7 @@ Load references only when the condition applies:
 |-----------|-----------|
 | [references/stack-defaults.md](references/stack-defaults.md) | Choosing libraries, tooling, or deploy targets |
 | [references/api-design.md](references/api-design.md) | Designing endpoints, module contracts, or reviewing API surface changes |
+| [references/distributed-correctness.md](references/distributed-correctness.md) | Designing flows that call external systems, consume webhooks, retry, or need an audit trail |
 | [references/deepening-existing.md](references/deepening-existing.md) | Running the Adoption workflow (domain mapping, opportunity patterns, output template) |
 | [references/craftsmanship.md](references/craftsmanship.md) | Writing the team-conventions or testing sections |
 | [references/shipping-practices.md](references/shipping-practices.md) | Writing the rollout and rollback section |
@@ -130,3 +131,5 @@ Use this structure:
 - Don't propose a big-bang rewrite during Adoption: migrate one vertical slice, verify it, then generalize.
 - Don't extract to `packages/` early: wait until 3+ apps need the same code; a premature shared package couples release cycles for nothing.
 - Don't finalize a brief without a rollback plan per change: an irreversible decision needs a documented fallback before it ships.
+- Don't dual-write to a database and a queue/webhook without an outbox (or CDC): one side commits, the other fails, and you silently lose or fabricate a notification. See `references/distributed-correctness.md`.
+- Don't enforce an externally-forceable invariant by construction (unsigned type, hard CHECK): when the outside world forces the state, the system crashes or clamps instead of recording it. Represent it, detect it post-factum, recover explicitly.

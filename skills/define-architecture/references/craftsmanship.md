@@ -21,3 +21,8 @@ If a convention cannot name all four, leave it out of the architecture brief.
 - **Auth policy registration:** each route or RPC method declares an auth policy at registration. Enforcement: type-level registry or startup validation.
 - **Test data isolation:** integration and E2E tests generate unique tenant/user/resource IDs per run. Enforcement: fixture helper plus tests for hard-coded shared IDs.
 - **Monorepo dependency ownership:** each deployable app declares runtime dependencies; root manifests hold workspace tooling only. Enforcement: package-manager constraints or dependency lint.
+- **Invariant testing:** core invariants hold for any generated input, and are asserted after every step in a generated operation sequence, not only at the end. Enforcement: property-based tests plus a harness that injects between-step assertions.
+- **Idempotency testing:** every operation that touches the outside world produces no second effect when replayed. Enforcement: a test middleware that repeats each declared operation and asserts no change from the second call.
+- **Crash and resume testing:** long multi-step flows survive dying between any two steps. Enforcement: tests that inject a failure at each step and assert the flow resumes to a consistent state.
+- **Round-trip testing:** serialize/deserialize and convert/convert-back land where they started (or within a known tolerance). Enforcement: generative round-trip tests over the boundary types.
+- **Backward compatibility:** current code still reads records written by old code. Enforcement: a corpus of real old-format payloads asserted to deserialize and project correctly.
