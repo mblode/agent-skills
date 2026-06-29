@@ -1,34 +1,34 @@
 # Format Templates
 
-Structural templates for each blog post format. Load only the template matching the chosen format from Step 1.
+Structural templates per format. Load only the one matching the format chosen in Step 1.
 
 ## Contents
 
-- Listicle template
-- Tutorial / how-to template
-- Narrative template
-- Thought leadership template
+- Listicle
+- Tutorial / how-to
+- Narrative
+- Thought leadership
 
 ## Listicle Template
 
 ```markdown
-# [Compelling Headline with Specific Promise]
+# [Headline with a specific promise]
 
-[Hook: 1-2 sentences, a relatable problem or surprising fact]
+[Hook: 1-2 sentences, relatable problem or surprising fact]
 
 [Bridge: why this matters now]
 
-[Promise: what the reader will take away]
+[Promise: the reader's takeaway]
 
-## [Takeaway 1: Bold Insight Statement]
+## [Takeaway 1: bold insight]
 
-[2-4 sentence explanation. Analyze why this is interesting, don't just summarize.]
+[2-4 sentences. Analyze why it's interesting, don't just summarize.]
 
 > "[Powerful quote from source]" ([Attribution])
 
 [What this means for the reader.]
 
-## [Takeaway 2: Bold Insight Statement]
+## [Takeaway 2: bold insight]
 
 [Continue for each insight]
 
@@ -42,23 +42,23 @@ Structural templates for each blog post format. Load only the template matching 
 ## Tutorial / How-To Template
 
 ```markdown
-# [How to Achieve Specific Outcome]
+# [How to achieve a specific outcome]
 
 [Hook: the problem this solves, 1-2 sentences]
 
-[Who this is for and what they'll be able to do after reading]
+[Who it's for and what they can do after reading]
 
 ## What You Need
 
-[Prerequisites, tools, or context; keep brief]
+[Prerequisites, tools, or context; brief]
 
-## Step 1: [Action Verb + Outcome]
+## Step 1: [action verb + outcome]
 
-[Explain what and why, 2-3 sentences]
+[What and why, 2-3 sentences]
 
-[Code example, command, or screenshot if applicable]
+[Code, command, or screenshot if applicable]
 
-## Step 2: [Action Verb + Outcome]
+## Step 2: [action verb + outcome]
 
 [Continue for each step]
 
@@ -68,15 +68,15 @@ Structural templates for each blog post format. Load only the template matching 
 
 ## What's Next
 
-[Where to go from here: next steps, related topics, or CTA]
+[Next steps, related topics, or CTA]
 ```
 
 ## Narrative Template
 
 ```markdown
-# [Headline That Hints at the Journey]
+# [Headline that hints at the journey]
 
-[Opening scene or moment: specific, concrete, grounded in experience]
+[Opening scene: specific, concrete, grounded in experience]
 
 [Tension: what was uncomfortable, uncertain, or challenging]
 
@@ -88,7 +88,7 @@ Structural templates for each blog post format. Load only the template matching 
 
 ## [What I Learned]
 
-[Lessons with enough context for the reader to apply them]
+[Lessons with enough context to apply them]
 
 ## [Where This Goes]
 
@@ -98,19 +98,19 @@ Structural templates for each blog post format. Load only the template matching 
 ## Thought Leadership Template
 
 ```markdown
-# [Thesis Statement as Headline]
+# [Thesis as headline]
 
-[Hook: conventional wisdom or common belief to challenge]
+[Hook: conventional wisdom or belief to challenge]
 
-[Your thesis in one clear sentence]
+[Thesis in one clear sentence]
 
 ## [Evidence Point 1]
 
-[Argument with supporting data, examples, or quotes]
+[Argument with data, examples, or quotes]
 
 ## [Evidence Point 2]
 
-[Continue for each supporting point]
+[Continue for each point]
 
 ## What This Means
 

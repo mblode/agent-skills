@@ -1,16 +1,16 @@
 # Pricing Cards
 
-Covers: pricing tiers, pricing cards, pricing tables, plan comparisons, emphasized plans, and popular/recommended plans.
+Covers: pricing tiers, pricing cards, pricing tables, plan comparisons, emphasized plans, popular/recommended plans.
 
 ## Design Rules
 
-- Emphasize cards through button styling and optional "Popular" or "Recommended" text: never use a different background color for the entire card
-- For feature list checkmarks, follow [Icons](./icons.md) rules: use `size-4 h-lh` to vertically center with text
+- Emphasize cards via button styling and optional "Popular" or "Recommended" text: never a different background color for the whole card.
+- For feature-list checkmarks, follow [Icons](./icons.md): use `size-4 h-lh` to vertically center with text.
 
 ## Coding Rules
 
-- Never isolate the emphasized card from the rest: it's a grid sibling, not a standalone section
-- Always align buttons across pricing cards: `flex flex-col justify-between` on each card; wrap all content above the button in a single `<div>` so the button pushes to the bottom
+- Never isolate the emphasized card: it's a grid sibling, not a standalone section.
+- Align buttons across cards with `flex flex-col justify-between` on each card; wrap all content above the button in one `<div>` so the button pushes to the bottom:
 
 ```html
 <div class="flex flex-col justify-between …">
@@ -23,7 +23,7 @@ Covers: pricing tiers, pricing cards, pricing tables, plan comparisons, emphasiz
 </div>
 ```
 
-- If the emphasized card is taller than the siblings, use CSS grid with explicit rows: never use negative margins or relative positioning; the gap rows define how much the card pokes out, unemphasized cards sit in the middle row, the emphasized card spans all rows
+- If the emphasized card is taller than its siblings, use CSS grid with explicit rows (never negative margins or relative positioning): the gap rows define how far the card pokes out, unemphasized cards sit in the middle row, the emphasized card spans all rows.
 
 ```html
 <!-- Pokes out top and bottom -->

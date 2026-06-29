@@ -6,7 +6,7 @@ tags: serif, pairing, contrast, families
 
 ## Avoid Pairing Two Serifs
 
-Two serifs together tend to compete rather than complement. If you must pair two serifs, use strong contrast (e.g., a slab serif heading with an old-style body) or choose two variants from the same family. Never mix modern serifs with old-style serifs \u2014 their structural philosophies clash.
+Two serifs tend to compete rather than complement. If you must, use strong contrast (e.g. a slab serif heading over an old-style body) or two cuts from the same family. Never mix modern with old-style serifs; their structural philosophies clash.
 
 **Incorrect (two competing serifs):**
 
@@ -28,4 +28,4 @@ h1 { font-family: 'Freight Display', serif; }
 body { font-family: 'Freight Text', serif; }
 ```
 
-Pairing by the same type designer can also help, as designers tend to use consistent design principles across their typefaces.
+Pairing typefaces by the same designer also helps; designers reuse consistent principles.

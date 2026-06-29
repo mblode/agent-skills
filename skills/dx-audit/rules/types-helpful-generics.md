@@ -7,7 +7,7 @@ tags: types, generics, autocomplete
 
 ## Make Generics Improve Autocomplete, Not Fight It
 
-Generics should make the editor smarter: constrain them so autocomplete suggests valid keys and the compiler catches typos. An unconstrained `<T>` that the caller must supply by hand, or one so loose it accepts anything, adds ceremony without safety.
+Generics should make the editor smarter: constrain them so autocomplete suggests valid keys and the compiler catches typos. An unconstrained `<T>` the caller must supply by hand, or one so loose it accepts anything, adds ceremony without safety.
 
 **Incorrect (unconstrained generic, no key suggestions, no checking):**
 

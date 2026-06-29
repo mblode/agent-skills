@@ -1,6 +1,6 @@
 # Executable Code in Skills
 
-Guidance for skills that include scripts, depend on packages, or invoke MCP tools. Focus is on patterns that keep scripts reliable and cheap to execute.
+For skills that include scripts, depend on packages, or invoke MCP tools. Patterns that keep scripts reliable and cheap to execute.
 
 ## Contents
 
@@ -15,16 +15,16 @@ Guidance for skills that include scripts, depend on packages, or invoke MCP tool
 
 ## Execute vs. Read as Reference
 
-Make execution intent explicit in SKILL.md. Without it, Claude may read a script and reconstruct its logic instead of running it, wasting tokens and diverging from the canonical behavior.
+State execution intent in SKILL.md. Otherwise Claude reconstructs the script's logic instead of running it, wasting tokens and diverging from canonical behavior.
 
 - **Execute:** "Run `scripts/analyze_form.py input.pdf > fields.json`"
 - **Reference:** "See `scripts/analyze_form.py` for the field-extraction algorithm"
 
-Prefer execution for deterministic work. Reserve reference reads for cases where Claude must adapt the algorithm to a novel input.
+Execute deterministic work; read-as-reference only when Claude must adapt the algorithm to novel input.
 
 ## Solve, Don't Punt
 
-Scripts should handle recoverable errors, not defer them to Claude. Punting wastes a turn and produces non-deterministic outcomes.
+Handle recoverable errors in the script, not defer them to Claude. Punting wastes a turn and is non-deterministic.
 
 **Punt (bad):**
 
@@ -47,11 +47,11 @@ def process_file(path):
         return ""
 ```
 
-A script that always returns a sensible default (or fails with a specific, actionable error message) is more useful than one that raises raw exceptions.
+Return a sensible default, or fail with a specific, actionable error message; do not raise raw exceptions to Claude.
 
 ## No Voodoo Constants
 
-Every magic number needs a comment explaining why. If the author cannot justify the value, Claude cannot either.
+Every magic number needs a comment explaining why. If the author can't justify it, neither can Claude.
 
 **Voodoo:**
 
@@ -72,17 +72,17 @@ MAX_RETRIES = 3
 
 ## Plan-Validate-Execute
 
-For batch or destructive operations, split the work into three phases so errors surface before changes are applied.
+For batch or destructive operations, split into three phases so errors surface before changes apply.
 
 1. **Plan:** Claude writes an intermediate file describing the operation (e.g., `changes.json` listing every field and value)
 2. **Validate:** a script checks the plan against the target (schema, conflicts, missing fields) and produces actionable errors
 3. **Execute:** a second script applies the plan once validation passes
 
-Use this for multi-record edits, schema migrations, form filling, and similar operations where a dry run is valuable. Validation scripts should name specific problems: "Field `signature_date` not in form. Available: customer_name, order_total, signed_date."
+Use for multi-record edits, schema migrations, form filling, anywhere a dry run helps. Validation scripts name specific problems: "Field `signature_date` not in form. Available: customer_name, order_total, signed_date."
 
 ## Runtime Environment
 
-Skills run in a filesystem with bash and code execution. The execution model affects how to organize content.
+Skills run in a filesystem with bash and code execution. The execution model shapes content organization.
 
 - Only the frontmatter (`name`, `description`) is pre-loaded at session start
 - SKILL.md is read when a trigger matches; reference files are read on demand
@@ -91,7 +91,7 @@ Skills run in a filesystem with bash and code execution. The execution model aff
 - Use forward slashes in all paths; Windows-style paths break on Unix
 - Name files descriptively (`form-validation-rules.md`, not `doc2.md`) so Claude can guess content from the path
 
-Bundle comprehensive resources (docs, examples, datasets) because they cost nothing until read.
+Bundle comprehensive resources (docs, examples, datasets); they cost nothing until read.
 
 ## Package Dependencies
 
@@ -100,24 +100,24 @@ List required packages explicitly in SKILL.md. Availability differs by environme
 - **Claude Code / claude.ai code execution:** can install from npm and PyPI at runtime
 - **Claude API (direct):** no network access, no runtime installs; dependencies must be pre-installed
 
-When writing scripts, prefer the standard library when possible. When third-party packages are required, name them and show the install command once in SKILL.md.
+Prefer the standard library; when third-party packages are required, name them and show the install command once in SKILL.md.
 
 ## MCP Tool References
 
-Always reference MCP tools by their fully qualified name: `ServerName:tool_name`. Unqualified names cause "tool not found" errors when multiple servers expose similarly named tools.
+Reference MCP tools by their fully qualified name: `ServerName:tool_name`. Unqualified names cause "tool not found" errors when multiple servers expose similarly named tools.
 
 - `BigQuery:bigquery_schema`, not `bigquery_schema`
 - `GitHub:create_issue`, not `create_issue`
 - `Linear:list_issues`, not `list_issues`
 
-Use the qualified form in both instructions and examples. If a server name changes, update every reference at once.
+Use the qualified form in instructions and examples. If a server name changes, update every reference at once.
 
 ## Visual Analysis
 
-When inputs can be rendered as images, Claude can analyze them directly with vision. This is often more reliable than parsing structured text for layout-heavy formats.
+When inputs can be rendered as images, Claude can analyze them with vision, often more reliable than parsing structured text for layout-heavy formats.
 
 - PDF forms → render pages to images, analyze field positions
 - Charts and diagrams → describe contents from the image, not the source
 - Web pages → screenshot and inspect layout
 
-Provide a script that produces the image (`pdf_to_images.py`), then instruct Claude to read the output with vision. Keep the script focused on conversion; let Claude handle interpretation.
+Provide a script that produces the image (`pdf_to_images.py`), then read the output with vision. Keep the script focused on conversion; let Claude interpret.

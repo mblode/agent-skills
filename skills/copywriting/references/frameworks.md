@@ -1,6 +1,6 @@
 # Persuasion Frameworks
 
-Reference for the copywriting audit. Apply each framework to the copy being reviewed.
+Apply each framework to the copy under review.
 
 ## Table of contents
 
@@ -18,9 +18,9 @@ Reference for the copywriting audit. Apply each framework to the copy being revi
 
 ## Why/How/What (Simon Sinek)
 
-Most product copy starts with **What** (the product) or **How** (the mechanism). It should start with **Why** (the user's motivation or the problem they feel).
+Most product copy starts with **What** (the product) or **How** (the mechanism). Start with **Why** (the user's motivation or felt problem).
 
-**Test:** Does the first sentence of the hero/README explain what the product is, or why someone would want it?
+**Test:** Does the first hero/README sentence explain what the product is, or why someone would want it?
 
 | Layer | Question it answers | Example |
 |-------|---------------------|---------|
@@ -36,32 +36,25 @@ Most product copy starts with **What** (the product) or **How** (the mechanism).
 **After (Why first):**
 > "Stale dashboards kill trust. StrataSync keeps every client in sync automatically. No polling, no refresh buttons."
 
-**Common mistake:** Leading with What ("StrataSync is a real-time data sync engine for...") buries the user's motivation.
-
 **Flag as:** `[WHAT-NOT-WHY]`
 
 ---
 
 ## PAS (Problem → Agitate → Solution)
 
-Identify the pain, amplify the consequences of ignoring it, then present the solution. Meets the user where they already are.
+Name the pain, amplify the cost of ignoring it, then present the solution.
 
-**Best for:** Problem-aware audiences. Works well in long-form landing pages, email, and ad copy.
+**Best for:** Problem-aware audiences. Long-form landing pages, email, ad copy.
 
 **Template:**
-1. **Problem.** Name the pain the user recognises.
-2. **Agitate.** Make the consequences feel real and urgent.
-3. **Solution.** Show how the product resolves it cleanly.
+1. **Problem.** The pain the user recognises.
+2. **Agitate.** The consequences, made real and urgent.
+3. **Solution.** How the product resolves it cleanly.
 
 **Example (developer tool):**
 > **Problem:** Your API keys are scattered across .env files, CI configs, and Slack messages.
 > **Agitate:** One leaked key can bring down production, and you won't know until a customer calls.
 > **Solution:** Vault centralises every secret with per-environment rotation and zero-config CI integration.
-
-**Example (SaaS):**
-> **Problem:** Your team is running three different project trackers.
-> **Agitate:** Work gets duplicated. Priorities drift. Nobody knows what "done" actually means.
-> **Solution:** Grove gives every team one source of truth, set up in 10 minutes.
 
 **Flag:** No flag. PAS is a structural choice, not an error pattern.
 
@@ -69,15 +62,15 @@ Identify the pain, amplify the consequences of ignoring it, then present the sol
 
 ## AIDA (Attention → Interest → Desire → Action)
 
-A sequential funnel that moves a cold reader from awareness to click. Each stage must earn the next.
+A sequential funnel moving a cold reader from awareness to click. Each stage earns the next.
 
-**Best for:** Cold traffic (ads, cold email, splash pages where the reader has no prior context).
+**Best for:** Cold traffic: ads, cold email, splash pages with no prior context.
 
 **Template:**
-1. **Attention.** Interrupt the scroll with a bold claim, question, or specific fact.
-2. **Interest.** Explain why this is relevant to *them* specifically.
-3. **Desire.** Show the outcome they want; use social proof or concrete results.
-4. **Action.** A single, clear CTA that matches the desire just created.
+1. **Attention.** Interrupt the scroll: a bold claim, question, or specific fact.
+2. **Interest.** Why it's relevant to *them* specifically.
+3. **Desire.** The outcome they want, via social proof or concrete results.
+4. **Action.** One clear CTA matching the desire just created.
 
 **Example (B2B SaaS):**
 > **Attention:** "73% of SaaS churn happens before users hit their first 'aha' moment."
@@ -85,23 +78,17 @@ A sequential funnel that moves a cold reader from awareness to click. Each stage
 > **Desire:** "Teams using Onramp reduce time-to-value by 40%, measured from signup to first export."
 > **Action:** "See your onboarding score free →"
 
-**Example (consumer app):**
-> **Attention:** "Your photos are one hard drive failure away from gone."
-> **Interest:** "Insurance won't replace them. Neither will a new laptop."
-> **Desire:** "Lumen backs up everything in the background. No app to open, no quota to manage."
-> **Action:** "Start your free backup →"
-
-**Flag:** No flag. AIDA is a structural choice. Flag individual components using [WHAT-NOT-WHY], [TELL-NOT-SHOW], or [WEAK-CTA] as appropriate.
+**Flag:** No flag. AIDA is a structural choice. Flag individual components with [WHAT-NOT-WHY], [TELL-NOT-SHOW], or [WEAK-CTA].
 
 ---
 
 ## StoryBrand
 
-The customer is the hero of the story. The product is the guide. The guide's job is to give the hero a plan and a CTA that leads to success and away from failure.
+The customer is the hero; the product is the guide. The guide gives the hero a plan and a CTA that leads to success and away from failure.
 
-**Key rule:** Never position the product as the hero. A guide who makes themselves the centre of the story loses the customer's trust.
+**Key rule:** Never make the product the hero. A guide who centres themselves loses the customer's trust.
 
-**The 7-part StoryBrand framework:**
+**The 7 parts:**
 
 | Part | Question | One-line example |
 |------|----------|-----------------|
@@ -125,30 +112,25 @@ The customer is the hero of the story. The product is the guide. The guide's job
 
 ## BAB (Before → After → Bridge)
 
-Paint the current painful state, show the desirable future state, then explain how the product gets them there.
+Paint the current painful state, show the desired future state, then explain how the product bridges them.
 
 **Template:**
-1. **Before.** Describe the frustration or friction the user recognises right now.
-2. **After.** Describe the world as they want it to be.
-3. **Bridge.** Explain how the product creates that transition.
+1. **Before.** The frustration or friction the user recognises right now.
+2. **After.** The world as they want it to be.
+3. **Bridge.** How the product creates that transition.
 
 **Example (analytics tool):**
 > **Before:** You spend two hours every Monday pulling reports from four different tools before you can answer one question.
 > **After:** Every metric you care about, live, in one dashboard. Monday starts with decisions, not data wrangling.
 > **Bridge:** Metric pairs your existing stack in 15 minutes and surfaces the numbers that actually move revenue.
 
-**Example (writing tool):**
-> **Before:** You open a blank doc, write a paragraph, delete it, and close the tab.
-> **After:** You finish a first draft in the same session you started it.
-> **Bridge:** Draft gives you structure before you start, so the thinking is done before the typing begins.
-
-**When to use over PAS:** BAB is warmer and more aspirational. PAS is more confrontational. Use BAB when the audience is motivated but stuck; use PAS when they're not yet urgent.
+**When to use over PAS:** BAB is warmer and aspirational; PAS is confrontational. Use BAB when the audience is motivated but stuck, PAS when they're not yet urgent.
 
 ---
 
 ## Show don't tell
 
-Adjectives claim. Specifics prove. Every unearned adjective is a missed opportunity to show a concrete outcome.
+Adjectives claim; specifics prove.
 
 **Test:** Can the adjective be replaced with a specific fact, number, or scenario?
 
@@ -160,10 +142,10 @@ Adjectives claim. Specifics prove. Every unearned adjective is a missed opportun
 | "Beautifully designed" | "Built to feel native on every device" |
 | "Robust infrastructure" | "99.97% uptime across 3 regions, verified by StatusPage" |
 
-**Banned adjectives** (flag every instance in hero copy):
+**Banned adjectives** (flag every instance in hero copy; subset, full list in [word-lists.md](word-lists.md)):
 - powerful, simple, easy, seamless, beautiful, robust, flexible, scalable, smart, intuitive, modern, next-generation, cutting-edge, best-in-class
 
-**Rule:** If you can't name the specific outcome, the claim does not belong in the hero.
+**Rule:** If you can't name the outcome, the claim doesn't belong in the hero.
 
 **Flag as:** `[TELL-NOT-SHOW]`
 
@@ -171,7 +153,7 @@ Adjectives claim. Specifics prove. Every unearned adjective is a missed opportun
 
 ## Benefit not feature
 
-Features describe the product. Benefits describe what changes for the user. Outcomes describe the life the user has after the change.
+Features describe the product; benefits, what changes for the user; outcomes, the life after the change.
 
 **Test:** Does this sentence describe what the product *has* or what the user *gets*?
 
@@ -190,7 +172,7 @@ Features describe the product. Benefits describe what changes for the user. Outc
 **After (benefit → outcome):**
 > "Ship without writing release notes. Your changelog writes itself."
 
-**Rule:** Lead with the outcome for the user. Mention the mechanism only after the benefit is clear. Never lead with "featuring" or "with built-in".
+**Rule:** Lead with the outcome for the user; mention the mechanism only after the benefit is clear. Never lead with "featuring" or "with built-in".
 
 **Flag as:** `[FEATURE-NOT-BENEFIT]`
 
@@ -198,13 +180,13 @@ Features describe the product. Benefits describe what changes for the user. Outc
 
 ## Sentence economy
 
-Every sentence must earn its space. If removing it changes nothing, cut it.
+Every sentence must earn its space.
 
 **Tests:**
-- Remove the sentence. Does the meaning change? If not, cut it.
+- Remove the sentence: does the meaning change? If not, cut it.
 - Does the opener add anything? "In order to", "It is important to note that", "The fact is": cut the opener.
-- Is the sentence over 25 words? Break it at the strongest claim.
-- Does this sentence restate the headline? Cut it.
+- Over 25 words? Break it at the strongest claim.
+- Does it restate the headline? Cut it.
 
 **Dead-weight patterns:**
 
@@ -230,7 +212,7 @@ Every sentence must earn its space. If removing it changes nothing, cut it.
 
 ## CTA clarity
 
-CTAs fail when they describe the action, not the outcome. A CTA must answer: what do I get, and what am I committing to?
+CTAs fail when they describe the action, not the outcome. A CTA answers: what do I get, what am I committing to?
 
 **Formula:** Action verb + what they get + qualifier (optional).
 
@@ -249,6 +231,6 @@ CTAs fail when they describe the action, not the outcome. A CTA must answer: wha
 - Use a verb that names the outcome: Start, Create, See, Download, Get, Book, Claim.
 - Add a qualifier when space allows: "free", "in 5 minutes", "no card", "no install".
 - Never use two CTAs with the same verb on the same screen.
-- Primary CTA is high-commitment (Start, Create, Buy). Secondary CTA is low-commitment (See, Watch, Learn).
+- Primary CTA is high-commitment (Start, Create, Buy); secondary is low-commitment (See, Watch, Learn).
 
 **Flag as:** `[WEAK-CTA]`

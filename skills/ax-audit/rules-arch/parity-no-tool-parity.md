@@ -11,11 +11,11 @@ related: parity-crud-incomplete, parity-orphan-ui-action
 
 ## UI action with no agent tool equivalent
 
-A route or UI handler exists that performs an operation the agent cannot achieve through any available tool. User asks the agent to do it, agent says "I can't do that." Parity means the agent can do everything the user can do.
+A route or UI handler performs an operation no available tool exposes. User asks the agent to do it; it says "I can't do that." Parity means the agent can do everything the user can do.
 
 ## What goes wrong
 
-UI has an "Archive" button calling `POST /api/projects/:id/archive`. No tool exposes this endpoint. The agent responds "I don't have the ability to archive projects."
+UI has an "Archive" button calling `POST /api/projects/:id/archive`, but no tool exposes the endpoint. The agent responds "I don't have the ability to archive projects."
 
 ## Detection
 

@@ -6,7 +6,7 @@ tags: filenames, naming, consistency
 
 ## Use lowercase hyphenated filenames for all assets
 
-Lowercase filenames with hyphens avoid case-sensitivity bugs across operating systems. macOS and Windows are case-insensitive by default; Linux is case-sensitive. Mixed conventions cause broken links that only surface in deployment.
+Lowercase hyphenated filenames avoid case-sensitivity bugs across operating systems. macOS and Windows are case-insensitive by default; Linux is case-sensitive, so mixed conventions cause broken links that only surface in deployment.
 
 **Incorrect (mixed case, underscores, or spaces):**
 

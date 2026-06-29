@@ -6,7 +6,7 @@ tags: structure, diataxis, doc-types
 
 ## One doc type per file
 
-Follow the Diataxis framework: each document should be exactly one type -- tutorial, how-to, reference, or explanation. Mixing types confuses readers because each type serves a different need and reading mode. When a document drifts into another type, split it into separate files and link between them.
+Per Diataxis, each document is exactly one type: tutorial, how-to, reference, or explanation. Each serves a different need and reading mode, so mixing them confuses readers. When a doc drifts into another type, split into separate files and link between them.
 
 **Incorrect (mixed tutorial, reference, and explanation in one file):**
 

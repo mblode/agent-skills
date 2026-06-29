@@ -6,7 +6,7 @@ tags: variables, naming, readability
 
 ## Use descriptive variable names in examples
 
-Variable names teach readers what the code does. Use `subscriptionId`, `paymentIntent`, `customerEmail` -- never `x`, `y`, `data`, `temp`, `result`.
+Variable names teach readers what the code does. Use `subscriptionId`, `paymentIntent`, `customerEmail`, never `x`, `y`, `data`, `temp`, `result`.
 
 **Incorrect (generic names force readers to track mental mappings):**
 

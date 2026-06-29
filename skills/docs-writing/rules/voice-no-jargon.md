@@ -6,7 +6,7 @@ tags: voice, jargon, acronyms, accessibility
 
 ## Avoid jargon or define it on first use
 
-If a technical term is necessary, spell it out and define it the first time it appears. After the first definition, use the short form freely. Don't stack multiple undefined terms in a single sentence; each unknown term compounds the reader's confusion.
+Spell out and define a necessary technical term on first use, then use the short form freely. Don't stack multiple undefined terms in one sentence: each compounds the reader's confusion.
 
 **Incorrect (undefined acronyms and stacked jargon):**
 

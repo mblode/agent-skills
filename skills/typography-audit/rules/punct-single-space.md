@@ -6,7 +6,7 @@ tags: spacing, periods, sentences, double-space
 
 ## One Space After Periods
 
-Use exactly one space between sentences. Double spacing after periods is a typewriter-era habit with no place in modern typography. HTML collapses multiple spaces by default, but double spaces can appear in `<pre>` blocks, emails, and CMS content.
+Use exactly one space between sentences. Double spacing after periods is a typewriter-era habit. HTML collapses multiple spaces, but they survive in `<pre>` blocks, emails, and CMS content.
 
 **Incorrect (double spaces):**
 
@@ -20,4 +20,4 @@ Use exactly one space between sentences. Double spacing after periods is a typew
 <p>Typography matters. Good type improves readability. Every detail counts.</p>
 ```
 
-Audit existing copy for double spaces and remove them. Configure your CMS or build pipeline to normalize spacing.
+Audit copy for double spaces; normalize in the CMS or build pipeline.

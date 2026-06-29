@@ -6,7 +6,7 @@ tags: maintenance, outdated, deletion
 
 ## Delete outdated docs, don't leave them to rot
 
-Outdated documentation is worse than no documentation -- it actively misleads. Delete docs for removed features. Update docs when behavior changes. If historical context is needed, use a collapsed `<details>` section rather than leaving stale content inline.
+Outdated docs are worse than none: they actively mislead. Delete docs for removed features; update docs when behavior changes. If historical context is needed, use a collapsed `<details>` section, not stale inline content.
 
 **Incorrect (doc for a removed feature still in navigation):**
 

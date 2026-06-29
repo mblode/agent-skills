@@ -6,7 +6,7 @@ tags: oldstyle-figures, onum, lnum, lining, numbers
 
 ## Use Oldstyle Figures in Running Text
 
-Oldstyle (lowercase) figures blend with body text because they have ascenders and descenders like lowercase letters. Use `onum` for running text. Use lining figures (`lnum`) next to uppercase letters, in UI elements, and in headings where alignment matters.
+Oldstyle (lowercase) figures have ascenders and descenders, so they blend into body text. Use `onum` for running text; use lining figures (`lnum`) next to uppercase, in UI, and in headings where alignment matters.
 
 **Incorrect (lining figures disrupting body text flow):**
 
@@ -39,4 +39,4 @@ body {
 }
 ```
 
-Spell out numbers one through nine in prose if desired (style guide dependent). Verify the font supports `onum` before enabling \u2014 not all fonts include oldstyle figure glyphs.
+Optionally spell out one through nine in prose (style-guide dependent). Verify the font ships `onum` before enabling it; not all fonts include oldstyle figure glyphs.

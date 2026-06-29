@@ -6,7 +6,7 @@ tags: pairing, typeface-count, simplicity, system
 
 ## Limit to Two Typefaces
 
-Use at most two typefaces in a project: one for body text and one for display/headings. Adding more faces increases complexity and the risk of visual discord. If you need more than two, enforce a strict system with clear roles for each face.
+Use at most two typefaces: one for body, one for display/headings. More faces add complexity and visual discord. If you need more, enforce a strict system with a clear role per face.
 
 **Incorrect (too many faces, no system):**
 
@@ -30,4 +30,4 @@ h1, h2, h3 { font-family: var(--font-heading); }
 body { font-family: var(--font-body); }
 ```
 
-A single typeface with multiple weights can also work for an entire project, especially with a versatile superfamily.
+A single typeface with multiple weights can carry an entire project, especially a versatile superfamily.

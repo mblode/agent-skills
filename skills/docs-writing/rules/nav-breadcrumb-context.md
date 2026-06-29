@@ -6,7 +6,7 @@ tags: navigation, breadcrumbs, wayfinding
 
 ## Establish page location with an opening link or breadcrumb
 
-Readers arrive at docs pages from search, deep links, and bookmarks -- not always from the top. Each page must help readers understand where they are in the docs hierarchy without requiring them to navigate there manually.
+Readers arrive from search, deep links, and bookmarks, not always from the top. Each page must show where it sits in the hierarchy without making readers navigate there manually.
 
 **Incorrect (no indication of section or hierarchy):**
 

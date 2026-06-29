@@ -6,7 +6,7 @@ tags: size-contrast, hierarchy, headings, near-equal
 
 ## Ensure Strong Size Contrast Between Levels
 
-When two elements have different roles, make their sizes clearly different. Near-equal sizes (e.g., 16px and 18px) create ambiguity \u2014 the reader cannot tell which is more important. Sizes should either be identical (same role) or noticeably different (different hierarchy levels).
+When two elements have different roles, make their sizes clearly different. Near-equal sizes (e.g., 16px and 18px) read as ambiguous: the reader cannot tell which ranks higher. Sizes should be either identical (same role) or noticeably different (different levels).
 
 **Incorrect (ambiguous near-equal sizes):**
 
@@ -24,4 +24,4 @@ h3 { font-size: 20px; }  /* clearly smaller than h2 */
 p  { font-size: 18px; }  /* clearly body text */
 ```
 
-Use at least a 20\u201325% size increase between adjacent hierarchy levels. If you cannot achieve clear differentiation with size alone, use weight, color, or caps as additional differentiators.
+Use at least a 20 to 25% size jump between adjacent levels. If size alone cannot differentiate, add weight, color, or caps.

@@ -6,7 +6,7 @@ tags: paragraphs, line-breaks, indents, separation
 
 ## Use Line Breaks or Indents, Not Both
 
-Separate paragraphs with either vertical space (line breaks) or indentation \u2014 never both. Line breaks are the web default and aid scanning. Indents feel more formal and classical, making longform content flow more smoothly. An indent after a line break is redundant.
+Separate paragraphs with either vertical space (line breaks) or indentation, never both (an indent after a line break is redundant). Line breaks are the web default and aid scanning; indents feel formal and classical, flowing longform content more smoothly.
 
 **Incorrect (both indent and space):**
 

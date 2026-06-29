@@ -1,14 +1,12 @@
 ---
-title: Keep Line Length Between 45\u201375 Characters
+title: Keep Line Length Between 45 and 75 Characters
 impact: HIGH
 tags: measure, line-length, characters-per-line, readability
 ---
 
-## Keep Line Length Between 45\u201375 Characters
+## Keep Line Length Between 45 and 75 Characters
 
-The ideal line length (measure) is approximately 66 characters per line including spaces. Lines shorter than 45 characters create excessive hyphenation or ragged edges. Lines longer than 75 characters cause readers to lose their place when moving to the next line.
-
-Adjust line length per breakpoint. Use `ch` units or `max-width` on text containers.
+Ideal measure is about 66 characters per line including spaces. Under 45 forces excessive hyphenation or ragged edges; over 75 makes readers lose their place on line return. Constrain measure per breakpoint with `ch` units or `max-width` on text containers.
 
 **Incorrect (no measure constraint):**
 
@@ -37,4 +35,4 @@ Adjust line length per breakpoint. Use `ch` units or `max-width` on text contain
 }
 ```
 
-The `ch` unit equals the width of the "0" character. It approximates character count but varies by typeface. Test with actual content to verify.
+`ch` equals the width of the "0" glyph: it approximates character count but varies by typeface, so test with real content.

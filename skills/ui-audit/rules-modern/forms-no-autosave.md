@@ -10,45 +10,57 @@ related: forms-lost-data-on-error
 
 ## Long form has no autosave
 
-Multi-step forms and long single-page forms need persistence between renders, browser refreshes, and accidental navigations. A user who fills 12 fields, then clicks a stray link, should not start over. Autosave to `localStorage` or `sessionStorage` is the cheap fix: debounced on change, restored on mount.
+Long and multi-step forms need persistence across renders, refreshes, and accidental navigations: filling 12 fields then hitting a stray link should not wipe the form. Fix: autosave to `localStorage`/`sessionStorage`, debounced on change, restored on mount.
+
+## Contents
+
+- What goes wrong
+- Detection
+- Fix
+- Default tier and overrides
+- Examples
+- Defer-to
+- Suppression
 
 ## What goes wrong
 
-User fills a job-application form: 6 fields on page 1, 4 fields on page 2. They click "Next," navigate back to fix a typo, and page 1 is blank. Or: a phone call interrupts, the tab times out, the laptop sleeps, the page reloads, and 20 minutes of typing is gone. There is no fallback because the component never wrote the values anywhere outside React state.
+Job-application form, 6 fields on page 1, 4 on page 2: user clicks Next, goes back to fix a typo, page 1 is blank. Or a call interrupts, the tab reloads, 20 minutes of typing gone. The component never wrote values outside React state.
 
 ## Detection
 
 **Surfaces:** onboarding, multi-step form, long single-page form, checkout review step.
 
 **Static signals:**
-1. Find candidate forms: `<form>` with ≥3 fields, OR a component that renders a multi-step indicator (look for `step`, `currentStep`, `stepIndex`).
-2. Check for any persistence: `localStorage`, `sessionStorage`, IndexedDB, server-draft endpoint.
-3. If form has ≥3 fields AND no persistence call AND is not a `<dialog>` quick-action, it fails.
+1. Candidate forms: `<form>` with ≥3 fields, OR a multi-step indicator (`step`, `currentStep`, `stepIndex`).
+2. Check for persistence: `localStorage`, `sessionStorage`, IndexedDB, server-draft endpoint.
+3. Fail if ≥3 fields AND no persistence call AND not a `<dialog>` quick-action.
 
 **Concrete commands:**
 ```bash
 # Forms with multi-step indicators
-rg -l 'step|currentStep|stepIndex|multi-step' --type=tsx src/ | xargs rg -l '<form'
+rg -l 'step|currentStep|stepIndex|multi-step' --type=ts src/ | while read f; do
+  rg -l '<form' "$f"
+done
 
 # Forms missing localStorage persistence
-rg -l '<form' --type=tsx src/ | while read f; do
+rg -l '<form' --type=ts src/ | while read f; do
   rg -L 'localStorage|sessionStorage|saveDraft|persistDraft|useFormPersistence' "$f" \
     && echo "$f: form without autosave"
 done
 
 # Field count heuristic per form file
-rg -c '<input|<textarea|<select' --type=tsx src/
+rg -c '<input|<textarea|<select' --type=ts src/
 ```
 
 **False-positive guards:**
 - Skip search forms (single `<input type="search">`).
-- Skip sign-in / sign-up (passwords should never be persisted; covered by `forms-lost-data-on-error` for in-session preservation).
+- Skip sign-in / sign-up (never persist passwords; in-session preservation is `forms-lost-data-on-error`).
 - Skip files with `// ui-audit-ignore:forms-no-autosave`.
 - Skip components named `*ConfirmDialog*` or `*QuickAction*` (transient).
 
 ## Fix
 
-Debounce a write to `localStorage` on every change, restore on mount:
+Debounce a `localStorage` write on change, restore on mount:
 
 ```tsx
 // before
@@ -150,8 +162,8 @@ const [form, setForm, clearDraft] = useFormDraft("draft:onboarding", emptyForm);
 
 ## Defer-to (when this is another tool's job)
 
-- TanStack Form / React Hook Form ship persistence plugins; if the codebase already uses one, link to its docs instead of hand-rolling.
-- For collaborative forms, defer to a sync engine (Yjs, Liveblocks).
+- TanStack Form / React Hook Form ship persistence plugins; if one is already used, link its docs instead of hand-rolling.
+- Collaborative forms: defer to a sync engine (Yjs, Liveblocks).
 
 ## Suppression
 

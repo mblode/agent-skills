@@ -7,7 +7,7 @@ This file defines the 4 categories of agentic experience audit rules. Each rule 
 ## 1. Trust & Transparency (trust)
 
 **Default tier:** mostly fix-this-sprint; release-blocker for missing escalation paths
-**Why critical:** Users won't trust an agent even when it's right unless they can see why it decided what it decided. Confident wrong answers without uncertainty markers or escalation paths cause permanent trust damage that no amount of future accuracy recovers.
+**Why critical:** Users won't trust an agent, even when it's right, unless they can see why it decided what it did. Confident wrong answers without uncertainty markers or escalation paths cause permanent trust damage that future accuracy can't recover.
 
 ## 2. Control & Recovery (control)
 

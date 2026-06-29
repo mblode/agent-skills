@@ -6,7 +6,7 @@ tags: stress, skeleton, pairing, structure, angles
 
 ## Match Stress Angles When Pairing
 
-The stress angle of a typeface (where the thickest part of curved strokes falls) is a strong indicator of compatibility. Vertical stress pairs well with vertical stress. Diagonal stress pairs well with diagonal stress. Mixing stress angles creates subtle but persistent visual tension.
+A typeface's stress angle (where the thickest part of curved strokes falls) predicts compatibility: vertical pairs with vertical, diagonal with diagonal. Mixing angles creates subtle but persistent visual tension.
 
 **Stress angle guide:**
 

@@ -7,7 +7,7 @@ tags: api, defaults, ergonomics
 
 ## Ship Sensible Defaults So the Common Case Is One Call
 
-The most common usage should require the fewest arguments. If every caller passes the same boilerplate options, those options have the wrong defaults. Default to the behavior 80% of users want and let the rest override.
+The most common usage should need the fewest arguments. If every caller passes the same boilerplate options, those defaults are wrong. Default to what 80% of users want; let the rest override.
 
 **Incorrect (forces boilerplate every call for the common case):**
 

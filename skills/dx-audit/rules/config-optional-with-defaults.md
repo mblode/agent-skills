@@ -7,7 +7,7 @@ tags: config, defaults, escape-hatches
 
 ## Make Config Optional with Sensible Defaults and Escape Hatches
 
-Configuration should be optional: the tool works with no config and improves as the user opts into it. At the same time, leave a documented escape hatch (a raw override, a lower-level API) so the advanced 5% are not blocked when the abstraction does not fit. Optional defaults and escape hatches are not opposites; ship both.
+Configuration should be optional: the tool works with no config and improves as the user opts in. Leave a documented escape hatch (a raw override, a lower-level API) so the advanced 5% are not blocked when the abstraction does not fit. Optional defaults and escape hatches are not opposites; ship both.
 
 **Incorrect (config is mandatory, and there is no way past the abstraction):**
 

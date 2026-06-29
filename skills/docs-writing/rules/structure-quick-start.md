@@ -6,7 +6,7 @@ tags: structure, quick-start, onboarding, getting-started
 
 ## Include a quick start for getting-started docs
 
-Every getting-started or README document should include a minimal Quick Start section (3-5 steps) early in the document, before detailed explanations. Readers arrive with high motivation and low patience -- let them see results immediately and link to the full guide for more context.
+Every getting-started or README doc needs a minimal Quick Start (3-5 steps) early, before detailed explanations. Readers arrive with high motivation and low patience: get them to results fast, then link to the full guide.
 
 **Incorrect (buries the first command under background sections):**
 

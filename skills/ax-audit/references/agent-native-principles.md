@@ -5,77 +5,58 @@
 - [Tool Design](#tool-design)
 - [Context Patterns](#context-patterns)
 - [Agent-UI Communication](#agent-ui-communication)
-- [Mobile](#mobile)
 <!-- /TOC -->
-
----
 
 ## Core Principles
 
-**Parity**, Whatever the user can do through the UI, the agent must achieve through tools. When adding any UI capability, ask: can the agent achieve this outcome? If not, add the necessary tools.
-
-**Granularity**: Tools are atomic primitives; decision logic lives in prompts. One conceptual action per tool. To change behavior, you edit prompts, not refactor code.
-
-**Composability**: With atomic tools and parity, new features are new prompts. No code written. The agent uses primitives and judgment to pursue an outcome.
-
-**Emergent Capability**: Agents accomplish things you did not explicitly design for. Build atomic tools, observe what users request, let the agent compose solutions or reveal gaps, then add domain tools for common patterns.
-
-**Improvement Over Time**: Agent-native apps improve without shipping code. Accumulated context persists in files; prompts are refined at developer, user, or agent level. Self-modification requires audit logs and rollback.
-
----
+- **Parity:** every UI capability has a tool; if not, add one.
+- **Granularity:** atomic primitives, one action per tool; decision logic lives in prompts, so behavior changes are prompt edits, not refactors.
+- **Composability:** atomic tools plus parity make new features new prompts.
+- **Emergent capability:** ship atomic tools, watch requests, add domain tools for common patterns.
+- **Improvement over time:** context files plus refined prompts improve the app without code; self-modification needs audit logs and rollback.
 
 ## Tool Design
 
-**Atomic primitives first.** Start with bash, file operations, basic storage. Prove the architecture before adding domain tools.
+**Atomic primitives first.** Bash, file ops, storage; prove the architecture before domain tools.
 
-**CRUD completeness.** For every entity, verify the agent has create, read, update, and delete. Common failure: `create_note` + `read_notes` exist but `update_note` and `delete_note` are missing.
+**CRUD completeness.** Verify every entity has create, read, update, delete. Common failure: `create_note` + `read_notes` exist but `update_note` and `delete_note` are missing.
 
-| Entity  | Create | Read | Update | Delete |
-|---------|--------|------|--------|--------|
-| (each)  | required | required | required | required |
+**Domain tools.** Add deliberately for vocabulary anchoring, guardrails (validation not left to judgment), or bundling a multi-step operation.
 
-**Domain tools.** Add deliberately as patterns emerge. Three reasons: vocabulary anchoring (teaches the agent your domain), guardrails (validation that should not be left to judgment), efficiency (common multi-step operation bundled).
+**Dynamic capability discovery.** Expose `list_available_types()` + `read_data(type)` over one-tool-per-endpoint, so capabilities are discovered at runtime. MCP standardizes discover + access; prefer MCP servers over hand-coded wrappers for external services.
 
-**Dynamic capability discovery.** Instead of one tool per endpoint, expose `list_available_types()` + `read_data(type)`. New API capabilities are discovered at runtime, not hard-coded.
-
-**MCP.** Model Context Protocol formalizes discover + access into a client-server standard. MCP servers expose typed tool schemas; clients discover tools at runtime. Prefer MCP servers over hand-coded wrappers for external services.
-
-**Graduation.** Operations can move from agent-orchestrated loops to optimized code for hot paths. Even after graduation, the agent should be able to trigger the operation and fall back to primitives for edge cases.
-
----
+**Graduation.** Hot paths can move to optimized code, but the agent still triggers them and falls back to primitives for edge cases.
 
 ## Context Patterns
 
-**Entity-scoped directories.** Structure data as `{entity_type}/{entity_id}/` with primary content, metadata, and related materials. Separate ephemeral (`AgentCheckpoints/`, `AgentLogs/`) from durable (`Research/`) directories.
+**Entity-scoped directories.** `{entity_type}/{entity_id}/`; separate ephemeral (`AgentCheckpoints/`, `AgentLogs/`) from durable (`Research/`).
 
-**The `context.md` pattern.** A file the agent reads at session start and updates as state changes. Contains: who the agent is, what it knows about the user, what exists, recent activity, guidelines, and current state. Portable working memory without code changes.
+**The `context.md` pattern.** Read at session start, updated as state changes (agent identity, user knowledge, what exists, recent activity, current state). Portable working memory, no code changes.
 
 **Context injection.** System prompts include three sections:
-1. **Available resources**: what data exists and where
+1. **Available resources**: what data exists, where
 2. **Capabilities**: what the agent can do
 3. **Recent activity**: what happened since last session
 
-**Context engineering.** Context windows are finite; long-running agents actively manage what they carry.
+**Context engineering.** Long-running agents manage a finite window:
 
 | Technique | When to use |
 |-----------|-------------|
 | **Compaction**: summarize old messages, drop raw history | Context >70% full |
-| **Structured note-taking**: agent maintains `notes.md` of learnings and decisions | Multi-step research/planning |
-| **Just-in-time retrieval**: load files/schemas only when the current step needs them | Large data sets, many tools |
-
----
+| **Structured note-taking**: agent keeps `notes.md` of learnings and decisions | Multi-step research/planning |
+| **Just-in-time retrieval**: load files/schemas only when the step needs them | Large data sets, many tools |
 
 ## Agent-UI Communication
 
-**Completion signals.** Always explicit via `stop_reason`, never heuristic. The LLM API drives continuation: `stop_reason: "tool_use"` means loop, `stop_reason: "end_turn"` means stop. App-level orchestrators can add richer signals: `pause`, `escalate`, `retry`.
+**Completion signals.** Explicit via `stop_reason`, never heuristic: `tool_use` loops, `end_turn` stops. Orchestrators can add `pause`, `escalate`, `retry`.
 
-**Partial completion tracking.** Track progress per task (pending, in_progress, completed, failed, skipped). Show `3/5 tasks complete (60%)` with per-task status and error notes.
+**Partial completion tracking.** Per-task status (pending, in_progress, completed, failed, skipped); show `3/5 tasks complete (60%)` with error notes.
 
-**Agent event types.** Emit typed events: `thinking`, `toolCall`, `toolResult`, `textResponse`, `statusChange`. Use an `ephemeralToolCalls` flag to hide noisy internal operations from the UI.
+**Agent event types.** Emit typed events (`thinking`, `toolCall`, `toolResult`, `textResponse`, `statusChange`); an `ephemeralToolCalls` flag hides noisy internals.
 
-**Shared workspace.** Agents and users work in the same data space, not separate sandboxes. Users can inspect and modify agent work; agents build on what users create. Sandbox only when security or data integrity requires it.
+**Shared workspace.** Agents and users share one data space, each building on the other's work. Sandbox only when security or data integrity requires it.
 
-**Approval gates.** Match approval requirements to stakes and reversibility:
+**Approval gates.** Match approval to stakes and reversibility:
 
 | Stakes | Reversibility | Pattern |
 |--------|--------------|---------|
@@ -84,14 +65,4 @@
 | High | Easy | Suggest + apply (show diff) |
 | High | Hard | Explicit approval |
 
-When the user explicitly requests an action, that is already approval. Self-modification always requires explicit approval + audit log + rollback.
-
----
-
-## Mobile
-
-**Checkpoint/resume.** Save full message history, iteration count, task status, and custom state to a `AgentCheckpoint` on backgrounding and after each tool result. On launch, scan for valid checkpoints (default TTL: 1 hour), offer resume, delete on completion.
-
-**iCloud-first storage.** Use iCloud container with local fallback. Data syncs across devices without server infrastructure. Use a storage abstraction layer, not raw `FileManager`. Monitor `NSMetadataQuery` for cloud file state and conflict copies.
-
-**Background execution.** iOS gives ~30 seconds. Priority: (1) complete the current tool call, (2) checkpoint session state, (3) transition to `.backgrounded` status. For truly long-running agents, use a server-side orchestrator with the mobile app as viewer/input.
+An explicit user request is already approval. Self-modification always requires explicit approval + audit log + rollback.

@@ -11,11 +11,11 @@ related: trust-no-uncertainty-markers
 
 ## Agent output with no rationale or sources
 
-Agent says "You should refactor this function" with no explanation of why. User has no way to evaluate the advice: follows it blindly or ignores it entirely. Neither builds trust.
+Agent says "You should refactor this function" with no explanation. User can't evaluate the advice: follows it blindly or ignores it. Neither builds trust.
 
 ## What goes wrong
 
-Agent responds with a confident directive and nothing else. User cannot tell if advice comes from docs, past conversations, or hallucination. When the advice is wrong once, user stops trusting all future responses because there was never a way to distinguish good answers from bad.
+Agent responds with a confident directive and nothing else. User can't tell if it came from docs, past conversations, or hallucination. One wrong answer and they stop trusting all responses, having never had a way to tell good from bad.
 
 ## Detection
 

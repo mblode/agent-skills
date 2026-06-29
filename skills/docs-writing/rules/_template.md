@@ -6,7 +6,7 @@ tags: tag1, tag2
 
 ## Rule Title Here
 
-Brief explanation of the rule and why it matters for documentation quality, readability, or discoverability.
+Brief explanation of the rule and why it matters (quality, readability, discoverability).
 
 **Incorrect (description of what's wrong):**
 

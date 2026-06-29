@@ -7,7 +7,7 @@ tags: types, inference, generics
 
 ## Let Inference Do the Work
 
-The caller should rarely need to write a type annotation. If using your API requires manually specifying generic parameters or annotating results, the signatures are under-inferring. Design generics so the return type flows from the arguments.
+The caller should rarely write a type annotation. If your API requires manually specifying generic parameters or annotating results, the signatures are under-inferring. Design generics so the return type flows from the arguments.
 
 **Incorrect (caller must annotate because the result is not inferred):**
 

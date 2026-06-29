@@ -21,9 +21,9 @@ CronCreate configuration, state file format, and poll lifecycle for monitor mode
 | Every 15 minutes | `*/15 * * * *` | Background monitoring |
 | Every hour | `7 * * * *` | Use off-minute (`:07`) to avoid jitter on `:00` |
 
-Prefer off-minute scheduling: CronCreate adds jitter to tasks at `:00` and `:30`. Pick a minute like `3`, `7`, or `13` for hourly+ intervals.
+Prefer off-minute scheduling: CronCreate jitters tasks at `:00` and `:30`. For hourly+ intervals pick a minute like `3`, `7`, or `13`.
 
-Recurring tasks auto-expire after 3 days. If the PR is still open, re-run `/pr-babysitter` to restart.
+Recurring tasks auto-expire after 3 days; re-run `/pr-babysitter` to restart if the PR is still open.
 
 ## CronCreate Prompt Template
 
@@ -40,7 +40,7 @@ Auto-merge: no
 
 ## State File Format
 
-Write to `.claude/scratchpad/babysit-pr-{N}.md`. Create directory if needed.
+Write to `.claude/scratchpad/babysit-pr-{N}.md`. Create the directory if needed.
 
 ```markdown
 # Babysit PR #{N}
@@ -76,11 +76,11 @@ Write to `.claude/scratchpad/babysit-pr-{N}.md`. Create directory if needed.
 | ... | ... |
 ```
 
-Keep the history log to the last 20 entries. Older entries can be dropped.
+Keep the history log to the last 20 entries; drop older ones.
 
 ## Auto-Detection Defaults
 
-No setup questions. The monitor auto-detects and applies sensible defaults:
+No setup questions; auto-detect and apply defaults:
 
 | Setting | Default | Override |
 |---------|---------|----------|
@@ -90,7 +90,7 @@ No setup questions. The monitor auto-detects and applies sensible defaults:
 | Auto-merge | No | "Enable auto-merge" |
 | CI platforms | Auto-detected from `gh pr checks` | n/a (always auto-detected) |
 
-Overrides can be given inline when invoking: "babysit PR #42, poll every 5 minutes, enable auto-merge."
+Overrides given inline when invoking: "babysit PR #42, poll every 5 minutes, enable auto-merge."
 
 ## Stopping
 
@@ -98,16 +98,11 @@ To stop monitoring:
 
 1. Read the cron job ID from the state file
 2. Call CronDelete with that job ID
-3. Report final summary:
-   - Total polls run
-   - Conflicts resolved
-   - CI failures fixed
-   - Comments triaged
-   - Current PR state
+3. Report final summary: total polls run, conflicts resolved, CI failures fixed, comments triaged, current PR state
 
 ## Session Lifecycle
 
-- Cron jobs are session-scoped: they stop when the Claude session ends
+- Cron jobs are session-scoped: they stop when the agent session ends
 - 3-day auto-expiry on recurring jobs
 - No persistence across session restarts
-- If the session is busy when a poll is due, it fires when Claude becomes idle
+- If the session is busy when a poll is due, it fires when the agent becomes idle

@@ -6,9 +6,7 @@ tags: optical-centering, visual-balance, alignment, overshoot
 
 ## Balance Layouts Optically
 
-Optically center elements slightly above the true mathematical center \u2014 the human eye perceives the geometric center as too low. Account for overshoot in round and pointed shapes: an "O" must extend slightly beyond the baseline and cap height to appear the same size as flat-edged letters.
-
-Trust your eye over measurements.
+Optically center elements slightly above true mathematical center: the eye reads the geometric center as too low. Account for overshoot in round and pointed shapes (an "O" must extend slightly past baseline and cap height to look the same size as flat letters). Trust your eye over measurements.
 
 **Incorrect (mathematically centered, looks low):**
 
@@ -35,4 +33,4 @@ Trust your eye over measurements.
 }
 ```
 
-This principle applies to icons in buttons, text in cards, logos in headers, and any element where visual centering matters more than pixel math.
+Applies to icons in buttons, text in cards, logos in headers, anywhere visual centering beats pixel math.

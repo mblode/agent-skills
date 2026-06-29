@@ -10,31 +10,31 @@ related: states-no-skeleton, states-no-empty-state
 
 ## Async fetch has no error state or boundary
 
-Every async operation can fail. A component that renders only the happy path turns a transient 500 into a blank screen, an infinite spinner, or (worse) a silent stale render. The fix is two-layered: per-component error fallbacks for inline failures (one widget down, the rest still work) and a route-level `error.tsx` for catastrophic crashes. Both must offer the user a way out: retry, go back, or contact support.
+Every async op can fail. A happy-path-only component turns a transient 500 into a blank screen, an infinite spinner, or a silent stale render. Fix is two-layered: per-component fallbacks for inline failures (one widget down, the rest still work) plus a route-level `error.tsx` for catastrophic crashes. Both must offer a way out: retry, go back, or contact support.
 
 ## What goes wrong
 
-Dashboard loads. Three of four widgets succeed. The fourth widget's API returns 500. Without an error boundary, the exception bubbles to the route, the entire dashboard renders the global 500 page, and the user loses access to the three working widgets. Or: a list view's fetch fails. The component renders the loading skeleton forever (no error branch at all). The user reloads, sees the same skeleton, and assumes the product is broken.
+Dashboard loads; 3 of 4 widgets succeed; the 4th returns 500. With no error boundary the exception bubbles to the route, the whole dashboard renders the global 500 page, and the user loses the 3 working widgets. Or: a list fetch fails, the component renders the loading skeleton forever (no error branch), the user reloads, sees the same skeleton, and assumes the product is broken.
 
 ## Detection
 
 **Surfaces:** every async fetcher, every Suspense boundary, every route.
 
 **Static signals:**
-1. Find async data calls: `useQuery`, `useSWR`, `fetch(`, `await`, server components with `async function`.
-2. For each component, check both render-time error branches AND structural error boundaries:
-   - **Inline error branch:** `if (isError|error) return ...` with retry path.
-   - **Suspense + error boundary:** `<ErrorBoundary fallback={...}><Suspense>...</Suspense></ErrorBoundary>` (React) OR `<Suspense errorFallback={...}>` patterns.
-   - **Route-level:** `app/<route>/error.tsx` exists where catastrophic failures are possible.
-3. Fail if a component fetches data without inline error handling AND is not wrapped in any error boundary AND its route has no `error.tsx`.
+1. Find async calls: `useQuery`, `useSWR`, `fetch(`, `await`, async server components.
+2. Per component, check both render-time error branches AND structural boundaries:
+   - **Inline branch:** `if (isError|error) return ...` with a retry path.
+   - **Suspense + boundary:** `<ErrorBoundary fallback={...}><Suspense>...</Suspense></ErrorBoundary>` OR `<Suspense errorFallback={...}>`.
+   - **Route-level:** `app/<route>/error.tsx` where catastrophic failure is possible.
+3. Fail if a component fetches without inline handling AND no error boundary AND its route has no `error.tsx`.
 
 **Concrete commands:**
 ```bash
 # Async fetchers
-rg -l 'useQuery|useSWR|await fetch|async function' --type=tsx --type=ts src/ app/
+rg -l 'useQuery|useSWR|await fetch|async function' --type=ts src/ app/
 
 # Files lacking error handling
-rg -l 'useQuery|useSWR' --type=tsx src/ | while read f; do
+rg -l 'useQuery|useSWR' --type=ts src/ | while read f; do
   rg -L 'isError|hasError|onError|catch|ErrorBoundary|errorFallback' "$f" \
     && echo "$f: fetcher without inline error or boundary"
 done
@@ -47,7 +47,10 @@ find app -type d | while read d; do
 done
 
 # Inline error branches without retry
-rg -A 5 'isError|hasError' --type=tsx src/ | rg -L 'retry|tryAgain|refetch|onClick'
+rg -l 'isError|hasError' --type=ts src/ | while read f; do
+  rg -A 5 'isError|hasError' "$f" | rg -q 'retry|tryAgain|refetch|onClick' \
+    || echo "$f: error branch without retry path"
+done
 ```
 
 **False-positive guards:**
@@ -160,8 +163,8 @@ return <h1>Welcome, {data.name}</h1>;
 
 ## Defer-to (when this is another tool's job)
 
-- Sentry / observability tools for capturing the error itself; this rule covers what the user sees.
-- A monitoring rule should verify error rates ≤ threshold; this rule only verifies the UI handles the error.
+- Sentry / observability captures the error itself; this rule covers what the user sees.
+- A monitoring rule verifies error rates <= threshold; this rule verifies the UI handles the error.
 
 ## Suppression
 

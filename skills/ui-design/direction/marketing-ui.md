@@ -1,6 +1,6 @@
 # Marketing / Brand UI
 
-Commit to a clear aesthetic point of view before any code is written. Avoid generic AI aesthetics.
+Commit to a clear aesthetic point of view before writing code. Avoid generic AI aesthetics.
 
 ## Contents
 
@@ -20,26 +20,26 @@ Commit to a clear aesthetic point of view before any code is written. Avoid gene
 
 Write three things before touching code:
 
-- **Visual thesis**: one sentence describing mood, material, and energy.
-- **Content plan**: hero, support, detail, final CTA, with what each section must communicate.
-- **Interaction thesis**: 2-3 motion ideas that change the feel of the page.
+- **Visual thesis**: one sentence on mood, material, and energy.
+- **Content plan**: hero, support, detail, final CTA, with what each must communicate.
+- **Interaction thesis**: 2-3 motion ideas that change the page's feel.
 
-Each section gets one job, one dominant visual idea, and one primary takeaway or action.
+Each section gets one job, one dominant visual idea, one primary takeaway or action.
 
 ## Beautiful defaults
 
 - Start with composition, not components.
 - Prefer a full-bleed hero or full-canvas visual anchor.
 - Make the brand or product name the loudest text.
-- Keep copy short enough to scan in seconds.
-- Use whitespace, alignment, scale, cropping, and contrast before adding chrome.
+- Keep copy scannable in seconds.
+- Use whitespace, alignment, scale, cropping, and contrast before chrome.
 - Two typefaces max, one accent color by default.
-- Default to cardless layouts. Use sections, columns, dividers, lists, and media blocks instead.
+- Default to cardless layouts: sections, columns, dividers, lists, media blocks.
 - Treat the first viewport as a poster, not a document.
 
 ## Landing page default sequence
 
-1. **Hero**: brand or product, promise, CTA, and one dominant visual.
+1. **Hero**: brand or product, promise, CTA, one dominant visual.
 2. **Support**: one concrete feature, offer, or proof point.
 3. **Detail**: atmosphere, workflow, product depth, or story.
 4. **Final CTA**: convert, start, visit, or contact.
@@ -47,60 +47,60 @@ Each section gets one job, one dominant visual idea, and one primary takeaway or
 ### Hero rules
 
 - One composition only. Full-bleed image or dominant visual plane.
-- On branded landing pages, the hero runs edge-to-edge with no inherited page gutters, framed container, or shared max-width. Constrain only the inner text/action column.
+- On branded pages the hero runs edge-to-edge: no inherited gutters, framed container, or shared max-width. Constrain only the inner text/action column.
 - Brand first, headline second, body third, CTA fourth.
 - No hero cards, stat strips, logo clouds, pill soup, or floating dashboards by default.
-- Keep headlines to roughly 2-3 lines on desktop and readable in one glance on mobile.
-- Keep the text column narrow and anchored to a calm area of the image.
-- All text over imagery must maintain strong contrast and clear tap targets.
+- Headlines roughly 2-3 lines on desktop, readable in one glance on mobile.
+- Keep the text column narrow, anchored to a calm area of the image.
+- All text over imagery: strong contrast, clear tap targets.
 
-If the first viewport still works after removing the image, the image is too weak. If the brand disappears after hiding the nav, the hierarchy is too weak.
+If the first viewport still works without the image, the image is too weak. If the brand disappears with the nav hidden, the hierarchy is too weak.
 
 ### Viewport budget
 
-- If the first screen includes a sticky/fixed header, that header counts against the hero. Combined header + hero content must fit within the initial viewport.
-- When using `100vh`/`100svh` heroes, subtract persistent UI chrome (`calc(100svh - header-height)`) or overlay the header instead of stacking it.
+- A sticky/fixed header counts against the hero; header + hero content must fit the initial viewport.
+- For `100vh`/`100svh` heroes, subtract persistent chrome (`calc(100svh - header-height)`) or overlay the header instead of stacking it.
 
 ## Imagery
 
 Imagery must do narrative work.
 
-- Use at least one strong, real-looking image for brands, venues, editorial pages, and lifestyle products.
+- Use at least one strong, real-looking image for brands, venues, editorial pages, lifestyle products.
 - Prefer in-situ photography over abstract gradients or fake 3D objects.
 - Choose or crop images with a stable tonal area for text.
-- Do not use images with embedded signage, logos, or typographic clutter fighting the UI.
-- Do not generate images with built-in UI frames, splits, cards, or panels.
-- If multiple moments are needed, use multiple images, not one collage.
+- No embedded signage, logos, or typographic clutter fighting the UI.
+- No images with built-in UI frames, splits, cards, or panels.
+- For multiple moments, use multiple images, not one collage.
 
 ## Copy
 
 - Write in product language, not design commentary.
 - Let the headline carry the meaning.
-- Supporting copy should usually be one short sentence.
+- Supporting copy is usually one short sentence.
 - Cut repetition between sections.
-- Do not include prompt language or design commentary in the UI.
-- Give every section one responsibility: explain, prove, deepen, or convert.
+- No prompt language or design commentary in the UI.
+- Each section has one job: explain, prove, deepen, or convert.
 
 If deleting 30 percent of the copy improves the page, keep deleting.
 
 ## UX baseline (non-negotiable)
 
-- Ensure full keyboard support and visible focus.
+- Full keyboard support and visible focus.
 - Hit targets >= 24px (>= 44px on mobile).
-- Keep forms accessible (labels, enter-to-submit, inline errors).
+- Accessible forms (labels, enter-to-submit, inline errors).
 - Handle loading/empty/error states and long content.
 
 ## Aesthetic rules
 
-- Typography: choose distinctive fonts (not Inter/Roboto/Arial/system). Weight >= 400. Use `clamp()`.
-- Colour: commit to a palette with CSS variables; avoid pure black/white; use one sharp accent.
-- Composition: use asymmetry, contrast, and negative space intentionally.
-- Backgrounds: build atmosphere with gradients/noise/patterns, not flat fills.
-- Interaction details: set `pointer-events: none` on decorative layers; allow text selection by default.
+- Typography: distinctive fonts (not Inter/Roboto/Arial/system). Weight >= 400. Use `clamp()`.
+- Colour: commit to a palette via CSS variables; avoid pure black/white; one sharp accent.
+- Composition: intentional asymmetry, contrast, and negative space.
+- Backgrounds: atmosphere via gradients/noise/patterns, not flat fills.
+- Interaction: set `pointer-events: none` on decorative layers; allow text selection by default.
 
 ## Motion
 
-- Ship at least 2-3 intentional motions: one entrance sequence in the hero, one scroll-linked or depth effect, one hover/reveal/layout transition.
+- Ship 2-3 intentional motions: a hero entrance sequence, one scroll-linked or depth effect, one hover/reveal/layout transition.
 - Follow `ui-animation` guidelines for timing, easing, and motion review.
 
 ## Hard rules
@@ -108,7 +108,7 @@ If deleting 30 percent of the copy improves the page, keep deleting.
 - No cards by default.
 - No boxed or center-column hero when the brief calls for full bleed.
 - No more than one dominant idea per section.
-- No headline should overpower the brand on branded pages.
+- No headline overpowering the brand on branded pages.
 - No filler copy.
 - No split-screen hero unless text sits on a calm, unified side.
 - No more than two typefaces without a clear reason.
@@ -122,18 +122,17 @@ If deleting 30 percent of the copy improves the page, keep deleting.
 - Does each section have one job?
 - Are cards actually necessary?
 - Does motion improve hierarchy or atmosphere?
-- Would the design still feel premium if all decorative shadows were removed?
+- Would the design still feel premium with all decorative shadows removed?
 
 ## Conversion strategy
 
-For pages with a conversion goal, load [cro.md](cro.md) (persuasion, social proof, benchmarks, page length), [testing.md](testing.md) (experiment planning), and [modern.md](modern.md) (mobile, speed, personalisation, microcopy). The layout rules below are the track-level decisions; the references cover the psychology and the numbers.
+For conversion-goal pages, load [cro.md](cro.md) (persuasion, social proof, benchmarks, page length), [testing.md](testing.md) (experiment planning), and [modern.md](modern.md) (mobile, speed, personalisation, microcopy). Below are the track-level layout decisions; the references cover the psychology and the numbers.
 
 ### Conversion-aware layout
 
-- **One CTA, repeated.** Primary CTA appears after hero, after proof, and at bottom. Don't introduce competing actions.
+- **One CTA, repeated.** Primary CTA appears after hero, after proof, and at bottom. No competing actions.
 - **Strip navigation** on landing pages. Every link that isn't the CTA is a leak.
-- **Every section must earn its place.** Each section either builds confidence, handles an objection, or drives toward the CTA. Sections that just describe the company are page furniture; cut them.
-- **Message match.** The hero headline must echo the promise that brought the reader here (ad, email, referral). If the ad said "Cut your AWS bill in half" and the page opens with "Welcome to CloudSave", the reader bounces.
-- **Proof near every conversion point:** within one scroll of each CTA, with 3-5 logos or one credibility stat above the fold. Placement rules and the proof credibility hierarchy are in [cro.md](cro.md).
-- **Mobile is a separate design**, not a reflow: above-the-fold CTA kept visible via sticky bar, proof within two scroll-lengths, single-column 16px+ forms. Full rules in [modern.md](modern.md).
-
+- **Every section must earn its place.** Each builds confidence, handles an objection, or drives toward the CTA. Sections that just describe the company are furniture; cut them.
+- **Message match.** The hero headline must echo the promise that brought the reader (ad, email, referral). If the ad said "Cut your AWS bill in half" and the page opens with "Welcome to CloudSave", the reader bounces.
+- **Proof near every conversion point:** within one scroll of each CTA, with 3-5 logos or one credibility stat above the fold. Placement and the proof credibility hierarchy are in [cro.md](cro.md).
+- **Mobile is a separate design**, not a reflow: sticky above-the-fold CTA, proof within two scroll-lengths, single-column 16px+ forms. Full rules in [modern.md](modern.md).

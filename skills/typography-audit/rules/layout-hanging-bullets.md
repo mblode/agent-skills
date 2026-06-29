@@ -6,7 +6,7 @@ tags: bullets, hanging, indented, lists, readability
 
 ## Choose Hanging vs Indented Bullets
 
-Keep wrapped list lines aligned with each other, never with the bullet. `list-style-position: inside` wraps continuation lines underneath the bullet, breaking the text edge. Choose hanging bullets (bullet in the margin) or indented bullets (text indented from the margin); indented is the safer web default, and avoid hanging bullets on mobile where horizontal space is limited.
+Wrapped list lines must align with each other, never under the bullet. `list-style-position: inside` wraps continuation lines under the bullet, breaking the left text edge. Use `outside` and pick hanging bullets (bullet in the margin) or indented (text indented from the margin). Indented is the safer web default; avoid hanging bullets on mobile where space is tight.
 
 **Incorrect (inside positioning, wrapped lines misalign):**
 

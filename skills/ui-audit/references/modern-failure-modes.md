@@ -1,16 +1,16 @@
 # Modern Failure Modes: Index
 
-Layer 2 of the audit: 31 modern frontend UX behavior failure modes that no other tool catches statically. Each rule lives at `rules-modern/<category>-<slug>.md` and follows the format in `rules-modern/_template.md`.
+Layer 2: 31 modern frontend UX failure modes no other tool catches statically. Each rule lives at `rules-modern/<category>-<slug>.md`, following `rules-modern/_template.md`.
 
-These rules are ordered by impact (frequency × severity): the failure modes senior reviewers catch and juniors ship.
+Ordered by impact (frequency × severity): failures senior reviewers catch and juniors ship.
 
 ## Table of contents
 
 - [Forms (5 rules)](#forms-5-rules)
 - [States (5 rules)](#states-5-rules)
 - [Async (5 rules)](#async-5-rules)
-- [Focus / Keyboard (4 rules)](#focus--keyboard-4-rules)
-- [Mobile / Touch (3 rules)](#mobile--touch-3-rules)
+- [Focus / Keyboard (3 rules)](#focus--keyboard-3-rules)
+- [Mobile / Touch (2 rules)](#mobile--touch-2-rules)
 - [Dark mode / i18n (7 rules)](#dark-mode--i18n-7-rules)
 - [Microcopy (4 rules)](#microcopy-4-rules)
 
@@ -18,7 +18,7 @@ These rules are ordered by impact (frequency × severity): the failure modes sen
 
 ## Forms (5 rules)
 
-Form-handling bugs are the most common ship-blockers. Modern React 19 introduces `useActionState`, `useFormStatus`, and `useOptimistic` to address most of them, but only if used correctly.
+Form bugs are the most common ship-blockers. React 19's `useActionState`, `useFormStatus`, and `useOptimistic` address most, but only if used correctly.
 
 | Rule | Default tier | What it catches |
 |---|---|---|
@@ -30,7 +30,7 @@ Form-handling bugs are the most common ship-blockers. Modern React 19 introduces
 
 ## States (5 rules)
 
-The single highest-leverage layer: most production UX bugs are missing or broken states.
+Highest-leverage layer: most production UX bugs are missing or broken states.
 
 | Rule | Default tier | What it catches |
 |---|---|---|
@@ -54,7 +54,7 @@ Async operations: error boundaries, Suspense, optimistic UI rollback, race condi
 
 ## Focus / Keyboard (3 rules)
 
-Focus management is invisible to mouse users and breaks the experience for keyboard / screen-reader users. axe-core checks landmarks but not focus flow. (Skip-link and heading order are a rendered-quality check: `rules-surface/a11y-skip-link-heading-order`.)
+Focus management is invisible to mouse users but breaks keyboard/screen-reader users. axe-core checks landmarks, not focus flow. (Skip-link and heading order: `rules-surface/a11y-skip-link-heading-order`.)
 
 | Rule | Default tier | What it catches |
 |---|---|---|
@@ -64,7 +64,7 @@ Focus management is invisible to mouse users and breaks the experience for keybo
 
 ## Mobile / Touch (2 rules)
 
-Patterns that work on desktop but fail on touch. (Tap-target size is a rendered-quality check: `rules-surface/interaction-target-size`.)
+Patterns that work on desktop but fail on touch. (Tap-target size: `rules-surface/interaction-target-size`.)
 
 | Rule | Default tier | What it catches |
 |---|---|---|
@@ -87,7 +87,7 @@ Patterns that pass desk-checks but fail with non-Latin text, other locales, or i
 
 ## Microcopy (4 rules)
 
-Microcopy quality is a major UX gap no tool catches semantically. Vague errors, leaked exception text, and generic loading copy hurt user trust.
+A major UX gap no tool catches semantically. Vague errors, leaked exception text, and generic loading copy erode trust.
 
 | Rule | Default tier | What it catches |
 |---|---|---|
@@ -100,6 +100,6 @@ Microcopy quality is a major UX gap no tool catches semantically. Vague errors, 
 
 ## How rules combine in playbooks
 
-Each feature playbook in `references/feature-playbooks.md` pulls 5-7 of these rules in an ordered sequence, plus 1-2 Layer-3 Laws of UX rules where cognitive/perceptual reasoning adds value. The combined sequence catches most of the "the product still feels broken" bugs.
+Each feature playbook combines 5-7 modern rules in an ordered sequence, plus 1-2 Layer-4 Laws of UX rules where cognitive/perceptual reasoning adds value. The combined sequence catches most of the "the product still feels broken" bugs.
 
-When a finding fires both a Layer-2 rule and a Layer-3 rule, prefer Layer 2: it has a more concrete fix and a more specific surface match.
+When a finding fires both a Layer-2 rule and a Layer-4 rule, prefer Layer 2: it has a more concrete fix and a more specific surface match.

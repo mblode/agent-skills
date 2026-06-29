@@ -7,7 +7,7 @@ tags: typography, links, interaction
 
 ## Distinguish Links Without Layout Shift
 
-Links should remain visually distinct, but hover states must not change text metrics.
+Keep links visually distinct, but hover must not change text metrics.
 
 **Incorrect (hover changes weight and shifts layout):**
 

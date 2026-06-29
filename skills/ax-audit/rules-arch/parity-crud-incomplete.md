@@ -11,7 +11,7 @@ related: parity-no-tool-parity
 
 ## Entity with incomplete CRUD tool coverage
 
-Entity has create and read tools but is missing update or delete. Agent creates a note but can't fix a typo. Agent lists tasks but can't mark one complete.
+Entity has create and read tools but no update or delete: the agent creates a note but can't fix a typo, lists tasks but can't mark one complete.
 
 ## What goes wrong
 

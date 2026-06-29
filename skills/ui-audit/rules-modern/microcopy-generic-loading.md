@@ -8,48 +8,58 @@ react-apis: Suspense, useFormStatus, useTransition
 related: states-no-skeleton, states-layout-shift, microcopy-vague-error, interaction-doherty-threshold
 ---
 
-## Generic loading copy: "Loading…" with no context
+## Generic loading copy, "Loading…" with no context
 
-"Loading…" is the placeholder you write while wiring up state and intend to come back to. It tells the user nothing about *what* is loading or *how long* to expect. A context-specific string ("Confirming your order, 2 to 3 seconds", "Searching invoices…") sets expectations, reduces perceived wait, and prevents the user from assuming the page is stuck. This is a low-stakes polish rule (not a release-blocker) but it compounds on critical paths.
+"Loading…" tells the user nothing about *what* is loading or *how long* to expect. A context-specific string ("Confirming your order, 2 to 3 seconds", "Searching invoices…") sets expectations, cuts perceived wait, and stops the user assuming the page is stuck. Low-stakes polish, not a release-blocker, but it compounds on critical paths.
+
+## Contents
+
+- What goes wrong
+- Detection
+- Fix
+- Default tier and overrides
+- Examples
+- Defer-to
+- Suppression
 
 ## What goes wrong
 
-A user clicks "Place order" and sees "Loading…" for four seconds. They don't know if the payment went through, if the page is hung, or if they should refresh (which would double-charge them). The same screen with "Confirming your order, please don't refresh" would have answered all three questions.
+User clicks "Place order" and sees "Loading…" for four seconds. They don't know if payment went through, if the page is hung, or if to refresh (which would double-charge). "Confirming your order, please don't refresh" answers all three.
 
 ## Detection
 
 **Surfaces:** loading state / skeleton, search, onboarding, dashboard, list, modal.
 
-**This is a candidate-finding rule.** Regex matches "Loading" / "Please wait"; the agent decides whether each instance is a placeholder that should be specific, or an intentionally generic shell (e.g. a generic `<PageSkeleton>` component reused across surfaces, which is fine).
+**Candidate-finding rule.** Regex matches "Loading" / "Please wait"; the agent decides whether each instance is a placeholder that should be specific or an intentionally generic shell (e.g. a `<PageSkeleton>` reused across surfaces, which is fine).
 
 **Static signals:**
-1. Grep for the exact placeholder phrases as JSX text.
-2. For each match, Read context to determine the surface (is this a checkout? a search? a generic shell?).
+1. Grep the exact placeholder phrases as JSX text.
+2. For each match, Read context to determine the surface (checkout? search? generic shell?).
 3. Judge whether the surface allows a more specific string.
 
 **Concrete commands:**
 ```bash
 # JSX text matches: agent reviews each.
-rg -n '>Loading\.{0,3}<' --type=tsx --type=ts src/
-rg -n '>Please wait\.?<' --type=tsx --type=ts src/
+rg -n '>Loading\.{0,3}<' --type=ts src/
+rg -n '>Please wait\.?<' --type=ts src/
 
 # Variable-ish placeholders worth checking.
-rg -n "'Loading'|\"Loading\"|'Please wait'|\"Please wait\"" --type=tsx --type=ts src/
+rg -n "'Loading'|\"Loading\"|'Please wait'|\"Please wait\"" --type=ts src/
 ```
 
 Regex spec: `/^Loading\.{0,3}$/i` and `/^Please wait\.?$/i` against the JSX text content.
 
 **False-positive guards:**
-- Skip generic skeleton shells used on many surfaces (file name like `LoadingShell.tsx`, `<PageSkeleton>`, `<Suspense fallback={<Loading />}>`). The component name is the contract: its job is to be reusable.
-- Skip a11y-only labels (`aria-label="Loading"`): screen-reader users do benefit from a generic "Loading" announcement. Field this as a separate concern.
+- Skip generic skeleton shells reused across surfaces (`LoadingShell.tsx`, `<PageSkeleton>`, `<Suspense fallback={<Loading />}>`). The component name is the contract: its job is to be reusable.
+- Skip a11y-only labels (`aria-label="Loading"`): a generic announcement helps screen-reader users. Separate concern.
 - Skip Storybook fixtures, tests, MSW.
 - Skip files with `// ui-audit-ignore:microcopy-generic-loading`.
 
-**Agent-judgment limit:** "Loading" inside a reusable `<Spinner>` component is fine; "Loading" rendered directly in `CheckoutPage.tsx` is not. The agent decides which based on file and component name.
+**Agent-judgment limit:** "Loading" inside a reusable `<Spinner>` is fine; "Loading" rendered directly in `CheckoutPage.tsx` is not. Decide by file and component name.
 
 ## Fix
 
-Replace with the specific operation. Add a duration estimate if the operation takes >1 second predictably.
+Replace with the specific operation. Add a duration estimate if it predictably takes >1 second.
 
 ```tsx
 // before
@@ -125,9 +135,9 @@ Reference:
 
 ## Defer-to (when this is another tool's job)
 
-- **Perceived performance / actual TTFB / INP**: Lighthouse + web-vitals.
+- **Perceived performance / TTFB / INP**: Lighthouse + web-vitals.
 - **Skeleton CLS**: `states-layout-shift` rule.
-- **Long-running progress (>10 s)**: needs a progress indicator, covered by feature playbook for loading state.
+- **Long-running progress (>10 s)**: needs a progress indicator; see the loading-state feature playbook.
 
 ## Suppression
 

@@ -10,18 +10,18 @@ related: focus-not-restored, focus-on-dynamic-content, states-no-error-state
 
 ## Modal without working focus trap
 
-When a modal opens, Tab and Shift+Tab must cycle inside it. Esc must close it. Without a focus trap, keyboard users tab into the page behind the modal and lose context, and may not even realise the modal is open. Hand-rolled traps almost always have edge cases (iframes, contenteditable, dynamically-added focusables). The right answer is to use a primitive library that gets it right: Radix UI, react-aria, or `focus-trap-react`.
+When a modal opens, Tab and Shift+Tab must cycle inside it and Esc must close it. Without a focus trap, keyboard users tab into the page behind the modal, lose context, and may not realise it is open. Hand-rolled traps almost always miss edge cases (iframes, contenteditable, dynamically-added focusables). Use a primitive that gets it right: Radix UI, react-aria, or `focus-trap-react`.
 
 ## What goes wrong
 
-A custom `<div role="dialog">` opens. The user presses Tab. Focus moves to the body link below the modal. They keep tabbing. Now they're navigating the page underneath, but visually it's covered by the modal scrim. Total disorientation. Screen-reader users have an even worse time: VoiceOver navigates the entire DOM, ignoring the modal.
+A custom `<div role="dialog">` opens. The user presses Tab; focus moves to a body link below the modal. They keep tabbing and navigate the page underneath, hidden by the scrim. Total disorientation. Screen-reader users fare worse: VoiceOver navigates the entire DOM, ignoring the modal.
 
 ## Detection
 
 **Surfaces:** modal, sheet, drawer, popover, command-palette.
 
 **Static signals:**
-1. `rg 'role="dialog"|role="alertdialog"' --type=tsx -l`: find all dialog markup.
+1. `rg 'role="dialog"|role="alertdialog"' --type=ts -l`: find all dialog markup.
 2. For each file, confirm one of these imports/usages:
    - `@radix-ui/react-dialog` (built-in trap).
    - `react-aria` / `react-aria-components` (built-in trap).
@@ -33,13 +33,13 @@ A custom `<div role="dialog">` opens. The user presses Tab. Focus moves to the b
 **Concrete commands:**
 ```bash
 # Hand-rolled dialogs
-rg 'role="(dialog|alertdialog)"' --type=tsx -l | while read f; do
+rg 'role="(dialog|alertdialog)"' --type=ts -l | while read f; do
   rg -L '@radix-ui/react-dialog|react-aria|focus-trap-react|@headlessui/react' "$f" \
     && echo "$f: dialog without trap library"
 done
 
 # Components named *Modal*/*Dialog* without primitive
-rg -l --type=tsx '(Modal|Dialog|Sheet|Drawer|Popover)\b' src/ | while read f; do
+rg -l --type=ts '(Modal|Dialog|Sheet|Drawer|Popover)\b' src/ | while read f; do
   rg -L '@radix-ui|react-aria|@headlessui|focus-trap' "$f" \
     && echo "$f: custom modal without primitive"
 done

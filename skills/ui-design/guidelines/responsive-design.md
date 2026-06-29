@@ -1,15 +1,15 @@
 # Responsive Design
 
-Covers: mobile, tablet, desktop, breakpoints, container queries, overflow, wrapping, clipping, and cramped narrow viewports. For the comprehensive retrofit ruleset (navigation, tables, pagination, touch targets, overflow patterns), see [../make-responsive.md](../make-responsive.md).
+Covers: mobile, tablet, desktop, breakpoints, container queries, overflow, wrapping, clipping, cramped narrow viewports. For the full retrofit ruleset (navigation, tables, pagination, touch targets, overflow patterns), see [../make-responsive.md](../make-responsive.md).
 
 ## Design Rules
 
-- Every layout must adapt from mobile to desktop: use responsive breakpoint classes (`sm:`, `md:`, `lg:`, etc.) to adjust grid columns, spacing, font sizes, and visibility at different screen sizes
-- Multi-column desktop layouts (sidebars, secondary navigation, filter panels) must collapse to a single-column layout on small screens: use a mobile menu, disclosure, or other compact pattern instead of shrinking columns
-- Body text, subheadings, form controls, and icons should be **larger on mobile** and scale down at `sm:`: write the mobile (larger) size as the default and the desktop (smaller) size with `sm:` (e.g. `text-2xl/8 sm:text-xl/8`, `text-base/7 sm:text-sm/6`, `text-lg/6 sm:text-sm/6`, `size-5 sm:size-4`, `py-2.5 sm:py-1.5`); this applies to body text, subheadings, stat values, form input labels, badges, buttons, select/input padding, and icons, **not** h1s (page titles stay the same size or get smaller on mobile, not bigger)
-- Body text must be at least `text-base` (16px) on mobile: `text-sm` is only acceptable at `sm:` or larger breakpoints (e.g. `text-base/7 sm:text-sm/6`, never `text-sm/6` without a breakpoint prefix for body copy)
+- Adapt every layout mobile to desktop with breakpoint classes (`sm:`, `md:`, `lg:`): adjust grid columns, spacing, font sizes, and visibility.
+- Collapse multi-column desktop layouts (sidebars, secondary nav, filter panels) to single column on small screens via mobile menu, disclosure, or compact pattern; never just shrink columns.
+- Make body text, subheadings, form controls, and icons **larger on mobile**, smaller at `sm:`: write the mobile (larger) size as default and the desktop (smaller) size with `sm:` (e.g. `text-2xl/8 sm:text-xl/8`, `text-base/7 sm:text-sm/6`, `text-lg/6 sm:text-sm/6`, `size-5 sm:size-4`, `py-2.5 sm:py-1.5`). Applies to body text, subheadings, stat values, form input labels, badges, buttons, select/input padding, and icons. **Not** h1s (page titles stay equal or get smaller on mobile, never bigger).
+- Keep body text at least `text-base` (16px) on mobile; `text-sm` only at `sm:` or larger (e.g. `text-base/7 sm:text-sm/6`, never `text-sm/6` unprefixed for body copy).
 
 ## Coding Rules
 
-- Use container queries (`@container`) for component-level responsiveness: anything whose layout depends on available space rather than the viewport (e.g. dashboard widgets, feature cards, pricing tiers, testimonial grids)
-- When using container queries, place the `@container` element as close to the responsive content as possible: ideally a direct wrapper around the items, never on a page-level container
+- Use container queries (`@container`) for component-level responsiveness: anything whose layout depends on available space, not the viewport (dashboard widgets, feature cards, pricing tiers, testimonial grids).
+- Place the `@container` element as close to the responsive content as possible: a direct wrapper around the items, never a page-level container.

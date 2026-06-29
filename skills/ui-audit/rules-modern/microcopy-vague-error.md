@@ -8,42 +8,42 @@ react-apis: useActionState, useFormStatus
 related: microcopy-leaked-error-message, microcopy-no-action-on-empty, states-no-error-state, decision-postels-law
 ---
 
-## Vague error message: no cause, no recovery
+## Vague error message, no cause, no recovery
 
-When something fails, users need two things in the copy: **what went wrong** and **what to do next**. Strings like "Error occurred", "Something went wrong", "Invalid", "Please try again", and "Oops" tell the user neither. They are placeholder text that shipped. Modern React stacks make this worse: `useActionState` and Server Actions invite developers to `return { error: 'Invalid' }` from the server and never come back to refine it.
+When something fails, the copy needs two things: **what went wrong** and **what to do next**. Strings like "Error occurred", "Something went wrong", "Invalid", "Please try again", and "Oops" give neither: placeholder text that shipped. Modern stacks make it worse: `useActionState` and Server Actions invite `return { error: 'Invalid' }` that never gets refined.
 
 ## What goes wrong
 
-The user submits a sign-up form. The server rejects it because the email is already registered. The screen renders "Invalid" in red below the email field. The user has no idea whether it's a typo, a server bug, or that they already have an account. They reload the page and lose their work. The actionable version ("Email already in use, sign in instead" with a link) would have rescued them in one click.
+User submits sign-up; the server rejects it (email already registered); the screen renders "Invalid" in red below the field. The user can't tell if it's a typo, a server bug, or an existing account, reloads, and loses their work. The actionable version ("Email already in use, sign in instead" with a link) rescues them in one click.
 
 ## Detection
 
 **Surfaces:** sign-in / sign-up, checkout, form, search, toast/banner, error/404/500.
 
-**This is a candidate-finding rule.** Regex matches surface candidates. The agent reads the surrounding JSX and decides whether the string is genuinely vague in context, or whether it's deliberately generic for a known reason (e.g. security through obscurity on auth, or it's actually a developer log).
+**This is a candidate-finding rule.** Regex surfaces candidates; the agent reads surrounding JSX and decides whether the string is genuinely vague, or deliberately generic for a known reason (auth security-through-obscurity, or a developer log).
 
 **Static signals:**
-1. Grep candidate strings across JSX/TS string literals.
-2. For each match, Read 10 lines of surrounding code to confirm it renders to the user (not console.log, not test fixtures, not Sentry tags).
-3. For each confirmed UI string, judge whether the surface allows a more specific message.
+1. Grep candidate strings across JSX/TS literals.
+2. Per match, Read ~10 surrounding lines to confirm it renders to the user (not console.log, test fixtures, or Sentry tags).
+3. Per confirmed UI string, judge whether the surface allows a more specific message.
 
 **Concrete commands:**
 ```bash
 # Candidate matches: every hit needs context review.
 rg -n -i 'error occurred|something went wrong|please try again|oops' \
-  --type=tsx --type=ts src/
+  --type=ts src/
 
 # "Invalid" is noisier: narrow to JSX text or error fields.
-rg -n '"Invalid"|>Invalid<|error: ?"Invalid"' --type=tsx --type=ts src/
+rg -n '"Invalid"|>Invalid<|error: ?"Invalid"' --type=ts src/
 ```
 
 **False-positive guards:**
-- **Auth security exception:** "Wrong email or password" / "Incorrect credentials" is intentionally vague to avoid leaking account existence. Pass the rule when the surface is sign-in and the message is exactly this pattern. Document the choice with a comment.
-- Skip console.error / Sentry.captureException / logger.warn calls; these aren't user-facing.
-- Skip test files (`*.test.tsx`, `*.spec.tsx`), Storybook fixtures (`*.stories.tsx`), and MSW handlers.
+- **Auth security exception:** "Wrong email or password" / "Incorrect credentials" is intentionally vague to avoid leaking account existence. Pass when the surface is sign-in and the message matches this pattern exactly; document with a comment.
+- Skip console.error / Sentry.captureException / logger.warn (not user-facing).
+- Skip test files (`*.test.tsx`, `*.spec.tsx`), Storybook fixtures (`*.stories.tsx`), MSW handlers.
 - Skip files with `// ui-audit-ignore:microcopy-vague-error` near the match.
 
-**Agent-judgment limit:** This rule is heavier on judgment than detection. The regex is a candidate generator, not a verdict. If you can't read enough context to decide, mark the finding `unknown` with a reason rather than guess.
+**Agent-judgment limit:** judgment-heavy. The regex is a candidate generator, not a verdict. If you can't read enough context to decide, mark the finding `unknown` with a reason rather than guess.
 
 ## Fix
 
@@ -74,7 +74,6 @@ const ERRORS: Record<string, { message: string; action?: ReactNode }> = {
 
 Reference:
 - NN/g, Error Message Guidelines: https://www.nngroup.com/articles/error-message-guidelines/
-- NN/g, How to Write a Good Error Message: https://www.nngroup.com/articles/error-message-guidelines/
 - React: https://react.dev/reference/react/useActionState
 
 ## Default tier and overrides

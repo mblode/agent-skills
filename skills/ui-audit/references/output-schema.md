@@ -1,6 +1,6 @@
 # Output Schema
 
-All findings emit as JSON conforming to this schema. Render to markdown only after the JSON is complete.
+Findings emit as JSON matching this schema; render markdown only after the JSON is complete.
 
 ## Table of contents
 
@@ -8,8 +8,9 @@ All findings emit as JSON conforming to this schema. Render to markdown only aft
 - [Verdict + tier semantics](#verdict--tier-semantics)
 - [Self-check codes](#self-check-codes)
 - [Finding (modern, Layer 2)](#finding-modern-layer-2)
-- [Finding (laws, Layer 3)](#finding-laws-layer-3)
-- [Finding (rubric, Layer 3)](#finding-rubric-layer-3)
+- [Finding (surface, Layer 3)](#finding-surface-layer-3)
+- [Finding (laws, Layer 4)](#finding-laws-layer-4)
+- [Finding (rubric, Layer 4)](#finding-rubric-layer-4)
 - [Finding (unknown)](#finding-unknown)
 - [Field reference](#field-reference)
 - [Validation rules](#validation-rules)
@@ -61,11 +62,11 @@ All findings emit as JSON conforming to this schema. Render to markdown only aft
 
 `tier` per finding is one of: `release-blocker | fix-this-sprint | backlog`.
 
-Default tier comes from the rule's frontmatter (`defaultTier`); the rule's `surfaceOverrides` table can bump it up or down based on the detected feature. Always include `defaultTier`, `assignedTier`, and `tierReason` in the finding.
+Default tier comes from the rule's frontmatter (`defaultTier`); the rule's `surfaceOverrides` table can bump it up or down per detected feature. Always include `defaultTier`, `assignedTier`, and `tierReason`.
 
 ## Self-check codes
 
-`audit.selfCheck.failures[]` is empty on a clean audit. Possible codes:
+`audit.selfCheck.failures[]` is empty on a clean audit. Codes:
 
 ```
 "rules-not-fully-executed"     // rulesRun < rulesPlanned
@@ -107,7 +108,27 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 }
 ```
 
-## Finding (laws, Layer 3)
+## Finding (surface, Layer 3)
+
+```json
+{
+  "rule": "nav-live-region-feedback",
+  "layer": "surface",
+  "category": "nav",
+  "feature": "toast",
+  "surface": "Toast",
+  "file": "src/components/Toast.tsx",
+  "line": 12,
+  "result": "fail",
+  "defaultTier": "fix-this-sprint",
+  "assignedTier": "fix-this-sprint",
+  "severity": "HIGH",
+  "observed": "Toast is a visual-only div with no role or aria-live attribute.",
+  "fix": "Use `role=\"status\" aria-live=\"polite\"` for informational toasts and `role=\"alert\"` for urgent errors."
+}
+```
+
+## Finding (laws, Layer 4)
 
 ```json
 {
@@ -128,7 +149,7 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 }
 ```
 
-## Finding (rubric, Layer 3)
+## Finding (rubric, Layer 4)
 
 ```json
 {
@@ -168,9 +189,10 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 
 | Field | Required when | Description |
 |---|---|---|
-| `rule` | always | kebab-case slug matching a file in `rules-modern/` or `rules/` |
-| `layer` | always | `modern` (Layer 2) or `laws` (Layer 3) |
+| `rule` | always | kebab-case slug matching a file in `rules-modern/`, `rules-surface/`, or `rules/` |
+| `layer` | always | `modern` (Layer 2), `surface` (Layer 3), or `laws` (Layer 4) |
 | `category` | layer=modern | `forms | states | async | focus | mobile | dark-i18n | microcopy` |
+| `category` | layer=surface | `a11y | interaction | forms | type | nav | layout | perf | motion | copy` |
 | `prefix` | layer=laws | `cognitive | decision | perception | memory | interaction` |
 | `kind` | layer=laws | `programmatic | rubric` (from the rule's frontmatter; rubric rules also emit `score` + `anchor`) |
 | `feature` | always | feature playbook this finding came from (`checkout`, `sign-in`, etc.) |
@@ -182,10 +204,10 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 | `assignedTier` | fail / warn | tier after surface overrides applied |
 | `tierReason` | when assignedTier ≠ defaultTier | explanation of override |
 | `severity` | fail / warn | `HIGH | MEDIUM | LOW` |
-| `observed` | Layer 2 fail | string OR object describing measurement |
-| `expected` | Layer 2 fail (when applicable) | object with rule threshold |
-| `score` | Layer 3 rubric | integer 1-5 |
-| `anchor` | Layer 3 rubric | verbatim text from rule's rubric table |
+| `observed` | Layer 2 or 3 fail | string OR object describing measurement |
+| `expected` | Layer 2 or 3 fail (when applicable) | object with rule threshold |
+| `score` | Layer 4 rubric | integer 1-5 |
+| `anchor` | Layer 4 rubric | verbatim text from rule's rubric table |
 | `evidence` | fail (recommended) | array of `file:line: observation` strings |
 | `fix` | fail / warn | string with the literal change |
 | `fixSnippet` | fail (recommended) | code snippet ready for `suggestion` block |
@@ -198,7 +220,7 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 
 - Every `fail` and `warn` finding has `assignedTier`, `severity`, `fix`.
 - Every Layer-2 fail finding has `observed`.
-- Every Layer-3 rubric finding has `score` AND `anchor`.
+- Every Layer-4 rubric finding has `score` AND `anchor`.
 - Every `unknown` finding has `reason`.
 - Every finding belongs to exactly one `feature` and one `surface`.
 - `pass` findings can be elided from the markdown rendering; keep them in JSON for audit-self-check.

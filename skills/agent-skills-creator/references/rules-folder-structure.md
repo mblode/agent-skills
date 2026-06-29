@@ -1,10 +1,10 @@
 # Rules Folder Structure
 
-For rules-based skills (audits, lints, checklists), create a `rules/` folder with a section map, a rule template, and one file per rule.
+For rules-based skills (audits, lints, checklists), create a `rules/` folder: a section map, a rule template, one file per rule.
 
 ## `rules/_sections.md`
 
-Category map with impact levels. Format:
+Category map with impact levels:
 
 ```markdown
 # Sections
@@ -22,7 +22,7 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 
 ## `rules/_template.md`
 
-Template for individual rule files:
+Per-rule file template:
 
 ```markdown
 ---
@@ -46,13 +46,17 @@ Brief explanation of the rule and why it matters.
 
 ## Individual rule files
 
-- Named `<prefix>-<slug>.md` where prefix matches the section ID
+- Named `<prefix>-<slug>.md`; prefix matches the section ID
 - One rule per file
-- Each file follows the `_template.md` structure
+- Each follows `_template.md`
+
+## Tier-based audit variant
+
+Audit skills may use a richer rule schema when `SKILL.md` explains it and `_sections.md` reconciles counts and categories. Common fields: `defaultTier`, `category`, `surfaces`, plus rule-specific override fields. Do not force `title`/`impact`/`tags` onto these skills if their template and dispatch instructions document the alternate schema.
 
 ## SKILL.md priority table
 
-Include a table mapping categories to prefixes and rule counts:
+Map categories to prefixes and rule counts:
 
 ```markdown
 | Priority | Category | Impact | Prefix | Rules |
@@ -62,12 +66,12 @@ Include a table mapping categories to prefixes and rule counts:
 
 ## Large rule sets
 
-For 30+ rule files, maintenance shifts from rewriting rules to keeping the set consistent:
+At 30+ rules, maintenance shifts from writing rules to keeping the set consistent:
 
-- Every rule has frontmatter (`title`, `impact`, `tags`) and an incorrect/correct example pair
+- Every rule has frontmatter that follows the documented schema, plus the example or detection structure required by that schema
 - Every filename prefix matches a `_sections.md` section
-- Rule counts reconcile everywhere they appear (description, priority table, prose): `ls rules/ | grep -v '^_' | wc -l`
+- Rule counts reconcile everywhere (description, priority table, prose): `ls rules/ | grep -v '^_' | wc -l`
 
 ## Multi-layer variant
 
-A skill may carry more than one rules folder (e.g. `rules/` for a stable baseline plus `rules-modern/` for a newer catalog) **only when** SKILL.md explicitly dispatches to each layer with its own loading condition. Without that dispatch, consolidate into a single `rules/` folder.
+A skill may carry more than one rules folder (e.g. a stable `rules/` plus a newer `rules-modern/`) **only when** SKILL.md dispatches to each layer with its own loading condition. Otherwise consolidate into a single `rules/` folder.

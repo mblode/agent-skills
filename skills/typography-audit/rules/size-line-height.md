@@ -6,9 +6,7 @@ tags: line-height, leading, readability, unitless
 
 ## Set Line Height for Comfortable Reading
 
-Set line height to approximately 1.45\u20131.5 for body text. Always use unitless values to ensure proper inheritance. Adjust based on font size, line length, and x-height: sans-serif faces with large x-heights may need slightly more line height. Longer lines need more line height; shorter lines need less.
-
-Avoid excessive leading (above 1.8) which disconnects lines visually.
+Set body line height to about 1.45-1.5, always unitless so it inherits correctly. Adjust for font size, line length, and x-height: large-x-height sans faces may need slightly more. Longer lines need more leading, shorter lines less. Avoid excessive leading (above 1.8); it disconnects lines visually.
 
 **Incorrect (too tight, units used):**
 
@@ -43,4 +41,4 @@ h1 {
 }
 ```
 
-Set line height before paragraph spacing. The two work together to establish vertical rhythm.
+Set line height before paragraph spacing; together they establish vertical rhythm.

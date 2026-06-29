@@ -1,13 +1,13 @@
 # Sections
 
-Layer 3 (rendered quality) of `ui-audit`: checks reasoned from the rendered output. The behavior failure modes reasoned from the React/Next source live in `rules-modern/` (Layer 2); the two are complementary. Categories below are in audit priority order. The ID in parentheses is the filename prefix that groups rules (`<prefix>-<slug>.md`). Category impact is the default; individual rules may override it in their frontmatter.
+Layer 3 (rendered quality) of `ui-audit`: checks reasoned from the rendered output. Behavior failure modes (reasoned from the React/Next source) live in `rules-modern/` (Layer 2); the two are complementary. Categories are in audit priority order. The ID in parentheses is the filename prefix that groups rules (`<prefix>-<slug>.md`). Category impact is the default; individual rules may override it in frontmatter.
 
 ---
 
 ## 1. Accessibility and Semantics (a11y)
 
 **Impact:** CRITICAL
-**Description:** Semantic structure, accessible names, contrast, media alternatives, and document language. Failures exclude assistive-tech users entirely, so run this category first on every audit.
+**Description:** Semantic structure, accessible names, contrast, media alternatives, and document language. Failures exclude assistive-tech users entirely, so run this category first.
 
 ## 2. Keyboard and Interaction (interaction)
 
@@ -32,7 +32,7 @@ Layer 3 (rendered quality) of `ui-audit`: checks reasoned from the rendered outp
 ## 6. Layout and Resilience (layout)
 
 **Impact:** HIGH
-**Description:** Layouts must survive long content, sparse/dense data, and edge states without overflow or collapse. (Coverage of empty, loading, and error states is owned by the behavior `states-*` rules in `rules-modern/`.)
+**Description:** Layouts must survive long content, sparse/dense data, and edge states without overflow or collapse. (Empty, loading, and error states are owned by the behavior `states-*` rules in `rules-modern/`.)
 
 ## 7. Performance and Visual Stability (perf)
 

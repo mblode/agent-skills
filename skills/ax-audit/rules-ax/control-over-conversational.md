@@ -11,11 +11,11 @@ related: comm-no-intent-handshake, comm-no-generative-momentum
 
 ## Chat interface for actions that should be buttons
 
-User wants to toggle a setting or trigger a known action. Only interface is chat. User types "turn on dark mode" and waits for a round-trip instead of flipping a switch. Chat is the ONLY path to deterministic actions.
+User wants to toggle a setting or trigger a known action, but chat is the only interface. They type "turn on dark mode" and wait for a round-trip instead of flipping a switch. Chat is the ONLY path to deterministic actions.
 
 ## What goes wrong
 
-User wants dark mode. Types "enable dark mode" in chat. Agent responds after 2 seconds. Same action could be a toggle taking 50ms. Multiply across every simple action and chat becomes a bottleneck.
+User types "enable dark mode" in chat; agent responds after 2 seconds. A toggle would take 50ms. Multiply across every simple action and chat becomes a bottleneck.
 
 ## Detection
 

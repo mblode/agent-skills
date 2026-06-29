@@ -6,15 +6,15 @@ tags: links, paths, relative
 
 ## Use relative paths for internal doc links
 
-Use relative paths for links between documentation files. Absolute paths break when docs are hosted at different base URLs or built into subfolders.
+Link between docs with relative paths. Absolute paths break when docs are hosted at different base URLs or built into subfolders.
 
-**Incorrect (absolute path with vague link text):**
+**Incorrect (absolute path, vague link text):**
 
 ```markdown
 See [here](/docs/reference/api.md) for more info.
 ```
 
-**Correct (relative path with descriptive context):**
+**Correct (relative path, descriptive context):**
 
 ```markdown
 See [API authentication methods](../reference/api.md#authentication) for token setup.

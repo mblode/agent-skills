@@ -11,11 +11,11 @@ related: control-no-escape-hatch, control-no-approval-gate
 
 ## Agent acts on non-trivial request without confirming intent
 
-User says "reorganize my files." Agent immediately starts moving files. User meant "suggest a new folder structure" not "execute a restructure right now." Intent Handshake requires agents to play back their interpretation before executing. The gap between intent and interpretation is invisible until the damage is done.
+User says "reorganize my files." The agent immediately moves files, but the user meant "suggest a new folder structure," not "execute a restructure right now." Intent Handshake requires agents to play back their interpretation before executing. The intent/interpretation gap stays invisible until the damage is done.
 
 ## What goes wrong
 
-User asks "clean up my project." Agent deletes unused files, renames directories, and updates imports, all in one shot. User wanted a report. No playback, no scoping choices, no "here's what I'll do" before action. Destructive and ambiguous requests get instant-execute treatment.
+User asks "clean up my project." The agent deletes unused files, renames directories, and updates imports in one shot. The user wanted a report. No playback, no scoping choices, no "here's what I'll do" first. Destructive, ambiguous requests get instant-execute treatment.
 
 ## Detection
 

@@ -6,7 +6,7 @@ tags: kerning, tracking, metrics, optical, letter-spacing
 
 ## Use Metrics Kerning, Adjust Tracking First
 
-Use the font's built-in kerning tables (metrics kerning) rather than optical kerning. High-quality fonts have carefully crafted kern pairs. Before manually adjusting individual kern pairs, adjust overall tracking (letter-spacing) first. Manual kerning should only be necessary for large display type and logos.
+Use the font's built-in kern tables (metrics kerning), not optical kerning: quality fonts ship crafted kern pairs. Adjust overall tracking (letter-spacing) before individual pairs. Reserve manual kerning for large display type and logos.
 
 **Incorrect (optical kerning or excessive manual adjustment):**
 
@@ -37,4 +37,4 @@ h1 {
 .logo .letter-A { margin-right: -0.05em; }
 ```
 
-Use hair spaces (`&hairsp;`) or thin spaces (`&thinsp;`) where normal spacing feels off but a full adjustment is too much. Accept minor kerning irregularities in body text \u2014 they are inherent in the Latin alphabet.
+Use hair (`&hairsp;`) or thin (`&thinsp;`) spaces where spacing feels off but a full adjustment is too much. Accept minor kerning irregularities in body text; they are inherent to the Latin alphabet.

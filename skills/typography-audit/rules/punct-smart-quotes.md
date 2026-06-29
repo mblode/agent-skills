@@ -6,9 +6,9 @@ tags: quotes, apostrophes, punctuation, utf-8
 
 ## Use Smart Quotes, Never Straight
 
-Smart (curly) quotes are the hallmark of professional typography. Straight quotes are a remnant of typewriters and should only appear in code. Dumb quotes in headlines are especially noticeable.
+Smart (curly) quotes are the hallmark of professional typography. Straight quotes are a typewriter remnant and belong only in code. Dumb quotes in headlines are especially noticeable.
 
-Ensure your site uses UTF-8 encoding and normalize content at build or render time. Enable smart quote conversion in your CMS or build pipeline.
+Use UTF-8 encoding and normalize content at build or render time. Enable smart-quote conversion in the CMS or build pipeline.
 
 **Incorrect (straight/dumb quotes):**
 

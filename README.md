@@ -27,7 +27,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Design
 
-- **[product-design](./skills/product-design/SKILL.md)**: Product and UX judgment: the right interaction, action naming by object, scope, and consequence, reachable-state coverage, resilience, and accessibility as a product concern. Routes by mode (shape, implement, review, copy, harden) and defers the build to ui-design, audits to ui-audit, and wording to copywriting.
+- **[product-design](./skills/product-design/SKILL.md)**: Product and UX judgment: the right interaction, action scope and consequence, reachable-state coverage, resilience, and accessibility as a product concern. Routes by mode (shape, spec, review, action, harden) and defers builds to ui-design, audits to ui-audit, and wording to copywriting.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Designs and builds UI end to end: visual direction (palettes, type scales, tokens, CRO, brand kits), Tailwind implementation with the ui.sh design guidelines, multi-variant browser picker, screenshot-to-markup scaffolding, dark-mode and responsive retrofits, and componentization with Tailwind class cleanup.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Designs, implements, reviews, and reverse-engineers UI motion: springs, gestures, easing, CSS transition recipes, plus extracting easing and spring curves from a screen recording into CSS, Motion, SwiftUI, RN, or UIKit code.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first slide decks with narrative arcs, speaker notes, investor pitch decks, and a QA pass.

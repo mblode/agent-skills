@@ -6,7 +6,7 @@ tags: temporal, status, evergreen
 
 ## No status reports, meeting notes, or dated plans in docs
 
-Documentation must be evergreen. Status reports, test results, meeting notes, and plans with dates belong in issues, PRs, or project management tools -- not in docs that readers expect to be current.
+Documentation must be evergreen. Status reports, test results, meeting notes, and dated plans belong in issues, PRs, or project tools, not in docs readers expect to be current.
 
 **Incorrect (temporal content mixed into docs):**
 

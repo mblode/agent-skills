@@ -6,7 +6,7 @@ tags: brand, consistency, equity, identity
 
 ## Protect Brand Typographic Equity
 
-Once you establish core type choices, stick with them. Frequent changes erode brand recognition. Document the typographic system (typefaces, sizes, weights, colors, spacing) as design tokens or CSS custom properties and require adherence across all touchpoints.
+Once core type choices are set, stick with them; frequent changes erode recognition. Document the system (typefaces, sizes, weights, colors, spacing) as design tokens or CSS custom properties and require adherence across all touchpoints.
 
 **Incorrect (ad-hoc fonts per surface, nothing documented):**
 
@@ -38,4 +38,4 @@ h1 { font-family: Georgia, serif; }
 h1 { font-family: var(--font-heading); }
 ```
 
-Allow evolution but require justification for changes. Add at least one distinctive typographic move per project, as a deliberate part of the system, not a one-off deviation. Keep reference links to foundry pages and license documentation.
+Allow evolution but require justification. Add at least one distinctive typographic move per project as a deliberate part of the system, not a one-off. Keep links to foundry pages and license docs.

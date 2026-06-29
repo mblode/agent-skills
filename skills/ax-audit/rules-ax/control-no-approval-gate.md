@@ -11,7 +11,7 @@ related: control-no-escape-hatch, trust-no-escalation-path, comm-no-approval-gat
 
 ## Autonomous agent action without stakes-appropriate approval
 
-Agent sends an email, posts to Slack, or deletes data without asking. Or: agent asks confirmation for every trivial action. Either extreme breaks trust: too autonomous or too cautious. The approval model must match the stakes and reversibility of the action.
+Agent sends an email, posts to Slack, or deletes data without asking. Or it asks confirmation for every trivial action. Either extreme breaks trust. The approval model must match the stakes and reversibility of the action.
 
 ## What goes wrong
 

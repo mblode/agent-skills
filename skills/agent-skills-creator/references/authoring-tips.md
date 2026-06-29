@@ -1,6 +1,6 @@
 # Authoring Tips
 
-Practical guidance for writing high-signal skill content. These complement the format rules in `format-specification.md`.
+High-signal skill-content guidance; complements the format rules in `format-specification.md`.
 
 ## Contents
 
@@ -10,6 +10,7 @@ Practical guidance for writing high-signal skill content. These complement the f
 - Use the File System for Progressive Disclosure
 - Comprehensive Reference Folders
 - Degrees of Freedom
+- Provide a Default, Not a Menu
 - Common Content Patterns
 - The Description Field Is For the Model
 - Think Through the Setup
@@ -21,97 +22,96 @@ Practical guidance for writing high-signal skill content. These complement the f
 
 ## Don't State the Obvious
 
-Claude knows a lot about coding and your codebase. Focus on information that pushes Claude out of its normal way of thinking.
+Claude knows coding and the codebase. Write only what pushes it off its defaults.
 
-- If Claude would do it correctly without the instruction, omit it
-- General coding advice ("use descriptive variable names") adds noise
-- Standard framework conventions (2-space indentation, semicolons) are already known
-- Focus on where your org deviates from defaults or where Claude consistently gets it wrong
+- Omit anything Claude would do correctly unsupervised
+- General coding advice ("use descriptive variable names") is noise
+- Standard conventions (2-space indentation, semicolons) are known
+- Target where your org deviates from defaults or Claude consistently errs
 
-**Test:** For each line in SKILL.md, ask "Would removing this cause Claude to make a mistake?" If not, cut it.
+**Test:** for each line, ask "Would removing this cause a mistake?" If not, cut it.
 
 ## Open with Boundaries (IS/IS-NOT)
 
-When sibling skills exist or scope creep is likely, open the body (immediately after the H1 intro) with a bold IS/IS-NOT pair. It prevents the model from running the wrong skill or stretching this one past its remit.
+When sibling skills exist or scope creep is likely, open the body (right after the H1 intro) with a bold IS/IS-NOT pair to prevent wrong-skill routing and scope creep.
 
 ```markdown
 - **IS:** producing a self-contained brief another agent can execute without clarification.
 - **IS NOT:** doing the task itself, or planning work you will execute in this session.
 ```
 
-Name the sibling skill to route to in the IS-NOT line where one exists ("use `agents-md`"). Skip the opener for skills with no adjacent skills and an unmistakable scope; it would restate the description.
+Name the sibling to route to in the IS-NOT line ("use `agents-md`"). Skip it when a skill has no neighbors and unmistakable scope; it would just restate the description.
 
 ## Build a Gotchas Section
 
-The highest-signal content in any skill. Build from common failure points Claude runs into when using the skill.
+The highest-signal content in any skill. Build from real failure points Claude hits.
 
-- Place near the end of SKILL.md as a quick-reference section (call it "Gotchas" or "Anti-patterns")
-- Ground every gotcha in a real observed failure, not hypothetical concerns
-- Each gotcha names the concrete command, value, or path involved and the consequence of getting it wrong; a warning without a consequence reads as optional
-- Update the section over time as new failure modes appear
-- Format as short, scannable bullets, not paragraphs
+- Place near the end of SKILL.md ("Gotchas" or "Anti-patterns"), as short scannable bullets, not paragraphs
+- Ground each in an observed failure, not a hypothetical
+- Name the concrete command, value, or path and the consequence of getting it wrong; a warning without a consequence reads as optional
+- Update over time as new failure modes appear
 
 **Good:** "Don't use the brand domain for tenant subdomains; reputation damage from one tenant affects all"
 **Bad:** "Be careful with domain naming" (too vague, no reason given)
 
 ## Use the File System for Progressive Disclosure
 
-A skill is a folder, not just a markdown file. Think of the entire file system as context engineering. Tell Claude what files are in your skill, and it will read them at appropriate times.
+A skill is a folder, not one file: treat the file system as context engineering. List the files and Claude loads them when relevant.
 
-- `references/`: deep-dive documentation loaded on demand
-- `scripts/`: executable utilities Claude can compose
-- `assets/`: template files for output Claude should copy and adapt (e.g., if your skill produces a markdown report, include the template in `assets/`)
-- `examples/`: usage examples and code snippets Claude can reference
+- `references/`: deep-dive docs loaded on demand
+- `scripts/`: executable utilities Claude composes
+- `assets/`: template files to copy and adapt (e.g., the markdown report template for a report-producing skill)
+- `examples/`: usage examples and snippets
 - `rules/`: categorized rule files for audit/lint skills
 
-The simplest form of progressive disclosure is pointing to other markdown files. Split detailed function signatures, API docs, or usage examples into separate files and tell Claude when to load them.
+Simplest form: split function signatures, API docs, or examples into separate files and say when to load them.
 
 ## Comprehensive Reference Folders
 
-For broad domains (a design system, a full CLI surface, a style guide), a folder of many small focused files beats a few monoliths. A design-system skill with 40 files of 50-200 lines each (`buttons.md`, `colors.md`, `typography.md`, `forms.md`) lets Claude load exactly the two files a task needs instead of a 2000-line reference.
-
-- One concern per file; name the file after the concern
-- Keep an `index.md` (or a table in SKILL.md) mapping concerns to files
-- Each file stands alone, with no cross-file reading order
-- Individual files can run long (up to ~450 lines) when single-topic and TOC'd; split by loading condition, not line count
+For broad domains (a design system, a full CLI surface, a style guide), many small focused files beat a few monoliths. Full treatment, the `index.md` map, and the 40-file design-system example are in the comprehensive-reference variant in `skill-patterns.md`.
 
 ## Degrees of Freedom
 
-Match specificity to how fragile the task is. Over-constraining open-ended tasks makes the skill brittle; under-constraining fragile tasks loses determinism.
+Match specificity to task fragility. Over-constraining open work makes the skill brittle; under-constraining fragile work loses determinism. Narrow bridge with cliffs: hand over exact steps. Open field: point a direction.
 
-Analogy: Claude is a robot crossing a landscape. On a narrow bridge with cliffs on either side, hand it exact steps. In an open field, point in a direction and let it choose the path.
-
-**High freedom:** multiple valid approaches; context determines best path. Use prose instructions:
+**High freedom** (multiple valid approaches; context picks the path): prose.
 
 ```markdown
 Review the code for bugs, readability, and adherence to project conventions.
 ```
 
-**Medium freedom:** a preferred pattern exists but variation is acceptable. Use pseudocode or parameterized scripts:
+**Medium freedom** (preferred pattern, variation acceptable): pseudocode or parameterized scripts.
 
 ```python
 def generate_report(data, format="markdown", include_charts=True):
     ...
 ```
 
-**Low freedom:** fragile, consistency-critical, or destructive. Use specific commands with few parameters:
+**Low freedom** (fragile, consistency-critical, or destructive): specific commands, few parameters.
 
 ```bash
 python scripts/migrate.py --verify --backup
 ```
 
-When to be prescriptive: format contracts, safety constraints, naming conventions, API schemas, migrations. When to be flexible: implementation approach, code structure, tool selection.
+Prescriptive for: format contracts, safety constraints, naming conventions, API schemas, migrations. Flexible for: implementation approach, code structure, tool selection.
 
-**Railroading anti-pattern:** "Use exactly this signature: `async function fetchUser(id: string): Promise<User>`"
-**Flexible alternative:** "Fetch functions return typed promises and accept string IDs"
+**Railroading:** "Use exactly this signature: `async function fetchUser(id: string): Promise<User>`"
+**Flexible:** "Fetch functions return typed promises and accept string IDs"
+
+## Provide a Default, Not a Menu
+
+When several tools or libraries could work, pick one and show it; listing every option forces Claude to choose with no basis and bloats the skill. Add an escape hatch only for the known exception.
+
+**Bad:** "You can use pypdf, or pdfplumber, or PyMuPDF, or pdf2image."
+**Good:** "Use pdfplumber for text extraction. For scanned PDFs requiring OCR, use pdf2image with pytesseract instead."
 
 ## Common Content Patterns
 
-Three patterns recur across skills. Name them explicitly when reaching for one.
+Three patterns recur. Name them explicitly when reaching for one.
 
 ### Template pattern
 
-Provide a fixed or flexible output format so Claude produces consistent results. Use **strict** phrasing when the format is a contract ("ALWAYS use this exact template"), **flexible** phrasing when it's a starting point ("Here is a sensible default; adjust sections as needed").
+A fixed or flexible output format for consistent results. **Strict** when the format is a contract ("ALWAYS use this exact template"); **flexible** when a starting point ("sensible default; adjust sections as needed").
 
 ```markdown
 # [Title]
@@ -126,7 +126,7 @@ Provide a fixed or flexible output format so Claude produces consistent results.
 
 ### Examples pattern
 
-When output quality depends on style (commit messages, copy, changelog entries), provide 2-3 input/output pairs. Examples convey tone and level of detail more efficiently than description.
+When quality depends on style (commit messages, copy, changelog entries), give 2-3 input/output pairs. Examples convey tone and detail more efficiently than description.
 
 ```
 Input: Added user authentication with JWT tokens
@@ -138,7 +138,7 @@ Add login endpoint and token validation middleware
 
 ### Conditional workflow pattern
 
-Route Claude through decision points instead of listing every path upfront.
+Route through decision points instead of listing every path upfront.
 
 ```markdown
 Determine modification type:
@@ -146,14 +146,13 @@ Determine modification type:
 - Editing existing content? → Follow "Editing workflow" below
 ```
 
-Push large branches into separate reference files so the main SKILL.md stays scannable.
+Push large branches into separate reference files so SKILL.md stays scannable.
 
 ## The Description Field Is For the Model
 
-When Claude Code starts a session, it scans every skill's description to decide relevance. The description is a trigger description, not a human summary.
+At session start, Claude scans every description to decide relevance. It is a trigger description, not a human summary.
 
-- Optimize for the words users will say when they need the skill
-- Include action verbs and domain nouns the model uses for routing
+- Optimize for the words users say when they need the skill: action verbs and domain nouns the model routes on
 - Add quoted user phrases: `"how do I..."`, `"build a..."`, `"fix my..."`
 - Structure: `[Does what] for/using [domain]. [Covers what]. Use when [specific trigger phrases].`
 
@@ -162,12 +161,10 @@ When Claude Code starts a session, it scans every skill's description to decide 
 
 ## Think Through the Setup
 
-Some skills need user-specific context before they can work. Use a config pattern rather than asking the same questions every session.
+Some skills need user-specific context first. Use a config pattern instead of re-asking every session.
 
-- Store setup information in a `config.json` file in the skill directory
-- If config is not set up, the skill's first step should gather context from the user
-- Use AskUserQuestion for structured, multiple-choice questions
-- Pattern: Step 1 checks for config → gathers if missing → remaining steps use it
+- Store setup in a `config.json` in the skill directory
+- Pattern: Step 1 checks for config → gathers via AskUserQuestion (structured, multiple-choice) if missing → later steps use it
 
 ```json
 {
@@ -179,51 +176,39 @@ Some skills need user-specific context before they can work. Use a config patter
 
 ## Memory and Storing Data
 
-Skills can persist data across sessions by storing files. This enables skills that learn and improve over time.
+Persisting files across sessions enables skills that learn and improve over time.
 
-- Use `${CLAUDE_PLUGIN_DATA}` as the storage path; it is stable across skill upgrades (data in the skill directory itself may be deleted on upgrade)
-- Formats: append-only text logs, JSON files, SQLite databases
-- Example: a standup skill keeps a `standups.log` so it knows what changed since yesterday
-- Example: an audit skill stores `previous-findings.json` to track regressions
+- Store at `${CLAUDE_PLUGIN_DATA}`: stable across upgrades (the skill directory itself may be wiped on upgrade)
+- Formats: append-only text logs, JSON, SQLite
+- Examples: a standup skill keeps `standups.log` to know what changed since yesterday; an audit skill stores `previous-findings.json` to track regressions
 
 ## Store Scripts and Generate Code
 
-One of the most powerful tools you can give Claude is code. Scripts and libraries let Claude spend its turns on composition rather than reconstructing boilerplate.
+Scripts let Claude spend turns on composition, not reconstructing boilerplate.
 
-- Include executable scripts (`.sh`, `.py`, `.ts`) alongside SKILL.md
-- Give Claude helper functions to compose rather than regenerate each time
-- Pattern: `scripts/` folder holds utilities, Claude generates wrapper scripts on the fly
-- Example: data skill includes `fetch_events()`, `fetch_users()`, `run_query()` that Claude composes for complex analysis
+- Ship executable scripts (`.sh`, `.py`, `.ts`) as helper functions to compose, not regenerate each time
+- Pattern: `scripts/` holds utilities; Claude generates wrappers on the fly
+- Example: a data skill ships `fetch_events()`, `fetch_users()`, `run_query()` that Claude composes for analysis
 
-For error handling, constants, plan-validate-execute, runtime environment, package dependencies, and MCP tool references, see `executable-code.md` (linked from SKILL.md).
+For error handling, constants, plan-validate-execute, runtime, package deps, and MCP tool references, see `executable-code.md` (linked from SKILL.md).
 
 ## On-Demand Hooks
 
-Skills can include hook definitions that activate only when the skill is called and last for the session duration. Use for opinionated safety or observation hooks that should not run all the time.
+Hooks can activate only when the skill is called, lasting the session. Use for opinionated safety or observation that should not always run.
 
-- PreToolUse hooks: validate or block tool calls (e.g., block `rm -rf` in a prod skill)
-- PostToolUse hooks: observe and log tool results
-- Define hooks in the SKILL.md instructions for Claude to register
+- PreToolUse: validate or block tool calls (e.g., block `rm -rf` in a prod skill)
+- PostToolUse: observe and log tool results
+- Define hooks in SKILL.md for Claude to register
 
-**Example use cases:**
+**Examples:**
 - `/careful`: blocks destructive commands via PreToolUse matcher on Bash
 - `/freeze`: blocks Edit/Write outside a specific directory during debugging
 - `/observe`: logs all Bash commands to an audit trail
 
 ## Composing Skills
 
-Skills can depend on each other. Reference other skills by name in your SKILL.md and the model will invoke them if they are installed.
-
-- Dependency management is not built into skills yet; composition is name-based
-- Use a "Skill handoffs" or "Related skills" section to document which skills yours connects to
-- Pattern: "After completing this workflow, run `skill-name` for the next step"
-- Keep each skill focused on one concern; compose rather than duplicate
+Composition is name-based; no built-in dependency management. Reference another skill by name and the model invokes it if installed. Document it in a "Related skills" section ("After this workflow, run `skill-name`") and keep each skill on one concern, not duplicating another's.
 
 ## Measuring Skills
 
-To understand adoption and quality, track when and how often skills are invoked.
-
-- Use a PreToolUse hook to log skill invocations across your org
-- Compare actual usage against expected trigger rates to find undertriggering skills
-- Undertriggering often means the description field needs better trigger phrases
-- Popular skills are candidates for promotion to your marketplace or shared repo
+Log invocations with a PreToolUse hook, then compare actual usage against expected trigger rates. Undertriggering usually means the description needs better trigger phrases.

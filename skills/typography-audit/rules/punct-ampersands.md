@@ -6,7 +6,7 @@ tags: ampersand, punctuation, proper-names
 
 ## Use Ampersands Sparingly
 
-Ampersands should be reserved for proper names, established shorthand, and tight spaces. Do not use them as a general substitute for "and" in running text. Many typefaces have beautifully designed ampersand glyphs that can serve as decorative elements in display contexts.
+Reserve ampersands for proper names, established shorthand, and tight spaces. Do not use them for "and" in running text. Many typefaces have beautifully designed ampersand glyphs that work as decorative elements in display contexts.
 
 **Incorrect (ampersands in prose):**
 

@@ -7,7 +7,7 @@ tags: onboarding, bundle, esm, tree-shaking, exports
 
 ## Ship Tree-Shakeable ESM with an Accurate sideEffects Flag
 
-A `main`-only CommonJS package with no `exports` map and no `sideEffects` flag forces every consumer to bundle the whole library, even when they import one function. Publish dual ESM/CJS through an `exports` map, set `"sideEffects": false` (or an accurate file list) so bundlers can drop unused modules, and put heavy optional features behind subpath exports.
+A `main`-only CommonJS package with no `exports` map and no `sideEffects` flag forces every consumer to bundle the whole library even when they import one function. Publish dual ESM/CJS through an `exports` map, set `"sideEffects": false` (or an accurate file list) so bundlers drop unused modules, and put heavy optional features behind subpath exports.
 
 **Incorrect (CJS-only, no exports map, sideEffects unset so it defaults to true):**
 

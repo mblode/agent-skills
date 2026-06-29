@@ -6,7 +6,7 @@ tags: headings, search, seo
 
 ## Write headings that match what readers search for
 
-Use the words readers actually type when looking for this information. Include the feature name or action in the heading so the heading also describes what the section contains. Generic headings like "Common issues" or "More info" don't match any search query and force readers to scan the body to determine relevance.
+Use the words readers type when searching. Include the feature name or action so the heading describes the section. Generic headings like "Common issues" or "More info" match no query and force readers to scan the body for relevance.
 
 **Incorrect (generic headings):**
 

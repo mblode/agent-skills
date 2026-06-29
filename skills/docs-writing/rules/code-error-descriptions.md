@@ -6,7 +6,7 @@ tags: errors, troubleshooting, status-codes
 
 ## Document errors with codes, meanings, and fixes
 
-Don't just list error codes. Show the error message, explain what caused it, and tell the reader how to fix it. Developers reach for error docs when stuck -- help them get unstuck.
+Don't just list error codes. Show the message, explain the cause, and give the fix. Readers reach for error docs when stuck.
 
 **Incorrect (error code with no actionable guidance):**
 

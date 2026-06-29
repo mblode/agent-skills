@@ -1,8 +1,8 @@
 # Lint Patterns
 
-Read when deciding whether a product-design standard belongs in a linter or in this skill, or when encoding the deterministic slice of a standard as a lint rule in a consuming project.
+Read when deciding whether a product-design standard belongs in a linter or this skill, or encoding a standard's deterministic slice as a lint rule in a consuming project.
 
-Deterministic, structural, single-file checks belong in a linter; judgment that needs product context stays in this skill. These patterns are not a shippable package: lint rules are not portable, because each one has to point at the consuming project's own components (its `Modal`, its `Select`, its spacing scale). Encode them in that project's ESLint config, wired to that project's design system. The shapes below are starting points to adapt.
+Deterministic, structural, single-file checks belong in a linter; judgment that needs product context stays in this skill. These patterns are not a shippable package: each rule must point at the consuming project's own components (its `Modal`, its `Select`, its spacing scale), so encode them in that project's ESLint config, wired to its design system. The shapes below are starting points to adapt.
 
 ## Contents
 
@@ -12,7 +12,7 @@ Deterministic, structural, single-file checks belong in a linter; judgment that 
 
 ## The decision tree
 
-Use this to decide where a new product-design standard belongs. The goal is to keep deterministic checks mechanical and keep judgment here with its evidence.
+Decide where a new product-design standard belongs: keep deterministic checks mechanical, keep judgment here with its evidence.
 
 ```
 Can code identify the failure from one file's AST, without rendering?
@@ -27,17 +27,17 @@ Needs product or codebase context (which object, what consequence)?  -> agent gu
 Establishes a new standard or product policy?                          -> human decision first.
 ```
 
-For either path, add a test or eval that catches the regression. If a rule cannot stay reliable without many exceptions, move it back to agent guidance.
+For either path, add a test or eval catching the regression. If a rule needs many exceptions, move it back to agent guidance.
 
 Examples of the split:
 
 - Counting 2-3 static options is mechanical, so prefer-radio is a lint rule.
-- Naming the right object and consequence for a destructive action needs product context, so it stays here (`rule/name-object-scope-consequence`) and in `copywriting` for the wording.
-- Detecting a nested modal is structural, so it is a lint rule. Deciding whether the second step should exist at all is judgment.
+- Naming the right object and consequence for a destructive action needs product context: it stays here (`rule/name-object-scope-consequence`) and in `copywriting` for wording.
+- Detecting a nested modal is structural: a lint rule. Whether the second step should exist is judgment.
 
 ## Three deterministic rules worth encoding
 
-Each points at a `product-design` rule ID. Configure every one against the project's own component names; none should hardcode a single design system.
+Each points at a `product-design` rule ID. Configure each against the project's own component names; none should hardcode a design system.
 
 | Rule | Rule ID | Suggested default | What it catches |
 |------|---------|-------------------|-----------------|
@@ -45,13 +45,13 @@ Each points at a `product-design` rule ID. Configure every one against the proje
 | no-nested-modals | `rule/no-nested-modals` | error | A modal opened inside another modal |
 | icon-button-accessible-name | `rule/accessible-name-required` | error | An icon-only button with no accessible name |
 
-Keep formatting in a faster tool (oxfmt or Biome); let ESLint own these JSX-semantic rules, which do not overlap with formatting. Visual-token lint (design-system overrides, raw shadows, off-grid spacing, modal body scroll) is not in this skill's scope: it belongs to `ui-audit` and the project's visual lint, configured against your own components.
+Keep formatting in a faster tool (oxfmt or Biome); let ESLint own these JSX-semantic rules, which do not overlap with formatting. Visual-token lint (design-system overrides, raw shadows, off-grid spacing, modal body scroll) is out of this skill's scope: it belongs to `ui-audit` and the project's visual lint, configured against your own components.
 
 ## Two example rule shapes
 
 Adapt these to the project's component names through rule options.
 
-prefer-radio-for-few-options: bail on dynamically rendered children (a `.map`, a spread) because the option count is not statically known, then report when a static option count falls in range.
+prefer-radio-for-few-options: bail on dynamically rendered children (a `.map`, a spread) since the count is not statically known, then report when a static count falls in range.
 
 ```js
 // rule/control-matches-cardinality

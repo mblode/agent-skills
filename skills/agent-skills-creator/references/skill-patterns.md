@@ -1,8 +1,6 @@
 # Skill Patterns
 
-Structural templates for the four skill patterns. Pick one and adapt.
-
-These patterns describe **how** a skill is organized. For **what type of problem** a skill solves, see `skill-categories.md`.
+Structural templates for the four skill patterns. Pick one and adapt. These cover **how** a skill is organized; for **what problem** it solves, see `skill-categories.md`.
 
 ## Contents
 
@@ -13,7 +11,7 @@ These patterns describe **how** a skill is organized. For **what type of problem
 
 ## Simple/Hub Pattern
 
-**When:** Dispatch to 2-5 focused files by track or concern.
+**When:** dispatch to 2-5 focused files by track or concern.
 
 ```
 skills/<name>/
@@ -44,17 +42,17 @@ Choose the right track and follow its guidance.
 - `skill-name` for related concern
 ```
 
-**Example:** `ui-design` (24 lines, dispatches to product-ui.md and marketing-ui.md)
+**Example:** `ui-design` (a mode hub dispatching to root-level track files: `design-guidelines.md`, `add-dark-mode.md`, `componentize.md`, and a `direction/` folder)
 
-**Category affinity:** Library & API Reference, Business Process Automation
+**Category affinity:** Library & API Reference, Business Process & Team Automation
 
-Root-level track files are exclusive to this pattern; in every other pattern, supporting files live in `references/` (or `rules/`).
+Root-level track files are exclusive to this pattern; other patterns keep supporting files in `references/` (or `rules/`).
 
-**Comprehensive-reference variant:** for broad domains (a design system, a full CLI surface), the hub dispatches into a folder of many small focused files, e.g. a `design-guidelines/` folder with 40 files like `buttons.md`, `colors.md`, `forms.md`, each 50-200 lines, mapped from an `index.md`. Claude loads exactly the files a task needs. See "Comprehensive Reference Folders" in `authoring-tips.md`.
+**Comprehensive-reference variant (canonical home for this guidance):** for broad domains (design system, full CLI surface, style guide), the hub dispatches into a folder of small files, e.g. `design-guidelines/` with 40 files (`buttons.md`, `colors.md`, `forms.md`), each 50-200 lines, mapped from an `index.md`. One concern per file, named after it; each stands alone (no cross-file reading order); files may run to ~450 lines when single-topic and TOC'd. Claude loads only what a task needs, not a 2000-line reference.
 
 ## Workflow Pattern
 
-**When:** Multi-step sequential process with progressive reference loading.
+**When:** multi-step sequential process with progressive reference loading.
 
 ```
 skills/<name>/
@@ -98,13 +96,13 @@ Copy this checklist to track progress:
 - ...
 ```
 
-**Example:** `agents-md` (120 lines, 5 references with conditional loading)
+**Example:** `agents-md` (workflow SKILL dispatching to 5 references with conditional loading)
 
-**Category affinity:** Most categories use this pattern: Scaffolding, CI/CD, Verification, Runbooks, Infrastructure Operations
+**Category affinity:** most categories: Scaffolding, CI/CD, Verification, Runbooks, Infrastructure Operations
 
 ## Rules-Based Pattern
 
-**When:** Audit or lint against categorized rules with priority levels.
+**When:** audit or lint against categorized rules with priority levels.
 
 ```
 skills/<name>/
@@ -163,7 +161,7 @@ Report findings in this format:
 
 ## Mixed Pattern
 
-**When:** Workflow steps with conditional or platform-specific references.
+**When:** workflow steps with conditional or platform-specific references.
 
 ```
 skills/<name>/
@@ -198,15 +196,15 @@ Load only the reference matching your context:
 - **Context B**: [references/b.md](references/b.md)
 ```
 
-**Example:** `multi-tenant-architecture` (103 lines, 5 platform-specific references)
+**Example:** `multi-tenant-architecture` (workflow with 5 platform-specific references loaded by context)
 
 **Category affinity:** Data Fetching & Analysis, Runbooks, Infrastructure Operations
 
 ## Cross-Cutting: Anti-Rationalization Tables
 
-Any pattern above can include an anti-rationalization table: pre-written rebuttals to common excuses for skipping the workflow. Agents (and tired engineers) will produce plausible-sounding justifications for skipping steps. Anti-rationalization tables are the counter.
+Any pattern can include an anti-rationalization table: pre-written rebuttals to excuses for skipping the workflow. Agents (and tired engineers) generate plausible justifications; this table is the counter.
 
-**When to include:** Skills where steps are frequently skipped under time pressure (specs, tests, security review, code review).
+**When to include:** steps get skipped under time pressure (specs, tests, security review, code review).
 
 **Format:**
 
@@ -220,4 +218,4 @@ Any pattern above can include an anti-rationalization table: pre-written rebutta
 | "Tests pass, ship it." | Passing tests are evidence, not proof. Did you verify user-visible behavior? |
 ```
 
-Place the table after the workflow section but before anti-patterns. Each row should be a specific excuse the agent might generate, paired with a concrete rebuttal that redirects to the workflow step being skipped.
+Place it after the workflow section, before anti-patterns. Each row: a specific excuse plus a rebuttal redirecting to the skipped step.

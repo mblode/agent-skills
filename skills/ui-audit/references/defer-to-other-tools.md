@@ -1,6 +1,6 @@
 # Defer to Other Tools
 
-ui-audit's value is in the gap between "lint passes and axe is clean" and "the product still feels broken." It does not duplicate concerns that other tools already handle well. When a finding falls into another tool's territory, link out.
+ui-audit's value is the gap between "lint passes and axe is clean" and "the product still feels broken." It does not duplicate what other tools handle well. When a finding falls into another tool's territory, link out.
 
 ## Coverage map
 
@@ -21,7 +21,7 @@ ui-audit's value is in the gap between "lint passes and axe is clean" and "the p
 
 ## What ui-audit catches that none of the above catch
 
-These are the high-leverage gaps from the research; ui-audit's reason to exist:
+The high-leverage gaps; ui-audit's reason to exist:
 
 | Gap | Tools that miss it | ui-audit rule |
 |---|---|---|
@@ -43,14 +43,14 @@ These are the high-leverage gaps from the research; ui-audit's reason to exist:
 
 ## Linking out
 
-When a finding overlaps another tool's coverage, the rule's `Fix` section should link out:
+When a finding overlaps another tool, the rule's `Fix` section links out:
 
 ```markdown
 **Fix:** Add a skeleton with `min-height` matching loaded state to prevent CLS.
 **Also run:** `lighthouse --only-categories=performance` to confirm CLS budget; Lighthouse measures the metric, ui-audit catches the static cause.
 ```
 
-The audit summary block always lists the deferred categories explicitly:
+The audit summary always lists deferred categories explicitly:
 
 ```text
 Defer-to (not audited here):
@@ -60,4 +60,4 @@ Defer-to (not audited here):
   Visual regression:     Run Chromatic
 ```
 
-This sets reader expectations and prevents the "why didn't ui-audit catch X" complaint when X is genuinely another tool's job.
+This sets expectations and prevents the "why didn't ui-audit catch X" complaint when X is another tool's job.

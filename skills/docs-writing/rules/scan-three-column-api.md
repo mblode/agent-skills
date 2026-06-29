@@ -6,7 +6,7 @@ tags: api-docs, layout, three-column
 
 ## Use three-column layout for API reference docs
 
-API reference docs work best with three columns: navigation (left), description (center), and code examples (right). This lets developers read the explanation and see the code simultaneously without scrolling.
+API reference docs work best in three columns: navigation (left), description (center), code examples (right). Readers see explanation and code at once without scrolling.
 
 **Incorrect (code blocks inline below each description):**
 

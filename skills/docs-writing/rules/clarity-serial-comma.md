@@ -6,7 +6,7 @@ tags: comma, punctuation, oxford-comma
 
 ## Always use the serial comma
 
-Place a comma before the final "and" or "or" in a list of three or more items. This prevents ambiguity.
+Place a comma before the final "and" or "or" in a list of three or more items to prevent ambiguity.
 
 **Incorrect (missing serial comma creates ambiguity):**
 

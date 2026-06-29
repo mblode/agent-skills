@@ -6,7 +6,7 @@ tags: examples, naming, placeholders
 
 ## Use realistic names in examples, never foo/bar/x/data
 
-Placeholder names force readers to mentally substitute real values. Use names that reflect the actual domain: `userId`, `orderTotal`, `configPath`.
+Placeholder names force readers to mentally substitute real values. Use domain names: `userId`, `orderTotal`, `configPath`.
 
 **Incorrect (abstract placeholders add cognitive load):**
 

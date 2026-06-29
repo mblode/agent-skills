@@ -38,7 +38,7 @@ If the em dash looks too wide in your chosen typeface, switch to spaced en dashe
 
 | Character | Name | HTML Entity | Use |
 |-----------|------|-------------|-----|
-| \u2014 | Em dash | `&mdash;` | Parenthetical breaks, attribution |
+| &mdash; | Em dash | `&mdash;` | Parenthetical breaks, attribution |
 | \u2013 | En dash | `&ndash;` | Ranges, relationships |
 | - | Hyphen | `-` | Compound words only |
 

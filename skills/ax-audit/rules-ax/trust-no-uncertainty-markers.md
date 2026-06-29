@@ -11,11 +11,11 @@ related: trust-no-confidence-cues, trust-no-escalation-path
 
 ## Agent presents everything with equal certainty
 
-Agent is 95% sure about one recommendation and 40% sure about another, but both render identically. When the 40% answer is wrong, user doesn't just distrust that answer. They distrust everything. Confident wrong answers cause permanent trust damage.
+Agent is 95% sure of one recommendation, 40% of another, but both render identically. When the 40% answer is wrong, the user distrusts not just it but everything. Confident wrong answers cause permanent trust damage.
 
 ## What goes wrong
 
-Two recommendations in the same response: one well-supported, one a guess. Same font, same weight, same formatting. User treats both as equally reliable. The guess is wrong. User now second-guesses every future response. Trust is binary when the interface gives no gradient.
+Two recommendations in one response: one well-supported, one a guess. Same font, weight, formatting. User treats both as equally reliable; the guess is wrong; now they second-guess every future response. Trust is binary when the interface gives no gradient.
 
 ## Detection
 

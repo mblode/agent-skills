@@ -6,7 +6,7 @@ tags: structure, navigation, next-steps, links
 
 ## End with next steps
 
-End tutorials and how-to guides with a "Next steps" section linking to 2-4 related guides or logical next actions. Describe what each link helps the reader do, not just where it goes.
+End tutorials and how-to guides with a "Next steps" section linking 2-4 related guides or logical next actions. Describe what each link helps the reader do, not just where it goes.
 
 **Incorrect (ends abruptly after the last step):**
 

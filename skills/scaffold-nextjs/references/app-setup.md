@@ -19,16 +19,9 @@ Run non-interactively with all flags:
 npx create-next-app@latest {{name}} --typescript --tailwind --biome --react-compiler --app --no-src-dir --import-alias "@/*" --use-npm
 ```
 
-This sets up: TypeScript, Tailwind CSS v4, Biome (a placeholder, replaced by Oxlint + Oxfmt via Ultracite in Phase 5), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm as package manager.
+Sets up: TypeScript, Tailwind CSS v4, Biome (placeholder, replaced by Oxlint + Oxfmt via Ultracite in Phase 5), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm.
 
-If running interactively, select "No, customize settings" at the defaults prompt, then choose:
-- **TypeScript:** Yes
-- **Which linter:** Biome (will be replaced by Oxlint + Oxfmt in Phase 5)
-- **React Compiler:** Yes
-- **Tailwind CSS:** Yes
-- **src/ directory:** No
-- **App Router:** Yes
-- **Import alias:** `@/*`
+If prompted interactively, select "No, customize settings" and match the flag values above.
 
 After creation, verify:
 
@@ -41,7 +34,7 @@ Confirm the app loads at `http://localhost:3000`.
 
 ## Phase 3: Install Blode UI components
 
-Blode UI is a third-party shadcn/ui registry hosted at `ui.blode.co`. Use the hosted `@blode` namespace flow by default.
+Blode UI is a third-party shadcn/ui registry at `ui.blode.co`. Use the hosted `@blode` namespace flow.
 
 ```bash
 npx shadcn@latest init
@@ -49,17 +42,15 @@ npx shadcn@latest registry add @blode=https://ui.blode.co/r/{name}.json
 npx shadcn@latest add @blode/button
 ```
 
-Order matters: `registry add` must run before any `add @blode/...` call, otherwise the namespace is unknown and the add fails.
+Order matters: `registry add` must run before any `add @blode/...` call, or the namespace is unknown and the add fails.
 
-This creates:
-- `components.json`: shadcn configuration plus the Blode registry mapping
+Creates:
+- `components.json`: shadcn config plus the Blode registry mapping
 - `lib/utils.ts`: `cn()` helper (clsx + tailwind-merge)
 - `components/ui/button.tsx`: button from the `ui.blode.co` registry
 - CSS variable updates in `app/globals.css`
 
-Icon library requirement:
-- Use `blode-icons-react` for all icon imports.
-- If any generated file imports `lucide-react`, replace import paths with `blode-icons-react`.
+Icons: use `blode-icons-react` for all icon imports. If any generated file imports `lucide-react`, replace the import paths with `blode-icons-react`.
 
 ## Phase 4: Install Agentation
 
@@ -67,21 +58,7 @@ Icon library requirement:
 npm install agentation
 ```
 
-Patch `app/layout.tsx`:
-
-1. Add import at the top:
-
-```tsx
-import { Agentation } from "agentation";
-```
-
-2. Add the component before `</body>`, wrapped in a dev-only guard:
-
-```tsx
-{process.env.NODE_ENV === "development" && <Agentation />}
-```
-
-Full layout pattern:
+Patch `app/layout.tsx`: add `import { Agentation } from "agentation";` at the top, and render the component before `</body>` behind a dev-only guard, `{process.env.NODE_ENV === "development" && <Agentation />}`. Full pattern:
 
 ```tsx
 import { Agentation } from "agentation";
@@ -110,43 +87,26 @@ export default function RootLayout({
 npm install @next/third-parties@latest
 ```
 
-Patch `app/layout.tsx`:
+Add two lines to the Phase 4 layout: the import, and the `<GoogleAnalytics>` element as a sibling of `<body>` (inside `<html>`, after `</body>`):
 
 ```tsx
-import { Agentation } from "agentation";
 import { GoogleAnalytics } from "@next/third-parties/google";
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-        {process.env.NODE_ENV === "development" && <Agentation />}
-      </body>
-      <GoogleAnalytics gaId="G-XYZ" />
-    </html>
-  );
-}
+// ...inside <html>, after </body>:
+<GoogleAnalytics gaId="G-XYZ" />
 ```
 
 Replace `"G-XYZ"` with your GA4 measurement ID.
 
 ## Phase 5: Install Ultracite
 
-1. Delete the Biome config and dependency created by create-next-app:
+1. Delete the Biome config and dependency from create-next-app:
 
 ```bash
 rm biome.json
 npm uninstall @biomejs/biome
 ```
 
-2. Run Ultracite init non-interactively for Oxlint + Oxfmt + Lefthook:
+2. Run Ultracite init non-interactively (Oxlint + Oxfmt + Lefthook):
 
 ```bash
 npx ultracite@latest init \
@@ -158,12 +118,12 @@ npx ultracite@latest init \
   --quiet
 ```
 
-Notes on the flags:
-- `--frameworks` takes space-separated values (`next react`), not commas. Comma-separated values fail validation.
+Flag notes:
+- `--frameworks` takes space-separated values (`next react`), not commas; commas fail validation.
 - `--skip-install` lets you review the generated `package.json` changes before installing.
-- Omit `--quiet` if you want to confirm the generated file list interactively.
+- Omit `--quiet` to confirm the generated file list interactively.
 
-This sets up:
+Sets up:
 - `oxlint.config.ts`: extends `ultracite/oxlint/{core,next,react}`
 - `oxfmt.config.ts`: extends `ultracite/oxfmt`
 - `lefthook.yml`: pre-commit hook running `npx ultracite fix` on staged JS/TS/JSON/CSS with `stage_fixed: true`
@@ -177,7 +137,7 @@ npx ultracite fix     # oxfmt --write + oxlint --fix
 npx ultracite check   # oxfmt --check + oxlint
 ```
 
-Both pass with zero errors and the generated `oxlint.config.ts` needs no tuning. AGENTS.md is generated automatically with the Ultracite code-standards reference; create `CLAUDE.md` as a symlink or one-line `@AGENTS.md` reference.
+Both pass with zero errors; the generated `oxlint.config.ts` needs no tuning. AGENTS.md is generated automatically with the Ultracite code-standards reference; create `CLAUDE.md` as a symlink or one-line `@AGENTS.md` reference.
 
 ## Phase 6 prep: Move into apps/web/
 
@@ -189,6 +149,4 @@ mv {{name}} {{name}}-turbo/apps/web
 mv {{name}}-turbo {{name}}
 ```
 
-The Next.js app is now at `{{name}}/apps/web/`.
-
-Next: load `references/turbo-configs.md` and generate root config files in `{{name}}/`.
+The app is now at `{{name}}/apps/web/`. Next: load `references/turbo-configs.md` and generate root config files in `{{name}}/`.

@@ -7,7 +7,7 @@ tags: config, validation, discoverability, types
 
 ## Validate Config with Actionable Errors and Keep It Discoverable
 
-Config should be a typed object so the editor lists the options and rejects typos, validated on load so a bad value fails with the offending key and the allowed range, not a downstream crash. Avoid magic implicit files the tool reads from disk without documenting them; a config source the user cannot see is a config source they cannot reason about.
+Config should be a typed object so the editor lists options and rejects typos, validated on load so a bad value fails with the offending key and allowed range, not a downstream crash. Avoid magic implicit files read from disk without documentation; a config source the user cannot see is one they cannot reason about.
 
 **Incorrect (loose object, silent typo, undocumented implicit file):**
 

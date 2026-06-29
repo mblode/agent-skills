@@ -1,6 +1,6 @@
 # Minimal Skeletons (Not Full Templates)
 
-Use these as structure starters only. Fill with project-specific commands, gotchas, and conventions. Do not ship these verbatim; a shipped placeholder is worse than no file.
+Structure starters only. Fill with project-specific commands, gotchas, and conventions. Never ship verbatim; a shipped placeholder is worse than no file.
 
 ## Contents
 
@@ -12,46 +12,11 @@ Use these as structure starters only. Fill with project-specific commands, gotch
 
 ## Before/After Example
 
-### Bad (generic template)
+**Bad (generic template):** no commands, generic advice ("Write clean code. Use TypeScript properly."), no gotchas; the agent learns nothing new.
 
-```markdown
-# My Project
+**Good (execution-first):** copy-paste commands with ports (`npm run dev` starts port 3000), specific gotchas with fixes (use `PaymentIntent.create()` not `Charge.create()`; validate webhook signatures; run migrations before tests), and implementation-affecting conventions (payment amounts are in cents, not dollars).
 
-This is a TypeScript project. Follow best practices.
-
-## Getting Started
-Install dependencies and run the app.
-
-## Code Style
-Write clean code. Use TypeScript properly.
-```
-
-**Issues:** no commands, generic advice, no gotchas; an agent learns nothing it didn't already know.
-
-### Good (execution-first)
-
-```markdown
-# payments-api
-
-REST API for payment processing.
-
-## Commands
-- `npm run dev` - Start local server (port 3000)
-- `npm test` - Run test suite
-- `npm run typecheck` - Type check without building
-- `npm run db:migrate` - Run database migrations
-
-## Gotchas
-- Use `PaymentIntent.create()`, not `Charge.create()` (Stripe v3 deprecation)
-- Always validate webhook signatures with `stripe.webhooks.constructEvent()`
-- Run migrations before tests: `npm run db:migrate && npm test`
-
-## Conventions
-- Payment amounts are in cents, not dollars
-- Use `createPaymentIntent()` helper for all payment creation
-```
-
-**Wins:** copy-paste commands, specific gotchas with fixes, implementation-affecting conventions.
+See `root-content-guidance.md` (Common anti-patterns) and `quality-criteria.md` (Automatic fails) for the full catalogue.
 
 ## Root file skeleton (single project)
 
@@ -131,6 +96,6 @@ Each workspace has its own `AGENTS.md`:
 ## Authoring rules
 
 - Prefer bullets over paragraphs
-- Keep the root file within 60-150 lines for typical active repos
+- Keep root within 60-150 lines for typical active repos
 - 3-8 gotchas from real failures beats 20 hypothetical ones
 - Each line must save debugging time or prevent a known mistake

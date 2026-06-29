@@ -6,7 +6,7 @@ tags: superfamily, serif-sans, pairing, harmony
 
 ## Use Superfamilies for Easy Pairing
 
-Superfamilies include serif and sans-serif variants designed to share the same underlying skeleton. They are guaranteed to pair harmoniously, removing guesswork.
+Superfamilies include serif and sans-serif variants built on the same skeleton, so they pair harmoniously with no guesswork.
 
 **Popular superfamilies:**
 - FF Tisa + FF Tisa Sans
@@ -23,7 +23,7 @@ Superfamilies include serif and sans-serif variants designed to share the same u
 ```css
 h1 { font-family: 'Bodoni', serif; }
 body { font-family: 'Futura', sans-serif; }
-/* High-contrast modern serif with geometric sans \u2014 risky */
+/* High-contrast modern serif with geometric sans: risky */
 ```
 
 **Correct (superfamily pair):**
@@ -34,4 +34,4 @@ body { font-family: 'Source Sans Pro', sans-serif; }
 /* Same design DNA, guaranteed harmony */
 ```
 
-Most sans-serifs in superfamilies are humanist, since readable text serifs tend to be humanist designs requiring a humanist sans counterpart.
+Most superfamily sans-serifs are humanist, since readable text serifs are usually humanist and need a humanist sans counterpart.

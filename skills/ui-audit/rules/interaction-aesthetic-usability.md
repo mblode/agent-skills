@@ -9,9 +9,9 @@ related: decision-postels-law, decision-occams-razor, perception-von-restorff
 
 ## Aesthetic-Usability Effect
 
-Users perceive better-looking designs as more usable, even when measured task performance is identical. Polished visuals create positive affect, which raises tolerance for minor friction and earns the product time before users start abandoning. This is a rubric-based rule: score type system, spacing rhythm, palette, elevation, and motion quality.
+Users perceive better-looking designs as more usable, even when task performance is identical. Polish creates positive affect, raising tolerance for minor friction and buying time before users abandon. Rubric-based rule: score type system, spacing rhythm, palette, elevation, motion quality.
 
-Critical caveat: visual polish does not replace usability work. It only delays the moment users notice the underlying problems, and can hide real defects from usability testing. The rubric scores polish independently; usability is audited by other rules. Beauty buys forgiveness, not function.
+Caveat: polish does not replace usability work. It only delays when users notice underlying problems and can hide real defects from usability testing. The rubric scores polish independently; usability is audited by other rules. Beauty buys forgiveness, not function.
 
 ## Rubric
 
@@ -21,11 +21,11 @@ Critical caveat: visual polish does not replace usability work. It only delays t
 
 | Score | Anchor |
 |---|---|
-| 5 | Distinct type system (≥3 weights, ≥4 sizes); consistent spacing rhythm (one of 4/8/12/16/24); two-tier elevation; brand colour used sparingly for emphasis; motion is purposeful and subtle. |
-| 4 | Solid system with one rough edge (e.g. type scale present but one heading is off-grid). |
-| 3 | Type and spacing present but inconsistent in 2-3 places; colour palette neutral but flat shadows; motion present but generic. |
+| 5 | Distinct type system (≥3 weights, ≥4 sizes); consistent spacing rhythm (one of 4/8/12/16/24); two-tier elevation; brand colour sparingly for emphasis; purposeful, subtle motion. |
+| 4 | Solid system, one rough edge (e.g. type scale present but one heading off-grid). |
+| 3 | Type and spacing present but inconsistent in 2-3 places; neutral palette but flat shadows; motion present but generic. |
 | 2 | Defaults: system fonts at one size, no spacing tokens, harsh box-shadow, no motion or jarring motion. |
-| 1 | Looks like a wireframe; clearly unfinished; users assume the product is unreliable. |
+| 1 | Unfinished wireframe; users assume the product is unreliable. |
 
 For full anchor examples and common scoring confusions, see `references/observational-rubrics.md`.
 
@@ -41,11 +41,11 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 **If fail or warn:**
 
-- Adopt a type scale with ≥3 weights and ≥4 sizes; assign each role (display, heading, body, label) to a specific size+weight pair.
-- Use a spacing token scale (one of 4 / 8 / 12 / 16 / 24 px) consistently for padding, margin, and gap. No one-off magic numbers.
-- Add two-tier elevation (e.g. low shadow for cards, higher shadow for modals/popovers) instead of harsh, single-level box-shadows.
-- Use brand colour sparingly for emphasis (primary CTA, focus state, key data point) not as the dominant background.
-- Make motion purposeful and subtle (150-250ms ease-out for entrances, transform/opacity only); remove jarring or decorative motion.
+- Adopt a type scale (≥3 weights, ≥4 sizes); assign each role (display, heading, body, label) a specific size+weight pair.
+- Use a spacing token scale (one of 4 / 8 / 12 / 16 / 24 px) for padding, margin, gap. No one-off magic numbers.
+- Add two-tier elevation (low shadow for cards, higher for modals/popovers) instead of harsh single-level box-shadows.
+- Use brand colour sparingly for emphasis (primary CTA, focus state, key data point), not as the dominant background.
+- Make motion purposeful and subtle (150-250ms ease-out entrances, transform/opacity only); remove jarring or decorative motion.
 
 ## Examples
 

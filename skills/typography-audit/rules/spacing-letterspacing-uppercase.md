@@ -8,7 +8,7 @@ tags: letter-spacing, uppercase, tracking, small-caps
 
 Uppercase letters are designed to sit next to lowercase letters. When set in all caps, they appear too tightly spaced. Add approximately 0.05\u20130.2em of letter-spacing to uppercase text. Increase spacing for smaller uppercase text; decrease for larger.
 
-Avoid setting multi-line blocks in all uppercase \u2014 it significantly reduces reading speed.
+Avoid setting multi-line blocks in all uppercase because it significantly reduces reading speed.
 
 **Incorrect (uppercase without letterspacing):**
 

@@ -6,7 +6,7 @@ tags: linking, discoverability, orphans
 
 ## Every doc must be linked from at least one other doc
 
-An unlinked document is an undiscoverable document. Every file in the docs directory must be reachable from at least one other file -- typically through an index, sidebar, or parent page. Orphaned pages accumulate and rot.
+An unlinked document is undiscoverable. Every file in the docs directory must be reachable from at least one other (index, sidebar, or parent page). Orphaned pages accumulate and rot.
 
 **Incorrect (new page with no inbound links):**
 

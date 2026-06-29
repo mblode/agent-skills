@@ -7,7 +7,7 @@ tags: performance, scripts, render-blocking
 
 ## Load Scripts With defer, async, or module
 
-A bare `<script>` in `<head>` blocks parsing and paint. Use `defer` for app code that needs the DOM and ordering, `async` for independent third-party scripts, and `type="module"` (deferred by default) for modern code.
+A bare `<script>` in `<head>` blocks parsing and paint. Use `defer` for app code needing the DOM and ordering, `async` for independent third-party scripts, `type="module"` (deferred by default) for modern code.
 
 **Incorrect (render-blocking script in head):**
 

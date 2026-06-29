@@ -1,6 +1,6 @@
 # SEO Checklist
 
-Copy this checklist and check off items as you complete them.
+Copy this checklist and check off each item as completed.
 
 ## Crawl & Index
 - [ ] `app/sitemap.ts` lists all public URLs
@@ -36,7 +36,7 @@ Copy this checklist and check off items as you complete them.
 - [ ] INP < 200ms
 - [ ] CLS < 0.1 (images have width/height)
 - [ ] TTFB < 600ms
-- [ ] No oversized `public/` images (audit weight; recompress in place)
+- [ ] No oversized `public/` images (audit and recompress in place)
 
 ## Redirects & Status
 - [ ] Moved URLs return 301/308 (permanent), not 302/307; no redirect chains

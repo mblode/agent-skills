@@ -6,7 +6,7 @@ tags: formatting, ui-elements, code-font
 
 ## Bold for UI elements, code font for technical terms
 
-Use **bold** for UI elements the reader interacts with (buttons, menu items, page names, tabs). Use `code font` for filenames, commands, parameters, functions, and API elements. Mixing these up makes docs harder to scan.
+Use **bold** for UI elements the reader interacts with (buttons, menu items, page names, tabs). Use `code font` for filenames, commands, parameters, functions, and API elements. Mixing them makes docs harder to scan.
 
 **Incorrect (no visual distinction between UI and code):**
 

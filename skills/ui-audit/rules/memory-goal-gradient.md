@@ -9,9 +9,9 @@ related: memory-zeigarnik, memory-peak-end-rule, decision-parkinsons-law
 
 ## Goal-Gradient Effect
 
-User effort accelerates as the perceived distance to a goal shrinks. The closer the finish line looks, the harder users push to reach it. Show progress, and show progress the user has already made; even artificially endowed progress increases completion rates. Source: Hull (1932); Kivetz, Urminsky & Zheng (2006) on endowed progress.
+User effort accelerates as perceived distance to a goal shrinks. The closer the finish line looks, the harder users push. Show progress, and show progress already made; even artificially endowed progress increases completion rates. Source: Hull (1932); Kivetz, Urminsky & Zheng (2006) on endowed progress.
 
-Pair with a single, clear goal: competing goals dilute the gradient. The classic pattern: a 10-stamp loyalty card with 2 free stamps outperforms an 8-stamp card with 0, because users feel they have already started.
+Pair with a single, clear goal: competing goals dilute the gradient. Classic pattern: a 10-stamp loyalty card with 2 free stamps outperforms an 8-stamp card with 0, because users feel they have already started.
 
 ## Check
 

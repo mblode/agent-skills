@@ -10,41 +10,55 @@ related: async-double-submit, states-no-skeleton, async-no-suspense-boundary
 
 ## Out-of-order async responses (stale results)
 
-Type "ca" then "cat" quickly. Two requests fly. The "ca" response can arrive after the "cat" response on slow networks, and now the UI shows results for "ca" while the input says "cat." The user sees a lie. The fix is to either cancel in-flight requests with `AbortController` or to drive the request key with `useDeferredValue` so React naturally collapses to the latest value.
+Type "ca" then "cat" quickly: two requests fly. On a slow network the "ca" response can land after "cat", so the UI shows "ca" results while the input says "cat." Fix: cancel in-flight requests with `AbortController`, or drive the request key with `useDeferredValue` so React collapses to the latest value.
+
+## Contents
+
+- What goes wrong
+- Detection
+- Fix
+- Default tier and overrides
+- Examples
+- Defer-to
+- Suppression
 
 ## What goes wrong
 
-Search input fires a fetch on every keystroke. Network is jittery. Response for "iphon" arrives after response for "iphone." UI overwrites the iphone results with iphon results. The search looks broken, and worse, it intermittently looks correct, so the bug is hard to reproduce.
+A search input fetches on every keystroke over a jittery network. The "iphon" response lands after "iphone", overwriting the iphone results with iphon results. It looks broken, yet intermittently looks correct, so it is hard to reproduce.
 
 ## Detection
 
 **Surfaces:** search (highest priority), list filter, form async-validation, dashboard with a date-range picker that refetches.
 
 **Static signals:**
-1. `rg 'onChange|onInput' --type=tsx -A 5`: find handlers that contain `fetch(`, `useQuery`, or any async call.
+1. `rg 'onChange|onInput' --type=ts -A 5`: find handlers containing `fetch(`, `useQuery`, or any async call.
 2. For each, confirm one of:
-   - An `AbortController` is created and `signal` is passed to fetch, with abort on the next call (or in `useEffect` cleanup).
-   - `useDeferredValue` drives the request key (debouncing via React).
-   - A query library (TanStack Query, SWR) keys the request such that the latest wins.
-3. Flag handlers that fire fetches without any of the above.
+   - `AbortController` created, `signal` passed to fetch, aborted on the next call or in `useEffect` cleanup.
+   - `useDeferredValue` drives the request key (React debounces).
+   - A query library (TanStack Query, SWR) keys the request so the latest wins.
+3. Flag handlers that fetch without any of the above.
 
 **Concrete commands:**
 ```bash
 # onChange/onInput handlers that fetch
-rg -A 8 'onChange=|onInput=' --type=tsx | rg -B 2 'fetch\(|useQuery\(|axios\.'
+rg -A 8 'onChange=|onInput=' --type=ts | rg -B 2 'fetch\(|useQuery\(|axios\.'
 
 # Files using fetch in inputs without AbortController
-rg 'onChange|onInput' --type=tsx -l | while read f; do
+rg 'onChange|onInput' --type=ts -l | while read f; do
   rg -L 'AbortController|useDeferredValue|signal:' "$f" && echo "$f: input fetch with no cancellation"
 done
 
 # useEffect with fetch but no cleanup
-rg -A 10 'useEffect\(' --type=tsx | rg -B 2 'fetch\(' | rg -L 'return \(\) =>|abort\(\)'
+rg -l 'useEffect\(' --type=ts src/ app/ | while read f; do
+  rg -A 10 'useEffect\(' "$f" | rg -q 'fetch\(' \
+    && ! rg -q 'return \(\) =>|abort\(\)' "$f" \
+    && echo "$f: useEffect fetch without cleanup or abort"
+done
 ```
 
 **False-positive guards:**
-- Skip files where the only fetch in a handler is a fire-and-forget mutation (POST without rendering the response).
-- Skip if a query library is in use and the query key includes the input value (TanStack Query, SWR keep the freshest).
+- Skip handlers whose only fetch is a fire-and-forget mutation (POST without rendering the response).
+- Skip when a query library is in use and the query key includes the input value (TanStack Query, SWR keep the freshest).
 - Skip files annotated `// ui-audit-ignore:async-out-of-order-responses`.
 
 ## Fix

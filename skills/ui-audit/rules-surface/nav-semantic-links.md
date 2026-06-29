@@ -7,7 +7,7 @@ tags: navigation, semantics, links
 
 ## Use Semantic Links for Navigation
 
-Navigation should use `<a>` or framework `<Link>` components, not click handlers on generic elements.
+Navigation should use `<a>` or framework `<Link>`, not click handlers on generic elements.
 
 **Incorrect (non-semantic navigation):**
 

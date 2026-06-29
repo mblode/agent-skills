@@ -6,7 +6,7 @@ tags: underline, links, emphasis, readability
 
 ## Never Underline for Emphasis
 
-On the web, underlines universally signal hyperlinks. Using underlines for emphasis confuses users and creates false affordances. In print, underlines are a typewriter-era convention with no place in modern typography.
+On the web, underlines universally signal hyperlinks; using them for emphasis confuses users and creates false affordances. In print, they are a typewriter-era convention with no place in modern typography.
 
 **Incorrect (underline for emphasis):**
 
@@ -39,4 +39,4 @@ em {
 <p>Read more on <a href="/typography">our typography page</a>.</p>
 ```
 
-Avoid using link color (typically blue) for non-link text, as this creates the same confusion.
+Avoid link color (typically blue) on non-link text; it creates the same confusion.

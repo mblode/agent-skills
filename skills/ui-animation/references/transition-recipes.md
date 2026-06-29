@@ -1,6 +1,6 @@
 # CSS Transition Recipes
 
-12 production-ready CSS transition patterns. Each recipe includes CSS, HTML hooks, JS orchestration where needed, and a `prefers-reduced-motion` guard. All recipes read from a shared `:root` custom properties block.
+12 CSS transition patterns. Each includes CSS, HTML hooks, JS orchestration where needed, and a `prefers-reduced-motion` guard. All read from a shared `:root` custom properties block.
 
 ## Contents
 
@@ -22,7 +22,7 @@
 
 ## Custom properties
 
-Add this `:root` block once to your global stylesheet. Every recipe reads from these names.
+Add this `:root` block once to your global stylesheet; every recipe reads these names.
 
 ```css
 :root {
@@ -124,7 +124,7 @@ Add this `:root` block once to your global stylesheet. Every recipe reads from t
 
 ## Card resize
 
-Tween a container's width or height when its layout state changes (compact/expanded card, collapsing panel, list row toggling detail). CSS only, no JS required.
+Tween a container's width or height when its layout state changes (compact/expanded card, collapsing panel, list row toggling detail). CSS only, no JS.
 
 ```html
 <div class="t-resize">Content</div>
@@ -143,13 +143,13 @@ Tween a container's width or height when its layout state changes (compact/expan
 }
 ```
 
-Toggle dimensions with a state class or inline style. The transition handles the tween.
+Toggle dimensions with a state class or inline style; the transition handles the tween.
 
 ---
 
 ## Panel reveal
 
-Slide a panel into view inside an existing container with a cross-blur effect. CSS only, toggle `data-open`.
+Slide a panel into an existing container with cross-blur. CSS only, toggle `data-open`.
 
 See also: `component-patterns.md` § Drawers and panels for percentage-based drawer slides.
 
@@ -184,7 +184,7 @@ See also: `component-patterns.md` § Drawers and panels for percentage-based dra
 
 ## Notification badge
 
-Slide a small badge onto a trigger (button, icon) and pop the dot. The trigger stays put. CSS only, toggle `data-open`.
+Slide a small badge onto a trigger (button, icon) and pop the dot; the trigger stays put. CSS only, toggle `data-open`.
 
 ```html
 <button style="position: relative">
@@ -232,7 +232,7 @@ Slide a small badge onto a trigger (button, icon) and pop the dot. The trigger s
 
 ## Icon swap
 
-Cross-fade two icons in the same slot (hamburger/close, play/pause). CSS grid stacks both icons. Toggle `data-state`.
+Cross-fade two icons in one slot (hamburger/close, play/pause). CSS grid stacks both. Toggle `data-state`.
 
 See also: `contextual-animations.md` § Contextual icon swaps for the Motion/AnimatePresence approach.
 
@@ -272,7 +272,7 @@ See also: `contextual-animations.md` § Contextual icon swaps for the Motion/Ani
 
 ## Menu dropdown
 
-Origin-aware dropdown with open and close animations. Requires JS for close-state cleanup.
+Origin-aware dropdown with open/close animations. JS handles close-state cleanup.
 
 See also: `component-patterns.md` § Popovers and dropdowns for Radix UI transform-origin and scale patterns.
 
@@ -326,7 +326,7 @@ function closeDropdown(el) {
 
 ## Modal dialog
 
-Scale-up modal with softer scale-down on close. Class-based state management.
+Scale-up modal with softer scale-down on close. Class-based state.
 
 See also: `component-patterns.md` § Modals and dialogs for `@starting-style` entry pattern.
 
@@ -372,7 +372,7 @@ function closeModal(el) {
 
 ## Text state swap
 
-Swap text in place with a blurred vertical transition ("Processing..." → "Done"). Requires JS to coordinate the three-phase sequence.
+Swap text in place with a blurred vertical transition ("Processing..." → "Done"). JS coordinates the three phases.
 
 ```html
 <span class="t-text-swap">Processing...</span>
@@ -475,13 +475,13 @@ See also: `component-patterns.md` § Step form navigation for the Motion/Animate
 slider.setAttribute("data-page", String(n));
 ```
 
-Set `--page-exit-enabled: 0` for fade-only without sliding (useful during initial load).
+Set `--page-exit-enabled: 0` for fade-only, no slide (useful on initial load).
 
 ---
 
 ## Number pop-in
 
-Re-enter digits with directional blur when a number updates (counters, prices, balances). Each digit animates individually with optional stagger.
+Re-enter digits with directional blur on number update (counters, prices, balances). Each digit animates individually with optional stagger.
 
 ```html
 <span class="t-digits">
@@ -541,7 +541,7 @@ function updateDigits(container, newValue) {
 
 ## Avatar group hover
 
-Distance-falloff lift on a horizontal stack of items. The hovered item lifts and scales; neighbors lift with decreasing intensity. Bouncy spring on mouse leave.
+Distance-falloff lift on a horizontal stack. Hovered item lifts and scales; neighbors lift less with distance. Bouncy spring on leave.
 
 ```html
 <div class="t-avatar-group">
@@ -567,7 +567,7 @@ Distance-falloff lift on a horizontal stack of items. The hovered item lifts and
 
 **JS, distance-based lift:**
 
-Set `transition-timing-function` inline *before* writing CSS variables. The browser uses whatever timing function is current when the property changes; this enables smooth ease-in on hover and bouncy ease-out on return without separate declarations.
+Set `transition-timing-function` inline *before* writing CSS variables. The browser applies whatever timing function is current when the property changes, giving smooth ease-in on hover and bouncy ease-out on return without separate declarations.
 
 ```js
 const group = document.querySelector(".t-avatar-group");
@@ -604,7 +604,7 @@ group.addEventListener("mouseleave", () => {
 
 ## Success celebration
 
-Multi-layered success animation combining fade, rotation, blur reduction, Y-axis bob with overshoot, and optional SVG stroke drawing. Toggle `data-state` to `"in"`.
+Multi-layered success: fade, rotation, blur reduction, Y-bob with overshoot, optional SVG stroke draw. Toggle `data-state` to `"in"`.
 
 ```html
 <div class="t-success" data-state="out">
@@ -673,7 +673,7 @@ function playSuccess(el) {
 
 ## Error state shake
 
-Per-segment shake keyframe with auto-reverting error border. Three classes manage the lifecycle: `.is-error` on wrapper and input, `.is-shaking` on input only.
+Per-segment shake with auto-reverting error border. Three classes: `.is-error` on wrapper and input, `.is-shaking` on input only.
 
 ```html
 <div class="t-error-wrap">
@@ -721,7 +721,7 @@ Per-segment shake keyframe with auto-reverting error border. Three classes manag
 
 **JS, trigger and auto-revert:**
 
-Keep `.is-error` and `.is-shaking` as separate classes. `.is-shaking` controls only the shake animation and is removed on `animationend`. `.is-error` controls the border colour and message visibility, and auto-reverts after the hold duration.
+Keep `.is-error` and `.is-shaking` separate. `.is-shaking` controls only the shake animation, removed on `animationend`. `.is-error` controls the border colour and message visibility, auto-reverting after the hold duration.
 
 ```js
 function triggerError(wrap, input) {

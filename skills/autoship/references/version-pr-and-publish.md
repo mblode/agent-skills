@@ -1,6 +1,6 @@
 # Version Packages PR and npm Publish
 
-> **Companion reference:** the reusable Monitor snippets for this file live in `references/ci-polling.md` (sections "Waiting for the Version Packages PR to Appear" and "Watching the Publish Workflow"). SKILL.md Steps 4 and 5 load both files together, so they should already be in context.
+> The Monitor watch scripts for this file live in `references/ci-polling.md` ("Waiting for the Version Packages PR to Appear" and "Watching the Publish Workflow"); SKILL.md Steps 4 and 5 load both files together, so they are in context.
 
 ## Table of Contents
 
@@ -9,20 +9,10 @@
 - [Verifying CI Before Merge](#verifying-ci-before-merge)
 - [Merging the Version Packages PR](#merging-the-version-packages-pr)
 - [Watching the Publish Run](#watching-the-publish-run)
-- [Cleanup](#cleanup)
 
 ## The `changesets/action` Workflow
 
-A single workflow (commonly `release.yml` or `npm-publish.yml`) handles both versioning and publishing. It runs on pushes to the default branch and uses `changesets/action@v1` with a `publish:` input pointing at an npm script that calls `changeset publish` (typically `npm run release`).
-
-The action has two modes, chosen automatically by state on `main`:
-
-1. **Pending changesets present** → it runs `changeset version` internally, then opens or updates a PR titled "Version Packages" on branch `changeset-release/main` containing the version bump and `CHANGELOG.md` updates. No publish yet.
-2. **No pending changesets (Version Packages PR just merged)** → it runs the `publish:` script, which calls `changeset publish` to push tags and publish to npm.
-
-So the SAME workflow run that opens the Version Packages PR does not publish; a second run of the SAME workflow, triggered by merging that PR, publishes. When monitoring, you are watching two successive runs of one workflow, not two different workflows.
-
-Reference best-practice `release.yml` shape (OIDC trusted publishing):
+One workflow (commonly `release.yml` or `npm-publish.yml`) handles both versioning and publishing across two successive runs on the default branch (see SKILL.md's Release Loop). Reference best-practice shape (OIDC trusted publishing):
 
 ```yaml
 permissions:
@@ -43,9 +33,7 @@ steps:
       NPM_CONFIG_PROVENANCE: "true"
 ```
 
-The `release` script is typically `changeset publish` (optionally preceded by a build). The `changeset:version` npm script, if present, is invoked by the action, **never locally**.
-
-`.changeset/config.json` should have `"commit": false` so the action controls commits via the PR.
+The `release` script is typically `changeset publish` (optionally preceded by a build). The `changeset:version` npm script, if present, is invoked by the action, **never locally**. Set `"commit": false` in `.changeset/config.json` so the action controls commits via the PR.
 
 ## Finding the Version Packages PR
 
@@ -61,7 +49,7 @@ gh pr list --head changeset-release/main --state open --json number,title,status
 
 ### If the PR Does Not Exist Yet
 
-The changesets bot may take a few minutes. Use the `Monitor` tool to watch for the PR (see the "Waiting for the Version Packages PR to Appear" snippet in `references/ci-polling.md`). Cap the watch at 10 minutes. If the watch times out, check:
+The changesets bot may take a few minutes. Watch with the "Waiting for the Version Packages PR to Appear" script in `ci-polling.md`, capped at 10 minutes. On timeout, check:
 
 - Are there pending changesets on the default branch?
 - Is the changesets GitHub Action configured in `.github/workflows/`?
@@ -69,25 +57,17 @@ The changesets bot may take a few minutes. Use the `Monitor` tool to watch for t
 
 ## Verifying CI Before Merge
 
-Before merging the Version Packages PR, verify all CI checks pass:
+Before merging, verify every check passes:
 
 ```bash
 gh pr checks <pr-number> --json name,state,bucket
 ```
 
-Every check must report `bucket: pass`. (`gh pr checks` has no `conclusion` field; requesting it errors with "Unknown JSON field". A `bucket` of `pending`, `fail`, `skipping`, or `cancel` blocks the merge.)
-
-If checks are still running, use the `Monitor` tool (see `references/ci-polling.md`) to wait for them to complete.
+Every check must report `bucket: pass`. A `bucket` of `pending`, `fail`, `skipping`, or `cancel` blocks the merge. If checks are still running, use the watch script in `ci-polling.md` to wait.
 
 ## Merging the Version Packages PR
 
-YELLOW-tier within autoship: invoking the skill is standing consent for the merge. Do not prompt for re-confirmation. Gate the merge with these objective preconditions instead.
-
-Preconditions (all must hold):
-
-- PR title is exactly "Version Packages" OR head branch is `changeset-release/main`. Never merge a PR that does not match.
-- Every check on the PR reports `bucket: pass` (verify with `gh pr checks <pr-number> --json name,bucket`).
-- PR is mergeable: `gh pr view <pr-number> --json mergeable` reports `MERGEABLE` (not `CONFLICTING` or `UNKNOWN`). If `UNKNOWN`, wait briefly and re-query.
+YELLOW-tier within autoship: invoking the skill is standing consent for the merge. Do not prompt for re-confirmation. Gate the merge on the objective preconditions in SKILL.md Step 4 (PR identity, every check `bucket: pass`, `mergeable: MERGEABLE`).
 
 Announce in one short line, then execute:
 
@@ -99,17 +79,15 @@ Merging Version Packages PR #<n>: <package>@<version>
 gh pr merge <pr-number> --squash --delete-branch
 ```
 
-Prefer `--squash` for clean history. Use `--merge` if the project convention requires merge commits.
-
-If any precondition fails, stop and report to the user. Do not attempt to fix mergeability or override failing checks.
+Prefer `--squash` for clean history; use `--merge` if the project convention requires merge commits. `--delete-branch` handles cleanup. If any precondition fails, stop and report; do not fix mergeability or override failing checks.
 
 ## Watching the Publish Run
 
-After merging the Version Packages PR, the push to the default branch triggers the SAME release workflow again. This second run detects there are no pending changesets and executes the `publish:` script (`changeset publish`).
+The merge triggers the second run of the SAME workflow, which publishes (see SKILL.md's Release Loop).
 
 ### Detecting the Workflow Run
 
-Find the workflow file by inspecting `.github/workflows/`; common names are `release.yml`, `npm-publish.yml`, `publish.yml`. Then:
+Find the workflow file in `.github/workflows/`; common names are `release.yml`, `npm-publish.yml`, `publish.yml`. Then:
 
 ```bash
 # Replace release.yml with the actual file name
@@ -121,13 +99,13 @@ gh run list --branch main --limit 5 --json workflowName,status,conclusion,databa
 
 ### Watching for Completion
 
-Start a `Monitor` watch on the release workflow's latest run on `main`. See the "Watching the Publish Workflow" snippet in `references/ci-polling.md` for a ready-to-use script. The Monitor exits on the first `TERMINAL:` line.
+Run the "Watching the Publish Workflow" script from `ci-polling.md` on the release workflow's latest run on `main`. It exits on the first `TERMINAL:` line.
 
 Terminal conditions:
 
-- **Success:** workflow completes with `conclusion: success`. Report and stop.
-- **Failure:** workflow completes with any other conclusion. Report with logs and stop.
-- Do NOT auto-retry publish failures. These typically indicate real issues (npm auth, registry, OIDC/provenance, tag conflict).
+- **Success:** `conclusion: success`. Report and stop.
+- **Failure:** any other conclusion. Report with logs and stop.
+- Do NOT auto-retry publish failures; causes are real (npm auth, registry, OIDC/provenance, tag conflict).
 
 ### Verifying the Published Version
 
@@ -137,10 +115,4 @@ After the publish workflow succeeds:
 npm view <package-name> version
 ```
 
-Compare with the version in `package.json` to confirm the publish was successful.
-
-## Cleanup
-
-- The `--delete-branch` flag on merge handles branch cleanup
-- Stop any `Monitor` watches that are still running
-- Report the final published version to the user
+Compare with the version in `package.json` to confirm the publish. Stop any Monitor watches still running, then report the final published version.

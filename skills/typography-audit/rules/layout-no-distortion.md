@@ -6,9 +6,9 @@ tags: distortion, stretch, squish, transform, condensed
 
 ## Never Distort Type
 
-Never stretch, squish, or skew type using CSS transforms or width adjustments. Distortion destroys the carefully designed proportions of letterforms. If you need a narrower or wider typeface, use a condensed or extended variant.
+Never stretch, squish, or skew type via CSS transforms or width hacks; distortion destroys the letterforms' designed proportions. Need narrower or wider? Use a condensed or extended variant.
 
-The only exception is intentional distortion for logos as an explicit design choice.
+Exception: intentional distortion in a logo as an explicit design choice.
 
 **Incorrect (CSS distortion):**
 

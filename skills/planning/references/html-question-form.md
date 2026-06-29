@@ -1,6 +1,6 @@
 # HTML question form (batch mode)
 
-Optional alternative to one-at-a-time interrogation: generate a single local HTML form with all independent questions, let the user fill it in at once, then read their answers back. Useful for large or greenfield specs where many questions don't depend on each other.
+Optional alternative to one-at-a-time interrogation: generate one local HTML form with all independent questions, let the user fill it in at once, then read the answers back. Useful for large or greenfield specs where questions don't depend on each other.
 
 ## When to use batch vs one-at-a-time
 
@@ -15,15 +15,15 @@ If answers are interdependent, stay one-at-a-time: a form can't branch.
 
 ## How it works
 
-1. Write the form to a temp path (e.g. `~/.claude/plans/<slug>-questions.html`).
+1. Write the form to a temp path in the active agent's native plan directory when available.
 2. Tell the user to open it, fill it in, click **Copy answers**, and paste the result back into chat.
-3. Parse the pasted block, fold answers into the plan, and continue at Step 3 (Synthesize). For any blanks, fall back to a recommended answer or a quick follow-up.
+3. Parse the pasted block, fold answers into the plan, continue at Step 3 (Synthesize). For blanks, fall back to a recommended answer or a quick follow-up.
 
-Each question still carries a **recommended answer** (pre-selected or pre-filled) so the user reacts to a concrete suggestion, the same rule as one-at-a-time.
+Each question still carries a **recommended answer** (pre-selected or pre-filled) so the user reacts to a concrete suggestion, same as one-at-a-time.
 
 ## Template
 
-Self-contained, no dependencies. The **Copy answers** button serializes every field into a paste-ready block.
+Self-contained, no dependencies. **Copy answers** serializes every field into a paste-ready block.
 
 ```html
 <!doctype html>
@@ -93,4 +93,4 @@ function copyAnswers() {
 
 ## Parsing the answers
 
-The pasted block is `key: value` lines, one per question. Match each `data-q` key to its question, treat empty values as "use the recommendation", and ask a single follow-up only if a load-bearing answer is missing or contradictory.
+The pasted block is `key: value` lines, one per question. Match each `data-q` key to its question, treat empty values as "use the recommendation", and ask one follow-up only if a load-bearing answer is missing or contradictory.

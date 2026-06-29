@@ -1,6 +1,6 @@
 # Output Adapters
 
-The same JSON document renders to three formats. Build the JSON first; then render to the format the user (or pipeline) wants.
+One JSON document, three formats. Build the JSON first, then render to what the user or pipeline wants.
 
 ## Table of contents
 
@@ -63,10 +63,10 @@ Audit Self-Check:        ✓ 14 rules run · ✓ all findings cited · ✓ all f
 
 Rules:
 - Group by surface (file path), severity-sorted within group (blocker → sprint → backlog).
-- Use Unicode emoji for tier (`⛔ ⚠️ 📋`); fall back to ASCII (`X ! .`) when `--no-emoji`.
-- Line numbers are `L42` not `:42` (easier to spot in terminals).
+- Unicode emoji for tier (`⛔ ⚠️ 📋`); ASCII fallback (`X ! .`) on `--no-emoji`.
+- Line numbers as `L42` not `:42` (easier to spot in terminals).
 - Fix is one line; if longer, truncate with `→` and put the full fix in JSON.
-- Always close with deferred-to and self-check footers.
+- Close with deferred-to and self-check footers.
 
 ## Adapter 2: PR comment (GitHub / Vercel review)
 
@@ -123,23 +123,26 @@ to keep `state.fields` populated across error responses.
 
 Rules:
 - One inline comment per finding, anchored at the line.
-- Use GitHub `suggestion` blocks where the fix is mechanical (≤5 lines).
-- Link to React/Next.js docs for the API being prescribed.
-- Always include the suppression hint at the bottom.
-- Top-of-PR comment is summary only: no per-finding detail (avoid duplication).
+- GitHub `suggestion` blocks where the fix is mechanical (≤5 lines).
+- Link React/Next.js docs for the prescribed API.
+- Include the suppression hint at the bottom.
+- Top-of-PR comment is summary only: no per-finding detail.
 
 ## Adapter 3: CI JSON
 
-For pipelines, dashboards, status checks. Strict JSON per `references/output-schema.md`.
+For pipelines, dashboards, status checks. Emit strict JSON using the output schema for this skill.
 
 ```json
 {
   "audit": {
     "ranAt": "2026-05-01T12:34:56Z",
     "skill": "ui-audit",
-    "scope": ["src/checkout/PaymentStep.tsx", "src/checkout/CheckoutForm.tsx", "..."],
-    "diffBase": "main",
-    "filesAudited": 8,
+    "scope": {
+      "mode": "diff",
+      "diffBase": "main",
+      "files": ["src/checkout/PaymentStep.tsx", "src/checkout/CheckoutForm.tsx", "..."],
+      "filesAudited": 8
+    },
     "selfCheck": { "passed": true, "failures": [] }
   },
   "verdict": "NOT_READY",
@@ -157,7 +160,7 @@ For pipelines, dashboards, status checks. Strict JSON per `references/output-sch
   "findings": [
     {
       "rule": "forms-lost-data-on-error",
-      "tier": "release-blocker",
+      "assignedTier": "release-blocker",
       "feature": "checkout",
       "surface": "PaymentStep",
       "file": "src/checkout/PaymentStep.tsx",
@@ -194,7 +197,7 @@ ui-audit --format json | jq -e '.summary.releaseBlockers == 0'
 
 ## Common rendering rules
 
-- **JSON first.** Always render the JSON document complete, then transform to the chosen adapter.
+- **JSON first.** Render the complete JSON document, then transform to the chosen adapter.
 - **Pass findings elide.** Don't render `result: "pass"` findings in terminal or PR adapters; keep them in JSON.
-- **One finding = one observable bug.** Don't bundle multiple bugs under one rule. If two issues fire the same rule, that's two findings.
+- **One finding = one observable bug.** Don't bundle bugs under one rule; two issues firing the same rule are two findings.
 - **Tier-first, surface-second sort.** ⛔ first, ⚠️ next, 📋 last; within tier, group by surface.

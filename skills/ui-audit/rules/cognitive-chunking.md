@@ -9,18 +9,18 @@ related: cognitive-millers-law, cognitive-working-memory, perception-proximity, 
 
 ## Chunking
 
-Chunking breaks content into small, semantically meaningful groups so users can scan, process, and recall it. A chunk is one unit of meaning (a date, a phone number, a section of a settings page, a step in a checkout) that the user holds as a single item in working memory instead of every leaf inside it. Effective chunks have a clear boundary (whitespace, divider, card, common region), a label that names the group, and content that actually belongs together.
+Chunking breaks content into small, semantically meaningful groups so users can scan, process, and recall it. A chunk is one unit of meaning (a date, a phone number, a settings section, a checkout step) held as a single item in working memory instead of every leaf inside it. Effective chunks have a clear boundary (whitespace, divider, card, common region), a label naming the group, and content that belongs together.
 
-Working-memory recall caps at ~4 chunks for novel content (Cowan, 2001) and ~7 ± 2 for rehearsed content (Miller, 1956); long unbroken digit strings or flat lists exceed both budgets. Chunks that look grouped but split a logical unit, or merge unrelated items, are worse than no chunking at all.
+Recall caps at ~4 chunks for novel content (Cowan, 2001) and ~7 ± 2 for rehearsed content (Miller, 1956); long unbroken digit strings or flat lists exceed both budgets. Chunks that split a logical unit or merge unrelated items are worse than no chunking.
 
 ## Check
 
 **Surfaces:** form, list, secondary-nav
 
 **Procedure:**
-1. For forms: count `<fieldset>`, `<section>`-with-heading, or visually-grouped sections (divider/spacer between clusters). Then count total `<input>`, `<select>`, `<textarea>` fields.
-2. For numeric strings (phone, IBAN, OTP, card, order ID): regex `\d{6,}` against rendered text and string literals to find unbroken runs of ≥6 digits.
-3. For lists/feeds: count `<li>` or list items; check for section headers (`<h3>`/`<h4>` inside the list), date dividers, sticky labels, or category breaks.
+1. Forms: count `<fieldset>`, `<section>`-with-heading, or visually-grouped sections (divider/spacer between clusters), then total `<input>`, `<select>`, `<textarea>` fields.
+2. Numeric strings (phone, IBAN, OTP, card, order ID): regex `\d{6,}` against rendered text and string literals for unbroken runs of ≥6 digits.
+3. Lists/feeds: count `<li>` items; check for section headers (`<h3>`/`<h4>`), date dividers, sticky labels, or category breaks.
 4. Compare to threshold table.
 
 **Concrete commands:**
@@ -40,9 +40,9 @@ rg -c '<li' src/ListComponent.tsx            # count list items
 
 ## Fix
 
-**If fail:** Wrap forms in `<fieldset><legend>…</legend>` blocks of ~5 fields each, named by intent ("Your name", "Shipping address", "Payment"). Insert spaces or hyphens into digit strings (`+1 (415) 555-2671`, `947 283`, `DE89 3704 0044 …`). Add date or category dividers to long lists, e.g. `<h3>Today</h3>` … `<h3>Yesterday</h3>`.
+**If fail:** Wrap forms in `<fieldset><legend>…</legend>` blocks of ~5 fields, named by intent ("Your name", "Shipping address", "Payment"). Insert separators into digit strings (`+1 (415) 555-2671`, `947 283`, `DE89 3704 0044 …`). Add date or category dividers to long lists (`<h3>Today</h3>` … `<h3>Yesterday</h3>`).
 
-**If warn:** Add one grouping pass. For forms, split the 6-10 fields with one extra `<fieldset>` boundary. For digit runs, add separators. For lists, insert section headers every ~10 items.
+**If warn:** One grouping pass: split 6-10 form fields with one extra `<fieldset>`; add separators to digit runs; insert list headers every ~10 items.
 
 ## Examples
 

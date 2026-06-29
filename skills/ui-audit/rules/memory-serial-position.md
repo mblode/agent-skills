@@ -9,9 +9,9 @@ related: memory-peak-end-rule, perception-von-restorff, cognitive-millers-law
 
 ## Serial Position Effect
 
-Items at the start of a sequence (primacy) and at the end (recency) are recalled more reliably than items in the middle. The middle of any list, menu, or nav bar is the forgotten zone. Place the most consequential actions on the edges and demote low-priority items into the middle. Source: Ebbinghaus (1885); Murdock (1962).
+Items at the start (primacy) and end (recency) of a sequence are recalled more reliably than the middle. The middle of any list, menu, or nav bar is the forgotten zone: place consequential actions on the edges, demote low-priority items into the middle. Source: Ebbinghaus (1885); Murdock (1962).
 
-The effect weakens once a list exceeds working-memory chunks (≈7), so combine with chunking and clear grouping for long lists. Primacy aids deliberate recall (users return looking for it); recency aids immediate recall (users just saw it).
+The effect weakens once a list exceeds working-memory chunks (≈7), so combine with chunking and grouping for long lists. Primacy aids deliberate recall (users return looking for it); recency aids immediate recall (users just saw it).
 
 ## Check
 

@@ -7,7 +7,7 @@ tags: typography, readability, scale
 
 ## Set a Readable Type Scale
 
-Use body sizes and weights that stay readable across desktop and mobile.
+Use body sizes and weights readable across desktop and mobile.
 
 **Incorrect (too small and too light):**
 

@@ -10,35 +10,35 @@ related: focus-broken-focus-trap, focus-on-dynamic-content, async-no-error-bound
 
 ## Focus not restored after modal/sheet/popover close
 
-When a dialog closes, focus must return to the element that opened it (the trigger button). If it doesn't, keyboard and screen-reader users land on `<body>` and have to tab from the top of the page to recover their place. This is one of the most common (and most invisible to mouse users) accessibility bugs. Radix and react-aria handle it automatically; hand-rolled dialogs almost never do.
+When a dialog closes, focus must return to the element that opened it (the trigger). If it does not, keyboard and screen-reader users land on `<body>` and must tab from the top to recover their place. One of the most common accessibility bugs, and invisible to mouse users. Radix and react-aria handle it automatically; hand-rolled dialogs almost never do.
 
 ## What goes wrong
 
-User clicks "Edit profile" via keyboard. Modal opens. They submit and close. Focus drops to `<body>`. Tab now goes to the page header, three sections away from where they were working. They have no way to get back without scanning the whole page.
+User opens "Edit profile" via keyboard, submits, and closes. Focus drops to `<body>`; Tab now jumps to the page header, three sections from where they were working, with no way back without scanning the whole page.
 
 ## Detection
 
 **Surfaces:** modal, sheet, drawer, popover, command-palette, any "Forgot password?" trigger.
 
 **Static signals:**
-1. `rg 'role="(dialog|alertdialog)"|<Dialog|<Sheet|<Popover' --type=tsx -l`.
+1. `rg 'role="(dialog|alertdialog)"|<Dialog|<Sheet|<Popover' --type=ts -l`.
 2. For each, confirm focus-restoration evidence:
    - Radix `onCloseAutoFocus` handler OR not overriding it (Radix default restores).
    - A `triggerRef` passed and `triggerRef.current?.focus()` called on close.
    - react-aria's `<DialogTrigger>` (built-in restoration).
    - `focus-trap-react` with `returnFocusOnDeactivate` (defaults to `true`).
-3. Flag dialogs that override `onCloseAutoFocus` with `e.preventDefault()` and don't manually focus another element.
+3. Flag dialogs that override `onCloseAutoFocus` with `e.preventDefault()` without focusing another element.
 
 **Concrete commands:**
 ```bash
 # Dialogs missing focus-restoration evidence
-rg 'role="dialog"|<Dialog\b|<Sheet\b' --type=tsx -l | while read f; do
+rg 'role="dialog"|<Dialog\b|<Sheet\b' --type=ts -l | while read f; do
   rg -L 'onCloseAutoFocus|triggerRef|finalFocus|returnFocusOnDeactivate' "$f" \
     && echo "$f: dialog with no focus restoration"
 done
 
 # Cases where onCloseAutoFocus is preventDefault'd
-rg -B 1 -A 3 'onCloseAutoFocus' --type=tsx | rg 'preventDefault'
+rg -B 1 -A 3 'onCloseAutoFocus' --type=ts | rg 'preventDefault'
 ```
 
 **False-positive guards:**
@@ -48,7 +48,7 @@ rg -B 1 -A 3 'onCloseAutoFocus' --type=tsx | rg 'preventDefault'
 
 ## Fix
 
-Two patterns.
+Patterns:
 
 **A. Use Radix (no extra code needed):**
 

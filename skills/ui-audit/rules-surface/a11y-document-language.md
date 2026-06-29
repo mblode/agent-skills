@@ -7,7 +7,7 @@ tags: accessibility, language, i18n
 
 ## Declare Document and Inline Language
 
-Set the primary language on `<html lang>` with a valid BCP 47 tag, and mark any inline passage in another language with its own `lang`. Without it, a screen reader reads every page with one pronunciation engine.
+Set the primary language on `<html lang>` with a valid BCP 47 tag, and mark any inline passage in another language with its own `lang`. Without it, a screen reader reads everything with one pronunciation engine.
 
 **Incorrect (no document language, foreign phrase unmarked):**
 

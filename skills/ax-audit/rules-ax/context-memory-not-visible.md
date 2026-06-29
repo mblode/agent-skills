@@ -15,7 +15,7 @@ Agent injects preferences, past interactions, or learned patterns into its promp
 
 ## What goes wrong
 
-Agent says "Based on your preference for concise answers..." and the user thinks "What preference? I never said that." The system built a profile from past interactions, injected it into the system prompt, and the user had zero visibility. No settings page, no memory panel, no way to correct it.
+Agent says "Based on your preference for concise answers..." and the user thinks "What preference? I never said that." The system built a profile from past interactions and injected it into the system prompt with zero user visibility: no settings page, no memory panel, no way to correct it.
 
 ## Detection
 
@@ -42,7 +42,7 @@ rg '(savePreference|updateMemory|storePattern|learnFrom)' --type=ts -l src/
 
 ## Fix
 
-For every piece of context injected into the agent prompt, provide a corresponding UI where the user can view and edit it. A "Memory" or "What I know about you" panel with edit/delete per item.
+For every context item injected into the prompt, provide UI to view and edit it: a "Memory" or "What I know about you" panel with edit/delete per item.
 
 ## Default tier and overrides
 

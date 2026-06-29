@@ -1,6 +1,6 @@
 # Shipping Practices
 
-Keep shipping lightweight without sacrificing safety. Load when writing the rollout and rollback section of the brief.
+Keep shipping lightweight but safe. Load when writing the rollout and rollback section of the brief.
 
 ## Default mode (small teams)
 - Small changes, frequent merges.
@@ -18,7 +18,4 @@ Keep shipping lightweight without sacrificing safety. Load when writing the roll
 - Define "done" before starting.
 
 ## Feedback loops
-- Session replay.
-- Analytics.
-- Logs and metrics.
-- Alerts to a shared channel.
+- Session replay, analytics, logs and metrics, alerts to a shared channel.

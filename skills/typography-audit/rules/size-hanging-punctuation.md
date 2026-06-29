@@ -6,7 +6,7 @@ tags: hanging-punctuation, alignment, optical, blockquotes
 
 ## Use Hanging Punctuation Where Feasible
 
-Hanging punctuation aligns the left edge of text optically by moving quotation marks and other punctuation into the margin. This creates a cleaner visual edge. On the web, support is limited \u2014 implement only for blockquotes and display text where it has the most impact.
+Hanging punctuation moves quotation marks and other punctuation into the margin to align the left edge optically, creating a cleaner edge. Web support is limited, so apply it only to the left edge of blockquotes and display text, where it has the most impact.
 
 **Incorrect (punctuation disrupts left alignment):**
 
@@ -36,4 +36,4 @@ blockquote p {
 }
 ```
 
-For web, limit hanging punctuation to the left edge of blockquotes and display headings. Full hanging punctuation across all body text is impractical to maintain on the web.
+Applying it across all body text is impractical to maintain on the web.

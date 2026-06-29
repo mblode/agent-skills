@@ -6,7 +6,7 @@ tags: headings, capitalization, case
 
 ## Use sentence case for headings and titles
 
-Capitalize only the first word and proper nouns in headings. Sentence case is easier to read and maintain than title case -- there's no ambiguity about which words to capitalize.
+Capitalize only the first word and proper nouns in headings. Sentence case reads easier and avoids title-case ambiguity about which words to capitalize.
 
 **Incorrect (title case capitalizes every major word):**
 

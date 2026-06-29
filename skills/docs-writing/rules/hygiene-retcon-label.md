@@ -6,7 +6,7 @@ tags: planned, retcon, document-driven
 
 ## Mark planned docs with [PLANNED] markers
 
-Document-driven development sometimes means writing docs before code exists. Mark all planned or unimplemented content with `[PLANNED]` so readers don't mistake it for current behavior. Remove markers once the feature is implemented.
+Document-driven development means docs sometimes precede code. Mark all planned or unimplemented content with `[PLANNED]` so readers don't mistake it for current behavior. Remove markers once the feature ships.
 
 **Incorrect (planned feature documented as if it exists):**
 

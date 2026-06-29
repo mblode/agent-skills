@@ -10,43 +10,46 @@ related: forms-no-disable-while-submitting, async-optimistic-without-rollback, s
 
 ## Double-submit possible (no pending guard)
 
-If a submit handler can fire twice (because the button doesn't disable, the form doesn't gate on `pending`, or the network is slow and the user clicks again) you get duplicate orders, duplicate signups, double-charged cards, and duplicate emails. Frontend guarding (disabled button) is necessary but not sufficient; idempotency on the backend is what makes this truly safe. Both belong in the fix.
+A submit handler that can fire twice (button doesn't disable, the form doesn't gate on `pending`, or a slow network invites a second click) produces duplicate orders, signups, charges, and emails. Frontend guarding (disabled button) is necessary but not sufficient; backend idempotency makes it truly safe. Both belong in the fix.
+
+## Contents
+[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
 
 ## What goes wrong
 
-User clicks "Place order." Network is slow. After 800ms with no visible feedback they click again. The backend creates two orders. The user sees only one in their email and disputes the second charge. Or: signup creates two users, the second one orphaned.
+Slow network, no feedback after 800ms, user clicks "Place order" again: the backend creates two orders, the user sees one email and disputes the second charge. Or signup creates two users, the second orphaned.
 
 ## Detection
 
 **Surfaces:** sign-in, sign-up (highest), checkout, any form with a server-mutation submit.
 
 **Static signals:**
-1. `rg '<form' --type=tsx -l`: every form file.
-2. For each, confirm the submit button is disabled while the action runs. Three accepted patterns:
-   - Child component using `useFormStatus().pending` to drive `disabled` (App Router server actions).
-   - `useActionState` returning `isPending` and the form gates on it.
-   - A query library mutation with `isPending` driving `disabled`.
+1. `rg '<form' --type=ts -l`: every form file.
+2. Confirm the submit button is disabled while the action runs. Accepted: a child component using `useFormStatus().pending` to drive `disabled` (App Router server actions); `useActionState` returning `isPending` that the form gates on; a query-library mutation with `isPending` driving `disabled`.
 3. Flag forms whose button is enabled during submit.
-4. **Bonus check (warn, not fail):** look for an `Idempotency-Key` header or `idempotencyKey` field in the request; true safety lives on the backend.
+4. **Bonus (warn, not fail):** look for an `Idempotency-Key` header or `idempotencyKey` field; true safety lives on the backend.
 
 **Concrete commands:**
 ```bash
 # Forms missing pending state
-rg '<form' --type=tsx -l | while read f; do
+rg '<form' --type=ts -l | while read f; do
   rg -L 'useFormStatus|isPending|isSubmitting|pending' "$f" && echo "$f: form without pending guard"
 done
 
 # Buttons in forms not disabled by pending
-rg -A 5 '<button[^>]*type=["'"'"']submit' --type=tsx | rg -L 'disabled='
+rg -l '<button[^>]*type=["'"'"']submit' --type=ts src/ | while read f; do
+  rg -A 5 '<button[^>]*type=["'"'"']submit' "$f" | rg -q 'disabled=' \
+    || echo "$f: submit button without disabled state"
+done
 
 # Idempotency hints
-rg 'Idempotency-Key|idempotencyKey' --type=tsx
+rg 'Idempotency-Key|idempotencyKey' --type=ts
 ```
 
 **False-positive guards:**
 - Skip search forms (idempotent GETs are not a double-submit risk).
-- Skip if `useFormStatus` is correctly used in a child `<SubmitButton>` (very common).
-- Skip files annotated `// ui-audit-ignore:async-double-submit`.
+- Skip if `useFormStatus` is correctly used in a child `<SubmitButton>` (common).
+- Skip `// ui-audit-ignore:async-double-submit`.
 
 ## Fix
 
@@ -87,7 +90,7 @@ export function CheckoutForm({ action }: { action: (fd: FormData) => Promise<voi
 }
 ```
 
-**Backend layer (warn-tier finding):** add an `Idempotency-Key` so a retry never creates a second order.
+**Backend layer (warn-tier):** add an `Idempotency-Key` so a retry never creates a second order.
 
 ```ts
 // server action
@@ -132,8 +135,8 @@ Docs:
 
 ## Defer-to (when this is another tool's job)
 
-- Backend / API layer for true idempotency (Stripe, Paddle, Polar all expose idempotency keys).
-- Vercel Agent / CodeRabbit for missing-disabled detection across diff.
+- Backend / API layer for true idempotency (Stripe, Paddle, Polar expose idempotency keys).
+- Vercel Agent / CodeRabbit for missing-disabled detection across a diff.
 - ESLint plugin enforcing `useFormStatus` patterns in form children.
 
 ## Suppression

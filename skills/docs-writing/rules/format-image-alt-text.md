@@ -6,7 +6,7 @@ tags: images, alt-text, accessibility
 
 ## Write descriptive alt text for all images
 
-Every image needs alt text that conveys the information the image provides. Describe what the image shows, not what it is. Empty alt text or generic labels like "screenshot" leave screen reader users with no context.
+Every image needs alt text conveying the information it provides. Describe what the image shows, not what it is. Empty or generic alt text like "screenshot" leaves screen reader users with no context.
 
 **Incorrect (missing or generic alt text):**
 

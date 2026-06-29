@@ -10,11 +10,21 @@ related: states-no-skeleton, states-no-error-state
 
 ## Empty state has no call to action
 
-When a list, table, or feed is empty, "No items" alone is a dead end. The user does not know whether nothing exists, the filter is too narrow, or they need to do something to populate it. A good empty state names the situation, explains why, and offers exactly one primary action to escape it. Onboarding empty states (first-run inbox, fresh dashboard) are the highest-leverage surfaces in the entire product, and the most commonly skipped.
+When a list, table, or feed is empty, "No items" alone is a dead end: the user can't tell whether nothing exists, the filter is too narrow, or they must act to populate it. A good empty state names the situation, explains why, and offers exactly one primary action. Onboarding empty states (first-run inbox, fresh dashboard) are the product's highest-leverage surfaces, and the most commonly skipped.
+
+## Contents
+
+- What goes wrong
+- Detection
+- Fix
+- Default tier and overrides
+- Examples
+- Defer-to
+- Suppression
 
 ## What goes wrong
 
-A new user signs up. They land on the dashboard. The "Recent invoices" widget reads "No invoices." There is no button, no link, no text suggesting they should create one. The user assumes the feature is broken or incomplete and bounces. Or: a power user filters their inbox to "starred + label:billing + last 7 days." Zero results. Same dead-end "No messages": no "Clear filters" CTA.
+A new user lands on the dashboard. The "Recent invoices" widget reads "No invoices": no button, no link, nothing suggesting they create one. The user assumes the feature is broken and bounces. Or a power user filters their inbox to "starred + label:billing + last 7 days": zero results, same dead-end "No messages" with no "Clear filters" CTA.
 
 ## Detection
 
@@ -22,29 +32,29 @@ A new user signs up. They land on the dashboard. The "Recent invoices" widget re
 
 **Static signals:**
 1. Find empty branches: `items.length === 0`, `isEmpty`, `data?.length ?? 0 === 0`, `!data?.length`, `data === null && !isLoading`.
-2. Inspect the JSX returned by the empty branch.
+2. Inspect the JSX the empty branch returns.
 3. Fail if it contains only text: no `<Button>`, `<Link>`, `<a>`, `<button>`, `onClick=` element.
 4. Fail if the only "action" is a passive sentence ("Try a different search") with no clickable element.
 
 **Concrete commands:**
 ```bash
 # Empty branches
-rg -B 1 -A 6 '\.length === 0|isEmpty|!\w+\.length' --type=tsx src/
+rg -B 1 -A 6 '\.length === 0|isEmpty|!\w+\.length' --type=ts src/
 
 # Empty branches without an action element
-rg -l '\.length === 0|isEmpty' --type=tsx src/ | while read f; do
-  rg -A 8 '\.length === 0|isEmpty' "$f" | rg -L 'Button|Link|<a |onClick' \
-    && echo "$f: empty branch without CTA"
+rg -l '\.length === 0|isEmpty' --type=ts src/ | while read f; do
+  rg -A 8 '\.length === 0|isEmpty' "$f" | rg -q 'Button|Link|<a |onClick' \
+    || echo "$f: empty branch without CTA"
 done
 
 # Look for "no .* yet" copy without a sibling button
-rg -i 'no .{1,30} yet|nothing here|empty' --type=tsx src/
+rg -i 'no .{1,30} yet|nothing here|empty' --type=ts src/
 ```
 
 **False-positive guards:**
 - Skip files with `// ui-audit-ignore:states-no-empty-state`.
-- Skip components where empty is a transient state during initial type-ahead (the user just opened the picker and hasn't typed yet): covered separately.
-- Skip nested empty branches inside a parent that already provides a CTA at the page level.
+- Skip transient empty states during initial type-ahead (picker just opened, nothing typed yet): covered separately.
+- Skip nested empty branches inside a parent that already provides a page-level CTA.
 - Skip Storybook fixtures.
 
 ## Fix
@@ -125,7 +135,7 @@ Docs:
 
 ## Defer-to (when this is another tool's job)
 
-- Copywriting quality on the empty-state body text; defer to copywriting review (this rule only requires a CTA, not perfect copy).
+- Copywriting quality on the empty-state body text: defer to copywriting review (this rule only requires a CTA, not perfect copy).
 
 ## Suppression
 

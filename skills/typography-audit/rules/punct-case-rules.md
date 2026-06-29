@@ -6,7 +6,7 @@ tags: capitalization, title-case, sentence-case, headings
 
 ## Choose Sentence or Title Case Consistently
 
-Pick either sentence case or title case for headings and apply the choice consistently throughout the project. Title case feels more formal; sentence case feels more casual and friendly. Auto-format titles per your chosen style guide.
+Pick sentence case or title case for headings and apply it consistently across the project. Title case feels formal; sentence case feels casual. Auto-format per your style guide.
 
 **Incorrect (inconsistent casing):**
 
@@ -32,4 +32,4 @@ Pick either sentence case or title case for headings and apply the choice consis
 <h3>Best Practices for Line Height</h3>
 ```
 
-Always capitalize the first word, proper nouns, and "I" regardless of chosen style. Use `text-transform: capitalize` with caution as it does not follow title case rules for small words.
+Always capitalize the first word, proper nouns, and "I" regardless of style. Use `text-transform: capitalize` with caution: it does not follow title-case rules for small words.

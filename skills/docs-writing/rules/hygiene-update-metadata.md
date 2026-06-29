@@ -6,7 +6,7 @@ tags: metadata, dates, freshness
 
 ## Include last-updated date or version
 
-Readers need to know if docs are current. Include a "Last updated" date or the product version the doc applies to. This helps readers assess whether the information is still accurate before they invest time.
+Readers need to know if docs are current. Include a "Last updated" date or the product version the doc applies to, so readers can judge accuracy before investing time.
 
 **Incorrect (no indication of freshness):**
 

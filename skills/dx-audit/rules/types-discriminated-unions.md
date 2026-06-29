@@ -7,7 +7,7 @@ tags: types, unions, state-modeling
 
 ## Model State with Discriminated Unions, Not Boolean Soup
 
-Several optional booleans or nullable fields let callers construct impossible combinations (`isLoading: true` with `data` and `error` both set) and force them to guess which fields are valid together. A discriminated union ties the fields to the state and lets the compiler narrow.
+Several optional booleans or nullable fields let callers construct impossible combinations (`isLoading: true` with `data` and `error` both set) and force guessing which fields are valid together. A discriminated union ties fields to the state and lets the compiler narrow.
 
 **Incorrect (boolean soup; every field is optional and may contradict):**
 

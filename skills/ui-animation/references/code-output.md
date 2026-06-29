@@ -1,7 +1,6 @@
 # Code Output
 
-Templates that turn fitted parameters into runnable code per target. Substitute the
-numbers from `fit_curves.py`; keep movement on `transform`/`opacity` (never layout props).
+Templates that turn fitted parameters into runnable code per target. Substitute numbers from `fit_curves.py`; keep movement on `transform`/`opacity` (never layout props).
 
 ## Contents
 
@@ -13,12 +12,11 @@ numbers from `fit_curves.py`; keep movement on `transform`/`opacity` (never layo
 - Handoff spec
 - Notes
 
-Throughout, `D` = `duration_ms`, `BEZIER` = the fitted `cubic-bezier(...)`, and
-`{k, c, m}` = fitted `stiffness, damping, mass`.
+Throughout: `D` = `duration_ms`, `BEZIER` = fitted `cubic-bezier(...)`, `{k, c, m}` = fitted `stiffness, damping, mass`.
 
 ## CSS
 
-Monotonic easing: use the fitted bezier:
+Monotonic: use the fitted bezier:
 
 ```css
 .element {
@@ -35,7 +33,7 @@ Overshoot/spring: a bezier can't ring, so sample the spring into `linear()`:
 }
 ```
 
-Multi-phase: express each phase as a keyframe stop with its own implied easing:
+Multi-phase: each phase is a keyframe stop with its own easing:
 
 ```css
 @keyframes morph {
@@ -94,7 +92,7 @@ offset.value = withTiming(target, {
 
 ## UIKit
 
-Spring: `CASpringAnimation` carries the fitted params directly:
+Spring: `CASpringAnimation` carries fitted params directly:
 
 ```swift
 let a = CASpringAnimation(keyPath: "transform.translation.y")
@@ -104,7 +102,7 @@ a.duration = a.settlingDuration   // let the physics decide
 layer.add(a, forKey: "morph")
 ```
 
-Monotonic: `UIViewPropertyAnimator` with the fitted bezier control points:
+Monotonic: `UIViewPropertyAnimator` with fitted bezier control points:
 
 ```swift
 let curve = UICubicTimingParameters(controlPoint1: CGPoint(x: x1, y: y1),
@@ -116,8 +114,7 @@ animator.startAnimation()
 
 ## Handoff spec
 
-The goal is a self-contained artifact someone can implement without the video. Emit one
-per direction (open and close). Fill it from `fit_curves.py` + the choreography table:
+A self-contained artifact someone can implement without the video. Emit one per direction (open and close), filled from `fit_curves.py` + the choreography table:
 
 ```markdown
 ## Motion spec: <element> (open)
@@ -138,14 +135,10 @@ Reference implementation (<target>):
 <chosen snippet from above>
 ```
 
-Pair this with the original `contact_sheet.png` so the reviewer can eyeball the result
-against the source.
+Pair with the original `contact_sheet.png` so the reviewer can eyeball result against source.
 
 ## Notes
 
-- Map fitted numbers onto each API's own parameters; don't hardcode a different look than
-  you measured.
-- Web targets should respect the repo's motion rules (animate `transform`/`opacity` only,
-  make it interruptible). Hand the spec to the `ui-animation` skill to productionize.
-- Emit **two** transitions when open and close differ (see `references/curve-fitting.md`
-  and `references/choreography.md`): a single shared transition flattens the asymmetry.
+- Map fitted numbers onto each API's own parameters; don't hardcode a different look than measured.
+- Web targets follow the repo's motion rules (animate `transform`/`opacity` only, interruptible). Hand the spec to the `ui-animation` skill to productionize.
+- Emit **two** transitions when open and close differ (see `references/curve-fitting.md` and `references/choreography.md`); a shared transition flattens the asymmetry.

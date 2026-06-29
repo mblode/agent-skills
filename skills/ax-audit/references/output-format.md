@@ -1,18 +1,18 @@
 # Output Format
 
-Defines the output structure for ax-audit results. Two sections: findings table, then AX relationship summary.
+Output structure for ax-audit results: a findings table, then the AX relationship summary.
 
 ## Table of contents
 
 - [Findings table](#findings-table)
 - [Field reference](#field-reference)
 - [AX relationship summary](#ax-relationship-summary)
-- [AX relationship summary, field descriptions](#ax-relationship-summary--field-descriptions)
+- [AX relationship summary, field descriptions](#ax-relationship-summary-field-descriptions)
 - [Terminal rendering](#terminal-rendering)
 
 ## Findings table
 
-Each finding is a JSON object (schema is deliberately compatible with ui-audit findings so the two reports can be merged):
+Each finding is a JSON object (schema is compatible with ui-audit findings, so the two reports merge):
 
 ```json
 {
@@ -41,11 +41,11 @@ Each finding is a JSON object (schema is deliberately compatible with ui-audit f
 | `rule` | Rule slug, matches the rule filename without `.md` |
 | `layer` | `arch` (Layer 1) or `ax` (Layer 2) |
 | `category` | arch: `parity \| granularity \| context \| comm`. ax: `trust \| control \| context \| comm` |
-| `feature` | One of the 4 agentic playbooks: `agent-chat`, `agent-tool-execution`, `agent-config`, `agent-dashboard` |
+| `feature` | One of 4 playbooks: `agent-chat`, `agent-tool-execution`, `agent-config`, `agent-dashboard` |
 | `surface` | Component or page name the finding sits on (groups the report) |
 | `file`, `line` | Evidence location; required on every `fail`/`warn` |
 | `result` | `pass \| warn \| fail \| unknown`: `unknown` requires a reason in `observed` |
-| `defaultTier`, `assignedTier`, `tierReason` | Tier from the rule file, tier after surface override, and one-sentence justification. The tier is the single ship-impact signal; there is no separate severity field |
+| `defaultTier`, `assignedTier`, `tierReason` | Tier from the rule file, tier after surface override, and one-sentence justification. Tier is the only ship-impact signal; no separate severity field |
 | `observed` | What the code actually does, in one sentence |
 | `evidence` | Array of `file:line: excerpt` strings backing the finding |
 | `fix` | Concrete change; a snippet or one-sentence instruction |
@@ -53,7 +53,7 @@ Each finding is a JSON object (schema is deliberately compatible with ui-audit f
 
 ## AX relationship summary
 
-Produced after findings, only when agentic features are detected. Four fields naming the user-agent relationship in behavioral terms.
+Produced after findings, only when agentic features are detected. Four fields naming the user-agent relationship in behavioral terms:
 
 ```json
 {
@@ -77,14 +77,14 @@ Produced after findings, only when agentic features are detected. Four fields na
 
 | Field | Description |
 |---|---|
-| `evolutionStage` | Which of the 4 stages (see `ax-evolution-curve.md`). Describe the behavior, not the label. The label is for JSON; the behavior is for the reader. |
-| `trustSignal` | `high \| moderate \| low` with one-sentence reasoning. Based on how many trust-critical rules passed vs failed (escalation, escape hatch, confidence cues, approval gates). |
-| `keyGap` | Single most important architectural or trust gap. One sentence. Specific enough to act on. |
-| `trustQuestion` | One question for the designer/developer to answer before the next round. Should be a question only prototyping or research can resolve. |
+| `evolutionStage` | Which of the 4 stages (see `ax-evolution-curve.md`). Describe the behavior, not the label (label for JSON, behavior for the reader). |
+| `trustSignal` | `high \| moderate \| low` with one-sentence reasoning, based on how many trust-critical rules passed vs failed (escalation, escape hatch, confidence cues, approval gates). |
+| `keyGap` | Single most important architectural or trust gap. One sentence, specific enough to act on. |
+| `trustQuestion` | One question for the designer/developer to answer before the next round; only prototyping or research can resolve it. |
 
 ## Terminal rendering
 
-When rendering to terminal (not JSON), use this format:
+Terminal (not JSON) format:
 
 ```
 ═══════════════════════════════════════════════════════════

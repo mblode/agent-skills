@@ -10,29 +10,39 @@ related: dark-i18n-locale-formatting, microcopy-vague-error
 
 ## Hardcoded English pluralization (item / items)
 
-`count === 1 ? 'item' : 'items'` encodes English's two-form plural into the UI. Most languages don't work that way: Russian and Polish have separate forms for 1, 2-4, and 5+; Arabic has six categories (zero, one, two, few, many, other); Japanese and Chinese have one. A two-branch ternary produces grammatically wrong strings in those languages, and the literal English words never translate at all. The platform exposes CLDR plural categories through `Intl.PluralRules`: feed its category into a per-locale message map (or let your i18n library's ICU `{count, plural, ...}` syntax do it).
+`count === 1 ? 'item' : 'items'` bakes English's two-form plural into the UI. Most languages differ: Russian and Polish have forms for 1, 2-4, and 5+; Arabic has six (zero, one, two, few, many, other); Japanese and Chinese have one. The ternary produces wrong grammar there, and the English literals never translate. `Intl.PluralRules` exposes CLDR plural categories: feed the category into a per-locale message map, or use your i18n library's ICU `{count, plural, ...}` syntax.
+
+## Contents
+
+- What goes wrong
+- Detection
+- Fix
+- Default tier and overrides
+- Examples
+- Defer-to
+- Suppression
 
 ## What goes wrong
 
-A notification badge renders `${n} ${n === 1 ? 'message' : 'messages'}`. In English it's fine. Translated to Russian, "5 messages" should be "5 сообщений" but the ternary only knows two forms, so the translator is handed "message"/"messages" slots that can't express the few/many distinction, so the result is "5 сообщение" (singular grammar on a plural count), which reads as broken to a native speaker. Because the words are inline literals, a Polish or Arabic translation is impossible without code changes.
+A badge renders `${n} ${n === 1 ? 'message' : 'messages'}`. Fine in English. In Russian, "5 messages" should be "5 сообщений", but two slots can't express the few/many distinction, so the result is "5 сообщение" (singular grammar on a plural count), which reads as broken to a native speaker. Inline literals also make a Polish or Arabic translation impossible without code changes.
 
 ## Detection
 
 **Surfaces:** counts in lists, carts, badges, notifications, search results, pagination ("3 results"), time ("2 minutes").
 
 **Static signals:**
-1. Grep for two-form ternaries keyed on a count: `=== 1 ?` / `> 1 ?` / `!== 1 ?` returning two string literals.
-2. Grep for naive suffixing: a template that appends `'s'` conditionally, e.g. `` `${n} item${n === 1 ? '' : 's'}` ``.
+1. Grep two-form ternaries keyed on a count: `=== 1 ?` / `> 1 ?` / `!== 1 ?` returning two string literals.
+2. Grep naive suffixing: a template appending `'s'` conditionally, e.g. `` `${n} item${n === 1 ? '' : 's'}` ``.
 3. Confirm the project is multi-locale (locale routing or an i18n library). If single-locale English, lower confidence to `unknown`.
 4. If an i18n library is present, check whether messages use ICU `plural` syntax; absence next to a count is the smell.
 
 **Concrete commands:**
 ```bash
 # Two-form count ternaries
-rg -n '(===|!==|>)\s*1\s*\?' --type=tsx | rg "'[A-Za-z]+'\s*:\s*'[A-Za-z]+'"
+rg -n '(===|!==|>)\s*1\s*\?' --type=ts | rg "'[A-Za-z]+'\s*:\s*'[A-Za-z]+'"
 
 # Conditional 's' suffix
-rg -n "item\$\{|\$\{[^}]+\}s\b|\? '' : 's'" --type=tsx
+rg -n "item\$\{|\$\{[^}]+\}s\b|\? '' : 's'" --type=ts
 ```
 
 **False-positive guards:**

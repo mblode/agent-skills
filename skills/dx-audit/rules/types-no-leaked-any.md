@@ -7,7 +7,7 @@ tags: types, any, type-safety
 
 ## No Leaked any in Public Types
 
-An `any` in a public return type or parameter silently disables type-checking for everything the caller derives from it. A single `Promise<any>` from a core method turns the rest of the user's typed code into untyped code. Use `unknown` with narrowing, or a real type, never `any`.
+An `any` in a public return type or parameter silently disables type-checking for everything the caller derives from it: a single `Promise<any>` from a core method turns the rest of the user's typed code untyped. Use `unknown` with narrowing, or a real type, never `any`.
 
 **Incorrect (any infects every downstream value):**
 

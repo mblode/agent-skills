@@ -6,7 +6,7 @@ tags: structure, headings, hierarchy, accessibility
 
 ## Use heading levels in order
 
-Don't skip heading levels -- go from H2 to H3 to H4 in sequence. Skipping levels breaks the logical outline, confuses screen readers, and makes the table of contents wrong. Use a single H1 for the page title and organize content under H2 sections.
+Don't skip heading levels: go H2, H3, H4 in sequence. Skipping breaks the outline, confuses screen readers, and makes the table of contents wrong. Use a single H1 for the page title; organize content under H2 sections.
 
 **Incorrect (skipped heading levels):**
 
@@ -44,6 +44,6 @@ Content here...
 Content here...
 ```
 
-Tip: If you find yourself reaching H5 or H6, the page probably covers too many topics. Consider splitting it into multiple documents.
+Tip: Reaching H5 or H6 means the page covers too many topics. Split it into multiple documents.
 
 Reference: [Microsoft Writing Style Guide: Headings](https://learn.microsoft.com/en-us/style-guide/scannable-content/headings)

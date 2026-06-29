@@ -7,7 +7,7 @@ tags: types, jsdoc, tsdoc, documentation
 
 ## Document Public Symbols with JSDoc/TSDoc
 
-Every exported function, type, and option deserves a JSDoc comment. The editor surfaces it on hover and on autocomplete, which is where developers learn an API, not in a docs site. Note the units, defaults, and a `@example` for non-obvious calls; mark deprecations with `@deprecated`.
+Every exported function, type, and option deserves a JSDoc comment. The editor surfaces it on hover and autocomplete, where developers learn an API, not in a docs site. Note units, defaults, and a `@example` for non-obvious calls; mark deprecations with `@deprecated`.
 
 **Incorrect (no hover docs; units and default are a mystery):**
 

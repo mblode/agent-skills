@@ -1,8 +1,8 @@
 # Feature Playbooks
 
-Each feature gets an ordered checklist. Detect the feature from element + filename + route, then run the checks in order. Each check pulls from `rules-modern/` (Layer 2, behavior failure modes), `rules-surface/` (Layer 3, rendered quality), or `rules/` (Layer 4, Laws of UX).
+Detect each feature from element + filename + route, then run its checks in order. Each pulls from `rules-modern/` (Layer 2, behavior), `rules-surface/` (Layer 3, rendered quality), or `rules/` (Layer 4, Laws of UX).
 
-**Also run the matching rendered-quality checks.** Beyond the named checks below, run the `rules-surface/` category that fits each feature's surface: any form runs `forms-*` + `a11y-*` (labels, error association, contrast); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any animated surface runs `motion-*`. See `rules-surface/_sections.md` for the category map.
+**Also run the matching rendered-quality checks.** Beyond the checks below, run the `rules-surface/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, error association, contrast); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any animated surface runs `motion-*`. Category map: `rules-surface/_sections.md`.
 
 ## Table of contents
 
@@ -45,29 +45,29 @@ Match on element semantics + filenames + route paths:
 
 User need: enter the product without losing data or being locked out.
 
-Checks (in order):
+Checks:
 
-1. **`forms-no-disable-while-submitting`**: submit button must `disabled` during pending; otherwise double-submits create duplicate accounts. Surface bumps to **release-blocker** for sign-up.
-2. **`forms-lost-data-on-error`**: wrong-password should not clear email field; password manager must still autofill correctly. **release-blocker.**
-3. **`forms-no-normalize`**: accept emails with whitespace, mixed case, leading/trailing spaces; trim and lowercase server-side. Postel's Law applies (`rules/decision-postels-law.md`).
-4. **`microcopy-vague-error`**: "Wrong email or password" is acceptable for security; "Error 401" / "Invalid" is not. **fix-this-sprint.**
-5. **`focus-not-restored`**: if "Forgot password?" opens a modal/route, focus must return on close. **fix-this-sprint.**
-6. **`states-no-error-state`**: server-down should show a recoverable message with retry, not a blank page. **release-blocker.**
-7. **`memory-jakobs-law`** (Layer 4), verify conventional layout: email then password, primary action below, "Forgot password?" near password.
+1. **`forms-no-disable-while-submitting`**: submit `disabled` while pending, else double-submits create duplicate accounts. Bumps to **release-blocker** for sign-up.
+2. **`forms-lost-data-on-error`**: wrong password must not clear the email field; password manager must still autofill. **release-blocker.**
+3. **`forms-no-normalize`**: accept emails with whitespace or mixed case; trim and lowercase server-side. Postel's Law (`rules/decision-postels-law.md`).
+4. **`microcopy-vague-error`**: "Wrong email or password" is fine for security; "Error 401" / "Invalid" is not. **fix-this-sprint.**
+5. **`focus-not-restored`**: if "Forgot password?" opens a modal/route, focus returns on close. **fix-this-sprint.**
+6. **`states-no-error-state`**: server-down shows a recoverable message with retry, not a blank page. **release-blocker.**
+7. **`memory-jakobs-law`** (Layer 4): conventional layout: email then password, primary action below, "Forgot password?" near password.
 
 ## Checkout
 
-User need: complete payment without losing data, with confidence the right thing was bought.
+User need: complete payment without losing data, confident the right thing was bought.
 
 Checks:
 
-1. **`forms-lost-data-on-error`**: card / shipping / billing fields must persist across all server-side validation errors. **release-blocker.**
-2. **`forms-no-disable-while-submitting`**: "Place order" must disable + show pending; otherwise double-charge. **release-blocker.**
-3. **`async-optimistic-without-rollback`**: if the cart updates optimistically and the server rejects, UI must roll back to actual server state. **release-blocker.**
+1. **`forms-lost-data-on-error`**: card/shipping/billing fields persist across all server-side validation errors. **release-blocker.**
+2. **`forms-no-disable-while-submitting`**: "Place order" disables + shows pending, else double-charge. **release-blocker.**
+3. **`async-optimistic-without-rollback`**: an optimistic cart update the server rejects must roll back to server state. **release-blocker.**
 4. **`states-no-error-state`**: payment failures show specific cause + retry, not a generic toast. **release-blocker.**
 5. **`microcopy-leaked-error-message`**: never surface raw `error.message` from a payment provider. **release-blocker.**
 6. **`states-layout-shift`**: card form, address autocomplete, and order summary must not jump as fields validate. **fix-this-sprint.**
-7. **`memory-peak-end-rule`** (Layer 4): order-confirmation page should be a deliberate moment, not a generic toast.
+7. **`memory-peak-end-rule`** (Layer 4): order-confirmation page is a deliberate moment, not a generic toast.
 8. **`cognitive-cognitive-load`** (Layer 4): fields chunked (shipping vs payment vs review), one primary CTA per step.
 
 ## Onboarding
@@ -76,13 +76,13 @@ User need: feel oriented and make progress; not give up.
 
 Checks:
 
-1. **`states-no-empty-state`**: first-run dashboard must show next-step guidance, not "no data." **release-blocker.**
-2. **`memory-goal-gradient`** (Layer 4): show progress (X of N steps complete); use endowed progress (start with 1 step done). **fix-this-sprint.**
-3. **`memory-zeigarnik`** (Layer 4): incomplete onboarding should remain visible across sessions ("Resume setup"). **fix-this-sprint.**
-4. **`forms-lost-data-on-error`**: back-button must preserve entered values. **release-blocker.**
+1. **`states-no-empty-state`**: first-run dashboard shows next-step guidance, not "no data." **release-blocker.**
+2. **`memory-goal-gradient`** (Layer 4): show progress (X of N steps); use endowed progress (start with 1 done). **fix-this-sprint.**
+3. **`memory-zeigarnik`** (Layer 4): incomplete onboarding stays visible across sessions ("Resume setup"). **fix-this-sprint.**
+4. **`forms-lost-data-on-error`**: back button preserves entered values. **release-blocker.**
 5. **`microcopy-generic-loading`**: "Setting up your workspace…" beats "Loading…". **backlog.**
-6. **`focus-on-dynamic-content`**: when the next step renders, focus moves to the step heading. **fix-this-sprint.**
-7. **`memory-peak-end-rule`** (Layer 4): final completion screen has a deliberate "you're set" moment with a clear next action.
+6. **`focus-on-dynamic-content`**: when the next step renders, focus moves to its heading. **fix-this-sprint.**
+7. **`memory-peak-end-rule`** (Layer 4): final screen has a deliberate "you're set" moment with a clear next action.
 
 ## Search
 
@@ -91,8 +91,8 @@ User need: find the thing or know it isn't there.
 Checks:
 
 1. **`async-out-of-order-responses`**: fast typing must not show stale results from earlier queries. Use `useDeferredValue` or AbortController. **release-blocker.**
-2. **`states-no-empty-state`**: zero results must offer "did you mean" or "broaden filters" CTA. **fix-this-sprint.**
-3. **`states-no-skeleton`**: typing pause should show skeleton list, not flash empty / collapse. **fix-this-sprint.**
+2. **`states-no-empty-state`**: zero results offer "did you mean" or "broaden filters" CTA. **fix-this-sprint.**
+3. **`states-no-skeleton`**: typing pause shows a skeleton list, not flash empty/collapse. **fix-this-sprint.**
 4. **`microcopy-vague-error`**: search service down → "Search is temporarily unavailable, here's [recent items]" not "Error". **fix-this-sprint.**
 5. **`focus-on-dynamic-content`**: `aria-live="polite"` on result count for screen readers. **fix-this-sprint.**
 6. **`decision-hicks-law`** (Layer 4): limit visible results-per-page or use facets when count > 50.
@@ -141,7 +141,7 @@ Checks:
 
 ## Modal / Dialog / Sheet
 
-User need: focus on a thing, then return to where they were.
+User need: focus on one thing, then return where they were.
 
 Checks:
 
@@ -160,8 +160,8 @@ User need: see the message before it disappears, recover from errors.
 Checks:
 
 1. **`microcopy-vague-error`** + **`microcopy-leaked-error-message`**: actionable + non-leaky. **fix-this-sprint.**
-2. **Toast duration**: ≥5 s for ≥1 sentence; ≥8 s with action button; never disappears mid-action. (See `rules-modern/microcopy-generic-loading.md` for related microcopy patterns.)
-3. **`aria-live` correctness**: `role="alert"` for urgent (errors), `role="status"`/`aria-live="polite"` for info. **fix-this-sprint.**
+2. **`nav-loading-state-timing`**: toast duration ≥5 s for ≥1 sentence; ≥8 s with action button; never disappears mid-action.
+3. **`nav-live-region-feedback`**: `role="alert"` for urgent (errors), `role="status"`/`aria-live="polite"` for info. **fix-this-sprint.**
 4. **`interaction-target-size`**: dismiss button + action button ≥44 px. **backlog.**
 5. **`memory-peak-end-rule`** (Layer 4): success toasts on critical paths should be more deliberate than a 2 s bounce.
 
@@ -171,9 +171,9 @@ User need: understand why nothing is here, what to do next.
 
 Checks:
 
-1. **`states-no-empty-state`** action variant: must have a CTA, not just "no items." **fix-this-sprint** (or **release-blocker** on a critical onboarding path).
-2. **`microcopy-generic-loading`** + **`microcopy-vague-error`**: empty copy must be context-specific, not "No data." **fix-this-sprint.**
-3. **`memory-zeigarnik`** (Layer 4): if the empty state is a not-yet-set-up surface, suggest setup with progress.
+1. **`states-no-empty-state`** action variant: has a CTA, not just "no items." **fix-this-sprint** (or **release-blocker** on a critical onboarding path).
+2. **`microcopy-generic-loading`** + **`microcopy-vague-error`**: empty copy is context-specific, not "No data." **fix-this-sprint.**
+3. **`memory-zeigarnik`** (Layer 4): if it's a not-yet-set-up surface, suggest setup with progress.
 4. **`memory-goal-gradient`** (Layer 4): empty inbox after first user action shows "1 of 5 setup steps complete."
 5. **`interaction-aesthetic-usability`** (Layer 4 rubric): empty states are high-leverage for polish; score ≥4.
 
@@ -184,7 +184,7 @@ User need: understand what failed, recover or escape.
 Checks:
 
 1. **`states-no-error-state`** root variant: Next.js `error.tsx` exists at app/route level. **release-blocker.**
-2. **`states-no-error-state`**: error page has retry + alternative path (back to home, contact support). **fix-this-sprint.**
+2. **`states-no-error-state`**: error page has retry + alternative path (home, contact support). **fix-this-sprint.**
 3. **`microcopy-vague-error`** + **`microcopy-leaked-error-message`**: explains what went wrong without leaking stack traces. **release-blocker** for leaks.
 4. **`focus-on-dynamic-content`**: focus moves to the error heading; screen reader announces. **fix-this-sprint.**
 5. **`memory-peak-end-rule`** (Layer 4): error pages are emotional peaks; turn them into recoveries.
@@ -201,4 +201,4 @@ Checks:
 3. **`microcopy-generic-loading`**: context-specific text ("Confirming your order, 2 to 3 seconds") beats "Loading…" **backlog.**
 4. **`async-no-suspense-boundary`**: server components / async streaming wrapped in `<Suspense fallback={...}>`. **fix-this-sprint.**
 5. **`interaction-doherty-threshold`** (Layer 4): perceived feedback ≤100 ms via optimistic UI when applicable.
-6. **Long-running load**: operations >10 s show a progress indicator, not just a spinner.
+6. **`nav-loading-state-timing`**: operations >10 s show progress or staged feedback, not just an indefinite spinner.

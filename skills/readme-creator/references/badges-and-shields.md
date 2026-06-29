@@ -1,18 +1,18 @@
 # Badges and Shields
 
-Badges go directly below the title and one-liner. Only add badges for published projects with real CI and registry presence.
+Badges go directly below the title and one-liner. Only for published projects with real CI and registry presence.
 
 ## When to Add Badges
 
 - Project is published to a package registry (npm, crates.io, PyPI)
 - Project has CI that actually runs
-- Maximum 4 badges; more than that adds noise without value
+- Maximum 4 badges; more adds noise
 
 ## When NOT to Add Badges
 
 - Private or unpublished projects
-- Projects without CI pipelines
-- Web apps that are not packaged for distribution
+- Projects without CI
+- Web apps not packaged for distribution
 - Skill bundles (unless published to npm)
 
 ## Recommended Badges by Registry
@@ -44,7 +44,7 @@ Badges go directly below the title and one-liner. Only add badges for published 
 
 ### Centered (for strong brand presence)
 
-Used by CLIs and icon libraries. Creates visual impact.
+Used by CLIs and icon libraries; high visual impact.
 
 ```html
 <h1 align="center">{{name}}</h1>
@@ -59,7 +59,7 @@ Used by CLIs and icon libraries. Creates visual impact.
 
 ### Inline (for utilities and libraries)
 
-Simpler, less visual weight. Badges sit below the markdown title.
+Simpler, less visual weight; badges sit below the markdown title.
 
 ```markdown
 # {{name}}
@@ -76,6 +76,6 @@ Most projects need at most three:
 
 | Badge | Why | URL pattern |
 |-------|-----|-------------|
-| Version | Shows the project is published and maintained | `shields.io/npm/v/{{name}}` |
-| License | Tells users the terms at a glance | `shields.io/badge/license-MIT-blue` |
+| Version | Project is published and maintained | `shields.io/npm/v/{{name}}` |
+| License | License terms at a glance | `shields.io/badge/license-MIT-blue` |
 | CI status | Signals code quality (optional) | `github.com/{{owner}}/{{repo}}/actions/workflows/ci.yml/badge.svg` |

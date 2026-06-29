@@ -6,7 +6,7 @@ tags: grid, layout, oversized, pull-quotes, editorial
 
 ## Break the Grid Intentionally
 
-Oversized type, full-bleed images, and pull quotes that extend beyond the text column create visual interest and break monotony. The key is intention \u2014 break the grid as a deliberate design choice while keeping the overall structure intact.
+Oversized type, full-bleed images, and pull quotes that extend past the text column break monotony. Break the grid as a deliberate choice, keeping the underlying structure intact.
 
 **Incorrect (accidental grid break, sloppy layout):**
 
@@ -48,4 +48,4 @@ blockquote {
 }
 ```
 
-Allow grid deviations when they serve the content. Give typography room to breathe. Use whitespace as a design element.
+Allow grid deviations only when they serve the content. Use whitespace as a design element.

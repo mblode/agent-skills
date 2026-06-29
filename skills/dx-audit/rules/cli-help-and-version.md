@@ -7,7 +7,7 @@ tags: cli, help, discoverability
 
 ## Ship --help and --version
 
-`--help` (and `-h`) and `--version` (and `-V`) are the first thing a developer types when they meet a CLI. Help must list commands, flags, and at least one example; version must print the package version and exit 0. A tool that errors or hangs on these flags signals it ignores convention everywhere.
+`--help`/`-h` and `--version`/`-V` are the first thing a developer types. Help must list commands, flags, and at least one example; version must print the package version and exit 0. Erroring or hanging on these flags signals the tool ignores convention everywhere.
 
 **Incorrect (unknown flag, non-zero exit, no usage):**
 

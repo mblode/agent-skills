@@ -2,19 +2,22 @@
 
 Covers: placeholder marks, avatars, logos, screenshots, wallpapers, and concrete asset URL parameters.
 
+## Contents
+
+- [Marks](#marks)
+- [Avatars](#avatars)
+- [Logos](#logos)
+- [Screenshots](#screenshots)
+- [Wallpapers](#wallpapers)
+- [Color Resolution](#color-resolution)
+
 Base URL: `https://assets.ui.sh`
 
-Prefer file extensions in asset URLs whenever the route supports them. Use `/marks/{id}.svg`, `/avatars/{id}.webp`, `/logos/{id}.svg`, `/screenshots/{id}.webp`, and `/wallpapers/{type}.webp?variant={name}`.
+Prefer file extensions whenever the route supports them: `/marks/{id}.svg`, `/avatars/{id}.webp`, `/logos/{id}.svg`, `/screenshots/{id}.webp`, `/wallpapers/{type}.webp?variant={name}`. Image routes (avatars, screenshots, wallpapers) also accept `.jpg`, `.jpeg`, `.png`, but prefer `.webp`.
 
 ## Marks
 
-`GET /marks/{id}`
-
-Preferred URL: `/marks/{id}.svg`
-
-Returns an SVG mark, optionally with text.
-
-IDs: `1`
+`GET /marks/{id}` returns an SVG mark, optionally with text. IDs: `1`
 
 | Param           | Type   | Default | Notes                                                                    |
 | --------------- | ------ | ------: | ------------------------------------------------------------------------ |
@@ -27,15 +30,7 @@ IDs: `1`
 
 ## Avatars
 
-`GET /avatars/{id}`
-
-Preferred URL: `/avatars/{id}.webp`
-
-Other image extensions such as `.jpg`, `.jpeg`, and `.png` are also accepted. Prefer `.webp` in docs and examples.
-
-Returns an avatar image.
-
-IDs: `1`-`16`
+`GET /avatars/{id}` returns an avatar image. IDs: `1`-`16`
 
 | Param       | Type   | Default | Notes           |
 | ----------- | ------ | ------: | --------------- |
@@ -46,11 +41,7 @@ IDs: `1`-`16`
 
 ## Logos
 
-`GET /logos/{id}`
-
-Preferred URL: `/logos/{id}.svg`
-
-Returns an SVG logo. IDs are matched fuzzily: case-insensitive, ignoring non-alphanumeric characters.
+`GET /logos/{id}` returns an SVG logo. IDs match fuzzily: case-insensitive, ignoring non-alphanumeric characters.
 
 IDs: `align`, `artifact`, `axiom`, `concise`, `looply`, `orbital`, `pinelabs`, `quirk`, `relay`
 
@@ -63,15 +54,7 @@ IDs: `align`, `artifact`, `axiom`, `concise`, `looply`, `orbital`, `pinelabs`, `
 
 ## Screenshots
 
-`GET /screenshots/{id}`
-
-Preferred URL: `/screenshots/{id}.webp`
-
-Other image extensions such as `.jpg`, `.jpeg`, and `.png` are also accepted. Prefer `.webp` in docs and examples.
-
-Returns a screenshot image.
-
-IDs: `1`
+`GET /screenshots/{id}` returns a screenshot image. IDs: `1`
 
 - `1` colors: `mauve`, `mist`, `olive`, `stone`, `taupe`
 
@@ -83,111 +66,92 @@ IDs: `1`
 | `left`   | number | none | Crop from left   |
 | `right`  | number | none | Crop from right  |
 
-Crop:
+Crop (positive integers only):
 
-- `top` + `bottom`: height `top + bottom` from `y=0`
-- `top` only: top crop with height `top`
-- `bottom` only: bottom crop with height `bottom`
-- `left` + `right`: width `left + right` from `x=0`
-- `left` only: left crop with width `left`
-- `right` only: right crop with width `right`
-- All values must be positive integers
+- `top`+`bottom`: height `top + bottom` from `y=0`
+- `top` only / `bottom` only: crop that height from that edge
+- `left`+`right`: width `left + right` from `x=0`
+- `left` only / `right` only: crop that width from that edge
 
 ## Wallpapers
 
-`GET /wallpapers/{type}`
-
-Preferred URL: `/wallpapers/{type}.webp?variant={name}`
-
-Other image extensions such as `.jpg`, `.jpeg`, and `.png` are also accepted. Prefer `.webp` in docs and examples.
-
-Returns a wallpaper image.
+`GET /wallpapers/{type}` returns a wallpaper image.
 
 | Param     | Type   |       Default | Notes        |
 | --------- | ------ | ------------: | ------------ |
 | `variant` | string | type-specific | Variant name |
 
-Aliases:
-
-- `landscape` -> `landscapes`
+Aliases: `landscape` -> `landscapes`
 
 ### `blend`
 
-Default: `arctic-glimmer`
+Default `arctic-glimmer`. Gradient flows (upper-left to lower-right):
 
-Variants:
+- `arctic-glimmer`: slate/frosted mint to cerulean to deep navy/obsidian (cool)
+- `emerald-mist`: forest green/moss to sage/lime to eucalyptus/silver-grey
+- `golden-hour-mist`: champagne/cream to apricot glow to honey/sienna
+- `midnight-nebula`: indigo/charcoal to violet haze to magenta to turquoise
+- `nebula-glow`: rose/lilac to coral/peach to plum/cosmic indigo
 
-- `arctic-glimmer`: cool arctic slate and frosted mint in the upper left flowing through a serene cerulean blue then merging into a deep navy and obsidian shadow toward the lower right
-- `emerald-mist`: deep forest green and dark moss in the upper left flowing through a vibrant sage and misty lime transition then settling into a soft eucalyptus and pale silver-grey at the lower right
-- `golden-hour-mist`: soft champagne and pale cream in the upper left shifting into a warm apricot glow then deepening into a rich honey and toasted sienna at the lower right
-- `midnight-nebula`: deep indigo and charcoal in the upper left transitioning into a vibrant violet haze followed by electric magenta and finishing in a soft turquoise glow at the bottom right
-- `nebula-glow`:: ### `haze`
+### `haze`
 
-Default: `default`
+Default `default`. All monochrome:
 
-Variants:
-
-- `dark`: dark charcoal and deep grey monochrome
-- `default`: warm off-white and cream monochrome
-- `mauve-dark`: dark muted purple-grey monochrome
-- `mauve`: muted purple-grey and soft lavender monochrome
-- `mist-dark`: dark cool blue-grey monochrome
-- `mist`: cool blue-grey monochrome
-- `sage`: muted sage green and soft olive-grey monochrome
-- `taupe-dark`: dark warm taupe monochrome
-- `taupe`: warm taupe and neutral grey monochrome
+- `dark`: dark charcoal/grey
+- `default`: warm off-white/cream
+- `mauve-dark`: dark purple-grey
+- `mauve`: purple-grey/lavender
+- `mist-dark`: dark cool blue-grey
+- `mist`: cool blue-grey
+- `sage`: sage green/olive-grey
+- `taupe-dark`: dark warm taupe
+- `taupe`: warm taupe/grey
 
 ### `horizon`
 
-Default: `arctic-rim`
+Default `arctic-rim`. Format is background, highlights:
 
-Variants:
-
-- `arctic-rim`: Deep navy and cold-charcoal backgrounds with highlights of desaturated cyan and pale frosted silver.
-- `calcite-dusk`: Deep charcoal and slate backgrounds with highlights of desaturated pearl and soft bone-white.
-- `celestial-lead`: Cold lead-gray and charcoal backgrounds with highlights of desaturated lilac and frosted zinc.
-- `jade-corner`: Deep oceanic-gray and muted charcoal backgrounds with highlights of desaturated jade and pale misty teal.
-- `obsidian-ember`: Deep mahogany and dark umber backgrounds with highlights of desaturated bronze and weathered ash-gray.
-- `oxide-center`: Deep graphite and charred-umber backgrounds with highlights of matte rust and weathered bronze.
-- `sepia-rim`: Deep umber and warm-charcoal backgrounds with highlights of matte gold and weathered bronze.
+- `arctic-rim`: navy/cold-charcoal, cyan/frosted silver
+- `calcite-dusk`: charcoal/slate, pearl/bone-white
+- `celestial-lead`: lead-gray/charcoal, lilac/frosted zinc
+- `jade-corner`: oceanic-gray/charcoal, jade/misty teal
+- `obsidian-ember`: mahogany/umber, bronze/ash-gray
+- `oxide-center`: graphite/charred-umber, rust/bronze
+- `sepia-rim`: umber/warm-charcoal, gold/bronze
 
 ### `landscapes`
 
-Default: `valley`
+Default `valley`. Format is scene: palette:
 
-Variants:
-
-- `arctic-fjord`: deep-seated glacial fjord flanked by sheer granite cliffs and distant ice-capped peaks: icy cerulean, muted indigo, frosted slate, pale bone white
-- `basalt-plateau`: vast basalt plateau with distant volcanic ridges: ash grey, muted obsidian, dark pewter, faint earthy umber
-- `coast`: coastal beach with gentle waves: slate blues, soft teal, pale grey sky, cool sandy beige
-- `dunes`: desert dunes at sunset: dusty rose, terracotta, warm mauve, soft peach sky
-- `forest`: misty pine forest valley: sage greens, cool grays, muted blue-green
-- `fossil-cliffs`: towering chalk cliffs overlooking a still, pale sea: creamy bone white, soft oyster grey, muted sea-foam green, pale flint blue
-- `highland-moors`: rolling highland moorland with patches of wild heather and moss: muted heather purple, deep moss green, weathered peat brown, soft charcoal grey
-- `hills`: rolling pastoral hills with scattered autumn trees: olive green, faded ochre, burnt umber, warm taupe
-- `lake`: still lake at twilight with forested shoreline: deep slate blue, muted teal, soft peach undertones
-- `limestone-karst`: submerged limestone pillars rising from a calm and misty bay: faded lichen green, weathered grey stone, soft misty blue water
-- `meadow`: alpine meadow with distant mountains: soft sage green, pale grey-blue mountains, warm hay tones
-- `misty-marshland`: low-lying wetlands with scattered pools and tall reeds: mossy green, muted bronze, dark water grey, pale foggy lavender
-- `pampas-grassland`: expansive plains of tall pampas grass under a wide, open sky: pale straw, muted silver, dusty lilac, soft grey-blue
-- `salt-crust-expanse`: expansive dry salt flats with distant mountain silhouettes: pearl white, ivory, faint lilac shadows, muted silver-grey
-- `snow`: minimalist snowfield with soft rolling dunes: off-white snow, cool blue-grey shadows, pale sky
-- `valley`: misty mountain valley with scattered trees: sage greens, soft grays, warm taupe undertones
-- `weathered-badlands`: deeply eroded sedimentary hills and canyons with horizontal strata lines: muted terracotta, dusty clay, pale sandstone, soft ochre, warm charcoal
+- `arctic-fjord`: glacial fjord, granite cliffs, ice peaks: cerulean, indigo, frosted slate, bone white
+- `basalt-plateau`: basalt plateau, volcanic ridges: ash grey, obsidian, pewter, umber
+- `coast`: coastal beach, gentle waves: slate blue, teal, pale grey sky, sandy beige
+- `dunes`: desert dunes at sunset: dusty rose, terracotta, mauve, peach sky
+- `forest`: misty pine forest valley: sage green, cool grey, blue-green
+- `fossil-cliffs`: chalk cliffs over pale sea: bone white, oyster grey, sea-foam green, flint blue
+- `highland-moors`: highland moor, heather/moss: heather purple, moss green, peat brown, charcoal
+- `hills`: pastoral hills, autumn trees: olive, ochre, burnt umber, taupe
+- `lake`: lake at twilight, forested shore: slate blue, teal, peach
+- `limestone-karst`: limestone pillars in misty bay: lichen green, grey stone, misty blue water
+- `meadow`: alpine meadow, distant mountains: sage green, grey-blue mountains, hay
+- `misty-marshland`: wetlands, pools, reeds: mossy green, bronze, water grey, foggy lavender
+- `pampas-grassland`: pampas plains, open sky: straw, silver, lilac, grey-blue
+- `salt-crust-expanse`: salt flats, distant mountains: pearl white, ivory, lilac shadow, silver-grey
+- `snow`: snowfield, rolling dunes: off-white, blue-grey shadow, pale sky
+- `valley`: misty mountain valley, scattered trees: sage green, soft grey, warm taupe
+- `weathered-badlands`: eroded hills/canyons, strata lines: terracotta, clay, sandstone, ochre, charcoal
 
 ### `silk`
 
-Default: `crimson-surge`
+Default `crimson-surge`. Textures:
 
-Variants:
-
-- `crimson-surge`: Deep scarlet and polished ruby textures
-- `cyan-glacier`: Vivid turquoise and liquid crystalline textures
-- `emerald-glint`: Deep hunter green and iridescent teal accents
-- `midnight-violet`: Deep obsidian and translucent violet hues
-- `molten-amber`: Deep burnt orange and polished bronze textures
-- `platinum-flow`: Liquid mercury and polished titanium textures
-- `sapphire-flux`: Deep royal blue and luminous sapphire-blue textures
+- `crimson-surge`: scarlet/ruby
+- `cyan-glacier`: turquoise/crystalline
+- `emerald-glint`: hunter green/iridescent teal
+- `midnight-violet`: obsidian/translucent violet
+- `molten-amber`: burnt orange/bronze
+- `platinum-flow`: mercury/titanium
+- `sapphire-flux`: royal blue/sapphire
 
 ## Color Resolution
 

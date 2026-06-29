@@ -6,7 +6,7 @@ tags: humanist, old-style, calligraphic, pairing, screen
 
 ## Pair Humanist Sans with Old-Style Serifs
 
-Humanist sans-serifs (Gill Sans, Frutiger, Myriad) and old-style serifs (Garamond, Caslon, Jenson) share calligraphic roots and diagonal stress, a versatile, readable pairing. Pairing a humanist sans with a high-contrast rational serif (Bodoni, Didot) clashes: one skeleton is calligraphic, the other geometric.
+Humanist sans-serifs (Gill Sans, Frutiger, Myriad) and old-style serifs (Garamond, Caslon, Jenson) share calligraphic roots and diagonal stress: a versatile, readable pairing. A humanist sans with a high-contrast rational serif (Bodoni, Didot) clashes: one skeleton calligraphic, the other geometric.
 
 **Incorrect (humanist sans + Didone, conflicting stress and contrast):**
 
@@ -31,4 +31,4 @@ body { font-family: 'Charter', serif; }
 /* Optimized for screens, highly readable */
 ```
 
-Treat all pairing rules as guidance, not law. Know the rules before breaking them.
+Treat pairing rules as guidance, not law: know them before breaking them.

@@ -9,7 +9,7 @@ tags: tag1, tag2
 
 **Impact: MEDIUM (optional consequence note)**
 
-One or two sentences on why the rule matters; name the user-facing failure, not just the best practice. Set `impact` higher than the category default only when the failure mode justifies it.
+One or two sentences on why the rule matters: name the user-facing failure, not just the best practice. Raise `impact` above the category default only when the failure mode justifies it.
 
 **Incorrect (what is wrong and why):**
 

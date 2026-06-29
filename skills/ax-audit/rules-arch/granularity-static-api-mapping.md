@@ -11,11 +11,11 @@ related: granularity-workflow-shaped-tool
 
 ## One tool per API endpoint instead of dynamic discovery
 
-50 tools for 50 API endpoints. Adding a new endpoint requires a code change and redeployment. Agent can only access what was anticipated at build time. For evolving APIs, a discover-and-access pattern keeps agent capabilities in sync automatically.
+50 tools for 50 API endpoints. Adding an endpoint requires a code change and redeploy. The agent can only access what was anticipated at build time. For evolving APIs, a discover-and-access pattern keeps capabilities in sync automatically.
 
 ## What goes wrong
 
-CMS has 30 content types, 90 tools total. Content editor adds "Press Release" in the CMS admin. Agent can't access it -- no `read_press_release` tool exists yet.
+CMS has 30 content types, 90 tools total. An editor adds "Press Release" in the CMS admin. The agent can't access it: no `read_press_release` tool exists yet.
 
 ## Detection
 

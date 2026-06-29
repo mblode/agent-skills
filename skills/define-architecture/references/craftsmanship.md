@@ -1,39 +1,23 @@
-# Craftsmanship Checklists
+# Architecture Convention Entries
 
-Convention checklists worth encoding in an architecture brief. Load when writing the team-conventions or testing sections; copy the relevant items into the brief rather than linking here.
+Load for team-conventions or testing sections. Make conventions enforceable; leave generic style advice out of the brief.
 
-## Code style conventions
+## Entry format
 
-- Pick one word per concept across the codebase; don't mix `get`/`fetch`/`retrieve` for the same operation.
-- One level of abstraction per function; a function that mixes orchestration and detail gets split.
-- No boolean flag parameters; split into two functions or pass an options object with named fields.
-- Avoid negative conditionals (`if (!isNotReady)` reads twice as slowly).
-- Name magic numbers; an unexplained `86400` is a bug waiting for a timezone.
-- Comments carry intent, never description; a comment that restates the code rots the moment the code changes.
+Each convention needs four fields:
 
-## Interfaces and errors
+- **Boundary:** the files, modules, package, or entrypoint the rule applies to.
+- **Failure mode:** the bug, drift, or operational failure the rule prevents.
+- **Enforcement:** the lint rule, type check, test, generator, or review gate that catches violations.
+- **Owner:** the package, team, or module that owns exceptions.
 
-- Hide implementation details; design small orthogonal primitives.
-- Do the same thing the same way everywhere; an API that surprises once is distrusted everywhere.
-- Detect errors at low levels; handle them at high levels. Mid-layer catch-and-rethrow loses the stack for nothing.
-- Exceptions are for exceptional situations, not control flow.
+If a convention cannot name all four, leave it out of the architecture brief.
 
-## Testing discipline
+## Useful convention shapes
 
-- Test boundaries and pre/post-conditions first; that's where the bugs cluster.
-- Prefer self-contained tests with one logical assertion each; a test that needs another test's side effects flakes under parallel runs.
-- Automate regression tests for every fixed bug; a bug that recurs untested recurs again.
-- Compare independent implementations when correctness is critical (e.g. a fast path against a naive reference).
-
-## Performance
-
-- Measure first with a profiler; intuition about hot spots is usually wrong, and optimizing a cold path adds complexity for zero gain.
-- Prefer better algorithms and data structures over micro-tuning.
-- Do not store what is easy to recompute; caches need invalidation, recomputation doesn't.
-
-## Pragmatism
-
-- Do not remove a fence until its purpose is known; "unused" code guarding an edge case fails in production, not review.
-- Treat DRY as duplication of knowledge, not of text; two similar-looking functions encoding different business rules must stay separate.
-- Track and surface technical debt in the brief's Open risks section; invisible debt compounds.
-- Prefer reversible steps when risk is unclear; an irreversible change needs a documented fallback first.
+- **Domain language:** one canonical name per business concept; list aliases only for migration. Enforcement: domain glossary plus tests or lint for generated API/schema names.
+- **Layer imports:** handlers import services; services import DAOs/clients; DAOs never import handlers or request objects. Enforcement: import-boundary lint.
+- **Context initialization:** every RPC, HTTP, job, worker, and CLI entrypoint initializes `RequestContext` before shared services. Enforcement: entrypoint tests or fail-closed bootstrap helper.
+- **Auth policy registration:** each route or RPC method declares an auth policy at registration. Enforcement: type-level registry or startup validation.
+- **Test data isolation:** integration and E2E tests generate unique tenant/user/resource IDs per run. Enforcement: fixture helper plus tests for hard-coded shared IDs.
+- **Monorepo dependency ownership:** each deployable app declares runtime dependencies; root manifests hold workspace tooling only. Enforcement: package-manager constraints or dependency lint.

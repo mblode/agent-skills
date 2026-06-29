@@ -6,7 +6,7 @@ tags: lists, ul, ol, vertical-spacing, wrapping
 
 ## Format Lists with Proper Markup and Spacing
 
-Use semantic `<ul>` or `<ol>` elements for lists. Ensure list text does not wrap under the bullet \u2014 use proper list styling. Add vertical spacing between multi-line items so wrapped lines stay visually grouped with their bullet.
+Use semantic `<ul>` or `<ol>` elements. Style so text never wraps under the bullet. Add vertical spacing between multi-line items so wrapped lines stay grouped with their bullet.
 
 **Incorrect (fake lists, text wraps under bullet):**
 
@@ -42,4 +42,4 @@ li + li {
 }
 ```
 
-Test lists with long content at narrow viewport widths. If list item titles wrap, increase vertical padding and tighten line height so wrapped lines stay grouped.
+Test long content at narrow viewports. If item titles wrap, increase vertical padding and tighten line height so wrapped lines stay grouped.

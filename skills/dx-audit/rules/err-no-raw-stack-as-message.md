@@ -7,7 +7,7 @@ tags: errors, messages, stack-traces
 
 ## Never Surface a Raw Stack as the Primary Message
 
-A wall of stack frames or a leaked internal exception (`TypeError: undefined is not a function`) tells the developer nothing about their mistake. Catch low-level failures, wrap them in a domain error with a human summary, and keep the original as `cause` for those who want it.
+A wall of stack frames or a leaked internal exception (`TypeError: undefined is not a function`) tells the developer nothing about their mistake. Catch low-level failures, wrap them in a domain error with a human summary, and keep the original as `cause`.
 
 **Incorrect (raw internal error reaches the user as the headline):**
 

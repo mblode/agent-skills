@@ -1,6 +1,6 @@
 # Internationalisation (SEO layer)
 
-How multilingual/multi-regional sites tell search engines which version to serve. Covers URL strategy, `hreflang`, and localised metadata. For runtime formatting (dates/numbers/plurals) and the language switcher UI, that's the `ui-audit` skill's `dark-i18n-*` rules.
+How multilingual/multi-regional sites tell search engines which version to serve. Covers URL strategy, `hreflang`, and localised metadata. For runtime formatting (dates/numbers/plurals) and the language switcher UI, use the `ui-audit` skill.
 
 ## Contents
 - [URL strategy](#url-strategy)
@@ -34,7 +34,7 @@ Declare each language/regional alternate with **BCP 47** codes (`en`, `en-GB`, `
 <link rel="alternate" hreflang="x-default" href="https://example.com/en/page" />
 ```
 
-In the sitemap (good for scale: keeps localisation metadata out of the head):
+In the sitemap (scales well; keeps localisation metadata out of the head):
 
 ```xml
 <url>
@@ -46,7 +46,7 @@ In the sitemap (good for scale: keeps localisation metadata out of the head):
 
 ## Localised metadata
 
-Translate **everything in the head and structured data**, not just the body. A localised body with an English `<title>` is a half-translation. Translate:
+Translate **everything in the head and structured data**, not just the body (an English `<title>` over a localised body is a half-translation):
 - `<title>`, `<meta name="description">`
 - Open Graph `og:title` / `og:description` (and `og:locale`)
 - JSON-LD `name` / `description` fields
@@ -56,7 +56,7 @@ See `nextjs-implementation.md` for the `generateMetadata` + `alternates.language
 
 ## Avoid IP-based redirects
 
-Do **not** auto-redirect visitors to a locale based on IP geolocation or `Accept-Language`. It traps users in the wrong language, breaks search crawlers (which crawl from one region), and breaks shared links. Instead:
+Do **not** auto-redirect to a locale by IP geolocation or `Accept-Language`. It traps users in the wrong language, breaks crawlers (which crawl from one region), and breaks shared links. Instead:
 - Serve the requested URL's locale as-is.
 - Optionally show a dismissible banner suggesting another locale ("View this page in Deutsch?"), never a hard redirect.
 - Let the user choose via the language switcher.

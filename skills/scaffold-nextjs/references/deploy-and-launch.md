@@ -12,7 +12,7 @@ git branch -M main
 gh repo create {{repo}} --public --source=. --remote=origin --push
 ```
 
-This uses the GitHub CLI (`gh`) to create the repo and push in one step. If `gh` is not available, use the manual approach:
+Creates the repo and pushes in one step via the GitHub CLI (`gh`). If `gh` is unavailable:
 
 ```bash
 git remote add origin https://github.com/{{repo}}.git
@@ -21,7 +21,7 @@ git push -u origin main
 
 ## Phase 7: Vercel deployment
 
-Using the Vercel CLI:
+Via the Vercel CLI:
 
 ```bash
 npx vercel --yes
@@ -35,9 +35,9 @@ Or via the dashboard:
 3. Vercel auto-detects the turborepo and Next.js app in `apps/web`.
 4. Deploy.
 
-Then add custom domain: `{{domain}}` (via dashboard Settings > Domains, or `npx vercel domains add {{domain}}`).
+Add custom domain `{{domain}}` (dashboard Settings > Domains, or `npx vercel domains add {{domain}}`).
 
-If the deployment serves a 404 or the wrong app, set the project Root Directory to `apps/web` (dashboard Settings > General > Root Directory) and redeploy. Vercel does not always infer the app location in a fresh turborepo.
+On a 404 or wrong app, set the project Root Directory to `apps/web` (dashboard Settings > General > Root Directory) and redeploy; Vercel does not always infer the app location in a fresh turborepo.
 
 Verify: `https://{{domain}}` loads the default Next.js page.
 
@@ -45,21 +45,19 @@ Verify: `https://{{domain}}` loads the default Next.js page.
 
 ### Favicon
 
-1. Open [RealFaviconGenerator](https://realfavicongenerator.net/).
-2. Generate a favicon package from your source image.
-3. Place the generated files in `apps/web/app/`.
+Generate a favicon package from your source image at [RealFaviconGenerator](https://realfavicongenerator.net/), then place the generated files in `apps/web/app/`.
 
 ### OG images
 
-Create and place in `apps/web/app/`:
+Create in `apps/web/app/`:
 - `opengraph-image.png` (1200x630)
 - `twitter-image.png` (1200x630)
 
-Next.js App Router automatically serves these as OG and Twitter card images via file-based metadata conventions. Alternatively, generate images using code (`.js`, `.ts`, `.tsx`).
+Next.js App Router serves these as OG and Twitter card images via file-based metadata conventions. Alternatively, generate them with code (`.js`, `.ts`, `.tsx`).
 
 ### Skill handoffs
 
-Run these skills in order after deployment:
+After deployment, run these skills in order:
 
 1. `optimise-seo`: metadata, structured data, sitemap, robots, Core Web Vitals
 2. `ui-audit`: accessibility, typography surface checks, interaction quality, craft polish
@@ -67,14 +65,14 @@ Run these skills in order after deployment:
 
 ## Validation checklist
 
-After all phases complete, verify:
+After all phases, verify:
 
-- [ ] `npm run dev` starts successfully from project root (turbo runs apps/web)
+- [ ] `npm run dev` starts from project root (turbo runs apps/web)
 - [ ] `npm run build` succeeds with no errors
 - [ ] `npm run check` passes Ultracite checks
 - [ ] `npm run check-types` passes TypeScript checks
 - [ ] `npx lefthook run pre-commit --all-files` passes all hooks
-- [ ] GitHub repo has the initial commit pushed
+- [ ] GitHub repo has initial commit pushed
 - [ ] Vercel deployment is live at `{{domain}}`
 - [ ] Favicon appears in browser tab
 - [ ] OG image renders in social card previews (use https://opengraph.xyz to test)

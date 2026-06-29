@@ -7,7 +7,7 @@ tags: accessibility, media, captions, transcripts
 
 ## Caption Video and Transcribe Audio
 
-Video needs synchronised captions via `<track kind="captions">`; audio-only content needs a text transcript. Auto-generated captions alone are not sufficient for meaning-critical media.
+Video needs synchronised captions via `<track kind="captions">`; audio-only needs a text transcript. Auto-generated captions alone are not sufficient for meaning-critical media.
 
 **Incorrect (video with no captions track):**
 

@@ -6,7 +6,7 @@ tags: layering, progressive, context
 
 ## Layer examples from focused snippet to full context
 
-Show the key function first, then where it fits in the file. Let readers build understanding incrementally instead of dumping the entire file upfront.
+Show the key function first, then where it fits. Let readers build understanding incrementally instead of dumping the whole file upfront.
 
 **Incorrect (full file where the relevant part is 3 lines):**
 

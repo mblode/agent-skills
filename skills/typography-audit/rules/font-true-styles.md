@@ -6,9 +6,9 @@ tags: font-face, italic, bold, faux-styles, font-loading
 
 ## Load Real Italic and Bold Styles
 
-Load actual regular, italic, bold, and bold italic font files to prevent the browser from synthesizing faux styles. Faux italics are mechanically slanted and lack the redesigned letterforms of true italics. Faux bold adds artificial weight that looks blotchy.
+Load actual regular, italic, bold, and bold-italic files so the browser never synthesizes faux styles. Faux italics are mechanically slanted, lacking true italics' redesigned letterforms. Faux bold adds artificial, blotchy weight.
 
-Prefer true italics (redesigned letterforms) over obliques (slanted roman). Use WOFF2 format and consider variable fonts to reduce file count.
+Prefer true italics (redesigned letterforms) over obliques (slanted roman). Use WOFF2; consider variable fonts to cut file count.
 
 **Incorrect (single font file, browser synthesizes styles):**
 

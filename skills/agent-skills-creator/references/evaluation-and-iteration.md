@@ -1,6 +1,6 @@
 # Evaluation and Iteration
 
-How to measure whether a skill works and improve it over time. Build evaluations before writing extensive documentation; they reveal actual gaps instead of imagined ones.
+Build evals before docs: they reveal real gaps, not imagined ones.
 
 ## Contents
 
@@ -8,17 +8,18 @@ How to measure whether a skill works and improve it over time. Build evaluations
 - Test Across Models
 - Iterate with Two Claudes
 - Observe How Claude Navigates
+- Re-Evaluating After a Rewrite
 - Measuring Adoption
 
 ## Build Evaluations First
 
-Write 3+ representative scenarios before expanding SKILL.md. Without evals, skill content drifts toward anticipated problems that never materialize.
+Write 3+ scenarios before expanding SKILL.md, else content chases imaginary problems.
 
 Process:
-1. Run Claude on the target task **without** the skill. Note what it gets wrong or is missing
-2. Convert each failure into an eval scenario
-3. Measure baseline (no skill) vs. treatment (with skill) on the same scenarios
-4. Iterate until the treatment consistently beats baseline
+1. Run the task **without** the skill; note failures
+2. Convert each failure to a scenario
+3. Measure baseline (no skill) vs. treatment (with skill) on each
+4. Iterate until treatment beats baseline
 
 Eval scenario structure:
 
@@ -35,45 +36,45 @@ Eval scenario structure:
 }
 ```
 
-There is no built-in runner for this format; treat it as a rubric. Execute scenarios manually or build a thin harness.
+No runner exists: use as a rubric, run manually or via a thin harness.
 
 ## Test Across Models
 
-Skills augment the underlying model. What works for Opus may underspecify for Haiku; what's necessary for Haiku may clutter Opus.
+Skills augment the model: Opus guidance may underspecify Haiku; Haiku guidance may clutter Opus.
 
-- **Haiku:** does the skill provide enough guidance and explicit steps?
-- **Sonnet:** is the content clear and efficient?
-- **Opus:** does the skill avoid over-explaining?
+- **Haiku:** enough guidance and explicit steps?
+- **Sonnet:** clear and efficient?
+- **Opus:** avoids over-explaining?
 
-Test on every model the skill is likely to run under. If a skill targets Claude Code specifically, the current default model is the minimum bar.
+Test every model it may run under; the Claude Code default model is the floor.
 
 ## Iterate with Two Claudes
 
-Use one Claude instance (**Claude A**) to author and refine the skill. Use another (**Claude B**) in a fresh session with the skill loaded to perform real tasks.
+**Claude A** authors and refines; **Claude B** runs tasks in a fresh session with the skill loaded.
 
-1. Give Claude B a real task
-2. Watch where Claude B struggles, skips a rule, or makes a surprising choice
-3. Report the specific observation to Claude A ("B forgot to filter test accounts on a regional report")
-4. Let Claude A suggest targeted edits: stronger language, reordering, a new section
-5. Apply the edit and test again
+1. Give B a real task
+2. Watch where B struggles, skips a rule, or surprises you
+3. Report the specific observation to A ("B forgot to filter test accounts")
+4. A suggests targeted edits: stronger language, reordering, new section
+5. Apply and retest
 
-This loop improves skills based on observed behavior, not assumptions. Avoid rewriting from memory of what Claude "should" need.
+Improve from observed behavior, not assumptions or memory of what Claude "should" need.
 
 ## Observe How Claude Navigates
 
 Watch real sessions for:
 
-- **Unexpected exploration paths:** Claude reads files in an order the author did not plan; structure may be wrong
-- **Missed connections:** Claude fails to follow a reference; links need to be more prominent
-- **Overreliance on one section:** if the same file is read every time, move its content into SKILL.md
-- **Ignored content:** if a reference file is never accessed, either delete it or signal it better in SKILL.md
+- **Unexpected exploration:** files read in an unplanned order; structure may be wrong
+- **Missed connections:** a reference isn't followed; make links more prominent
+- **Overreliance on one section:** same file read every time; move it into SKILL.md
+- **Ignored content:** a never-accessed reference; delete it or signal it better in SKILL.md
 
-The `name` and `description` fields matter most for triggering. If the skill isn't invoked when expected, the description needs clearer trigger phrases before any body content matters.
+`name` and `description` drive triggering. If the skill isn't invoked when expected, fix the description's triggers before body content.
 
 ## Re-Evaluating After a Rewrite
 
-After improving an existing skill (see `improving-existing-skills.md`), rerun its evaluation scenarios before shipping. A rewrite that scores better on the audit dimensions but worse on the evals is a regression: the dimensions measure form, the evals measure behavior.
+After improving a skill (see `improving-existing-skills.md`), rerun evals before shipping. Better audit dimensions but worse evals is a regression: dimensions measure form, evals measure behavior.
 
 ## Measuring Adoption
 
-See the "Measuring Skills" section of `authoring-tips.md` for hook-based logging of skill invocations across an org. Use that data to find undertriggering skills and candidates for promotion to a shared library.
+See "Measuring Skills" in `authoring-tips.md` for hook-based invocation logging across an org; find undertriggering skills and promotion candidates for a shared library.

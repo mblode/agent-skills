@@ -1,6 +1,6 @@
 # Claim Verification
 
-Verify claims and assumptions with local evidence instead of accepting them at face value. Load during plan review when a claim can be checked locally, or when the user explicitly asks to verify a specific claim.
+Verify claims with local evidence, not at face value. Load during plan review when a claim is locally checkable, or when the user asks to verify one.
 
 ## Contents
 
@@ -12,16 +12,16 @@ Verify claims and assumptions with local evidence instead of accepting them at f
 
 ## When to use
 
-- During triage (Step 2) when the plan asserts something checkable about the codebase, performance, or behavior
-- During dialogue (Step 3) when the user responds with a specific, verifiable claim
-- Standalone when the user says "verify this", "is this true", "prove it", "check this claim"
-- Before relying on an assumption that drives a critical implementation decision
+- Triage (Step 2): the plan asserts something checkable about the codebase, performance, or behavior
+- Dialogue (Step 3): the user responds with a specific, verifiable claim
+- Standalone: the user says "verify this", "is this true", "prove it", "check this claim"
+- Before relying on an assumption that drives a critical decision
 
 ## Workflow
 
 ### 1. Restate as falsifiable hypothesis
 
-Convert the claim into a testable statement with a clear condition, metric, and threshold.
+Convert the claim into a testable statement: condition, metric, threshold.
 
 | Claim | Falsifiable hypothesis |
 |-------|----------------------|
@@ -31,11 +31,11 @@ Convert the claim into a testable statement with a clear condition, metric, and 
 | "Nobody uses this" | `legacyHelper` has zero call sites outside its own test file |
 | "This is thread-safe" | Concurrent writes to `cache.ts` don't produce data races under `--race` |
 
-If the claim cannot be restated falsifiably (too vague, philosophical, or unfalsifiable), say so and skip verification.
+If it can't be restated falsifiably (too vague or unfalsifiable), say so and skip verification.
 
 ### 2. Identify the minimal evidence surface
 
-Choose the smallest, most direct source of evidence:
+Choose the smallest, most direct source:
 
 | Evidence type | Tools | When to use |
 |--------------|-------|-------------|
@@ -48,19 +48,17 @@ Choose the smallest, most direct source of evidence:
 
 ### 3. Capture baseline artifact
 
-Run the evidence-gathering command and save the raw output. For comparisons (before/after), capture the baseline first.
-
-Include the exact command run and its full output. Do not paraphrase.
+Run the command and save raw output verbatim (exact command plus full output, no paraphrase). For before/after comparisons, capture the baseline first.
 
 ### 4. Capture treatment artifact (if comparing)
 
-For claims about changes ("this is faster", "this reduces complexity"), capture the treatment state using the same command on the same machine.
+For change claims ("this is faster", "this reduces complexity"), capture the treatment state with the same command on the same machine.
 
 ### 5. Compare and verdict
 
-Compare the artifacts directly. Return one of three outcomes:
+Compare the artifacts. Three outcomes:
 
-**VERIFIED**: evidence supports the claim within the stated threshold.
+**VERIFIED**: evidence supports the claim within threshold.
 ```
 Claim: "getUser is under 50 lines"
 Evidence: wc -l src/user.ts → getUser function spans lines 12-38 (26 lines)
@@ -83,11 +81,11 @@ Verdict: INCONCLUSIVE, 3/5 under 200ms but p95 is 350ms. Depends on the threshol
 
 ## Verifying against documentation
 
-Some claims are about a *documented decision* rather than code or runtime behavior ("the RFC says writes are idempotent", "the library supports retries natively", "the ADR rejected this approach"). Verify these against the authoritative doc, not just the code.
+Some claims concern a *documented decision*, not code or runtime behavior ("the RFC says writes are idempotent", "the library supports retries natively", "the ADR rejected this approach"). Verify against the authoritative doc, not just the code.
 
-1. **Find the authoritative source.** Prefer closest-to-code first: ADRs/decision records, then design docs/RFCs, then official library/API docs. The user's named spec is the source of truth when one exists.
-2. **Quote the relevant line.** Do not paraphrase the decision; copy the exact sentence plus its location (file/path or doc name + section).
-3. **Check the doc against reality.** Docs drift. If the code contradicts the doc, that itself is the finding: report which one is authoritative for this plan.
+1. **Find the authoritative source.** Closest-to-code first: ADRs/decision records, then design docs/RFCs, then official library/API docs. The user's named spec is the source of truth when one exists.
+2. **Quote the relevant line.** Copy the exact sentence plus its location (file/path or doc name + section); do not paraphrase the decision.
+3. **Check the doc against reality.** Docs drift. If the code contradicts the doc, that itself is the finding: report which is authoritative for this plan.
 4. **Verdict.** Same three outcomes, with the citation:
 
 ```
@@ -112,14 +110,14 @@ If no authoritative doc exists, say so and fall back to code/runtime evidence. N
 
 ## Integration with plan review
 
-During triage (Step 2), verify the plan's load-bearing checkable claims before the dialogue starts; a NOT VERIFIED claim usually drops its dimension a point and becomes the first question.
+During triage (Step 2), verify the plan's load-bearing checkable claims before the dialogue; a NOT VERIFIED claim drops its dimension a point and becomes the first question.
 
 During dialogue (Step 3), when the user responds with a verifiable claim:
 
-1. Recognize the claim is checkable ("this is under 100 lines", "we already handle that case", "the test covers this")
+1. Recognize it is checkable ("this is under 100 lines", "we already handle that case", "the test covers this")
 2. Pause the dialogue
 3. Run the verification workflow
 4. Report the verdict with the raw evidence
 5. Use the verdict to choose the next move: ACCEPT, PUSH DEEPER, or REFRAME
 
-Do not verify every claim. Verify only those that are load-bearing for a plan decision or that seem surprising.
+Do not verify every claim, only those load-bearing for a plan decision or that seem surprising.

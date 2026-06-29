@@ -6,7 +6,7 @@ tags: font-feature-settings, kern, liga, calt, opentype
 
 ## Enable Standard OpenType Features for Body
 
-Always enable these four OpenType features for body text: `kern` (kerning), `liga` (standard ligatures), `clig` (contextual ligatures), and `calt` (contextual alternates). These improve letter spacing and glyph substitution automatically.
+Enable four OpenType features on body text: `kern` (kerning), `liga` (standard ligatures), `clig` (contextual ligatures), `calt` (contextual alternates). They improve letter spacing and glyph substitution automatically.
 
 **Incorrect (default browser settings, features may be off):**
 
@@ -36,4 +36,4 @@ body {
 }
 ```
 
-Most browsers enable `kern` and `liga` by default, but explicit declarations ensure consistent behavior across browsers and font configurations.
+Browsers enable `kern` and `liga` by default; explicit declarations ensure consistent behavior across browsers and font configs.

@@ -6,7 +6,7 @@ tags: navigation, padding, spacing, selected-state
 
 ## Space Navigation Items with CSS Padding
 
-Use CSS padding (not spaces or margin hacks) to space navigation items. Limit the number of navigation items for clarity. Indicate the current page by styling the selected item as active/inactive \u2014 do not gray out navigable items.
+Use CSS padding (not spaces or margin hacks) to space navigation items. Limit the number of navigation items for clarity. Indicate the current page by styling the selected item as active/inactive, and do not gray out navigable items.
 
 **Incorrect (spaces for nav padding, grayed navigable items):**
 

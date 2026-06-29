@@ -7,7 +7,7 @@ tags: errors, codes, api-stability
 
 ## Carry a Stable, Documentable Error Code
 
-Callers need to handle specific failures programmatically. If the only discriminator is the message string, every consumer breaks the moment you reword it. Attach a stable `code` and a distinct error type so handling survives message changes.
+Callers handle specific failures programmatically. If the only discriminator is the message string, every consumer breaks the moment you reword it. Attach a stable `code` and a distinct error type so handling survives message changes.
 
 **Incorrect (forces brittle message string-matching):**
 

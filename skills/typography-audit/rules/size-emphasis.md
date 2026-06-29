@@ -8,7 +8,7 @@ tags: emphasis, italic, bold, all-caps, readability
 
 Use italics (not bold, all caps, or quotation marks) for emphasis in running text. Italics provide gentle emphasis without disrupting reading flow. Bold should be reserved for strong semantic importance. All caps reduces readability and feels like shouting.
 
-Prefer fonts with true italics for body text. Limit the amount of emphasized text \u2014 if everything is emphasized, nothing is.
+Prefer fonts with true italics for body text. Limit the amount of emphasized text because if everything is emphasized, nothing is.
 
 **Incorrect (bold and all caps for emphasis):**
 

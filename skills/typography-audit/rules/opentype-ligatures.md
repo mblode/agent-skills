@@ -6,7 +6,7 @@ tags: ligatures, discretionary, standard, code, opentype
 
 ## Manage Ligatures by Context
 
-Enable standard ligatures (`liga`) for body text. Keep discretionary ligatures (`dlig`) off in body \u2014 they can be distracting. Disable all ligatures in code blocks where character accuracy matters (fi, fl, ffi ligatures obscure individual characters).
+Enable standard ligatures (`liga`) in body text. Keep discretionary ligatures (`dlig`) off in body: they distract. Disable all ligatures in code blocks, where fi/fl/ffi ligatures obscure individual characters.
 
 **Incorrect (discretionary ligatures in body, ligatures in code):**
 

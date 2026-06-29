@@ -9,9 +9,9 @@ related: memory-jakobs-law, memory-mental-model, cognitive-cognitive-load
 
 ## Paradox of the Active User
 
-Users skip the manual and start clicking. They will accept errors, dead ends, and suboptimal paths over reading documentation up front, even when reading would save time later. Treat any flow gated behind "read this first" as effectively skipped. This is a rubric-based rule: score how well guidance lives on the critical path.
+Users skip the manual and start clicking. They accept errors, dead ends, and suboptimal paths over reading docs up front, even when reading would save time later. Treat any flow gated behind "read this first" as effectively skipped. Rubric-based rule: score how well guidance lives on the critical path.
 
-Design for the user who is already doing the task. Put guidance *into* the path, not adjacent to it: inline hints, tooltips on the actual control, validation messages that describe the fix, empty states that demonstrate the next action.
+Design for the user already doing the task. Put guidance *into* the path, not adjacent: inline hints, tooltips on the actual control, validation messages that describe the fix, empty states that demonstrate the next action.
 
 ## Rubric
 
@@ -21,11 +21,11 @@ Design for the user who is already doing the task. Put guidance *into* the path,
 
 | Score | Anchor |
 |---|---|
-| 5 | Every non-obvious field has inline help (placeholder, descriptive label, or tooltip on focus); errors explain *why* and link to the fix; new features have inline introduction at first encounter. |
-| 4 | Most fields have inline help; one or two reference users to external docs unnecessarily. |
-| 3 | Inline help is sparse: present on some fields, absent on others; help docs exist but in a separate /docs route. |
-| 2 | Tooltips exist but only on hover; mobile users see no help; complex actions assume prior knowledge. |
-| 1 | All help is in external docs; UI assumes the user has read the manual. |
+| 5 | Every non-obvious field has inline help (placeholder, descriptive label, or focus tooltip); errors explain *why* and link to the fix; new features introduced inline at first encounter. |
+| 4 | Most fields have inline help; one or two reference external docs unnecessarily. |
+| 3 | Inline help sparse: present on some fields, absent on others; help docs exist but in a separate /docs route. |
+| 2 | Tooltips only on hover; mobile users see no help; complex actions assume prior knowledge. |
+| 1 | All help in external docs; UI assumes the user has read the manual. |
 
 For full anchor examples and common scoring confusions, see `references/observational-rubrics.md`.
 
@@ -41,11 +41,11 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 **If fail or warn:**
 
-- Move help content from `/docs` into inline placeholders, descriptive labels, and on-focus tooltips on the actual controls.
-- Rewrite validation errors to explain *why* the input failed and suggest the specific fix ("Password must include a number" not "Invalid").
+- Move help from `/docs` into inline placeholders, descriptive labels, and on-focus tooltips on the actual controls.
+- Rewrite validation errors to explain *why* the input failed and suggest the fix ("Password must include a number", not "Invalid").
 - Add inline first-encounter introductions for new features: a one-line hint near the control, not a blocking tour.
 - Replace hover-only tooltips with focus-triggered hints so mobile and keyboard users see them.
-- Surface format constraints (password rules, file size limits) before submit, not after the failure.
+- Surface format constraints (password rules, file size limits) before submit, not after failure.
 
 ## Examples
 

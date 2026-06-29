@@ -4,9 +4,9 @@ Covers: photos, thumbnails, screenshots, app mockups, product images, media fram
 
 ## Design Rules
 
-- Never use borders on photos or thumbnails: use `outline-1 -outline-offset-1 outline-black/5` or `outline-black/10` if the image needs a visible edge
-- Use `outline-1 -outline-offset-1 outline-black/5` or `outline-black/10` on light surfaces; use `outline-white/10` on dark surfaces for screenshots and app UI mockups
+- Never border photos or thumbnails: use `outline-1 -outline-offset-1 outline-black/5` or `outline-black/10` if a visible edge is needed
+- For screenshots and app UI mockups: `outline-1 -outline-offset-1 outline-black/5` or `outline-black/10` on light surfaces, `outline-white/10` on dark
 
 ## Coding Rules
 
-- Use `alt=""` on images when the subject is identified by adjacent visible text
+- Use `alt=""` when adjacent visible text identifies the subject

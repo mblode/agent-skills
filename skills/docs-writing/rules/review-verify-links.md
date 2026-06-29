@@ -6,7 +6,7 @@ tags: links, broken-links, maintenance
 
 ## Verify all links point to valid destinations
 
-Broken links destroy trust. After any doc change, verify that all outbound links still resolve. Check both internal doc links and external URLs. Automate this check in CI when possible.
+After any doc change, verify all outbound links still resolve, both internal doc links and external URLs. Automate the check in CI when possible.
 
 **Incorrect (renamed doc without updating inbound links):**
 

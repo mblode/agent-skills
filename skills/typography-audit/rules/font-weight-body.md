@@ -6,7 +6,7 @@ tags: font-weight, body-text, legibility, thin-fonts
 
 ## Use Appropriate Body Text Weight
 
-Set body text weight to regular (400) or book/medium (500). Avoid ultra-light or thin weights for longform reading \u2014 they lack sufficient contrast against the background, especially on low-resolution screens. Use heavier weights only at large display sizes.
+Set body text weight to regular (400) or book/medium (500). Avoid ultra-light or thin weights for longform reading because they lack sufficient contrast against the background, especially on low-resolution screens. Use heavier weights only at large display sizes.
 
 Test rendering across platforms: fonts often appear thinner on macOS than on Windows.
 

@@ -1,6 +1,6 @@
 # clip-path for Animation
 
-`clip-path` is one of the most powerful animation tools in CSS. It is hardware-accelerated and creates effects impossible with `opacity` and `transform` alone.
+`clip-path` is hardware-accelerated and creates effects impossible with `opacity` and `transform` alone.
 
 ## Contents
 - [The inset shape](#the-inset-shape)
@@ -11,7 +11,7 @@
 
 ## The inset shape
 
-`clip-path: inset(top right bottom left)` defines a rectangular clipping region. Each value "eats" into the element from that side.
+`clip-path: inset(top right bottom left)` clips a rectangle. Each value eats into the element from that side.
 
 ```css
 /* Fully hidden from right */
@@ -21,7 +21,7 @@
 .visible { clip-path: inset(0 0 0 0); }
 ```
 
-Animate between states with a CSS transition:
+Transition between states:
 
 ```css
 .reveal {
@@ -35,9 +35,7 @@ Animate between states with a CSS transition:
 
 ## Tab colour transitions
 
-Duplicate the tab list. Style the copy as "active" (different background, different text colour). Clip the copy so only the active tab is visible. Animate the clip on tab change.
-
-This creates a seamless colour transition that timing individual `color` transitions can never achieve.
+Duplicate the tab list. Style the copy as active (different background and text colour). Clip it so only the active tab shows. Animate the clip on tab change. This gives a seamless colour transition that per-tab `color` timing can't match.
 
 ```css
 .tabs-active-overlay {
@@ -46,11 +44,11 @@ This creates a seamless colour transition that timing individual `color` transit
 }
 ```
 
-Update `--clip-left` and `--clip-right` via JavaScript when the active tab changes.
+Update `--clip-left` and `--clip-right` via JS on tab change.
 
 ## Hold-to-delete
 
-Use `clip-path: inset(0 100% 0 0)` on a coloured overlay. On `:active`, transition to `inset(0 0 0 0)` over 2s with `linear` timing. On release, snap back with 200ms `ease-out`. Pair with `scale(0.97)` on the button for press feedback.
+Put `clip-path: inset(0 100% 0 0)` on a coloured overlay. On `:active`, transition to `inset(0 0 0 0)` over 2s `linear`. On release, snap back with 200ms `ease-out`. Add `scale(0.97)` on the button for press feedback.
 
 ```css
 .delete-overlay {
@@ -66,7 +64,7 @@ Use `clip-path: inset(0 100% 0 0)` on a coloured overlay. On `:active`, transiti
 
 ## Image reveals on scroll
 
-Start with `clip-path: inset(0 0 100% 0)` (hidden from bottom). Animate to `inset(0 0 0 0)` when the element enters the viewport.
+Start hidden from bottom with `clip-path: inset(0 0 100% 0)`. Animate to `inset(0 0 0 0)` on viewport entry.
 
 ```tsx
 "use client";
@@ -103,7 +101,7 @@ export function RevealImage({ src, alt }: { src: string; alt: string }) {
 
 ## Comparison sliders
 
-Overlay two images. Clip the top image with `clip-path: inset(0 50% 0 0)`. Adjust the right inset based on drag position. No extra DOM elements needed, fully hardware-accelerated.
+Overlay two images. Clip the top with `clip-path: inset(0 50% 0 0)`. Adjust the right inset by drag position. No extra DOM, fully hardware-accelerated.
 
 ```css
 .comparison-top {
@@ -111,4 +109,4 @@ Overlay two images. Clip the top image with `clip-path: inset(0 50% 0 0)`. Adjus
 }
 ```
 
-Update `--split` via pointer events on the slider handle.
+Update `--split` from pointer events on the handle.

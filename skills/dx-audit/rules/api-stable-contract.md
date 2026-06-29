@@ -7,9 +7,9 @@ tags: api, versioning, deprecation, backwards-compat
 
 ## Keep the Public Contract Stable; Deprecate, Don't Break
 
-Renaming or removing a public export, or changing its return or parameter shape, breaks every consumer who upgrades, and a non-major bump breaks them silently. Add the new shape alongside the old, mark the old `@deprecated` with the replacement named, and remove it only on a major version.
+Renaming or removing a public export, or changing its return or parameter shape, breaks every consumer who upgrades; a non-major bump breaks them silently. Add the new shape alongside the old, mark the old `@deprecated` naming the replacement, and remove it only on a major version.
 
-This rule needs the prior contract to judge a break. Establish it first: diff the public surface against the last release (`git show <last-tag>:dist/index.d.ts`, the published `.d.ts` on npm, or `git diff main` for a PR). With no prior version to compare (a snapshot audit, or a pre-1.0 package), flag the weaker signal instead: a public surface with no deprecation mechanism at all (no `@deprecated` tags, no aliasing convention), which guarantees the next rename will break silently.
+This rule needs the prior contract to judge a break. Establish it first: diff the public surface against the last release (`git show <last-tag>:dist/index.d.ts`, the published `.d.ts` on npm, or `git diff main` for a PR). With no prior version (snapshot audit or pre-1.0 package), flag the weaker signal: a public surface with no deprecation mechanism at all (no `@deprecated` tags, no aliasing convention), which guarantees the next rename breaks silently.
 
 **Incorrect (renamed export and changed return type in a minor bump, no shim):**
 

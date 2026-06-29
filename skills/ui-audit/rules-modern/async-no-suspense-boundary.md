@@ -10,32 +10,34 @@ related: states-no-skeleton, states-layout-shift, async-no-error-boundary
 
 ## Async server component without Suspense boundary
 
-In Next.js App Router and React 19, an async server component without an enclosing `<Suspense>` boundary blocks the entire route from streaming. Users wait for the slowest fetch before seeing anything: no shell, no skeleton, no progressive paint. The right primitive to unblock the rest of the page is `<Suspense fallback={...}>` placed around the slow async tree.
+In the App Router and React 19, an async server component with no enclosing `<Suspense>` boundary blocks the whole route from streaming. Users wait for the slowest fetch before seeing anything: no shell, no skeleton, no progressive paint. Wrap the slow async tree in `<Suspense fallback={...}>` to unblock the rest of the page.
 
 ## What goes wrong
 
-Page renders four widgets. One widget calls a slow third-party API. With no Suspense boundary, the whole route hangs on that single fetch. TTFB explodes, the user sees a blank screen, and the rest of the page never paints until the slowest dependency resolves.
+Page renders four widgets; one calls a slow third-party API. With no Suspense boundary, the whole route hangs on that fetch. TTFB explodes, the user sees a blank screen, and nothing paints until the slowest dependency resolves.
 
 ## Detection
 
 **Surfaces:** dashboard, list, search, loading-state, checkout, onboarding (anywhere server-fetched data renders).
 
 **Static signals:**
-1. Find async server components: `rg '^export (default )?async function' --type=tsx app/ src/app/`.
-2. For each match, walk up the file tree to confirm whether the parent renders the component inside `<Suspense>`.
+1. Find async server components: `rg '^export (default )?async function' --type=ts app/ src/app/`.
+2. For each, walk up the tree to check whether the parent renders it inside `<Suspense>`.
 3. Confirm the route segment lacks a `loading.tsx` (Next.js auto-wraps the segment in Suspense when present).
-4. Flag if neither `<Suspense>` ancestor nor sibling `loading.tsx` exists.
+4. Flag if neither a `<Suspense>` ancestor nor a sibling `loading.tsx` exists.
 
 **Concrete commands:**
 ```bash
 # Async server components in the App Router
-rg '^export (default )?async function' --type=tsx app/ src/app/ -l
+rg '^export (default )?async function' --type=ts app/ src/app/ -l
 
 # Files that import Suspense
-rg "from 'react'" --type=tsx -l | xargs rg -l 'Suspense'
+rg "from 'react'" --type=ts -l | while read f; do
+  rg -l 'Suspense' "$f"
+done
 
 # Routes missing loading.tsx
-fd -t f 'page.tsx' app/ src/app/ | while read p; do
+find app src/app -type f -name 'page.tsx' 2>/dev/null | while read p; do
   dir=$(dirname "$p")
   [ ! -f "$dir/loading.tsx" ] && echo "$dir: no loading.tsx"
 done

@@ -10,45 +10,55 @@ related: states-no-error-state, dark-i18n-untested, microcopy-vague-error
 
 ## State communicated by color alone (red error, green success, yellow warn)
 
-Around 8 % of men and 0.5 % of women have a form of color-vision deficiency; many users also browse with high-contrast OS modes, dark modes, or low-saturation displays where red and green converge. WCAG 1.4.1 (Use of Color) requires that information conveyed by color also be conveyed by another visual means: text, icon, pattern, or position. The common failure: an input shows `aria-invalid="true"` with a red border, but no error icon, no helper-text association, and no `aria-describedby`. Sighted color-blind users can't tell something is wrong; screen-reader users can, but only because of the ARIA attribute, not the visual.
+Around 8 % of men and 0.5 % of women have color-vision deficiency; many also browse high-contrast, dark mode, or low-saturation displays where red and green converge. WCAG 1.4.1 (Use of Color) requires color-conveyed information to also use text, icon, pattern, or position. Common failure: an input with `aria-invalid="true"` and a red border but no error icon, no helper text, and no `aria-describedby`. Sighted color-blind users can't tell anything is wrong; screen-reader users learn only from the ARIA attribute, not the visual.
+
+## Contents
+
+- What goes wrong
+- Detection
+- Fix
+- Default tier and overrides
+- Examples
+- Defer-to
+- Suppression
 
 ## What goes wrong
 
-A form input renders `<input className="border-red-500" />` on validation failure. To a deuteranope the red border looks identical to the gray default border. The submit button stays enabled. The user can't tell why submission failed. The same pattern hides success ("now in green!") and warnings ("now in yellow!") on dashboards.
+On validation failure a form input renders `<input className="border-red-500" />`. To a deuteranope the red border looks identical to the gray default; the submit button stays enabled and the user can't tell why it failed. The same pattern hides success (green) and warnings (yellow) on dashboards.
 
 ## Detection
 
 **Surfaces:** form fields, toasts/banners, status badges, list-item state pills, dashboard KPIs.
 
 **Static signals:**
-1. Grep for input/element states styled only by color: `border-red-`, `bg-red-`, `text-red-`, `border-green-`, `text-green-`, `bg-yellow-`, `border-yellow-`.
-2. For each match, confirm a paired non-color signal exists in the same JSX:
+1. Grep states styled only by color: `border-red-`, `bg-red-`, `text-red-`, `border-green-`, `text-green-`, `bg-yellow-`, `border-yellow-`.
+2. For each match, confirm a paired non-color signal in the same JSX:
    - An icon (`<AlertCircle>`, `<CheckCircle>`, `<XCircle>`)
-   - Helper text (and `aria-describedby` linking to it)
+   - Helper text (with `aria-describedby` linking to it)
    - A textual prefix ("Error:", "Success:", "Warning:")
-3. Specifically for inputs, confirm both `aria-invalid="true"` **and** `aria-describedby={errorId}` exist when the red border appears.
+3. For inputs, confirm both `aria-invalid="true"` **and** `aria-describedby={errorId}` exist when the red border appears.
 
 **Concrete commands:**
 ```bash
 # Color-only state on inputs
-rg -n 'aria-invalid' --type=tsx -A 5 | rg -B 1 'border-red|bg-red|text-red'
+rg -n 'aria-invalid' --type=ts -A 5 | rg -B 1 'border-red|bg-red|text-red'
 
 # Status badges with color but no icon
-rg -n '(bg-(red|green|yellow|amber|emerald|rose)-\d{2,3})' --type=tsx -A 2 \
+rg -n '(bg-(red|green|yellow|amber|emerald|rose)-\d{2,3})' --type=ts -A 2 \
   | rg -v '<(Icon|Alert|Check|X|Warning|Info)'
 
 # aria-describedby coverage
-rg -n 'aria-invalid="?true' --type=tsx | rg -v 'aria-describedby'
+rg -n 'aria-invalid="?true' --type=ts | rg -v 'aria-describedby'
 ```
 
 **False-positive guards:**
-- Skip purely decorative tags (a `bg-red-100` highlight on a non-status element).
+- Skip purely decorative uses (a `bg-red-100` highlight on a non-status element).
 - Skip if the icon is rendered conditionally elsewhere in the same component.
 - Skip files with `// ui-audit-ignore:dark-i18n-color-only-state` near the match.
 
 ## Fix
 
-Pair color with an icon **and** with text, and wire `aria-describedby` for screen readers.
+Pair color with an icon **and** text, and wire `aria-describedby` for screen readers.
 
 ```tsx
 // before: color-only state

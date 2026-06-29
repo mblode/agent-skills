@@ -31,4 +31,4 @@ body {
 }
 ```
 
-Add at least one distinctive typographic move per project \u2014 a unique typeface choice, unusual weight, or specific OpenType feature that gives the typography personality.
+Add at least one distinctive typographic move per project: a unique typeface choice, unusual weight, or specific OpenType feature that gives the typography personality.

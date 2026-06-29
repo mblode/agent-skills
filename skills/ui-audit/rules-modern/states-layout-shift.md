@@ -10,47 +10,49 @@ related: states-no-skeleton
 
 ## Loading state causes layout shift on data arrival
 
-The skeleton or spinner takes 0×0 (or some other height); the loaded content takes 200×400. When data arrives, every element below it jumps. This is the default Cumulative Layout Shift bug and it shows up everywhere: skeletons without `min-height`, images without `width`/`height`, fonts without `font-display: swap` and `size-adjust`. Fix is mechanical and one-time per surface.
+The skeleton or spinner takes 0x0 (or some height); loaded content takes 200x400; when data arrives every element below it jumps. This is the default Cumulative Layout Shift bug, everywhere: skeletons without `min-height`, images without `width`/`height`, fonts without `font-display: swap` and `size-adjust`. Fix is mechanical, one-time per surface.
 
 ## What goes wrong
 
-A user starts reading a paragraph above a list. The list's loading state is `<Spinner />`: no fixed height. Data arrives, list expands to 600 px tall, paragraph the user was reading shoves off screen. The user re-finds their place. CLS score regresses on Lighthouse. On marketing pages, the same pattern happens with hero images that lack `width`/`height` attributes.
+A user reads a paragraph above a list whose loading state is `<Spinner />` (no fixed height). Data arrives, the list expands to 600px, the paragraph shoves off screen, and the user re-finds their place; CLS regresses on Lighthouse. Same pattern on marketing pages with hero images lacking `width`/`height`.
 
 ## Detection
 
 **Surfaces:** every loading state, every image, every web font.
 
 **Static signals:**
-1. **Skeletons without fixed height.** Find skeleton components and verify they declare a height (`h-N`, `min-h-N`, `style={{ minHeight }}`, fixed pixel count of rows).
-2. **Images without dimensions.** Find `<img>` and `<Image>` (next/image): fail if neither `width`+`height` nor `fill` with a sized parent is present.
-3. **Fonts without swap + size-adjust.** Find font loading config (`next/font/google`, `next/font/local`, `@font-face` blocks), verify `display: "swap"` and (ideally) `adjustFontFallback`.
-4. **Conditional content above other content.** A `{!data && <Skeleton h={4} />}` followed by a real-content `<List />` of variable height is a CLS bug if heights differ.
+1. **Skeletons without fixed height.** Verify a declared height (`h-N`, `min-h-N`, `style={{ minHeight }}`, fixed row count).
+2. **Images without dimensions.** `<img>` and `<Image>` (next/image): fail if neither `width`+`height` nor `fill` with a sized parent.
+3. **Fonts without swap + size-adjust.** In `next/font/google`, `next/font/local`, `@font-face`, verify `display: "swap"` and (ideally) `adjustFontFallback`.
+4. **Conditional content above other content.** `{!data && <Skeleton h={4} />}` then a variable-height `<List />` is a CLS bug if heights differ.
 
 **Concrete commands:**
 ```bash
 # Skeletons missing min-height
-rg -l 'Skeleton' --type=tsx src/ | while read f; do
-  rg -B 1 -A 3 '<Skeleton' "$f" | rg -L 'h-|height|min-h' \
-    && echo "$f: skeleton without explicit height"
+rg -l 'Skeleton' --type=ts src/ | while read f; do
+  rg -B 1 -A 3 '<Skeleton' "$f" | rg -q 'h-|height|min-h' \
+    || echo "$f: skeleton without explicit height"
 done
 
 # <img> without width/height
-rg '<img\s' --type=tsx --type=jsx src/ | rg -v 'width=.*height=|height=.*width='
+rg '<img\s' --type=ts --type=js src/ | rg -v 'width=.*height=|height=.*width='
 
 # next/image without width/height/fill
-rg '<Image\s' --type=tsx src/ | rg -v 'width=|fill'
+rg '<Image\s' --type=ts src/ | rg -v 'width=|fill'
 
 # Fonts not using swap
-rg 'next/font' --type=ts --type=tsx app/ src/ | rg -v 'display: ["\']swap'
+rg 'next/font' --type=ts app/ src/ | rg -v 'display: ["\']swap'
 
 # @font-face without font-display
-rg '@font-face' --type=css | rg -L 'font-display'
+rg -l '@font-face' --type=css | while read f; do
+  rg -q 'font-display' "$f" || echo "$f: @font-face without font-display"
+done
 ```
 
 **False-positive guards:**
 - Skip files with `// ui-audit-ignore:states-layout-shift`.
-- Below-the-fold content with `content-visibility: auto` is acceptable to CLS-shift inside its own subtree.
-- Skip components that declare `min-height` via CSS class (Tailwind `min-h-*`); inspect class strings before flagging.
+- Below-the-fold `content-visibility: auto` may CLS-shift inside its own subtree (acceptable).
+- Skip components declaring `min-height` via CSS class (Tailwind `min-h-*`); inspect class strings first.
 - Skip Storybook fixtures.
 
 ## Fix
@@ -107,7 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-For dynamic-height content (a chat bubble, a comment), the skeleton should reserve a reasonable minimum and the real content should `min-height` match: not exact match, but close enough to not jolt.
+For dynamic-height content (chat bubble, comment), reserve a reasonable minimum in the skeleton and `min-height`-match the real content: close enough not to jolt, not exact.
 
 Docs:
 - next/image: https://nextjs.org/docs/app/api-reference/components/image
@@ -127,7 +129,7 @@ Docs:
 | Dashboard widget | fix-this-sprint |
 | Internal admin | backlog |
 
-A field that shifts under the user's cursor mid-click can cause mis-clicks on destructive actions, which is why checkout escalates.
+A field that shifts under the cursor mid-click causes mis-clicks on destructive actions, so checkout escalates.
 
 ## Examples
 
@@ -151,7 +153,7 @@ A field that shifts under the user's cursor mid-click can cause mis-clicks on de
 
 ## Defer-to (when this is another tool's job)
 
-- Lighthouse / web-vitals report the CLS metric. This rule prevents the bug at write time; Lighthouse confirms it at runtime; link out, don't restate the metric.
+- Lighthouse / web-vitals report the CLS metric: this rule prevents the bug at write time, Lighthouse confirms it at runtime. Link out, don't restate.
 - Vercel Speed Insights for field measurement.
 
 ## Suppression

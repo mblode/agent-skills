@@ -86,7 +86,7 @@ If a finding overlaps with ui-audit rules, link out:
 
 ## Suppression
 
-To intentionally ignore this rule on a specific component:
+To ignore this rule on a specific component:
 
 ```tsx
 {/* ax-audit-ignore:<slug>, reason */}

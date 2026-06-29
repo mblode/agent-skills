@@ -7,7 +7,7 @@ tags: cli, tty, pipes, json, stdin
 
 ## Respect Pipes and the TTY
 
-A well-behaved CLI checks whether it is talking to a terminal or a pipe. Disable color and spinners when `stdout` is not a TTY, offer `--json` for machine-readable output, write progress and logs to `stderr` so they never corrupt piped `stdout`, and read from `stdin` when no file argument is given. Otherwise ANSI codes and spinner frames end up in the file the user redirected to.
+A well-behaved CLI checks whether it talks to a terminal or a pipe. Disable color and spinners when `stdout` is not a TTY, offer `--json` for machine-readable output, write progress and logs to `stderr` so they never corrupt piped `stdout`, and read `stdin` when no file argument is given. Otherwise ANSI codes and spinner frames land in the file the user redirected to.
 
 **Incorrect (color and progress always on, mixed into stdout):**
 

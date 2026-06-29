@@ -9,9 +9,9 @@ related: perception-proximity, perception-uniform-connectedness, cognitive-chunk
 
 ## Law of Common Region
 
-A Gestalt grouping principle: items inside a clearly defined boundary read as a group. The boundary can be a border, a shared background, or a tinted region. Enclosure is a stronger grouping cue than spacing or similarity: a card binds its contents even when the items inside are visually different and slightly far apart (Palmer 1992; lawsofux.com/law-of-common-region).
+Gestalt grouping: items inside a defined boundary (border, shared background, or tinted region) read as a group. Enclosure beats spacing and similarity: a card binds its contents even when items inside are visually heterogeneous and slightly far apart (Palmer 1992; lawsofux.com/law-of-common-region).
 
-Order of grouping strength when cues compete: Uniform Connectedness > Common Region > Proximity > Similarity. Reach for Common Region when proximity alone cannot carry the structure, when items inside the group are visually heterogeneous, or when the group must survive responsive reflow.
+Strength when cues compete: Uniform Connectedness > Common Region > Proximity > Similarity. Reach for it when proximity alone cannot carry structure, when grouped items are heterogeneous, or when the group must survive responsive reflow.
 
 ## Check
 
@@ -20,7 +20,7 @@ Order of grouping strength when cues compete: Uniform Connectedness > Common Reg
 **Procedure:**
 1. Find groups of related items (dashboard widgets, list rows with metadata, settings sections).
 2. Check for a shared boundary: `<fieldset>`, a card with `border` or `bg-*`, `<section>`, `role="region"`, or a tinted container.
-3. Verify the boundary actually encloses the logical group: does not split a group across two regions, does not merge two unrelated groups.
+3. Verify the boundary encloses exactly the logical group: doesn't split one group across regions or merge two unrelated groups.
 
 **Concrete commands:**
 ```bash
@@ -37,7 +37,7 @@ rg '<section|<fieldset|role="region"|border |rounded.*bg-' src/
 
 ## Fix
 
-**If fail:** Wrap each logical group in a `<section class="rounded-lg border border-slate-200 bg-white p-4">` (or equivalent). Make sure each region encloses exactly one group; don't nest cards more than one level deep.
+**If fail:** Wrap each logical group in a `<section class="rounded-lg border border-slate-200 bg-white p-4">` (or equivalent). Each region encloses exactly one group; don't nest cards more than one level deep.
 
 **If warn:** Add a subtle boundary (border or background tint) to groups that currently rely only on spacing.
 

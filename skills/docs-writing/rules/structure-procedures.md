@@ -6,7 +6,7 @@ tags: structure, procedures, steps, imperative
 
 ## Write steps with imperative verbs
 
-Start each step with an imperative verb (open, run, click, set, copy) and number sequential steps. Keep each step to one action. If a step requires a sub-action, use lettered sub-steps.
+Start each step with an imperative verb (open, run, click, set, copy); number sequential steps. One action per step. For a sub-action, use lettered sub-steps.
 
 **Incorrect (passive, descriptive steps):**
 

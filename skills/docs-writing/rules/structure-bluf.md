@@ -6,7 +6,7 @@ tags: structure, bluf, introduction, purpose
 
 ## Start with the bottom line
 
-The first paragraph should tell readers what the document covers and what they'll be able to do after reading it ("bottom line up front"). State the problem and the outcome in the opening paragraph. Save backstory for later or put it in a separate explanation doc.
+Open with the bottom line up front: state what the doc covers, what the reader can do after reading, and the problem plus the outcome. Move backstory later or into a separate explanation doc.
 
 **Incorrect (buries the purpose under background):**
 

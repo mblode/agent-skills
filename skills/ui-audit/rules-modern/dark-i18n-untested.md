@@ -10,11 +10,14 @@ related: dark-i18n-color-only-state, states-layout-shift
 
 ## Component lacks dark-mode coverage and hardcodes light tokens
 
-Hardcoded colors (`bg-white`, `text-black`, `#fff`, `text-gray-900`) ship a component that breaks in dark mode: white surfaces glow on a dark background, fixed grays lose contrast, borders disappear. Modern apps lean on CSS-variable tokens (`bg-background`, `text-foreground`) so the same JSX works in both themes. The companion bug is the absence of a Storybook dark-mode story or Chromatic dark snapshot, so the regression ships unnoticed.
+Hardcoded colors (`bg-white`, `text-black`, `#fff`, `text-gray-900`) break in dark mode: white surfaces glow on a dark background, fixed grays lose contrast, borders disappear. CSS-variable tokens (`bg-background`, `text-foreground`) make the same JSX work in both themes. The companion bug: no Storybook dark story or Chromatic dark snapshot, so the regression ships unnoticed.
+
+## Contents
+[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
 
 ## What goes wrong
 
-A new card component uses `bg-white border-gray-200 text-gray-900`. The product flips to dark mode and the card is now a white rectangle on a near-black canvas. There's no visual regression coverage because the component's only Storybook story renders in the default (light) theme.
+A card uses `bg-white border-gray-200 text-gray-900`. In dark mode it's a white rectangle on a near-black canvas, and nothing catches it because the component's only Storybook story renders the default (light) theme.
 
 ## Detection
 
@@ -23,26 +26,26 @@ A new card component uses `bg-white border-gray-200 text-gray-900`. The product 
 **Static signals:**
 1. Grep for hardcoded color classes: `bg-white`, `bg-black`, `text-black`, `text-white`, `bg-gray-\d+`, `text-gray-\d+`, `border-gray-\d+`.
 2. Grep for hardcoded hex/rgb in inline styles or CSS modules.
-3. Confirm whether the component has a corresponding `*.stories.tsx` with a dark-themed story (or a Chromatic param `parameters: { backgrounds: { default: 'dark' } }`).
+3. Confirm a `*.stories.tsx` with a dark-themed story (or Chromatic param `parameters: { backgrounds: { default: 'dark' } }`).
 4. Confirm `dark:` variants exist on the offending classes.
 
 **Concrete commands:**
 ```bash
 # Hardcoded Tailwind tokens (likely missing dark variants)
-rg -n 'className="[^"]*\b(bg-white|bg-black|text-black|text-white|bg-gray-\d{2,3}|text-gray-\d{2,3}|border-gray-\d{2,3})\b[^"]*"' --type=tsx \
+rg -n 'className="[^"]*\b(bg-white|bg-black|text-black|text-white|bg-gray-\d{2,3}|text-gray-\d{2,3}|border-gray-\d{2,3})\b[^"]*"' --type=ts \
   | rg -v 'dark:'
 
 # Hardcoded hex
-rg -n '#(fff|000|FFF|000000|FFFFFF)\b' --type=tsx --type=css
+rg -n '#(fff|000|FFF|000000|FFFFFF)\b' --type=ts --type=css
 
 # Storybook dark coverage
-fd -e stories.tsx | xargs rg -l 'dark|theme: ["\']dark'
+find . -name '*.stories.tsx' -type f -exec rg -l 'dark|theme: ["\']dark' {} + 2>/dev/null
 ```
 
 **False-positive guards:**
-- Skip if the component is in a marketing-only directory (`app/(marketing)`) where the brand explicitly forbids dark mode; verify by reading `tailwind.config.*` or design-tokens file.
+- Skip marketing-only directories (`app/(marketing)`) where the brand forbids dark mode; verify via `tailwind.config.*` or the design-tokens file.
 - Skip illustrations, brand SVGs, and logos where fixed color is intentional.
-- Skip files with `// ui-audit-ignore:dark-i18n-untested` near the match.
+- Skip `// ui-audit-ignore:dark-i18n-untested` near the match.
 
 ## Fix
 
@@ -62,7 +65,7 @@ Replace hardcoded tokens with semantic CSS variable tokens, and add a dark Story
 </div>
 ```
 
-When a one-off color is genuinely needed, use `dark:` variants:
+For a genuine one-off, use `dark:` variants:
 
 ```tsx
 <div className="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50">
@@ -79,7 +82,7 @@ export const Dark: Story = {
 };
 ```
 
-For modern theming, prefer CSS color-mix to derive variants without a second token:
+Or derive variants with `color-mix` (no second token):
 
 ```css
 .surface-subtle {
@@ -87,7 +90,7 @@ For modern theming, prefer CSS color-mix to derive variants without a second tok
 }
 ```
 
-Reference docs:
+Docs:
 - shadcn theming via CSS variables: https://ui.shadcn.com/docs/theming
 - Tailwind dark mode strategies: https://tailwindcss.com/docs/dark-mode
 - MDN `color-mix()`: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix

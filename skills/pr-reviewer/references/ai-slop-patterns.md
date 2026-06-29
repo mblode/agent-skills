@@ -1,8 +1,8 @@
 # AI Slop Patterns
 
-Detection catalog for AI-generated code patterns that pass lint and tests but read as machine-written. Load when the user asks to deslop, clean up AI code, remove slop, or when reviewing AI-assisted code changes.
+Detection catalog for AI-generated code that passes lint and tests but reads as machine-written. Load when the user asks to deslop, clean up AI code, remove slop, or when reviewing AI-assisted changes.
 
-Focus on patterns that are distinctively AI-generated, not general code quality issues (those belong in `structural-quality-rubric.md`).
+Focus on distinctively AI-generated patterns, not general code quality (that belongs in `structural-quality-rubric.md`).
 
 ## Contents
 
@@ -28,11 +28,11 @@ Comments that restate what the code already says.
 - Block comments explaining a single obvious line
 - `// Destructure the props` above destructuring assignments
 
-**Fix:** Delete the comment. If removing it would confuse a reader, the code needs a better name, not a comment.
+**Fix:** Delete it. If removal would confuse a reader, the code needs a better name, not a comment.
 
 ## Unnecessary error handling
 
-Wrapping infallible operations in try-catch or guarding against impossible states.
+Wrapping infallible operations in try-catch or guarding impossible states.
 
 **Flag:**
 - try-catch around pure computations (string manipulation, array mapping, object destructuring)
@@ -43,11 +43,11 @@ Wrapping infallible operations in try-catch or guarding against impossible state
 - Catch blocks that just rethrow without modification
 - Error boundaries wrapping components that cannot throw
 
-**Fix:** Remove the guard. Trust the type system and framework guarantees. Only validate at system boundaries (user input, external APIs, network responses).
+**Fix:** Remove the guard only after proving the value is internal or already validated. Keep validation at system boundaries (user input, external APIs, network responses, generated files, persisted data).
 
 ## Type bypasses
 
-Casting or suppressing types instead of fixing the underlying type issue.
+Casting or suppressing types instead of fixing the underlying issue.
 
 **Flag:**
 - `as any`: always a smell; fix the type or narrow with a type guard
@@ -57,26 +57,26 @@ Casting or suppressing types instead of fixing the underlying type issue.
 - `!` (non-null assertion) when the value could genuinely be null
 - Generics defaulting to `any` (`useState<any>()`)
 
-**Fix:** Fix the type at its source. If the upstream type is wrong, fix upstream. If a third-party type is wrong, use a targeted `.d.ts` override.
+**Fix:** Fix the type at its source: fix a wrong upstream type upstream, or override a wrong third-party type with a targeted `.d.ts`.
 
 ## Premature abstraction
 
-Abstractions created before repetition justifies them.
+Abstractions created before a shared invariant, owner, lifecycle, or failure mode justifies them.
 
 **Flag:**
-- Helper functions called from exactly one site
+- Helper functions called from exactly one site that name no domain concept, boundary, or repeated invariant
 - Wrapper classes with a single method that delegates to the wrapped object
 - Config objects consumed by one function
 - Factory functions that always return the same variant
-- Custom hooks that are thin wrappers around a single `useState` or `useEffect`
+- Custom hooks that thinly wrap a single `useState` or `useEffect`
 - `utils/` files with one export
 - Constants extracted for a value used once
 
-**Fix:** Inline the abstraction. Three similar lines is better than a premature helper. Extract only when the same logic appears 3+ times.
+**Fix:** Inline the abstraction unless it protects shared knowledge: an invariant, protocol, lifecycle, owner, or business rule. Do not extract coincidental shape.
 
 ## Verbose naming
 
-Names that repeat information already conveyed by the type system or context.
+Names repeating info already in the type system or context.
 
 **Flag:**
 - `userArray`, `nameString`, `isLoadingBoolean` (type is in the name)
@@ -86,7 +86,7 @@ Names that repeat information already conveyed by the type system or context.
 - `IUserInterface`, `UserType` (type-system prefix/suffix on types)
 - `setIsLoadingToTrue` (value in the setter name)
 
-**Fix:** Use the simplest name that is unambiguous in context. `users`, `name`, `loading`, `handleClick`, `fetchUser`, `getUser`.
+**Fix:** Use the simplest name that is unambiguous in context: `users`, `name`, `loading`, `handleClick`, `fetchUser`, `getUser`.
 
 ## Structural bloat
 
@@ -100,11 +100,11 @@ Files, exports, and patterns that add surface area without value.
 - Duplicate type definitions when a shared type exists
 - Separate files for a single small constant or type
 
-**Fix:** Delete the file or inline the content. Co-locate small types and constants with their consumer.
+**Fix:** Delete the file or inline it. Co-locate small types and constants with their consumer.
 
 ## Defensive excess
 
-Guarding against states that the language or framework prevents.
+Guarding against states the language or framework prevents.
 
 **Flag:**
 - `?.` optional chaining on values that cannot be null (non-optional props, required function parameters, `const` assignments from non-nullable sources)
@@ -114,7 +114,7 @@ Guarding against states that the language or framework prevents.
 - `try { JSON.parse(knownValidJSON) }` on a value that is always valid JSON
 - Fallback UI for error states that cannot occur in the component's data flow
 
-**Fix:** Remove the guard. If the type system says it's safe, it's safe. If you're unsure, fix the type instead of adding a runtime check.
+**Fix:** Remove the guard only after proving the value is internal or already validated. If unsure, fix the type or boundary validation instead of adding local defensive noise.
 
 ## Template residue
 
@@ -124,11 +124,11 @@ Placeholder content left behind from AI generation.
 - `// TODO: implement` or `// TODO: Add error handling` with no implementation
 - `// Add your logic here`
 - Generic error messages: `"An error occurred"`, `"Something went wrong"`, `"Failed to process request"`
-- Console.log statements used for debugging: `console.log('here')`, `console.log(data)`
+- Debugging console.log statements: `console.log('here')`, `console.log(data)`
 - Commented-out code blocks with no explanation
 - Empty function bodies or stub returns (`return null`, `return undefined`, `return {}`)
 
-**Fix:** Either implement the functionality or delete the placeholder. Replace generic error messages with specific, actionable messages.
+**Fix:** Implement the functionality or delete the placeholder. Replace generic error messages with specific, actionable ones.
 
 ## Applying fixes
 
@@ -138,4 +138,4 @@ When reviewing for slop:
 2. Group findings by category, not by file
 3. Prioritize behavioral preservation: deslop changes should never alter runtime behavior
 4. Apply the codebase's existing conventions, not an ideal standard
-5. When in doubt about whether something is slop or intentional, check git blame: if the same author wrote it recently in an AI-assisted session, it's likely slop
+5. Use git blame only to separate pre-existing code from diff scope; judge slop from code patterns, not author or timing

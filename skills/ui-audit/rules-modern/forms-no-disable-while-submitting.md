@@ -10,46 +10,48 @@ related: forms-use-form-status-misuse, forms-lost-data-on-error
 
 ## Submit button not disabled while pending
 
-A double-clickable submit button creates duplicate accounts, double-charges credit cards, and posts the same comment twice. React 19's `useFormStatus` makes the fix mechanical: a child component reads `pending` from the surrounding `<form>` and disables itself + swaps its label. Forms without this protection are release blockers on any monetary or account-creation surface.
+A double-clickable submit button creates duplicate accounts, double-charges cards, and posts the same comment twice. React 19's `useFormStatus` makes the fix mechanical: a child component reads `pending` from the surrounding `<form>`, disables itself, and swaps its label. Unprotected forms are release blockers on any monetary or account-creation surface.
+
+## Contents
+[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
 
 ## What goes wrong
 
-User clicks "Place order." Network is slow. Button stays enabled-looking. User clicks again. Two POSTs go out before the first response. Server creates two orders, charges twice. Or: sign-up form with no debouncing, where the user clicks "Create account" three times during a 4-second hand-off; backend creates one account but logs two errors and one success.
+Slow network, button stays enabled, user clicks again: two POSTs fire before the first response and the server creates two orders, charging twice. Or three rapid clicks on an un-debounced sign-up during a 4-second hand-off log two errors and one success.
 
 ## Detection
 
 **Surfaces:** every `<form>` that submits.
 
 **Static signals:**
-1. Find every `<form>` element in scope.
-2. For each, find the submit `<button type="submit">` (or default-typed button inside the form).
-3. The button (or its parent component) must reference one of: `useFormStatus().pending`, `isPending` from `useActionState`, `isSubmitting`, an explicit `disabled={pending}` prop.
+1. Find every `<form>` in scope.
+2. Find its submit `<button type="submit">` (or default-typed button inside the form).
+3. The button (or its parent) must reference one of: `useFormStatus().pending`, `isPending` from `useActionState`, `isSubmitting`, or an explicit `disabled={pending}` prop.
 4. If none present, fail.
 
 **Concrete commands:**
 ```bash
 # Forms in scope
-rg -l '<form' --type=tsx src/
+rg -l '<form' --type=ts src/
 
 # For each form file, look for any pending-aware mechanism
-rg -l '<form' --type=tsx src/ | while read f; do
+rg -l '<form' --type=ts src/ | while read f; do
   rg -L 'useFormStatus|isPending|isSubmitting|disabled=\{.*pending' "$f" \
     && echo "$f: form without pending-aware submit"
 done
 
 # Submit buttons that hard-code disabled=false or no disabled at all
-rg '<button[^>]*type=["\']submit' --type=tsx src/
+rg '<button[^>]*type=["\']submit' --type=ts src/
 ```
 
 **False-positive guards:**
-- Skip files with `// ui-audit-ignore:forms-no-disable-while-submitting`.
-- Skip Storybook fixtures.
+- Skip `// ui-audit-ignore:forms-no-disable-while-submitting` and Storybook fixtures.
 - Skip search forms where idempotent re-submission is intentional (covered by `async-out-of-order-responses`).
 - Skip filter / facet forms that are GET-style and idempotent.
 
 ## Fix
 
-Use `useFormStatus` in a child `SubmitButton`. The hook **must** live in a child of `<form>`, not the same component that renders `<form>` (see `forms-use-form-status-misuse`):
+Use `useFormStatus` in a child `SubmitButton`. The hook **must** live in a child of `<form>`, not the component that renders `<form>` (see `forms-use-form-status-misuse`):
 
 ```tsx
 // before
@@ -86,7 +88,7 @@ export function CheckoutForm() {
 }
 ```
 
-If you already use `useActionState`, you can read `isPending` directly:
+If you already use `useActionState`, read `isPending` directly:
 
 ```tsx
 const [state, action, isPending] = useActionState(placeOrderAction, initial);
@@ -119,7 +121,7 @@ Docs:
 | Internal admin | fix-this-sprint |
 | Search / filter | N/A (idempotent) |
 
-Double-submit on a payment is real money lost; this is one of the few rules that defaults to release-blocker without further reasoning.
+Double-submit on a payment is real money lost; one of the few rules that defaults to release-blocker without further reasoning.
 
 ## Examples
 
@@ -143,8 +145,8 @@ Double-submit on a payment is real money lost; this is one of the few rules that
 
 ## Defer-to (when this is another tool's job)
 
-- Idempotency keys at the API layer are the durable fix; UI-level disable is the second line of defense. Both should exist on payment surfaces.
-- React Hook Form's `formState.isSubmitting` for codebases that haven't migrated to React 19.
+- Idempotency keys at the API layer are the durable fix; UI-level disable is the second line of defense. Both belong on payment surfaces.
+- React Hook Form's `formState.isSubmitting` for codebases not yet on React 19.
 
 ## Suppression
 

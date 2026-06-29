@@ -7,7 +7,7 @@ tags: api, arguments, signatures
 
 ## Order Arguments by Required-First, Options-Object for 3+
 
-Put required arguments before optional ones so callers never pass `undefined` as a placeholder. Once a function takes three or more parameters, or any boolean toggle, switch to a named options object: a call site reading `(true, false, null)` is unreadable and a boolean trap.
+Put required arguments before optional ones so callers never pass `undefined` as a placeholder. At three or more parameters, or any boolean toggle, switch to a named options object: a call site reading `(true, false, null)` is unreadable and a boolean trap.
 
 **Incorrect (optional before required, positional boolean trap):**
 

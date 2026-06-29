@@ -6,9 +6,9 @@ tags: font-smoothing, antialiased, webkit, rendering, macOS
 
 ## Apply Antialiased Font Smoothing on macOS
 
-On macOS, the browser defaults to subpixel antialiasing, which renders text slightly heavier and thicker than intended. Setting `-webkit-font-smoothing: antialiased` switches to grayscale antialiasing, producing thinner, crisper text, especially visible on light-on-dark surfaces and smaller text sizes.
+macOS browsers default to subpixel antialiasing, rendering text heavier than intended. `-webkit-font-smoothing: antialiased` switches to grayscale antialiasing for thinner, crisper text, most visible on light-on-dark surfaces and small sizes.
 
-Apply it once at the layout root so it cascades to all text elements. Adding it per-component causes inconsistent rendering across the interface.
+Apply it once at the outermost layout element (`<body>` or root layout wrapper) so all text inherits it; per-component use renders inconsistently.
 
 **Incorrect (applied per-component or not at all):**
 
@@ -32,6 +32,4 @@ body {
 <body class="antialiased">
 ```
 
-Apply to the outermost layout element (`<body>` or the root layout wrapper) so every text element in the app inherits it.
-
-Note: this only affects macOS rendering. It has no effect on Windows or Linux, so it is safe to apply unconditionally.
+macOS-only: no effect on Windows or Linux, so it is safe to apply unconditionally.

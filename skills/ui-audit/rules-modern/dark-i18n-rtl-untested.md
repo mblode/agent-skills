@@ -10,48 +10,48 @@ related: dark-i18n-string-overflow, dark-i18n-untested
 
 ## Layout uses physical (left/right) instead of logical (start/end) properties
 
-Arabic, Hebrew, Persian, and Urdu read right-to-left. A layout written with physical properties (`margin-left`, `padding-right`, `text-align: left`, Tailwind `ml-2`, `pr-4`, `text-left`) does not flip when the document direction is `rtl`. Icons that should sit at the inline-start of a label end up on the wrong side; chevrons that point "forward" point backward; padding meant to clear an icon clears the wrong edge. CSS logical properties (`margin-inline-start`, `padding-inline-end`, `text-align: start`) and Tailwind v3+'s `ms-` / `me-` / `ps-` / `pe-` / `start-` / `end-` variants flip automatically with `dir="rtl"`. The bug is silent until someone tests with a Hebrew locale.
+Arabic, Hebrew, Persian, and Urdu read right-to-left. A layout using physical properties (`margin-left`, `padding-right`, `text-align: left`, Tailwind `ml-2`, `pr-4`, `text-left`) does not flip when document direction is `rtl`: icons land on the wrong side, "forward" chevrons point backward, padding clears the wrong edge. CSS logical properties (`margin-inline-start`, `padding-inline-end`, `text-align: start`) and Tailwind's `ms-` / `me-` / `ps-` / `pe-` / `start-` / `end-` variants flip automatically with `dir="rtl"`. The bug is silent until someone tests a Hebrew locale.
 
 ## What goes wrong
 
-A list row renders an icon followed by text using `<Icon className="mr-2" />`. Switching the document to `dir="rtl"` keeps the icon on the left of the text instead of moving to the inline-start (right side in RTL). A back arrow `<ChevronLeft />` still points left even though "back" in Arabic is to the right. A modal close button positioned with `right-4 top-4` stays in the top-right corner instead of moving to the top-left (the inline-end corner in RTL).
+A list row renders `<Icon className="mr-2" />` before text. Under `dir="rtl"` the icon stays left of the text instead of moving to the inline-start (right in RTL). A back arrow `<ChevronLeft />` still points left though "back" in Arabic is to the right. A modal close button at `right-4 top-4` stays top-right instead of moving to top-left (the inline-end corner in RTL).
 
 ## Detection
 
 **Surfaces:** any layout, especially navigation, list rows with icons, form-field icon adornments, modal headers, breadcrumbs.
 
 **Static signals:**
-1. Grep for physical Tailwind classes that have logical equivalents:
+1. Grep physical Tailwind classes with logical equivalents:
    - Margins: `\bml-`, `\bmr-` → `ms-`, `me-`
    - Padding: `\bpl-`, `\bpr-` → `ps-`, `pe-`
    - Position: `\bleft-`, `\bright-` → `start-`, `end-`
    - Text align: `text-left`, `text-right` → `text-start`, `text-end`
    - Float / clear: `float-left`, `float-right` → `float-start`, `float-end`
    - Borders: `border-l`, `border-r` → `border-s`, `border-e`
-2. Grep CSS files for `margin-left`, `padding-right`, `text-align: left|right`, `left: 0`, `right: 0` and confirm there's no logical-property equivalent.
-3. Confirm whether any `dir="rtl"` test exists (Storybook story, Playwright fixture, manual layout doc).
-4. Flag if (1) physical properties are used **and** (2) no RTL coverage exists.
+2. Grep CSS for `margin-left`, `padding-right`, `text-align: left|right`, `left: 0`, `right: 0` with no logical equivalent.
+3. Check for any `dir="rtl"` test (Storybook story, Playwright fixture, layout doc).
+4. Flag if physical properties are used **and** no RTL coverage exists.
 
 **Concrete commands:**
 ```bash
 # Tailwind physical → logical migrations
-rg -n 'className="[^"]*\b(ml-|mr-|pl-|pr-|left-|right-|text-(left|right)|float-(left|right)|border-(l|r))\b' --type=tsx
+rg -n 'className="[^"]*\b(ml-|mr-|pl-|pr-|left-|right-|text-(left|right)|float-(left|right)|border-(l|r))\b' --type=ts
 
 # Physical CSS properties
 rg -n '(margin|padding)-(left|right):|text-align:\s*(left|right)' --type=css
 
 # RTL test coverage
-fd -e stories.tsx | xargs rg -l 'dir="rtl"|direction:\s*rtl' || echo "NO RTL STORIES"
+find . -name '*.stories.tsx' -type f -exec rg -l 'dir="rtl"|direction:\s*rtl' {} + 2>/dev/null || echo "NO RTL STORIES"
 ```
 
 **False-positive guards:**
-- Skip directional icons that should not flip (e.g. external-link icon, Latin-only branding marks). Wrap with `dir="ltr"` if needed.
-- Skip when the project explicitly scopes itself to LTR-only locales; verify by reading i18n config.
+- Skip directional icons that must not flip (external-link, Latin-only brand marks); wrap with `dir="ltr"` if needed.
+- Skip projects explicitly scoped to LTR-only locales (verify via i18n config).
 - Skip files with `// ui-audit-ignore:dark-i18n-rtl-untested` near the match.
 
 ## Fix
 
-Two-step: replace physical properties with logical, and add a `dir="rtl"` Storybook story (or Playwright fixture) so future regressions get caught.
+Two-step: replace physical with logical properties, and add a `dir="rtl"` Storybook story (or Playwright fixture) to catch regressions.
 
 ```tsx
 // before: physical, breaks in RTL

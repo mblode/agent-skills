@@ -11,11 +11,11 @@ related: context-starvation, context-no-checkpoint-resume
 
 ## Agent session starts without knowing what data exists
 
-Session initializes with a static system prompt and no dynamic context. Every session starts ignorant of projects, preferences, or prior work, even when this data exists. Violates Improvement Over Time: each session should build on the last.
+Static system prompt, no dynamic context. Every session starts ignorant of projects, preferences, and prior work that already exists. Violates Improvement Over Time: each session should build on the last.
 
 ## What goes wrong
 
-User opens a design review agent for the third time today. Agent has no memory of earlier sessions, the 5 files reviewed, or the user's preference for accessibility-first feedback. It asks "What would you like me to review?" again.
+User opens a design review agent for the third time today. It has no memory of earlier sessions, the 5 files reviewed, or the user's accessibility-first preference. It asks "What would you like me to review?" again.
 
 ## Detection
 

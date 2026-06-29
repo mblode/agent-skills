@@ -1,6 +1,6 @@
 # Performance Checklist
 
-Common bottlenecks to check during review. Load when the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports.
+Common bottlenecks to flag in review. Load when the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports.
 
 ## Contents
 
@@ -54,13 +54,13 @@ Common bottlenecks to check during review. Load when the diff touches data fetch
 
 | Problem | What to flag |
 |---------|-------------|
-| Large dependencies | Heavy libraries where lighter alternatives exist (`lodash` to native, `moment` to `date-fns`) |
+| Large dependencies | Heavy libraries with lighter alternatives (`lodash` to native, `moment` to `date-fns`) |
 | Importing entire libraries | Barrel imports pulling in unused code. Use named imports, verify tree-shaking |
 | Duplicate dependencies | Same package at multiple versions. Check `npm ls`, deduplicate |
 
 ## Red Flags
 
-Flag these during review even without profiling data; they are almost always problems:
+Flag these even without profiling data; they are almost always problems:
 
 - N+1 query pattern (query inside a loop)
 - List endpoint without pagination

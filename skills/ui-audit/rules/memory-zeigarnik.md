@@ -9,9 +9,9 @@ related: memory-goal-gradient, memory-peak-end-rule, decision-parkinsons-law
 
 ## Zeigarnik Effect
 
-People remember unfinished or interrupted tasks more vividly than completed ones. An incomplete task creates a low-grade cognitive tension that nudges the user to come back and close the loop. Visible "almost done" state is a motivator; silent abandonment is forgotten. Source: Zeigarnik (1927).
+People remember unfinished or interrupted tasks more vividly than completed ones. An incomplete task creates low-grade tension that nudges the user back to close the loop. Visible "almost done" state motivates; silent abandonment is forgotten. Source: Zeigarnik (1927).
 
-Surface unfinished work, persist it across sessions, and pair the open loop with a clear next action so the tension resolves into completion, not anxiety. Do not weaponize it: fabricated "incomplete" states erode trust.
+Surface unfinished work, persist it across sessions, and pair the open loop with a clear next action so tension resolves into completion, not anxiety. Don't weaponize it: fabricated "incomplete" states erode trust.
 
 ## Check
 
@@ -19,8 +19,8 @@ Surface unfinished work, persist it across sessions, and pair the open loop with
 
 **Procedure:**
 1. Find multi-step flows or saved-state UI: drafts, wizards, profile-completion checklists, partially configured features.
-2. Check for: visible incomplete-task indicator (e.g. `1 draft saved`, `Resume`, `Continue setup`), persistence across sessions, and "you're 2 steps away from X" callouts.
-3. For modals/dialogs: confirm that closing them does not destroy unsaved work without an explicit confirmation.
+2. Check for: a visible incomplete-task indicator (e.g. `1 draft saved`, `Resume`, `Continue setup`), persistence across sessions, and "you're 2 steps away from X" callouts.
+3. For modals/dialogs: confirm closing does not destroy unsaved work without an explicit confirmation.
 
 **Concrete commands:**
 ```bash

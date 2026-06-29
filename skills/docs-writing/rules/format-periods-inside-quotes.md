@@ -6,7 +6,7 @@ tags: punctuation, quotation-marks, us-english
 
 ## Periods and commas go inside quotation marks
 
-Follow US English conventions: place periods and commas inside closing quotation marks. Place colons and semicolons outside. For code strings where punctuation accuracy matters, use `code font` instead of quotation marks to avoid ambiguity.
+US English: place periods and commas inside closing quotation marks, colons and semicolons outside. For code strings where punctuation accuracy matters, use `code font` instead of quotation marks to avoid ambiguity.
 
 **Incorrect (period outside closing quote):**
 

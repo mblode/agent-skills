@@ -6,7 +6,7 @@ tags: margins, padding, gutters, mobile, breathing-room
 
 ## Add Adequate Margins Around Text
 
-Ensure adequate padding and margins around text blocks, including column padding, outer margins, thumb space on mobile, and print gutters. Keep paragraph spacing modest and responsive \u2014 avoid paragraphs that touch each other or have excessive gaps.
+Ensure adequate padding and margins around text blocks, including column padding, outer margins, thumb space on mobile, and print gutters. Keep paragraph spacing modest and responsive. Avoid paragraphs that touch each other or have excessive gaps.
 
 Set line height first, then adjust paragraph spacing. The two values work together.
 

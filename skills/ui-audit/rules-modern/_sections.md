@@ -1,6 +1,6 @@
 # Sections: Modern Failure Modes (Layer 2)
 
-This file defines the 7 categories of modern frontend UX failure modes. Each rule file uses one of these category prefixes.
+Defines the 7 categories of modern frontend UX failure modes; each rule file uses one category prefix.
 
 For the full rule list see `references/modern-failure-modes.md`.
 
@@ -9,17 +9,17 @@ For the full rule list see `references/modern-failure-modes.md`.
 ## 1. Forms (forms)
 
 **Default tier:** mostly release-blocker
-**Why critical:** form-handling bugs are the most common ship-blockers. Modern React 19 introduces `useActionState`, `useFormStatus`, `useOptimistic` to address them, but only if used correctly. Common bugs: form clears on validation error, double-submit, `useFormStatus` misuse (always-false bug), no normalization.
+**Why critical:** form-handling bugs are the most common ship-blockers. React 19's `useActionState`, `useFormStatus`, `useOptimistic` address them only if used correctly. Common bugs: form clears on validation error, double-submit, `useFormStatus` misuse (always-false bug), no normalization.
 
 ## 2. States (states)
 
 **Default tier:** release-blocker for critical paths, fix-this-sprint elsewhere
-**Why critical:** missing or broken states is the single highest-impact production UX bug. Every component that fetches data needs `loading`, `empty`, `error`, `success`, and (if paginated) `partial`. The most common bug is "happy path only."
+**Why critical:** missing or broken states is the single highest-impact production UX bug. Every data-fetching component needs `loading`, `empty`, `error`, `success`, and (if paginated) `partial`. Most common bug: "happy path only."
 
 ## 3. Async (async)
 
 **Default tier:** mostly release-blocker
-**Why critical:** async operations introduce race conditions, optimistic-UI-without-rollback, missing Suspense / error boundaries, and double-submit. These are silent until they aren't.
+**Why critical:** async operations introduce race conditions, optimistic-UI-without-rollback, missing Suspense / error boundaries, and double-submit. Silent until they aren't.
 
 ## 4. Focus / Keyboard (focus)
 
@@ -39,7 +39,7 @@ For the full rule list see `references/modern-failure-modes.md`.
 ## 7. Microcopy (microcopy)
 
 **Default tier:** mostly fix-this-sprint; release-blocker for leaked errors
-**Why critical:** microcopy quality is a major UX gap no tool catches semantically. Vague errors, leaked exception text (with PII or stack traces), generic loading copy. These hurt user trust and sometimes leak security-sensitive info.
+**Why critical:** microcopy quality is a major UX gap no tool catches semantically. Vague errors, leaked exception text (PII or stack traces), and generic loading copy hurt trust and can leak security-sensitive info.
 
 ---
 

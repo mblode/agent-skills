@@ -6,7 +6,7 @@ tags: subheadings, uppercase, small-caps, letterspacing, hierarchy
 
 ## Use Letterspaced Caps for Subheadings
 
-Letterspaced uppercase or small caps work well for subheadings and labels. Size caps down slightly to avoid shouting \u2014 uppercase at the same size as body text feels too loud. Small caps with slight tracking create an elegant secondary heading level.
+Letterspaced uppercase or small caps work well for subheadings and labels. Size caps down slightly to avoid shouting (uppercase at body size feels too loud). Small caps with slight tracking make an elegant secondary heading level.
 
 **Incorrect (full-size uppercase, no spacing):**
 

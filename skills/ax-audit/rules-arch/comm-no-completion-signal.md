@@ -11,7 +11,7 @@ related: comm-no-progress-visibility
 
 ## Agent completion detected by heuristic instead of explicit signal
 
-Orchestrator detects "done" by counting idle iterations, checking output files, or waiting for a timeout. Agent pausing to think looks like completion; slow API calls trigger premature termination. Violates Parity: the UI must receive an explicit signal, not guess.
+Orchestrator detects "done" by counting idle iterations, checking output files, or waiting for a timeout. A thinking pause looks like completion; slow API calls trigger premature termination. Violates Parity: the UI must receive an explicit signal, not guess.
 
 ## What goes wrong
 

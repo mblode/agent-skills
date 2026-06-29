@@ -1,6 +1,6 @@
 # Quick Checklist (10 Checks)
 
-Fast triage pass for any AGENTS.md/CLAUDE.md root file.
+Fast triage for any AGENTS.md/CLAUDE.md root file.
 
 Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 8/10` (or equivalent with `N/A`).
 

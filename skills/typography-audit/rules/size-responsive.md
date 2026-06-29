@@ -6,7 +6,7 @@ tags: responsive, mobile, media-queries, display-faces, scaling
 
 ## Adapt Typography Across Breakpoints
 
-Scale headings down on smaller screens. Swap display faces to text faces on small screens via media queries \u2014 display cuts with fine details lose legibility at small sizes. Limit long light-on-dark text on mobile where screen glare reduces contrast.
+Scale headings down on smaller screens. Swap display faces to text faces on small screens via media queries: display cuts with fine details lose legibility at small sizes. Limit long light-on-dark text on mobile where screen glare reduces contrast.
 
 **Incorrect (desktop type unchanged on mobile):**
 

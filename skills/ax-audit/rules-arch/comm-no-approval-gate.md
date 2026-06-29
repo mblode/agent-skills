@@ -11,7 +11,7 @@ related: comm-no-progress-visibility
 
 ## High-stakes irreversible action with no approval step
 
-Agent autonomously sends email, deletes files, or publishes content with no confirmation. User discovers the action after the fact. Trust destroyed. Violates Parity: stakes and reversibility must determine oversight level, not agent confidence.
+Agent autonomously sends email, deletes files, or publishes content with no confirmation. The user discovers it after the fact: trust destroyed. Violates Parity: stakes and reversibility must determine oversight level, not agent confidence.
 
 ## What goes wrong
 

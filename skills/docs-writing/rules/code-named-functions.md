@@ -6,7 +6,7 @@ tags: functions, readability, decomposition
 
 ## Break complex operations into named functions
 
-Readers should skim function names and understand the flow. Extract named functions instead of inline logic so the top-level code reads like pseudocode.
+Readers should skim function names and grasp the flow. Extract named functions instead of inline logic so top-level code reads like pseudocode.
 
 **Incorrect (nested inline logic hides the flow):**
 

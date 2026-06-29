@@ -11,11 +11,11 @@ related: control-over-conversational, context-under-contextual
 
 ## Blank-canvas surface with no agent-generated starting content
 
-User opens a new document, email, or report. Empty canvas. Blinking cursor. Agent is available but silent. A half-written draft is easier to shape than an empty page, but the agent doesn't offer one.
+User opens a new document, email, or report: empty canvas, blinking cursor, agent available but silent. A half-written draft is easier to shape than an empty page, but the agent doesn't offer one.
 
 ## What goes wrong
 
-User clicks "New marketing email" in a tool with their brand voice and audience data. Blank editor. Agent sits idle. A contextual draft would have gotten them editing in ten seconds.
+User clicks "New marketing email" in a tool that has their brand voice and audience data. Blank editor, agent idle. A contextual draft would have them editing in ten seconds.
 
 ## Detection
 

@@ -6,7 +6,7 @@ tags: columns, gutters, padding, margins, mobile
 
 ## Ensure Adequate Column Padding and Gutters
 
-Text needs breathing room. Ensure columns have adequate padding between them, outer margins keep text from hitting screen edges, and mobile layouts include thumb space. Cramped text is harder to read and feels unprofessional.
+Text needs breathing room. Give columns adequate gutters, keep outer margins off the screen edges, and leave thumb space on mobile. Cramped text is harder to read and feels unprofessional.
 
 **Incorrect (no gutters, text hits edges):**
 

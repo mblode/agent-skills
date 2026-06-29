@@ -9,9 +9,9 @@ related: interaction-doherty-threshold, memory-peak-end-rule, cognitive-cognitiv
 
 ## Flow
 
-Csikszentmihalyi's flow is the cognitive state of full immersion in a task: energized focus, total involvement, loss of self-consciousness. It emerges when challenge is matched to skill, goals are clear, and feedback is immediate. UI cannot manufacture flow, but it can protect or destroy it. This is a rubric-based rule: score how well the surface protects focused work from interruption.
+Flow (Csikszentmihalyi) is full immersion in a task: energized focus, total involvement, loss of self-consciousness. It emerges when challenge matches skill, goals are clear, and feedback is immediate. UI cannot manufacture flow but can protect or destroy it. Rubric rule: score how well the surface protects focused work from interruption.
 
-Flow is distinct from the Doherty Threshold. Doherty is one prerequisite (fast feedback) but flow also requires unambiguous goals, an absence of interruptions, and a sense of agency. Modals, toasts, banners, and onboarding nudges fired during active work all break flow even if the system is fast.
+Distinct from the Doherty Threshold: Doherty (fast feedback) is one prerequisite, but flow also needs unambiguous goals, no interruptions, and a sense of agency. Modals, toasts, banners, and onboarding nudges fired during active work break flow even when the system is fast.
 
 ## Rubric
 
@@ -27,7 +27,7 @@ Flow is distinct from the Doherty Threshold. Doherty is one prerequisite (fast f
 | 2 | Multiple unsolicited interruptions per session: feature announcements, NPS prompts, paywalls mid-action. |
 | 1 | UI actively interrupts work for marketing or growth goals; users develop dismissal habits and miss real alerts. |
 
-For full anchor examples and common scoring confusions, see `references/observational-rubrics.md`.
+Full anchor examples and scoring confusions: `references/observational-rubrics.md`.
 
 ## Threshold
 
@@ -41,11 +41,11 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 **If fail or warn:**
 
-- Defer prompts (NPS, feature announcements, upgrade nudges) to natural breakpoints: after save, on idle (≥60s), or on exit. Never during typing or scrolling.
-- Replace blocking modals with ambient feedback: a status pill, a toast that does not steal focus, or an inline indicator.
-- Remove auto-save layout shifts during typing; reserve space ahead of time so save indicators do not push content.
-- Move save toasts away from the cursor location so they do not occlude the active work area.
-- Eliminate required confirmations for low-stakes actions; allow one-click undo instead.
+- Defer prompts (NPS, feature announcements, upgrade nudges) to natural breakpoints (after save, on idle ≥60s, or on exit); never during typing or scrolling.
+- Replace blocking modals with ambient feedback: a status pill, a non-focus-stealing toast, or an inline indicator.
+- Reserve space for save indicators so they do not shift content during typing.
+- Move save toasts away from the cursor so they do not occlude the work area.
+- Drop required confirmations for low-stakes actions; allow one-click undo instead.
 
 ## Examples
 

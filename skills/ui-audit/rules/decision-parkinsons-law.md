@@ -9,9 +9,9 @@ related: memory-goal-gradient, memory-zeigarnik, decision-teslers-law
 
 ## Parkinson's Law
 
-A task expands to fill the time allotted to it (C. Northcote Parkinson, 1955). In product UX, perceived task time stretches to match whatever the interface implies the task should take. If checkout looks like a 5-minute job, users will spend 5 minutes on it, even when 30 seconds would suffice.
+A task expands to fill the time allotted to it (C. Northcote Parkinson, 1955). In product UX, perceived task time stretches to match whatever the interface implies. If checkout looks like a 5-minute job, users spend 5 minutes, even when 30 seconds would suffice.
 
-Compress perceived effort with three levers: shorten the actual work (autofill, smart defaults, saved values), shorten the visual work (one-screen flows, condensed layouts), and set credible expectations (progress meters, step counts, "1 of 3" labels). Be honest: overstating speed and under-delivering damages trust on the next step.
+Compress perceived effort with three levers: shorten the actual work (autofill, smart defaults, saved values), shorten the visual work (one-screen flows, condensed layouts), and set credible expectations (progress meters, step counts, "1 of 3" labels). Be honest: overstating speed then under-delivering damages trust on the next step.
 
 ## Check
 

@@ -2,9 +2,9 @@
 
 ## Contents
 
-- [src/cli.ts](#srccli-ts)
-- [src/index.ts](#srcindex-ts)
-- [src/types.ts](#srctypes-ts)
+- [src/cli.ts](#srcclits)
+- [src/index.ts](#srcindexts)
+- [src/types.ts](#srctypests)
 - [AGENTS.md](#agentsmd)
 - [README.md](#readmemd)
 - [skills/SKILL.md](#skillsskillmd)
@@ -13,7 +13,7 @@
 
 ## src/cli.ts
 
-No shebang here: tsdown's `banner` option injects it at build time, and a source shebang would double it in `dist/cli.js`.
+No shebang here: tsdown's `banner` injects it at build; a source shebang would double it in `dist/cli.js`.
 
 ```typescript
 import { Command } from "commander";
@@ -47,7 +47,7 @@ program.parse();
 
 ## AGENTS.md
 
-The CLAUDE.md symlink is created later by the post-scaffold command sequence, not here.
+The post-scaffold sequence creates the CLAUDE.md symlink later, not here.
 
 ```markdown
 # {{name}}
@@ -136,7 +136,7 @@ This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, O
 
 ## skills/SKILL.md
 
-Create at `skills/{{bin}}/SKILL.md`. The frontmatter and body go in one file:
+Create at `skills/{{bin}}/SKILL.md`, frontmatter and body in one file:
 
 ```markdown
 ---

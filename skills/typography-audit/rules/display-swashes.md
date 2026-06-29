@@ -6,7 +6,7 @@ tags: swashes, stylistic-alternates, logos, display
 
 ## Use Swashes and Alternates Sparingly
 
-Swash characters and stylistic alternates add flair to logos and display text but become distracting in body copy. Use them on specific letters for memorability. Look for swashes in italic variants or separate font files.
+Swashes and stylistic alternates add flair to logos and display text but distract in body copy. Apply them to specific letters for memorability. Find swashes in italic variants or separate font files.
 
 **Incorrect (swashes enabled globally):**
 
@@ -33,4 +33,4 @@ body {
 }
 ```
 
-Use `font-feature-settings: "ss01"` through `"ss20"` to access numbered stylistic sets, which provide curated alternate glyph collections.
+`font-feature-settings: "ss01"` through `"ss20"` access numbered stylistic sets (curated alternate glyph collections).

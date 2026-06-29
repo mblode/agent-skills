@@ -1,15 +1,8 @@
 # Interrogation protocol
 
-## Contents
-
-1. [Question decision tree](#question-decision-tree)
-2. [Recommended answer format](#recommended-answer-format)
-3. [Fuzzy term patterns](#fuzzy-term-patterns)
-4. [Anti-rationalization table](#anti-rationalization-table)
-
 ## Question decision tree
 
-Start at the root. Branch based on what you already know from the codebase scan.
+Start at the root. Branch on what the codebase scan already told you.
 
 ```text
 Intent clear?
@@ -36,37 +29,33 @@ Intent clear?
                         └── YES → Synthesize. You have enough.
 ```
 
-Do not exhaust this tree mechanically. Skip branches where the codebase scan already gave you the answer. The tree ranks what matters; it is not a script to recite.
+Don't walk the tree mechanically; skip branches the codebase scan already answered. It ranks what matters, it is not a script.
 
-The simplicity node is the one branch you always voice, even when you believe the change is already simple: the whole-change view only exists once every other decision is on the table, so the step-back catches scope that no single earlier question could. This is the mandatory simplicity challenge from SKILL.md Step 2.
+Always voice the simplicity node, even when the change looks simple: the whole-change view only exists once every other decision is settled, so the step-back catches scope no earlier question could. This is the mandatory simplicity challenge from SKILL.md Step 2.
 
-**Budget:** 5-10 questions total. If you reach 10 without convergence, the scope is too large: say so and suggest splitting the work into separate plans.
+**Budget:** 5-10 questions. At 10 without convergence, the scope is too large: say so and suggest splitting into separate plans.
 
 ## Recommended answer format
 
-Every question includes a concrete recommendation. The user reacts to something specific instead of generating from scratch.
+Every question carries a concrete recommendation so the user reacts to something specific instead of generating from scratch.
 
-**Good recommendations:**
+**Good** (name the file, function, approach):
 
 > **Q: Should we extend the existing `auth` middleware or build a new one?**
 >
-> My recommendation: extend `auth/middleware.ts`. It already handles token validation and has the hook points we need at line 45. Building a new one duplicates the refresh logic.
+> My recommendation: extend `auth/middleware.ts`. It already validates tokens and has the hook points we need at line 45. A new one duplicates the refresh logic.
 
 > **Q: How should we handle the case where the external API is down?**
 >
 > My recommendation: return cached data with a staleness indicator. The `cache/` module already stores responses with TTLs. Adding a `stale: true` flag is one line.
 
-**Bad recommendations:**
+**Bad:**
 
-> My recommendation: it depends on your needs.
+> My recommendation: it depends on your needs. (Too vague. Pick a side.)
 
-(Too vague. Pick a side.)
+> My recommendation: we should probably think about whether to use approach A or B. (Still making the user decide.)
 
-> My recommendation: we should probably think about whether to use approach A or B.
-
-(Still asking the user to decide without a concrete suggestion.)
-
-**The rule:** name the file, name the function, name the approach. If you can't be specific, you haven't explored enough; go read more code before asking.
+**Rule:** name the file, the function, the approach. If you can't be specific, you haven't explored enough: read more code before asking.
 
 ## Fuzzy term patterns
 
@@ -83,7 +72,7 @@ When you hear these, sharpen them:
 | "refactor this" | What's the pain? Readability? Coupling? Performance? | "Extract the payment logic into its own module" |
 | "add error handling" | Which errors? What should the user see? | "Show a retry button on network timeout" |
 
-When the user gives you a fuzzy term, suggest the sharp version and ask if it's right. Don't ask "what do you mean?" in the abstract; propose a specific interpretation they can confirm or correct.
+Propose the sharp version and ask if it's right; never ask "what do you mean?" in the abstract.
 
 ## Anti-rationalization table
 
@@ -97,4 +86,4 @@ Users will try to skip the interrogation. Push back with these:
 | "It's simple, just do it" | "Simple" things that don't need a plan don't need this skill | "If it's truly simple, should we skip the plan entirely and just implement?" |
 | "I'll figure it out as I go" | Exploration without a plan leads to backtracking | "Let me at least confirm scope so you don't build something you'll throw away." |
 
-**Escape hatch:** If the user insists a second time after your pushback, respect it. Synthesize what you have and move on. Never block the user.
+**Escape hatch:** If the user insists a second time, respect it: synthesize what you have and move on. Never block the user.

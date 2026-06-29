@@ -7,7 +7,7 @@ tags: api, return-types, polymorphism
 
 ## Return One Predictable Shape, Not a Polymorphic Union
 
-A function whose return type shifts with its arguments (`T` for one id, `T[]` for many, `null` for none) forces every caller to sniff the result with `Array.isArray` before using it. Give each behavior its own function with a single, stable return shape.
+A function whose return type shifts with its arguments (`T` for one id, `T[]` for many, `null` for none) forces every caller to sniff the result with `Array.isArray`. Give each behavior its own function with a single, stable return shape.
 
 **Incorrect (return shape depends on the argument):**
 

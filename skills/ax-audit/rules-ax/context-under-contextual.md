@@ -11,11 +11,11 @@ related: context-memory-not-visible, context-starvation
 
 ## Agent ignores available context it should use
 
-The system has the user's project history, preferences, recent activity, and team context, but the agent's prompt doesn't include any of it. The agent asks questions it should already know the answer to. Being under-contextual wastes time and makes the agent feel stupid.
+The system has the user's project history, preferences, recent activity, and team context, but the agent's prompt includes none of it. The agent asks questions it should already know the answer to, wasting time and making it feel stupid.
 
 ## What goes wrong
 
-User opens a project page and asks "help me write a status update." Agent responds: "What project are you working on?" The project name, recent commits, and open tickets are all in the app state, but the prompt ignores them. Every unnecessary question erodes confidence.
+User opens a project page and asks "help me write a status update." Agent responds: "What project are you working on?" The project name, recent commits, and open tickets are all in app state, but the prompt ignores them. Every needless question erodes confidence.
 
 ## Detection
 

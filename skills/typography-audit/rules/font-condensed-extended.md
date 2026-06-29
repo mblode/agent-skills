@@ -6,9 +6,7 @@ tags: condensed, extended, width, headlines, body-text
 
 ## Use Condensed Faces for Headlines Only
 
-Condensed and extra-condensed typefaces are designed for headlines and tight spaces where you need to control line breaks. Never use condensed faces for body copy \u2014 the narrow letterforms reduce readability at small sizes.
-
-Extended variants are rarely needed but can be used for stylistic effect at large sizes. When swapping between normal and condensed widths, re-tune all spacing values.
+Use condensed and extra-condensed faces for headlines and tight spaces where you control line breaks. Never for body copy: narrow letterforms cut readability at small sizes. Extended variants are rarely needed but work for stylistic effect at large sizes. Re-tune all spacing when swapping widths.
 
 **Incorrect (condensed face for body):**
 
@@ -34,6 +32,4 @@ h1 {
 }
 ```
 
-Condensed faces can also work for tight UI labels (navigation, badges, tags) where space is limited.
-
-When switching fonts on a project, if the new font is metrically compatible with the old one, the swap is easier. Always re-tune size, line-height, letter-spacing, and padding after a font change.
+Condensed faces also suit tight UI labels (navigation, badges, tags). When switching project fonts, a metrically compatible replacement swaps in more easily, but always re-tune size, line-height, letter-spacing, and padding after any change.

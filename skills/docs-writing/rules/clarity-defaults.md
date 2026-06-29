@@ -6,13 +6,13 @@ tags: clarity, defaults, plain-language
 
 ## Clarity defaults checklist
 
-Claude follows these by default. This checklist codifies them as the project standard:
+Default behaviors, codified as the project standard:
 
-- [ ] **Plain language** -- use "use" not "utilize," "start" not "initiate," "help" not "facilitate."
-- [ ] **Cut filler** -- remove "very," "really," "just," "basically," "actually," "simply," "in order to."
-- [ ] **Be specific** -- quantify claims; replace "fast," "easy," "powerful" with numbers or concrete examples.
-- [ ] **Global audience** -- standard US English, no idioms, sports metaphors, or cultural references.
-- [ ] **Short paragraphs** -- max 4 sentences per paragraph for web content. One-sentence paragraphs are fine for emphasis.
+- [ ] **Plain language**: "use" not "utilize," "start" not "initiate," "help" not "facilitate."
+- [ ] **Cut filler**: remove "very," "really," "just," "basically," "actually," "simply," "in order to."
+- [ ] **Be specific**: quantify claims; replace "fast," "easy," "powerful" with numbers or concrete examples.
+- [ ] **Global audience**: standard US English, no idioms, sports metaphors, or cultural references.
+- [ ] **Short paragraphs**: max 4 sentences for web content. One-sentence paragraphs are fine for emphasis.
 
 **Incorrect (vague, wordy, uses idioms and filler):**
 ```markdown

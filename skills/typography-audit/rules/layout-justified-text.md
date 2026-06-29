@@ -6,16 +6,14 @@ tags: text-align, justified, hyphenation, rivers
 
 ## Avoid Justified Text on the Web
 
-Justified text creates rivers of whitespace and uneven word spacing on the web, where hyphenation support is inconsistent. Only justify text when paired with strong hyphenation (`hyphens: auto`) and a sufficiently long line length. Never justify narrow columns.
-
-Never use letterspacing to fill justified lines \u2014 it produces grotesque spacing.
+Justified text creates rivers and uneven word spacing on the web, where hyphenation is inconsistent. Justify only with strong hyphenation (`hyphens: auto`) and a long enough measure. Never justify narrow columns. Never use letterspacing to fill justified lines: it produces grotesque spacing.
 
 **Incorrect (justified without hyphenation):**
 
 ```css
 .article {
   text-align: justify;
-  /* no hyphenation \u2014 creates rivers and stretched words */
+  /* no hyphenation: creates rivers and stretched words */
 }
 ```
 
@@ -36,4 +34,4 @@ Never use letterspacing to fill justified lines \u2014 it produces grotesque spa
 }
 ```
 
-Browser hyphenation depends on language dictionaries. Set `lang` on the `<html>` element and test thoroughly.
+Browser hyphenation depends on language dictionaries: set `lang` on `<html>` and test thoroughly.

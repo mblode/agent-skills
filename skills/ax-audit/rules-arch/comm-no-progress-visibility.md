@@ -11,11 +11,11 @@ related: comm-no-completion-signal, comm-no-approval-gate
 
 ## Agent actions produce no UI feedback during execution
 
-Agent runs for 30 seconds with no visible progress. User sees a spinner or nothing. They kill the session and restart. "Silent agents feel broken." Violates Parity: the UI must communicate what the agent is doing, not just what it finished.
+Agent runs 30s showing only a spinner or nothing. User kills the session and restarts. Violates Parity: the UI must communicate what the agent is doing, not just what it finished.
 
 ## What goes wrong
 
-Agent makes 12 tool calls over 45 seconds analyzing a codebase. UI shows "Thinking..." the entire time. User assumes it froze, refreshes, agent starts over. With events they'd see "Reading src/index.ts... Found 3 issues."
+Agent makes 12 tool calls over 45s analyzing a codebase; UI shows "Thinking..." the entire time. User assumes it froze, refreshes, agent starts over. With events they'd see "Reading src/index.ts... Found 3 issues."
 
 ## Detection
 

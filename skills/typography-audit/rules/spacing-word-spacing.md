@@ -6,7 +6,7 @@ tags: word-spacing, letter-spacing, tracking, balance
 
 ## Adjust Word Spacing with Letterspacing
 
-When adding letterspacing to small text or uppercase, also increase word spacing proportionally. Otherwise words start to merge visually as the inter-letter gaps approach the inter-word gaps. If letterspacing small text, prefer increasing the font size instead.
+When letterspacing small text or uppercase, increase word spacing proportionally; otherwise words merge as inter-letter gaps approach inter-word gaps. For small text, prefer increasing the font size instead.
 
 **Incorrect (letterspaced without word-spacing adjustment):**
 
@@ -28,4 +28,4 @@ When adding letterspacing to small text or uppercase, also increase word spacing
 }
 ```
 
-Better yet, if the text is too small to read, increase the font size rather than adding letterspacing.
+If text is too small to read, increase font size rather than adding letterspacing.

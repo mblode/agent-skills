@@ -6,7 +6,7 @@ tags: modular-scale, type-scale, sizing, hierarchy
 
 ## Use a Modular Scale as a Guide, Not a Constraint
 
-A modular scale (e.g., 1.25, 1.333, 1.5 ratios) provides a starting set of harmonious sizes. But typography is not always about numbers. If the scale produces a size that feels optically wrong for your typeface, break the scale. Typefaces have "sweet spots" where they look best; use those sizes even if they fall outside the scale.
+A modular scale (e.g., 1.25, 1.333, 1.5 ratios) gives a starting set of harmonious sizes, but it's a guide, not a rule. If a size feels optically wrong for the typeface, break the scale: typefaces have sweet spots where they look best; use those sizes even when they fall outside the scale.
 
 **Incorrect (rigid adherence to scale despite optical issues):**
 
@@ -33,4 +33,4 @@ A modular scale (e.g., 1.25, 1.333, 1.5 ratios) provides a starting set of harmo
 }
 ```
 
-Choose body size first, then derive headings. Ensure strong size contrast between levels \u2014 sizes should be clearly different or exactly the same, never almost the same.
+Choose body size first, then derive headings. Keep strong contrast between levels: clearly different or exactly the same, never almost the same.

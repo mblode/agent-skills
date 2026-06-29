@@ -6,7 +6,7 @@ tags: woff2, variable-fonts, font-format, performance
 
 ## Prefer WOFF2 and Variable Fonts
 
-Use WOFF2 as the primary web font format \u2014 it offers the best compression (30-50% smaller than WOFF). Variable fonts bundle multiple weights and styles into a single file, reducing HTTP requests and total file size.
+Make WOFF2 the primary web font format: best compression (30-50% smaller than WOFF). Variable fonts bundle multiple weights and styles in one file, cutting HTTP requests and total file size.
 
 **Incorrect (legacy formats, multiple files):**
 

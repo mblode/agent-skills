@@ -9,9 +9,9 @@ related: decision-hicks-law, decision-pareto-principle, cognitive-cognitive-load
 
 ## Choice Overload
 
-When the option set crosses ~7-10 comparable items shown at once, users stall, regret their pick, or abandon the task entirely (Iyengar & Lepper, 2000; the jam study showed a 10× drop in conversion at 24 vs 6 options). The damage is not just slower decisions; it is lower satisfaction with whatever they choose.
+When comparable options shown at once cross ~7-10, users stall, regret their pick, or abandon (Iyengar & Lepper, 2000; jam study: 10× conversion drop at 24 vs 6 options). The cost is not just slower decisions but lower satisfaction with the choice.
 
-The fix is rarely "delete options." It is to design the *decision flow*: surface a recommended default, support comparison for items that need it, and let users narrow the set up front through search, filters, or curated rails.
+Fix is rarely "delete options"; design the *decision flow*: a recommended default, comparison for items that need it, up-front narrowing via search, filters, or curated rails.
 
 ## Check
 
@@ -72,7 +72,7 @@ rg 'recommended|popular|featured|default' src/pricing/ src/plans/
 </details>
 ```
 
-For a long catalogue, lead with filters and a curated "Featured" rail before the full grid:
+For a long catalogue, lead with filters and a curated "Featured" rail before the grid:
 
 ```tsx
 <Catalogue>

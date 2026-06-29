@@ -6,7 +6,7 @@ tags: copyright, trademark, registered, symbols, superscript
 
 ## Copyright, Trademark, and Registered Marks
 
-Use correct Unicode characters or HTML entities for \u00a9, \u2122, and \u00ae. Trademark and registered marks should appear as superscripts. Copyright should be inline at the same size as surrounding text. Do not duplicate the word and symbol (e.g., avoid "Copyright \u00a9").
+Use correct Unicode characters or HTML entities for \u00a9, \u2122, and \u00ae. Set trademark and registered marks as superscripts; keep copyright inline at the surrounding text size. Never duplicate word and symbol (avoid "Copyright \u00a9").
 
 Use a non-breaking space (`&nbsp;`) between the copyright symbol and the year.
 

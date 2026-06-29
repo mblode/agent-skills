@@ -6,7 +6,7 @@ tags: structure, lists, numbered, bullets
 
 ## Numbered for sequential, bullets for non-sequential
 
-Use numbered lists only when order matters (procedures, ranked results, dependent sequences). Use bullet lists for everything else (features, options, requirements, platforms). Numbering a non-sequential list falsely implies priority or order.
+Number lists only when order matters (procedures, ranked results, dependent sequences). Bullet everything else (features, options, requirements, platforms). Numbering a non-sequential list falsely implies priority or order.
 
 **Incorrect (numbered list where order doesn't matter):**
 

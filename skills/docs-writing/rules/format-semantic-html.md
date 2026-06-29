@@ -6,7 +6,7 @@ tags: html, semantics, accessibility
 
 ## Use semantic HTML for content structure
 
-Use the correct HTML element for the content type: headings for sections, lists for groups, tables for tabular data, `<code>` for inline code. Generic `<div>` and `<span>` elements carry no meaning for screen readers or search engines.
+Use the correct HTML element for each content type: headings for sections, lists for groups, tables for tabular data, `<code>` for inline code. Generic `<div>` and `<span>` carry no meaning for screen readers or search engines.
 
 **Incorrect (divs used for structure):**
 

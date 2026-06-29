@@ -6,7 +6,7 @@ tags: experimental, preview, warning
 
 ## Mark experimental features with a visible note
 
-If a feature is experimental or in preview, add a callout immediately after the intro paragraph. Readers must know before they invest time building on an unstable API or feature.
+If a feature is experimental or in preview, add a callout right after the intro paragraph. Readers must know before investing time on an unstable API.
 
 **Incorrect (experimental feature documented without any warning):**
 

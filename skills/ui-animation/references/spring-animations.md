@@ -1,16 +1,16 @@
 # Spring Animations
 
-Springs feel more natural than duration-based animations because they simulate real physics. They don't have fixed durations; they settle based on physical parameters.
+Springs simulate physics, so they feel more natural than duration-based animations: no fixed duration, they settle by physical parameters.
 
 ## When to use springs
 
-- Drag interactions with momentum (release and let physics take over)
-- Elements that should feel "alive" (like Apple's Dynamic Island)
-- Gestures that can be interrupted mid-animation
+- Drag with momentum (release, let physics take over)
+- Elements that feel "alive" (Apple's Dynamic Island)
+- Gestures interruptible mid-animation
 - Decorative mouse-tracking interactions
 - Overshoot effects (playful UI)
 
-**Don't use springs for:** simple fades, color transitions, or UI that needs precise timing.
+**Don't use springs for:** simple fades, color transitions, or precise-timing UI.
 
 ## Spring parameters
 
@@ -37,11 +37,11 @@ Springs feel more natural than duration-based animations because they simulate r
 | Gentle | 200 | 30 | Page transitions, large elements |
 | Stiff | 700 | 50 | Small precise movements |
 
-Bounce communicates brand personality. Default to zero; it is the safe choice. A finance dashboard should never bounce; a learning app or creative tool can use subtle bounce (0.1-0.2) to feel friendlier. The question is not "does it look better with bounce?" but "does this match the brand?"
+Bounce signals brand personality. Default to zero (the safe choice): a finance dashboard should never bounce; a learning app or creative tool can use subtle bounce (0.1-0.2) to feel friendlier. The question isn't "does it look better with bounce?" but "does it match the brand?"
 
 ## Interruptibility advantage
 
-Springs maintain velocity when interrupted; CSS keyframes restart from zero. This makes springs ideal for gestures users might change mid-motion.
+Springs keep velocity when interrupted; CSS keyframes restart from zero. Ideal for gestures users might change mid-motion.
 
 ```tsx
 // Spring reverses smoothly from current position
@@ -53,7 +53,7 @@ Springs maintain velocity when interrupted; CSS keyframes restart from zero. Thi
 
 ## Spring-based mouse interactions
 
-Tying values directly to mouse position feels artificial. Use `useSpring` to interpolate with spring-like behaviour instead of updating immediately.
+Tying values directly to mouse position feels artificial. Use `useSpring` to interpolate instead of updating immediately.
 
 ```tsx
 import { useSpring } from "framer-motion";
@@ -68,11 +68,11 @@ const springRotation = useSpring(mouseX * 0.1, {
 });
 ```
 
-Only use this for **decorative** interactions. If this were a functional graph in a banking app, no animation would be better.
+Only for **decorative** interactions. On a functional graph in a banking app, no animation is better.
 
 ## Snap instead of spring
 
-If the interaction needs instant response or precise timing, skip the spring entirely. Use a short transition or snap directly to the end state.
+If the interaction needs instant response or precise timing, skip the spring: use a short transition or snap to the end state.
 
 ```tsx
 <motion.div

@@ -11,11 +11,11 @@ related: granularity-static-api-mapping
 
 ## Tool bundles decision logic instead of being atomic
 
-A tool like `analyze_and_organize(folder)` bundles judgment into code. To change what "organize" means, you refactor code instead of editing a prompt. The agent can't apply its own judgment to intermediate steps.
+A tool like `analyze_and_organize(folder)` bundles judgment into code. Changing what "organize" means needs a code refactor, not a prompt edit, and the agent can't apply judgment to intermediate steps.
 
 ## What goes wrong
 
-`analyze_and_organize_inbox` scans emails, decides importance, files them. User says "Why did you archive that?" Agent can't change the logic -- it's hardcoded. With atomic primitives, the agent decides itself.
+`analyze_and_organize_inbox` scans emails, decides importance, files them. User asks "Why did you archive that?" The agent can't change the logic: it's hardcoded. With atomic primitives, the agent decides itself.
 
 ## Detection
 
@@ -24,13 +24,15 @@ A tool like `analyze_and_organize(folder)` bundles judgment into code. To change
 **Static signals:**
 1. Grep tool definitions for compound names (`_and_`, `_then_`, `_with_`).
 2. Check implementations for branching logic making domain decisions.
-3. Count distinct API calls per tool -- >1 suggests bundling.
+3. Count distinct API calls per tool; >1 suggests bundling.
 
 **Concrete commands:**
 ```bash
 rg 'name:\s*["\x27]\w+_(and|then|with)_\w+' --type=ts src/tools/
 rg 'name:\s*["\x27](process|handle|manage|analyze|organize|auto)_' --type=ts src/tools/
-rg -l 'tool\(|defineTool' --type=ts src/tools/ | xargs rg -c 'if\s*\(|switch\s*\(' | awk -F: '$2>3'
+rg -l 'tool\(|defineTool' --type=ts src/tools/ | while read f; do
+  rg -c --with-filename 'if\s*\(|switch\s*\(' "$f"
+done | awk -F: '$2>3'
 ```
 
 **False-positive guards:**

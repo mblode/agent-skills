@@ -1,6 +1,6 @@
 # Post-Scaffold Commands
 
-Run these commands in order after all files are generated.
+Run in order after all files are generated.
 
 ## Command Sequence
 
@@ -15,14 +15,14 @@ git commit -m "Initial commit"
 
 ## Command Notes
 
-- `git init` must come before `ultracite init`. The lefthook integration adds a `prepare: lefthook install` script and runs the install immediately; `lefthook install` writes into `.git/hooks` and fails without a repository.
-- `npx ultracite init` runs `npm install` itself, then writes `oxlint.config.ts`, `oxfmt.config.ts`, and `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, and `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). Pass `--linter oxlint` to skip the interactive linter prompt; `--quiet` suppresses the rest.
-- Create the `ln -s AGENTS.md CLAUDE.md` symlink exactly once, here. Running it a second time fails with `File exists`.
-- The initial commit captures the clean scaffold state, including the ultracite-generated files.
+- `git init` must precede `ultracite init`: the lefthook integration adds a `prepare: lefthook install` script and runs it immediately; `lefthook install` writes into `.git/hooks` and fails without a repo.
+- `npx ultracite init` runs `npm install` itself, then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). `--linter oxlint` skips the linter prompt; `--quiet` suppresses the rest.
+- Create the `ln -s AGENTS.md CLAUDE.md` symlink exactly once, here; a second run fails with `File exists`.
+- The initial commit captures the clean scaffold state, including ultracite-generated files.
 
 ## Validation Checklist
 
-Verify every item by running the command and checking its output. Do not mark an item done without the command's evidence.
+Verify every item by running the command and checking its output; do not mark done without the command's evidence.
 
 ```text
 Validation:
@@ -41,9 +41,9 @@ Validation:
 
 ## Troubleshooting
 
-- `ultracite init` fails or hangs: re-run without `--quiet` to see which prompt blocked it, answer interactively, then continue the sequence.
-- `ln -s` fails on Windows: copy AGENTS.md to CLAUDE.md instead (`cp AGENTS.md CLAUDE.md`).
+- `ultracite init` fails or hangs: re-run without `--quiet` to see the blocking prompt, answer interactively, then continue.
+- `ln -s` fails on Windows: copy instead (`cp AGENTS.md CLAUDE.md`).
 - `npm install` fails: verify Node >= 22 with `node --version`; the engines field rejects older versions.
-- `npm run build` fails with unresolved import errors: check that every relative import uses a `.js` extension (NodeNext resolution requires them even for `.ts` sources).
+- `npm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).
 - `npm run test` exits 1 with "No test files found": the test script is missing `--passWithNoTests`.
-- `git commit` blocked by a hook: lefthook is already active from `ultracite init`; run `npm run fix` and retry rather than bypassing with `--no-verify`.
+- `git commit` blocked by a hook: lefthook is active from `ultracite init`; run `npm run fix` and retry rather than bypassing with `--no-verify`.

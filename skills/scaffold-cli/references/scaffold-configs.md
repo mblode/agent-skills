@@ -80,8 +80,8 @@
 
 Notes:
 
-- `--passWithNoTests` is required: the scaffold ships zero test files, and plain `vitest run` exits 1, failing the first CI run.
-- `ultracite init --linter oxlint --integrations lefthook` (run in the post-scaffold sequence) adds `oxlint`, `oxfmt`, and `lefthook` to devDependencies plus `check`, `fix`, and `prepare: lefthook install` scripts. Do not list any of those by hand here; doing so causes duplicate script entries and version skew against what ultracite pins.
+- `--passWithNoTests` is required: zero test files means plain `vitest run` exits 1 and fails the first CI run.
+- `ultracite init --linter oxlint --integrations lefthook` (post-scaffold) adds `oxlint`, `oxfmt`, `lefthook` to devDependencies plus `check`, `fix`, and `prepare: lefthook install` scripts. Never list those by hand: causes duplicate scripts and version skew against ultracite's pins.
 
 ## tsconfig.json
 
@@ -133,7 +133,7 @@ export default defineConfig([
 ]);
 ```
 
-The `banner` option injects the shebang into `dist/cli.js` at build time. Never add `#!/usr/bin/env node` to `src/cli.ts` itself or the built file gets a doubled shebang. Keep the two configs separate: the CLI entry needs the shebang and no `.d.ts`, the library entry needs `.d.ts` and no shebang.
+`banner` injects the shebang into `dist/cli.js` at build. Never add `#!/usr/bin/env node` to `src/cli.ts` or the build doubles it. Keep the two configs separate: CLI entry needs the shebang and no `.d.ts`; library entry needs `.d.ts` and no shebang.
 
 ## .gitignore
 
@@ -246,8 +246,8 @@ jobs:
 
 Notes:
 
-- `npm run check` is the ultracite-added lint script. It exists by the time CI runs because the post-scaffold `ultracite init` runs before the initial commit.
-- `Changeset Status` makes PRs without a changeset fail CI on purpose; `fetch-depth: 0` is required for the `--since origin/main` comparison.
+- `npm run check` is the ultracite-added lint script; it exists by CI time because post-scaffold `ultracite init` runs before the initial commit.
+- `Changeset Status` fails PRs without a changeset on purpose; `fetch-depth: 0` is required for the `--since origin/main` comparison.
 
 ## .github/workflows/npm-publish.yml
 

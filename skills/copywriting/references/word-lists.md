@@ -10,7 +10,7 @@
 
 ## Tier 1: always replace
 
-These appear 5-20x more often in AI text than in human writing. Replace on sight.
+5-20x more common in AI text than human writing. Replace on sight.
 
 | Word / phrase | Replace with |
 |---------------|--------------|
@@ -30,7 +30,7 @@ These appear 5-20x more often in AI text than in human writing. Replace on sight
 | underscores | highlights, shows |
 | meticulous / meticulously | careful, detailed, precise |
 | seamless / seamlessly | smooth, easy, without friction |
-| game-changer / game-changing | describe what specifically changed and why |
+| game-changer / game-changing | describe what changed and why |
 | utilise | use |
 | nestled | is located, sits, is in |
 | vibrant | (describe what makes it active, or cut) |
@@ -41,9 +41,9 @@ These appear 5-20x more often in AI text than in human writing. Replace on sight
 | actionable | practical, useful, concrete |
 | impactful | effective, significant (or describe the impact) |
 | learnings | lessons, findings, takeaways |
-| thought leadership | expertise (or describe the actual contribution) |
+| thought leadership | expertise (or describe the contribution) |
 | best practices | what works, proven methods |
-| synergy / synergies | (describe the actual combined effect) |
+| synergy / synergies | (describe the combined effect) |
 | in order to | to |
 | due to the fact that | because |
 | serve as | is |
@@ -54,7 +54,7 @@ These appear 5-20x more often in AI text than in human writing. Replace on sight
 
 ## Tier 2: flag when 2+ appear in the same paragraph
 
-One instance is survivable. Two or more in the same paragraph signals a pattern: flag and suggest replacements.
+One is fine; two or more signals a pattern. Flag and suggest replacements.
 
 | Word / phrase | Replace with |
 |---------------|--------------|
@@ -88,14 +88,14 @@ One instance is survivable. Two or more in the same paragraph signals a pattern:
 
 ## Tier 3: flag only at high density
 
-These words are fine in moderation. Flag them only when they appear at roughly 3%+ of the text: that density signals AI-generated filler rather than genuine description.
+Fine in moderation. Flag only at roughly 3%+ density: that signals AI filler, not genuine description.
 
 | Word | Fix |
 |------|-----|
 | significant / significantly | use specifics: numbers, comparisons, examples |
-| innovative / innovation | describe what's actually new |
+| innovative / innovation | describe what's new |
 | effective / effectively | say how, or cite a metric |
-| dynamic / dynamics | name the actual forces or changes |
+| dynamic / dynamics | name the forces or changes |
 | compelling | say why it compels |
 | unprecedented | name the precedent it breaks (or cut) |
 | exceptional / exceptionally | cite what makes it an exception |

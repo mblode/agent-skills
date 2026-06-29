@@ -1,7 +1,7 @@
 # Curve Fitting
 
-How to read `fit_curves.py` output, choose spring vs cubic-bezier, judge fit quality, and
-handle asymmetric open/close curves.
+Read `fit_curves.py` output, choose spring vs cubic-bezier, judge fit quality, handle
+asymmetric open/close curves.
 
 ## Contents
 
@@ -37,15 +37,13 @@ handle asymmetric open/close curves.
 }
 ```
 
-Here `scaleY` overshoots (`zeta` 0.53) while `scaleX` would barely move: that's the
-vertical over-stretch-then-settle that makes a morph feel fluid. Fitting the axes
-separately is what surfaces it.
+Here `scaleY` overshoots (`zeta` 0.53) while `scaleX` barely moves: the vertical
+over-stretch-then-settle that makes a morph feel fluid. Fitting the axes separately surfaces it.
 
-- `recommended` is just whichever model had the lower `error`. Sanity-check it against what
-  you saw; a clear overshoot should pick spring or a bezier with `y1`/`y2` > 1.
-- `overshoot: true` (`zeta` < 1) means the motion rings past its target and settles back,
-  the elastic, springy feel. `zeta` ≈ 1 is a crisp ease with no bounce; `zeta` > 1 is slow
-  and heavy.
+- `recommended` is just whichever model had the lower `error`. Sanity-check against what you
+  saw: a clear overshoot should pick spring or a bezier with `y1`/`y2` > 1.
+- `overshoot: true` (`zeta` < 1) means the motion rings past its target and settles back, the
+  elastic, springy feel. `zeta` ≈ 1 is a crisp ease with no bounce; `zeta` > 1 is slow and heavy.
 
 ## Spring vs bezier
 
@@ -56,10 +54,10 @@ separately is what surfaces it.
 | Duration should emerge from physics | Duration is fixed and known |
 | It must stay interruptible mid-flight | One-shot, non-interruptible play |
 
-You can ship a spring *as* a bezier (the fit gives both), but a true overshoot needs a
-bezier whose `y1`/`y2` exceed 1, or CSS `linear()` with sampled points. A spring expressed
-as a plain ease-out loses the bounce. The fitter caps `y1`/`y2` at 1.5, so a bigger bounce
-than that fits better as a spring (or a sampled `linear()`), never as a bezier.
+You can ship a spring *as* a bezier (the fit gives both), but a true overshoot needs a bezier
+whose `y1`/`y2` exceed 1, or CSS `linear()` with sampled points; a spring expressed as a plain
+ease-out loses the bounce. The fitter caps `y1`/`y2` at 1.5, so a bigger bounce fits better as
+a spring (or a sampled `linear()`), never as a bezier.
 
 ## Judging fit error
 
@@ -71,43 +69,42 @@ than that fits better as a spring (or a sampled `linear()`), never as a bezier.
 | 0.03-0.08 | Decent: eyeball the recommended curve against the contact sheet |
 | > 0.08 | Suspect: usually multi-phase motion (see below), wrong element, or too few frames |
 
-**High error on BOTH models almost always means multi-phase motion**, e.g. blur-in, then
-move, then over-stretch, then settle. One curve can't fit that. Split the timeline at the
-phase boundary (read the frame index off the contact sheet) and fit each segment by slicing
-`metrics.json`, then compose them as a keyframe sequence with per-segment easing.
+**High error on BOTH models almost always means multi-phase motion** (blur-in, then move, then
+over-stretch, then settle). One curve can't fit that: split the timeline at the phase boundary
+(read the frame index off the contact sheet), fit each segment by slicing `metrics.json`, then
+compose them as a keyframe sequence with per-segment easing.
 
-If error is high because the property barely moved, it won't appear at all: `progress()`
-drops series with under ~1% range so you don't fit curves to noise.
+If error is high because the property barely moved, it won't appear at all: `progress()` drops
+series with under ~1% range so you don't fit curves to noise.
 
-Two other error inflators worth ruling out before splitting phases:
+Two more error inflators to rule out before splitting phases:
 
-- **Wrong `--fps`**: `fit_curves.py` defaults to 30; if extraction used another rate,
-  every `duration_ms` and stiffness is rescaled. Pass the extraction fps.
-- **Duplicated frames**: runs of identical rows in `metrics.json` (over-sampled source or
-  a variable-frame-rate recording) plateau the progress curve and raise error on both
-  models. Re-extract at the source rate or re-record.
+- **Wrong `--fps`**: `fit_curves.py` defaults to 30; if extraction used another rate, every
+  `duration_ms` and stiffness is rescaled. Pass the extraction fps.
+- **Duplicated frames**: runs of identical rows in `metrics.json` (over-sampled or
+  variable-frame-rate source) plateau the progress curve and raise error on both models.
+  Re-extract at the source rate or re-record.
 
 ## Asymmetric open/close
 
-Open and close are almost never mirror images: open tends to be slower and springier,
-close faster and flatter.
+Open and close are almost never mirror images: open tends to be slower and springier, close
+faster and flatter.
 
-- Record (or trim) the open and close as **separate clips** and run the full pipeline on
-  each. Don't fit one curve and reuse it reversed.
-- Report two curves. In code, give the enter and exit transitions different
-  `duration`/easing (and different spring configs) rather than a single shared one.
+- Record (or trim) open and close as **separate clips** and run the full pipeline on each;
+  don't fit one curve and reuse it reversed.
+- Report two curves. In code, give the enter and exit transitions different `duration`/easing
+  (and different spring configs) rather than a single shared one.
 - See `references/choreography.md` for expressing asymmetry per target.
 
 ## Converting spring params across APIs
 
 The fit fixes `mass = 1`. From `stiffness` (k), `damping` (c), `mass` (m):
 
-- **Motion / Framer Motion**: pass `stiffness`, `damping`, `mass` straight into
+- **Motion / Framer Motion**: pass `stiffness`, `damping`, `mass` into
   `transition: { type: "spring", stiffness, damping, mass }`.
 - **SwiftUI**: `Spring(mass:stiffness:damping:)`, or approximate with
   `.spring(response:, dampingFraction:)` where `response = 2π·√(m/k)` and
   `dampingFraction = c / (2·√(k·m))` (that's `zeta`).
 - **Reanimated**: `withSpring(to, { stiffness, damping, mass })`.
-- **CSS**: no native spring. Use the fitted `bezier.css`, or generate a `linear()` easing
-  by sampling the spring response (more faithful for overshoot). Read
-  `references/code-output.md`.
+- **CSS**: no native spring. Use the fitted `bezier.css`, or generate a `linear()` easing by
+  sampling the spring response (more faithful for overshoot). Read `references/code-output.md`.

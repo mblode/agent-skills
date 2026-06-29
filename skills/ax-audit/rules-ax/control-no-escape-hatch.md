@@ -11,11 +11,11 @@ related: control-no-approval-gate, trust-no-escalation-path, comm-no-intent-hand
 
 ## No way to interrupt, redirect, or undo agent action
 
-Agent starts a long response or multi-step workflow. User realizes it's wrong. No stop button, no undo, no "go back." User watches the agent do the wrong thing and can't intervene. Autonomy without exit is coercion.
+Agent starts a long response or multi-step workflow. User realizes it's wrong but there's no stop, undo, or "go back": they watch it do the wrong thing and can't intervene. Autonomy without exit is coercion.
 
 ## What goes wrong
 
-User asks the agent to refactor a module. Agent begins a 12-step migration. After step 3, user sees it's the wrong approach. No stop button. Agent runs to completion, leaving the codebase in an unwanted state. Manual revert takes longer than doing it themselves.
+User asks the agent to refactor a module. It begins a 12-step migration; at step 3 the user sees it's wrong. No stop button: it runs to completion, leaving the codebase in an unwanted state. Manual revert takes longer than doing it themselves.
 
 ## Detection
 

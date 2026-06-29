@@ -6,9 +6,7 @@ tags: faux-styles, font-synthesis, italic, bold, small-caps
 
 ## Avoid Faux Bold, Italic, and Small Caps
 
-Browsers synthesize bold, italic, and small caps when the actual font files are not loaded. Faux italic mechanically slants the roman design. Faux bold adds artificial weight that looks blotchy. Faux small caps shrink uppercase, resulting in thin, unbalanced glyphs.
-
-Load real font styles to prevent this. Identify true italics by checking if letterforms are redesigned (a, e, f, g typically change shape in true italic).
+Browsers synthesize bold, italic, and small caps when real font files aren't loaded: faux italic mechanically slants the roman, faux bold adds blotchy weight, faux small caps shrink uppercase into thin unbalanced glyphs. Load real styles to prevent this. Confirm a true italic by its redesigned letterforms (a, e, f, g change shape).
 
 **Incorrect (relying on browser synthesis):**
 
@@ -16,7 +14,7 @@ Load real font styles to prevent this. Identify true italics by checking if lett
 @font-face {
   font-family: 'MyFont';
   src: url('MyFont-Regular.woff2') format('woff2');
-  /* Only regular loaded \u2014 browser fakes everything else */
+  /* Only regular loaded: browser fakes everything else */
 }
 ```
 
@@ -43,4 +41,4 @@ body {
 }
 ```
 
-`font-synthesis: none` prevents the browser from generating faux styles, which helps catch missing font files during development.
+`font-synthesis: none` blocks faux generation and surfaces missing font files during development.

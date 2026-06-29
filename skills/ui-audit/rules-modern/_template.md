@@ -10,25 +10,24 @@ related: <comma-separated other rule slugs (modern or laws)>
 
 ## <Rule title>
 
-One paragraph explaining the failure mode in plain language. Why it hurts users. What modern React patterns introduced or solved it.
+One paragraph: the failure mode in plain language, why it hurts users, what modern React patterns introduced or solved it.
 
 ## What goes wrong
 
-A concrete, observable scenario. What the user sees, what the code does, why they diverge.
+A concrete, observable scenario: what the user sees, what the code does, why they diverge.
 
 ## Detection
 
 **Surfaces:** <which playbooks invoke this: sign-in, checkout, form, etc.>
 
 **Static signals:**
-1. Concrete grep / Read step. Use `rg` / `find` / file-extension filters.
-2. Each step produces evidence: a file path, a line number, a presence/absence boolean, a count.
-3. Last step compares evidence to a threshold.
+1. Concrete grep/Read step (`rg`, `find`, file-extension filters).
+2. Each step yields evidence (file path, line number, presence/absence boolean, count); the last step compares evidence to a threshold.
 
 **Concrete commands:**
 ```bash
 # Inline grep recipes the agent can run.
-rg 'isLoading|isPending' --type=tsx src/
+rg 'isLoading|isPending' --type=ts src/
 ```
 
 **False-positive guards:**
@@ -58,9 +57,7 @@ export function Component() {
 }
 ```
 
-Link to canonical docs:
-- React: https://react.dev/reference/react/<api>
-- Next.js: https://nextjs.org/docs/app/api-reference/<api>
+Link canonical docs: React https://react.dev/reference/react/<api>, Next.js https://nextjs.org/docs/app/api-reference/<api>.
 
 ## Default tier and overrides
 
@@ -90,14 +87,11 @@ Link to canonical docs:
 
 ## Defer-to (when this is another tool's job)
 
-If the same finding could come from another tool, link out:
-- Lighthouse for runtime measurement
-- axe for WCAG rule
-- ESLint plugin for write-time prevention
+If another tool owns the finding, link out: Lighthouse (runtime measurement), axe (WCAG rule), ESLint plugin (write-time prevention).
 
 ## Suppression
 
-To intentionally ignore this rule on a specific component:
+To ignore this rule on a specific component:
 
 ```tsx
 {/* ui-audit-ignore:<slug>, reason */}

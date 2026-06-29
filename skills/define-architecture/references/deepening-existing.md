@@ -1,6 +1,6 @@
 # Deepening an existing codebase
 
-Find domain-informed deepening opportunities in code that already exists. "Deepening" means making the design express the domain more faithfully so future changes stay local. It is not adding layers, and not a rewrite. Load during the Adoption workflow.
+Find domain-informed deepening opportunities in existing code. "Deepening" means making the design express the domain more faithfully so future changes stay local; not adding layers, not a rewrite. Load during the Adoption workflow.
 
 ## Contents
 
@@ -12,14 +12,14 @@ Find domain-informed deepening opportunities in code that already exists. "Deepe
 
 ## Map the domain language
 
-Before proposing any change, recover the ubiquitous language the code actually uses:
+Recover the ubiquitous language the code uses before proposing changes:
 
-- **Entities and values:** the nouns the domain cares about (Order, Subscription, Payout). Where do they live? Are they real types or just shapes of `any`/loose objects?
-- **Actions:** the verbs (settle, refund, suspend). Are they methods on a domain object, or free functions scattered across handlers?
-- **Bounded contexts:** the natural seams where one part of the system stops caring about another's internals (billing vs catalog vs identity).
-- **Naming divergence:** the same concept named three ways, or one name meaning three things, across modules. This is the strongest signal of where the model is unclear.
+- **Entities and values:** domain nouns (Order, Subscription, Payout). Where do they live? Real types, or `any`/loose objects?
+- **Actions:** verbs (settle, refund, suspend). Methods on a domain object, or free functions scattered across handlers?
+- **Bounded contexts:** seams where one part stops caring about another's internals (billing vs catalog vs identity).
+- **Naming divergence:** one concept named three ways, or one name meaning three things. The strongest signal the model is unclear.
 
-Capture this as a short glossary so the opportunities below reference real names, not invented ones.
+Capture a short glossary so opportunities reference real names, not invented ones.
 
 ## Deepening opportunity patterns
 
@@ -27,25 +27,25 @@ Each is a concrete, nameable issue, not a vague "this could be cleaner".
 
 | Pattern | What it looks like | Why it matters |
 |---|---|---|
-| Anemic domain concept | Data lives in one place, the rules about it are scattered across handlers/services | A change to the rule means hunting every call site; the model doesn't own its own invariants |
-| Leaking boundary | One context reaches into another's tables, internals, or private helpers | Couples two contexts; a change in one silently breaks the other |
-| Naming divergence | Same concept with different names per module, or one name for several concepts | Readers can't trust names; refactors miss instances |
-| Duplicated concept | The same domain idea reimplemented in parallel | Fixes and rules drift apart between copies |
-| Primitive obsession | Core concepts passed as bare strings/numbers (a `string` userId everywhere) | No place to centralize validation or invariants; easy to mix up arguments |
-| Misplaced logic | Business rule sitting in a transport/handler/UI layer | Untestable without the transport; can't be reused |
+| Anemic domain concept | Data in one place, its rules scattered across handlers/services | Changing the rule means hunting every call site; the model doesn't own its invariants |
+| Leaking boundary | One context reaches into another's tables, internals, or private helpers | Couples contexts; a change in one silently breaks the other |
+| Naming divergence | Same concept, different names per module, or one name for several concepts | Names can't be trusted; refactors miss instances |
+| Duplicated concept | Same domain idea reimplemented in parallel | Fixes and rules drift between copies |
+| Primitive obsession | Core concepts as bare strings/numbers (a `string` userId everywhere) | Nowhere to centralize validation; easy to mix up arguments |
+| Misplaced logic | Business rule in a transport/handler/UI layer | Untestable without the transport; not reusable |
 
 ## Rank by leverage
 
-Not every opportunity is worth acting on. Score each by evidence:
+Score each by evidence:
 
 - Does a current requirement become easier or safer?
-- Which named future changes become local because of this move?
+- Which named future changes become local from this move?
 - How much churn is required?
 - Is the duplication proven by 3+ real instances, or only speculated?
 
-Prefer the opportunity that makes the most future changes local for the least churn. Defer or drop the rest.
+Prefer the opportunity that localizes the most future changes for the least churn. Defer or drop the rest.
 
-Record every dropped or deferred opportunity in the output's "Out of scope (deferred)" section with its reason. The list is load-bearing: a future audit starts by reading it so rejected ideas are not re-evaluated from scratch, and a reason that no longer holds ("no current requirement") is the signal to promote the item.
+Record every dropped or deferred opportunity in the output's "Out of scope (deferred)" section with its reason. The list is load-bearing: a future audit reads it first so rejected ideas aren't re-evaluated from scratch, and a stale reason ("no current requirement") signals the item to promote.
 
 ## Output template
 
@@ -68,8 +68,8 @@ Record every dropped or deferred opportunity in the output's "Out of scope (defe
 
 ## Anti-patterns
 
-- Proposing a big-bang rewrite. Migrate one vertical slice first, always.
-- Renaming for taste rather than to match the domain. Every rename must reduce divergence.
+- Big-bang rewrite. Migrate one vertical slice first, always.
+- Renaming for taste, not to match the domain. Every rename must reduce divergence.
 - Extracting an abstraction from two instances. Wait for three real consumers.
-- Listing smells without a suggested move and a leverage score. An opportunity isn't actionable until both exist.
-- Inventing domain terms the team doesn't use. Recover the language from the code; don't impose new vocabulary.
+- Listing smells without a suggested move and leverage score. Not actionable until both exist.
+- Inventing domain terms the team doesn't use. Recover language from the code; don't impose new vocabulary.

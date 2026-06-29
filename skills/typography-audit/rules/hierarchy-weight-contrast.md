@@ -6,7 +6,7 @@ tags: hierarchy, weight, italics, caps, color, contrast
 
 ## Build Hierarchy with Multiple Axes
 
-Create typographic hierarchy using weight, italics, caps, color, and size \u2014 but change one axis at a time. Combining multiple changes simultaneously (bold + large + colored + caps) creates visual noise rather than clear hierarchy.
+Build hierarchy with weight, italics, caps, color, and size, but change one axis at a time. Stacking changes (bold + large + colored + caps) creates noise, not hierarchy.
 
 **Incorrect (too many changes at once):**
 
@@ -44,4 +44,4 @@ h2 {
 }
 ```
 
-Build hierarchy incrementally: start with size differences, then add weight contrast, then consider caps or color for specific elements.
+Build incrementally: start with size, then add weight, then caps or color for specific elements.

@@ -7,7 +7,7 @@ tags: interaction, touch, targets
 
 ## Meet Minimum Hit Target Size
 
-Tap targets should be at least 24px (44px preferred on mobile).
+Tap targets at least 24px (44px preferred on mobile).
 
 **Incorrect (small tap area):**
 

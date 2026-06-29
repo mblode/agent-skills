@@ -1,12 +1,11 @@
 # Visual Design
 
-Dark-first, high contrast, minimal. Impact comes from scale and weight, not decoration.
+Dark-first, high contrast, minimal. Impact comes from scale, not decoration.
 
 ## Contents
 
 - [Core style](#core-style)
 - [Typography hierarchy](#typography-hierarchy)
-- [Text contrast hierarchy](#text-contrast-hierarchy)
 - [Layout patterns](#layout-patterns)
 - [Slide type to layout mapping](#slide-type--layout-mapping)
 - [Visual elements](#visual-elements)
@@ -18,7 +17,7 @@ Dark-first, high contrast, minimal. Impact comes from scale and weight, not deco
 |---------|------|
 | Background | #000000 or zinc-900 (#18181b) |
 | Text primary | #FFFFFF |
-| Text secondary | #9CA3AF |
+| Text secondary / muted | #9CA3AF (one canonical name for both) |
 | Accents | Section colors (see [outline-structure.md](outline-structure.md)) |
 | Font | Sans-serif (Geist Sans, Inter, or system) |
 | Code font | JetBrains Mono or Fira Code |
@@ -26,7 +25,7 @@ Dark-first, high contrast, minimal. Impact comes from scale and weight, not deco
 
 ## Typography hierarchy
 
-Impact through **scale, not weight**. Use light/regular weights (400-600) at large sizes.
+Impact through **scale, not weight**: light/regular weights (400-600) at large sizes.
 
 | Level | Size | Weight | Color | Use |
 |-------|------|--------|-------|-----|
@@ -34,43 +33,11 @@ Impact through **scale, not weight**. Use light/regular weights (400-600) at lar
 | Headline | 48-72px | 400-500 | Primary (#FFF) | One idea, 1-5 words per line |
 | Subtitle | 24-32px | 400 | Secondary (#9CA3AF) | 1-2 lines max |
 | Body/bullets | 20-24px | 400-500 | Primary or secondary | Bold lead-ins at 600 weight |
-| Caption | 14-16px | 400 | Muted | Footnotes, sources |
-
-## Text contrast hierarchy
-
-| Level | Purpose | Color |
-|-------|---------|-------|
-| Primary | Headlines, key content | #FFFFFF |
-| Secondary | Subtitles, supporting text | Light gray |
-| Muted | Labels, metadata | Medium gray (#9CA3AF) |
-| Faint | Background elements, dividers | Dark gray |
+| Caption | 14-16px | 400 | Muted (#9CA3AF) | Footnotes, sources |
 
 ## Layout patterns
 
-### Full statement (most common)
-```
-┌─────────────────────────────────────────┐
-│ SECTION LABEL                           │
-│                                         │
-│ Massive                                 │
-│ Headline                                │
-│ Here                                    │
-│                                         │
-│ Subtitle text in muted color            │
-└─────────────────────────────────────────┘
-```
-
-### Big statement (maximum impact)
-```
-┌─────────────────────────────────────────┐
-│                                         │
-│                                         │
-│       Even Bigger                       │
-│       Statement                         │
-│                                         │
-│                                         │
-└─────────────────────────────────────────┘
-```
+Statement, big-statement, and section-divider layouts follow the [mapping table](#slide-type--layout-mapping) (label top-left, headline scaled to fill, subtitle muted). Diagrams below cover only layouts with real spatial arrangement.
 
 ### Split layout (text + content)
 ```
@@ -80,17 +47,6 @@ Impact through **scale, not weight**. Use light/regular weights (400-600) at lar
 │ Here               │  • Point two       │
 │                    │  • Point three     │
 │ Subtitle           │                    │
-└────────────────────┴────────────────────┘
-```
-
-### Section divider (with gradient)
-```
-┌────────────────────┬────────────────────┐
-│                    │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│
-│ Section            │▓▓▓ Gradient ▓▓▓▓▓▓▓│
-│ Title              │▓▓▓ Background ▓▓▓▓▓│
-│                    │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│
-│ Subtitle           │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│
 └────────────────────┴────────────────────┘
 ```
 
@@ -138,14 +94,14 @@ Impact through **scale, not weight**. Use light/regular weights (400-600) at lar
 - **Section labels**: top-left, all caps, accent color, tracked wide
 - **Progress bar**: bottom edge, section color, thin (3px)
 - **References**: bottom footer, clickable URLs, muted color
-- **Gradients**: aurora-style using section color, subtle (0.1-0.2 opacity)
+- **Gradients**: aurora-style in section color, subtle (0.1-0.2 opacity)
 - **Icons**: simple line icons, white or accent, used sparingly
 
 ## Avoid
 
 - Light backgrounds (breaks the system)
-- Heavy font weights for headlines (use scale instead)
-- More than 4-5 bullet points per slide
+- Heavy font weights for headlines (use scale)
+- More than 4-5 bullets per slide
 - Multiple competing focal points
-- Dense paragraphs of text
-- Animation for animation's sake
+- Dense paragraphs
+- Animation for its own sake

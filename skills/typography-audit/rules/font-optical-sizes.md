@@ -6,7 +6,7 @@ tags: optical-size, display, text, caption, font-selection
 
 ## Use Text and Display Optical Sizes Correctly
 
-Many type families offer optical size variants: Text, Display, Headline, and Caption. Each is optimized for a specific size range. Display cuts have finer details, tighter spacing, and higher contrast suited for large sizes. Text cuts have more open spacing, larger x-height, and lower contrast for body readability.
+Many families ship optical-size variants (Text, Display, Headline, Caption), each tuned to a size range. Display cuts: finer details, tighter spacing, higher contrast for large sizes. Text cuts: more open spacing, larger x-height, lower contrast for body readability.
 
 Never use Display/Headline cuts for body copy. Never use Caption cuts for web body text (they are designed for very small print sizes).
 

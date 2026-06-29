@@ -11,11 +11,11 @@ related: control-no-approval-gate, control-no-escape-hatch
 
 ## High-stakes agent action with no human escalation
 
-Agent handles a refund request, medical question, or legal inquiry with no way to hand off to a human. It either gives a dangerous answer or refuses entirely. An escalation path is the trust floor.
+Agent handles a refund, medical question, or legal inquiry with no way to hand off to a human: it gives a dangerous answer or refuses entirely. An escalation path is the trust floor.
 
 ## What goes wrong
 
-User asks about a billing dispute. Agent applies a partial credit that doesn't match. No "talk to a person" button. Agent keeps trying, making things worse. User files a chargeback.
+User asks about a billing dispute. Agent applies a partial credit that doesn't match. No "talk to a person" button. It keeps trying, makes things worse, user files a chargeback.
 
 ## Detection
 

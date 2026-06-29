@@ -10,19 +10,19 @@ related: focus-not-restored, a11y-skip-link-heading-order, states-no-error-state
 
 ## No focus management on dynamic content (route change, async load, error)
 
-Single-page apps don't reload the page on navigation, which means the browser doesn't move focus or announce the new content to screen readers. The same is true for async-loaded sections, validation errors, and result-list updates. Without manual focus management or `aria-live` regions, screen-reader users have no idea the content changed. The fix is two-pronged: focus the new heading on route/section change, and use `aria-live="polite"` (or `assertive` for errors) for content updates that don't shift focus.
+SPAs don't reload on navigation, so the browser never moves focus or announces new content to screen readers. Same for async-loaded sections, validation errors, and result-list updates: without manual focus management or `aria-live`, SR users never know the content changed. Two-pronged fix: focus the new heading on route/section change, and use `aria-live="polite"` (or `assertive` for errors) for updates that don't shift focus.
 
 ## What goes wrong
 
-User submits a search. Results render. Sighted users see the list. Screen-reader users hear nothing: focus is still on the search input, the results section has no live region, and no element was focused. They don't know the search succeeded. Or: route changes from `/dashboard` to `/dashboard/billing`. Visually the page is new; for assistive tech, focus is still wherever the click happened.
+Search submitted, results render. Sighted users see the list; SR users hear nothing because focus stays on the input, the results have no live region, and nothing was focused. They don't know the search worked. Or: route goes `/dashboard` to `/dashboard/billing`: visually new, but for assistive tech focus is still wherever the click happened.
 
 ## Detection
 
 **Surfaces:** search results, route transitions, async-loaded content, validation error summaries, in-page error/success banners.
 
 **Static signals:**
-1. `rg 'router\.(push|replace)|useRouter\(\)' --type=tsx -l`: programmatic nav callers.
-2. `rg 'isLoading|isPending' --type=tsx -l`: components that swap async content.
+1. `rg 'router\.(push|replace)|useRouter\(\)' --type=ts -l`: programmatic nav callers.
+2. `rg 'isLoading|isPending' --type=ts -l`: components that swap async content.
 3. For each, look for one of:
    - `useEffect` + `ref.current?.focus()` after content mounts.
    - `aria-live="polite"` or `role="status"` on the dynamic region.
@@ -32,18 +32,27 @@ User submits a search. Results render. Sighted users see the list. Screen-reader
 **Concrete commands:**
 ```bash
 # Route changes without focus management
-rg -A 5 'router\.(push|replace)' --type=tsx | rg -L 'focus\(\)|aria-live'
+rg -l 'router\.(push|replace)' --type=ts src/ app/ | while read f; do
+  rg -A 5 'router\.(push|replace)' "$f" | rg -q 'focus\(\)|aria-live' \
+    || echo "$f: route change without focus or live-region handling"
+done
 
 # Async content updates without aria-live or focus
-rg -B 2 -A 6 'isLoading\s*\?\s*' --type=tsx | rg -L 'aria-live|role="status"|role="alert"|\.focus\('
+rg -l 'isLoading\s*\?\s*' --type=ts src/ app/ | while read f; do
+  rg -B 2 -A 6 'isLoading\s*\?\s*' "$f" | rg -q 'aria-live|role="status"|role="alert"|\.focus\(' \
+    || echo "$f: async update without focus or live-region handling"
+done
 
 # Error banners without role="alert"
-rg -B 2 -A 4 'errors?\.length|hasError|state\.error' --type=tsx | rg -L 'role="alert"|aria-live="assertive"'
+rg -l 'errors?\.length|hasError|state\.error' --type=ts src/ app/ | while read f; do
+  rg -B 2 -A 4 'errors?\.length|hasError|state\.error' "$f" | rg -q 'role="alert"|aria-live="assertive"' \
+    || echo "$f: error banner without alert semantics"
+done
 ```
 
 **False-positive guards:**
 - Skip if a known live-region wrapper (e.g. `<Toaster />` from sonner) covers the content.
-- Skip if the change navigates to a new App Router segment (Next.js does focus the route on hard navigation, though SPA nav still needs help).
+- Skip new App Router segments (Next.js focuses the route on hard navigation; SPA nav still needs help).
 - Skip files annotated `// ui-audit-ignore:focus-on-dynamic-content`.
 
 ## Fix
@@ -148,8 +157,8 @@ function Search() {
 ## Defer-to (when this is another tool's job)
 
 - axe-core: WCAG 4.1.3 (Status Messages) checks.
-- Manual screen-reader pass; automated tools cannot fully verify announcements were heard.
-- Vercel Agent / CodeRabbit for diff-time spotting.
+- Manual screen-reader pass: automated tools can't verify announcements were heard.
+- Vercel Agent / CodeRabbit: diff-time spotting.
 
 ## Suppression
 

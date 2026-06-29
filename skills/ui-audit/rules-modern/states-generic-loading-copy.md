@@ -10,49 +10,49 @@ related: states-no-skeleton
 
 ## Generic "Loading…" copy where context-specific would help
 
-"Loading…" is the lowest-effort fallback string. It tells the user nothing about what is happening, how long it might take, or whether they should wait. Replacing it with one specific sentence ("Confirming your order, 2 to 3 seconds") costs nothing at runtime, dramatically improves perceived progress, and gives the user a reason to wait. This is a polish-tier rule; it ships often and it ships everywhere.
+"Loading…" tells the user nothing: not what's happening, how long, or whether to wait. One specific sentence ("Confirming your order, 2 to 3 seconds") costs nothing at runtime, improves perceived progress, and gives a reason to wait. Polish-tier rule that ships often and everywhere.
 
 ## What goes wrong
 
-A checkout "Place order" click triggers a 4-second server roundtrip. The button label changes to "Loading…" The user has no idea whether the payment is being charged, whether the cart is being validated, or whether the page is broken. Some users panic-click. Or: a Next.js `loading.tsx` file at the route level renders `<p>Loading…</p>` and that's all the user sees during a 1.5-second route transition.
+A checkout "Place order" click starts a 4-second roundtrip; the button reads "Loading…" The user can't tell if the card is being charged, the cart validated, or the page is broken, so some panic-click. Or: a route-level `loading.tsx` renders `<p>Loading…</p>` for the whole 1.5-second transition.
 
 ## Detection
 
 **Surfaces:** every loading state, every Suspense fallback, every pending button label.
 
 **Static signals:**
-1. Find loading copy strings: literal `Loading`, `Loading...`, `Loading…`, `Please wait`, `Wait...`.
-2. Match the regex `^Loading\.{0,3}$` (case-insensitive) on string literals inside JSX, Suspense `fallback` props, button labels, and `loading.tsx` content.
-3. Each match is a candidate. Severity scales with surface: a `loading.tsx` for a route is more visible than a 200 ms inline pending label.
+1. Find loading strings: `Loading`, `Loading...`, `Loading…`, `Please wait`, `Wait...`.
+2. Match `^Loading\.{0,3}$` (case-insensitive) on string literals in JSX, Suspense `fallback` props, button labels, and `loading.tsx`.
+3. Each match is a candidate; severity scales with surface (a route `loading.tsx` beats a 200 ms inline label).
 
 **Concrete commands:**
 ```bash
 # Generic Loading copy in JSX
-rg -i '"Loading\.{0,3}"|>Loading\.{0,3}<|`Loading\.{0,3}`' --type=tsx --type=jsx src/ app/
+rg -i '"Loading\.{0,3}"|>Loading\.{0,3}<|`Loading\.{0,3}`' --type=ts --type=js src/ app/
 
 # Pending button labels
-rg 'pending\s*\?\s*"Loading' --type=tsx src/
+rg 'pending\s*\?\s*"Loading' --type=ts src/
 
 # Suspense fallback with generic copy
-rg 'fallback=\{<\w*>Loading' --type=tsx src/
+rg 'fallback=\{<\w*>Loading' --type=ts src/
 
 # loading.tsx contents
-find app -name 'loading.tsx' -o -name 'loading.jsx' | xargs rg -l 'Loading\.{0,3}'
+find app \( -name 'loading.tsx' -o -name 'loading.jsx' \) -type f -exec rg -l 'Loading\.{0,3}' {} +
 
 # Catch "Please wait" and friends
-rg -i '"please wait"|>please wait<' --type=tsx src/
+rg -i '"please wait"|>please wait<' --type=ts src/
 ```
 
 **False-positive guards:**
 - Skip files with `// ui-audit-ignore:states-generic-loading-copy`.
 - Skip Storybook fixtures and test files.
-- Skip i18n key references (`t("loading")`); follow up by inspecting the locale file separately.
+- Skip i18n key references (`t("loading")`); inspect the locale file separately instead.
 - Skip JSDoc / comment strings.
-- Skip components where the loading state is sub-200 ms typical (no time to read anything; a generic word is fine).
+- Skip sub-200 ms loading states (no time to read; a generic word is fine).
 
 ## Fix
 
-Write one sentence describing what is happening, ideally with a soft time estimate when known:
+Write one sentence describing what's happening, ideally with a soft time estimate when known:
 
 ```tsx
 // before
@@ -89,7 +89,7 @@ export default function Loading() {
 }
 ```
 
-Pattern: name the action (verb + object), optionally give a soft estimate. Avoid promises ("Just a second!"): under-promise.
+Pattern: name the action (verb + object), optionally a soft estimate. Avoid promises ("Just a second!"); under-promise.
 
 A rough scale:
 
@@ -118,7 +118,7 @@ Docs:
 | Marketing landing | backlog |
 | Internal admin | backlog |
 
-This is rarely a release-blocker, but on critical paths, vague copy correlates with abandonment, so the bump to fix-this-sprint is justified.
+Rarely a release-blocker, but on critical paths vague copy correlates with abandonment, so the fix-this-sprint bump is justified.
 
 ## Examples
 
@@ -136,8 +136,8 @@ This is rarely a release-blocker, but on critical paths, vague copy correlates w
 
 ## Defer-to (when this is another tool's job)
 
-- Copywriting review tools / brand-voice linters: they own the exact phrasing. This rule only flags the absence of any specific copy.
-- i18n key audits: if the key is `t("loading")` everywhere, the fix is in the locale file and the routing of keys, not the JSX.
+- Copywriting / brand-voice linters own the exact phrasing; this rule only flags the absence of specific copy.
+- i18n key audits: if `t("loading")` is everywhere, the fix is in the locale file and key routing, not the JSX.
 
 ## Suppression
 

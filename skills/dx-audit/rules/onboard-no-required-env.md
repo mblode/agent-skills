@@ -7,7 +7,7 @@ tags: onboarding, environment, defaults
 
 ## No Required Environment Setup Before Hello-World
 
-The basic path should not demand environment variables, API keys, or external services before it does anything. Gate those behind the features that actually need them, and when one is missing, say exactly which variable to set. A tool that throws "MISSING_API_KEY" on `import` cannot be evaluated.
+The basic path should not demand environment variables, API keys, or external services before it does anything. Gate those behind the features that need them, and when one is missing, say exactly which variable to set. A tool that throws "MISSING_API_KEY" on `import` cannot be evaluated.
 
 **Incorrect (throws at import time if an env var is unset):**
 

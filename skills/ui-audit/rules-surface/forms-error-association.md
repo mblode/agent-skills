@@ -7,7 +7,7 @@ tags: forms, validation, accessibility, aria
 
 ## Associate and Announce Form Errors
 
-An error message must be programmatically tied to its input via `aria-describedby`, the field marked `aria-invalid`, and the error announced through a live region (`role="alert"`). A message that is only visually near the field is invisible to screen readers. Complements `forms-inline-errors-first-focus`, which covers placement and focus.
+Tie each error to its input via `aria-describedby`, mark the field `aria-invalid`, and announce it through a live region (`role="alert"`). A message only visually near the field is invisible to screen readers. Complements `forms-inline-errors-first-focus`, which covers placement and focus.
 
 **Incorrect (orphan error text, no announcement):**
 

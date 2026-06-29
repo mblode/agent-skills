@@ -6,13 +6,13 @@ tags: voice, active-voice, contractions, second-person, tone, reader-centric
 
 ## Voice defaults checklist
 
-Claude follows these by default. This checklist codifies them as the project standard:
+Default behaviors, codified as the project standard:
 
-- [ ] **Active voice, present tense** -- put the actor before the action. Use passive only when the actor is unknown.
-- [ ] **Contractions** -- use common contractions (don't, it's, you'll). Avoid unusual ones (mightn't, shan't).
-- [ ] **Second person** -- address the reader as "you." Reserve "the user" for someone other than the reader.
-- [ ] **Professional, not promotional** -- replace superlatives with measurable facts. No marketing hype.
-- [ ] **Reader-centric framing** -- lead with what the reader can accomplish, not what the product does.
+- [ ] **Active voice, present tense**: actor before action. Use passive only when the actor is unknown.
+- [ ] **Contractions**: use common ones (don't, it's, you'll); avoid unusual ones (mightn't, shan't).
+- [ ] **Second person**: address the reader as "you." Reserve "the user" for someone other than the reader.
+- [ ] **Professional, not promotional**: replace superlatives with measurable facts. No marketing hype.
+- [ ] **Reader-centric framing**: lead with what the reader can accomplish, not what the product does.
 
 **Incorrect (passive, formal, promotional, product-centric):**
 ```markdown

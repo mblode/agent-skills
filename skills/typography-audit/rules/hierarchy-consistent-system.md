@@ -6,7 +6,7 @@ tags: type-system, consistency, design-tokens, documentation
 
 ## Define and Document a Type System
 
-Define a consistent set of type styles (sizes, weights, line-heights, colors) and apply them uniformly. Avoid random one-off style changes. Document the system so all contributors follow the same conventions. Use CSS custom properties or design tokens to enforce consistency.
+Define a consistent set of type styles (sizes, weights, line-heights, colors) and apply them uniformly; avoid one-off changes. Document it so contributors follow, and enforce with CSS custom properties or design tokens.
 
 **Incorrect (ad hoc styling throughout):**
 
@@ -42,4 +42,4 @@ h2 {
 }
 ```
 
-Do not obsess over baseline grids on the web. Prioritize consistent font size, line height, and line length over pixel-perfect vertical alignment. Accept web fluidity.
+Don't obsess over baseline grids on the web. Prioritize consistent font size, line height, and line length over pixel-perfect vertical alignment; accept web fluidity.

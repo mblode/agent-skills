@@ -1,7 +1,6 @@
 # Sections
 
-This file defines all categories, their ordering, impact levels, descriptions, and kind breakdown.
-The category ID (in parentheses) is the filename prefix used to group rules.
+Categories, ordering, impact, descriptions, and kind breakdown. The category ID (in parentheses) is the filename prefix used to group rules.
 
 ---
 
@@ -9,38 +8,38 @@ The category ID (in parentheses) is the filename prefix used to group rules.
 
 **Impact:** CRITICAL
 **Kind breakdown:** 3 programmatic + 2 rubric (5 total)
-**Description:** Principles that govern how much mental effort an interface demands. Excessive cognitive load is the most common cause of abandonment, error, and "I don't get it" friction. Includes the working-memory limit, chunking, and the systematic biases users carry into every screen.
+**Description:** How much mental effort an interface demands. Excessive load is the top cause of abandonment, error, and "I don't get it" friction. Covers the working-memory limit, chunking, and the systematic biases users bring to every screen.
 
 ## 2. Decision-Making (decision)
 
 **Impact:** HIGH
 **Kind breakdown:** 5 programmatic + 3 rubric (8 total)
-**Description:** Principles that govern how users choose between options or commit to actions. Covers choice architecture, simplification, the conservation of inherent complexity, and the gravitational pull users have toward whatever they already use.
+**Description:** How users choose between options or commit to actions. Covers choice architecture, simplification, conservation of inherent complexity, and the pull toward whatever users already use.
 
 ## 3. Perception (perception)
 
 **Impact:** HIGH
 **Kind breakdown:** 5 programmatic + 2 rubric (7 total)
-**Description:** Gestalt grouping laws and attention principles that determine how users parse a layout pre-attentively. What is visually grouped is read as semantically grouped, for better or worse.
+**Description:** Gestalt grouping and attention laws governing how users parse a layout pre-attentively. What looks grouped is read as semantically grouped, for better or worse.
 
 ## 4. Memory & Expectation (memory)
 
 **Impact:** MEDIUM-HIGH
 **Kind breakdown:** 5 programmatic + 1 rubric (6 total)
-**Description:** Principles about how users remember experiences (peak/end, position effects), how unfinished tasks linger (Zeigarnik), how proximity to a goal accelerates effort, and how prior products shape expectations for new ones (mental models, Jakob's Law).
+**Description:** How users remember experiences (peak/end, position effects), how unfinished tasks linger (Zeigarnik), how nearing a goal accelerates effort, and how prior products shape expectations (mental models, Jakob's Law).
 
 ## 5. Interaction (interaction)
 
 **Impact:** MEDIUM-HIGH
 **Kind breakdown:** 2 programmatic + 2 rubric (4 total)
-**Description:** Motor, temporal, and aesthetic properties of interaction itself. Target acquisition (Fitts's), feedback latency (Doherty), engagement state (Flow), and the perception-of-quality bonus that visual polish confers (Aesthetic-Usability).
+**Description:** Motor, temporal, and aesthetic properties of interaction: target acquisition (Fitts's), feedback latency (Doherty), engagement (Flow), and the quality bonus visual polish confers (Aesthetic-Usability).
 
 ---
 
 ## Rule Index by Kind
 
 ### Programmatic (20 rules)
-Mechanical pass/warn/fail checks via grep, regex, or AST inspection. Returns numbers or booleans.
+Mechanical pass/warn/fail checks via grep, regex, or AST. Returns numbers or booleans.
 
 ```
 cognitive-cognitive-load            cognitive-millers-law              cognitive-chunking
@@ -54,7 +53,7 @@ interaction-fittss-law              interaction-doherty-threshold
 ```
 
 ### Observational (10 rules)
-1-5 anchored rubric scoring. See `references/observational-rubrics.md` for full anchors.
+1-5 anchored rubric scoring; full anchors in `references/observational-rubrics.md`.
 
 ```
 cognitive-cognitive-bias            cognitive-working-memory
@@ -68,7 +67,7 @@ interaction-flow                    interaction-aesthetic-usability
 
 ## Cross-law interactions
 
-When auditing, these pairings often co-fire. Emit both findings with the same `surface` to make the link explicit.
+These pairings often co-fire. Emit both findings with the same `surface` to make the link explicit.
 
 - **Hick's + Miller's**: Both push toward fewer choices. A nav with 12+ items fails both.
 - **Hick's + Chunking**: When count cannot drop, group. Chunking softens Hick's penalty.

@@ -15,7 +15,7 @@ Preload the smallest set of critical fonts and preconnect to remote asset domain
 <link rel="stylesheet" href="https://fonts.example.com/site.css" />
 ```
 
-The `crossorigin` attribute on the preload tag is not optional. Fonts loaded via CSS `@font-face` always use CORS anonymous mode. If the `<link rel="preload">` omits `crossorigin`, the browser preloads the font with a different CORS mode, then discards the preloaded response and fetches the font again when CSS references it, doubling the download and defeating the preload entirely.
+The `crossorigin` attribute on the preload tag is mandatory. CSS `@font-face` fonts always use CORS anonymous mode, so a `<link rel="preload">` without `crossorigin` is preloaded in a different CORS mode, then discarded and re-fetched when CSS references it, doubling the download and defeating the preload.
 
 **Correct (critical path optimized):**
 

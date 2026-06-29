@@ -1,38 +1,30 @@
 # AX Evolution Curve
 
-A 4-stage model for evaluating how deep the relationship between user and agent is in a given design. Used during audit to calibrate expectations: a Conversational agent missing memory features is fine; a Personally Intelligent agent missing memory visibility is a finding.
+A 4-stage model for how deep the user-agent relationship is in a design. Calibrates audit expectations: a Conversational agent missing memory is fine; a Personally Intelligent one missing memory visibility is a finding.
 
 ## The Four Stages
 
 ### 1. Conversational
 
-Every interaction starts from scratch. No memory, no context from prior sessions. User must re-explain everything each time.
-
-Behavior: a chatbot that forgets everything on page refresh. User says "like I mentioned earlier" and the agent has no idea what they mean.
+Starts from scratch every time: no memory across sessions, the user re-explains everything. Behavior: a chatbot that forgets on refresh; "like I mentioned earlier" means nothing to it.
 
 ### 2. Task-Aware
 
-Watches and adjusts in the moment. Understands current task state, tracks multi-step progress, reacts to what is happening now. Forgets between sessions.
-
-Behavior: an agent that sees your current document and makes suggestions, but does not know your preferences or recall past decisions.
+Watches and adjusts in the moment: tracks current task state and multi-step progress, reacts to now. Forgets between sessions. Behavior: sees your current document and suggests, but does not know your preferences or recall past decisions.
 
 ### 3. Personally Intelligent
 
-Remembers preferences and history across sessions. Accumulates context over time, adapts to user patterns, gets better with use.
-
-Behavior: an agent that knows you prefer concise answers, remembers your project conventions, recalls decisions from three weeks ago.
+Remembers preferences and history across sessions: accumulates context, adapts to patterns, gets better with use. Behavior: knows you prefer concise answers, remembers your conventions, recalls decisions from weeks ago.
 
 ### 4. Socially Embedded
 
-Understands role, team, and cultural context. Speaks on behalf of the user to others, manages cross-team communication, navigates organizational dynamics.
-
-Behavior: an agent that drafts messages to your team in your voice, understanding who needs what context and how to frame requests for different audiences.
+Understands role, team, and cultural context: speaks for the user to others, manages cross-team comms, navigates org dynamics. Behavior: drafts messages to your team in your voice, knowing who needs what context and how to frame requests for each audience.
 
 ## The Defensibility Line
 
-The defensibility line sits between Task-Aware and Personally Intelligent. Below it, features are commoditized: anyone can build a stateless chatbot or a task tracker. Above it, accumulated context creates a moat. Switching costs increase because the agent knows the user. The longer someone uses the product, the harder it is to leave.
+Sits between Task-Aware and Personally Intelligent. Below it, features are commoditized (anyone can build a stateless chatbot or task tracker). Above it, accumulated context is a moat: switching costs rise because the agent knows the user, so the longer it is used the harder it is to leave.
 
-When auditing, note where a product sits relative to this line. Products below it need differentiation through execution quality. Products above it need to make accumulated context visible and portable (or risk trust erosion when users feel locked in).
+When auditing, note where the product sits. Below the line: differentiate through execution quality. Above it: make accumulated context visible and portable, or risk trust erosion when users feel locked in.
 
 ## Mapping to Rules
 
@@ -45,14 +37,14 @@ Which ax-audit rules matter most at each stage:
 | Personally Intelligent | `context-memory-not-visible`, `context-under-contextual`, `trust-no-confidence-cues`, `trust-no-uncertainty-markers` |
 | Socially Embedded | `context-no-adaptive-canvas`, `comm-no-generative-momentum` |
 
-Rules from earlier stages still apply at later stages. A Socially Embedded agent that lacks an escape hatch is still a finding.
+Earlier-stage rules still apply at later stages. A Socially Embedded agent lacking an escape hatch is still a finding.
 
 ## Assessment
 
-To determine which stage a design sits at:
+To place a design:
 
-- **What persists between sessions?** Nothing = Conversational. Task state only = Task-Aware. User preferences and history = Personally Intelligent. Relationships and organizational context = Socially Embedded.
-- **Does the agent adapt to individual users?** If two different users get identical responses in identical situations, the agent is at most Task-Aware.
-- **Does the agent interact with other people or systems on behalf of the user?** If yes, evaluate whether it understands enough social context to do so without causing harm.
+- **What persists between sessions?** Nothing = Conversational; task state only = Task-Aware; preferences + history = Personally Intelligent; relationships + org context = Socially Embedded.
+- **Does it adapt to individual users?** If two users get identical responses in identical situations, it is at most Task-Aware.
+- **Does it act on others' behalf?** If yes, check whether it grasps enough social context to avoid harm.
 
-Describe behaviors in audit output, not labels. Write "the agent remembers preferences across sessions" rather than "this is a Stage 3 product." The framework is for reasoning about depth, not for vocabulary.
+Describe behaviors in output, not labels: write "remembers preferences across sessions," not "Stage 3 product." The framework is for reasoning about depth, not vocabulary.

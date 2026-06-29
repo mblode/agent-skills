@@ -6,7 +6,7 @@ tags: body-text, layout, design-process, hierarchy
 
 ## Start Layout with Body Text
 
-Begin every design by setting the body text: choose the typeface, set the size, line height, and measure. All other type decisions (headings, labels, captions) derive from this foundation. Starting with headings or decorative type and working backward leads to body text that feels like an afterthought.
+Begin every design with body text: typeface, size, line height, measure. All other type (headings, labels, captions) derives from it. Starting with headings or decorative type leaves body text feeling like an afterthought.
 
 **Incorrect (starting with the hero heading):**
 
@@ -46,4 +46,4 @@ h2 { font-size: 1.75rem; }
 h3 { font-size: 1.25rem; }
 ```
 
-Edit copy for clarity. Remove redundant UI text. Typography is best served by well-written content.
+Edit copy for clarity and remove redundant UI text; good typography starts with well-written content.

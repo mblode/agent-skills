@@ -6,7 +6,7 @@ tags: audience, progressive-disclosure, depth
 
 ## Layer content depth with links for different skill levels
 
-Provide a summary for quick readers and link to deeper explanations for those who need them. Experienced readers skip the links; beginners click through. This keeps pages focused without leaving anyone behind.
+Give a summary for quick readers and link to deeper explanations. Experts skip the links; beginners click through. Pages stay focused without leaving anyone behind.
 
 **Incorrect (either too shallow or too deep):**
 

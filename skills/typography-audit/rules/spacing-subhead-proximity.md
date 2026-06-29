@@ -6,7 +6,7 @@ tags: subheadings, proximity, whitespace, visual-grouping
 
 ## Place Subheadings Closer to Following Content
 
-A subheading should have more space above it (separating from previous content) than below it (connecting to the content it introduces). This proximity principle groups the heading with its section. Use extra spacing above large subheaders.
+Give a subheading more space above (separating it from prior content) than below (connecting it to the content it introduces). This proximity groups the heading with its section. Use extra space above large subheaders.
 
 **Incorrect (equal spacing, heading floats between sections):**
 
@@ -31,4 +31,4 @@ h3 {
 }
 ```
 
-The larger the heading, the more top margin it needs to establish visual separation from the preceding section.
+The larger the heading, the more top margin it needs to separate from the preceding section.

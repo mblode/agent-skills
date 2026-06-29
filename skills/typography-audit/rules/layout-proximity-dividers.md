@@ -6,7 +6,7 @@ tags: proximity, dividers, rules, captions, headings
 
 ## Use Proximity and Dividers to Clarify Associations
 
-Place captions and descriptions closer to the images or elements they describe. Use dividers (horizontal rules) to separate unrelated sections, placing them above headings rather than below. Dividers below headings visually underline them, which is a Victorian typographic convention that weakens the heading's connection to its content.
+Place captions and descriptions close to the images or elements they describe. Use dividers (horizontal rules) to separate unrelated sections, placing them above headings, not below: a divider below a heading underlines it (a Victorian convention) and weakens its link to the content.
 
 **Incorrect (divider below heading, caption far from image):**
 
@@ -34,4 +34,4 @@ Place captions and descriptions closer to the images or elements they describe. 
 </figure>
 ```
 
-Choose between hanging bullets that improve reading or standard indented bullets \u2014 decide based on readability in your specific layout.
+Choose hanging vs standard indented bullets by readability in your layout.

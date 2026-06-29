@@ -1,6 +1,6 @@
 # PR Polish
 
-Restructure commits and add reviewer guidance so a large or messy PR reads cleanly. Loaded by pr-creator when commit history is noisy, the diff exceeds 500 lines, or the user asks to polish, tidy, restructure, or split the PR.
+Restructure commits and add reviewer guidance so a large or messy PR reads cleanly. Loaded by pr-creator on the triggers below.
 
 ## When to activate
 
@@ -8,21 +8,21 @@ Restructure commits and add reviewer guidance so a large or messy PR reads clean
 - Commit history has fixup, WIP, or "address review" commits
 - Reviewer has asked for restructuring
 - Multiple unrelated changes bundled in one PR
-- User explicitly asks to polish or tidy the PR
+- User asks to polish or tidy the PR
 
 ## Tree hash verification
 
-Before and after any history rewriting, verify the code has not changed:
+Before and after any history rewrite, verify the code has not changed:
 
 ```bash
 git rev-parse HEAD^{tree}
 ```
 
-Save the hash before rewriting. After rewriting, compare. If the hashes differ, the rewrite changed code, not just history. Abort and investigate before pushing anything.
+Save the hash before, compare after. Differing hashes mean the rewrite changed code, not just history: abort and investigate before pushing anything.
 
 ## Commit ordering
 
-Restructure commits by dependency order so reviewers can follow the logical progression:
+Restructure commits by dependency order so reviewers follow the progression:
 
 1. Schema / migration changes
 2. Core logic (models, services, business rules)
@@ -31,11 +31,11 @@ Restructure commits by dependency order so reviewers can follow the logical prog
 5. Tests
 6. Config / docs / tooling
 
-Each commit should compile and pass lint independently. If a commit depends on a later one, reorder.
+Each commit must compile and pass lint independently; if one depends on a later commit, reorder.
 
 ## Non-interactive history rewriting
 
-`git rebase -i` requires interactive input and is unavailable to agents, so use a soft reset and rebuild:
+`git rebase -i` needs interactive input (unavailable to agents), so use a soft reset and rebuild:
 
 ```bash
 # Save tree hash
@@ -60,31 +60,31 @@ TREE_AFTER=$(git rev-parse HEAD^{tree})
 
 ## PR description enhancements
 
-Add reviewer guidance to the PR description without making it verbose:
+Add reviewer guidance without making the description verbose:
 
 - **TL;DR**: 1-2 sentences at the top explaining what changed and why
 - **Review path**: "Start with `migration.sql`, then `permissions.ts`, then the UI" (only for PRs with 5+ files)
 - **Risk callout**: one line for anything non-obvious, such as "The migration locks the users table; run during low traffic"
 
-Do not add file-by-file changelogs, test plan sections, or bullet lists restating the diff. The base rules in SKILL.md still apply.
+No file-by-file changelogs, test plan sections, or bullets restating the diff. The base rules in SKILL.md still apply.
 
 ## Splitting strategy
 
 When a PR touches unrelated areas, extract independent changes:
 
-1. Identify commits or file groups that are logically independent
+1. Identify logically independent commits or file groups
 2. Create a new branch from main for the extracted work
 3. Cherry-pick or recreate the independent commits
 4. Push the extracted branch and create a separate PR
 5. Remove the extracted commits from the original branch
 6. Update the original PR description to note the split
 
-Only split when the extracted work is genuinely independent. Splitting coupled changes creates review overhead instead of removing it.
+Only split genuinely independent work; splitting coupled changes adds review overhead instead of removing it.
 
 ## Guardrails
 
-- Force-push only with `git push --force-with-lease`. A plain `--force` overwrites commits a teammate pushed while you were rewriting.
-- Verify the tree hash before and after every rewrite. A mismatch means you changed code, not just history.
-- Run lint and tests after restructuring. Reordering can leave an intermediate commit that does not compile.
-- Do not rewrite commits a reviewer has already commented on. Rewriting orphans the inline comments anchored to those SHAs and the reviewer loses their thread.
-- Do not restructure shared branches with multiple contributors without coordinating. Their local history diverges on the next pull.
+- Force-push only with `git push --force-with-lease`. Plain `--force` overwrites commits a teammate pushed while you rewrote.
+- Verify the tree hash before and after every rewrite; a mismatch means you changed code, not just history.
+- Run lint and tests after restructuring; reordering can leave an intermediate commit that doesn't compile.
+- Don't rewrite commits a reviewer has commented on: it orphans inline comments anchored to those SHAs and the reviewer loses the thread.
+- Don't restructure shared multi-contributor branches without coordinating: their local history diverges on the next pull.

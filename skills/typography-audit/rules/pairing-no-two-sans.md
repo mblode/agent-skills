@@ -15,7 +15,7 @@ The exception is pairing sans-serifs from distinctly different genres (e.g., a g
 ```css
 h1 { font-family: 'Helvetica', sans-serif; }
 body { font-family: 'Arial', sans-serif; }
-/* Nearly identical \u2014 no contrast, no purpose */
+/* Nearly identical: no contrast, no purpose */
 ```
 
 **Correct (serif + sans-serif):**

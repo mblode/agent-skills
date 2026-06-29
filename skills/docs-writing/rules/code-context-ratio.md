@@ -6,7 +6,7 @@ tags: ratio, tutorials, reference
 
 ## Match code-to-text ratio to document type
 
-Tutorials need more explanation (~40% code). API references are mostly code (~90% code). Don't drown tutorials in code or bury references in prose.
+Tutorials need more explanation (~40% code). API references are mostly code (~90%). Don't drown tutorials in code or bury references in prose.
 
 **Incorrect (tutorial is 90% code with no explanation):**
 

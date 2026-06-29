@@ -6,9 +6,7 @@ tags: large-type, display, hero, design-element
 
 ## Use Large Type as a Design Element
 
-Huge type can anchor an entire design. If you are loading a web font, use it to its full advantage at large sizes where its character is most visible. Small web fonts are indistinguishable from system fonts, wasting bandwidth.
-
-Scale large type down on smaller screens. Large letters can also be screened back and layered as abstract background elements.
+Huge type can anchor a design. If you load a web font, show it at large sizes where its character is most visible: small web fonts are indistinguishable from system fonts and waste bandwidth. Large letters can also be screened back and layered as abstract background elements.
 
 **Incorrect (web font only at body size):**
 
@@ -36,4 +34,4 @@ body {
 }
 ```
 
-On smaller screens, tone down huge type so readers do not scroll through three screen heights to read a headline.
+On small screens, tone down huge type so readers don't scroll three screen-heights through one headline.

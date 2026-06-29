@@ -6,7 +6,7 @@ tags: location, organization, directory
 
 ## All documentation lives in the docs/ directory
 
-Documentation scattered across the repo is undiscoverable. Keep all docs in `docs/` (or the project's equivalent). READMEs in subdirectories are the exception -- they describe that specific directory.
+Scattered docs are undiscoverable. Keep all docs in `docs/` (or the project's equivalent). Subdirectory READMEs are the exception: they describe that specific directory.
 
 **Incorrect (docs scattered across the repo):**
 

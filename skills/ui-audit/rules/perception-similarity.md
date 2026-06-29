@@ -9,9 +9,9 @@ related: perception-proximity, perception-common-region, cognitive-chunking
 
 ## Law of Similarity
 
-A Gestalt grouping principle: items that share visual properties (color, shape, size, weight, orientation) read as related, even when separated in space. Similarity carries semantic weight: matching styles imply matching function, mismatched styles imply different function. Threshold for coherent role: ≥80% of items in the same role should share at least one visual property (lawsofux.com/law-of-similarity; Wertheimer 1923).
+Gestalt grouping: items sharing visual properties (color, shape, size, weight, orientation) read as related, even when separated in space. Matching styles imply matching function; mismatched styles imply different function. Threshold for a coherent role: ≥80% of same-role items share at least one visual property (lawsofux.com/law-of-similarity; Wertheimer 1923).
 
-Among the grouping laws, similarity is weaker than enclosure (Common Region) or shared backgrounds (Uniform Connectedness) and roughly comparable to Proximity. Use it to communicate role: links share a color, primary actions share a shape, destructive actions share a hue. Inverting the rule is just as load-bearing: anything that *should not* be confused with another role must look different.
+Among grouping laws, similarity is weaker than enclosure (Common Region) or shared backgrounds (Uniform Connectedness), roughly comparable to Proximity. Use it to signal role: links share a color, primary actions a shape, destructive actions a hue. The inverse is just as load-bearing: anything that *should not* be confused with another role must look different.
 
 ## Check
 

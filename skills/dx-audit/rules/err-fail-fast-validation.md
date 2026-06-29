@@ -7,7 +7,7 @@ tags: errors, validation, fail-fast
 
 ## Fail Fast with Actionable Validation
 
-Validate inputs at the boundary and throw immediately with a precise message. Deferring validation lets a bad value travel deep into the system, then explode somewhere unrelated where the stack no longer points at the real cause. Check at the door, name what failed.
+Validate inputs at the boundary and throw immediately with a precise message. Deferred validation lets a bad value travel deep, then explode somewhere unrelated where the stack no longer points at the real cause. Check at the door; name what failed.
 
 **Incorrect (bad input slips through, fails later somewhere else):**
 

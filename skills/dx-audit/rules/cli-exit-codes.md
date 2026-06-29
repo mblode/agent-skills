@@ -7,7 +7,7 @@ tags: cli, exit-codes, scripting
 
 ## Exit 0 on Success, Non-Zero on Failure
 
-Every script, Makefile, and CI step branches on the exit code. Exit 0 only when the command actually succeeded, and a non-zero code on any failure. A tool that exits 0 after printing an error to the screen will pass a CI gate it should have failed.
+Every script, Makefile, and CI step branches on the exit code. Exit 0 only on real success, non-zero on any failure. Exiting 0 after printing an error passes a CI gate it should have failed.
 
 **Incorrect (prints an error but exits 0; CI thinks it passed):**
 

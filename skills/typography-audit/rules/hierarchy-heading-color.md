@@ -6,7 +6,7 @@ tags: headings, color, weight, large-type, balance
 
 ## Lighten Headings as They Grow
 
-As headings increase in size, reduce their weight or lighten their color to maintain visual balance. A 48px bold heading can feel overwhelming. Prefer darkened brand hues over flat gray for lightened headings \u2014 gray headings feel lifeless.
+As headings grow, reduce weight or lighten color to keep balance: a 48px bold heading feels overwhelming. Prefer darkened brand hues over flat gray, which looks lifeless.
 
 **Incorrect (heavy weight at all sizes):**
 

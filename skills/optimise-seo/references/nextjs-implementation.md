@@ -81,9 +81,9 @@ export default function robots(): MetadataRoute.Robots {
 }
 ```
 
-For sites over 50,000 URLs (or to split by type), return a sitemap **index** by exporting `generateSitemaps()` and reading the `id`; Next.js serves `/sitemap/0.xml`, `/sitemap/1.xml`, … under one index. Add image/video entries with the `images`/`videos` fields on a sitemap row when media is JS-loaded or CDN-hosted and not reachable by link-following.
+For >50,000 URLs (or to split by type), return a sitemap **index**: export `generateSitemaps()` and read the `id`; Next.js serves `/sitemap/0.xml`, `/sitemap/1.xml`, … under one index. Add image/video entries via the `images`/`videos` fields on a row when media is JS-loaded or CDN-hosted and not reachable by link-following.
 
-Derive `lastModified` from the most recent content date, never a hardcoded constant (which goes stale and signals dead content). Index and homepage rows should reflect the freshest child item:
+Derive `lastModified` from the most recent content date (see the SKILL.md gotcha on stale dates). Index and homepage rows should reflect the freshest child item:
 
 ```ts
 // app/sitemap.ts: freshest-content lastModified
@@ -118,9 +118,9 @@ const config = {
 }
 ```
 
-Pick one canonical host (apex or www) and 308 the other to it. If the platform already redirects at the edge (e.g. a Vercel domain redirect), set it to 308 there instead of duplicating the rule in `next.config.ts`.
+Pick one canonical host (apex or www) and 308 the other. If the platform already redirects at the edge (e.g. a Vercel domain redirect), set 308 there instead of duplicating the rule in `next.config.ts`.
 
-Indexing policy: public pages default to `index, follow`. Mark staging, admin, thin, or private pages explicitly, via `metadata.robots` for HTML routes, or `X-Robots-Tag` for non-HTML (PDFs, APIs) and whole environments.
+Indexing policy: public pages default to `index, follow`. Mark staging, admin, thin, or private pages explicitly: `metadata.robots` for HTML routes, `X-Robots-Tag` for non-HTML (PDFs, APIs) and whole environments.
 
 ```tsx
 // Per-page noindex
@@ -213,9 +213,9 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 }
 ```
 
-Note: `JSON.stringify` on schema objects produces safe output (no user-supplied HTML).
+Note: `JSON.stringify` on schema objects is safe (no user-supplied HTML).
 
-**Entity graph.** Define each entity once with a stable `@id` and reference it by `@id` everywhere else, rather than duplicating entities inline. Emit the shared entities once (homepage or root layout) inside a single `@graph`, then let per-page schema (Article, Breadcrumb, ProfilePage) point back into it by `@id`. This lets search engines resolve one knowledge graph instead of disconnected snippets.
+**Entity graph.** Define each entity once with a stable `@id` and reference it by `@id` everywhere else, not duplicated inline. Emit shared entities once (homepage or root layout) inside a single `@graph`, then let per-page schema (Article, Breadcrumb, ProfilePage) point back by `@id`. Search engines then resolve one knowledge graph instead of disconnected snippets.
 
 ```tsx
 // lib/site.ts: stable ids referenced everywhere
@@ -280,7 +280,7 @@ export const orgId = 'https://example.com/#organization'
 }} />
 ```
 
-Fill recommended fields, not just required ones. Search Console reports missing recommended fields as rich-result *warnings* (e.g. an `Event` wants `endDate`, `offers`, `image`, `eventStatus`, `eventAttendanceMode`, a full `PostalAddress`, and `organizer.url`). Validate each type against the Rich Results Test and clear the enhancement-report warnings, not only the errors.
+Fill recommended fields, not just required ones: Search Console reports missing recommended fields as rich-result *warnings* (e.g. an `Event` wants `endDate`, `offers`, `image`, `eventStatus`, `eventAttendanceMode`, a full `PostalAddress`, and `organizer.url`). Validate each type against the Rich Results Test and clear enhancement-report warnings, not only errors.
 
 ## OG Images
 
@@ -308,7 +308,7 @@ export default async function Image(
 }
 ```
 
-Audit static image weight in `public/` as part of CWV work: recompress oversized assets in place (keep filenames and formats so references stay valid). Downscaling and re-encoding a handful of hero/avatar images often cuts total weight by most of its size, improving LCP and crawl overhead. Note that an avatar reused as the `Person` JSON-LD `image` is also served to crawlers, so its size matters twice.
+When recompressing `public/` assets for CWV, keep filenames and formats so references stay valid. An avatar reused as the `Person` JSON-LD `image` is served to crawlers too, so its size matters twice.
 
 ## File Structure
 

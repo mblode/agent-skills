@@ -1,6 +1,6 @@
 # States Coverage
 
-The single highest-leverage check: every component that fetches data, takes input, or controls a transient process has a complete set of states. The most common production UX bug is a component built for the happy path with no `loading`, `empty`, or `error` branch.
+The highest-leverage check: every component that fetches data, takes input, or runs a transient process needs a full set of states. The commonest production UX bug is a happy-path-only component missing `loading`, `empty`, or `error`.
 
 ## Table of contents
 
@@ -11,7 +11,7 @@ The single highest-leverage check: every component that fetches data, takes inpu
 
 ## Canonical state matrix per component type
 
-For each component type, these states must exist (or be explicitly N/A with a comment).
+Each component type must implement these states (or mark N/A with a comment).
 
 ### Async data fetcher (list, dashboard widget, search)
 
@@ -20,7 +20,7 @@ For each component type, these states must exist (or be explicitly N/A with a co
 | `loading` | Skeleton matching loaded layout (CLS-safe) | `<Skeleton h="N">` with `min-height` ≥ loaded height | Centered spinner without `min-height` |
 | `empty` | Helpful guidance + primary CTA | "No invoices yet" + `<Button>Create invoice</Button>` | "No items" with no CTA |
 | `error` | Cause + retry path + preserved input (if any) | "Couldn't load: Try again" with retry handler | Generic toast that disappears |
-| `success` | Loaded data | Default render |: |
+| `success` | Loaded data | Default render | - |
 | `partial` (paginated/infinite) | Loaded prefix + spinner for next | Skeleton row at bottom for pending page | Layout jump on next-page load |
 
 ### Form
@@ -40,7 +40,7 @@ For each component type, these states must exist (or be explicitly N/A with a co
 | `opening` | Animation, focus moves to first focusable | `autoFocus` or `initialFocus` set | Focus on `<body>` |
 | `open` | Modal content; Esc + backdrop close | `onEscapeKeyDown` + `onPointerDownOutside` handled | Cannot dismiss without confirm-button |
 | `closing` | Animation, focus returns to trigger | `onCloseAutoFocus` set OR `triggerRef.focus()` in `onClose` | Focus to `<body>` (lost) |
-| `unmounted` | Trigger button regains focus | Same as closed |: |
+| `unmounted` | Trigger button regains focus | Same as closed | - |
 
 ### Button / Trigger
 
@@ -57,7 +57,7 @@ For each component type, these states must exist (or be explicitly N/A with a co
 
 | State | What user sees | Pass | Fail |
 |---|---|---|---|
-| `empty` | Placeholder OR floating label |: | Placeholder used as label |
+| `empty` | Placeholder OR floating label | - | Placeholder used as label |
 | `typed` | Value visible | - | - |
 | `focus` | Visible focus ring | `:focus-visible` | None |
 | `invalid` | Field-level error message | Inline error below; `aria-invalid="true"`; `aria-describedby` | Toast only; no `aria-invalid` |
@@ -85,7 +85,7 @@ For each component type, these states must exist (or be explicitly N/A with a co
 
 ## Mandatory state pairings
 
-These pairs always go together. Detecting one without the other is a bug:
+These pairs always go together; one without the other is a bug:
 
 | Pair | Why | Bug if violated |
 |---|---|---|
@@ -104,53 +104,53 @@ These pairs always go together. Detecting one without the other is a bug:
 
 ## Detection recipes
 
-Static-analysis patterns the audit can run:
+Static-analysis patterns to run:
 
 ```bash
 # Loading without skeleton
-rg 'isLoading|isPending|loading\?' --type=tsx src/ -l | while read f; do
+rg 'isLoading|isPending|loading\?' --type=ts src/ -l | while read f; do
   rg -L 'Skeleton|aria-busy' "$f" && echo "$f: loading without skeleton"
 done
 
 # Empty without CTA
-rg '\.length === 0|isEmpty|items\.length' --type=tsx src/ -l | while read f; do
+rg '\.length === 0|isEmpty|items\.length' --type=ts src/ -l | while read f; do
   rg -L 'Button|Link|<a |action' "$f" && echo "$f: empty branch without CTA"
 done
 
 # Error branch without retry
-rg 'catch|onError|isError|hasError|error[?:]' --type=tsx src/ -l | while read f; do
+rg 'catch|onError|isError|hasError|error[?:]' --type=ts src/ -l | while read f; do
   rg -L 'retry|tryAgain|refetch' "$f" && echo "$f: error without retry"
 done
 
 # Form without useFormStatus child or pending state
-rg '<form' --type=tsx src/ -l | while read f; do
+rg '<form' --type=ts src/ -l | while read f; do
   rg -L 'useFormStatus|isPending|isSubmitting|pending' "$f" && echo "$f: form without pending state"
 done
 
 # Dialog without onCloseAutoFocus / focus restoration
-rg 'role="dialog"|<Dialog' --type=tsx src/ -l | while read f; do
+rg 'role="dialog"|<Dialog' --type=ts src/ -l | while read f; do
   rg -L 'onCloseAutoFocus|triggerRef|finalFocus' "$f" && echo "$f: dialog without focus restoration"
 done
 
 # Optimistic without rollback
-rg 'useOptimistic' --type=tsx src/ -l | while read f; do
+rg 'useOptimistic' --type=ts src/ -l | while read f; do
   rg -L 'catch|rollback|revert|onError' "$f" && echo "$f: optimistic without rollback"
 done
 ```
 
-These recipes are starting points; rules in `rules-modern/` have refined detection per rule.
+Starting points; `rules-modern/` has refined per-rule detection.
 
 ## State-pair pitfalls (the bugs)
 
 Top patterns that ship to production:
 
-1. **Spinner with no min-height.** Renders at 0×0, then layout jumps to full content. CLS regression even if loading state exists.
+1. **Spinner with no min-height.** Renders at 0×0, then jumps to full content. CLS regression even with a loading state.
 2. **Empty state shows "No items"** with no CTA. User stalls.
-3. **Error state shows "Something went wrong"** with no actionable detail. User reloads or leaves.
-4. **Submit button has no `pending` state.** User clicks twice; backend gets duplicate request.
-5. **Modal doesn't restore focus.** Keyboard user tabs from `<body>` next; loses context.
-6. **Optimistic update doesn't roll back.** Server returns 422; UI keeps the optimistic value; eventual reload reveals truth.
-7. **Loading skeleton has different height than loaded content.** Layout jumps on data arrival (CLS).
-8. **Disabled button has no `aria-disabled` or tooltip.** User can't tell why it's disabled.
-9. **Toast disappears in 3 s.** Screen-reader users and slow readers miss it.
+3. **Error shows "Something went wrong"** with no actionable detail. User reloads or leaves.
+4. **Submit has no `pending` state.** User clicks twice; backend gets a duplicate.
+5. **Modal doesn't restore focus.** Keyboard user tabs from `<body>`; loses context.
+6. **Optimistic update doesn't roll back.** Server returns 422; UI keeps the optimistic value until a reload reveals the truth.
+7. **Skeleton height differs from loaded content.** Layout jumps on data arrival (CLS).
+8. **Disabled button has no `aria-disabled` or tooltip.** User can't tell why.
+9. **Toast disappears in 3 s.** Screen-reader and slow readers miss it.
 10. **Color-only validation.** Red border without icon or `aria-invalid`: 8% of users miss it.

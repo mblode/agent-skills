@@ -1,25 +1,24 @@
 # Add Dark Mode
 
-Use this when the user wants to add dark mode support to an existing UI.
+Use when the user wants to add dark mode support to an existing UI.
 
 ## Load First
 
-- Load [guidelines/dark-mode.md](./guidelines/dark-mode.md) for the dark-mode design rules.
-- For raster image work (auditing flagged images or a standalone "dark version of this image" request), load [dark-mode-image.md](./dark-mode-image.md).
+- [guidelines/dark-mode.md](./guidelines/dark-mode.md) for the dark-mode design rules.
+- [dark-mode-image.md](./dark-mode-image.md) for raster image work (auditing flagged images or a standalone "dark version of this image" request).
 
 ## Workflow
 
-1. Inspect the existing UI and project Tailwind conventions.
-2. Convert markup to include appropriate dark-mode classes.
-3. Audit rasterized images for dark-mode variants.
-4. For each rasterized image that needs a dark-mode variant, follow [dark-mode-image.md](./dark-mode-image.md), which requires the `imagegen` skill before creating or editing image assets.
-5. Save generated dark-mode images alongside the originals and wire them into the dark-mode UI.
+1. Inspect the UI and project Tailwind conventions.
+2. Add dark-mode classes to the markup.
+3. Audit raster images for dark-mode variants.
+4. For each raster image needing a variant, follow [dark-mode-image.md](./dark-mode-image.md), which requires the `imagegen` skill before creating or editing image assets.
+5. Save dark-mode images beside the originals and wire them in.
 
 ## Guardrails
 
-- Do not generate, edit, or replace raster image assets without first loading [dark-mode-image.md](./dark-mode-image.md) and the `imagegen` skill it requires.
-- Require the dark-mode-image + `imagegen` workflow even when the image change seems simple, decorative, or incidental.
+- Never generate, edit, or replace raster image assets without first loading [dark-mode-image.md](./dark-mode-image.md) and the `imagegen` skill it requires, even when the change seems simple, decorative, or incidental.
 
 ## Verify
 
-- Check light and dark modes for contrast, missing variants, and images that still assume a light background.
+- Check both modes for contrast, missing variants, and images still assuming a light background.

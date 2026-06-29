@@ -10,35 +10,35 @@ related: forms-lost-data-on-error
 
 ## Form input not normalized server-side
 
-Postel's Law: be liberal in what you accept, strict in what you send. Email addresses with trailing whitespace, mixed casing, or surrounding quotes from a paste should be silently fixed, not rejected with "Invalid email." Phone numbers should land in E.164 server-side. URLs should accept missing protocols. Strict client-side validation pushes users into corner cases the team didn't anticipate; normalization in the server action puts the fix in one place.
+Postel's Law: be liberal in what you accept, strict in what you send. Emails with trailing whitespace, mixed case, or pasted quotes should be silently fixed, not rejected with "Invalid email." Phones should land in E.164, URLs accept missing protocols, all server-side. Strict client validation pushes users into corner cases; normalize in the server action to fix it in one place.
+
+## Contents
+[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
 
 ## What goes wrong
 
-A user types `  Alice@Example.COM ` (copy-pasted from a CRM). The form rejects it as "Invalid email" because the regex requires lowercase. The user fixes the case but misses the trailing space; rejected again. Or: a sign-up succeeds with `Alice@Example.com`, but next-day sign-in fails because the lookup is case-sensitive and the stored value differs from the typed one.
+A user pastes `  Alice@Example.COM ` from a CRM. The lowercase-only regex rejects it as "Invalid email"; the user fixes case but misses the trailing space, rejected again. Or sign-up stores `Alice@Example.com` and next-day sign-in fails: the lookup is case-sensitive and the stored value differs from what was typed.
 
 ## Detection
 
 **Surfaces:** sign-in, sign-up, checkout (email, phone, ZIP, country), onboarding, search-with-email-share.
 
 **Static signals:**
-1. Find inputs requiring normalization: `<input type="email">`, `<input type="tel">`, `<input type="url">`, `<input pattern=...>`.
-2. Trace each to its server action. The action must:
-   - For email: `.trim().toLowerCase()` before lookup/storage.
-   - For phone: parse to E.164 (e.g. via `libphonenumber-js`).
-   - For URL: prepend protocol when missing, validate with `new URL(...)`.
-3. If the action passes the raw `formData.get("email")` straight into a DB query or auth lookup, it fails.
+1. Find inputs needing normalization: `<input type="email">`, `<input type="tel">`, `<input type="url">`, `<input pattern=...>`.
+2. Trace each to its server action. It must: email `.trim().toLowerCase()` before lookup/storage; phone parsed to E.164 (e.g. `libphonenumber-js`); URL protocol prepended when missing, validated with `new URL(...)`.
+3. Fails if the action passes raw `formData.get("email")` straight into a DB query or auth lookup.
 4. Check zod schemas: prefer `z.string().email().toLowerCase().trim()` over `z.string().regex(emailRegex)`.
 
 **Concrete commands:**
 ```bash
 # Email inputs
-rg '<input[^>]*type=["\']email' --type=tsx src/
+rg '<input[^>]*type=["\']email' --type=ts src/
 
 # Server actions touching email
 rg -A 10 '"use server"' --type=ts src/ | rg -B 3 'email|phone'
 
 # Strict regex pattern attributes (often too aggressive)
-rg '<input[^>]*pattern=' --type=tsx src/
+rg '<input[^>]*pattern=' --type=ts src/
 
 # Actions that don't normalize
 rg -l 'formData\.get\("email"\)' --type=ts src/ | while read f; do
@@ -48,8 +48,8 @@ done
 ```
 
 **False-positive guards:**
-- Skip files with `// ui-audit-ignore:forms-no-normalize`.
-- Skip read-only display contexts (an `<input readOnly>` echoing canonical data).
+- Skip `// ui-audit-ignore:forms-no-normalize`.
+- Skip read-only display contexts (`<input readOnly>` echoing canonical data).
 - Skip inputs that intentionally preserve case (display name, exact-match search).
 
 ## Fix
@@ -139,9 +139,9 @@ export async function login(_p, fd: FormData) {
 
 ## Defer-to (when this is another tool's job)
 
-- Form validation libraries (zod, valibot, yup) for the schema layer.
-- libphonenumber-js for phone normalization; don't roll your own.
-- For address normalization, defer to a service (Smarty, Google Address Validation).
+- Schema layer: zod, valibot, or yup.
+- Phone normalization: libphonenumber-js; don't roll your own.
+- Address normalization: a service (Smarty, Google Address Validation).
 
 ## Suppression
 

@@ -17,42 +17,42 @@ description: >
 
 # pr-creator
 
-Write PR descriptions like a developer posting in Slack, not like an AI summarizing a diff.
+Write PR descriptions like a developer posting in Slack, not an AI summarizing a diff.
 
-- **IS:** creating the GitHub PR (or updating an existing one's title and body): a short human-sounding description, a Linear ID title prefix, commit restructuring, and reviewer guidance for large diffs.
-- **IS NOT:** reviewing the diff for bugs (use `pr-reviewer`), watching CI and review comments after creation (use `pr-babysitter`), or cutting npm releases (use `autoship`).
+- **IS:** creating or updating a GitHub PR title and body: short human-sounding description, Linear ID prefix, commit restructuring, reviewer guidance for large diffs.
+- **IS NOT:** reviewing the diff for bugs (use `pr-reviewer`), watching CI and review comments (use `pr-babysitter`), or cutting npm releases (use `autoship`).
 
 ## Reference Files
 
 | File | Read When |
 |------|-----------|
-| `references/pr-polish.md` | Commit history is noisy (fixup, WIP, or "address review" commits), the diff exceeds 500 lines, or the user asks to polish, tidy, restructure, or split the PR |
+| `references/pr-polish.md` | Commits are noisy (fixup, WIP, "address review"), diff exceeds 500 lines, or user asks to polish, tidy, restructure, or split the PR |
 
 ## Workflow
 
-Copy this checklist and work through it:
+Work through this checklist:
 
 ```text
 PR creation progress:
 - [ ] Inspect: git status, git log origin/main..HEAD, git diff origin/main...HEAD
-- [ ] Check for an existing PR: gh pr view --json url,number,state (update instead of create if one exists)
-- [ ] Find the Linear ID (branch, commits, prompt, PR context); skip the prefix if none
+- [ ] Existing PR? gh pr view --json url,number,state (edit, not create, if one exists)
+- [ ] Find the Linear ID (branch, commits, prompt, PR context); skip prefix if none
 - [ ] Noisy commits or >500-line diff? Read references/pr-polish.md and restructure first
 - [ ] Push with upstream: git push -u origin HEAD
-- [ ] Draft title and body against the rules and anti-pattern list below
-- [ ] Check for .github/PULL_REQUEST_TEMPLATE.md; fill its sections briefly if present
+- [ ] Draft title and body against the rules and anti-patterns below
+- [ ] Check .github/PULL_REQUEST_TEMPLATE.md; fill its sections briefly if present
 - [ ] New PR: gh pr create. Existing open PR: gh pr edit. Verify with gh pr view; return the URL
 ```
 
-Do not ask the user to confirm the description before creating or updating. The whole point is speed.
+Do not ask the user to confirm the description before creating or updating; the point is speed.
 
 ## Rules
 
 1. **Title.** With a Linear ID: `ABC-123: Add auth flow`. Without one: `Add auth flow`. Under 60 chars, no trailing period.
-2. **Body.** Default to one short paragraph: what changed and why it matters.
+2. **Body.** One short paragraph: what changed and why it matters.
 3. **No fake why.** If the reason is not in the prompt, Linear issue, branch, commits, or diff, leave it out.
-4. **Risk only when real.** Add one short `Risk:` line only for migrations, billing/auth/permission changes, irreversible writes, wide blast radius, or subtle behavior changes.
-5. **Testing only if real.** Mention testing only when it was actually run. Never a `Test plan` section.
+4. **Risk only when real.** One short `Risk:` line only for migrations, billing/auth/permission changes, irreversible writes, wide blast radius, or subtle behavior changes.
+5. **Testing only if real.** Mention it only when actually run. Never a `Test plan` section.
 6. **No file-by-file changelogs.** The diff already shows the files.
 7. **End after the useful content.** No generated-by footer, no co-author line.
 
@@ -124,33 +124,9 @@ Stripe retries webhooks on timeout and our handler wasn't idempotent, so retried
 Risk: touches the billing write path.
 ```
 
-### Refactor (no Linear ID)
-
-**Bad:**
-
-```text
-Title: Refactor data fetching utilities to improve maintainability
-
-This commit introduces a unified retry mechanism, refactoring the existing
-data fetching utilities to leverage a shared helper. This ensures consistency
-across the codebase and improves long-term maintainability.
-```
-
-**Good:**
-
-```text
-Title: Collapse three copies of fetch retry logic into one helper
-
-Same retry behavior we had in three places, now in one withRetry helper. No behavior change.
-```
-
 ## Creating the PR
 
-First check whether a PR already exists for the branch:
-
-```bash
-gh pr view --json url,number,state   # errors if none exists; check state == OPEN
-```
+Probe for an existing PR first (`gh pr view --json url,number,state`; `state == OPEN` means edit, not create). The heredoc must be quoted (`<<'EOF'`) and the branch needs an upstream: see Gotchas.
 
 ### No PR yet: create
 
@@ -167,7 +143,7 @@ gh pr view --json url,title   # evidence the PR exists; return the url
 
 ### PR already open: update title and body
 
-Do not run `gh pr create`; it errors with "a pull request already exists". Push any new commits, then edit the existing PR:
+`gh pr edit` overwrites the title and body wholesale, so draft the full replacement, not a patch. Same rules and anti-patterns apply.
 
 ```bash
 git push origin HEAD   # push any local commits the PR doesn't have yet
@@ -180,20 +156,18 @@ EOF
 gh pr view --json url,title   # confirm the update; return the url
 ```
 
-`gh pr edit` overwrites the title and body wholesale, so draft the full replacement, not a patch. Same rules and anti-patterns apply.
-
 ## Gotchas
 
-- `gh pr create` on a branch with no upstream hangs on an interactive "Where should we push?" prompt; agents stall there forever. Run `git push -u origin HEAD` first.
-- Quote the heredoc delimiter (`<<'EOF'`). With an unquoted `<<EOF` the shell expands backticks and `$vars` inside the body, corrupting the description or executing commands.
-- `--body` silently discards `.github/PULL_REQUEST_TEMPLATE.md`. If the template exists, fill its sections with short answers instead of ignoring it, and do not add sections it does not ask for.
-- Derive the Linear ID from the branch name (`mblode/abc-123-add-auth` gives `ABC-123`, uppercased). Never guess one: Linear's GitHub integration links the PR to whatever ID the title contains.
-- `gh pr create` from the default branch fails with "no commits between main and main". Check `git branch --show-current` during inspection.
-- `gh pr create` on a branch that already has an open PR fails with "a pull request for branch ... already exists". Check `gh pr view` first and switch to `gh pr edit` to update the title and body.
-- Plain `git diff` shows only uncommitted changes, so on a committed branch it is empty and the description will be written blind. Diff against the merge base: `git diff origin/main...HEAD`.
+- `gh pr create` on a branch with no upstream hangs forever on an interactive "Where should we push?" prompt. Run `git push -u origin HEAD` first.
+- Quote the heredoc delimiter (`<<'EOF'`). Unquoted `<<EOF` lets the shell expand backticks and `$vars` in the body, corrupting the description or running commands.
+- `--body` silently discards `.github/PULL_REQUEST_TEMPLATE.md`. If the template exists, fill its sections with short answers, and do not add sections it does not ask for.
+- Derive the Linear ID from the branch (`mblode/abc-123-add-auth` gives `ABC-123`, uppercased). Never guess: Linear's GitHub integration links the PR to whatever ID the title contains.
+- `gh pr create` from the default branch fails with "no commits between main and main". Check `git branch --show-current` first.
+- `gh pr create` on a branch with an open PR fails with "a pull request for branch ... already exists". Check `gh pr view` first, then switch to `gh pr edit`.
+- Plain `git diff` shows only uncommitted changes, so on a committed branch it is empty and the description is written blind. Diff against the merge base: `git diff origin/main...HEAD`.
 
 ## Related skills
 
-- `pr-reviewer`: run before creating when the user wants the diff checked for bugs.
+- `pr-reviewer`: run before creating to check the diff for bugs.
 - `pr-babysitter`: hand off after creation to watch CI, conflicts, and review comments.
 - `autoship`: npm release pipeline (changesets, version PR, publish); not this skill's job.

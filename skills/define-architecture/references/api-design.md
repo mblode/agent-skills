@@ -13,39 +13,19 @@ Contract-first patterns for REST APIs, module boundaries, and TypeScript interfa
 
 ### Hyrum's Law
 
-Every observable behavior of your API will be depended on by somebody, regardless of your documented contract. Be intentional about what you expose: implementation details leak into de facto contracts.
+Every observable behavior will be depended on by someone, regardless of the documented contract. Be intentional about what you expose; implementation details leak into de facto contracts.
 
 ### Contract first
 
-Define the interface before the implementation:
-
-```typescript
-interface TaskAPI {
-  createTask(input: CreateTaskInput): Promise<Task>;
-  listTasks(params: ListTasksParams): Promise<PaginatedResult<Task>>;
-  getTask(id: TaskId): Promise<Task>;
-  updateTask(id: TaskId, input: UpdateTaskInput): Promise<Task>;
-  deleteTask(id: TaskId): Promise<void>;
-}
-```
+Define the interface before any handler: a typed `TaskAPI` (`createTask`/`listTasks`/`getTask`/`updateTask`/`deleteTask`) returning `Promise<Task>` / `Promise<PaginatedResult<Task>>`.
 
 ### Consistent error semantics
 
-One error shape across all endpoints:
-
-```typescript
-interface APIError {
-  error: { code: string; message: string; details?: unknown };
-}
-```
-
-Status codes: 400 invalid input, 401 unauthenticated, 403 unauthorized, 404 not found, 409 conflict, 422 validation failure, 500 server error (never expose internals).
+One error shape across all endpoints: `{ error: { code: string; message: string; details?: unknown } }`. Status codes: 400 invalid input, 401 unauthenticated, 403 unauthorized, 404 not found, 409 conflict, 422 validation failure, 500 server error (never expose internals).
 
 ### Validate at boundaries only
 
-Validate at: API route handlers, form submissions, external service response parsing, environment variable loading.
-
-Do NOT validate between internal functions with established type contracts.
+Validate at API route handlers, form submissions, external service response parsing, and environment variable loading. Do NOT validate between internal functions with established type contracts.
 
 ### Prefer addition over modification
 
@@ -63,64 +43,17 @@ Extend interfaces with optional fields. Never modify or remove existing fields w
 
 ## REST Patterns
 
-```
-GET    /api/tasks              → List (paginated)
-POST   /api/tasks              → Create
-GET    /api/tasks/:id          → Read
-PATCH  /api/tasks/:id          → Partial update
-DELETE /api/tasks/:id          → Delete
-GET    /api/tasks/:id/comments → Sub-resource list
-```
-
-Pagination on every list endpoint:
-
-```typescript
-{
-  "data": [...],
-  "pagination": { "page": 1, "pageSize": 20, "totalItems": 142, "totalPages": 8 }
-}
-```
+Verb-to-route mapping: `GET /api/tasks` list (paginated), `POST /api/tasks` create, `GET`/`PATCH`/`DELETE /api/tasks/:id` read/partial-update/delete, `GET /api/tasks/:id/comments` sub-resource list. Every list endpoint returns `{ data: [...], pagination: { page, pageSize, totalItems, totalPages } }`.
 
 ## TypeScript Patterns
 
-### Discriminated unions for variants
-
-```typescript
-type TaskStatus =
-  | { type: 'pending' }
-  | { type: 'in_progress'; assignee: string; startedAt: Date }
-  | { type: 'completed'; completedAt: Date; completedBy: string }
-  | { type: 'cancelled'; reason: string; cancelledAt: Date };
-```
-
-### Input/output separation
-
-```typescript
-interface CreateTaskInput {
-  title: string;
-  description?: string;
-}
-
-interface Task {
-  id: TaskId;
-  title: string;
-  description: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy: UserId;
-}
-```
-
-### Branded types for IDs
-
-```typescript
-type TaskId = string & { readonly __brand: 'TaskId' };
-type UserId = string & { readonly __brand: 'UserId' };
-```
+- **Discriminated unions for variants**: model status as a union keyed on a `type` literal (`pending` | `in_progress` | `completed` | `cancelled`), each member carrying only its own fields.
+- **Input/output separation**: keep `CreateTaskInput` (client-supplied) distinct from the full `Task` (adds server-owned `id`, `createdAt`, `updatedAt`, `createdBy`).
+- **Branded types for IDs**: `type TaskId = string & { readonly __brand: 'TaskId' }` so a `UserId` cannot be passed where a `TaskId` is expected.
 
 ## Red Flags
 
-- Endpoints returning inconsistent response shapes
+- Inconsistent response shapes across endpoints
 - Varying error formats across endpoints
 - Validation scattered through internal code instead of at boundaries
 - Breaking changes to existing fields without versioning

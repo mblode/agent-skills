@@ -6,7 +6,7 @@ tags: dry, linking, maintenance
 
 ## Link to existing docs instead of re-explaining
 
-If a concept is already explained in another document, link to it. Don't re-explain it. Duplicate explanations drift apart over time -- one gets updated while the other goes stale, and readers can't tell which is authoritative.
+If a concept is explained in another document, link to it; don't re-explain. Duplicate explanations drift apart: one gets updated while the other goes stale, and readers can't tell which is authoritative.
 
 **Incorrect (re-explains webhook setup in every guide):**
 

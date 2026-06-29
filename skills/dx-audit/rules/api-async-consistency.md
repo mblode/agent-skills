@@ -7,7 +7,7 @@ tags: api, async, promises, consistency
 
 ## Keep Async Contracts Consistent; Always Return a Promise
 
-A function that is sometimes synchronous and sometimes returns a Promise, or that throws synchronously on bad input and rejects everywhere else, forces callers to handle two control-flow paths for one operation. Pick one style: an async operation always returns a Promise and routes every failure through rejection. Do not also ship a callback overload of the same function.
+A function that is sometimes sync and sometimes returns a Promise, or throws synchronously on bad input but rejects everywhere else, forces callers to handle two control-flow paths for one operation. Pick one style: an async operation always returns a Promise and routes every failure through rejection. Do not also ship a callback overload of the same function.
 
 **Incorrect (sync-or-async return, split sync-throw and async-reject paths):**
 

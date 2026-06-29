@@ -9,9 +9,9 @@ related: decision-teslers-law, interaction-aesthetic-usability, cognitive-cognit
 
 ## Postel's Law
 
-Be liberal in what you accept, conservative in what you send (Jon Postel, RFC 760, 1980). On input, tolerate the messy ways real people type: uppercase emails, phone numbers with spaces or dashes, dates in any reasonable format, leading/trailing whitespace. Normalize on the way in.
+Be liberal in what you accept, conservative in what you send (Jon Postel, RFC 760, 1980). On input, tolerate the messy ways real people type: uppercase emails, phones with spaces or dashes, dates in any reasonable format, leading/trailing whitespace. Normalize on the way in.
 
-On output, be precise. Error messages should be specific, actionable, and unambiguous. The asymmetry is the point: forgive input, but tell the user clearly what happened and what to do next.
+On output, be precise: error messages specific, actionable, unambiguous. The asymmetry is the point: forgive input, but tell the user clearly what happened and what to do next.
 
 ## Check
 
@@ -20,7 +20,7 @@ On output, be precise. Error messages should be specific, actionable, and unambi
 **Procedure:**
 1. Find input elements with a `pattern=` attribute, or `type="email" | "tel" | "url"`.
 2. Check pattern strictness: `pattern="\d{10}"` rejects valid `(415) 555-1234`; case-locked email regex rejects `User@Example.com`.
-3. Find error messages near inputs (`role="alert"`, `aria-invalid`, `<FormError>`). The bare strings `"invalid"`, `"error"`, `"please try again"`, or error codes alone are vague.
+3. Find error messages near inputs (`role="alert"`, `aria-invalid`, `<FormError>`). Bare strings (`"invalid"`, `"error"`, `"please try again"`) or error codes alone are vague.
 4. Check for `trim()`, `toLowerCase()`, or normalize calls on `onBlur` / `onChange` for the matching input.
 
 **Concrete commands:**

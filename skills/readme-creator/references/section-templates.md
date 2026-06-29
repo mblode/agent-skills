@@ -1,6 +1,6 @@
 # Section Templates
 
-README skeletons for each project type. Copy the relevant template, fill placeholders, and adapt to the project.
+README skeletons by project type. Copy the relevant template, fill placeholders, adapt.
 
 ## Contents
 
@@ -8,9 +8,9 @@ README skeletons for each project type. Copy the relevant template, fill placeho
 - [Library / package](#library--package)
 - [Web app](#web-app)
 - [Framework](#framework)
-- [Monorepo](#monorepo)
+- [Monorepo (published)](#monorepo-published)
+- [Monorepo (private / internal)](#monorepo-private--internal)
 - [Skill bundle](#skill-bundle)
-- [Section-by-section guidance](#section-by-section-guidance)
 
 ---
 
@@ -70,12 +70,10 @@ const result = await {{mainExport}}({{args}});
 
 ### Notes
 
-- Lead with the centered title + one-liner + badges block for visual impact.
-- Feature list goes above the fold (no heading needed, just a bullet list).
-- Show `npm install -g` first (global install for CLIs), then `npx` as alternative if applicable.
-- Usage section: 3-5 real commands, simplest first. Show actual flags, not pseudocode.
-- Options: copy from `--help` output. Keep formatting as a code block, not a table.
-- API section: only include if the CLI also exports a programmatic API. Otherwise omit.
+- Lead with the centered title + one-liner + badges block for impact.
+- Show `npm install -g` first, then `npx` as alternative if applicable.
+- Options: copy from `--help` output; keep as a code block, not a table.
+- API section: only if the CLI also exports a programmatic API; else omit.
 
 ---
 
@@ -129,11 +127,9 @@ All components/functions accept these props/options:
 
 ### Notes
 
-- "Highlights" instead of "Features": it's a library, so show what makes it stand out.
-- Quick Start = install + minimal working example in under 10 lines total.
-- Usage section shows import patterns and common configurations.
-- Prop/option list uses inline code for names and defaults.
-- Link to external docs site if one exists (add a Documentation section after Highlights).
+- "Highlights" not "Features": show what makes the library stand out.
+- Quick Start = install + minimal working example, under 10 lines total.
+- Link an external docs site if one exists (add a Documentation section after Highlights).
 
 ---
 
@@ -182,12 +178,10 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Notes
 
-- No badges for apps (they're not published to a registry).
-- No centered title (apps are simpler, less "brand" presence).
-- Getting Started replaces Install: readers need to clone and configure.
-- Environment variables table is critical. Include `.env.example` in the repo.
-- Tech Stack is optional but helps contributors understand the codebase.
-- Never ship the default create-next-app README. Replace it immediately.
+- No badges, no centered title for apps (no registry presence, less brand).
+- Getting Started replaces Install: readers clone and configure.
+- Environment variables table is critical; include `.env.example` in the repo.
+- Tech Stack is optional but helps contributors.
 
 ---
 
@@ -251,10 +245,10 @@ npm install {{name}}
 
 ### Notes
 
-- Feature descriptions are longer than for CLIs and libraries: explain the "why" alongside the "what".
+- Feature descriptions run longer than CLI/library: explain the "why" with the "what".
 - Progressive disclosure: Quick Start (5 lines) → Basic Usage → Advanced Usage → Configuration reference.
-- Configuration table with types and defaults is essential for frameworks.
-- Requirements section is more important here: frameworks often have specific runtime needs.
+- Configuration table with types and defaults is essential.
+- Requirements matters more here: frameworks often have specific runtime needs.
 
 ---
 
@@ -300,16 +294,16 @@ See individual package READMEs for package-specific setup.
 
 ### Notes
 
-- The packages table is the centerpiece: it's how readers discover what's in the monorepo.
+- The packages table is the centerpiece: how readers discover what's in the monorepo.
 - Link each package name to its directory (which should have its own README).
-- Version badges in the table give at-a-glance status for each package.
-- Development commands run from root using the workspace tool (turbo, nx, etc.).
+- Version badges give at-a-glance status per package.
+- Development commands run from root via the workspace tool (turbo, nx, etc.).
 
 ---
 
 ## Monorepo (private / internal)
 
-Use this when the monorepo is not published to a registry (`"private": true` in package.json, no npm publish). No badges, no version column. Focus on getting a contributor running fast.
+Use when the monorepo is unpublished (`"private": true` in package.json, no npm publish). No badges, no version column. Focus on getting a contributor running fast.
 
 ```markdown
 # {{name}}
@@ -350,12 +344,12 @@ npm run typecheck        # type-check applicable workspaces
 
 ### Notes
 
-- No badges, no version column: private packages have no registry presence.
-- "Workspaces" instead of "Packages" reads clearer for mixed app + package monorepos.
-- "Purpose" column instead of "Description" encourages specific, action-oriented text.
-- Requirements section is critical when multiple runtimes are needed (Node + Python, Node + Rust).
-- List setup commands for secondary runtimes in Quick start (e.g., `npm run setup:python`).
-- Common commands section replaces "Development": show the commands people actually run, not generic build/test/lint.
+- No badges, no version column: no registry presence.
+- "Workspaces" not "Packages" reads clearer for mixed app + package monorepos.
+- "Purpose" column not "Description" encourages specific, action-oriented text.
+- Requirements is critical with multiple runtimes (Node + Python, Node + Rust).
+- List secondary-runtime setup in Quick start (e.g., `npm run setup:python`).
+- Common commands replaces "Development": show commands people actually run, not generic build/test/lint.
 
 ---
 
@@ -388,66 +382,7 @@ Edit the files in `skills/`. Keep `SKILL.md` concise and use reference files for
 
 ### Notes
 
-- Quick Start is the single install command, nothing else needed.
-- Skills table is the core content. One row per skill with phase and description.
-- Contributing section is minimal: point to the skills/ directory.
-- No license section needed if the bundle is not a published package (add one if it is).
-
----
-
-## Section-by-Section Guidance
-
-### Title
-
-- Use the project name exactly as it appears in `package.json` `name` field (or equivalent).
-- Never use "About", "Introduction", or "Overview" as the first heading.
-- For published packages: centered HTML title (`<h1 align="center">`) or `# name`.
-- For apps and internal tools: plain `# name`.
-
-### One-liner
-
-- One sentence directly below the title. No heading.
-- Answers: "What does this do?" in plain language.
-- Bad: "This is a tool that helps you manage your configurations."
-- Good: "Manage configurations across environments with type-safe schemas."
-
-### Feature list
-
-- Bullet list with bold lead + short explanation.
-- 5-9 features. More than 9 means you need subheadings or a docs site.
-- Place above the fold (before Install) so readers see value before effort.
-- Format: `- **Feature name:** what it does.` (not `- **Feature name** - what it does.`)
-
-### Install
-
-- Show the single fastest path. For npm packages: `npm install {{name}}`.
-- Add global flag for CLIs: `npm install -g {{name}}`.
-- Show `npx` alternative only if it's the primary usage pattern.
-- List requirements immediately after the install command (Node.js version, system deps).
-
-### Usage / Quick Start
-
-- Start with the simplest possible example that produces a visible result.
-- Every code block must be copy-pasteable and runnable without modification.
-- Use realistic values. Never use `foo`, `bar`, `example`, or `test` as values.
-- Show 3-5 examples. First is basic, last is advanced.
-- For CLIs: show actual terminal commands with real flags.
-- For libraries: show import + minimal usage in under 10 lines.
-
-### Options / API reference
-
-- CLIs: paste `--help` output as a code block. Keep it as-is.
-- Libraries: list exported functions/components with their signatures.
-- Use tables for structured option docs (name, type, default, description).
-- Only document public API. Internal functions stay internal.
-
-### Environment variables
-
-- Table format: variable name, description, required/optional.
-- Ship a `.env.example` file in the repo with placeholder values.
-- Never include real API keys or secrets in examples.
-
-### License
-
-- Always include. One line: `[MIT](LICENSE.md)` or equivalent.
-- Use a link to the LICENSE file, not the full license text.
+- Quick Start is the single install command, nothing else.
+- Skills table is the core content: one row per skill with phase and description.
+- Contributing is minimal: point to the skills/ directory.
+- No license section unless the bundle is a published package.

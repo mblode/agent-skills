@@ -10,35 +10,37 @@ related: async-no-suspense-boundary, states-no-error-state, microcopy-leaked-err
 
 ## Async tree without an error boundary
 
-A thrown error inside a server component or a client async tree without an ancestor error boundary unmounts the entire route. The user sees a blank page or Next.js's default error screen with a stack trace in dev. In production they see nothing, just a broken app. Every route segment and every independently-fetching widget needs its own error boundary so one failure doesn't take the page down.
+A thrown error in a server component or client async tree with no ancestor error boundary unmounts the whole route: a blank page in production, a stack trace in dev. Every route segment and every independently-fetching widget needs its own boundary so one failure does not take the page down.
 
 ## What goes wrong
 
-A widget fetch returns 500. Without an error boundary, the error bubbles up past the page, past the layout, and unmounts everything to the nearest boundary, usually the root. The user, who was halfway through checkout, now sees a blank screen with no recovery path.
+A widget fetch returns 500. With no boundary, the error bubbles past page and layout and unmounts everything to the nearest boundary (usually root). A user mid-checkout now sees a blank screen with no recovery path.
 
 ## Detection
 
-**Surfaces:** dashboard, list, checkout, sign-in, error-state, modal: anything that fetches data or runs server actions.
+**Surfaces:** dashboard, list, checkout, sign-in, error-state, modal (anything that fetches data or runs server actions).
 
 **Static signals:**
-1. List App Router segments: `fd -t f '(page|layout).tsx' app/ src/app/`.
-2. For each segment, check for a sibling `error.tsx`.
-3. Find client components using `useQuery`, `fetch`, `useSWR`, or server actions; confirm an `<ErrorBoundary>` ancestor exists.
-4. Flag any segment with awaits but no `error.tsx`, and any client async tree with no boundary.
+1. List App Router segments: `find app src/app -type f \( -name 'page.tsx' -o -name 'layout.tsx' \) 2>/dev/null`.
+2. Check each segment for a sibling `error.tsx`.
+3. Find client components using `useQuery`, `fetch`, `useSWR`, or server actions; confirm an `<ErrorBoundary>` ancestor.
+4. Flag segments with awaits but no `error.tsx`, and any client async tree with no boundary.
 
 **Concrete commands:**
 ```bash
 # Route segments lacking error.tsx
-fd -t f 'page.tsx' app/ src/app/ | while read p; do
+find app src/app -type f -name 'page.tsx' 2>/dev/null | while read p; do
   dir=$(dirname "$p")
   [ ! -f "$dir/error.tsx" ] && echo "$dir: no error.tsx"
 done
 
 # Root-level global-error.tsx
-fd -t f 'global-error.tsx' app/ src/app/ || echo 'missing global-error.tsx'
+find app src/app -type f -name 'global-error.tsx' 2>/dev/null | grep -q . || echo 'missing global-error.tsx'
 
 # Client components with fetches but no ErrorBoundary import
-rg "useQuery|useSWR|'use client'" --type=tsx -l | xargs rg -L 'ErrorBoundary'
+rg "useQuery|useSWR|'use client'" --type=ts -l | while read f; do
+  rg -q 'ErrorBoundary' "$f" || echo "$f: client async tree without local ErrorBoundary"
+done
 ```
 
 **False-positive guards:**

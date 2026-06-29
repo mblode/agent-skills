@@ -1,11 +1,11 @@
 # Public Suffix List (PSL)
 
-Use this reference when deciding whether to submit a tenant domain to the PSL.
+Use when deciding whether to submit a tenant domain to the PSL.
 
 ## What the PSL does
 
 - Defines public suffixes where users can register names.
-- Browsers use it to cap cookie scope (for example, no cookies on `.co.uk`).
+- Browsers use it to cap cookie scope (e.g. no cookies on `.co.uk`).
 - Shared cross-vendor list; registry rules vary and cannot be derived.
 
 ## Why it matters for multi-tenant platforms
@@ -19,7 +19,7 @@ Use this reference when deciding whether to submit a tenant domain to the PSL.
 - Submit a GitHub PR (owner/authorized rep); PRs are preferred and validated.
 - Prefer DNS proof: `_psl.<suffix>` TXT with a PR link (RFC8553).
 - Include a brief rationale (UGC/third-party subdomains); expect multi-week review.
-- PSL is not a security or trust signal and must not bypass tracking protections.
+- Not a security or trust signal; must not bypass tracking protections.
 
 ## Sources
 

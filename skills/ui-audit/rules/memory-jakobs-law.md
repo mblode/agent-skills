@@ -9,9 +9,9 @@ related: memory-mental-model, decision-paradox-of-the-active-user, cognitive-cog
 
 ## Jakob's Law
 
-Users spend the vast majority of their time on other sites and apps, so they expect your site to behave the way those do. The web has accreted a shared interaction grammar: logo top-left, primary nav center/left, search top-center, cart/account top-right, hamburger top-left or top-right at ≤768 px, footer holds legal and contact. Source: Jakob Nielsen, Nielsen Norman Group.
+Users spend most of their time on other sites, so they expect yours to behave like those. The web has a shared interaction grammar: logo top-left, primary nav center/left, search top-center, cart/account top-right, hamburger top-left or top-right at ≤768 px, footer holds legal and contact. Source: Jakob Nielsen, Nielsen Norman Group.
 
-Honour the grammar and the user's existing knowledge transfers. Deviate and the user pays a learning tax on every visit. Innovate only where the deviation is the product itself, and provide a transition path (preview, opt-in, revert) when you must change a familiar pattern.
+Honour it and existing knowledge transfers; deviate and the user pays a learning tax every visit. Innovate only where the deviation is the product itself, and provide a transition path (preview, opt-in, revert) when changing a familiar pattern.
 
 ## Check
 
@@ -19,8 +19,8 @@ Honour the grammar and the user's existing knowledge transfers. Deviate and the 
 
 **Procedure:**
 1. Identify the seven conventional positions for site chrome: (a) logo top-left, (b) primary nav center or left, (c) search top-center, (d) cart top-right, (e) account top-right, (f) hamburger top-left or top-right at viewports ≤768 px, (g) underlined or visibly distinct links in body copy.
-2. Inspect the actual layout (`<header>` order, `flex` justification, `position` classes, breakpoint behavior) and check each convention.
-3. Check icon semantics: cart glyph for cart, magnifying glass for search, person/avatar for account. Custom icons (star, heart, asterisk) for these slots fail.
+2. Inspect the layout (`<header>` order, `flex` justification, `position` classes, breakpoint behavior); check each convention.
+3. Check icon semantics: cart glyph for cart, magnifying glass for search, person/avatar for account. Custom icons (star, heart, asterisk) in these slots fail.
 
 **Concrete commands:**
 ```bash
@@ -40,7 +40,7 @@ rg -n 'ShoppingCart|Search|Menu|User|Account' src/components
 
 **If fail:** Restore conventional positions: move logo to top-left, cart to top-right with a `ShoppingCart` glyph, search to top-center with a magnifying glass. Replace custom icons in chrome slots with their universal equivalents.
 
-**If warn:** Fix the 1-3 specific deviations. If a deviation is intentional (e.g. brand-led layout), document it in a code comment and provide an opt-in/revert toggle.
+**If warn:** Fix the 1-3 deviations. If a deviation is intentional (e.g. brand-led layout), document it in a code comment and provide an opt-in/revert toggle.
 
 ## Examples
 

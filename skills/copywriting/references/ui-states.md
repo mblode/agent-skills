@@ -1,8 +1,8 @@
 # UI State Copy
 
-Read when naming actions, writing destructive CTAs, or writing error, empty, and loading copy. This is product-state copy, not marketing copy: the words a user reads while doing a task, where clarity about object, scope, and consequence matters more than persuasion.
+Read when naming actions or writing destructive CTAs, errors, empty, or loading copy. Product-state copy, not marketing: words a user reads while doing a task, where clarity about object, scope, and consequence beats persuasion.
 
-This file defines stable rule IDs that the `product-design` skill cites when it routes naming and state decisions here. Keep the IDs exactly as written.
+Defines stable rule IDs that `product-design` cites when routing naming and state decisions here. Keep IDs exactly as written.
 
 ## Contents
 
@@ -17,7 +17,7 @@ This file defines stable rule IDs that the `product-design` skill cites when it 
 
 ### rule/destructive-names-action
 
-Destructive and primary CTAs use Verb plus Noun naming the exact object. The button says what it does.
+Destructive and primary CTAs use Verb plus Noun naming the exact object, so the button says what it does.
 
 | Bad | Good |
 |-----|------|
@@ -27,17 +27,17 @@ Destructive and primary CTAs use Verb plus Noun naming the exact object. The but
 | `Delete` (bare) | `Delete 3 files` |
 | `Submit` (on a destructive action) | `Cancel subscription` |
 
-A label that does not name the object forces the user to reconstruct the consequence from surrounding text, which they often skip.
+A label that omits the object forces users to reconstruct the consequence from surrounding text they often skip.
 
 ### rule/no-confirm-ok-labels
 
-Never label a destructive or consequential action `Confirm`, `OK`, `Yes`, or a bare verb. These hide what happens. The exception is a purely informational dialog with a single dismiss action and no consequence, where `Got it` or `Close` is fine.
+Never label a destructive or consequential action `Confirm`, `OK`, `Yes`, or a bare verb; these hide what happens. Exception: a purely informational dialog with one dismiss action and no consequence, where `Got it` or `Close` is fine.
 
 ## Canonical product verbs
 
 ### rule/canonical-verb
 
-Use one verb per operation, consistently across the product. Do not call the same operation "Delete" on one screen and "Remove" on another. The verb carries the consequence, so the wrong verb misleads.
+One verb per operation, used consistently. Don't call the same operation "Delete" on one screen and "Remove" on another. The verb carries the consequence, so the wrong verb misleads.
 
 | Verb | Means | Reversible | Not |
 |------|-------|------------|-----|
@@ -53,13 +53,13 @@ Use one verb per operation, consistently across the product. Do not call the sam
 | Duplicate | Copy the object | n/a | Clone |
 | Move | Relocate without copying | yes | Transfer |
 
-When two verbs both fit, pick the one whose consequence matches the action, then use it everywhere for that action.
+When two verbs fit, pick the one whose consequence matches, then use it everywhere for that action.
 
 ## Error-state copy
 
 ### rule/error-states-recovery
 
-An error states three things: what happened, why when known, and the recovery action. It never shows raw exception or stack text, and never a bare "Something went wrong" with no next step.
+An error states three things: what happened, why (when known), and the recovery action. Never show raw exception or stack text, never a bare "Something went wrong" with no next step.
 
 | Bad | Good |
 |-----|------|
@@ -68,13 +68,13 @@ An error states three things: what happened, why when known, and the recovery ac
 | `Invalid input` | `Enter an email address, like name@example.com.` |
 | `TypeError: cannot read property 'id' of undefined` | `We could not load this project. Refresh to try again.` |
 
-Separate field-level errors (fix this input, shown inline) from surface-level errors (the action failed, shown near the action). Preserve everything the user typed; never clear the form on a failed submit.
+Separate field-level errors (fix this input, shown inline) from surface-level errors (action failed, shown near the action). Preserve everything the user typed; never clear the form on a failed submit.
 
 ## Empty-state copy
 
 ### rule/empty-state-action
 
-An empty state names the object and offers the first action. No dead ends. Distinguish never-had-any (guide the first step) from filtered-to-zero (offer to clear the filter).
+Name the object and offer the first action. No dead ends. Distinguish never-had-any (guide the first step) from filtered-to-zero (clear the filter).
 
 | Bad | Good |
 |-----|------|
@@ -82,13 +82,13 @@ An empty state names the object and offers the first action. No dead ends. Disti
 | `Nothing here` | `No members match "designer". Clear the filter to see all members.` |
 | `Empty` | `No invoices yet. They appear here after your first payment.` |
 
-An empty state is often a first impression. Treat it as onboarding, not as an error.
+Often a first impression. Treat it as onboarding, not an error.
 
 ## Loading-state copy
 
 ### rule/loading-state-specific
 
-Prefer specific loading copy over a bare "Loading..." when the target is known. Say what is loading, and for long operations, roughly how long.
+Prefer specific copy over bare "Loading..." when the target is known. Say what loads, and for long operations, roughly how long.
 
 | Bad | Good |
 |-----|------|
@@ -96,11 +96,11 @@ Prefer specific loading copy over a bare "Loading..." when the target is known. 
 | `Please wait` | `Importing 1,240 rows. This takes about a minute.` |
 | `...` | `Deploying. Usually under 30 seconds.` |
 
-Keep the triggering control's label stable while it is busy; use its loading affordance rather than swapping the text, so the layout does not jump and the user can still see which action is in flight.
+Keep the triggering control's label stable while busy; use its loading affordance instead of swapping text, so the layout doesn't jump and the user still sees which action is in flight.
 
 ## Rule IDs
 
-These IDs are shared vocabulary with `product-design`, which cites them when routing naming and state decisions here:
+Shared vocabulary with `product-design`, which cites them when routing naming and state decisions here:
 
 - `rule/destructive-names-action`
 - `rule/no-confirm-ok-labels`

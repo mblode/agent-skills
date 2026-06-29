@@ -9,9 +9,9 @@ related: perception-similarity, decision-occams-razor, cognitive-cognitive-load
 
 ## Law of Prägnanz
 
-The "law of good figure" or "law of simplicity": when faced with an ambiguous or complex shape, the eye resolves it into the simplest possible interpretation. The brain prefers the reading that costs the least cognitive effort. Simple, regular, unified shapes are processed and remembered faster than complex, irregular ones. This is a rubric-based rule: score how cleanly the composition resolves to a single reading.
+The "law of good figure" / "law of simplicity": faced with an ambiguous or complex shape, the eye resolves it into the simplest interpretation, the one costing the least cognitive effort. Simple, regular, unified shapes are processed and remembered faster than complex, irregular ones. Rubric-based: score how cleanly the composition resolves to a single reading.
 
-Prägnanz is the umbrella principle behind the other Gestalt laws: it is *why* the brain groups by proximity, similarity, region, and connection. If your composition can be misread as a simpler shape, it will be.
+Prägnanz is the umbrella behind the other Gestalt laws: it is *why* the brain groups by proximity, similarity, region, and connection. If a composition can be misread as a simpler shape, it will be.
 
 ## Rubric
 
@@ -41,11 +41,11 @@ For full anchor examples and common scoring confusions, see `references/observat
 
 **If fail or warn:**
 
-- Remove rotated, skewed, or overlapping decorative elements (tilted badges, angled banners, blob shapes layered over content).
-- Adopt a single grid; align every section, card, and figure to it. No off-grid one-offs.
-- Resolve competing alignments: pick left, center, or right per section and stick with it.
+- Remove rotated, skewed, or overlapping decorative elements (tilted badges, angled banners, layered blobs).
+- Adopt one grid; align every section, card, and figure to it. No off-grid one-offs.
+- Resolve competing alignments: pick left, center, or right per section and hold it.
 - Collapse near-duplicate shapes (two badges, two CTAs, two illustrations) to one dominant figure per section.
-- Reduce decorative gradients and overlays so a single figure-ground reading wins.
+- Reduce decorative gradients and overlays so one figure-ground reading wins.
 
 ## Examples
 

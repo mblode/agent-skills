@@ -7,7 +7,7 @@ tags: errors, messages, debugging
 
 ## Name the Cause and the Offending Value
 
-An error must say what went wrong and which value caused it. "Invalid input" sends the developer hunting; "Expected a positive integer for `port`, received -1" points straight at the bug. Always interpolate the actual offending value and the field or parameter name.
+An error must say what went wrong and which value caused it. "Invalid input" sends the developer hunting; "Expected a positive integer for `port`, received -1" points straight at the bug. Always interpolate the offending value and the field or parameter name.
 
 **Incorrect (vague, no value, no field):**
 

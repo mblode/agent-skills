@@ -9,9 +9,9 @@ related: perception-selective-attention, memory-serial-position, decision-hicks-
 
 ## Von Restorff Effect
 
-Also called the Isolation Effect: when a set of similar items contains one distinctive item, the distinctive item is remembered (von Restorff 1933; lawsofux.com/von-restorff-effect). Distinctiveness can be color, weight, size, shape, motion, or position: any property that makes one item break the pattern set by the rest.
+Also called the Isolation Effect: in a set of similar items, the one distinctive item is remembered (von Restorff 1933; lawsofux.com/von-restorff-effect). Distinctiveness can be color, weight, size, shape, motion, or position: any property that breaks the pattern set by the rest.
 
-The corollary is the trap: distinctiveness is a finite resource. Highlight one item and it pulls attention. Highlight three and they fight. Highlight everything and nothing stands out: the rule dissolves and the page becomes uniform noise. Reserve emphasis for the single most important action or item per surface, and pair color with a redundant cue (weight, icon, position) so users with low vision or color-blindness still see the contrast.
+The trap: distinctiveness is finite. Highlight one item and it pulls attention; highlight three and they fight; highlight everything and nothing stands out (the page becomes uniform noise). Reserve emphasis for the single most important action or item per surface, and pair color with a redundant cue (weight, icon, position) so low-vision or color-blind users still see the contrast.
 
 ## Check
 

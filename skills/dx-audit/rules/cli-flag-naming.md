@@ -7,7 +7,7 @@ tags: cli, flags, naming
 
 ## Use Consistent kebab-case Flags
 
-Long flags are kebab-case (`--dry-run`, not `--dryRun` or `--dry_run`), every flag that takes a value names it the same way across commands, and short aliases are reserved for the few common flags. Surprising aliases (`-p` meaning `--port` in one command and `--project` in another) are worse than none.
+Long flags are kebab-case (`--dry-run`, not `--dryRun` or `--dry_run`); name each value flag identically across commands; reserve short aliases for the few common flags. A reused alias (`-p` meaning `--port` in one command, `--project` in another) is worse than none.
 
 **Incorrect (mixed casing, inconsistent aliases for the same concept):**
 

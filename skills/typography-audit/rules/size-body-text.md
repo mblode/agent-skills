@@ -6,9 +6,7 @@ tags: font-size, body-text, mobile, desktop, print
 
 ## Set Body Text Size by Context
 
-Set body text size first \u2014 it anchors the entire typographic system. Use 16\u201324px for desktop, 15\u201319px for mobile, and 10\u201312pt for print. Adjust based on the typeface's x-height: faces with a large x-height feel bigger at the same pixel size.
-
-Avoid oversized desktop body text (above 24px). Scale headings down proportionally on smaller screens.
+Set body size first; it anchors the whole typographic system. Use 16-24px desktop, 15-19px mobile, 10-12pt print. Adjust for x-height (a large x-height feels bigger at the same pixel size). Avoid oversized desktop body (above 24px); scale headings down proportionally on smaller screens.
 
 **Incorrect (one size for all contexts):**
 
@@ -39,4 +37,4 @@ body {
 }
 ```
 
-Find the typeface's "sweet spot" by testing one size up and down. If 19px looks right but 18px feels too small and 20px too large, use 19px even if it is not part of your modular scale.
+Find the typeface's sweet spot by testing one size up and down. If 19px looks right but 18px is too small and 20px too large, use 19px even if it breaks your modular scale.

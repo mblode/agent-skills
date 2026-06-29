@@ -6,7 +6,7 @@ tags: links, anchor-text, accessibility
 
 ## Use descriptive link text, never "click here"
 
-Link text must describe the destination and make sense out of context. Screen readers list links by text alone -- "click here" and "learn more" are meaningless in a list of 20 links.
+Link text must describe the destination and make sense out of context. Screen readers list links by text alone, so "click here" and "learn more" are meaningless in a list of 20 links.
 
 **Incorrect (vague link text):**
 

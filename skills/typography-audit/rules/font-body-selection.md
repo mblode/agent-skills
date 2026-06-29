@@ -6,9 +6,9 @@ tags: body-text, x-height, apertures, counters, contrast
 
 ## Choose Body Fonts for Legibility
 
-Select body text fonts with low stroke contrast, large x-height, open apertures, and large counters. These traits maximize readability at small sizes. Prefer text-cut faces designed for body use. Avoid overly large x-heights, which reduce the distinctiveness of ascenders and descenders.
+Select body fonts with low stroke contrast, large x-height, open apertures, and large counters; these maximize readability at small sizes. Prefer text-cut faces. Avoid overly large x-heights, which flatten the distinction between ascenders and descenders.
 
-Humanist and modern sans-serifs work well if they meet these legibility traits. Geometric sans-serifs are generally weaker for body text.
+Humanist and modern sans-serifs work well if they meet these traits; geometric sans-serifs are generally weaker for body.
 
 **Incorrect (display face used for body):**
 
@@ -28,8 +28,8 @@ body {
 }
 ```
 
-Look for these qualities when evaluating a body typeface:
-- **Low stroke contrast** \u2014 even thickness between thick and thin strokes
-- **Large x-height** \u2014 lowercase letters are tall relative to capitals
-- **Open apertures** \u2014 openings in letters like c, e, s are wide
-- **Large counters** \u2014 enclosed spaces in letters like o, d, b are spacious
+Qualities to evaluate:
+- **Low stroke contrast**: even thickness across strokes
+- **Large x-height**: tall lowercase relative to capitals
+- **Open apertures**: wide openings in c, e, s
+- **Large counters**: spacious enclosed areas in o, d, b

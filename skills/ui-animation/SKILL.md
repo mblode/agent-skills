@@ -1,62 +1,69 @@
 ---
 name: ui-animation
-description: Creates, reviews, debugs, and reverse-engineers UI motion and animation. Covers springs, gestures, drag interactions, clip-path reveals, easing curves, timing, CSS transition recipes, animation review, and measuring motion from a screen recording (extract frames, track per frame, fit easing and spring curves, emit CSS, Motion, SwiftUI, React Native, or UIKit plus a handoff spec). Use when designing, implementing, or reviewing motion, CSS transitions, keyframes, framer-motion, spring animations, or asking "add animations to", "make this feel smooth", "review my animations", "should this animate", "add a swipe gesture", "add a transition", "reverse engineer this animation", "recreate this animation from a video", "match this easing", or "extract the animation curve". For overall visual direction and styling, use ui-design; for named text-effect specs (typewriter, line reveal, kinetic builds), use animate-text.
+description: >-
+  Designs, implements, reviews, debugs, and reverse-engineers UI motion: CSS
+  transitions, keyframes, springs, gestures, drag, easing, timing,
+  framer-motion, and animation curves from screen recordings. Use when asked to
+  "add animations", "make this feel smooth", "review my animations", "add a
+  swipe gesture", "match this easing", "reverse engineer this animation", or
+  "extract the animation curve". For visual direction use ui-design; for
+  page-level UI audit use ui-audit.
 ---
 
 # UI Animation
 
-- **IS:** designing, implementing, reviewing, and debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), and measuring motion from a screen recording (extract frames, track, fit curves) to emit code plus a handoff spec.
-- **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design`), auditing a whole page's UI quality (use `ui-audit`), or named text-effect specs (use `animate-text`).
+- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), and measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec.
+- **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design`), auditing a whole page's UI quality (use `ui-audit`), or named text-effect specs (use the external `animate-text` skill where installed).
 
-If the input is a screen recording or video of an existing animation, you are MEASURING motion: follow the Reverse-engineer workflow below. Otherwise (designing, implementing, reviewing) use the rules and Workflow that follow.
+Canonical home for reverse-engineering motion from a recording: route "reverse engineer this animation" and "match this easing" here, not to a separate skill. If the input is a screen recording or video, you are MEASURING motion: follow the Reverse-engineer workflow. Otherwise (designing, implementing, reviewing) use the rules and Workflow below.
 
 ## Reference files
 
-| File                                                                       | Read when                                                                    |
-| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [references/decision-framework.md](references/decision-framework.md)       | Default: deciding whether/why to animate, picking easing character           |
-| [references/spring-animations.md](references/spring-animations.md)         | Using spring physics, framer-motion useSpring, configuring spring params     |
-| [references/component-patterns.md](references/component-patterns.md)       | Building buttons, popovers, tooltips, drawers, modals, toasts with animation |
-| [references/clip-path-techniques.md](references/clip-path-techniques.md)   | Using clip-path for reveals, tabs, hold-to-delete, comparison sliders        |
-| [references/gesture-drag.md](references/gesture-drag.md)                   | Implementing drag, swipe-to-dismiss, momentum, pointer capture               |
-| [references/performance-deep-dive.md](references/performance-deep-dive.md) | Debugging jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats  |
-| [references/review-format.md](references/review-format.md)                 | Reviewing animation code: strict review with ten standards, escalation triggers, Before/After/Why table, and a Block/Approve verdict |
-| [references/contextual-animations.md](references/contextual-animations.md) | Implementing contextual icon swaps, word-level stagger entrances, or fixed-offset exit animations |
-| [references/transition-recipes.md](references/transition-recipes.md)       | Installing a CSS transition: card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, text swap, success animation, avatar hover, error shake |
-| [references/measurement-guide.md](references/measurement-guide.md)         | Reverse-engineer: deciding what to measure, eye vs script, reading `metrics.json`, choosing an ROI |
-| [references/curve-fitting.md](references/curve-fitting.md)                 | Reverse-engineer: reading `fit_curves.py` output, spring vs bezier, judging fit error, asymmetric open/close |
-| [references/code-output.md](references/code-output.md)                     | Reverse-engineer: emitting code for CSS, Motion/Framer Motion, SwiftUI, React Native, or UIKit |
-| [references/choreography.md](references/choreography.md)                   | Reverse-engineer: multi-element/multi-phase motion: staggers, blur-before-move, per-edge settling |
+| File | Read when |
+| --- | --- |
+| [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character |
+| [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params |
+| [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
+| [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
+| [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture |
+| [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
+| [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
+| [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, fixed-offset exits |
+| [references/transition-recipes.md](references/transition-recipes.md) | Installing a CSS transition: card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, text swap, success, avatar hover, error shake |
+| [references/measurement-guide.md](references/measurement-guide.md) | Reverse-engineer: what to measure, eye vs script, reading `metrics.json`, choosing an ROI |
+| [references/curve-fitting.md](references/curve-fitting.md) | Reverse-engineer: reading `fit_curves.py` output, spring vs bezier, judging fit error, asymmetric open/close |
+| [references/code-output.md](references/code-output.md) | Reverse-engineer: emitting code for CSS, Motion/Framer Motion, SwiftUI, React Native, UIKit |
+| [references/choreography.md](references/choreography.md) | Reverse-engineer: multi-element/multi-phase motion: staggers, blur-before-move, per-edge settling |
 
 ## Core rules
 
-- Animate for feedback, orientation, continuity, or deliberate delight. If the purpose is "it looks cool" and the user sees it often, don't animate.
-- Never animate keyboard-initiated actions (shortcuts, arrow navigation, tab/focus); they repeat hundreds of times daily and animation makes them feel slow.
-- Prefer CSS transitions for interruptible UI; keyframes restart from zero on interruption, transitions retarget smoothly. Use keyframes only for predetermined sequences.
-- Implementation priority: CSS transitions > WAAPI > CSS keyframes > JS (`requestAnimationFrame`). Under load, CSS stays smooth while JS drops frames.
-- Asymmetric timing: for occasional interactions, enter can be slightly slower and exit should be fast. For high-frequency ephemeral UI (hover highlights, popovers, panel toggles), invert this: enter instantly (0ms), exit with a brief fade (100-150ms) so the action feels immediate.
-- Use `@starting-style` for DOM entry animations; fall back to a `data-mounted` attribute where support is insufficient.
-- A small `filter: blur(2px)` can hide rough crossfades between swapped content.
+- Animate for feedback, orientation, continuity, or deliberate delight. If it's just "it looks cool" and the user sees it often, don't.
+- Never animate keyboard-initiated actions (shortcuts, arrow navigation, tab/focus); they repeat constantly and animation makes them feel slow.
+- Prefer CSS transitions for interruptible UI: keyframes restart from zero on interruption, transitions retarget. Use keyframes only for predetermined sequences.
+- Implementation priority: CSS transitions > WAAPI > CSS keyframes > JS (`requestAnimationFrame`); under load CSS stays smooth while JS drops frames.
+- Asymmetric timing: occasional interactions can enter slightly slower, exit fast. High-frequency ephemeral UI (hover highlights, popovers, panel toggles) inverts this: enter instantly (0ms), exit with a brief fade (100-150ms) so the action feels immediate.
+- Use `@starting-style` for DOM entry; fall back to a `data-mounted` attribute where unsupported.
+- A small `filter: blur(2px)` hides rough crossfades between swapped content.
 
 ## Motion design principles
 
-- **Continuity over teleportation.** Elements visible in both states transition in place. Expand from where elements sit rather than fading in a new instance. Never duplicate a persistent element or hard-cut between views that share components; hard cuts lose spatial context.
-- **Directional motion matches position.** Tab and carousel transitions animate in the direction matching spatial layout (left-to-right for forward, right-to-left for back).
-- **Emerge from the trigger.** Overlays, trays, and panels animate outward from the element that opened them. Generic centre-screen entrances break spatial orientation.
-- **Consistent polish everywhere.** Under-animated areas make the entire product feel unpolished. Motion quality must be uniform across all surfaces.
-- **Delight scales inversely with frequency.** Rarer interactions have more room for personality. High-frequency actions must be invisible.
-- **Motion enhances perceived speed.** Smooth transitions between states feel faster than hard cuts, even at identical load times.
+- **Continuity over teleportation.** Elements visible in both states transition in place; expand from where elements sit rather than fading in a new instance. Never duplicate a persistent element or hard-cut between views that share components; hard cuts lose spatial context.
+- **Directional motion matches position.** Tab and carousel transitions animate in the direction matching spatial layout (left-to-right forward, right-to-left back).
+- **Emerge from the trigger.** Overlays, trays, and panels animate outward from the element that opened them; generic centre-screen entrances break spatial orientation.
+- **Animate paired states together.** If open animates, close animates. If hover has motion, focus and pressed states get equivalent feedback. Do not polish only one half of a repeated interaction.
+- **Delight scales inversely with frequency.** Rarer interactions get more personality; high-frequency actions must be invisible.
+- **Motion enhances perceived speed.** Smooth transitions feel faster than hard cuts, even at identical load times.
 
 ## What to animate
 
 - Movement: `transform` and `opacity` only; they skip layout and paint.
 - State feedback: `color`, `background-color`, and `opacity` are acceptable.
-- Never animate layout properties (`width`, `height`, `top`, `left`); they trigger layout recalculation every frame. (Exception: a deliberate container resize tween, see the card-resize recipe.)
-- Never use `transition: all`; it animates unintended properties and silently picks up future ones. List properties explicitly.
-- Avoid `filter` animation for core interactions; keep blur ≤ 20px if unavoidable, since heavy blur is expensive, especially in Safari.
-- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it, transforms rotate/scale around the SVG canvas origin.
-- `transform: scale()` also scales an element's children (icons, text, borders scale proportionally), unlike `width`/`height`. This is a feature for press feedback; account for it when an inner element must keep a fixed size.
-- Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`); otherwise every themed property animates at once.
+- Never animate layout properties (`width`, `height`, `top`, `left`); they trigger layout recalc every frame. (Exception: a deliberate container resize tween, see the card-resize recipe.)
+- Never use `transition: all`; it animates unintended properties and silently adopts future ones. List them explicitly.
+- Avoid `filter` animation for core interactions; if unavoidable keep blur ≤ 20px (heavy blur is expensive, especially in Safari).
+- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it they rotate/scale around the canvas origin.
+- `transform: scale()` also scales children (icons, text, borders scale proportionally), unlike `width`/`height`: a feature for press feedback, but account for it when an inner element must stay fixed-size.
+- Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`), or every themed property animates at once.
 
 ## Easing defaults
 
@@ -71,7 +78,7 @@ If the input is a screen recording or video of an existing animation, you are ME
 | Simple hover (colour/opacity) | 200ms        | `ease`                           |
 | Illustrative/marketing        | Up to 1000ms | Spring or custom                 |
 
-Keep routine UI animation under 300ms; scale duration with distance traveled (a full-screen slide can exceed 300ms, a 6px tooltip shift should be under 150ms).
+Keep routine UI under 300ms; scale duration with distance (a full-screen slide can exceed 300ms, a 6px tooltip shift stays under 150ms).
 
 **Named curves**
 
@@ -79,11 +86,11 @@ Keep routine UI animation under 300ms; scale duration with distance traveled (a 
 - **Move:** `cubic-bezier(0.25, 1, 0.5, 1)` for slides, drawers, panels
 - **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)`
 
-Avoid `ease-in` for UI; it starts slow, so the element lags the user's action and feels sluggish. Prefer custom curves from [easing.dev](https://easing.dev/) over built-in `ease`/`ease-out`, whose gentle acceleration reads soft rather than decisive.
+Avoid `ease-in` for UI: it starts slow, so the element lags the user's action and feels sluggish. Prefer custom curves from [easing.dev](https://easing.dev/) over built-in `ease`/`ease-out`, whose gentle acceleration reads soft, not decisive.
 
 ## Transition decision rules
 
-Match the UI element first, then choose the recipe from [references/transition-recipes.md](references/transition-recipes.md):
+Match the UI element first, then pick the recipe from [references/transition-recipes.md](references/transition-recipes.md):
 
 | UI pattern | Recipe |
 |---|---|
@@ -104,39 +111,39 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Spatial and sequencing
 
-- Set `transform-origin` at the trigger point for popovers; keep `center` for modals (they represent app-level state, not an anchored trigger).
-- For dialogs/menus, start around `scale(0.85-0.9)`. Never `scale(0)`; nothing in the real world appears from nothing.
-- Stagger reveals at 30-50ms per item; total stagger under 300ms. Vary timing by visual importance; the most important element leads. Uniform stagger removes hierarchy and feels mechanical.
-- **Paired elements rule:** elements that animate together (modal + overlay, tooltip + arrow, FAB + label) must share the same easing curve and duration. Mismatched timing between paired elements is the usual cause of "something feels off".
+- Set `transform-origin` at the trigger point for popovers; keep `center` for modals (app-level state, not an anchored trigger).
+- For dialogs/menus, start around `scale(0.85-0.9)`. Never `scale(0)`: nothing appears from nothing.
+- Stagger reveals at 30-50ms per item; total stagger under 300ms. Vary timing by visual importance, most important element leads; uniform stagger removes hierarchy and feels mechanical.
+- **Paired elements rule:** elements that animate together (modal + overlay, tooltip + arrow, FAB + label) must share easing and duration. Mismatched timing is the usual cause of "something feels off".
 
 ## Accessibility
 
-- Every animation needs a `prefers-reduced-motion: reduce` path: disable transform/keyframe motion, keep instant state changes or opacity-only fades. All transition recipes include the guard.
-- Gate hover animations behind `@media (hover: hover) and (pointer: fine)`; otherwise touch devices replay hover effects on tap. Tailwind v4 `hover:` utilities apply this guard automatically; skip the manual media query there.
-- During direct manipulation, keep the element locked to the pointer with no easing. Add easing only after release.
+- Every animation needs a `prefers-reduced-motion: reduce` path: disable transform/keyframe motion, keep instant state changes or opacity-only fades. All recipes include the guard.
+- Gate hover animations behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind v4 `hover:` utilities apply this automatically; skip the manual query there.
+- During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
 
 ## Performance
 
 - Pause looping animations off-screen with `IntersectionObserver`; they burn GPU even when invisible.
-- Toggle `will-change` only during heavy motion and only for `transform`/`opacity`; remove it after. Each promotion costs compositor memory, and permanent promotion across many elements is worse than none.
-- Do not animate drag gestures via CSS variables on a container; every update recalculates styles for all children. Set `transform` directly on the moving element.
-- Motion `x`/`y` values are the normal choice for axis movement and drag (they bypass React re-renders). Use a full `transform` string only when one owner must combine multiple transform functions or interop with non-Motion code.
+- Toggle `will-change` only during heavy motion and only for `transform`/`opacity`; remove it after. Each promotion costs compositor memory; permanent promotion across many elements is worse than none.
+- Do not animate drag via CSS variables on a container; every update recalculates styles for all children. Set `transform` directly on the moving element.
+- Motion `x`/`y` values are the default for axis movement and drag (they bypass React re-renders). Use a full `transform` string only when one owner must combine multiple transform functions or interop with non-Motion code.
 - See [references/performance-deep-dive.md](references/performance-deep-dive.md) for WAAPI, compositing layers, and the CSS vs JS comparison table.
 
 ## Anti-patterns
 
-High-signal failures not already covered by the rules above:
+High-signal failures not covered above:
 
-- Animating on mount without a user trigger: unexpected motion is disorienting; the user did nothing to cause it.
-- Hard stops on drag boundaries feel broken; apply friction/damping so movement diminishes past the boundary (see gesture-drag reference).
-- Mixing Motion `x`/`y` props with a handwritten `transform` string on the same element: both write `transform`, so one silently clobbers the other. Pick one transform owner.
-- Animating both a container and staggering its children: pick one entrance per container. If the panel slides in, its content should already be visible when it arrives.
-- Keyframes on rapidly-triggered elements (toasts, list items): interruption restarts them from zero; use CSS transitions, which retarget.
-- Tooltip animation after the first tooltip is open: subsequent tooltips in the same group open instantly, or the toolbar feels laggy.
+- Animating on mount without a user trigger: unexpected motion disorients; the user did nothing to cause it.
+- Hard stops on drag boundaries feel broken; apply friction/damping so movement diminishes past it (see gesture-drag reference).
+- Mixing Motion `x`/`y` with a handwritten `transform` on one element: both write `transform`, so one clobbers the other. Pick one transform owner.
+- Animating both a container and staggering its children: pick one entrance per container. If the panel slides in, its content should already be visible on arrival.
+- Keyframes on rapidly-triggered elements (toasts, list items): interruption restarts from zero; use CSS transitions, which retarget.
+- Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.
 
 ## Workflow
 
-Copy and track this checklist:
+Copy and track:
 
 ```text
 Animation progress:
@@ -147,28 +154,28 @@ Animation progress:
 - [ ] Step 5: Validate timing, interruption, and device behavior
 ```
 
-1. Answer the four questions in [references/decision-framework.md](references/decision-framework.md): should it animate? What purpose? What easing? What speed?
+1. Answer the four questions in [references/decision-framework.md](references/decision-framework.md): animate? purpose? easing? speed?
 2. Pick duration from the easing defaults table above.
 3. Choose implementation: CSS transition > WAAPI > spring > keyframe > JS.
-4. Load the relevant reference for your component type or technique.
-5. When reviewing, apply the strict posture in [references/review-format.md](references/review-format.md): measure against the ten standards, output the Before/After/Why table, then a tiered verdict ending in an explicit Block/Approve decision.
+4. Load the reference for your component or technique.
+5. When reviewing, apply the strict posture in [references/review-format.md](references/review-format.md): measure against the ten standards, output the Before/After/Why table, then a tiered verdict ending in a Block/Approve decision.
 
 ## Validation
 
 Produce evidence for each check (DevTools observations, not "looks fine"):
 
 - Grep the diff for layout property transitions (`width`, `height`, `top`, `left`) and `transition: all`.
-- Retoggle components rapidly to confirm transitions retarget cleanly instead of restarting from zero.
-- Slow animations to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
+- Retoggle components rapidly; confirm transitions retarget instead of restarting from zero.
+- Slow to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
 - Emulate `prefers-reduced-motion: reduce` (DevTools Rendering panel) and confirm every animation has a reduced path.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
 
 ## Reverse-engineer workflow
 
-Use this branch when measuring an existing animation from a screen recording, then emitting code and a handoff spec that reproduce it. The scripts under `scripts/` are the canonical, deterministic path; run them rather than reconstructing their logic.
+Use this branch to measure an existing animation from a screen recording, then emit code and a handoff spec that reproduce it. The scripts under `scripts/` are the canonical, deterministic path; run them rather than reconstructing their logic.
 
-**Dependencies:** `ffmpeg` for frame extraction (`brew install ffmpeg`); Python with `pip install opencv-python numpy scipy` for tracking and curve fitting. Extraction degrades gracefully: with only ffmpeg you can extract frames and reason visually; tracking and fitting need the Python packages.
+**Dependencies:** `ffmpeg` for frame extraction (`brew install ffmpeg`); Python with `pip install opencv-python numpy scipy` for tracking and curve fitting. Degrades gracefully: with only ffmpeg you can extract frames and reason visually; tracking and fitting need the Python packages.
 
 ```text
 Reverse-engineer progress:
@@ -181,23 +188,23 @@ Reverse-engineer progress:
 - [ ] Step 7: Validate against the recording
 ```
 
-1. **Extract.** Run `python3 scripts/extract_frames.py <video> <outdir>`. Trim to just the transition with `--start`/`--duration`; if the interaction has both an open and a close, trim two windows and run the pipeline once per direction (they are almost never mirror images). Match `--fps` to the source (probe with `ffprobe`), and never sample above the source rate. Open `contact_sheet.png` first.
-2. **Vision pass.** Name the element(s) that move, every effect (translate, scale often anisotropic, opacity, blur, corner radius, shadow, color), and the phases, noting which property leads and which lags. Use the checklist in `references/measurement-guide.md`.
-3. **Decide precision.** Simple fade or linear slide: read timing off the contact sheet and skip to step 5. Elastic, springy, or multi-property motion: escalate to step 4 (eyeballing a spring is unreliable).
-4. **Track and fit.** Run `python3 scripts/track_motion.py <outdir>` for `metrics.json` (pass `--bbox X,Y,W,H` to isolate one element). Then `python3 scripts/fit_curves.py <outdir>/metrics.json` for spring params, cubic-bezier, and a per-property fit error. Pass the same `--fps` you extracted with. Read `references/curve-fitting.md` to pick the model; high error on both models means multi-phase motion (split and fit each segment).
-5. **Annotate.** Load `references/choreography.md`. Build the timing-offset table (when each property starts and settles); the lead/lag gaps and over-stretch carry more of the feel than any single curve.
-6. **Emit.** Substitute fitted parameters into the templates in `references/code-output.md` for the requested target. Keep movement on `transform`/`opacity`. Emit two transitions when open and close differ, plus the consolidated handoff motion spec so the result can be implemented without the video.
-7. **Validate.** Re-derive: play the emitted animation, screen-record it, run it back through `extract_frames.py`, and compare contact sheets side by side. Slow to 0.1x to confirm phase order and over-stretch survive. Confirm the emitted code only animates `transform`, `opacity`, and `filter`.
+1. **Extract.** Run `python3 scripts/extract_frames.py <video> <outdir>`. Trim to just the transition with `--start`/`--duration`; if the interaction has both an open and a close, trim two windows and run the pipeline once per direction (they are almost never mirror images). Match `--fps` to the source (probe with `ffprobe`), never sampling above the source rate. Open `contact_sheet.png` first.
+2. **Vision pass.** Name the element(s) that move, every effect (translate, scale often anisotropic, opacity, blur, corner radius, shadow, color), and the phases, noting which property leads and lags. Use the checklist in `references/measurement-guide.md`.
+3. **Decide precision.** Simple fade or linear slide: read timing off the contact sheet, skip to step 5. Elastic, springy, or multi-property motion: escalate to step 4 (eyeballing a spring is unreliable).
+4. **Track and fit.** Run `python3 scripts/track_motion.py <outdir>` for `metrics.json` (pass `--bbox X,Y,W,H` to isolate one element), then `python3 scripts/fit_curves.py <outdir>/metrics.json` for spring params, cubic-bezier, and per-property fit error. Pass the same `--fps` you extracted with. Read `references/curve-fitting.md` to pick the model; high error on both means multi-phase motion (split and fit each segment).
+5. **Annotate.** Load `references/choreography.md`. Build the timing-offset table (when each property starts and settles); lead/lag gaps and over-stretch carry more feel than any single curve.
+6. **Emit.** Substitute fitted parameters into the templates in `references/code-output.md` for the target. Keep movement on `transform`/`opacity`. Emit two transitions when open and close differ, plus the consolidated handoff spec so it can be implemented without the video.
+7. **Validate.** Re-derive: play the emitted animation, screen-record it, run it back through `extract_frames.py`, and compare contact sheets side by side. Slow to 0.1x to confirm phase order and over-stretch survive. Confirm the code only animates `transform`, `opacity`, and `filter`.
 
 **Reverse-engineer gotchas:**
 
-- `fit_curves.py` defaults to `--fps 30`. Extract at 60 and fit at the default and every `duration_ms` doubles while fitted stiffness drops to a quarter. Always pass the extraction fps to the fit.
-- Sampling above the source rate duplicates frames: a 24 fps GIF extracted at 60 yields plateaued runs in `metrics.json` that inflate fit error. Probe and match the source rate.
+- `fit_curves.py` defaults to `--fps 30`: extract at 60 but fit at the default and every `duration_ms` doubles while fitted stiffness drops to a quarter. Always pass the extraction fps to the fit.
+- Sampling above the source rate duplicates frames: a 24 fps GIF extracted at 60 inflates fit error with plateaued runs in `metrics.json`. Probe and match the source rate.
 - Screen recordings drop frames and iOS/QuickTime captures are variable-frame-rate; consecutive identical rows are duplicated frames, not a pause. Re-record at a steadier rate if plateaus dominate.
 - Open and close are never mirror images; measure each direction as its own clip. Treat a fit `error` above 0.08 as suspect.
 
 ## Related skills
 
 - `ui-design`: visual direction, palettes, typography; settle the visual system before tuning motion.
-- `ui-audit`: page/feature-level UI quality audit; its motion findings route back to this skill for fixes.
-- `animate-text`: curated catalog of named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
+- `ui-audit`: page/feature-level UI quality audit; its motion findings route back here for fixes.
+- Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.

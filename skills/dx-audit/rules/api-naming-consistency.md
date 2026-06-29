@@ -7,7 +7,7 @@ tags: api, naming, consistency
 
 ## Name the Public API Consistently
 
-Pick one verb per concept and one casing scheme, then hold them across the whole surface. Mixed `get`/`fetch`/`load`, mixed `delete`/`remove`, or mixed `camelCase`/`snake_case` force the developer to memorize each name instead of guessing it. Consistency is what makes an API feel learnable.
+Pick one verb per concept and one casing scheme, then hold them across the whole surface. Mixed `get`/`fetch`/`load`, mixed `delete`/`remove`, or mixed `camelCase`/`snake_case` forces the developer to memorize each name instead of guessing it. Consistency is what makes an API learnable.
 
 **Incorrect (three verbs for one concept, mixed casing):**
 

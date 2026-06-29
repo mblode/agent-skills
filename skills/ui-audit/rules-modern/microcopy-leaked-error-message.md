@@ -30,18 +30,18 @@ A checkout fails because Stripe returns `card_declined: insufficient_funds`. The
 **Concrete commands:**
 ```bash
 # error.message / e.message / err.message rendered into JSX.
-rg -n '\{(error|err|e)\.(message|stack)\}' --type=tsx --type=ts src/
-rg -n '\{String\((error|err|e)\)\}' --type=tsx --type=ts src/
-rg -n '\{JSON\.stringify\((error|err|e)\)\}' --type=tsx --type=ts src/
+rg -n '\{(error|err|e)\.(message|stack)\}' --type=ts src/
+rg -n '\{String\((error|err|e)\)\}' --type=ts src/
+rg -n '\{JSON\.stringify\((error|err|e)\)\}' --type=ts src/
 
 # String-concatenated error objects.
-rg -n "'.*' \+ (error|err|e)\.message" --type=tsx --type=ts src/
+rg -n "'.*' \+ (error|err|e)\.message" --type=ts src/
 
 # Common provider-raw-response leaks.
-rg -n -i 'stripeError|paypalError|awsError|errorCode.*amazonaws' --type=tsx --type=ts src/
+rg -n -i 'stripeError|paypalError|awsError|errorCode.*amazonaws' --type=ts src/
 
 # SQL fragments leaking through (ORM error passthroughs).
-rg -n -i 'SELECT \*|UPDATE .* SET|duplicate key|relation .* does not exist' --type=tsx --type=ts src/
+rg -n -i 'SELECT \*|UPDATE .* SET|duplicate key|relation .* does not exist' --type=ts src/
 ```
 
 **False-positive guards:**

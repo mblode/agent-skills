@@ -6,7 +6,7 @@ tags: languages, polyglot, sdk
 
 ## Provide examples in multiple languages when applicable
 
-If your API supports multiple languages, show examples in at least the 2-3 most common ones. Use tabbed code blocks or clearly labeled sections. Don't force Python on a Node.js developer.
+If your API supports multiple languages, show the 2-3 most common. Use tabbed code blocks or clearly labeled sections. Don't force Python on a Node.js developer.
 
 **Incorrect (only one language for a multi-language SDK):**
 

@@ -11,11 +11,11 @@ related: context-no-injection
 
 ## System prompt missing resource injection
 
-System prompt says "You are a helpful assistant" with zero dynamic context. Agent asks "What files do you have?" instead of working with them. Violates Improvement Over Time: agents should accumulate context, not start blind.
+System prompt says "You are a helpful assistant" with zero dynamic context. Agent asks "What files do you have?" instead of using them. Violates Improvement Over Time: agents should accumulate context, not start blind.
 
 ## What goes wrong
 
-User opens a project management agent. System prompt has role instructions but nothing about the user's 3 active projects or 12 unread notifications. Agent's first message: "What would you like to work on today?"
+User opens a project management agent. System prompt has role instructions but nothing about 3 active projects or 12 unread notifications. First message: "What would you like to work on today?"
 
 ## Detection
 

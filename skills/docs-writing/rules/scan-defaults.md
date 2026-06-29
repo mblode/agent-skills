@@ -6,12 +6,12 @@ tags: scanability, defaults, readability
 
 ## Scanability defaults
 
-Apply these defaults to every documentation page:
+Apply to every page:
 
-- **Front-load key information** -- lead sentences and sections with the main point, push caveats to the end
-- **Use white space between logical groups** -- add blank lines between conceptual groups, keep paragraphs to 3-5 sentences
-- **Replace prose with diagrams and tables where possible** -- use diagrams for flows, tables for comparisons
-- **Mix short and long sentences for rhythm** -- alternate punchy sentences (5-10 words) with explanatory ones (15-25 words)
+- **Front-load key information**: lead with the main point, push caveats to the end
+- **White space between logical groups**: blank lines between conceptual groups, paragraphs of 3-5 sentences
+- **Diagrams and tables over prose**: diagrams for flows, tables for comparisons
+- **Mix short and long sentences**: alternate punchy (5-10 words) with explanatory (15-25 words)
 
 **Incorrect (buries the answer, no grouping, uniform sentences, prose where a table fits):**
 

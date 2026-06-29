@@ -6,7 +6,7 @@ tags: voice, requirements, rfc-2119, precision
 
 ## Use must, not should, for requirements
 
-"Should" is ambiguous -- readers can't tell whether it's a requirement or a suggestion. Use "must" for mandatory behavior and "we recommend" for suggestions, per RFC 2119. Avoid "please" in requirements -- it softens mandatory instructions and implies the reader has a choice.
+"Should" is ambiguous: readers can't tell a requirement from a suggestion. Per RFC 2119, use "must" for mandatory behavior and "we recommend" for suggestions. Avoid "please" in requirements: it softens mandatory instructions and implies a choice.
 
 **Incorrect (ambiguous "should" and "please"):**
 

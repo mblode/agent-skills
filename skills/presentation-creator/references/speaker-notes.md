@@ -40,9 +40,9 @@ Scannable prompts for natural delivery, not scripts to read verbatim.
 
 **statement / question**: Expand on the headline: what led to this conclusion, what's the implication. For questions, pause and let it land before answering.
 
-**data**: Contextualize the numbers: what story does the data tell? What surprised you?
+**data**: Contextualize the numbers: what story do they tell? What surprised you?
 
-**section-divider**: Keep brief: quick framing of what's coming, how it connects to what came before.
+**section-divider**: Brief: quick framing of what's coming, how it connects to what came before.
 
 **recap**: Don't re-present. Touch each point quickly, add one synthesis insight, set up "so what."
 

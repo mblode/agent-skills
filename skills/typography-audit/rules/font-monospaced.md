@@ -6,7 +6,7 @@ tags: monospace, code, body-text, readability
 
 ## Reserve Monospaced Fonts for Short Blocks
 
-Monospaced fonts reduce readability in long text because uniform letter widths disrupt natural reading rhythm. Use them only for code blocks, terminal output, and short stylistic elements. Never set body copy in a monospaced face.
+Monospaced fonts reduce readability in long text: uniform letter widths disrupt reading rhythm. Use them only for code blocks, terminal output, and short stylistic elements. Never set body copy in a monospaced face.
 
 **Incorrect (monospace for body text):**
 
@@ -31,4 +31,4 @@ code, pre {
 }
 ```
 
-Brief monospaced sections (e.g., a stylistic data readout or a hero element) are acceptable as a design choice, but keep them short.
+Brief monospaced sections (a stylistic data readout, a hero element) are fine as a design choice; keep them short.

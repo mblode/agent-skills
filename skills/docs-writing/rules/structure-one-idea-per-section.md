@@ -6,7 +6,7 @@ tags: structure, sections, focus, organization
 
 ## One topic per section
 
-Each section should advance one concept, feature, or step. Splitting keeps sections focused, scannable, and individually linkable. Test: if you can't summarize a section in one sentence, it covers too much.
+Each section advances one concept, feature, or step, keeping it focused, scannable, and individually linkable. Test: if you can't summarize a section in one sentence, it covers too much.
 
 **Incorrect (two topics merged into one section):**
 

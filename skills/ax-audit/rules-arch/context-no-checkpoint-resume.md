@@ -76,7 +76,7 @@ async function refactorFiles(sessionId: string, files: string[]) {
 
 ## Examples
 
-**Anti-pattern (fails):** `for (const t of tasks) await agent.execute(t)` -- tab closes at task 8, all lost.
+**Anti-pattern (fails):** `for (const t of tasks) await agent.execute(t)`: tab closes at task 8, all lost.
 
 **Applied (passes):** Loop resumes from `loadCheckpoint(id)` index, calls `saveCheckpoint` after each step.
 

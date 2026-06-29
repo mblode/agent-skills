@@ -15,7 +15,7 @@ A PR adds a new UI feature (button, page, form action) but no new tool. Each PR 
 
 ## What goes wrong
 
-PR adds a "Duplicate project" button calling a new endpoint. No tool is added. PR merges. Months later a user asks the agent to duplicate a project. It can't.
+PR adds a "Duplicate project" button calling a new endpoint, but no tool. It merges. Months later a user asks the agent to duplicate a project. It can't.
 
 ## Detection
 
@@ -28,7 +28,9 @@ PR adds a "Duplicate project" button calling a new endpoint. No tool is added. P
 
 **Concrete commands:**
 ```bash
-git diff main --name-only -- '*.ts' '*.tsx' | xargs rg -l 'export (async )?function (POST|PUT|PATCH|DELETE)' 2>/dev/null
+git diff main --name-only -- '*.ts' '*.tsx' | while read f; do
+  rg -l 'export (async )?function (POST|PUT|PATCH|DELETE)' "$f"
+done 2>/dev/null
 git diff main -U0 -- '*.tsx' | rg '^\+.*onClick'
 git diff main -U0 -- '*.ts' | rg '^\+.*(tool\(|defineTool|createTool)'
 ```

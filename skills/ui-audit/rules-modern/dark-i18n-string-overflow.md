@@ -10,35 +10,35 @@ related: states-layout-shift, dark-i18n-rtl-untested
 
 ## String overflow on long translations (German, Finnish, Russian)
 
-UI built around English strings breaks when localized: German runs about 30 % longer on average (and 40 % at the long end), Finnish compounds words, Russian and French expand by 15-20 %. Common bugs: hardcoded `width` on a text container clips the translated string; a `truncate` cell collapses to ellipsis at the first character because its parent flex/grid item lacks `min-width: 0`; tight grid columns in a checkout summary push the price column off-screen. The fix is layout that flexes with content: logical sizing, `min-width: 0` resets on flex/grid children, container queries, and judicious `text-balance` / `text-wrap: pretty`.
+English-built UI breaks when localized: German runs ~30 % longer on average (40 % at the long end), Finnish compounds words, Russian and French expand 15-20 %. Common bugs: a hardcoded `width` clips the translation; a `truncate` cell collapses to an ellipsis at the first character because its parent flex/grid item lacks `min-width: 0`; tight grid columns in a checkout summary push the price column off-screen. Fix: layout that flexes with content (logical sizing, `min-width: 0` on flex/grid children, container queries, judicious `text-balance` / `text-wrap: pretty`).
 
 ## What goes wrong
 
-A button reads "Submit" (6 chars) in English and renders fine at `w-24`. In German it becomes "Absenden" (8 chars), still fine. In Finnish: "Lähetä", also fine. But the password-reset button "Send reset link" (15 chars) becomes "Link zum Zurücksetzen senden" (28 chars) and overflows the fixed-width button, clipping the text. A flex row with `flex items-center gap-2` containing `<span className="truncate">{username}</span>` collapses entirely to "..." because the parent didn't get `min-w-0`.
+A `w-24` button holding "Submit" (6 chars) survives "Absenden" (German, 8) and "Lähetä" (Finnish). But "Send reset link" (15 chars) becomes "Link zum Zurücksetzen senden" (28) and overflows the fixed-width button, clipping text. A `flex items-center gap-2` row with `<span className="truncate">{username}</span>` collapses to "..." because the parent lacks `min-w-0`.
 
 ## Detection
 
 **Surfaces:** any UI containing user-visible text, especially buttons, table cells, list rows, navigation, form labels.
 
 **Static signals:**
-1. Grep for hardcoded widths on text containers: `w-\d+`, `width: \d+px`, `max-w-\d+` paired with text content.
-2. Grep for `truncate` / `text-ellipsis` and walk up to the parent: if the parent is `flex` or `grid` and lacks `min-w-0`, flag it.
-3. Grep for tight `grid-cols-` definitions in summary tables (e.g. `grid-cols-[1fr_80px_60px]`) and confirm columns hold copy.
-4. Confirm that the project uses i18n (`next-intl`, `react-i18next`, `lingui`): if not, lower confidence (still flag but as `unknown`).
-5. Optional: simulate +30 % length and re-Read for visible overflow.
+1. Hardcoded widths on text containers: `w-\d+`, `width: \d+px`, `max-w-\d+` paired with text.
+2. `truncate` / `text-ellipsis`: walk up; if the parent is `flex` or `grid` and lacks `min-w-0`, flag it.
+3. Tight `grid-cols-` in summary tables (e.g. `grid-cols-[1fr_80px_60px]`) where columns hold copy.
+4. Confirm i18n (`next-intl`, `react-i18next`, `lingui`); if absent, flag as `unknown`.
+5. Optional: simulate +30 % length and re-Read for overflow.
 
 **Concrete commands:**
 ```bash
 # Truncate without min-w-0 on parent
-rg -n 'truncate|text-ellipsis' --type=tsx -B 2 \
+rg -n 'truncate|text-ellipsis' --type=ts -B 2 \
   | rg -B 2 'flex|grid' \
   | rg -v 'min-w-0|min-width:\s*0'
 
 # Hardcoded button widths on text buttons
-rg -n '<button[^>]*className="[^"]*\bw-\d{1,3}\b' --type=tsx
+rg -n '<button[^>]*className="[^"]*\bw-\d{1,3}\b' --type=ts
 
 # Tight pixel grid columns
-rg -n 'grid-cols-\[[^\]]*\d+px' --type=tsx
+rg -n 'grid-cols-\[[^\]]*\d+px' --type=ts
 ```
 
 **False-positive guards:**
@@ -48,7 +48,7 @@ rg -n 'grid-cols-\[[^\]]*\d+px' --type=tsx
 
 ## Fix
 
-Three patterns: drop fixed widths on text controls, reset `min-width` on flex/grid children that truncate, prefer container queries over fixed breakpoints for text-dense components.
+Three patterns: drop fixed widths on text controls; reset `min-width` on truncating flex/grid children; prefer container queries over fixed breakpoints for text-dense components.
 
 ```tsx
 // before: fixed width clips German
@@ -87,7 +87,7 @@ Three patterns: drop fixed widths on text controls, reset `min-width` on flex/gr
   <div className="grid @md:grid-cols-2 gap-4">
 ```
 
-For multi-line copy, modern CSS helpers improve word-wrapping in long languages:
+For multi-line copy, modern CSS improves wrapping in long languages:
 
 ```css
 h1 { text-wrap: balance; }
@@ -135,9 +135,9 @@ Reference docs:
 
 ## Defer-to (when this is another tool's job)
 
-- **Chromatic** with a German locale story captures the visual overflow.
+- **Chromatic** with a German locale story captures the overflow.
 - **Playwright** screenshot diff at long-string fixtures.
-- **Pseudo-localization** (e.g. `pseudoloc`) runtime-pads strings to surface overflow during dev.
+- **Pseudo-localization** (e.g. `pseudoloc`) runtime-pads strings to surface overflow in dev.
 
 ## Suppression
 

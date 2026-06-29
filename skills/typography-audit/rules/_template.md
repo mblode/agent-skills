@@ -6,7 +6,7 @@ tags: tag1, tag2, tag3
 
 ## Imperative Rule Title (must match frontmatter title)
 
-One short paragraph: what the rule requires and why it matters for readability, professionalism, or rendering. Lead with the requirement, not history.
+One short paragraph: what the rule requires and why it matters (readability, professionalism, rendering). Lead with the requirement, not history.
 
 **Incorrect (one phrase naming what's wrong):**
 

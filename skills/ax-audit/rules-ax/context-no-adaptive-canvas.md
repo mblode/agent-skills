@@ -11,11 +11,11 @@ related: context-memory-not-visible, comm-no-progress-signal
 
 ## Interface static during agent task progression
 
-Agent moves through phases (researching, drafting, reviewing, complete) but the UI looks identical in every phase. No phase indicator, no layout change, no context-appropriate tools surfaced. Adaptive Canvas requires the interface to reshape itself around the agent's current activity.
+Agent moves through phases (researching, drafting, reviewing, complete) but the UI looks identical in each. No phase indicator, no layout change, no context-appropriate tools surfaced. Adaptive Canvas requires the interface to reshape around the agent's current activity.
 
 ## What goes wrong
 
-Agent starts a research task. User sees "Searching..." then nothing changes for 45 seconds. The agent transitions through phases but the layout never shifts. No stepper, no phase-specific controls. User doesn't know where the agent is or how close to done.
+Agent starts a research task. User sees "Searching..." then nothing changes for 45 seconds. The agent transitions through phases but the layout never shifts: no stepper, no phase-specific controls. The user can't tell where the agent is or how close to done.
 
 ## Detection
 

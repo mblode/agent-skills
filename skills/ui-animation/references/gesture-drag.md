@@ -1,6 +1,6 @@
 # Gesture and Drag Animations
 
-Patterns for drag, swipe, and gesture interactions where the user directly manipulates elements.
+Drag, swipe, and gesture patterns where the user directly manipulates elements.
 
 ## Contents
 - [Momentum-based dismissal](#momentum-based-dismissal)
@@ -12,7 +12,7 @@ Patterns for drag, swipe, and gesture interactions where the user directly manip
 
 ## Momentum-based dismissal
 
-Don't require dragging past a distance threshold. Calculate velocity at release; a quick flick should be enough to dismiss.
+Don't require dragging past a distance threshold; compute velocity at release so a quick flick dismisses.
 
 ```ts
 function onPointerUp(e: PointerEvent) {
@@ -27,11 +27,11 @@ function onPointerUp(e: PointerEvent) {
 }
 ```
 
-Use velocity > 0.11 as a reasonable default threshold. Combine with a minimum distance threshold (e.g. 20px) to prevent accidental dismissals.
+Default threshold: velocity > 0.11. Combine with a minimum distance (e.g. 20px) to prevent accidental dismissals.
 
 ## Boundary damping
 
-When a user drags past the natural boundary (e.g. pulling a drawer up when already at top), apply damping. The more they drag, the less the element moves.
+Past the natural boundary (e.g. pulling a drawer up when already at top), apply damping: the more they drag, the less it moves.
 
 ```ts
 function applyDamping(offset: number, max: number): number {
@@ -42,11 +42,11 @@ function applyDamping(offset: number, max: number): number {
 const dampedOffset = applyDamping(rawOffset, 200);
 ```
 
-Things in real life don't suddenly stop; they slow down first. Friction instead of hard stops always feels more natural.
+Real things slow before stopping; friction beats hard stops.
 
 ## Pointer capture
 
-Once dragging starts, capture all pointer events on the element. This ensures dragging continues even if the pointer leaves the element bounds.
+On drag start, capture all pointer events so the drag continues even if the pointer leaves the element.
 
 ```ts
 function onPointerDown(e: PointerEvent) {
@@ -64,7 +64,7 @@ Always use `setPointerCapture`; without it, fast swipes escape the element and t
 
 ## Multi-touch protection
 
-Ignore additional touch points after the initial drag begins. Without this, switching fingers mid-drag causes the element to jump.
+Ignore extra touch points after the drag begins; without this, switching fingers mid-drag makes the element jump.
 
 ```ts
 let activeTouchId: number | null = null;
@@ -84,7 +84,7 @@ function onPointerUp(e: PointerEvent) {
 
 ## Friction vs hard stops
 
-Instead of preventing drag past a boundary, allow it with increasing friction:
+Allow drag past a boundary, with increasing friction:
 
 ```ts
 function applyFriction(delta: number, isAtBoundary: boolean): number {
@@ -113,4 +113,4 @@ function handleSwipeEnd(direction: "left" | "right", distance: number, velocity:
 }
 ```
 
-The exit animation should continue in the swipe direction with momentum; snapping to a different direction feels wrong.
+The exit should continue in the swipe direction with momentum; snapping elsewhere feels wrong.

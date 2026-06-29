@@ -10,13 +10,13 @@ related: forms-no-disable-while-submitting, forms-use-form-status-misuse, forms-
 
 ## Form data lost on validation error
 
-When a form fails server validation, the user's typed values must survive the round-trip. Clearing fields on error is one of the highest-cost UX bugs in production: users abandon checkout, retype passwords incorrectly, and lose multi-paragraph inputs. React 19's `useActionState` makes preservation the default, but only if the action returns `state.fields` and the inputs use `defaultValue`.
+When a form fails server validation, typed values must survive the round-trip. Clearing fields on error is one of the highest-cost UX bugs in production: users abandon checkout, retype passwords wrong, lose multi-paragraph inputs. React 19's `useActionState` makes preservation the default, but only if the action returns `state.fields` and inputs use `defaultValue`.
 
 ## What goes wrong
 
-User submits a sign-in form. Server returns "Invalid password." The email field is blank again. User retypes the email (sometimes wrong this time) and the password manager autofills the wrong account. Or: a checkout shipping-address form clears all 8 fields when the server rejects a ZIP code mismatch.
+User submits sign-in; server returns "Invalid password"; the email field is blank again. User retypes the email (sometimes wrong) and the password manager autofills the wrong account. Or: a checkout shipping-address form clears all 8 fields when the server rejects a ZIP mismatch.
 
-Two common code shapes cause this:
+Two code shapes cause this:
 
 1. `useState` per field plus `setEmail("")` (or implicit `e.currentTarget.reset()`) inside the error branch.
 2. A form action that returns only `{ error }` without echoing the submitted fields.
@@ -26,32 +26,35 @@ Two common code shapes cause this:
 **Surfaces:** sign-in, sign-up, checkout, onboarding, multi-step form.
 
 **Static signals:**
-1. `rg '<form' --type=tsx -l`: list all form-bearing files in scope.
-2. For each, check whether the action handler returns user input. Search for `useActionState` and read the action's return shape: it must include `fields` (or per-field values) on the error path.
-3. Search for explicit clear patterns: `\.reset\(\)`, `setEmail\(""\)`, `setPassword\(""\)`, `setForm\(initialState\)` inside `catch` or error branches.
-4. Inputs must use `defaultValue={state.fields?.email}` (uncontrolled with seeded default) OR `value={state.fields?.email}` if controlled.
-5. Count: forms with no `state.fields` echo AND no controlled-input preservation = fail.
+1. `rg '<form' --type=ts -l`: list form files in scope.
+2. Per form, read the action's return shape (`useActionState`): it must include `fields` (or per-field values) on the error path.
+3. Find explicit clears: `\.reset\(\)`, `setEmail\(""\)`, `setPassword\(""\)`, `setForm\(initialState\)` inside `catch` or error branches.
+4. Inputs must use `defaultValue={state.fields?.email}` (uncontrolled, seeded) OR `value={state.fields?.email}` (controlled).
+5. Fail: no `state.fields` echo AND no controlled-input preservation.
 
 **Concrete commands:**
 ```bash
 # Find forms in scope
-rg '<form' --type=tsx -l src/
+rg '<form' --type=ts -l src/
 
 # Find action handlers that don't echo input on error
-rg -A 20 'useActionState' --type=tsx src/ | rg -B 2 'return \{ error' | rg -L 'fields'
+rg -l 'useActionState' --type=ts src/ | while read f; do
+  rg -A 20 'useActionState' "$f" | rg -q 'return \{ error' \
+    && ! rg -q 'fields' "$f" \
+    && echo "$f: action error path does not preserve submitted fields"
+done
 
 # Find suspicious clears in catch blocks
-rg -B 2 -A 5 'catch' --type=tsx src/ | rg 'reset\(\)|set\w+\(""\)|set\w+\(null\)'
+rg -B 2 -A 5 'catch' --type=ts src/ | rg 'reset\(\)|set\w+\(""\)|set\w+\(null\)'
 
 # Find inputs that aren't seeded with prior value
-rg '<input' --type=tsx src/ | rg -v 'defaultValue|value='
+rg '<input' --type=ts src/ | rg -v 'defaultValue|value='
 ```
 
 **False-positive guards:**
 - Skip files containing `// ui-audit-ignore:forms-lost-data-on-error`.
-- Skip Storybook fixtures (`*.stories.tsx`).
-- Skip forms inside `*.test.tsx` files.
-- Skip password-only fields where clearing is intentional (look for `type="password"` AND a comment like `intentional clear`).
+- Skip Storybook fixtures (`*.stories.tsx`) and `*.test.tsx` forms.
+- Skip password-only fields where clearing is intentional (`type="password"` plus an `intentional clear` comment).
 
 ## Fix
 
@@ -134,7 +137,7 @@ Docs:
 | Internal admin tools | backlog |
 | Marketing landing form | backlog |
 
-Data loss on critical paths (payment, account creation, multi-step flows) is a release blocker: the cost of the bug compounds across millions of submissions.
+Data loss on critical paths (payment, account creation, multi-step) is a release blocker: the cost compounds across millions of submissions.
 
 ## Examples
 
@@ -166,8 +169,8 @@ return (
 
 ## Defer-to (when this is another tool's job)
 
-- jsx-a11y for `aria-invalid` enforcement at lint time.
-- React Hook Form / Zod resolvers for client-side preservation if the team is not on React 19 yet.
+- jsx-a11y enforces `aria-invalid` at lint time.
+- React Hook Form / Zod resolvers handle client-side preservation pre-React 19.
 
 ## Suppression
 

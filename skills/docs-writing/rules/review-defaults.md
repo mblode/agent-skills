@@ -6,11 +6,11 @@ tags: review, defaults, quality
 
 ## Review defaults
 
-Apply these checks before publishing any documentation:
+Apply before publishing:
 
-- **Test with a fresh reader** -- have someone unfamiliar with the feature follow the doc from scratch and note where they get stuck
-- **Read aloud and cut anything that makes you stumble** -- aim to remove 20% of the words on each editing pass
-- **Verify docs match the current implementation** -- run every code example, check parameter names, and confirm default values against the actual software
+- **Test with a fresh reader**: have someone unfamiliar with the feature follow the doc from scratch; note where they get stuck
+- **Read aloud, cut what makes you stumble**: remove 20% of the words each editing pass
+- **Verify against the current implementation**: run every code example, check parameter names, confirm default values against the actual software
 
 **Incorrect (unreviewed first draft with stale content):**
 

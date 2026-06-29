@@ -10,20 +10,30 @@ related: interaction-target-size, states-layout-shift
 
 ## Missing viewport meta, 100vh on mobile, no safe-area insets
 
-Three quiet bugs ship together on mobile: a missing `<meta name="viewport">` causes iOS Safari to render the page at 980 px and zoom out; `100vh` includes the address bar and is wrong by ~60 px on iOS; a fixed bottom bar covers the home-indicator notch and clips content. Each is a one-line fix and each is invisible in desktop testing. Modern CSS adds `100dvh` (dynamic viewport height) and `env(safe-area-inset-*)` exactly for this.
+Three quiet bugs ship together on mobile, each a one-line fix invisible in desktop testing: a missing `<meta name="viewport">` makes iOS Safari render at 980 px and zoom out; `100vh` includes the address bar (~60 px wrong on iOS); a fixed bottom bar covers the home-indicator notch and clips content. Modern CSS fixes these with `100dvh` (dynamic viewport height) and `env(safe-area-inset-*)`.
+
+## Contents
+
+- What goes wrong
+- Detection
+- Fix
+- Default tier and overrides
+- Examples
+- Defer-to
+- Suppression
 
 ## What goes wrong
 
-A Next.js app omits the viewport meta in `app/layout.tsx`. iOS Safari renders at desktop width and the user pinches to zoom. A modal uses `h-screen` (100vh): on iOS the bottom 60 px gets covered by the URL bar, and the primary CTA is unreachable. A bottom navigation bar uses `pb-4`: on iPhone X+ the home indicator overlaps the buttons.
+No viewport meta in `app/layout.tsx`: iOS Safari renders at desktop width and the user pinches to zoom. A modal uses `h-screen` (100vh): on iOS the URL bar covers the bottom 60 px and the primary CTA is unreachable. A bottom nav uses `pb-4`: on iPhone X+ the home indicator overlaps the buttons.
 
 ## Detection
 
 **Surfaces:** every full-screen surface, modals/sheets, fixed bottom bars, mobile dashboards, sign-in screens with bottom CTAs.
 
 **Static signals:**
-1. **Viewport meta:** check `app/layout.tsx` (Next.js App Router) or `_document.tsx` (Pages Router) for `<meta name="viewport" content="width=device-width, initial-scale=1">` or the equivalent `viewport` export.
-2. **`100vh` on mobile-rendered surfaces:** grep for `h-screen`, `min-h-screen`, `100vh`, `vh` units. Each is a candidate for `100dvh` / `100svh`.
-3. **Fixed bottom bars:** grep for `fixed bottom-0`, `position: fixed; bottom: 0` and confirm `padding-bottom: env(safe-area-inset-bottom)` or Tailwind `pb-[env(safe-area-inset-bottom)]` is present.
+1. **Viewport meta:** check `app/layout.tsx` (App Router) or `_document.tsx` (Pages Router) for `<meta name="viewport" content="width=device-width, initial-scale=1">` or the `viewport` export.
+2. **`100vh` on mobile surfaces:** grep `h-screen`, `min-h-screen`, `100vh`, `vh` units. Each is a candidate for `100dvh` / `100svh`.
+3. **Fixed bottom bars:** grep `fixed bottom-0`, `position: fixed; bottom: 0`; confirm `padding-bottom: env(safe-area-inset-bottom)` or Tailwind `pb-[env(safe-area-inset-bottom)]` is present.
 4. **viewport-fit:** if any `safe-area-inset-*` is used, the viewport meta must include `viewport-fit=cover` or it's a no-op.
 
 **Concrete commands:**
@@ -32,23 +42,23 @@ A Next.js app omits the viewport meta in `app/layout.tsx`. iOS Safari renders at
 rg -n 'export const viewport|<meta name="viewport"' app/ src/
 
 # 100vh usage
-rg -n '\b(h-screen|min-h-screen|100vh|\bvh\b)' --type=tsx --type=css
+rg -n '\b(h-screen|min-h-screen|100vh|\bvh\b)' --type=ts --type=css
 
 # Fixed bottom bars
-rg -n 'fixed (inset-x-0 )?bottom-0' --type=tsx
+rg -n 'fixed (inset-x-0 )?bottom-0' --type=ts
 
 # Safe-area insets
-rg -n 'safe-area-inset|env\(safe-area' --type=css --type=tsx
+rg -n 'safe-area-inset|env\(safe-area' --type=css --type=ts
 ```
 
 **False-positive guards:**
-- Skip `100vh` if the surface is desktop-only (`hidden md:block` parent, or media-query gated).
-- Skip fixed bottom bars inside a `<dialog>` (modal context manages safe area itself).
+- Skip `100vh` on desktop-only surfaces (`hidden md:block` parent, or media-query gated).
+- Skip fixed bottom bars inside a `<dialog>` (modal context manages safe area).
 - Skip files with `// ui-audit-ignore:mobile-viewport-scaling` near the match.
 
 ## Fix
 
-Three independent fixes; apply each where the static signal flagged.
+Three independent fixes; apply each where flagged.
 
 **1. Viewport meta (Next.js App Router):**
 
@@ -73,7 +83,7 @@ export const viewport: Viewport = {
 <div className="min-h-[100dvh] flex flex-col">
 ```
 
-`100dvh` shrinks/grows with the URL bar; use `100svh` (small viewport) when the layout must remain stable as the bar appears/disappears (avoids reflow on scroll). `100lvh` (large) is rarely correct.
+`100dvh` shrinks/grows with the URL bar; use `100svh` (small viewport) when the layout must stay stable as the bar appears/disappears (avoids scroll reflow). `100lvh` (large) is rarely correct.
 
 **3. Safe-area inset on fixed bars:**
 

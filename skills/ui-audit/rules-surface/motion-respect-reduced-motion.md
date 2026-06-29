@@ -7,7 +7,7 @@ tags: motion, accessibility, animation, reduced-motion
 
 ## Respect prefers-reduced-motion
 
-Gate non-essential animation, parallax, and autoplay behind `prefers-reduced-motion`. Users who set "reduce motion" should get an instant or cross-fade transition instead of large movement. Keep essential motion (e.g. a loading spinner) but tone down decorative effects.
+Gate non-essential animation, parallax, and autoplay behind `prefers-reduced-motion`. Users who request reduced motion get an instant or cross-fade instead of large movement. Keep essential motion (e.g. a loading spinner); tone down decorative effects.
 
 **Incorrect (animation always runs):**
 

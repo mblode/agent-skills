@@ -123,11 +123,11 @@ Create at `{{name}}/knip.json`:
 }
 ```
 
-Run dead-code analysis on demand with `npx knip` from the root (knip is not a devDependency; npx fetches it). Add workspace-specific entry points to `knip.json` as needed (e.g. for CLI apps or docs sites with custom entry files).
+Run dead-code analysis on demand with `npx knip` from the root (not a devDependency; npx fetches it). Add workspace-specific entry points as needed (e.g. CLI apps or docs sites with custom entry files).
 
 ## apps/web/package.json scripts
 
-Update the `scripts` block in `apps/web/package.json` to include turbo-compatible commands:
+Update the `scripts` block in `apps/web/package.json`:
 
 ```json
 {
@@ -144,7 +144,7 @@ Update the `scripts` block in `apps/web/package.json` to include turbo-compatibl
 }
 ```
 
-These script names match the tasks defined in `turbo.json`, allowing turbo to orchestrate them across workspaces. The `oxlint`/`oxfmt` invocations here are for turbo orchestration only; for ad-hoc lint or format runs use `npx ultracite fix` / `npx ultracite check` so config resolution matches the pre-commit hook. If the project adds a test runner later, add a matching `test` task to `turbo.json` at the same time.
+Script names match the tasks in `turbo.json` so turbo can orchestrate them across workspaces. The `oxlint`/`oxfmt` invocations here are for turbo orchestration only; for ad-hoc runs use `npx ultracite fix` / `npx ultracite check` so config resolution matches the pre-commit hook. If you add a test runner later, add a matching `test` task to `turbo.json` at the same time.
 
 ## apps/web/next.config.ts
 
@@ -160,4 +160,4 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 ```
 
-`create-next-app` generates this file when React Compiler is selected. Verify `reactCompiler: true` is present.
+`create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present.

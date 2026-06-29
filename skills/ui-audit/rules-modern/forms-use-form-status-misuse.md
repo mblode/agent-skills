@@ -8,13 +8,13 @@ react-apis: useFormStatus
 related: forms-no-disable-while-submitting
 ---
 
-## useFormStatus called in same component as form
+## useFormStatus called in same component as form (silent bug)
 
-`useFormStatus` returns the status of the **parent** `<form>`. Calling it in the same component that renders `<form>` returns `{ pending: false }` permanently: the hook has no parent form to inspect. It compiles, runs, never warns, and silently breaks every feature that depends on it (disabled submit, pending label, optimistic UI gating). Detecting this requires reading the component tree, not the React error console.
+`useFormStatus` returns the **parent** `<form>`'s status. Called in the same component that renders the `<form>`, it returns `{ pending: false }` forever (no parent form to inspect). It compiles, runs, never warns, and silently breaks everything depending on it (disabled submit, pending label, optimistic UI gating). Detecting it means reading the component tree, not the console.
 
 ## What goes wrong
 
-A developer reads the `useFormStatus` docs, copies the example, and writes:
+A developer copies the docs example:
 
 ```tsx
 export function CheckoutForm() {
@@ -27,25 +27,25 @@ export function CheckoutForm() {
 }
 ```
 
-The button never disables. Double-click bug ships to production. There is no console warning, no TypeScript error, no test failure unless the test asserts `disabled` during pending. This is the most common useFormStatus mistake, and the React docs explicitly call it out as a caveat.
+The button never disables; a double-click bug ships. No console warning, no TypeScript error, no test failure unless a test asserts `disabled` during pending. This is the most common `useFormStatus` mistake, called out as a caveat in the React docs.
 
 ## Detection
 
 **Surfaces:** every `<form>` that calls `useFormStatus`.
 
 **Static signals:**
-1. Find every file that imports `useFormStatus`.
-2. For each, check whether the component calling `useFormStatus()` also renders a `<form>` element directly in its JSX return.
-3. If yes → fail. The hook must be in a child component.
-4. Acceptable shape: parent renders `<form>...<SubmitButton /></form>`, and `SubmitButton` is the component that calls `useFormStatus`.
+1. Find every file importing `useFormStatus`.
+2. Check whether the component calling `useFormStatus()` also renders a `<form>` directly in its JSX.
+3. If yes, fail: the hook must live in a child component.
+4. Acceptable shape: parent renders `<form>...<SubmitButton /></form>` where `SubmitButton` calls `useFormStatus`.
 
 **Concrete commands:**
 ```bash
 # Files importing useFormStatus
-rg -l 'useFormStatus' --type=tsx src/
+rg -l 'useFormStatus' --type=ts src/
 
 # Of those, files where the SAME component returns a <form>
-rg -l 'useFormStatus' --type=tsx src/ | while read f; do
+rg -l 'useFormStatus' --type=ts src/ | while read f; do
   if rg -q '<form' "$f" && rg -q 'useFormStatus\(\)' "$f"; then
     # Heuristic: same file contains both. Read the file to confirm
     # the call site is in the component returning <form>.
@@ -54,10 +54,10 @@ rg -l 'useFormStatus' --type=tsx src/ | while read f; do
 done
 
 # Confirm by reading the call site context
-rg -B 2 -A 8 'useFormStatus\(\)' --type=tsx src/
+rg -B 2 -A 8 'useFormStatus\(\)' --type=ts src/
 ```
 
-The grep is a starting heuristic; the audit must `Read` the file to confirm the hook is in the same component as the `<form>` element. A correctly factored file will have two component declarations: one with `<form>`, one with the hook.
+The grep is a heuristic; `Read` the file to confirm the hook is in the same component as `<form>`. A correctly factored file has two components: one with `<form>`, one with the hook.
 
 **False-positive guards:**
 - Skip files with `// ui-audit-ignore:forms-use-form-status-misuse`.
@@ -115,7 +115,7 @@ Docs:
 
 **Defaults to:** `release-blocker`
 
-This is a silent runtime bug that disables the entire purpose of `useFormStatus`. It blocks merge regardless of surface: whether the form is sign-in, checkout, or a comment box, the developer's intent has been silently broken.
+A silent runtime bug that nullifies `useFormStatus` entirely. Blocks merge regardless of surface (sign-in, checkout, or comment box): the developer's intent is silently broken.
 
 **Surface overrides:**
 | Surface | Tier |
@@ -158,11 +158,11 @@ export function NewsletterForm() {
 
 ## Defer-to (when this is another tool's job)
 
-- A future ESLint plugin (`eslint-plugin-react-hooks` may eventually add this rule) would catch this at write time. Until then, this audit rule is the only static check.
+- `eslint-plugin-react-hooks` may add a rule that catches this at write time; absent that, this audit is the only static check.
 
 ## Suppression
 
-Suppression is rarely justified: this is almost always a real bug. If suppressed, document why:
+Rarely justified (almost always a real bug). If suppressed, document why:
 
 ```tsx
 {/* ui-audit-ignore:forms-use-form-status-misuse, useFormStatus is a no-op here, kept for parity with sibling code */}

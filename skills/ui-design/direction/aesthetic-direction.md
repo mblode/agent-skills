@@ -1,6 +1,6 @@
 # Aesthetic Direction
 
-Shared calibration layer for both tracks. Goal: make the UI look human-designed, not AI-default.
+Shared calibration layer for both tracks; make UI look human-designed, not AI-default.
 
 ## AI slop signals
 
@@ -12,7 +12,7 @@ Shared calibration layer for both tracks. Goal: make the UI look human-designed,
 ## Philosophy
 
 - Delete aggressively; clarity over decoration.
-- Do not compete for attention you have not earned.
+- Don't compete for attention you haven't earned.
 - Structure should be felt, not seen.
 - Prune extra icons, controls, and separators before styling what remains.
 - Restraint plus hierarchy beats noise.
@@ -24,14 +24,14 @@ Shared calibration layer for both tracks. Goal: make the UI look human-designed,
 ## Upgrade choices
 
 - Icon sets: Phosphor, Heroicons, Tabler.
-- Typography sources: Typewolf, Fonts In Use, commercial foundries.
+- Typography: Typewolf, Fonts In Use, commercial foundries.
 - Animation study: animations.dev, devouringdetails.com.
 
 ## Polish details
 
 - Match box-shadows to references.
 - Dark-mode aware SVG favicon.
-- Intentional hover/active states and loading/error/empty states.
+- Intentional hover/active and loading/error/empty states.
 
 ## Reject these failures
 

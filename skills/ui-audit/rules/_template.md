@@ -1,7 +1,7 @@
 ---
 title: Law Name
 impact: HIGH
-kind: programmatic
+kind: programmatic | rubric
 prefix: cognitive
 tags: tag1, tag2, tag3
 related: prefix-other-law, prefix-other-law
@@ -11,7 +11,7 @@ related: prefix-other-law, prefix-other-law
 
 One-paragraph definition with the threshold and source citation inline (e.g. "Fitts's Law floor: 44×44 px per WCAG 2.5.5 AAA / Apple HIG; 48 dp per Material").
 
-A second paragraph if needed for nuance: common misreadings, scope limits, or what the law does *not* claim.
+Optional second paragraph for nuance: common misreadings, scope limits, or what the law does *not* claim.
 
 ## Check
 
@@ -57,3 +57,28 @@ rg '<nav' --files-with-matches src/
 ```
 
 Reference: https://lawsofux.com/<slug>/
+
+## Rubric variant
+
+Use this frontmatter shape when the law cannot be reduced to a binary threshold:
+
+```yaml
+---
+title: Rubric Law Name
+impact: MEDIUM
+kind: rubric
+prefix: perception
+tags: tag1, tag2, tag3
+related: prefix-other-law
+---
+```
+
+## Rubric
+
+| Score | Anchor |
+|---|---|
+| 5 | Concrete best-in-class anchor. |
+| 4 | Clear pass with minor polish available. |
+| 3 | Ambiguous or uneven, should be improved. |
+| 2 | Clear user-facing friction. |
+| 1 | Broken or misleading experience. |

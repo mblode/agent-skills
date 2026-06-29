@@ -1,20 +1,31 @@
 # Product Design Rules
 
-Stable rule IDs cited across every mode. Each finding or decision in `product-design` names a rule ID so it is traceable, dedupable, and verifiable against a source. Treat these IDs as a shared vocabulary: lint rules, reviews, and exemplars all reference the same slug.
+Stable rule IDs cited across every mode. Each finding or decision in `product-design` names a rule ID so it is traceable, dedupable, and verifiable. These IDs are a shared vocabulary: lint rules, reviews, and exemplars reference the same slug.
 
-Cite an ID exactly as written (`rule/destructive-names-action`). Never invent one. If a needed rule does not exist, record it as a coverage gap in `evals.md` rather than citing a made-up ID.
+Cite an ID exactly as written (`rule/destructive-names-action`). Never invent one. If a needed rule is missing, record a coverage gap in `evals.md` instead of citing a made-up ID.
+
+## Contents
+
+- [How to read a rule](#how-to-read-a-rule)
+- [Categories](#categories)
+- [Copy rule IDs (defined in copywriting)](#copy-rule-ids-defined-in-copywriting)
+- [Interaction and control selection](#interaction-and-control-selection)
+- [Action naming and consequence](#action-naming-and-consequence)
+- [State coverage](#state-coverage)
+- [Accessibility as a product concern](#accessibility-as-a-product-concern)
+- [Hierarchy and structure](#hierarchy-and-structure)
 
 ## How to read a rule
 
 | Field | Meaning |
 |-------|---------|
-| Scope | The surface or decision the rule governs |
-| Rule | The decision, stated as an observable constraint, not an adjective |
+| Scope | Surface or decision the rule governs |
+| Rule | The decision as an observable constraint, not an adjective |
 | Why | The user consequence when violated |
-| Source | Where the rule is enforced or detailed: a lint rule, a reference section, or a sibling skill |
+| Source | Where it's enforced or detailed: lint rule, reference section, or sibling skill |
 | Enforcement | `lint` (deterministic, see `lint-patterns.md`), `judgment` (this skill), or `copy` (defined in `copywriting`) |
 
-A rule is observable when you can point at the interface and say it passes or fails without invoking taste. "Destructive actions use Verb plus Noun" is observable. "Buttons should be clear" is not, and does not belong here.
+A rule is observable when you can point at the interface and say it passes or fails without invoking taste. "Destructive actions use Verb plus Noun" is observable; "Buttons should be clear" is not and does not belong here.
 
 ## Categories
 
@@ -24,11 +35,11 @@ A rule is observable when you can point at the interface and say it passes or fa
 - Accessibility as a product concern
 - Hierarchy and structure
 
-Visual-token integrity (design-system overrides, raw shadows, off-grid spacing, modal scroll structure) is not in this skill. It is a rendered or lint concern owned by `ui-audit` and the project's visual lint. This skill decides whether a modal should exist or be nested; whether its body scrolls correctly is `ui-audit`'s check.
+Visual-token integrity (design-system overrides, raw shadows, off-grid spacing, modal scroll structure) is not this skill's: it is a rendered or lint concern owned by `ui-audit` and the project's visual lint. This skill decides whether a modal should exist or be nested; whether its body scrolls correctly is `ui-audit`'s check.
 
 ## Copy rule IDs (defined in copywriting)
 
-These IDs are authored and worded in `copywriting/references/ui-states.md`; this skill cites them for the product decision and routes the wording there. Restated here so a citation resolves without loading another skill's file. For the exact strings and verb vocabulary, open that file.
+These IDs are authored and worded in the copywriting skill's `references/ui-states.md`; this skill cites them for the product decision and routes the wording there. Restated here so a citation resolves without loading another skill's file. For the exact strings and verb vocabulary, open that file.
 
 | ID | The decision it governs |
 |----|-------------------------|
@@ -44,7 +55,7 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/control-matches-cardinality
 - Scope: choosing a control for a small set of mutually exclusive options.
 - Rule: 2 to 3 static, mutually exclusive options use radio buttons or a segmented control, not a select. Keep every option visible.
-- Why: a select hides choices behind a click and a label, so the user cannot compare options at a glance.
+- Why: a select hides choices behind a click, so the user cannot compare options at a glance.
 - Source: `lint-patterns.md`; `product-judgment.md` > Control selection.
 - Enforcement: lint plus judgment.
 
@@ -58,21 +69,21 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/no-nested-modals
 - Scope: overlays.
 - Rule: do not open a modal from within a modal. Resolve the first, use a single multi-step surface, or move the second step inline.
-- Why: stacked modals break focus trapping, escape-key order, and layering, and they hide the original context.
+- Why: stacked modals break focus trapping, escape-key order, and layering, and hide the original context.
 - Source: `lint-patterns.md`; `surfaces.md` > Overlays.
 - Enforcement: lint plus judgment.
 
 ### rule/inline-before-modal
 - Scope: revealing secondary content or controls.
-- Rule: prefer inline disclosure (expand in place, a section, a popover anchored to its trigger) before introducing a modal. Reserve modals for focused, interrupting decisions.
-- Why: a modal severs the user from context and forces a full-attention detour for work that often does not need one.
+- Rule: prefer inline disclosure (expand in place, a section, a popover anchored to its trigger) over a modal. Reserve modals for focused, interrupting decisions.
+- Why: a modal severs the user from context and forces a full-attention detour for work that often does not need it.
 - Source: `product-judgment.md` > Surface persistence.
 - Enforcement: judgment.
 
 ### rule/smallest-intervention
 - Scope: any proposed change that adds UI.
-- Rule: before adding a control, setting, or surface, evaluate a better default, a behavior change, or reuse of an existing pattern. Add UI only when those do not solve the job.
-- Why: every added control is a permanent cost the user must learn and the team must maintain. Configuration is not a substitute for a correct default.
+- Rule: before adding a control, setting, or surface, evaluate a better default, a behavior change, or reuse of an existing pattern. Add UI only when none solve the job.
+- Why: every added control is a permanent cost to learn and maintain. Configuration is not a substitute for a correct default.
 - Source: `product-judgment.md` > Smallest coherent intervention.
 - Enforcement: judgment.
 
@@ -81,14 +92,14 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/destructive-names-action
 - Scope: confirmation and primary buttons for destructive or irreversible actions.
 - Rule: destructive CTAs use Verb plus Noun naming the exact object (`Delete project`, `Remove member`, `Discard changes`). Never `Confirm`, `OK`, `Yes`, or a bare verb.
-- Why: a generic label hides what is about to happen, so the user confirms an action they did not fully read.
-- Source: defined in `copywriting/references/ui-states.md`; cited by `naming-and-copy.md`.
+- Why: a generic label hides what is about to happen, so the user confirms without reading.
+- Source: defined in the copywriting skill's `references/ui-states.md`; cited by `naming-and-copy.md`.
 - Enforcement: copy plus judgment.
 
 ### rule/name-object-scope-consequence
 - Scope: any action that mutates, deletes, shares, bills, or changes permissions.
 - Rule: the interface states the object (what), the scope (how many, whose), and the consequence (reversible or not, who is affected) before the user commits.
-- Why: without scope and consequence the user cannot judge the blast radius of the action.
+- Why: without scope and consequence the user cannot judge the action's blast radius.
 - Source: `naming-and-copy.md` > Object, scope, consequence; `product-judgment.md`.
 - Enforcement: judgment.
 
@@ -102,7 +113,7 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/preserve-user-input
 - Scope: forms, editors, and any input across validation, error, or navigation.
 - Rule: preserve user input through validation failures and recoverable errors. Do not clear fields on a failed submit.
-- Why: discarding entered data on error forces re-entry and is the fastest way to lose a user's work and trust.
+- Why: discarding entered data on error forces re-entry and loses the user's work and trust.
 - Source: `surfaces.md` > Error state; `ui-audit` for the React-level check.
 - Enforcement: judgment.
 
@@ -118,15 +129,15 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/empty-state-action
 - Scope: empty and zero-data states.
 - Rule: an empty state names the object and offers the first action. No dead ends.
-- Why: a bare "No items" leaves the user with nothing to do and no idea how to begin.
-- Source: defined in `copywriting/references/ui-states.md`; `surfaces.md` > Empty state.
+- Why: a bare "No items" leaves the user with nothing to do and no way to begin.
+- Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Empty state.
 - Enforcement: copy plus judgment.
 
 ### rule/error-states-recovery
 - Scope: error states and failure messages.
 - Rule: an error states what happened, why when known, and the recovery action. Never surface raw exception or stack text. Never a bare "Something went wrong" with no next step.
 - Why: an error without a recovery path strands the user.
-- Source: defined in `copywriting/references/ui-states.md`; `surfaces.md` > Error state.
+- Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Error state.
 - Enforcement: copy plus judgment.
 
 ### rule/loading-stable-labels
@@ -139,8 +150,8 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/loading-state-specific
 - Scope: loading copy.
 - Rule: prefer specific loading text over a bare "Loading..." when the target is known (what is loading, and roughly how long for long operations).
-- Why: specific feedback tells the user the system is working on their request, not stuck.
-- Source: defined in `copywriting/references/ui-states.md`.
+- Why: specific feedback tells the user the system is working, not stuck.
+- Source: defined in the copywriting skill's `references/ui-states.md`.
 - Enforcement: copy.
 
 ## Accessibility as a product concern
@@ -155,7 +166,7 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/keyboard-complete-flow
 - Scope: any multi-step or interactive flow.
 - Rule: the primary task is completable by keyboard alone, with visible focus and a sensible focus order. Focus moves to new surfaces and returns on close.
-- Why: keyboard and screen-reader users must be able to finish the job, not just reach the first control.
+- Why: keyboard and screen-reader users must finish the job, not just reach the first control.
 - Source: `interface-quality.md` > Accessibility; route rendered checks to `ui-audit`.
 - Enforcement: judgment.
 
@@ -178,7 +189,7 @@ These IDs are authored and worded in `copywriting/references/ui-states.md`; this
 ### rule/structure-before-containers
 - Scope: layout.
 - Rule: use hierarchy, spacing, and alignment to group content before adding borders, cards, or boxes.
-- Why: container-first layouts produce nested boxes that add visual weight without adding meaning.
+- Why: container-first layouts produce nested boxes that add weight without meaning.
 - Source: `product-judgment.md` > Hierarchy; route visual execution to `ui-design`.
 - Enforcement: judgment.
 

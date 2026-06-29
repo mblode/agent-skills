@@ -9,18 +9,18 @@ related: interaction-flow, memory-zeigarnik, interaction-fittss-law
 
 ## Doherty Threshold
 
-Productivity climbs sharply when system response stays under 400 ms, fast enough that users do not have to wait on the machine and the machine does not have to wait on them. Above that threshold, attention scatters and engagement drops. Source: Doherty & Thadani, IBM (1982).
+Productivity climbs sharply when system response stays under 400 ms: neither user nor machine waits on the other. Above it, attention scatters and engagement drops. Source: Doherty & Thadani, IBM (1982).
 
-Modern targets are tiered: under 100 ms feels instant (hover, focus, expand/collapse); under 400 ms maintains flow (navigation, search, save); over 1000 ms requires explicit progress feedback (skeletons, progress bars, streaming). When real work cannot finish under 400 ms, fake the perception with optimistic UI, skeleton screens, or streamed partial results; never block on a centered spinner.
+Tiered targets: under 100 ms feels instant (hover, focus, expand/collapse); under 400 ms maintains flow (navigation, search, save); over 1000 ms requires explicit progress feedback (skeletons, progress bars, streaming). When real work cannot finish under 400 ms, fake the perception with optimistic UI, skeleton screens, or streamed partial results; never block on a centered spinner.
 
 ## Check
 
 **Surfaces:** loading, search-results, error-state
 
-**Procedure:** Static heuristic since runtime measurement isn't always available in source review.
+**Procedure:** Static heuristic (runtime measurement isn't always available in source review).
 1. Find async actions: `fetch`, `mutate`, route changes, async `onClick`/`onSubmit` handlers.
-2. For each, check for: a skeleton or spinner placeholder rendered synchronously within ~100 ms (i.e. a `loading`/`isPending`/`<Skeleton>` branch in the same component), optimistic UI for low-risk actions, OR a progress indicator for operations expected to exceed 1000 ms.
-3. Flag any synchronous blocking `await` that returns control to the user without showing intermediate feedback.
+2. For each, check for one of: a skeleton/spinner placeholder rendered synchronously within ~100 ms (a `loading`/`isPending`/`<Skeleton>` branch in the same component), optimistic UI for low-risk actions, or a progress indicator for operations expected to exceed 1000 ms.
+3. Flag any blocking `await` in a handler that shows no intermediate feedback.
 
 **Concrete commands:**
 ```bash
@@ -40,7 +40,7 @@ rg -n 'isLoading|isPending|<Skeleton|<Spinner|optimistic' src/
 
 **If fail:** Add an immediate state change before the `await`: set `isPending` and render `<Skeleton>` or a disabled-button state. For mutations on owned data, apply optimistic UI with a rollback path on error.
 
-**If warn:** Standardize a `<Skeleton>` or pending-indicator pattern across all async branches on the surface so coverage is uniform.
+**If warn:** Standardize one `<Skeleton>`/pending-indicator pattern across all async branches on the surface for uniform coverage.
 
 ## Examples
 

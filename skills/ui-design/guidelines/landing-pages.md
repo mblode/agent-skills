@@ -1,11 +1,11 @@
 # Landing Pages
 
-Covers: landing pages, marketing pages, stacked page sections, heroes, CTAs, pricing sections, feature sections, and full-page consistency.
+Covers: landing pages, marketing pages, stacked page sections, heroes, CTAs, pricing sections, feature sections, full-page consistency.
 
-- Reuse the same primary/secondary button styling across the entire page: if the hero uses a link-style secondary, every other section with a secondary action (CTA, pricing, etc.) must also use a link-style secondary
-- Reuse the same font treatment (size, weight, color) when the same or similar idea appears multiple times on a page: match the existing instance exactly
-- Use the same container style across the entire page: once a container style is established (outline, tinted, etc.), all subsequent containers should match
-- Use the same border radius for all containers at the same level: panels, cards, and other sibling containers on a page should share a consistent radius
-- Use the same column `gap-*` value across all multi-column page sections: card grids, split layouts, and any other two-column or multi-column section must share the same gap; check existing sections before adding a new one and match the value already in use
-- Never place a centered/center-constrained layout directly below a left-aligned layout: use left-aligned instead, unless: the section above ends with full-width containers that create a natural divide, a background color change separates them, or a visible divider sits between
-- Never have more centered heading groups than left-aligned ones on a landing page: centered headings work best for hero sections, CTAs, and sections with symmetrical content beneath (e.g. centered pricing cards, logo clouds); default to left-aligned for feature grids, split layouts, and content-heavy sections
+- Reuse one primary/secondary button style across the whole page: if the hero's secondary is link-style, every section's secondary action (CTA, pricing, etc.) is link-style too.
+- Reuse the same font treatment (size, weight, color) wherever the same or similar idea repeats: match the existing instance exactly.
+- Reuse one container style across the page: once set (outline, tinted, etc.), all later containers match.
+- Use one border radius for all sibling containers at the same level (panels, cards).
+- Use one column `gap-*` across all multi-column sections (card grids, split layouts): check existing sections and match the value already in use before adding a new one.
+- Never place a centered layout directly below a left-aligned one; use left-aligned, unless the section above ends with full-width containers, a background color change, or a visible divider separates them.
+- Never have more centered heading groups than left-aligned on a landing page: center heroes, CTAs, and symmetrical content (centered pricing cards, logo clouds); default to left-aligned for feature grids, split layouts, and content-heavy sections.

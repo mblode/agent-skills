@@ -32,10 +32,10 @@ A first-run user lands on the dashboard. The "Recent invoices" widget says "No i
 ```bash
 # Empty-state language in JSX text.
 rg -n -i '>(no [a-z ]+ yet|nothing here|empty|no results|no items|no data)<' \
-  --type=tsx --type=ts src/
+  --type=ts src/
 
 # Common empty-state component names worth opening.
-rg -l -i 'EmptyState|NoResults|ZeroState|<Empty[A-Z]' --type=tsx src/
+rg -l -i 'EmptyState|NoResults|ZeroState|<Empty[A-Z]' --type=ts src/
 ```
 
 For each match, open the file and verify the block contains at least one of: `<Button`, `<Link`, `<a `, `onClick=`, `<Form` with submit, or a router-based action.

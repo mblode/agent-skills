@@ -7,7 +7,7 @@ tags: onboarding, quickstart, zero-config, time-to-first-success
 
 ## Zero-Config Defaults and a Copy-Pasteable Quickstart
 
-The first example in the README must run as written, with no placeholders to resolve and no config file to author first. Sensible defaults should make the simplest use work immediately. Time-to-first-success is the single strongest predictor of adoption, so the hello-world should be one paste.
+The first README example must run as written, with no placeholders to resolve and no config file to author first. Sensible defaults make the simplest use work immediately. Time-to-first-success is the strongest predictor of adoption; the hello-world should be one paste.
 
 **Incorrect (requires a config file and undefined placeholders before anything runs):**
 

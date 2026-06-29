@@ -7,7 +7,7 @@ tags: accessibility, images, alt-text
 
 ## Give Every Image a Correct Alt Attribute
 
-Every `<img>` needs an `alt`. Describe the image's purpose for informative images; use an empty `alt=""` for decorative ones so screen readers skip them. A missing `alt` makes the file name get read aloud.
+Every `<img>` needs an `alt`: describe the purpose for informative images, use an empty `alt=""` for decorative ones so screen readers skip them. A missing `alt` makes the file name get read aloud.
 
 **Incorrect (missing alt, and decorative image announced):**
 

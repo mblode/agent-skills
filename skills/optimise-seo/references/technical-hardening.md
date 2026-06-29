@@ -1,6 +1,6 @@
 # Technical Hardening: Security, Privacy, Resilience
 
-The non-content layer a good site ships: transport and header security, privacy/consent obligations, and graceful failure. These complement SEO: a site that leaks data, ignores consent law, or returns 200 for an error page loses trust and rankings. No visual redesigns; these are headers, policies, and error/status behaviour.
+The non-content layer: transport/header security, privacy/consent obligations, graceful failure. These complement SEO: a site that leaks data, ignores consent law, or returns 200 for an error page loses trust and rankings. No visual redesigns; headers, policies, and error/status behaviour only.
 
 ## Contents
 - [Security headers](#security-headers)
@@ -11,7 +11,7 @@ The non-content layer a good site ships: transport and header security, privacy/
 
 ## Security headers
 
-Set these on every HTML response (see `nextjs-implementation.md` for the `next.config` `headers()` form). Test the result at securityheaders.com or Mozilla Observatory.
+Set on every HTML response (see `nextjs-implementation.md` for the `next.config` `headers()` form). Test at securityheaders.com or Mozilla Observatory.
 
 | Header | Recommended value | Why |
 |---|---|---|
@@ -53,18 +53,18 @@ Expires: 2027-01-01T00:00:00.000Z
 ## Privacy
 
 - **Privacy policy:** state what personal data is collected, why, legal basis, sharing, retention, and user rights.
-- **Cookie consent:** in the EU/UK, non-essential cookies/storage need freely-given, specific, **opt-in** consent *before* they are set. No pre-ticked boxes; reject must be as easy as accept.
+- **Cookie consent:** in the EU/UK, non-essential cookies/storage need freely-given, specific, **opt-in** consent *before* they're set. No pre-ticked boxes; reject as easy as accept.
 - **Global Privacy Control (GPC):** honour the `Sec-GPC: 1` request signal as an opt-out of sale/sharing (legally required in California and Colorado).
 - **Privacy-respecting analytics:** prefer aggregate, cookieless, EU-hostable analytics (e.g. Plausible, Fathom, server-side) to avoid consent and data-transfer problems.
-- **Data minimisation:** collect only what a specific purpose needs, keep it only as long as needed, and redact it from logs/URLs where it leaks.
+- **Data minimisation:** collect only what a purpose needs, keep it only as long as needed, redact it from logs/URLs where it leaks.
 - **Audit third-party scripts:** any cross-origin script can read cookies and the URL and exfiltrate page data. Justify each one; lock down with CSP + SRI.
 
 ## Resilience
 
-- **Custom 404 / 500:** return the **correct** status code (a "not found" page must be `404`, not `200`; see soft-404 in `SKILL.md`). Explain the problem in plain language and offer a way forward; never leak stack traces.
+- **Custom 404 / 500:** return the **correct** status code (a "not found" page must be `404`, not `200`; see soft-404 in `SKILL.md`). Explain the problem plainly and offer a way forward; never leak stack traces.
 - **Maintenance:** return `503` with a `Retry-After` header so crawlers don't deindex; show when the site will return.
 - **Web app manifest:** ship `app/manifest.ts` (name, icons, `start_url`, `theme_color`, `display`) so the site installs cleanly.
-- **Monitoring:** monitor from outside your own infra (synthetic + real-user), and host the status page on a separate provider so it stays up when the site doesn't.
+- **Monitoring:** monitor from outside your own infra (synthetic + real-user); host the status page on a separate provider so it stays up when the site doesn't.
 
 ```ts
 // Maintenance response

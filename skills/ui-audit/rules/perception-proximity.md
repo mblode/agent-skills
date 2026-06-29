@@ -9,9 +9,9 @@ related: perception-similarity, perception-common-region, perception-uniform-con
 
 ## Law of Proximity
 
-A Gestalt grouping principle: items placed near each other read as belonging together. Spacing is the cue. When two elements share less whitespace with each other than with their surroundings, the eye binds them into a group before any label, border, or color is processed. Threshold for legible grouping: inter-group spacing should be at least 2× the intra-group spacing (see Lidwell, *Universal Principles of Design*; lawsofux.com/law-of-proximity).
+Gestalt grouping: items placed near each other read as belonging together. Spacing is the cue: when two elements share less whitespace with each other than with their surroundings, the eye binds them before any label, border, or color is processed. Threshold for legible grouping: inter-group spacing at least 2× intra-group (Lidwell, *Universal Principles of Design*; lawsofux.com/law-of-proximity).
 
-Among the four grouping laws, proximity is the baseline cue. Uniform Connectedness and Common Region beat it when they conflict: a card border holds its contents together even if internal spacing is loose. Use proximity to do the work first; reach for borders only when spacing alone cannot communicate the group.
+Proximity is the baseline of the four grouping laws. Uniform Connectedness and Common Region beat it when they conflict: a card border holds contents together even if internal spacing is loose. Let proximity do the work first; reach for borders only when spacing alone cannot communicate the group.
 
 ## Check
 

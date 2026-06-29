@@ -6,19 +6,19 @@ tags: hair-space, thin-space, em-dash, citations, spacing
 
 ## Use Hair and Thin Spaces for Fine Adjustments
 
-When a full word space feels too wide and no space feels too tight, use hair spaces (`&hairsp;`) or thin spaces (`&thinsp;`). Common applications: around em dashes, after citations, between nested punctuation marks, and around special characters.
+When a full word space is too wide but no space is too tight, use hair spaces (`&hairsp;`) or thin spaces (`&thinsp;`): around em dashes, after citations, between nested punctuation, and around special characters.
 
 **Incorrect (no space or full space around em dashes):**
 
 ```html
-<p>Typography\u2014the art of type\u2014matters.</p>     <!-- too tight -->
-<p>Typography \u2014 the art of type \u2014 matters.</p>  <!-- too loose -->
+<p>Typography[em dash character]the art of type[em dash character]matters.</p>     <!-- too tight -->
+<p>Typography [em dash character] the art of type [em dash character] matters.</p>  <!-- too loose -->
 ```
 
 **Correct (thin spaces around em dashes):**
 
 ```html
-<p>Typography&thinsp;&mdash;&thinsp;the art of type&thinsp;&mdash;&thinsp;matters.</p>
+<p>Typography&thinsp;[em dash character]&thinsp;the art of type&thinsp;[em dash character]&thinsp;matters.</p>
 ```
 
 **Common uses:**

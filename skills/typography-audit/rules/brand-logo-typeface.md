@@ -6,7 +6,7 @@ tags: logo, typeface, letterforms, brand, identity
 
 ## Choose Logo Typeface Based on Specific Letters
 
-When selecting a typeface for a logo or wordmark, choose based on the specific letters in the brand name, not on overall typeface aesthetics. An "A" or "g" that looks generic in one typeface may be striking in another.
+Choose a logo or wordmark typeface by the specific letters in the brand name, not overall aesthetics. An A or g that's generic in one face may be striking in another.
 
 **Incorrect (default UI face reused for the wordmark, no distinctive glyphs):**
 
@@ -30,4 +30,4 @@ When selecting a typeface for a logo or wordmark, choose based on the specific l
 }
 ```
 
-**Process:** type the brand name in 20-30 candidate typefaces, focus on the most prominent letters, test at large and small sizes, and verify the license covers logo use. Use swashes, discretionary ligatures, and stylistic alternates sparingly for memorability; check italic variants for swash characters, often stored in separate files or behind OpenType features.
+**Process:** set the brand name in 20-30 candidates, focus on the most prominent letters, test at large and small sizes, verify the license covers logo use. Use swashes, discretionary ligatures, and stylistic alternates sparingly; check italic variants for swash characters (often in separate files or behind OpenType features).

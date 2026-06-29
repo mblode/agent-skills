@@ -1,6 +1,6 @@
 # Writing Slides
 
-Bold, minimal copy designed for speaking to, not reading from.
+Bold, minimal copy for speaking to, not reading from.
 
 ## Headline patterns
 
@@ -28,7 +28,7 @@ Headlines: 4-12 words, sentence case, no trailing period.
 - **Bold lead-in + explanation**: `**Retention is the real metric.** Acquisition gets attention, retention builds the business.`
 - **Key phrase emphasis**: "We compete on **speed** and **focus**"
 - **Minimal bullets**: 3-4 max, each earning its place
-- **Inline code**: use `backticks` for technical terms, file names, commands
+- **Inline code**: `backticks` for technical terms, file names, commands
 
 ## Slide templates
 
@@ -63,6 +63,8 @@ Headlines: 4-12 words, sentence case, no trailing period.
 **Quote:** The quote itself, large
 **Attribution:** Name, role/source
 
+The other four types are headline-only ([outline-structure.md](outline-structure.md)): **section-divider**, **framework** (matrix, do/don't, or comparison), **next-steps** (action + 3-4 bullets), **resources** (grouped links).
+
 ## Transformation examples
 
 **Before:** "The fundamental issue with AI coding assistants is that they don't retain any context between sessions, leading to repetitive outputs"
@@ -77,8 +79,8 @@ Headlines: 4-12 words, sentence case, no trailing period.
 
 ## Writing workflow
 
-1. Identify the one thing the audience must remember from this slide
+1. Identify the one thing the audience must remember
 2. Write the headline first: bold statement or question
-3. Add body text only if it earns its place
-4. Read it at arm's length; if you can't parse it in 3 seconds, simplify
+3. Add body only if it earns its place
+4. Read at arm's length; if not parseable in 3 seconds, simplify
 5. Cut anything the speaker will say anyway

@@ -1,6 +1,6 @@
 # Skill Categories
 
-Nine categories that describe what type of problem a skill solves. These are orthogonal to the four structural patterns (Simple/hub, Workflow, Rules-based, Mixed) which describe how a skill is organized. A skill has one category and one pattern.
+Nine categories for the problem a skill solves, orthogonal to the four structural patterns (Simple/hub, Workflow, Rules-based, Mixed) for how it's organized. A skill has one category and one pattern.
 
 ## Contents
 
@@ -17,126 +17,122 @@ Nine categories that describe what type of problem a skill solves. These are ort
 
 ## How Categories and Patterns Relate
 
-Category answers **what type of problem** the skill solves. Pattern answers **how the skill is organized** structurally.
-
 | Category | Typical pattern | Why |
 |----------|----------------|-----|
-| Library & API Reference | Simple/hub or Workflow | Dispatch by library/API, or step-by-step integration guide |
+| Library & API Reference | Simple/hub or Workflow | Dispatch by library/API, or step-by-step integration |
 | Product Verification | Workflow | Sequential test steps with assertions |
 | Data Fetching & Analysis | Workflow or Mixed | Multi-step queries, platform-conditional references |
 | Business Process & Team Automation | Workflow | Sequential steps composing tools and MCPs |
 | Code Scaffolding & Templates | Workflow | Phase-by-phase project setup |
-| Code Quality & Review | Rules-based or Workflow | Categorized rules for audits, or review workflow |
+| Code Quality & Review | Rules-based or Workflow | Categorized audit rules, or review workflow |
 | CI/CD & Deployment | Workflow | Sequential build/deploy/verify steps |
-| Runbooks | Workflow or Mixed | Symptom-driven investigation with conditional branches |
+| Runbooks | Workflow or Mixed | Symptom-driven investigation with branches |
 | Infrastructure Operations | Workflow | Maintenance procedures with guardrails |
 
-These are recommendations, not requirements. A Runbook could use Rules-based if it has categorized diagnostic checks.
+Recommendations, not requirements: a Runbook could be Rules-based with categorized diagnostic checks.
 
 ## 1. Library & API Reference
 
-**Definition:** Skills that explain how to correctly use a library, CLI, or SDK, including internal libraries and common libraries Claude sometimes gets wrong.
+**Definition:** correct use of a library, CLI, or SDK, including internal ones and common libraries Claude gets wrong.
 
-**Key authoring tips:**
-- Include a folder of reference code snippets showing correct usage
-- Focus on gotchas, edge cases, and footguns, not basic usage Claude already knows
-- Document the differences between versions if migration is common
-- Include error messages and their solutions
+**Authoring tips:**
+- Reference code snippets showing correct usage
+- Focus on gotchas, edge cases, footguns, not basic usage Claude knows
+- Document version differences when migration is common
+- Error messages and their solutions
 
-**Example use cases:** internal billing library edge cases, internal CLI wrapper with every subcommand, design system component usage patterns
+**Examples:** internal billing library edge cases, internal CLI wrapper with every subcommand, design system component patterns
 
 ## 2. Product Verification
 
-**Definition:** Skills that describe how to test or verify code is working, often paired with external tools like Playwright, tmux, or headless browsers.
+**Definition:** test or verify code works, often paired with Playwright, tmux, or headless browsers.
 
-**Key authoring tips:**
-- Include scripts that drive the verification (Playwright scripts, tmux commands)
-- Have Claude record evidence (screenshots, video, logs) so you can see what was tested
-- Enforce programmatic assertions on state at each step, not just visual checks
-- Define clear pass/fail criteria
+**Authoring tips:**
+- Scripts that drive the verification (Playwright, tmux commands)
+- Record evidence (screenshots, video, logs)
+- Enforce programmatic state assertions at each step, not just visual checks
+- Define pass/fail criteria
 
-**Example use cases:** signup flow driver with state assertions, checkout verifier with Stripe test cards, interactive CLI testing via tmux
+**Examples:** signup flow driver with state assertions, checkout verifier with Stripe test cards, interactive CLI testing via tmux
 
 ## 3. Data Fetching & Analysis
 
-**Definition:** Skills that connect to data and monitoring stacks. Include libraries to fetch data, dashboard IDs, credentials patterns, and common analysis workflows.
+**Definition:** connect to data and monitoring stacks: fetch libraries, dashboard IDs, credentials patterns, analysis workflows.
 
-**Key authoring tips:**
-- Include helper functions/scripts for common data fetches (see "Store Scripts" in authoring-tips.md)
-- Document specific table names, column semantics, and join patterns
-- Include dashboard IDs and query templates
-- Let Claude compose scripts on the fly from your helper library
+**Authoring tips:**
+- Helper functions/scripts for common fetches (see "Store Scripts" in authoring-tips.md)
+- Document specific table names, column semantics, join patterns
+- Dashboard IDs and query templates
+- Let Claude compose scripts from your helper library
 
-**Example use cases:** funnel query with canonical user_id tables, cohort comparison with significance testing, Grafana datasource UID lookup
+**Examples:** funnel query with canonical user_id tables, cohort comparison with significance testing, Grafana datasource UID lookup
 
 ## 4. Business Process & Team Automation
 
-**Definition:** Skills that automate repetitive workflows into one command. Often simple instructions but with dependencies on other skills or MCPs.
+**Definition:** automate repetitive workflows into one command; often simple instructions depending on other skills or MCPs.
 
-**Key authoring tips:**
-- Save previous results in log files so the model stays consistent across runs
-- Use `${CLAUDE_PLUGIN_DATA}` for stable storage of run history
-- Compose with other skills by referencing them by name
-- Keep the skill focused on orchestration, not reimplementing what tools already do
+**Authoring tips:**
+- Save run history in log files at `${CLAUDE_PLUGIN_DATA}` for cross-run consistency
+- Compose with other skills by name
+- Stay on orchestration, don't reimplement what tools already do
 
-**Example use cases:** standup post aggregation, ticket creation with schema enforcement, weekly recap from PRs and tickets
+**Examples:** standup post aggregation, ticket creation with schema enforcement, weekly recap from PRs and tickets
 
 ## 5. Code Scaffolding & Templates
 
-**Definition:** Skills that generate framework boilerplate for a specific function in your codebase. Combine with scripts that can be composed.
+**Definition:** generate framework boilerplate for a specific function in your codebase, with composable scripts.
 
-**Key authoring tips:**
-- Include template files in the skill folder for Claude to copy and adapt
-- Useful when scaffolding has natural language requirements (naming conventions, architectural decisions) that pure code generators cannot cover
-- Store reusable scripts alongside templates
-- Define clear validation steps to confirm the scaffold works
+**Authoring tips:**
+- Template files for Claude to copy and adapt; store reusable scripts alongside
+- Best when scaffolding has natural-language requirements (naming, architecture) pure code generators can't cover
+- Define validation steps to confirm the scaffold works
 
-**Example use cases:** new service/workflow/handler scaffold with org annotations, migration file template with gotchas, new internal app with auth/logging/deploy pre-wired
+**Examples:** new service/workflow/handler scaffold with org annotations, migration file template with gotchas, new internal app with auth/logging/deploy pre-wired
 
 ## 6. Code Quality & Review
 
-**Definition:** Skills that enforce code quality standards and review code. Can include deterministic scripts or tools for maximum robustness.
+**Definition:** enforce code quality standards and review code; may include deterministic scripts or tools.
 
-**Key authoring tips:**
-- Consider running these automatically via hooks or in GitHub Actions
-- Adversarial review pattern: spawn a fresh-eyes subagent to critique, iterate until findings degrade to nitpicks
-- Include both the rules and the verification method
+**Authoring tips:**
+- Run automatically via hooks or GitHub Actions
+- Adversarial review: spawn a fresh-eyes subagent to critique, iterate until findings degrade to nitpicks
+- Include rules and the verification method
 - Separate style preferences (flexible) from correctness requirements (strict)
 
-**Example use cases:** adversarial code review, org-specific code style enforcement, testing practices and coverage expectations
+**Examples:** adversarial code review, org-specific style enforcement, testing practices and coverage expectations
 
 ## 7. CI/CD & Deployment
 
-**Definition:** Skills that help fetch, push, and deploy code. Often reference other skills for data collection or verification.
+**Definition:** fetch, push, and deploy code. Often reference other skills for data collection or verification.
 
-**Key authoring tips:**
-- Include rollback procedures as a first-class concern
-- Define clear gates between stages (build → test → deploy → verify)
-- Use on-demand hooks for safety (block force-push, require confirmation for prod)
+**Authoring tips:**
+- Rollback procedures as a first-class concern
+- Clear gates between stages (build → test → deploy → verify)
+- On-demand hooks for safety (block force-push, confirm prod)
 - Reference monitoring/alerting skills for post-deploy verification
 
-**Example use cases:** PR babysitting (retry flaky CI, resolve conflicts, auto-merge), gradual traffic rollout with error-rate comparison, cherry-pick to prod workflow
+**Examples:** PR babysitting (retry flaky CI, resolve conflicts, auto-merge), gradual traffic rollout with error-rate comparison, cherry-pick to prod workflow
 
 ## 8. Runbooks
 
-**Definition:** Skills that take a symptom (alert, error, Slack thread) and walk through a multi-tool investigation to produce a structured report.
+**Definition:** take a symptom (alert, error, Slack thread) and walk a multi-tool investigation to a structured report.
 
-**Key authoring tips:**
+**Authoring tips:**
 - Structure as symptom → tools → query patterns → findings
-- Include the specific dashboard IDs, log queries, and service names for your stack
-- Define the output format (structured report with severity, impact, next steps)
-- Map common symptoms to their usual root causes
+- Specific dashboard IDs, log queries, service names for your stack
+- Output: structured report with severity, impact, next steps
+- Map common symptoms to usual root causes
 
-**Example use cases:** service-specific debugging playbook, oncall alert investigation, request ID log correlation across systems
+**Examples:** service-specific debugging playbook, oncall alert investigation, request ID log correlation across systems
 
 ## 9. Infrastructure Operations
 
-**Definition:** Skills that perform routine maintenance and operational procedures, especially those involving destructive actions that benefit from guardrails.
+**Definition:** routine maintenance and operational procedures, especially destructive actions needing guardrails.
 
-**Key authoring tips:**
-- Build in confirmation gates before destructive operations
-- Include soak periods (wait and verify before proceeding)
-- Use on-demand hooks to block dangerous commands (`rm -rf`, `DROP TABLE`, `kubectl delete`)
+**Authoring tips:**
+- Confirmation gates before destructive operations
+- Soak periods (wait and verify before proceeding)
+- On-demand hooks to block dangerous commands (`rm -rf`, `DROP TABLE`, `kubectl delete`)
 - Log all actions for audit trails
 
-**Example use cases:** orphaned resource cleanup with Slack notification and confirmation, dependency approval workflow, cost investigation with specific bucket and query patterns
+**Examples:** orphaned resource cleanup with Slack notification and confirmation, dependency approval workflow, cost investigation with specific bucket and query patterns

@@ -1,6 +1,6 @@
 # Outline Structure
 
-Define the narrative arc and slide sequence before writing any copy.
+Define the narrative arc and slide sequence before writing copy.
 
 ## Contents
 
@@ -18,8 +18,8 @@ Opening → Context / Problem → Core Sections (2-4) → Closing
 
 - **Opening**: title, goals/agenda (3 takeaways max)
 - **Context**: current state, the tension or question to resolve
-- **Core sections**: 3-5 content slides each, section dividers between topics
-- **Closing**: recap (one-liner per section), resources, Q&A
+- **Core sections**: 3-5 content slides each, dividers between topics
+- **Closing**: recap (one line per section), resources, Q&A
 
 ## Slide types
 
@@ -40,7 +40,7 @@ Opening → Context / Problem → Core Sections (2-4) → Closing
 
 ## Section colors
 
-Assign one accent color per major section. Reinforces structure and helps the audience track position.
+One accent per major section. Reinforces structure, helps the audience track position.
 
 | Color | Hex | Typical use |
 |-------|-----|-------------|
@@ -102,9 +102,9 @@ Assign one accent color per major section. Reinforces structure and helps the au
 
 ## Workflow
 
-1. Ask about context: audience, purpose, setting (live vs. async)
+1. Ask context: audience, purpose, setting (live vs. async)
 2. Identify 3 key messages that must land
 3. Map the arc: Opening → Context → Core sections → Close
 4. Assign section colors
-5. Draft slide sequence using the output format above
-6. Review density: cut slides that don't earn their place
+5. Draft the slide sequence using the output format above
+6. Cut slides that don't earn their place

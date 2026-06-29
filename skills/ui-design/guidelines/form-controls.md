@@ -2,6 +2,15 @@
 
 Covers: inputs, selects, textareas, checkboxes, radio buttons, toggles, search bars, checkout forms, auth forms, and input/button combos.
 
+## Contents
+
+- [Design Rules](#design-rules)
+- [Coding Rules](#coding-rules)
+- [Selects](#selects)
+- [Checkboxes](#checkboxes)
+- [Radio Buttons](#radio-buttons)
+- [Toggles](#toggles)
+
 ## Design Rules
 
 - Never pair `shadow-*` with solid gray borders on any form control:
@@ -22,22 +31,22 @@ Covers: inputs, selects, textareas, checkboxes, radio buttons, toggles, search b
   <... class="ring-1 ring-black/10 shadow-* ..." />
   ```
 
-- Use `max-w-xs` for compact, single-purpose forms like login, sign-up, or single-field inputs: `max-w-sm` and wider is too spacious for focused UI
-- If a text input's font size is smaller than `16px`, add `max-sm:text-base/{lh}` to bump it to `16px` on mobile
-- Never use `outline-offset-*` on custom focus rings for `<input>` and `<textarea>` elements; use `outline-offset-0` or omit the offset entirely
-- When using a 2px focus outline on `<input>` or `<textarea>`, inset it with `-outline-offset-1` so it doesn't extend outside the element
-- Never use the conjoined input + button pattern where they share a border: use a gap between them or nest the button visually inside the input
+- Use `max-w-xs` for compact, single-purpose forms (login, sign-up, single-field inputs); `max-w-sm` and wider is too spacious for focused UI.
+- If a text input's font size is smaller than `16px`, add `max-sm:text-base/{lh}` to bump it to `16px` on mobile.
+- Never use `outline-offset-*` on custom focus rings for `<input>`/`<textarea>`; use `outline-offset-0` or omit the offset entirely.
+- With a 2px focus outline on `<input>`/`<textarea>`, inset it with `-outline-offset-1` so it doesn't extend outside the element.
+- Never use the conjoined input + button pattern where they share a border: use a gap between them, or nest the button visually inside the input.
 
 ## Coding Rules
 
-- Always include a `name` attribute on `<input>`, `<select>`, and `<textarea>` elements
-- Every `<input>`, `<select>`, and `<textarea>` must have either a corresponding `<label>` associated via `id`/`for`, or an `aria-label` attribute
-- Always set an explicit `type` attribute on `<button>` elements: `type="submit"` inside forms, `type="button"` otherwise
-- Use `placeholder` with `aria-label` instead of visible `<label>` elements for ecommerce/checkout forms where the field purpose is obvious from context: still use section headings (e.g. "Shipping address", "Payment") to group related fields
+- Always include a `name` attribute on `<input>`, `<select>`, and `<textarea>`.
+- Every `<input>`, `<select>`, and `<textarea>` must have a `<label>` associated via `id`/`for`, or an `aria-label`.
+- Always set an explicit `type` on `<button>`: `type="submit"` inside forms, `type="button"` otherwise.
+- For ecommerce/checkout forms where the field purpose is obvious from context, use `placeholder` with `aria-label` instead of visible `<label>` elements; still use section headings (e.g. "Shipping address", "Payment") to group related fields.
 
 ## Selects
 
-- Use a custom chevron for consistent cross-browser styling: wrap only the `<select>` and chevron in `inline-grid grid-cols-[1fr_--spacing(8)]` (never the label); add `col-span-full row-start-1 appearance-none pr-8` to the `<select>`; place an SVG chevron with `pointer-events-none col-start-2 row-start-1 place-self-center`
+- Use a custom chevron for consistent cross-browser styling: wrap only the `<select>` and chevron in `inline-grid grid-cols-[1fr_--spacing(8)]` (never the label); add `col-span-full row-start-1 appearance-none pr-8` to the `<select>`; place an SVG chevron with `pointer-events-none col-start-2 row-start-1 place-self-center`.
 
 ```html
 <svg
@@ -53,14 +62,12 @@ Covers: inputs, selects, textareas, checkboxes, radio buttons, toggles, search b
 
 ## Checkboxes
 
-- Use a native `<input type="checkbox">`
-- The styles are all applied in CSS based on the input state
-- **Never use JavaScript to toggle classes based on input state**: use CSS states and variants exclusively
-- Replace `{brand}` with the appropriate brand color
-- Every class is required, do not omit any
-- When a label is present, associate it with the input using `id` and `for`; otherwise give it an `aria-label`
-- To vertically center a checkbox with adjacent text, wrap it in an element with `h-lh items-center` and the matching `text-{size}`: never put `h-lh` on the `inline-grid` wrapper itself; never use top margins or manual alignment
-- Checkboxes should be larger on mobile: e.g. `size-5 sm:size-4`
+- Native `<input type="checkbox">`; all styling applied in CSS based on input state.
+- **Never use JavaScript to toggle classes based on input state**: use CSS states and variants exclusively.
+- Replace `{brand}` with the appropriate brand color. Every class is required; omit none.
+- When a label is present, associate it via `id` and `for`; otherwise give it an `aria-label`.
+- To vertically center with adjacent text, wrap it in an element with `h-lh items-center` and the matching `text-{size}`: never put `h-lh` on the `inline-grid` wrapper; never use top margins or manual alignment.
+- Larger on mobile, e.g. `size-5 sm:size-4`.
 
 ```html
 <span class="group inline-grid size-4 grid-cols-1">
@@ -93,14 +100,7 @@ Covers: inputs, selects, textareas, checkboxes, radio buttons, toggles, search b
 
 ## Radio Buttons
 
-- Use a native `<input type="radio">`
-- The styles are all applied in CSS based on the input state
-- **Never use JavaScript to toggle classes based on input state**: use CSS states and variants exclusively
-- Replace `{brand}` with the appropriate brand color
-- Every class is required, do not omit any
-- When a label is present, associate it with the input using `id` and `for`; otherwise give it an `aria-label`
-- To vertically center a radio button with adjacent text, wrap it in an element with `h-lh items-center` and the matching `text-{size}`: never put `h-lh` on the `inline-grid` wrapper itself; never use top margins or manual alignment
-- Radio buttons should be larger on mobile: e.g. `size-5 sm:size-4`
+- Same rules as Checkboxes (native `<input type="radio">`, CSS-only state, no JS class toggling, `{brand}`, every class required, label via `id`/`for` or `aria-label`, `h-lh items-center` centering, larger on mobile e.g. `size-5 sm:size-4`), but `rounded-full` with a filled dot instead of a checkmark.
 
 ```html
 <span class="group inline-grid size-4 grid-cols-1">
@@ -116,16 +116,10 @@ Covers: inputs, selects, textareas, checkboxes, radio buttons, toggles, search b
 
 ## Toggles
 
-- Use a native `<input type="checkbox">`
-- The styles are all applied in CSS based on the input state
-- **Never use JavaScript to toggle classes based on input state**: use CSS states and variants exclusively
-- Replace `{brand}` with the appropriate brand color
-- Replace `{gray}` with the appropriate gray color
-- Every class is required, do not omit any
-- Use `w-9` as the default size; only adjust the width to make it larger or smaller
-- Toggles should be larger on mobile: e.g. `w-11 sm:w-9`
-- When a label is present, associate it with the input using `id` and `for`; otherwise give it an `aria-label`
-- Remove all `dark:` classes if the site doesn't support dark mode; for always-dark sites, use only the `dark:` variant values as the base classes and remove the `dark:` prefixed versions
+- Native `<input type="checkbox">`, CSS-only state (no JS class toggling), every class required, label via `id`/`for` or `aria-label`.
+- Replace `{brand}` and `{gray}` with the appropriate brand/gray colors.
+- Use `w-9` as the default size; only adjust the width to make it larger or smaller. Larger on mobile, e.g. `w-11 sm:w-9`.
+- Remove all `dark:` classes if the site has no dark mode; for always-dark sites, use the `dark:` values as the base classes and remove the `dark:`-prefixed versions.
 
 ```html
 <div

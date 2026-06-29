@@ -7,7 +7,7 @@ tags: api, side-effects, purity, global-state
 
 ## No Hidden Side Effects or Global Mutation
 
-A function should do what its name says and nothing more. Mutating a caller's input, writing to module-level globals, registering process handlers, or patching prototypes on import creates action-at-a-distance bugs the developer cannot see at the call site. Return new values and keep effects explicit and opt-in.
+A function should do what its name says and nothing more. Mutating a caller's input, writing module-level globals, registering process handlers, or patching prototypes on import creates action-at-a-distance bugs invisible at the call site. Return new values; keep effects explicit and opt-in.
 
 **Incorrect (mutates the argument and a shared global on import):**
 

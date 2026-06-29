@@ -11,11 +11,11 @@ related: <comma-separated other rule slugs (arch or ax)>
 
 ## <Rule title>
 
-One paragraph explaining the architectural failure mode in plain language. Why it breaks agents. What principle it violates.
+One paragraph: the architectural failure mode in plain language, why it breaks agents, what principle it violates.
 
 ## What goes wrong
 
-A concrete, observable scenario. What the user or agent experiences, what the code does, why they diverge.
+A concrete, observable scenario: what the user or agent experiences, what the code does, why they diverge.
 
 ## Detection
 
@@ -80,7 +80,7 @@ If a finding overlaps with ui-audit rules, link out:
 
 ## Suppression
 
-To intentionally ignore this rule on a specific component:
+Ignore this rule on a specific component:
 
 ```tsx
 {/* ax-audit-ignore:<slug>, reason */}

@@ -21,7 +21,7 @@ Advanced performance guidance beyond the quick rules in SKILL.md.
 | Motion values (`x`, `y`, `style`) | Motion DOM renderer, no React re-renders | Yes | React gestures, drag, coordinated UI |
 | JS (`requestAnimationFrame`) | Main thread | Yes (manual) | Complex choreography, physics |
 
-**Rule: CSS transitions > WAAPI > CSS keyframes > JS.** Under load (page navigation, heavy rendering), CSS animations stay smooth while JS animations drop frames.
+**Rule: CSS transitions > WAAPI > CSS keyframes > JS.** Under load (page navigation, heavy rendering), CSS stays smooth while JS drops frames.
 
 ## Web Animations API (WAAPI)
 
@@ -47,7 +47,7 @@ await animation.finished;
 
 ## CSS variables inheritance trap
 
-Changing a CSS variable on a parent recalculates styles for **all children**. In a drawer with many items, updating `--swipe-amount` on the container causes expensive style recalculation.
+A CSS variable change on a parent recalculates styles for **all children**. In a drawer with many items, updating `--swipe-amount` on the container forces expensive recalc on every one.
 
 ```ts
 // Bad: triggers recalc on all children
@@ -57,11 +57,11 @@ element.style.setProperty("--swipe-amount", `${distance}px`);
 element.style.transform = `translateY(${distance}px)`;
 ```
 
-Exception: `@property` with `inherits: false` avoids the cascade, but browser support is limited.
+Exception: `@property` with `inherits: false` avoids the cascade, but has limited browser support.
 
 ## Motion transform ownership
 
-Motion's `x`/`y` values are first-class APIs for single-axis movement and drag. They update without React re-renders and are the default choice for gesture-heavy components.
+Motion's `x`/`y` are first-class APIs for single-axis movement and drag: they update without React re-renders and are the default for gesture-heavy components.
 
 ```tsx
 const x = useMotionValue(0);
@@ -74,7 +74,7 @@ const x = useMotionValue(0);
 <motion.div animate={{ transform: "translateX(100px) rotate(4deg)" }} />
 ```
 
-Do not mix Motion `x`/`y` props with a separate handwritten `transform` string on the same element. Pick one transform owner.
+Don't mix Motion `x`/`y` props with a handwritten `transform` string on one element; pick one transform owner.
 
 ## Pause looping animations off-screen
 
@@ -101,7 +101,7 @@ export function usePauseOffscreen<T extends HTMLElement>() {
 
 ## Compositing layers and will-change
 
-`will-change` creates a new compositor layer; this has a memory cost.
+`will-change` creates a new compositor layer, at a memory cost.
 
 - Only promote during animation, remove after
 - Only for `transform` and `opacity`
@@ -115,4 +115,4 @@ Toggle the class on animation start, remove on `transitionend` or `animationend`
 
 ## Fix shaky 1px shifts
 
-Elements can shift by 1px at animation start/end due to GPU/CPU handoff. Apply `will-change: transform` during the animation (not permanently) to keep compositing on the GPU throughout.
+Elements can shift 1px at animation start/end from GPU/CPU handoff. Apply `will-change: transform` during the animation (not permanently) to keep compositing on the GPU throughout.

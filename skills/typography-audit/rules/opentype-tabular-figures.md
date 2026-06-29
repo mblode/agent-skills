@@ -6,7 +6,7 @@ tags: tabular-figures, tnum, tables, alignment, numbers
 
 ## Use Tabular Figures in Data Contexts
 
-Use tabular (monospaced-width) figures in tables, price lists, and anywhere numbers need to align vertically. Right-align columns of numbers. Use commas as thousands separators. Enable `tnum` via `font-feature-settings` or use a font with tabular figures by default.
+Use tabular (monospaced-width) figures wherever numbers align vertically: tables, price lists. Right-align number columns; use commas as thousands separators. Enable `tnum` via `font-feature-settings`, or pick a font with tabular figures by default.
 
 **Incorrect (proportional figures in a table):**
 
@@ -32,4 +32,4 @@ Use tabular (monospaced-width) figures in tables, price lists, and anywhere numb
 }
 ```
 
-If the chosen font lacks tabular figure support, use a monospaced or system font for data columns as a fallback.
+Fallback: if the font lacks tabular figures, use a monospaced or system font for data columns.
