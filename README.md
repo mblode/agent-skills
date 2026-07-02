@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
-24 skills for shipping better software.
+25 skills for shipping better software.
 
 ## Quickstart
 
@@ -51,6 +51,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 - **[planning](./skills/planning/SKILL.md)**: Builds and stress-tests a plan before any code: Create mode interrogates one question at a time; Review mode scores six dimensions to 5/5, verifying claims against local code and docs.
 - **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only review of your local diff: bugs, structural quality, AI slop, and on-request security audits.
+- **[tidy](./skills/tidy/SKILL.md)**: Fix-in-place cleanup of the current diff via four concurrent review agents (reuse, quality, efficiency, test discipline), then verifies the build.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: Creates PRs with short human-sounding descriptions, Linear ID titles, commit restructuring, and reviewer guidance.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Autonomously monitors an open PR: conflicts, CI, review comments, merge readiness. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: End-to-end npm releases with changesets: fix loop, CI watch, Version Packages merge, publish verify.
