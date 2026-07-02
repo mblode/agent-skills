@@ -14,6 +14,7 @@ Focus on distinctively AI-generated patterns, not general code quality (that bel
 - Structural bloat
 - Defensive excess
 - Template residue
+- Test padding
 - Applying fixes
 
 ## Over-commenting
@@ -129,6 +130,21 @@ Placeholder content left behind from AI generation.
 - Empty function bodies or stub returns (`return null`, `return undefined`, `return {}`)
 
 **Fix:** Implement the functionality or delete the placeholder. Replace generic error messages with specific, actionable ones.
+
+## Test padding
+
+Tests generated because coverage looks like rigor. The tell: the test cannot fail for a reason anyone would act on.
+
+**Flag:**
+- Render-only tests: presence assertions with no interaction or branch
+- Mock-echo assertions: asserting a mock was called, or returned the value it was mocked to return
+- Change-detector snapshots that fail on any edit rather than on wrong behavior
+- Framework re-tests: proving React renders, the router routes, or the ORM saves
+- Happy-path triplication: the same branch asserted through near-identical cases
+- Diff-mirror tests: the assertion repeats a literal copied from the diff (a config row, flag default, route entry, label, or copy string); a second ledger to maintain, not behavior coverage
+- Export-for-testability: a helper extracted or exported solely so a test can name it, proving nothing about the original behavior
+
+**Fix:** Delete the test. A bug fix keeps exactly one: a repro that fails on the pre-fix code, anchored at the seam that failed (route, API, browser flow, integration point). A config-adjacent test stays only if it proves a rule across a class of cases; if its name contains one item id and its assertion repeats the value just changed, it goes.
 
 ## Applying fixes
 

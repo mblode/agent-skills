@@ -63,7 +63,7 @@ Report only when certain:
 - Clear runtime bug, state error, or data-handling regression.
 - Concrete exploit path, named vulnerability class, and affected `file:line`.
 - Measurable performance regression.
-- Missing necessary tests: render-only checks for interactive behavior, or bug fixes without a failing repro test.
+- Missing necessary tests: render-only checks for interactive behavior, or bug fixes without a failing repro test at the seam that failed (route, API, integration point, not a helper invented during the fix).
 - Test setup that requires helper tracing to understand assertions.
 - New lint, type-check, or test failures versus baseline.
 - Scoped instruction-file violation, with the rule quoted.

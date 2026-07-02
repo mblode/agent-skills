@@ -94,12 +94,12 @@ Launch all four agents concurrently in a single message using the Agent tool. Ea
 
 ### Agent 4: Test discipline
 
-The bar for every finding: a test earns its place only if it can fail for a reason someone would act on. Each proposed test must name, in one sentence, the failure it prevents; a proposal without that sentence is not a finding. Never flag a new component or hook merely for lacking a co-located test file.
+The bar for every finding: a test earns its place only if it can fail for a reason someone would act on. Each proposed test must name, in one sentence, the failure it prevents; a proposal without that sentence is not a finding. Tests earn their place by proving behaviour that regresses independently of the edit: filtering, derivation, validation, permissions, region/runtime gating, data transformation, generation contracts, a class-wide invariant. A changed config row, flag default, route entry, label, or copy string earns no test; the owning diff and the behaviour that surfaced the issue verify it. Never flag a new component or hook merely for lacking a co-located test file.
 
-1. **Bug fix without a repro test**: the diff fixes a bug but no test fails on the pre-fix code. The one missing-test finding that is always flagged.
+1. **Bug fix without a repro test**: the diff fixes a bug but no test fails on the pre-fix code. The one missing-test finding that is always flagged. The repro belongs at the seam that failed (route, API, browser flow, integration point); a unit test on a helper invented during the fix is not regression coverage unless that helper owns the failing behaviour.
 2. **Stale assertions**: existing tests covering changed code that no longer reflect the updated behaviour
 3. **Missing tests that clear the bar**: new branching logic, a contract others depend on, or a refactor-surviving invariant in the diff with no test. State the failure each proposed test prevents
-4. **Useless tests added in this diff, flagged for deletion**: render-only tests (presence checks with no interaction or branch), mock-echo assertions (asserting a mock was called or returned its mocked value), change-detector snapshots, framework re-tests, happy-path triplication of the same branch. Name the pattern each matches
+4. **Useless tests added in this diff, flagged for deletion**: render-only tests (presence checks with no interaction or branch), mock-echo assertions (asserting a mock was called or returned its mocked value), change-detector snapshots, framework re-tests, happy-path triplication of the same branch, diff-mirror tests (the assertion repeats a literal copied from the diff: a config row, flag default, route entry, label, or copy string; a second ledger, not behaviour coverage), export-for-testability tests (a helper extracted or exported solely so a test can name it). Name the pattern each matches. A config-adjacent test stays only if it proves a rule across a class of cases; one whose name contains a single item id and whose assertion repeats the value just changed goes.
 
 ## Phase 3: Merge findings and apply fixes
 
@@ -134,6 +134,7 @@ Scope rules:
 - Widening a type to `any` to silence an error a fix introduced: that hides the breakage instead of resolving it. Find the real type.
 - Fixing pre-existing failures because they are "right there": scope creep turns a cleanup pass into an unreviewable mixed change. Surface them in the summary instead.
 - Agent 4 padding the summary with test proposals: coverage looks like rigor, so review agents over-propose tests. Every proposal without a named failure it prevents gets dropped in the Phase 3 false-positive pass.
+- A repro test anchored to a helper invented during the fix: it passes trivially and would never have caught the original failure. Anchor the repro at the seam that failed.
 - Ending on "everything looks fine": without quoted lint/type-check/test output compared to the baseline, a broken build ships. Evidence or it did not pass.
 
 ## Related skills
