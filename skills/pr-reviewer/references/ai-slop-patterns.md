@@ -98,6 +98,7 @@ Files, exports, and patterns that add surface area without value.
 - Empty utility files with boilerplate but no logic
 - Files with only type re-exports (`export type { Foo } from './foo'`)
 - Dead code behind `if (false)` or `// @deprecated` with no removal date
+- Old/new dual paths, legacy aliases, or re-exports kept "for compatibility" when nothing depends on the old path
 - Duplicate type definitions when a shared type exists
 - Separate files for a single small constant or type
 
@@ -143,6 +144,7 @@ Tests generated because coverage looks like rigor. The tell: the test cannot fai
 - Happy-path triplication: the same branch asserted through near-identical cases
 - Diff-mirror tests: the assertion repeats a literal copied from the diff (a config row, flag default, route entry, label, or copy string); a second ledger to maintain, not behavior coverage
 - Export-for-testability: a helper extracted or exported solely so a test can name it, proving nothing about the original behavior
+- Fake integration tests: hand-rolled in-memory emulators of behavior that lives in the real system (schema, validators, indexes, permissions), unable to catch the bug class they claim to cover
 
 **Fix:** Delete the test. A bug fix keeps exactly one: a repro that fails on the pre-fix code, anchored at the seam that failed (route, API, browser flow, integration point). A config-adjacent test stays only if it proves a rule across a class of cases; if its name contains one item id and its assertion repeats the value just changed, it goes.
 

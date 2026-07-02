@@ -20,6 +20,7 @@ Report structural issues only when the diff worsens a concrete maintenance path:
 - a new abstraction has no current caller, invariant, or boundary to protect
 - a file crosses the 1000-line threshold because new behavior was added in place
 - a simpler vertical slice could delete branches, state, or orchestration without changing behavior
+- a compatibility path or legacy alias survives with no evidence anything still depends on it
 
 ## Non-Negotiable Standards
 
@@ -49,6 +50,7 @@ Name the move rather than polishing the existing shape:
 - Make type boundaries more explicit so the control flow gets simpler (6)
 - Move retry, transaction, rollback, and partial-state handling out of business logic (8)
 - Parallelize independent work when that also simplifies the orchestration (8)
+- Delete the old path in the same change instead of leaving both alive (1, 4)
 
 Do not spend findings on naming or style when the real issue is structural. Name the structural move that removes the complexity.
 
@@ -63,3 +65,5 @@ Do not approve merely because behavior seems correct. Treat each item below as `
 - [ ] An unnecessary abstraction, wrapper, or cast-heavy contract whose callers, invariant, or boundary cannot be named (5, 6)
 - [ ] A duplicated helper, rule, or invariant now has two owners, or logic landed outside its canonical layer (7)
 - [ ] Orchestration complexity a batch, transaction, or independent parallel step would remove (8)
+- [ ] Unrequested compatibility: an old/new dual path, legacy alias, or staged deprecation kept with no named consumer of the old path (1, 4)
+- [ ] Incomplete replacement: a replaced model's obsolete fields, validators, fixtures, tests, or docs remain (4)

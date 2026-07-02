@@ -81,6 +81,7 @@ Launch all four agents concurrently in a single message using the Agent tool. Ea
 14. **`useEffect` for derived state**: compute values directly from existing state/props instead
 15. **Pattern compliance with `CLAUDE.md`/`AGENTS.md`**: imports from deprecated component packages, old styling tokens, long relative paths where path aliases exist, queries/mutations not following the established custom-hook pattern, naming inconsistent with surrounding files
 16. **Magic numbers/strings**: extract to a named constant if used more than once or the value has no obvious meaning
+17. **Unrequested compatibility**: old/new dual paths, legacy aliases, or deprecated re-exports added in this diff when nothing depends on the old path. Delete it unless a real consumer is named
 
 ### Agent 3: Efficiency
 
@@ -99,7 +100,7 @@ The bar for every finding: a test earns its place only if it can fail for a reas
 1. **Bug fix without a repro test**: the diff fixes a bug but no test fails on the pre-fix code. The one missing-test finding that is always flagged. The repro belongs at the seam that failed (route, API, browser flow, integration point); a unit test on a helper invented during the fix is not regression coverage unless that helper owns the failing behaviour.
 2. **Stale assertions**: existing tests covering changed code that no longer reflect the updated behaviour
 3. **Missing tests that clear the bar**: new branching logic, a contract others depend on, or a refactor-surviving invariant in the diff with no test. State the failure each proposed test prevents
-4. **Useless tests added in this diff, flagged for deletion**: render-only tests (presence checks with no interaction or branch), mock-echo assertions (asserting a mock was called or returned its mocked value), change-detector snapshots, framework re-tests, happy-path triplication of the same branch, diff-mirror tests (the assertion repeats a literal copied from the diff: a config row, flag default, route entry, label, or copy string; a second ledger, not behaviour coverage), export-for-testability tests (a helper extracted or exported solely so a test can name it). Name the pattern each matches. A config-adjacent test stays only if it proves a rule across a class of cases; one whose name contains a single item id and whose assertion repeats the value just changed goes.
+4. **Useless tests added in this diff, flagged for deletion**: render-only tests (presence checks with no interaction or branch), mock-echo assertions (asserting a mock was called or returned its mocked value), change-detector snapshots, framework re-tests, happy-path triplication of the same branch, diff-mirror tests (the assertion repeats a literal copied from the diff: a config row, flag default, route entry, label, or copy string; a second ledger, not behaviour coverage), export-for-testability tests (a helper extracted or exported solely so a test can name it), fake-integration tests (an in-memory emulator of behaviour that lives in the real system: schema, validators, indexes, permissions; it cannot catch the bug class it claims to cover). Name the pattern each matches. A config-adjacent test stays only if it proves a rule across a class of cases; one whose name contains a single item id and whose assertion repeats the value just changed goes.
 
 ## Phase 3: Merge findings and apply fixes
 
