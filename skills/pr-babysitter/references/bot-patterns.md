@@ -76,17 +76,16 @@ Detection: review with state `APPROVED` and empty body from `github-actions[bot]
 
 ### Devin (`devin-ai-integration[bot]`)
 
-Posts a PR review (state: `COMMENTED`); may inject a badge into the PR body.
+Posts a PR review (state: `COMMENTED`); may inject a badge into the PR body. Findings usually arrive as **inline comments on specific file lines**, not the review-level body, so read the inline `reviewThreads` comments even when the review body is empty or says "No Issues Found."
 
 **No findings (noise):**
-- review body starts with `## ✅ Devin Review: No Issues Found`
-- then "View in Devin Review to see N additional findings" (paywalled teaser)
-- classify as noise
+- review body starts with `## ✅ Devin Review: No Issues Found` **and** no inline threads
+- "View in Devin Review to see N additional findings" (paywalled teaser) with no inline detail → noise
 
 **Findings (active reviewer):**
-- review body starts with `## ⚠️ Devin Review: Issues Found` or similar
-- may include inline comments with real code findings
-- triage like any other review finding
+- inline comments cite `path:line` and explain the issue; each is a real finding
+- default Major; downgrade to Minor when the language is advisory ("worth a follow-up", "pre-existing", "outside the PR diff")
+- ignore trailing "Was this helpful?" reaction prompts; they are not part of the finding
 
 **Badge injection (always ignore):**
 - injects `<!-- devin-review-badge-begin -->` / `<!-- devin-review-badge-end -->` into the PR body
@@ -175,7 +174,7 @@ Unified four-level scale:
 | Gemini | high-priority | medium-priority | low-priority | n/a |
 | DangerJS | n/a | failure count > 0 | warning count > 0 | n/a |
 | Schema checker | n/a | 🔴 Error | 🟡 Warning | n/a |
-| Devin (with findings) | n/a | Major (default) | n/a | n/a |
+| Devin (with findings) | n/a | Major (default) | advisory language | n/a |
 | Human (CHANGES_REQUESTED) | "critical"/"blocker" | Default | "nit"/"minor" | "nit"/"nitpick" |
 | Human (APPROVED + question) | n/a | n/a | Minor (default) | n/a |
 

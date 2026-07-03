@@ -138,7 +138,7 @@ Load `references/github-api.md` for query templates and `references/bot-patterns
 
 ### Fetch
 
-1. **Review threads**: paginated GraphQL `reviewThreads` query; filter to `isResolved == false`
+1. **Review threads (inline line comments)**: paginated GraphQL `reviewThreads` query; filter to `isResolved == false`. Read every thread's inline `comments` bodies with their `path:line`. These carry the actual findings from any reviewer (human or bot), often when the review-level body is empty. Never triage on the review body alone, and never skip a reviewer's inline comments because of who posted them
 2. **PR reviews**: REST reviews endpoint (state, body, author)
 3. **Issue-level comments**: REST PR conversation comments endpoint
 4. **Early exit** if zero unresolved threads, actionable reviews, and actionable issue comments
