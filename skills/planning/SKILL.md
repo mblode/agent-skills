@@ -2,12 +2,14 @@
 name: planning
 description: >-
   Builds and stress-tests implementation plans in two modes. Create mode scans
-  code and docs, asks one question at a time with a recommended answer, then
-  writes a plan file. Review mode scores completeness, feasibility, scope,
+  code and docs, asks one question at a time with a recommended answer, runs a
+  blindspot pass when the user is new to the area, then writes a plan file.
+  Review mode scores completeness, feasibility, scope,
   testability, risk, and assumptions, verifies checkable claims, and writes
   resolutions back until every dimension reaches 5/5. Use when asked to "create
   a plan", "plan this feature", "I want to build X", "grill me", "think this
-  through", "review my plan", "rubber duck this", "stress test this plan", "is
+  through", "blindspot pass", "unknown unknowns", "this is new to me", "review
+  my plan", "rubber duck this", "stress test this plan", "is
   this plan ready", "get this plan to 5/5", "what am I missing", "verify this
   claim", "prove this plan", "fact-check this plan", or when the user
   explicitly wants a plan artifact before implementation. For code review use
@@ -53,7 +55,7 @@ Conflict rule: current requirements win first. Then `as simple as possible, no s
 
 | File | Mode | Read when |
 |------|------|-----------|
-| `references/interrogation-protocol.md` | Create | Create Step 2: question decision tree, recommended-answer format, fuzzy-term patterns, anti-rationalization table |
+| `references/interrogation-protocol.md` | Create | Create Step 2: question decision tree, blindspot pass, reference-as-spec, recommended-answer format, fuzzy-term patterns, anti-rationalization table |
 | `references/doc-grounding.md` | Create | Create Step 1, when design docs, RFCs, ADRs, or library/API docs are relevant: find them, extract the decisions they encode, grill the rationale |
 | `references/html-question-form.md` | Create | Create Step 2, optional: batched HTML question form for large or greenfield specs instead of one-at-a-time chat |
 | `references/plan-quality-rubric.md` | Review | Review Step 2 triage: 1-5 scoring criteria per dimension |
@@ -90,6 +92,8 @@ Load `references/interrogation-protocol.md`. Ask ONE question at a time. Every q
 - Flag fuzzy terms ("handle auth", "make it fast"): propose a sharp version and ask if it is right.
 - Surface tensions with existing code: "The codebase does X. You're proposing Y. Which wins?"
 - **Grill the core decisions:** when docs reveal a decision, interrogate *why* it was made and whether the rationale still holds. Never re-ask what docs answer; pressure-test the reasoning.
+- **Probe for a reference-as-spec:** ask if existing code, a library, a design, or a site already does this the way the user wants. If so, read it and treat its semantics as the spec, interrogating only deviations.
+- **Blindspot pass (conditional):** when the user is unfamiliar with the area or asks for one ("blindspot pass", "unknown unknowns"), pause questions to surface what good looks like, prior work, and potholes, then teach it back before resuming. Detail in `references/interrogation-protocol.md`.
 
 **Budget:** 5-10 questions, then synthesize.
 
@@ -106,6 +110,8 @@ Write the plan file to the active agent's native plan directory when one exists;
 **Lightweight** (single file, clear approach): `# Title`, `## Context` (one paragraph), `## Approach`.
 
 **Standard** (multiple files, decisions made): `# Title`, `## Context` (problem, what prompted it, intended outcome), `## Approach` (recommended only), `## Key decisions` (brief rationale), `## Files to modify` (grouped by purpose), `## Out of scope` (related-looking things that must not change, each with a reason), `## Verification` (each item a command plus expected result).
+
+**Order volatile-first:** within Approach, Key decisions, and Files to modify, lead with the decisions the user is most likely to tweak (data model changes, new type interfaces, user-facing flows) and sink mechanical refactoring detail to the bottom. A reviewer should be able to stop reading once the tweakable decisions look right.
 
 Keep plans scannable yet executable without re-reading the conversation. Record only the chosen approach; rejected alternatives become one-line rationale under Key decisions.
 

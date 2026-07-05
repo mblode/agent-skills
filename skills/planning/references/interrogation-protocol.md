@@ -11,9 +11,9 @@ Intent clear?
     Scope clear?
     ├── NO → Ask: "What's in, what's out? I'd keep it to [X] and skip [Y]."
     └── YES
-        Existing code to build on?
-        ├── UNKNOWN → Explore the codebase. Answer this yourself.
-        ├── YES → Ask: "Should we extend [module] or build alongside it?"
+        Reference to build on? (existing code, a library, a design, a site)
+        ├── UNKNOWN → Explore the codebase first; then ask: "Is there code, a library, a design, or a site that already does this the way you want? Point me at it."
+        ├── YES → Read it; its semantics are the spec. Ask: "Extend [module], or reimplement the same semantics alongside it?"
         └── NO
             Simplest approach obvious?
             ├── NO → Ask: "I see two approaches: [A] and [B]. I'd pick [A] because [reason]."
@@ -29,11 +29,20 @@ Intent clear?
                         └── YES → Synthesize. You have enough.
 ```
 
-Don't walk the tree mechanically; skip branches the codebase scan already answered. It ranks what matters, it is not a script.
+Don't walk the tree mechanically; skip branches the codebase scan already answered. It ranks what matters, it is not a script. When the user names a reference, read it and treat its semantics as the spec ("reimplement the same semantics as `vendor/rate-limiter`"), interrogating deviations only.
 
 Always voice the simplicity node, even when the change looks simple: the whole-change view only exists once every other decision is settled, so the step-back catches scope no earlier question could. This is the mandatory simplicity challenge from SKILL.md Step 2.
 
 **Budget:** 5-10 questions. At 10 without convergence, the scope is too large: say so and suggest splitting into separate plans.
+
+## Blindspot pass
+
+When the user is unfamiliar with the area or asks for a "blindspot pass" / "unknown unknowns", their answers would be guesses. Before spending questions, surface two things and teach them back in 5-8 cited bullets, no lecture:
+
+- **Unknown knowns:** repo decisions they would contradict (conventions, ADRs, prior art), found via `git log`, PRs, and docs.
+- **Unknown unknowns:** what good looks like here, common potholes, and the questions they don't know to ask.
+
+Then resume the tree; later answers win. This costs zero questions: exploration, not interrogation.
 
 ## Recommended answer format
 
