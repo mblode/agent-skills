@@ -7,7 +7,7 @@ description: Generates folder structures, module contracts, middleware pipelines
 
 Define durable, easy-to-change architecture defaults for TypeScript full-stack apps; produce an enforceable architecture brief.
 
-- **IS:** folder structures, module contracts, middleware pipelines, frontend/backend boundaries; architecture briefs; domain-informed deepening of an existing codebase.
+- **IS:** folder structures, module contracts, middleware pipelines, frontend/backend boundaries; architecture briefs; domain-informed deepening of an existing codebase; agent-friendly codebase guardrails.
 - **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), or structural review of a local diff (`pr-reviewer`).
 
 ## Contents

@@ -2,6 +2,21 @@
 
 Make a codebase cheap and safe for coding agents to work in. Load when preparing a repo for agentic coding, wiring guardrail tooling, or marking legacy code.
 
+## Contents
+
+1. [Why agents care](#why-agents-care)
+2. [Deterministic guardrails over prompt rules](#deterministic-guardrails-over-prompt-rules)
+3. [Bespoke invariant guards with a ratchet](#bespoke-invariant-guards-with-a-ratchet)
+4. [Legacy quarantine](#legacy-quarantine)
+5. [Generated contracts](#generated-contracts)
+6. [Locality and naming for cheap traversal](#locality-and-naming-for-cheap-traversal)
+7. [Verification tiers](#verification-tiers)
+8. [Errors agents can debug](#errors-agents-can-debug)
+9. [Docs agents can trust](#docs-agents-can-trust)
+10. [Self-bootstrapping worktrees](#self-bootstrapping-worktrees)
+11. [Scheduled refactor passes](#scheduled-refactor-passes)
+12. [Convention entries](#convention-entries)
+
 ## Why agents care
 
 Code cleanliness does not change an agent's pass rate; it changes the cost of every task. On matched clean/messy repos, Claude Code used 7 to 8% fewer tokens and revisited files 34% less often when the code was clean (SonarSource, 2026). Two mechanisms drive this:
