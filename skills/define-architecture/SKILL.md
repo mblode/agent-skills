@@ -42,7 +42,7 @@ Load references only when the condition applies:
 | [references/distributed-correctness.md](references/distributed-correctness.md) | Designing flows that call external systems, consume webhooks, retry, or need an audit trail |
 | [references/deepening-existing.md](references/deepening-existing.md) | Running the Adoption workflow (domain mapping, opportunity patterns, output template) |
 | [references/craftsmanship.md](references/craftsmanship.md) | Writing the team-conventions or testing sections |
-| [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md) | Preparing a codebase for coding agents: guardrail tooling, legacy markers, traversal-friendly naming |
+| [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md) | Preparing a codebase for coding agents: guardrail tooling, invariant ratchets, legacy markers, generated contracts, verification tiers |
 | [references/shipping-practices.md](references/shipping-practices.md) | Writing the rollout and rollback section |
 
 ## Setup workflow (new codebase)
