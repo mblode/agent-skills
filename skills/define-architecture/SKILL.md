@@ -1,13 +1,13 @@
 ---
 name: define-architecture
-description: Generates folder structures, module contracts, middleware pipelines, and frontend/backend boundaries for TypeScript full-stack applications, and finds domain-informed deepening opportunities in existing codebases. Use when setting up project structure, organizing a monorepo, defining folder layout, designing backend modules, establishing team conventions, improving architecture outside a local diff, writing an architecture brief, or asking "how should I structure this app", "design the folder structure", "set up the architecture", or "find architecture improvements". For scaffolding a new Next.js repo use scaffold-nextjs, for a new TypeScript CLI use scaffold-cli, for multi-tenant domain or isolation strategy use multi-tenant-architecture, and for structural review of a local diff use pr-reviewer.
+description: Generates folder structures, module contracts, middleware pipelines, and frontend/backend boundaries for TypeScript full-stack applications, and finds domain-informed deepening opportunities in existing codebases. Use when setting up project structure, organizing a monorepo, defining folder layout, designing backend modules, establishing team conventions, improving architecture outside a local diff, writing an architecture brief, or asking "how should I structure this app", "design the folder structure", "set up the architecture", "find architecture improvements", "make this codebase agent-friendly", or "set up guardrails for coding agents". For scaffolding a new Next.js repo use scaffold-nextjs, for a new TypeScript CLI use scaffold-cli, for multi-tenant domain or isolation strategy use multi-tenant-architecture, and for structural review of a local diff use pr-reviewer.
 ---
 
 # Define Architecture
 
 Define durable, easy-to-change architecture defaults for TypeScript full-stack apps; produce an enforceable architecture brief.
 
-- **IS:** folder structures, module contracts, middleware pipelines, frontend/backend boundaries; architecture briefs; domain-informed deepening of an existing codebase.
+- **IS:** folder structures, module contracts, middleware pipelines, frontend/backend boundaries; architecture briefs; domain-informed deepening of an existing codebase; agent-friendly codebase guardrails.
 - **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), or structural review of a local diff (`pr-reviewer`).
 
 ## Contents
@@ -42,6 +42,7 @@ Load references only when the condition applies:
 | [references/distributed-correctness.md](references/distributed-correctness.md) | Designing flows that call external systems, consume webhooks, retry, or need an audit trail |
 | [references/deepening-existing.md](references/deepening-existing.md) | Running the Adoption workflow (domain mapping, opportunity patterns, output template) |
 | [references/craftsmanship.md](references/craftsmanship.md) | Writing the team-conventions or testing sections |
+| [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md) | Preparing a codebase for coding agents: guardrail tooling, invariant ratchets, legacy markers, generated contracts, verification tiers |
 | [references/shipping-practices.md](references/shipping-practices.md) | Writing the rollout and rollback section |
 
 ## Setup workflow (new codebase)
@@ -75,6 +76,7 @@ Load references only when the condition applies:
 6. Testing and release:
    - Unit tests stay DB-free; integration/E2E run in parallel with dynamically generated IDs so runs never collide on fixtures.
    - Release in small, reversible steps with a rollback plan per change.
+7. Agent guardrails: wire dead-code, duplication, boundary, and file-size checks into pre-commit and CI per [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md); anything a static tool can enforce stays out of AGENTS.md.
 
 ## Adoption workflow (existing codebase)
 
@@ -84,7 +86,7 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 2. **Find deepening opportunities.** Look for anemic concepts, leaking boundaries, naming divergence, duplicated concepts, primitive obsession, misplaced logic. Record each with file paths, never a vague smell.
 3. **Rank by leverage.** Prefer opportunities that localize named future changes, have low churn, and meet a current requirement. Drop speculative cleanups.
 4. **Migrate one vertical slice first.** Prove the highest-leverage move end to end through one slice before generalizing.
-5. **Add guardrails.** Enforce the new boundary with lint, type, or test checks so it cannot decay, then roll out module by module.
+5. **Add guardrails.** Enforce the new boundary with lint, type, or test checks so it cannot decay, then roll out module by module. For agent-specific guardrails (dead code, duplication, legacy markers, file-size caps) load [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md).
 
 ## Validation loop
 
@@ -120,6 +122,8 @@ Use this structure:
 - `multi-tenant-architecture`: tenant identification, isolation, and domain strategy.
 - `pr-reviewer`: structural review of a local diff once implemented.
 - `planning`: turn an Adoption opportunity into an implementation plan, then stress-test it.
+- `agents-md`: audit and refactor the AGENTS.md file itself; this skill decides what belongs in tooling instead.
+- `tidy`: diff-scoped cleanup pass; `references/agent-friendly-codebase.md` covers the repo-wide guardrail setup that keeps those passes small.
 
 ## Gotchas
 
@@ -133,3 +137,5 @@ Use this structure:
 - Don't finalize a brief without a rollback plan per change: an irreversible decision needs a documented fallback before it ships.
 - Don't dual-write to a database and a queue/webhook without an outbox (or CDC): one side commits, the other fails, and you silently lose or fabricate a notification. See `references/distributed-correctness.md`.
 - Don't enforce an externally-forceable invariant by construction (unsigned type, hard CHECK): when the outside world forces the state, the system crashes or clamps instead of recording it. Represent it, detect it post-factum, recover explicitly.
+- Don't encode in AGENTS.md what a linter can enforce deterministically: a prompt rule decays under context pressure; an exit code in pre-commit and CI does not.
+- Don't leave legacy code unmarked next to current patterns: agents grep, find the old endpoint first, and build on it. Mark it with a greppable LEGACY comment or delete it (see `references/agent-friendly-codebase.md`).

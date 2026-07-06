@@ -20,7 +20,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Architecture
 
-- **[define-architecture](./skills/define-architecture/SKILL.md)**: Folder structures, module contracts, and middleware pipelines for TypeScript apps, plus deepening existing codebases.
+- **[define-architecture](./skills/define-architecture/SKILL.md)**: Folder structures, module contracts, and middleware pipelines for TypeScript apps, plus deepening existing codebases and agent-friendly codebase guardrails.
 - **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Scaffolds a Next.js turborepo with Blode UI, Ultracite tooling, GitHub setup, and Vercel deploy.
 - **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: Scaffolds a TypeScript CLI/npm package: ESM, dual tsdown build, vitest, ultracite, changesets, GitHub Actions.
 - **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Multi-tenant domain strategy, isolation, routing, custom domains, and plan mapping on Cloudflare or Vercel.
