@@ -39,7 +39,7 @@ Load references only when the condition applies:
 |-----------|-----------|
 | [references/stack-defaults.md](references/stack-defaults.md) | Choosing libraries, tooling, or deploy targets |
 | [references/api-design.md](references/api-design.md) | Designing endpoints, module contracts, or reviewing API surface changes |
-| [references/distributed-correctness.md](references/distributed-correctness.md) | Designing flows that call external systems, consume webhooks, retry, or need an audit trail |
+| [references/distributed-correctness.md](references/distributed-correctness.md) | Designing flows that call external systems, consume webhooks, retry, need an audit trail, or move money (billing, credits, payouts) |
 | [references/deepening-existing.md](references/deepening-existing.md) | Running the Adoption workflow (domain mapping, opportunity patterns, output template) |
 | [references/craftsmanship.md](references/craftsmanship.md) | Writing the team-conventions or testing sections |
 | [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md) | Preparing a codebase for coding agents: guardrail tooling, invariant ratchets, legacy markers, generated contracts, verification tiers |

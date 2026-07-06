@@ -1,6 +1,6 @@
 # Distributed Correctness Patterns
 
-Load when designing flows that call external systems, consume webhooks, retry, or need an audit trail. Three principles, each enforced by a test, barrier, or constraint:
+Load when designing flows that call external systems, consume webhooks, retry, need an audit trail, or move money. Three principles, each enforced by a test, barrier, or constraint:
 
 - **No invented data.** A retry or duplicate must not double-apply: dedupe, idempotency, reconciliation.
 - **No lost data.** What happened survives a crash: durable progress, at-least-once delivery, append-only history.
@@ -67,6 +67,14 @@ You control none of a third party's schema, quality, or uptime.
 Enforce three layers together: **by construction** (invalid states unrepresentable via types or constraints; cannot express cross-system rules), **at runtime** (assert at the point of violation), **post-factum** (jobs that catch what shipped).
 
 - Forbidden is not unrepresentable: do not encode an externally-forceable invariant ("balance never negative") as an unsigned type or hard constraint, or the system crashes or clamps when the world forces the state. Represent it, detect it, recover.
+
+## Money
+
+- Never floats; store integer minor units, compute chained math in arbitrary precision. In JSON, money is a string or a minor-unit integer, never a bare number (a JSON number is a double).
+- Pair amount with currency in one type and forbid cross-currency arithmetic; conversion is explicit, at a controlled rate.
+- Derive balances from a ledger of movements; a stored mutable balance is a cache, never the source of truth. Book fees explicitly, never leave them as rounding residue.
+- Round late and once, at the boundary. Splitting then rounding breaks the sum; track the residual explicitly instead of dropping it.
+- Reserve before spending: check-and-reserve against available balance (total minus reserved) must be linearizable, or two concurrent flows back their spends with the same funds.
 
 ## Immutable audit trails
 
