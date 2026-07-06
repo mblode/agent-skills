@@ -157,9 +157,9 @@ def main():
     t = (frames - frames[0]) / args.fps  # seconds from first tracked frame
     duration_ms = round(float(t[-1] * 1000))
 
-    wanted = {args.property: PROPERTIES[args.property]} if args.property else PROPERTIES
     if args.property and args.property not in PROPERTIES:
         sys.exit(f"unknown property '{args.property}'. Choose from: {', '.join(PROPERTIES)}")
+    wanted = {args.property: PROPERTIES[args.property]} if args.property else PROPERTIES
 
     result = {"duration_ms": duration_ms, "tracked_frames": len(tl), "properties": {}}
     for name, fields in wanted.items():
