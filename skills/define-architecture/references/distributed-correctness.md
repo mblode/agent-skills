@@ -81,6 +81,7 @@ Enforce three layers together: **by construction** (invalid states unrepresentab
 Keep the history, not just the latest value.
 
 - Append-only. Capture **what** happened, **when**, **who** triggered it, and **why**.
+- Audit every create/update/delete as one structured record: operation, entity, entity id, and before+after state on updates. Attach the actor from ambient request context so a call site cannot forget it.
 - Corrections are new records linked both ways to the original, never edits or deletes.
 - Record event-time and record-time separately; one `created_at` loses information you cannot reconstruct.
 - For erasure: keep PII in a separate store keyed by opaque id, or encrypt per-user and delete the key (crypto-shredding), so erasure never rewrites history.

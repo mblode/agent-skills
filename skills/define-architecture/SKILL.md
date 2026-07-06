@@ -73,6 +73,7 @@ Load references only when the condition applies:
 5. Define frontend boundaries:
    - Default to Server Components; add `"use client"` only at leaf components needing interactivity.
    - Server state in TanStack/Connect Query; client state in component state; MobX only for cross-cutting client state that fits neither.
+   - Each piece of data has exactly one owner. Never mirror server data into `useState` or sync two stores with `useEffect`; both are the red flag that ownership is unclear.
 6. Testing and release:
    - Unit tests stay DB-free; integration/E2E run in parallel with dynamically generated IDs so runs never collide on fixtures.
    - Release in small, reversible steps with a rollback plan per change.
