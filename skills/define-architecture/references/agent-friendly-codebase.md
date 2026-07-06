@@ -108,6 +108,8 @@ Stale docs are worse than no docs: an agent cites them confidently. Make trust e
 - For a pattern agents must reproduce, ship a copy-paste template file next to the prose; a working file teaches more reliably than a description of one.
 - Anchor docs to domain concepts over file paths where possible; paths go stale silently, and an agent follows a stale pointer with full confidence. Link-check doc pointers in CI, including the ones inside AGENTS.md itself.
 - Keep AGENTS.md hand-curated and update it in the same PR that changes a convention. Generating it wholesale measurably hurts: one 2026 study found LLM-generated context files reduced task success and raised inference cost.
+- Test doc examples against the real interface. A drift test that extracts every command invocation from the published docs and skill files, resolves each against the live command tree (command path plus flags exist), and fails the build on a mismatch turns "examples must stay runnable" into a gate. Reject any past-dated example in the same test, so a stale snippet fails instead of misleading an agent.
+- Pair each non-obvious claim with the command that re-proves it. A gotcha note that ships the exact repro (`curl ...`, a one-line query) lets an agent re-verify the claim still holds instead of trusting a note that may have rotted.
 
 ## Self-bootstrapping worktrees
 

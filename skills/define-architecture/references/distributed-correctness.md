@@ -14,6 +14,15 @@ Retried calls must collapse into one effect.
 - The check-and-record barrier must be atomic, or concurrent duplicates both pass.
 - Replay the stored result (including a stored error); do not reprocess.
 - A step that already advanced the state re-runs as a no-op, not an error.
+- **Derive the row id from the key** for creates: hash the idempotency key into the new record's primary id (and any batch/transaction ids). A retried create then targets the same id and collapses on the existing unique constraint, so no separate dedupe table is needed.
+
+## Deterministic ids across clients
+
+Offline-first and multi-client systems cannot round-trip to the server to mint an id before writing.
+
+- Compute the id on the client from stable inputs: a UUIDv5 over a frozen namespace constant plus the logical key (for a join row, the two parent ids). Every client derives the same id for the same logical entity, so concurrent inserts of the same edge converge instead of colliding.
+- The namespace constant is load-bearing: changing it regenerates every id in the system. Freeze it and treat a change as a data migration.
+- Keep cross-language ports (a Swift or Kotlin client and the server) in lockstep on the same algorithm and namespace, with a shared test vector, or clients silently disagree on ids.
 
 ## Full resumability
 
