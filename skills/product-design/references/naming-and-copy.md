@@ -5,7 +5,7 @@ Load in `action` mode and whenever an action's object, scope, consequence, or re
 ## The split with copywriting
 
 - `product-design` decides: whether the action should exist, which object it affects, its scope, its consequence, and whether it is reversible.
-- `copywriting` writes: the exact strings, canonical verb, and error, empty, and loading copy. The shared rule IDs (`rule/destructive-names-action`, `rule/canonical-verb`, `rule/error-states-recovery`, `rule/empty-state-action`, `rule/loading-state-specific`) are defined in that skill's `references/ui-states.md` and cited from here.
+- `copywriting` writes: the exact strings, canonical verb, and error, success, empty, loading, and permission copy. The shared copy rule IDs are defined in that skill's `references/ui-states.md` and restated in this skill's `references/rules.md`; cite them from here.
 
 When the decision is settled and the user needs one label, name it inline using the rules below. When the work expands into multiple strings, tone, or persuasion, route to `copywriting`.
 
@@ -45,8 +45,10 @@ Common verbs that get confused; keep them distinct (full vocabulary in the copyw
 For full state-copy rules, route to the copywriting skill's `references/ui-states.md`. The product-level expectations:
 
 - Error: what happened, why when known, the recovery action. No raw exceptions (`rule/error-states-recovery`).
+- Success: past tense, names the object, weight proportional to the action (`rule/success-state-specific`).
 - Empty: name the object, offer the first action, no dead ends (`rule/empty-state-action`).
 - Loading: specific over "Loading..." when the target is known (`rule/loading-state-specific`).
+- Permission: user benefit before the ask, in context of first use (`rule/permission-benefit-first`).
 
 ## When to route to copywriting
 

@@ -12,7 +12,7 @@ description: >-
 
 # Copywriting
 
-- **IS:** short conversion copy (landing pages, hero, subheads, CTAs, product descriptions, onboarding strings, email subjects); stripping AI writing tells from any copy.
+- **IS:** short conversion copy (landing pages, hero, subheads, CTAs, product descriptions, onboarding strings, email subjects); product-state strings (destructive CTAs, error, success, empty, loading, permission copy); stripping AI writing tells from any copy.
 - **IS NOT:** long-form articles or posts (use `blog-post`), slide or deck copy (use `presentation-creator`), API/product/reference docs (use `docs-writing`), or deciding which action exists, its scope, consequence, reversibility, or reachable states (use `product-design`; this skill writes final wording once those are decided).
 
 Two modes, auto-detected (do not ask):
@@ -30,7 +30,7 @@ Two modes, auto-detected (do not ask):
 | `references/word-lists.md` | Flag Tier 1/2/3 AI vocabulary (Edit Step 4) |
 | `references/ai-patterns.md` | Flag structural/sentence-level AI tells; P0/P1/P2 triage (Edit Step 4) |
 | `references/sweeps.md` | Run the seven line-level sweeps (Edit Step 5) |
-| `references/ui-states.md` | Name actions, write destructive CTAs, error/empty/loading-state copy |
+| `references/ui-states.md` | Name actions, write destructive CTAs, error/success/empty/loading-state and permission copy |
 
 ---
 
@@ -172,7 +172,7 @@ Attach a label inline to every weak line. Use exactly these labels:
 | `[JARGON]` | Technical term that obscures meaning for non-experts |
 | `[NO-PROOF]` | Claim needing a number, example, or testimonial |
 | `[WEAK-CTA]` | CTA describes the action, not the outcome |
-| `[STATE-COPY]` | Vague, leaky, or dead-end state string, or a destructive CTA labeled "Confirm"/"OK"/bare verb (see `references/ui-states.md` for rule IDs) |
+| `[STATE-COPY]` | Vague, leaky, or dead-end state string (error, success, empty, loading, permission), or a destructive CTA labeled "Confirm"/"OK"/bare verb (see `references/ui-states.md` for rule IDs) |
 | `[AI-ISM]` | AI writing pattern: Tier 1 word, Tier 2 cluster, or structural tell |
 
 Flag the 3-7 weakest elements, prioritised by impact on conversion or comprehension.

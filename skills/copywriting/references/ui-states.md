@@ -1,6 +1,6 @@
 # UI State Copy
 
-Read when naming actions or writing destructive CTAs, errors, empty, or loading copy. Product-state copy, not marketing: words a user reads while doing a task, where clarity about object, scope, and consequence beats persuasion.
+Read when naming actions or writing destructive CTAs, error, success, empty, loading, or permission copy. Product-state copy, not marketing: words a user reads while doing a task, where clarity about object, scope, and consequence beats persuasion.
 
 Defines stable rule IDs that `product-design` cites when routing naming and state decisions here. Keep IDs exactly as written.
 
@@ -9,8 +9,12 @@ Defines stable rule IDs that `product-design` cites when routing naming and stat
 - Destructive CTAs and action labels
 - Canonical product verbs
 - Error-state copy
+- Success-state copy
 - Empty-state copy
 - Loading-state copy
+- Permission-request copy
+- Copy without the screen
+- Length budgets
 - Rule IDs
 
 ## Destructive CTAs and action labels
@@ -70,17 +74,32 @@ An error states three things: what happened, why (when known), and the recovery 
 
 Separate field-level errors (fix this input, shown inline) from surface-level errors (action failed, shown near the action). Preserve everything the user typed; never clear the form on a failed submit.
 
+## Success-state copy
+
+### rule/success-state-specific
+
+Confirm in past tense what happened to which object, proportional to the action. Add follow-on information only when it changes what the user does next.
+
+| Bad | Good |
+|-----|------|
+| `Success!` | `Changes saved` |
+| `Awesome! 🎉` | `Invite sent to jane@acme.com` |
+| `Operation completed successfully` | `Project archived. Find it under Archived.` |
+
+Match weight to stakes: a routine save earns two words; a milestone can carry one sentence about what happens next.
+
 ## Empty-state copy
 
 ### rule/empty-state-action
 
-Name the object and offer the first action. No dead ends. Distinguish never-had-any (guide the first step) from filtered-to-zero (clear the filter).
+Name the object and offer the first action. No dead ends. Three types: never-had-any (guide the first step), filtered-to-zero (clear the filter), and user-cleared (confirm completion and say when new content appears; the one empty state that needs no CTA).
 
 | Bad | Good |
 |-----|------|
 | `No data` | `No projects yet. Create your first project to get started.` (with a Create action) |
 | `Nothing here` | `No members match "designer". Clear the filter to see all members.` |
 | `Empty` | `No invoices yet. They appear here after your first payment.` |
+| `No tasks` | `You're all caught up. New tasks appear here when they're assigned to you.` |
 
 Often a first impression. Treat it as onboarding, not an error.
 
@@ -98,6 +117,43 @@ Prefer specific copy over bare "Loading..." when the target is known. Say what l
 
 Keep the triggering control's label stable while busy; use its loading affordance instead of swapping text, so the layout doesn't jump and the user still sees which action is in flight.
 
+## Permission-request copy
+
+### rule/permission-benefit-first
+
+State the user benefit before the permission ask; never lead with the system need. Pattern: benefit, then permission.
+
+| Bad | Good |
+|-----|------|
+| `Allow notifications?` | `Get notified when orders ship. Enable notifications.` |
+| `This app requires location access` | `Find stores near you. Allow location access.` |
+| `Grant storage permission` | `Back up your photos. Grant storage access.` |
+
+Ask in context, when the feature is first used, not at launch.
+
+## Copy without the screen
+
+### rule/reads-without-seeing
+
+Copy must work when heard, not seen.
+
+- A field error reads sensibly after its label: screen readers announce "Email address, must include @", so `Must include @` works and `Invalid` does not.
+- Link and button text names the destination or action: `View pricing`, never `Click here` or a bare `Learn more`.
+- No directional words ("above", "below", "here"): position changes across screen sizes and means nothing read aloud. Name the place instead ("in Settings", "on the previous step").
+
+## Length budgets
+
+Ceilings for UI strings. Size copy for the tightest surface (usually mobile) first.
+
+| String | Budget |
+|--------|--------|
+| Button or CTA label | 2 to 4 words |
+| Title | 3 to 6 words |
+| Error message | 12 to 18 words, including the recovery step |
+| Any sentence the user must act on | 14 words (90% comprehension); 8 words reads at full comprehension |
+
+Leave 30 to 40% width headroom for translation; German and French run that much longer than English.
+
 ## Rule IDs
 
 Shared vocabulary with `product-design`, which cites them when routing naming and state decisions here:
@@ -106,7 +162,10 @@ Shared vocabulary with `product-design`, which cites them when routing naming an
 - `rule/no-confirm-ok-labels`
 - `rule/canonical-verb`
 - `rule/error-states-recovery`
+- `rule/success-state-specific`
 - `rule/empty-state-action`
 - `rule/loading-state-specific`
+- `rule/permission-benefit-first`
+- `rule/reads-without-seeing`
 
 Flag violations of these in edit mode with the `[STATE-COPY]` label.

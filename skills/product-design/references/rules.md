@@ -47,8 +47,11 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 | `rule/no-confirm-ok-labels` | No bare `Confirm`, `OK`, `Yes`, or `Submit` on a consequential action. |
 | `rule/canonical-verb` | One canonical verb per operation, consistent across the product. |
 | `rule/error-states-recovery` | An error states what happened, why when known, and the recovery action; never raw exception text. |
+| `rule/success-state-specific` | A success message confirms in past tense what happened to which object, proportional to the action. |
 | `rule/empty-state-action` | An empty state names the object and offers the first action; no dead ends. |
 | `rule/loading-state-specific` | Prefer specific loading copy over a bare "Loading..." when the target is known. |
+| `rule/permission-benefit-first` | A permission request states the user benefit before the ask, in context of first use. |
+| `rule/reads-without-seeing` | Copy works when heard: errors read sensibly after the field label, links name the destination, no directional words. |
 
 ## Interaction and control selection
 
