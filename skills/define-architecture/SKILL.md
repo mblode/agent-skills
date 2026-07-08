@@ -83,9 +83,9 @@ Load references only when the condition applies:
 
 Goal: domain-informed deepening, not a rewrite. Load [references/deepening-existing.md](references/deepening-existing.md) for the analysis method, opportunity patterns, and output template.
 
-1. **Map the domain language.** Read the code for the ubiquitous language in use: entities, actions, bounded contexts as the team names them. Note divergence (one concept, three names; or one name, three concepts).
-2. **Find deepening opportunities.** Look for anemic concepts, leaking boundaries, naming divergence, duplicated concepts, primitive obsession, misplaced logic. Record each with file paths, never a vague smell.
-3. **Rank by leverage.** Prefer opportunities that localize named future changes, have low churn, and meet a current requirement. Drop speculative cleanups.
+1. **Map the domain language and decisions.** Read `CONTEXT.md`, `docs/adr/`, or local equivalents if present, then read the code for entities, actions, and bounded contexts as the team names them. Note divergence (one concept, three names; or one name, three concepts).
+2. **Find deepening opportunities.** Look for anemic concepts, shallow modules, leaking boundaries, naming divergence, duplicated concepts, primitive obsession, misplaced logic, and tests forced past the public interface. Record each with file paths, never a vague smell.
+3. **Rank by leverage.** Prefer opportunities that pass the deletion test, localize named future changes, have low churn, meet a current requirement, and have a viable testing seam. Rank candidates before designing target interfaces; drop speculative cleanups.
 4. **Migrate one vertical slice first.** Prove the highest-leverage move end to end through one slice before generalizing.
 5. **Add guardrails.** Enforce the new boundary with lint, type, or test checks so it cannot decay, then roll out module by module. For agent-specific guardrails (dead code, duplication, legacy markers, file-size caps) load [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md).
 
