@@ -41,13 +41,13 @@ Load references only when the condition applies:
 | [references/api-design.md](references/api-design.md) | Designing endpoints, module contracts, or reviewing API surface changes |
 | [references/distributed-correctness.md](references/distributed-correctness.md) | Designing flows that call external systems, consume webhooks, retry, need an audit trail, or move money (billing, credits, payouts) |
 | [references/deepening-existing.md](references/deepening-existing.md) | Running the Adoption workflow (domain mapping, opportunity patterns, output template) |
-| [references/craftsmanship.md](references/craftsmanship.md) | Writing the team-conventions or testing sections |
+| [references/craftsmanship.md](references/craftsmanship.md) | Writing the team-conventions, testing, or quality-bar sections |
 | [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md) | Preparing a codebase for coding agents: guardrail tooling, invariant ratchets, legacy markers, generated contracts, verification tiers |
 | [references/shipping-practices.md](references/shipping-practices.md) | Writing the rollout and rollback section |
 
 ## Setup workflow (new codebase)
 
-1. Constraints first: product scope, team size, compliance/security, expected scale, deploy targets, required integrations.
+1. Constraints first: product scope, team size, compliance/security, expected scale, deploy targets, required integrations, and quality bar.
 2. Choose repo shape:
    - `apps/` for deployable surfaces (`api`, `web`, `admin`).
    - `packages/` for shared libraries (`shared`, `ui`, `icons`, `auth`, `proto`).
@@ -76,7 +76,8 @@ Load references only when the condition applies:
    - Each piece of data has exactly one owner. Never mirror server data into `useState` or sync two stores with `useEffect`; both are the red flag that ownership is unclear.
 6. Testing and release:
    - Unit tests stay DB-free; integration/E2E run in parallel with dynamically generated IDs so runs never collide on fixtures.
-   - Release in small, reversible steps with a rollback plan per change.
+   - Release in small, complete, reversible vertical slices with a rollback plan per change.
+   - A slice is complete only when reliability, error paths, observability, and user-facing states are covered; do not defer them to a later polish pass.
 7. Agent guardrails: wire dead-code, duplication, boundary, and file-size checks into pre-commit and CI per [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md); anything a static tool can enforce stays out of AGENTS.md.
 
 ## Adoption workflow (existing codebase)
@@ -113,6 +114,7 @@ Use this structure:
 ## Request context and middleware policy
 ## Frontend boundaries
 ## Testing strategy
+## Quality bar and surface-area budget
 ## Rollout and rollback plan
 ## Open risks and follow-ups
 ```

@@ -15,6 +15,10 @@ If a convention cannot name all four, leave it out of the architecture brief.
 
 ## Useful convention shapes
 
+- **Quality bar:** define the product qualities architecture must protect, usually reliability, speed, clarity, efficacy, and efficiency. Enforcement: release checklist plus targeted tests, monitoring, and rollback gates.
+- **Surface-area budget:** every new module, route, job, entrypoint, feature flag, setting, and deployable surface adds relationship cost. Enforcement: architecture brief names the new relationships, ownership, tests, observability, and deletion or sunset path before the surface is accepted.
+- **Complete vertical slices:** ship a narrow slice with its contracts, error paths, user-facing states, observability, and rollback path included. Enforcement: PR template or release gate rejects "happy path only" slices.
+- **Entropy control:** old flows, duplicate paths, and low-value features are either deleted, sunset, or marked as legacy with an owner and review date. Enforcement: legacy registry, deprecation grep, or scheduled cleanup check.
 - **Domain language:** one canonical name per business concept; list aliases only for migration. Enforcement: domain glossary plus tests or lint for generated API/schema names.
 - **Layer imports:** handlers import services; services import DAOs/clients; DAOs never import handlers or request objects. Enforcement: import-boundary lint.
 - **Context initialization:** every RPC, HTTP, job, worker, and CLI entrypoint initializes `RequestContext` before shared services. Enforcement: entrypoint tests or fail-closed bootstrap helper.

@@ -16,6 +16,9 @@ Shared calibration layer for both tracks; make UI look human-designed, not AI-de
 - Structure should be felt, not seen.
 - Prune extra icons, controls, and separators before styling what remains.
 - Restraint plus hierarchy beats noise.
+- Treat visual design as functional UX, not veneer: hierarchy, rhythm, contrast, alignment, and motion decide whether the task feels clear, fast, and reliable.
+- A design system is an ingredient, not proof of quality. Compose its parts into a coherent experience and adjust the relationships when the default component stack feels generic or cluttered.
+- Every visible choice should have a reason: spacing, size, color, radius, shadow, alignment, and empty space. If a random point on the screen cannot be explained, simplify it or align it to a rule.
 
 ## Study references
 

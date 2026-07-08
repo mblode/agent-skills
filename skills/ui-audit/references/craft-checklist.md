@@ -34,6 +34,9 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 - `autoFocus` sparingly: desktop only, single primary input; avoid on mobile.
 - Decorative layers (glows, gradients) get `pointer-events: none`.
 - If it looks clickable, it must be clickable; remove dead zones between items. Avoid text selection during drag (`inert` or disable selection).
+- Nested menus have a forgiving pointer corridor so moving diagonally into a submenu does not close it.
+- Multi-key shortcuts tolerate release-order mistakes where the app owns the chord handling; don't cancel a chord the instant the first key lifts.
+- Movable controls with natural stops (carousels, sliders, drawers) snap to valid positions after release, not halfway states.
 
 ## Forms and input behaviour
 - Label inputs; Enter submits; textarea uses Cmd/Ctrl+Enter. Correct `type`, `name`, `autocomplete`, `inputmode`.
@@ -53,12 +56,18 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 - Spinners/skeletons: show-delay 150-300ms, min duration 300-500ms (avoid flicker).
 - Ellipsis for follow-ups and loading states (Rename…, Loading…).
 - Provide designed empty, loading, and error states.
+- Preserve user position: filters, route changes, pagination, list updates, and Back/Forward keep scroll position or restore the equivalent item in view.
+- Context menus open with stable action placement relative to the cursor, and never put a destructive action under the current cursor after the menu appears.
+- Tooltips delay on first hover, but neighbouring tooltips in the same group switch instantly once the first tooltip is open.
 
 ## Resilience and layout
 - Lay out with flex/grid (no JS measurement); respect safe areas; design for empty/sparse/dense.
 - `overscroll-behavior: contain` in modals/drawers.
 - Text truncation: `min-w-0`, `line-clamp`, `break-words`.
 - Locale-aware formatting (`Intl.*`).
+- Stress test with long labels, one-word values, dense rows, empty lists, and one-item lists. The UI should not only survive the populated demo state.
+- Added or removed list rows preserve subjective position: content around the changed row should not jump unless the action is explicitly a reorder or navigation.
+- If the same object appears across two views, preserve object permanence through the transition when practical: keep position, thumbnail, title, or shape continuous instead of replacing it with an unrelated hard cut.
 
 ## Performance
 - Above-fold images: `priority` / `fetchpriority="high"`; below-fold: `loading="lazy"`. Set explicit `width`/`height` (CLS).
@@ -76,6 +85,8 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 ## Extra polish
 - Match box-shadows and motion to high-quality references.
 - Remove redundant icons and coloured icon backgrounds when labels or grouping already carry the meaning. Every border/separator should justify itself; avoid stacked dividers and high-contrast grid noise.
+- Run a six-signal quality pass before sign-off: reliability (no broken or missing states), speed (feedback feels immediate), clarity (the next action is obvious), efficacy (the task can be completed), efficiency (fewest reasonable steps), and beauty (the surface looks intentionally composed).
+- Check the quality pyramid: fundamentals first (flow, IA, data model, content), then visual design (hierarchy, grouping, rhythm), then polish (micro-interactions, optical alignment, finishing details). Do not let top-layer polish hide a broken lower layer.
 - **Concentric border radius:** `outer-radius = inner-radius + padding` on nested elements (cards with inner panels, buttons with icon badges). Mismatched radii are the most common unnoticed visual error.
 - **Optical alignment:** icon+text buttons use slightly less padding on the icon side. For icon-only buttons, optically centre the icon; triangular/asymmetric shapes sit off-centre geometrically. Fix in the SVG first, else `margin`/`padding` adjustments.
 - **Image outlines:** images on white/near-white backgrounds get `outline: 1px solid rgba(0,0,0,0.1); outline-offset: -1px` to anchor them; `.dark` variant `rgba(255,255,255,0.1)`. Use `outline` not `border` (no layout shift).

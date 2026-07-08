@@ -10,6 +10,8 @@ Covers: text sizes, line heights, heading styles, font weights, tracking, text w
 - Never add `leading-*` or line-height modifiers to headings: use Tailwind's default (e.g. `text-6xl`, not `text-6xl/tight`).
 - Use `text-balance` on headings, `text-pretty` on paragraph text.
 - Add `tracking-tight` to headings larger than `text-xl`, unless the font is a condensed headline font (already tight).
+- Large type should not look airy: tighten tracking before adding weight, and constrain line length before shrinking the type.
+- Small labels need more air than display type: avoid cramped `tracking-tight` or dense line-height on `text-sm` and below unless the text is numeric or code-like.
 - Never use `uppercase` on eyebrow text unless it's a monospace font; with monospace `uppercase`, always add `tracking-wide`.
 
 ## Coding Rules

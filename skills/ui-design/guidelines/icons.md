@@ -10,6 +10,8 @@ Covers: SVG icons, Heroicons, inline checkmarks, icon buttons, icon sizing, icon
 - Use 16px/micro icons (`size-4`) inline with `text-sm` text (checklists, feature items, comparison tables, inline labels); use 20px/mini (`size-5`) only for navigation list icons.
 - Aligning an icon next to a text group (label + supporting text): align it to the first line/label with `items-start` or `items-baseline`, never `items-center` on the group.
 - Application UIs (dashboards, settings, admin, sidebar nav, forms): use only Heroicons Micro (16px, `size-4`); never 20px/mini or 24px/outline.
+- Icons paired with text should usually be visually quieter than the label: lower opacity, use the secondary text color, or reduce emphasis so the icon supports recognition without becoming the focal point.
+- Optically center asymmetric icons in icon-only buttons. If geometry looks off, adjust the SVG viewBox or wrapper alignment rather than trusting mathematical centering.
 
 ## Coding Rules
 

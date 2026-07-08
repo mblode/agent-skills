@@ -4,6 +4,10 @@ Covers: brand colors, accent colors, neutral palettes, text colors, default colo
 
 - Never default to indigo as the brand/accent color: use it only if the project already does or the user requests it.
 - Never default to `gray-*` or `slate-*` for neutral/text colors: use them only if the project already does or the user requests them; prefer `zinc-*` or `neutral-*`.
+- Prefer near-black and near-white over pure `#000` and `#fff` for large surfaces and text-heavy UI. Pure extremes are reserved for deliberate contrast moments.
+- When a palette has a clear warm or cool bias, tint neutrals slightly in the same direction. Do not mix warm-neutral backgrounds with cool-neutral foregrounds unless the brand system already does.
+- Give palette colors distinct brightness roles as well as different hues. Similar-brightness accents compete, especially in charts, badges, and status-heavy UIs.
+- Increase contrast for primary tasks and important content; lower contrast for structural support like dividers, shadows, inactive chrome, and decorative marks.
 
 ## Semantic color scales
 
