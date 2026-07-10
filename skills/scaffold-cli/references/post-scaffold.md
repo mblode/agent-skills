@@ -43,7 +43,8 @@ Validation:
 
 - `ultracite init` fails or hangs: re-run without `--quiet` to see the blocking prompt, answer interactively, then continue.
 - `ln -s` fails on Windows: copy instead (`cp AGENTS.md CLAUDE.md`).
-- `npm install` fails: verify Node >= 22 with `node --version`; the engines field rejects older versions.
+- `npm install` fails: verify Node >= 24.11 with `node --version`; the engines field rejects older versions.
+- `npm install` prints a peer warning for `typescript` against `tsdown`: expected and harmless. `tsdown@0.22.x` still lists its optional `typescript` peer as `^5 || ^6`, but its `.d.ts` engine (`rolldown-plugin-dts`) supports `^7`, so `dist/index.d.ts` still generates. Do not downgrade TypeScript.
 - `npm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).
 - `npm run test` exits 1 with "No test files found": the test script is missing `--passWithNoTests`.
 - `git commit` blocked by a hook: lefthook is active from `ultracite init`; run `npm run fix` and retry rather than bypassing with `--no-verify`.

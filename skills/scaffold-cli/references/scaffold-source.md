@@ -57,7 +57,7 @@ The post-scaffold sequence creates the CLAUDE.md symlink later, not here.
 ## Commands
 
 \`\`\`bash
-npm install        # setup (requires Node >= 22)
+npm install        # setup (requires Node >= 24.11)
 npm run build      # tsdown, outputs to dist/
 npm run dev        # tsdown --watch
 npm run test       # vitest run --passWithNoTests
@@ -127,7 +127,7 @@ This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, O
 
 ## Requirements
 
-- Node.js >= 22
+- Node.js >= 24.11
 
 ## License
 

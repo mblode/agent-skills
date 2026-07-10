@@ -61,19 +61,19 @@
     "url": "https://github.com/{{repo}}/issues"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24.11"
   },
   "dependencies": {
-    "@clack/prompts": "^1.0.0",
-    "commander": "^14.0.3"
+    "@clack/prompts": "^1.7.0",
+    "commander": "^15.0.0"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.0",
-    "@types/node": "^22.19.11",
-    "tsdown": "^0.22.2",
-    "typescript": "^5.8.0",
-    "ultracite": "^7.2.2",
-    "vitest": "^4.0.0"
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^24.13.3",
+    "tsdown": "^0.22.4",
+    "typescript": "^7.0.2",
+    "ultracite": "^7.9.3",
+    "vitest": "^4.1.10"
   }
 }
 ```
@@ -88,7 +88,7 @@ Notes:
 ```json
 {
   "compilerOptions": {
-    "target": "ES2023",
+    "target": "ES2024",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["ES2024"],
@@ -120,7 +120,7 @@ export default defineConfig([
     format: ["esm"],
     clean: true,
     sourcemap: true,
-    target: "node22",
+    target: "node24",
     banner: { js: "#!/usr/bin/env node" },
   },
   {
@@ -128,7 +128,7 @@ export default defineConfig([
     format: ["esm"],
     dts: true,
     sourcemap: true,
-    target: "node22",
+    target: "node24",
   },
 ]);
 ```
@@ -221,7 +221,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
       - name: Install
@@ -276,7 +276,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           registry-url: https://registry.npmjs.org
           cache: npm
       - name: Upgrade npm for OIDC trusted publishing

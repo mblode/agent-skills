@@ -5,7 +5,7 @@ description: Scaffolds a production-ready TypeScript CLI and npm package with ES
 
 # Scaffold CLI
 
-- **IS:** bootstrapping a brand-new TypeScript CLI or npm package (Node 22+) from the pinned templates in `references/`.
+- **IS:** bootstrapping a brand-new TypeScript CLI or npm package (Node 24+, TypeScript 7) from the pinned templates in `references/`.
 - **IS NOT:** a Next.js web app (use `scaffold-nextjs`), folder structure or module contracts for an existing codebase (use `define-architecture`), or shipping a release of an existing package (use `autoship`).
 
 Low-freedom scaffold. Generate files exactly as templated, substituting only `{{placeholder}}` variables. Do not swap tools (no eslint, prettier, tsup, jest, chalk, or ora) or restructure the layout.
