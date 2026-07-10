@@ -72,6 +72,8 @@ Report only when certain:
 - File pushed past ~1000 lines when the new behavior has a local module, component, or helper boundary.
 - Feature-specific conditionals added to unrelated shared paths.
 - Bespoke helper duplicating a canonical utility.
+- Hand-rolled reimplementation of stdlib or native platform behavior, with the replacement named.
+- New dependency added for what the stdlib, the platform, or an already-installed dependency covers.
 - Logic in the wrong layer when the canonical home is clear.
 - Retried or at-least-once write with no idempotency key or dedupe barrier, so a duplicate delivery applies twice.
 - Database commit plus an external publish (queue, webhook, email) without an outbox or transactional guarantee (dual-write): one side can fail independently.

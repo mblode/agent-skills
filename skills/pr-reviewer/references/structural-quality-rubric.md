@@ -32,7 +32,7 @@ These eight standards are the source of truth. Every flag and blocker below maps
 4. **Behavior-preserving cleanup.** If behavior can stay the same while structure becomes meaningfully cleaner, flag the smaller shape: fewer branches, shared-code touchpoints, casts, modes, or files in the next related change.
 5. **No unearned indirection.** Treat brittle, ad-hoc, or "magic" behavior as a code-quality issue. Be skeptical of generic mechanisms that hide data-shape assumptions. Flag wrappers that add indirection without clarity.
 6. **Type and boundary cleanliness.** Question unnecessary optionality, `unknown`, `any`, or cast-heavy code when a clearer type boundary could exist. Prefer explicit typed models or shared contracts over loosely-shaped ad-hoc objects. If a branch relies on silent fallback to paper over an unclear invariant, ask whether the boundary should be explicit.
-7. **Keep logic in the canonical layer.** Call out feature logic leaking into shared paths or implementation details leaking through APIs. Prefer existing canonical utilities and helpers over bespoke one-offs. Push code toward the right package, service, or module instead of normalizing architectural drift.
+7. **Keep logic in the canonical layer.** Call out feature logic leaking into shared paths or implementation details leaking through APIs. Prefer existing canonical utilities and helpers over bespoke one-offs, and prefer the stdlib or native platform over both. Push code toward the right package, service, or module instead of normalizing architectural drift.
 8. **Orchestration simplicity.** Treat unnecessary sequential orchestration and non-atomic updates as design smells when the same inputs can be processed independently or one transaction/batch would avoid partial state. Do not over-index on micro-optimizations; flag orchestration when the proposed structure reduces branches, retries, or rollback paths.
 
 ## Preferred Remedies
@@ -64,6 +64,7 @@ Do not approve merely because behavior seems correct. Treat each item below as `
 - [ ] A refactor moved code without reducing the concepts a reader must hold (1, 4)
 - [ ] An unnecessary abstraction, wrapper, or cast-heavy contract whose callers, invariant, or boundary cannot be named (5, 6)
 - [ ] A duplicated helper, rule, or invariant now has two owners, or logic landed outside its canonical layer (7)
+- [ ] Hand-rolled code or a new dependency duplicates stdlib or native platform capability with no named constraint (7)
 - [ ] Orchestration complexity a batch, transaction, or independent parallel step would remove (8)
 - [ ] Unrequested compatibility: an old/new dual path, legacy alias, or staged deprecation kept with no named consumer of the old path (1, 4)
 - [ ] Incomplete replacement: a replaced model's obsolete fields, validators, fixtures, tests, or docs remain (4)

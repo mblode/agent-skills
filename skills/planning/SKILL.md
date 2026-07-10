@@ -48,6 +48,7 @@ Use these to cut scope, sequence work, and challenge the plan. Turn each into a 
 6. **Tracer bullet:** prove the approach with one minimum viable vertical slice across the real boundary before building horizontal layers.
 7. **DRY:** deduplicate knowledge, invariants, protocols, and business rules, not coincidental shape.
 8. **Duplication over wrong abstraction:** keep similar code duplicated when the shared abstraction would hide different business rules, lifecycles, owners, or failure modes.
+9. **Ladder of least code:** for each piece of new code the plan calls for, take the first rung that holds: reuse what is already in the codebase, then stdlib, then a native platform feature, then an already-installed dependency, then the minimum new code. A plan step that writes new code or adds a dependency must say why the higher rungs fail.
 
 Conflict rule: current requirements win first. Then `as simple as possible, no simpler` bounds KISS and YAGNI; `duplication over wrong abstraction` bounds DRY; `tracer bullet` beats horizontal foundation work unless the project cannot run without that foundation.
 
@@ -97,7 +98,7 @@ Load `references/interrogation-protocol.md`. Ask ONE question at a time. Every q
 
 **Budget:** 5-10 questions, then synthesize.
 
-**Mandatory scope challenge (before synthesizing):** ask "What can we cut without dropping a current requirement?" Carry a recommended cut list: removed extension points, setup collapsed into the first vertical slice, abstractions kept only when they protect a shared invariant/owner/lifecycle, and safety gates preserved where "simpler" would drop correctness. Challenge the *sum* of the plan, not each piece.
+**Mandatory scope challenge (before synthesizing):** ask "What can we cut without dropping a current requirement?" Carry a recommended cut list: removed extension points, setup collapsed into the first vertical slice, new code or dependencies a higher ladder rung already covers, abstractions kept only when they protect a shared invariant/owner/lifecycle, and safety gates preserved where "simpler" would drop correctness. Challenge the *sum* of the plan, not each piece.
 
 **Batch mode (optional):** for large or greenfield specs with many independent questions, generate one local HTML form. Load `references/html-question-form.md` for the template and batch-vs-sequential table. Default to one-at-a-time when answers should shape later questions.
 
@@ -121,7 +122,7 @@ Keep plans scannable yet executable without re-reading the conversation. Record 
 
 - Does the plan answer the user's original request?
 - Did every interrogation answer land in the plan? An answer that never made it in was a wasted question.
-- **Scope gate:** the plan fails if it violates any decision principle, especially an unneeded extension point, horizontal setup before the first tracer bullet, or a cut that drops required correctness, permissions, rollback, migration safety, or edge states.
+- **Scope gate:** the plan fails if it violates any decision principle, especially an unneeded extension point, horizontal setup before the first tracer bullet, new code or a new dependency where a higher ladder rung holds, or a cut that drops required correctness, permissions, rollback, migration safety, or edge states.
 - Any unstated assumptions that should be explicit?
 
 Fix failures in the plan directly; don't reopen the interrogation. Report the plan path and confirm each check passed.

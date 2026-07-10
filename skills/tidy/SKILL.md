@@ -3,7 +3,8 @@ name: tidy
 description: >-
   Fans out four concurrent review agents over the current diff, then APPLIES
   fixes directly to the working tree and verifies the build. Mutates code; it
-  does not produce a report. Covers reuse (duplicate logic), quality (hacky
+  does not produce a report. Covers reuse (duplicate logic, hand-rolled
+  stdlib, reinvented platform features), quality (hacky
   patterns, React/TypeScript hygiene, over-memoisation, exhaustive-deps,
   `any`, dead code, `CLAUDE.md`/`AGENTS.md` violations), efficiency
   (unnecessary work, missed concurrency, hot-path bloat), and test discipline
@@ -62,6 +63,9 @@ Launch all four agents concurrently in a single message using the Agent tool. Ea
 1. **Search for existing utilities and helpers** that could replace newly written code. Look for similar patterns elsewhere in the codebase; common locations are utility directories, shared modules, and files adjacent to the changed ones.
 2. **Flag any new function that duplicates existing functionality.** Name the existing function to use instead.
 3. **Flag any inline logic that could use an existing utility**: hand-rolled string manipulation, manual path handling, custom environment checks, ad-hoc type guards, and similar patterns are common candidates.
+4. **Flag hand-rolled implementations of stdlib functionality.** Name the stdlib function to use instead.
+5. **Flag code or dependencies doing what the platform already does**: `<input type="date">` over a picker lib, CSS over JS, `Intl` over a formatting lib, a DB constraint over app-level checks.
+6. **Flag any new dependency added in this diff** for something the stdlib, the platform, or an already-installed dependency covers.
 
 ### Agent 2: Quality
 
@@ -82,6 +86,7 @@ Launch all four agents concurrently in a single message using the Agent tool. Ea
 15. **Pattern compliance with `CLAUDE.md`/`AGENTS.md`**: imports from deprecated component packages, old styling tokens, long relative paths where path aliases exist, queries/mutations not following the established custom-hook pattern, naming inconsistent with surrounding files
 16. **Magic numbers/strings**: extract to a named constant if used more than once or the value has no obvious meaning
 17. **Unrequested compatibility**: old/new dual paths, legacy aliases, or deprecated re-exports added in this diff when nothing depends on the old path. Delete it unless a real consumer is named
+18. **Speculative flexibility**: interfaces with one implementation, factories for one product, config for a value that never changes, layers with one caller, or parameters nothing passes, added in this diff. Inline or delete until a second consumer exists
 
 ### Agent 3: Efficiency
 
