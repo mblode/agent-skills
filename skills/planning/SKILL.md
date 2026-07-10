@@ -48,7 +48,7 @@ Use these to cut scope, sequence work, and challenge the plan. Turn each into a 
 6. **Tracer bullet:** prove the approach with one minimum viable vertical slice across the real boundary before building horizontal layers.
 7. **DRY:** deduplicate knowledge, invariants, protocols, and business rules, not coincidental shape.
 8. **Duplication over wrong abstraction:** keep similar code duplicated when the shared abstraction would hide different business rules, lifecycles, owners, or failure modes.
-9. **Ladder of least code:** for each piece of new code the plan calls for, take the first rung that holds: reuse what is already in the codebase, then stdlib, then a native platform feature, then an already-installed dependency, then the minimum new code. A plan step that writes new code or adds a dependency must say why the higher rungs fail.
+9. **Ladder of least code:** for each piece of new code the plan calls for, take the first rung that holds: reuse what is already in the codebase, then stdlib, then a native platform feature, then an already-installed dependency, then the minimum new code. A plan step that adds a dependency, or new code a higher rung plausibly covers, must say why the higher rungs fail.
 
 Conflict rule: current requirements win first. Then `as simple as possible, no simpler` bounds KISS and YAGNI; `duplication over wrong abstraction` bounds DRY; `tracer bullet` beats horizontal foundation work unless the project cannot run without that foundation.
 

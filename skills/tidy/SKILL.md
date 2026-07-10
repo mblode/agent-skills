@@ -62,7 +62,7 @@ Launch all four agents concurrently in a single message using the Agent tool. Ea
 
 1. **Search for existing utilities and helpers** that could replace newly written code. Look for similar patterns elsewhere in the codebase; common locations are utility directories, shared modules, and files adjacent to the changed ones.
 2. **Flag any new function that duplicates existing functionality.** Name the existing function to use instead.
-3. **Flag any inline logic that could use an existing utility**: hand-rolled string manipulation, manual path handling, custom environment checks, ad-hoc type guards, and similar patterns are common candidates.
+3. **Flag any inline logic that could use an existing in-repo utility**: hand-rolled string manipulation, manual path handling, custom environment checks, ad-hoc type guards, and similar patterns are common candidates.
 4. **Flag hand-rolled implementations of stdlib functionality.** Name the stdlib function to use instead.
 5. **Flag code or dependencies doing what the platform already does**: `<input type="date">` over a picker lib, CSS over JS, `Intl` over a formatting lib, a DB constraint over app-level checks.
 6. **Flag any new dependency added in this diff** for something the stdlib, the platform, or an already-installed dependency covers.

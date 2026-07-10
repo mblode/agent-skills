@@ -34,7 +34,7 @@ A good plan delivers a tracer bullet first: a minimum viable slice across the fu
 
 ### Scope
 
-- **5:** Every item serves the stated goal. No "nice to have" mixed with requirements. States what is out of scope. Abstractions earned by repetition, not speculation.
+- **5:** Every item serves the stated goal. No "nice to have" mixed with requirements. States what is out of scope. Abstractions earned by repetition, not speculation. New code and dependencies justified against the ladder of least code.
 - **4:** Mostly focused. One or two items could be deferred without affecting the goal.
 - **3:** Several non-essential items. Premature abstractions or optimizations. Designing for hypothetical futures.
 - **2:** Significant feature creep. Multiple items justified by "might need later." Wrong abstractions before the pattern is clear.

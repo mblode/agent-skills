@@ -21,6 +21,7 @@ Report structural issues only when the diff worsens a concrete maintenance path:
 - a file crosses the 1000-line threshold because new behavior was added in place
 - a simpler vertical slice could delete branches, state, or orchestration without changing behavior
 - a compatibility path or legacy alias survives with no evidence anything still depends on it
+- hand-rolled code or a new dependency duplicates a stdlib or native platform capability
 
 ## Non-Negotiable Standards
 
@@ -47,6 +48,7 @@ Name the move rather than polishing the existing shape:
 - Split a large file into smaller focused modules (2)
 - Replace condition chains with a typed model or explicit dispatcher (3, 6)
 - Reuse the existing canonical helper instead of introducing a near-duplicate (7)
+- Replace hand-rolled code or a redundant dependency with the stdlib or platform equivalent (7)
 - Make type boundaries more explicit so the control flow gets simpler (6)
 - Move retry, transaction, rollback, and partial-state handling out of business logic (8)
 - Parallelize independent work when that also simplifies the orchestration (8)
