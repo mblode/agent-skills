@@ -3,8 +3,9 @@ name: pr-babysitter
 description: >-
   Monitors an open PR, detects it from the current branch, polls for conflicts,
   CI failures, review comments, and merge readiness, fixes safe issues, and
-  reports only state changes. Monitor mode requires CronCreate/CronDelete;
-  without them, run one-shot modes only. Use when asked to "babysit a PR",
+  reports only state changes. Monitor mode uses the Monitor tool when
+  available, falling back to CronCreate/CronDelete; without either, run
+  one-shot modes only. Use when asked to "babysit a PR",
   "watch this PR", "keep a PR green", "fix CI", "why is CI red", "resolve
   conflicts", "triage review comments", or "address PR comments". For PR
   creation use pr-creator; for diff review use pr-reviewer; for npm releases
@@ -28,7 +29,7 @@ description: >-
 Rules for every mode:
 
 - No setup questions: auto-detect the PR, platforms, and defaults, start immediately. Overrides arrive inline only ("poll every 5 minutes", "enable auto-merge").
-- CronCreate/CronDelete unavailable: do not claim monitor mode is active. Run the matching one-shot mode, or tell the user this runtime cannot keep polling.
+- Watch mechanism ladder, checked at Phase 1: (1) Monitor tool available: start a background watch script that diffs PR state itself and emits a line only on transitions. (2) Else CronCreate/CronDelete available: cron polling every tick. (3) Neither: do not claim monitor mode is active. Run the matching one-shot mode, or tell the user this runtime cannot keep polling.
 - Skip closed or merged PRs. Skip drafts unless the user explicitly asks.
 - Comment triage runs autonomously inside the cycle, no plan approval gate.
 
@@ -36,7 +37,7 @@ Rules for every mode:
 
 | File | Read when |
 |------|-----------|
-| `references/monitoring-setup.md` | Monitor start: CronCreate config, state file format, defaults |
+| `references/monitoring-setup.md` | Monitor start: watch script template, CronCreate fallback, state file format, defaults |
 | `references/merge-conflicts.md` | Phase 2: mergeStateStatus table, rebase workflow, auto-resolvable file types |
 | `references/ci-platforms.md` | Phase 3: per-platform log/retry commands, Buildkite auth fallback, failure classification, stale-dependency and `knip` handling |
 | `references/github-api.md` | Comment triage: GraphQL queries to fetch, reply to, resolve threads |
@@ -47,7 +48,7 @@ Rules for every mode:
 
 ## Monitor Loop
 
-Phase 1 runs once in the foreground and registers the cron job. Each tick runs phases 2-5, diffing against the previous tick's state file; only transitions produce output, a quiet poll says nothing.
+Phase 1 runs once in the foreground and starts the watch. With the Monitor tool, the watch script gates on transitions in the background: quiet polls never wake the agent, and each emitted event runs phases 2-5. With the cron fallback, every tick runs phases 2-5 and diffs against the previous tick's state file. Either way, only transitions produce output; a quiet poll says nothing.
 
 Copy this checklist to track progress:
 
@@ -62,20 +63,20 @@ PR babysit progress:
 
 ### Phase 1: Initialize
 
-Load `references/monitoring-setup.md` for CronCreate config and defaults.
+Load `references/monitoring-setup.md` for the watch script template, CronCreate fallback config, and defaults.
 
 1. **Auto-detect the PR**: `gh pr view --json number,url,title,headRefName,baseRefName,mergeable,mergeStateStatus,reviewDecision`. If a PR number was passed, use it. No PR for the branch: say so and stop.
 2. **Extract owner/repo**: `gh repo view --json owner,name`
 3. **Detect CI platforms** from `gh pr checks` check names (dispatch table in Phase 3)
-4. **Create cron job**: CronCreate with `*/2 * * * *` running phases 2-5; capture the job ID.
-5. **Snapshot state** to `.claude/scratchpad/babysit-pr-{N}.md`: Cron Job ID, HEAD SHA, mergeable status, check statuses, unresolved thread count, review decision.
+4. **Start the watch**: prefer the Monitor tool with the watch script from `references/monitoring-setup.md` (`persistent: true`); fall back to CronCreate with `*/2 * * * *` running phases 2-5. Capture the watch/job ID.
+5. **Snapshot state** to `.claude/scratchpad/babysit-pr-{N}.md`: watch mechanism and ID, HEAD SHA, mergeable status, check statuses, unresolved thread count, review decision.
 6. **Print confirmation**:
 
 ```
 Monitoring PR #{N}: {title}
 Polling every 2 minutes | Auto-resolve noise: yes | Auto-merge: no
 Detected CI: {platforms}
-Cron job: {job_id}
+Watch: {monitor|cron} ({id})
 Current state: {mergeable} | {reviewDecision} | {check_summary}
 ```
 
@@ -165,9 +166,9 @@ Human comments are never auto-ignored. Classify as fix unless already resolved o
 
 ## Stopping
 
-- "Stop babysitting" / "cancel the PR monitor" → CronDelete with the job ID from the state file
-- PR merged or closed → detected on the next tick, self-cancel
-- Session exit → jobs are session-scoped, auto-clean
+- "Stop babysitting" / "cancel the PR monitor" → cancel the watch using the mechanism and ID from the state file: TaskStop for a Monitor watch, CronDelete for the cron fallback
+- PR merged or closed → the Monitor script emits a terminal event and exits; cron detects it on the next tick and self-cancels
+- Session exit → watches and jobs are session-scoped, auto-clean
 
 On stop, report a final summary: total polls, fixes applied, conflicts resolved, comments triaged, current state.
 
@@ -185,6 +186,8 @@ On stop, report a final summary: total polls, fixes applied, conflicts resolved,
 - Aborting the monitor on one hung or transient git command: fsmonitor wedges and stale locks are recoverable (`references/git-resilience.md`). Retry first.
 - Re-diagnosing while checks are still pending: you fix the wrong thing on a half-finished run. Wait for completion.
 - Polling faster than every 2 minutes: burns GitHub API rate limit for no signal. 2 minutes is the floor.
+- Using cron when the Monitor tool is available: every quiet tick wakes the agent and burns tokens. The Monitor script diffs in the background; only transitions wake the agent.
+- Letting the Monitor watch script fix or classify anything: the script only detects change and emits one line. Diagnosis and fixes stay in phases 2-5.
 - Notifying on every poll with no state change: fatigue trains the user to ignore the monitor. Only transitions speak.
 - Auto-merging without explicit opt-in: merge is a one-way door. "Ready to merge" is a notification, not an action.
 - Classifying `github-actions[bot]` as always noise: shared identity used by DangerJS, schema checkers, and other reviewers. Classify by content.
