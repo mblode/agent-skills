@@ -2,6 +2,15 @@
 
 Springs simulate physics, so they feel more natural than duration-based animations: no fixed duration, they settle by physical parameters.
 
+## Contents
+- [When to use springs](#when-to-use-springs)
+- [Spring parameters](#spring-parameters)
+- [Configuration presets](#configuration-presets)
+- [Apple's damping and response framing](#apples-damping-and-response-framing)
+- [Interruptibility advantage](#interruptibility-advantage)
+- [Spring-based mouse interactions](#spring-based-mouse-interactions)
+- [Snap instead of spring](#snap-instead-of-spring)
+
 ## When to use springs
 
 - Drag with momentum (release, let physics take over)
@@ -39,6 +48,33 @@ Springs simulate physics, so they feel more natural than duration-based animatio
 
 Bounce signals brand personality. Default to zero (the safe choice): a finance dashboard should never bounce; a learning app or creative tool can use subtle bounce (0.1-0.2) to feel friendlier. The question isn't "does it look better with bounce?" but "does it match the brand?"
 
+## Apple's damping and response framing
+
+Apple deliberately replaced the physics triplet (mass/stiffness/damping) with two designer-friendly parameters. Reason in these:
+
+- **Damping ratio** controls overshoot. `1.0` = critically damped, no bounce, smooth settle; `< 1.0` overshoots and oscillates; lower = bouncier.
+- **Response** is how quickly the value reaches the target, in seconds. Lower = snappier. This is not a duration: a spring has no fixed duration, its settle time emerges from the parameters.
+
+Default most UI to **damping 1.0** (critically damped): graceful and non-distracting. Add bounce (**damping ~0.8**) only when the gesture itself carried momentum (a flick, a throw, a drag release). Overshoot on a menu that just faded in feels wrong; overshoot on a card you flicked feels right.
+
+Values Apple ships:
+
+| Interaction | Damping | Response |
+|---|---|---|
+| Move / reposition (e.g. PiP) | `1.0` | `0.4` |
+| Rotation | `0.8` | `0.4` |
+| Drawer / sheet | `0.8` | `0.3` |
+
+**Web mapping:** Motion's `bounce` + `duration` spring API maps closely to Apple's damping + response. A safe house style is critically damped springs everywhere by default; reserve bounce for momentum-driven, physical interactions.
+
+```js
+// Critically damped default (no overshoot)
+animate(el, { y: 0 }, { type: "spring", bounce: 0, duration: 0.4 });
+
+// Momentum interaction: a little bounce, only because a flick preceded it
+animate(el, { y: target }, { type: "spring", bounce: 0.2, duration: 0.4 });
+```
+
 ## Interruptibility advantage
 
 Springs keep velocity when interrupted; CSS keyframes restart from zero. Ideal for gestures users might change mid-motion.
@@ -50,6 +86,12 @@ Springs keep velocity when interrupted; CSS keyframes restart from zero. Ideal f
   transition={{ type: "spring", stiffness: 500, damping: 40 }}
 />
 ```
+
+Three rules make interruption feel seamless:
+
+- **Animate from the presentation value, never the logical target.** On interrupt, read the element's live on-screen transform and start the new animation from there. Starting from the target value causes a visible jump. (A closing modal the user grabs again should follow the finger, not finish closing first and then reopen.) Springs do this by default; CSS transitions and keyframes cannot be grabbed and reversed mid-flight, so avoid them for gesture-driven motion.
+- **Carry velocity through a retarget.** Replacing one animation with another at a reversal creates a velocity discontinuity, a "brick wall". Pick a spring library that re-targets from the current velocity (iOS does this natively with additive animations).
+- **Decompose 2D motion into independent X and Y springs.** A single spring on a 2D distance desyncs when X and Y have different velocities.
 
 ## Spring-based mouse interactions
 

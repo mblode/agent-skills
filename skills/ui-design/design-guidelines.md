@@ -39,6 +39,7 @@ Follow these when designing or building UI:
 - [Landing Pages](./guidelines/landing-pages.md): full-page consistency for buttons, fonts, containers, border radius, column gaps, layout alignment, responsive constraints across all sections
 - [Login Pages](./guidelines/login-pages.md): login, sign-in, sign-up, and authentication page backgrounds and layout
 - [Logo Clouds](./guidelines/logo-clouds.md): logo grids, client logo rows, partner logos, trust bars, brand-logo collections
+- [Materials](./guidelines/materials.md): translucent chrome, backdrop-filter layers, material weight as hierarchy, vibrancy text legibility, scroll edge effects, reduced-transparency fallbacks
 - [Navigation](./guidelines/navigation.md): sidebar nav, header nav, mobile nav menus, tabs, tab bars, vertical menus, active/selected states, current-page indicators
 - [Pagination](./guidelines/pagination.md): page number links, previous/next buttons, paged navigation controls
 - [Placeholder Content](./guidelines/placeholder-content.md): dummy logos, placeholder avatars, app screenshots, wallpapers, and the assets API for generating realistic placeholder content

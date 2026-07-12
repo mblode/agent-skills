@@ -4,6 +4,8 @@ Drag, swipe, and gesture patterns where the user directly manipulates elements.
 
 ## Contents
 - [Momentum-based dismissal](#momentum-based-dismissal)
+- [Velocity handoff](#velocity-handoff)
+- [Momentum projection](#momentum-projection)
 - [Boundary damping](#boundary-damping)
 - [Pointer capture](#pointer-capture)
 - [Multi-touch protection](#multi-touch-protection)
@@ -29,6 +31,43 @@ function onPointerUp(e: PointerEvent) {
 
 Default threshold: velocity > 0.11. Combine with a minimum distance (e.g. 20px) to prevent accidental dismissals.
 
+## Velocity handoff
+
+When a gesture ends, the animation must continue at the finger's exact velocity so there is no visible seam between dragging and animating. This is the detail that most separates "fluid" from "fine". Pass the pointer's release velocity as the spring's initial velocity.
+
+Motion and Framer Motion take absolute px/s velocity directly via the `velocity` option, so hand them the raw release velocity:
+
+```ts
+// releaseVelocity in px/s, measured over the last few pointermove events
+animate(el, { y: target }, { type: "spring", velocity: releaseVelocity, bounce: 0, duration: 0.4 });
+```
+
+Some spring APIs want relative velocity: normalize by the remaining distance to the target.
+
+```ts
+const relativeVelocity = gestureVelocity / (targetValue - currentValue);
+// element at y=50, target y=150 (100px to go), finger at 50px/s -> 50 / 100 = 0.5
+```
+
+To have velocity ready at release, track a short position and timestamp history (last few `pointermove` events), not just the current point.
+
+## Momentum projection
+
+Don't snap to the nearest boundary from the release point. Use velocity to project where the gesture is heading, then snap to the target nearest that projected point. This is what makes a flick feel like it throws the element, exactly like scroll deceleration. Good bottom sheets and carousels (Vaul, Embla) work this way.
+
+```ts
+// decelerationRate ~ 0.998 for a normal scroll feel; 0.99 for snappier
+function project(initialVelocity: number, decelerationRate = 0.998): number {
+  return (initialVelocity / 1000) * decelerationRate / (1 - decelerationRate);
+}
+
+const projectedEndpoint = currentPosition + project(releaseVelocity);
+const target = nearestSnapPoint(projectedEndpoint); // choose target from the projection
+animateSpringTo(target, { velocity: releaseVelocity }); // then hand off velocity (previous section)
+```
+
+Use this exponential-decay form, not the physics-textbook `v^2 / (2 * decel)`; the decay form is what Apple ships in the *Designing Fluid Interfaces* sample code.
+
 ## Boundary damping
 
 Past the natural boundary (e.g. pulling a drawer up when already at top), apply damping: the more they drag, the less it moves.
@@ -40,6 +79,15 @@ function applyDamping(offset: number, max: number): number {
 
 // Usage: as offset grows, movement diminishes
 const dampedOffset = applyDamping(rawOffset, 200);
+```
+
+Apple's canonical rubber-band function (from *Designing Fluid Interfaces*) is a good drop-in alternative, tuned to feel like iOS overscroll:
+
+```ts
+// the further past the bound, the less the element follows
+function rubberband(overshoot: number, dimension: number, constant = 0.55): number {
+  return (overshoot * dimension * constant) / (dimension + constant * Math.abs(overshoot));
+}
 ```
 
 Real things slow before stopping; friction beats hard stops.
@@ -104,7 +152,7 @@ function handleSwipeEnd(direction: "left" | "right", distance: number, velocity:
   const shouldDismiss = distance > THRESHOLD || velocity > 0.11;
 
   if (shouldDismiss) {
-    // Animate out in swipe direction with remaining momentum
+    // Animate out in swipe direction, handing off the release velocity (see Velocity handoff)
     animateOut(direction, velocity);
   } else {
     // Spring back to origin
@@ -113,4 +161,4 @@ function handleSwipeEnd(direction: "left" | "right", distance: number, velocity:
 }
 ```
 
-The exit should continue in the swipe direction with momentum; snapping elsewhere feels wrong.
+The exit should continue in the swipe direction with momentum; snapping elsewhere feels wrong. Feed `velocity` into the exit spring's `velocity` option so drag and animation share no seam.

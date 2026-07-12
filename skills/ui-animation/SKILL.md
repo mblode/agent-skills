@@ -5,14 +5,15 @@ description: >-
   transitions, keyframes, springs, gestures, drag, easing, timing,
   framer-motion, and animation curves from screen recordings. Use when asked to
   "add animations", "make this feel smooth", "review my animations", "add a
-  swipe gesture", "match this easing", "reverse engineer this animation", or
-  "extract the animation curve". For visual direction use ui-design; for
+  swipe gesture", "match this easing", "reverse engineer this animation",
+  "extract the animation curve", or "what's it called when..." to name a motion
+  effect from a vague description. For visual direction use ui-design; for
   page-level UI audit use ui-audit.
 ---
 
 # UI Animation
 
-- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), and measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec.
+- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
 - **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design`), auditing a whole page's UI quality (use `ui-audit`), or named text-effect specs (use the external `animate-text` skill where installed).
 
 Canonical home for reverse-engineering motion from a recording: route "reverse engineer this animation" and "match this easing" here, not to a separate skill. If the input is a screen recording or video, you are MEASURING motion: follow the Reverse-engineer workflow. Otherwise (designing, implementing, reviewing) use the rules and Workflow below.
@@ -22,10 +23,10 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | File | Read when |
 | --- | --- |
 | [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character |
-| [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params |
+| [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params, Apple damping/response values, interruption mechanics |
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
-| [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture |
+| [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, fixed-offset exits |
@@ -34,6 +35,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | [references/curve-fitting.md](references/curve-fitting.md) | Reverse-engineer: reading `fit_curves.py` output, spring vs bezier, judging fit error, asymmetric open/close |
 | [references/code-output.md](references/code-output.md) | Reverse-engineer: emitting code for CSS, Motion/Framer Motion, SwiftUI, React Native, UIKit |
 | [references/choreography.md](references/choreography.md) | Reverse-engineer: multi-element/multi-phase motion: staggers, blur-before-move, per-edge settling |
+| [references/vocabulary.md](references/vocabulary.md) | Naming a motion effect the user describes vaguely ("what's it called when...") |
 
 ## Core rules
 
