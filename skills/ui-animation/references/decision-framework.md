@@ -50,21 +50,7 @@ Avoid `ease-in` for UI; it starts slow and feels sluggish. Built-in `ease-out`/`
 
 **Easing resources:** [easing.dev](https://easing.dev/) and [easings.co](https://easings.co/) for stronger custom variants.
 
-### Extended easing reference
-
-| Name | Curve | Character |
-|---|---|---|
-| ease-out-quad | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` | Gentle deceleration |
-| ease-out-cubic | `cubic-bezier(0.22, 0.61, 0.36, 1)` | Standard deceleration |
-| ease-out-quart | `cubic-bezier(0.165, 0.84, 0.44, 1)` | Strong deceleration |
-| ease-out-quint | `cubic-bezier(0.23, 1, 0.32, 1)` | Very strong deceleration |
-| ease-out-expo | `cubic-bezier(0.19, 1, 0.22, 1)` | Explosive start, soft land |
-| ease-out-circ | `cubic-bezier(0.075, 0.82, 0.165, 1)` | Circular deceleration |
-| ease-in-out-quad | `cubic-bezier(0.455, 0.03, 0.515, 0.955)` | Gentle symmetric |
-| ease-in-out-cubic | `cubic-bezier(0.645, 0.045, 0.355, 1)` | Standard symmetric |
-| ease-in-out-quart | `cubic-bezier(0.77, 0, 0.175, 1)` | Strong symmetric |
-
-Use weaker curves (quad, cubic) for small or frequent elements; stronger curves (quint, expo) for large or rare transitions.
+For a full named cubic-bezier catalogue (ease-out-quad through ease-out-expo, symmetric variants), see [easing.dev](https://easing.dev/); SKILL.md ships the actionable defaults. Use weaker curves (quad, cubic) for small or frequent elements; stronger curves (quint, expo) for large or rare transitions.
 
 ### Asymmetric vs symmetric curves
 
@@ -102,7 +88,7 @@ Enter can be slightly slower than exit. Hold-to-delete: 2s linear on press, 200m
 
 ### Instant enter, animated exit (productivity tools)
 
-Canonical statement: SKILL.md core rule on asymmetric timing. For high-frequency ephemeral UI, invert the standard rule: enter instantly (0ms), exit with a brief fade (100-150ms).
+Restates SKILL.md's asymmetric-timing core rule for high-frequency ephemeral UI: enter instantly (0ms), exit with a brief fade (100-150ms).
 
 ```css
 /* Hover highlight: instant appear, soft dismiss */
@@ -115,14 +101,5 @@ Canonical statement: SKILL.md core rule on asymmetric timing. For high-frequency
   opacity: 1;
 }
 ```
-
-This applies when:
-- Interaction happens tens to hundreds of times per day
-- User initiates the action (hover, click, keyboard)
-- Element is ephemeral (highlight, popover, tooltip after first open)
-
-It does not apply to:
-- Rare interactions (modals, onboarding): use standard asymmetric timing
-- Content needing orientation (drawers with nav): enter animation provides spatial context
 
 Once the element should animate, match the UI pattern to a recipe via the "Transition decision rules" table in SKILL.md.

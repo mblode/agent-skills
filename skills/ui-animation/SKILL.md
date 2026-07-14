@@ -113,9 +113,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Spatial and sequencing
 
-- Set `transform-origin` at the trigger point for popovers; keep `center` for modals (app-level state, not an anchored trigger).
-- For dialogs/menus, start around `scale(0.85-0.9)`. Never `scale(0)`: nothing appears from nothing.
-- Stagger reveals at 30-50ms per item; total stagger under 300ms. Vary timing by visual importance, most important element leads; uniform stagger removes hierarchy and feels mechanical.
+- Popover `transform-origin` at the trigger (modals stay `center`), dialog/menu entrances from `scale(0.85-0.9)` not `scale(0)`, and 30-50ms staggers (total under 300ms, most important element leading). Full rules and code in [references/component-patterns.md](references/component-patterns.md) and [references/contextual-animations.md](references/contextual-animations.md).
 - **Paired elements rule:** elements that animate together (modal + overlay, tooltip + arrow, FAB + label) must share easing and duration. Mismatched timing is the usual cause of "something feels off".
 
 ## Accessibility
@@ -138,10 +136,10 @@ High-signal failures not covered above:
 
 - Animating on mount without a user trigger: unexpected motion disorients; the user did nothing to cause it.
 - Hard stops on drag boundaries feel broken; apply friction/damping so movement diminishes past it (see gesture-drag reference).
-- Mixing Motion `x`/`y` with a handwritten `transform` on one element: both write `transform`, so one clobbers the other. Pick one transform owner.
 - Animating both a container and staggering its children: pick one entrance per container. If the panel slides in, its content should already be visible on arrival.
-- Keyframes on rapidly-triggered elements (toasts, list items): interruption restarts from zero; use CSS transitions, which retarget.
 - Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.
+
+(The transform-owner clash and keyframes-on-rapid-fire failures are stated canonically under Performance and Core rules above.)
 
 ## Workflow
 
@@ -172,6 +170,7 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Emulate `prefers-reduced-motion: reduce` (DevTools Rendering panel) and confirm every animation has a reduced path.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
+- Review again with fresh eyes the next day; imperfections missed during development stand out.
 
 ## Reverse-engineer workflow
 
@@ -203,7 +202,7 @@ Reverse-engineer progress:
 - `fit_curves.py` defaults to `--fps 30`: extract at 60 but fit at the default and every `duration_ms` doubles while fitted stiffness drops to a quarter. Always pass the extraction fps to the fit.
 - Sampling above the source rate duplicates frames: a 24 fps GIF extracted at 60 inflates fit error with plateaued runs in `metrics.json`. Probe and match the source rate.
 - Screen recordings drop frames and iOS/QuickTime captures are variable-frame-rate; consecutive identical rows are duplicated frames, not a pause. Re-record at a steadier rate if plateaus dominate.
-- Open and close are never mirror images; measure each direction as its own clip. Treat a fit `error` above 0.08 as suspect.
+- Measure open and close as separate clips and report two curves; never fit one and reuse it reversed (see `references/choreography.md`). Treat a fit `error` above 0.08 as suspect.
 
 ## Related skills
 

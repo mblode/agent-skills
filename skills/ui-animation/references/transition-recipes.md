@@ -43,8 +43,8 @@ Add this `:root` block once to your global stylesheet; every recipe reads these 
   --badge-slide-dur: 260ms;
   --badge-pop-dur: 500ms;
   --badge-blur: 2px;
-  --badge-offset-x: -8.2px;
-  --badge-offset-y: 12.4px;
+  --badge-offset-x: -8px;
+  --badge-offset-y: 12px;
   --badge-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Text state swap */

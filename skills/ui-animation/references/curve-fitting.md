@@ -87,14 +87,7 @@ Two more error inflators to rule out before splitting phases:
 
 ## Asymmetric open/close
 
-Open and close are almost never mirror images: open tends to be slower and springier, close
-faster and flatter.
-
-- Record (or trim) open and close as **separate clips** and run the full pipeline on each;
-  don't fit one curve and reuse it reversed.
-- Report two curves. In code, give the enter and exit transitions different `duration`/easing
-  (and different spring configs) rather than a single shared one.
-- See `references/choreography.md` for expressing asymmetry per target.
+Open and close are almost never mirror images: fit each direction as its own clip and report two curves, never one curve reused reversed. Full treatment (why, and expressing it per target) in `references/choreography.md`.
 
 ## Converting spring params across APIs
 

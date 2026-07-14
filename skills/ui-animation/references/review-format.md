@@ -7,8 +7,6 @@
 - [Before/After/Why table](#beforeafterwhy-table)
 - [Review checklist](#review-checklist)
 - [Verdict output](#verdict-output)
-- [Component design principles](#component-design-principles)
-- [Debugging animations](#debugging-animations)
 
 ## Operating posture
 
@@ -92,13 +90,6 @@ Close with a decision, citing `file:line`:
 - **Block**: any feel-breaking regression, animation on a keyboard or high-frequency action, `scale(0)` or `ease-in` on UI, or a non-GPU animation with an easy GPU fix.
 - **Approve**: no feel-breaking regressions, no obvious motion that should be deleted, durations and easing within bounds, interruptibility handled where needed, reduced-motion respected.
 
-## Component design principles
+Reusable-component library DX (defaults over options, drop-in ergonomics, naming, docs site) is authoring, not review; see the `ui-design` skill.
 
-Authoring-adjacent, not review. For reusable components the polish that earns adoption lives mostly outside the motion: excellent defaults over options, drop-in DX (Sonner: insert `<Toaster />` once, call `toast()` anywhere), transitions over keyframes for dynamic UI, personality-matched cohesion, invisible edge cases (pause timers on hidden tabs, fill gaps with pseudo-elements for hover, capture pointer on drag), memorable naming over descriptive, and a touchable docs site with copyable snippets.
-
-## Debugging animations
-
-- **Slow motion:** Increase duration 2-5x or use the browser animation inspector; check colour timing, easing, and transform-origin.
-- **Frame-by-frame:** Step through the Chrome DevTools Animations panel to reveal timing issues between coordinated properties.
-- **Real devices:** Test touch interactions (drawers, swipe gestures) on physical hardware; the Xcode Simulator works but real hardware is better for gestures.
-- **Review next day:** Fresh eyes catch imperfections you missed during development.
+For debugging animations (slow-motion, DevTools Animations panel, real-device testing, next-day review), see the Validation section in `SKILL.md`.
