@@ -10,6 +10,8 @@ Covers: general markup and Tailwind CSS authoring rules not specific to one comp
 - Never add display classes matching an element's default display: no `block` on `<div>`/`<p>`/`<h1>`/`<h6>`; no `inline` on `<span>`/`<a>`; no `inline-block` on `<input>`/`<button>`/`<select>`; no `table` on `<table>`. Only applies to classes that don't change child layout: `flex`, `grid`, `inline-flex`, `inline-grid` are never redundant
 - Never apply conflicting classes for the same property on one element without a distinguishing variant: no `outline-1 outline-2`, no `outline-black/5 outline-white`; keep only the intended value
 - Always add `role="list"` to `<ul>` and `<ol>` unless a `list-style-*` class (e.g. `list-disc`, `list-decimal`) is applied
+- Never add `hover:*` to non-interactive elements: reserve for buttons, links, and other clickables
+- Never add `transition-*` for hover color/background changes: reserve transitions for elements that move or transform
 
 ### Tailwind CSS
 

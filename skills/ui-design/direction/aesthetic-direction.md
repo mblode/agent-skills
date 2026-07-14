@@ -22,7 +22,7 @@ Shared calibration layer for both tracks; make UI look human-designed, not AI-de
 
 ## Study references
 
-- Linear, Stripe, Notion, Raycast, ElevenLabs, Zed.
+- Study the annotated "Reference calibration" list in [SKILL.md](../SKILL.md) (Linear, Raycast, Things 3, OpenAI, ElevenLabs, Mintlify, Family, Zed) for what each is calibration for.
 
 ## Upgrade choices
 

@@ -35,7 +35,6 @@ Follow these when designing or building UI:
 - [Heading Groups](./guidelines/heading-groups.md): headline, subheadline, optional eyebrow at the top of marketing and landing page sections (hero, features, team, pricing, CTA); not blog posts, articles, or editorial content
 - [Icons](./guidelines/icons.md): SVG icons, icon sizing, alignment with text, Heroicons, filled vs stroked icons, inline list icons like checkmarks
 - [Images](./guidelines/images.md): photos, thumbnails, screenshots, app UI mockups, image borders/outlines
-- [Interactivity](./guidelines/interactivity.md): hover states, transitions, animations, interactive behavior on clickable vs non-clickable elements
 - [Landing Pages](./guidelines/landing-pages.md): full-page consistency for buttons, fonts, containers, border radius, column gaps, layout alignment, responsive constraints across all sections
 - [Login Pages](./guidelines/login-pages.md): login, sign-in, sign-up, and authentication page backgrounds and layout
 - [Logo Clouds](./guidelines/logo-clouds.md): logo grids, client logo rows, partner logos, trust bars, brand-logo collections

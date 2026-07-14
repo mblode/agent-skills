@@ -59,9 +59,9 @@ Load when the marketing track has a conversion goal (landing page, signup flow).
 
 | File | Read when |
 |------|-----------|
-| [direction/cro.md](./direction/cro.md) | Persuasion tactics, social proof, page length, or a CRO plan: Cialdini's principles, proof credibility hierarchy, conversion benchmarks, Voice of Customer mining |
-| [direction/testing.md](./direction/testing.md) | Optimising a page or planning experiments: test prioritisation, A/B vs multivariate, significance rules, heatmap insights, CTA statistics |
-| [direction/modern.md](./direction/modern.md) | Tuning page speed, mobile-first conversion, personalisation, accessible copy, or microcopy |
+| [direction/cro.md](./direction/cro.md) | Persuasion tactics, social proof, page length, or a CRO plan: Cialdini's principles, proof credibility hierarchy, conversion benchmarks |
+| [direction/testing.md](./direction/testing.md) | Optimising a page or planning experiments: test prioritisation, A/B vs multivariate, significance rules, heatmap insights, the canonical CTA statistics table |
+| [direction/modern.md](./direction/modern.md) | Personalisation and mobile-first conversion (page speed, accessible copy, and microcopy route out to `optimise-seo` and `copywriting`) |
 
 ### Brand kit
 

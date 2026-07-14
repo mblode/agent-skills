@@ -26,7 +26,7 @@ Cialdini's seven principles for landing pages. Each is a tool, not a trick; misu
 | **Scarcity** | Limited-time offers, remaining seats, closing deadlines | Fake countdown timers that reset on refresh; permanent "last chance" banners |
 | **Unity** | In-group language ("fellow founders"), shared identity framing | Exclusionary language that alienates adjacent audiences |
 
-Urgency (a subset of scarcity) lifts conversion up to 332% when real, and destroys credibility when fabricated.
+Urgency (a subset of scarcity) lifts conversion substantially when real, and destroys credibility when fabricated. For the figure and other CTA conversion stats, see the canonical "CTA statistics" table in `testing.md`.
 
 ---
 
@@ -87,39 +87,7 @@ CRO tools report average ROI of 223%. AI-assisted A/B testing, common in mid-mar
 
 ## Voice of Customer research
 
-Fastest way to write copy that resonates: steal the reader's exact words.
-
-### The highlight-and-steal method
-
-1. Read 50+ reviews (G2, Trustpilot, app stores, Reddit threads, support tickets).
-2. Highlight recurring phrases, especially emotional language about pain and outcomes.
-3. Use them verbatim in headlines, pain sections, and CTAs.
-
-### Where to mine
-
-| Source | What you get |
-|--------|-------------|
-| G2/Trustpilot reviews | Pain phrases, outcome language, competitor comparisons |
-| Support tickets | Objections, confusion points, feature requests |
-| Sales call transcripts | Buying triggers, decision criteria, exact questions asked |
-| Cancellation reasons | Why people leave, often the inverse of your best headline |
-| Reddit/forums | Unfiltered frustration in the reader's own words |
-| Survey open-ends | Direct responses to "what almost stopped you from signing up?" |
-
-### What to steal
-
-- **Pain phrases** → Problem/Agitate sections
-- **Outcome phrases** → Benefit statements and headlines
-- **Objection phrases** → FAQ and objection-handling sections
-- **Comparison language** → Differentiation copy
-
-VoC feeds the copywriting brief (questions 2 and 3 in the `copywriting` skill).
-
-### Common mistakes
-
-- **Reading 5 reviews instead of 50.** Patterns only emerge at volume.
-- **Paraphrasing instead of quoting.** Exact words resonate because they are the reader's.
-- **Mining only positive reviews.** Negative reviews reveal objections the page must handle.
+Copy-research methodology (mining reviews, tickets, and transcripts for the reader's exact words) is owned by the `copywriting` skill; it feeds the copywriting brief. Route VoC work there.
 
 ---
 

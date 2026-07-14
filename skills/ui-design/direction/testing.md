@@ -48,7 +48,7 @@ Heatmaps and scroll maps show where attention actually goes, not where you assum
 
 ### Key findings
 
-- **70% of mobile users don't scroll to mid-page.** Strongest proof or CTA below the mobile fold is never seen by most visitors.
+- **Most mobile users don't scroll to mid-page** (see the "70% rule" in `modern.md`). Strongest proof or CTA below the mobile fold is never seen by most visitors.
 - **Desktop scroll depth is deeper** but drops off sharply after the hero and first support section.
 - **Dead clicks** reveal where users expect interactivity but find none: a missed CTA opportunity.
 
