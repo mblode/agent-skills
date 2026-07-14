@@ -1,6 +1,6 @@
 # Craft Checklist (Detailed)
 
-Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; catches built-UI defect details the rules layer doesn't encode. Scoped to defects in built React/Next UI — visual direction, motion, SEO, and deep typography belong to sibling skills and are pointed to, not restated here.
+Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; catches built-UI defect details the rules layer doesn't encode. Scoped to defects in built React/Next UI. Visual direction, motion, SEO, and deep typography belong to sibling skills and are pointed to, not restated here.
 
 ## Contents
 - Legibility and typography → sibling
