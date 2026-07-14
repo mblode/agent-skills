@@ -4,7 +4,7 @@ impact: HIGH
 kind: programmatic
 prefix: decision
 tags: complexity, conservation, defaults, system-burden
-related: decision-postels-law, decision-occams-razor, cognitive-cognitive-load
+related: cognitive-cognitive-load, decision-hicks-law
 ---
 
 ## Tesler's Law

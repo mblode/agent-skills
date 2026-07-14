@@ -4,7 +4,7 @@ impact: HIGH
 kind: programmatic
 prefix: interaction
 tags: latency, response-time, loading, skeleton, optimistic-ui
-related: interaction-flow, memory-zeigarnik, interaction-fittss-law
+related: memory-zeigarnik, interaction-fittss-law
 ---
 
 ## Doherty Threshold

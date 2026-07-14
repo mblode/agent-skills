@@ -1,8 +1,6 @@
 # Sections: Modern Failure Modes (Layer 2)
 
-Defines the 7 categories of modern frontend UX failure modes; each rule file uses one category prefix.
-
-For the full rule list see `references/modern-failure-modes.md`.
+Defines the 7 categories of modern frontend UX failure modes; each rule file uses one category prefix. This is the canonical Layer 2 index; per-rule default tiers live in each rule file's frontmatter.
 
 ---
 
@@ -50,10 +48,10 @@ forms-lost-data-on-error            forms-no-autosave            forms-no-normal
 forms-no-disable-while-submitting   forms-use-form-status-misuse
 
 states-no-skeleton                  states-no-empty-state        states-no-error-state
-states-layout-shift                 states-generic-loading-copy
+states-layout-shift
 
 async-no-suspense-boundary          async-no-error-boundary
-async-optimistic-without-rollback   async-out-of-order-responses async-double-submit
+async-optimistic-without-rollback   async-out-of-order-responses
 
 focus-broken-focus-trap             focus-not-restored
 focus-on-dynamic-content
@@ -66,7 +64,7 @@ dark-i18n-locale-formatting         dark-i18n-plural-rules
 dark-i18n-language-switcher
 
 microcopy-vague-error               microcopy-generic-loading
-microcopy-leaked-error-message      microcopy-no-action-on-empty
+microcopy-leaked-error-message
 ```
 
-Total: 31 rules. (Keyboard target size and skip-link/heading-order are covered by the rendered-quality layer: `rules-surface/interaction-target-size` and `rules-surface/a11y-skip-link-heading-order`.)
+Total: 28 rules. (Keyboard target size and skip-link/heading-order are covered by the rendered-quality layer: `rules-surface/interaction-target-size` and `rules-surface/a11y-skip-link-heading-order`.)

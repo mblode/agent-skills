@@ -153,7 +153,7 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 
 ```json
 {
-  "rule": "interaction-aesthetic-usability",
+  "rule": "perception-pragnanz",
   "layer": "laws",
   "kind": "rubric",
   "feature": "marketing-hero",
@@ -165,8 +165,8 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
   "assignedTier": "backlog",
   "severity": "MEDIUM",
   "score": 3,
-  "anchor": "Type scale present but inconsistent; spacing rhythm broken in 1-2 places; colour palette neutral but flat shadows.",
-  "fix": "Adopt a spacing token (4/8/12/16/24); replace flat box-shadow with two-tier elevation; bump heading weight to 600."
+  "anchor": "Multiple visual centers of gravity; user must decide where to look first.",
+  "fix": "Establish one dominant focal shape per section; align the hero CTA to a single grid; remove the competing tilted card."
 }
 ```
 

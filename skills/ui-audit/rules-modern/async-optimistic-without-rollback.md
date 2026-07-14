@@ -5,7 +5,7 @@ category: async
 defaultTier: release-blocker
 surfaces: checkout, list, form, dashboard, modal
 react-apis: useOptimistic, useTransition, startTransition, server actions
-related: async-double-submit, states-no-error-state, microcopy-leaked-error-message
+related: states-no-error-state, microcopy-leaked-error-message
 ---
 
 ## Optimistic update without rollback on server reject

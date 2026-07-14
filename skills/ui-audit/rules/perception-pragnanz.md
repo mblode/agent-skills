@@ -4,7 +4,7 @@ impact: MEDIUM
 kind: rubric
 prefix: perception
 tags: gestalt, simplicity, perception, cognitive-effort
-related: perception-similarity, decision-occams-razor, cognitive-cognitive-load
+related: perception-similarity, cognitive-cognitive-load
 ---
 
 ## Law of Prägnanz

@@ -4,7 +4,7 @@ impact: MEDIUM-HIGH
 kind: programmatic
 prefix: memory
 tags: memory, emotion, onboarding, completion, microcopy
-related: memory-serial-position, interaction-flow, memory-zeigarnik
+related: memory-serial-position, memory-zeigarnik
 ---
 
 ## Peak-End Rule

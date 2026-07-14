@@ -49,7 +49,7 @@ Checks:
 
 1. **`forms-no-disable-while-submitting`**: submit `disabled` while pending, else double-submits create duplicate accounts. Bumps to **release-blocker** for sign-up.
 2. **`forms-lost-data-on-error`**: wrong password must not clear the email field; password manager must still autofill. **release-blocker.**
-3. **`forms-no-normalize`**: accept emails with whitespace or mixed case; trim and lowercase server-side. Postel's Law (`rules/decision-postels-law.md`).
+3. **`forms-no-normalize`**: accept emails with whitespace or mixed case; trim and lowercase server-side. Postel's Law.
 4. **`microcopy-vague-error`**: "Wrong email or password" is fine for security; "Error 401" / "Invalid" is not. **fix-this-sprint.**
 5. **`focus-not-restored`**: if "Forgot password?" opens a modal/route, focus returns on close. **fix-this-sprint.**
 6. **`states-no-error-state`**: server-down shows a recoverable message with retry, not a blank page. **release-blocker.**
@@ -175,7 +175,6 @@ Checks:
 2. **`microcopy-generic-loading`** + **`microcopy-vague-error`**: empty copy is context-specific, not "No data." **fix-this-sprint.**
 3. **`memory-zeigarnik`** (Layer 4): if it's a not-yet-set-up surface, suggest setup with progress.
 4. **`memory-goal-gradient`** (Layer 4): empty inbox after first user action shows "1 of 5 setup steps complete."
-5. **`interaction-aesthetic-usability`** (Layer 4 rubric): empty states are high-leverage for polish; score ≥4.
 
 ## Error / 404 / 500 state
 

@@ -5,7 +5,7 @@ category: states
 defaultTier: fix-this-sprint
 surfaces: list, dashboard, search, form, loading-state
 react-apis: Suspense, loading.tsx, Skeleton
-related: states-layout-shift, states-generic-loading-copy
+related: states-layout-shift, microcopy-generic-loading
 ---
 
 ## Async data renders a spinner instead of a skeleton
@@ -25,7 +25,7 @@ A dashboard shows a centered spinner (0x0 layout) where six cards will appear. 8
 
 **Static signals:**
 1. Find async-data branches: `if (isLoading|isPending|loading)` returning JSX, plus `<Suspense fallback={...}>`.
-2. Loading branch fails if it returns `null`; a `<Spinner>` / `<CircularProgress>` / `<Loader>` not in a layout box matching the loaded layout; or `<div className="loading">Loading…</div>` (also fires `states-generic-loading-copy`).
+2. Loading branch fails if it returns `null`; a `<Spinner>` / `<CircularProgress>` / `<Loader>` not in a layout box matching the loaded layout; or `<div className="loading">Loading…</div>` (also fires `microcopy-generic-loading`).
 3. Passes if it returns a `<Skeleton>` (or repeated skeleton rows) sized to the loaded layout.
 4. Next.js `loading.tsx`: same rule, no centered spinner.
 

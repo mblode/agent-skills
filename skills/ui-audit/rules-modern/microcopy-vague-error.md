@@ -5,7 +5,7 @@ category: microcopy
 defaultTier: fix-this-sprint
 surfaces: sign-in, sign-up, checkout, form, search, toast, error-state
 react-apis: useActionState, useFormStatus
-related: microcopy-leaked-error-message, microcopy-no-action-on-empty, states-no-error-state, decision-postels-law
+related: microcopy-leaked-error-message, states-no-empty-state, states-no-error-state, forms-no-normalize
 ---
 
 ## Vague error message, no cause, no recovery

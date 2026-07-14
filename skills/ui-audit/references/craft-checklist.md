@@ -1,28 +1,21 @@
 # Craft Checklist (Detailed)
 
-Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; catches craft details the rules layer doesn't encode (chrome hierarchy, optical alignment, concentric radii, hover affordances).
+Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; catches built-UI defect details the rules layer doesn't encode. Scoped to defects in built React/Next UI — visual direction, motion, SEO, and deep typography belong to sibling skills and are pointed to, not restated here.
 
 ## Contents
-- Legibility and typography
-- Motion
+- Legibility and typography → sibling
 - Keyboard, focus, and targets
 - Forms and input behaviour
 - Navigation and feedback
 - Resilience and layout
 - Performance
 - Accessibility and theming
-- Extra polish
-- Resources
+- Motion → sibling
+- Visual direction and SEO → sibling
 
 ## Legibility and typography
-- Full punctuation, sizing, measure, OpenType sweep: run `typography-checklist.md`, don't duplicate. Spot-checks unique here:
-  - British/Australian spelling in user-facing copy.
-  - <= 2 typefaces; weights >= 400; `clamp()` for fluid sizes.
-  - `font-variant-numeric: tabular-nums` on data and tables.
-  - `-webkit-font-smoothing: antialiased` and `text-rendering: optimizeLegibility`.
 
-## Motion
-- Validate against the `ui-animation` skill (timing, easing, transform/opacity only).
+Run `typography-checklist.md` for the punctuation, sizing, measure, and OpenType sweep; deep type (pairing, brand, display) is the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
 - Full keyboard support and visible focus; trap/restore focus in dialogs and menus.
@@ -82,15 +75,11 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 - No animation during theme switches; set `color-scheme` and `<meta name="theme-color">`. Native `<select>`: explicit `background-color` and `color` (Windows dark mode fix).
 - Guard hydration for date/time; `value` inputs require `onChange`; `suppressHydrationWarning` only where needed (dates, theme).
 
-## Extra polish
-- Match box-shadows and motion to high-quality references.
-- Remove redundant icons and coloured icon backgrounds when labels or grouping already carry the meaning. Every border/separator should justify itself; avoid stacked dividers and high-contrast grid noise.
-- Run a six-signal quality pass before sign-off: reliability (no broken or missing states), speed (feedback feels immediate), clarity (the next action is obvious), efficacy (the task can be completed), efficiency (fewest reasonable steps), and beauty (the surface looks intentionally composed).
-- Check the quality pyramid: fundamentals first (flow, IA, data model, content), then visual design (hierarchy, grouping, rhythm), then polish (micro-interactions, optical alignment, finishing details). Do not let top-layer polish hide a broken lower layer.
-- **Concentric border radius:** `outer-radius = inner-radius + padding` on nested elements (cards with inner panels, buttons with icon badges). Mismatched radii are the most common unnoticed visual error.
-- **Optical alignment:** icon+text buttons use slightly less padding on the icon side. For icon-only buttons, optically centre the icon; triangular/asymmetric shapes sit off-centre geometrically. Fix in the SVG first, else `margin`/`padding` adjustments.
-- **Image outlines:** images on white/near-white backgrounds get `outline: 1px solid rgba(0,0,0,0.1); outline-offset: -1px` to anchor them; `.dark` variant `rgba(255,255,255,0.1)`. Use `outline` not `border` (no layout shift).
-- Add SEO metadata and dynamic OG images; keyboard shortcuts where useful.
+## Motion → sibling
 
-## Resources
-- Devouring Details, Sanding UI, Paul Graham on Taste, Typewolf checklist.
+Timing, easing, springs, gestures, and transform/opacity-only animation belong to the `ui-animation` skill. Route motion findings there for the fix.
+
+## Visual direction and SEO → sibling
+
+- Visual-direction polish (matching box-shadows to references, concentric border radius, optical alignment of icons/text, image outlines on light backgrounds, the fundamentals→visual→polish quality pyramid) is the `ui-design` skill's job, not a built-UI defect check.
+- SEO metadata, canonical/OG tags, and dynamic OG images belong to the `optimise-seo` skill.

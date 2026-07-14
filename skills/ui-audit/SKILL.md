@@ -76,17 +76,17 @@ Four layers, each with its own loading condition. Load rule files individually, 
 | Layer | Location | Load when | Size |
 |---|---|---|---|
 | 1: Feature playbooks | `references/feature-playbooks.md` | Always, at Step 2, since it is the entry point that names which Layer 2/3/4 rules to run | 12 playbooks |
-| 2: Modern failure modes (behavior) | `rules-modern/<category>-<slug>.md` | A playbook check names the rule, or a changed file matches the rule's category (forms, states, async, focus, mobile, dark-i18n, microcopy) | 31 rules |
+| 2: Modern failure modes (behavior) | `rules-modern/<category>-<slug>.md` | A playbook check names the rule, or a changed file matches the rule's category (forms, states, async, focus, mobile, dark-i18n, microcopy) | 28 rules |
 | 3: Rendered quality (surface) | `rules-surface/<prefix>-<slug>.md` | A playbook check names the rule, or a surface needs a rendered-quality check (a11y, interaction, forms, type, nav, layout, perf, motion, copy) | 34 rules |
-| 4: Laws of UX | `rules/<prefix>-<slug>.md` | A playbook explicitly names a Laws rule, or a finding needs cognitive/perceptual reasoning no Layer 2/3 rule covers | 30 rules (20 programmatic, 10 rubric) |
+| 4: Laws of UX | `rules/<prefix>-<slug>.md` | A playbook explicitly names a Laws rule, or a finding needs cognitive/perceptual reasoning no Layer 2/3 rule covers | 21 rules (19 programmatic, 2 rubric) |
 
 Layer-specific notes:
 
-- **Layer 2 (behavior) reasons from React/Next source:** state coverage, form data loss, async races, focus management, optimistic-rollback, dark-mode/i18n. Index: `rules-modern/_sections.md`; summaries + default tiers: `references/modern-failure-modes.md`. Each rule file: detection greps, false-positive guards, surface-tier overrides, before/after fix.
+- **Layer 2 (behavior) reasons from React/Next source:** state coverage, form data loss, async races, focus management, optimistic-rollback, dark-mode/i18n. Index (categories, rule list, default tiers): `rules-modern/_sections.md`. Each rule file: detection greps, false-positive guards, surface-tier overrides, before/after fix.
 - **Layer 3 (rendered quality) reasons from rendered output:** accessibility markup, keyboard operability, layout resilience, performance, motion, surface typography, copy specificity. Index + per-rule impact: `rules-surface/_sections.md`. A rule's frontmatter impact wins over its category default (e.g. `perf-image-dimensions-and-priority` is CRITICAL inside the HIGH `perf-` category).
 - **Layers 2 and 3 are complementary, not redundant:** for a form, Layer 2 catches data loss on validation, Layer 3 catches a missing label or 14px mobile input. Run both when a feature has both in scope.
-- **Layer 4 is reserve.** Expect 1-2 Laws findings per audit, not 30. Index: `rules/_sections.md`. The 10 rubric-kind rules score 1-5 against anchor tables in `references/observational-rubrics.md`: emit the score plus the verbatim anchor text.
-- **When multiple layers fire on one issue, keep the most concrete framing.** "Missing error state" (Layer 2) beats "Postel's Law violation" (Layer 4): concrete fix, specific surface match.
+- **Layer 4 is reserve.** Expect 1-2 Laws findings per audit, not 21. Index: `rules/_sections.md`. The 2 rubric-kind rules score 1-5 against anchor tables in `references/observational-rubrics.md`: emit the score plus the verbatim anchor text. Pure design-decision scoring (choice architecture, information hierarchy, mental-model fit, dark-pattern framing, aesthetic polish) is out of lane: route it to `product-design` (and `ui-design` for visual direction), not a Laws finding here.
+- **When multiple layers fire on one issue, keep the most concrete framing.** "Missing error state" (Layer 2) beats "high cognitive load" (Layer 4): concrete fix, specific surface match.
 
 ## Scope: diff-aware by default
 
@@ -162,8 +162,7 @@ Full coverage map plus the gaps only ui-audit catches: `references/defer-to-othe
 | File | Read when |
 |------|-----------|
 | `references/feature-playbooks.md` | Steps 2-3: feature detection table + per-feature ordered checks |
-| `references/modern-failure-modes.md` | Browsing Layer 2: all 31 rules with categories and default tiers |
-| `references/states-coverage.md` | Validating loading/empty/error/disabled coverage; state-pair grep recipes |
+| `references/states-coverage.md` | Validating loading/empty/error/disabled coverage; the state matrix and mandatory state pairings |
 | `references/ship-readiness.md` | Step 5: tier definitions, surface bump table, verdict logic |
 | `references/output-adapters.md` | Step 6: verbatim terminal / PR-comment / JSON templates |
 | `references/output-schema.md` | Step 6: strict JSON schema and validation rules |
@@ -189,7 +188,7 @@ Full coverage map plus the gaps only ui-audit catches: `references/defer-to-othe
 ## Gotchas
 
 - **Don't audit the whole codebase by default.** Full sweeps need an explicit request; otherwise the noise floor hides release-blockers.
-- **Don't skip feature detection and run every rule on every file.** 95 rules × N files is a wall of backlog nits; per-feature playbook checks produce signal. Load only the `rules-modern/`, `rules-surface/`, `rules/` files the playbook names.
+- **Don't skip feature detection and run every rule on every file.** 83 rules × N files is a wall of backlog nits; per-feature playbook checks produce signal. Load only the `rules-modern/`, `rules-surface/`, `rules/` files the playbook names.
 - **Don't assign `release-blocker` liberally.** Reserve it for data loss, broken critical paths, and dark patterns. If everything is a blocker, the verdict stops gating merges.
 - **Don't prescribe fixes without the matching React 19 API.** "Add a loading state" is unactionable; "wrap in `<Suspense fallback={<InvoiceListSkeleton />}>`" gets applied.
 - **Don't render markdown before the JSON document is complete.** Adapters project the JSON; skipping it loses `defaultTier`/`assignedTier`/`tierReason` and makes runs incomparable.

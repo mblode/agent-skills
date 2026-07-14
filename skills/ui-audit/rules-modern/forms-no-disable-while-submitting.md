@@ -102,9 +102,18 @@ return (
 );
 ```
 
+**Backend layer (warn-tier):** disabling the button is necessary but not sufficient; a slow network or a retry can still fire a second request. True safety lives on the backend: pass an `Idempotency-Key` so a repeat never creates a second order or charge.
+
+```ts
+// server action
+const key = formData.get('idempotency-key') as string;
+await processOrder({ idempotencyKey: key, ... });
+```
+
 Docs:
 - React: https://react.dev/reference/react-dom/hooks/useFormStatus
 - React: https://react.dev/reference/react/useActionState
+- Stripe Idempotency Keys: https://stripe.com/docs/api/idempotent_requests
 
 ## Default tier and overrides
 

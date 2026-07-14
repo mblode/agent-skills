@@ -5,7 +5,7 @@ category: async
 defaultTier: release-blocker
 surfaces: search, list, form, dashboard
 react-apis: AbortController, useDeferredValue, useTransition, useEffect cleanup
-related: async-double-submit, states-no-skeleton, async-no-suspense-boundary
+related: states-no-skeleton, async-no-suspense-boundary
 ---
 
 ## Out-of-order async responses (stale results)

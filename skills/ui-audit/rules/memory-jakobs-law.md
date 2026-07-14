@@ -4,7 +4,7 @@ impact: MEDIUM-HIGH
 kind: programmatic
 prefix: memory
 tags: memory, conventions, web-patterns, familiarity, transfer
-related: memory-mental-model, decision-paradox-of-the-active-user, cognitive-cognitive-bias
+related: memory-serial-position, cognitive-cognitive-load, perception-similarity
 ---
 
 ## Jakob's Law
