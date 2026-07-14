@@ -36,10 +36,10 @@ State coverage:
 
 ## Loading state
 
-- Keep the trigger's label stable; show busy via affordance, not a text swap (`rule/loading-stable-labels`).
-- Distinguish initial load (skeleton or region placeholder) from per-action busy (the specific control).
+- Keep the trigger's label stable while busy (`rule/loading-stable-labels`).
+- Distinguish initial load from per-action busy.
 - For known targets, prefer specific loading copy over a bare "Loading..." (`rule/loading-state-specific`).
-- A spinner that can hang needs a timeout into the error state.
+- A load that can hang must resolve into the error state, not hang forever.
 
 ## Empty state
 
@@ -72,7 +72,7 @@ State coverage:
 
 ## Optimistic updates
 
-- When showing a change before the server confirms, design the rollback: what the user sees on failure, how input is preserved.
+- When showing a change before the server confirms, the failure state must exist and preserve the user's input.
 - Optimistic UI without a failure path is a happy-path shortcut, not a complete state.
 
 ## Destructive state
@@ -91,4 +91,4 @@ State coverage:
 
 - Check compact and wide viewports for every materially changed state.
 - Test long strings, large numbers, constrained width, and localization or RTL risk.
-- Overflow, localization, extreme data, and network resilience details live in `interface-quality.md` > Resilience.
+- These resilience states (overflow, localization, extreme data, network failure) must be designed here; whether the built UI renders them correctly is `ui-audit`'s check.

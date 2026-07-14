@@ -2,7 +2,7 @@
 
 Stable rule IDs cited across every mode. Each finding or decision in `product-design` names a rule ID so it is traceable, dedupable, and verifiable. These IDs are a shared vocabulary: lint rules, reviews, and exemplars reference the same slug.
 
-Cite an ID exactly as written (`rule/destructive-names-action`). Never invent one. If a needed rule is missing, record a coverage gap in `evals.md` instead of citing a made-up ID.
+Cite an ID exactly as written (`rule/destructive-names-action`). Never invent one. If a needed rule is missing, record it as a coverage gap instead of citing a made-up ID.
 
 ## Contents
 
@@ -110,7 +110,7 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Scope: destructive actions.
 - Rule: make friction proportional to impact. Offer undo when the system can honestly support it. Require typed confirmation only for high-impact, irreversible actions, not routine ones.
 - Why: under-protecting a permanent delete causes data loss; over-protecting a reversible one trains users to click through warnings.
-- Source: `surfaces.md` > Destructive state; `interface-quality.md` > Resilience.
+- Source: `surfaces.md` > Destructive state.
 - Enforcement: judgment.
 
 ### rule/preserve-user-input

@@ -50,7 +50,7 @@ Resolve the mode from the user's verb and artifact, then load only that mode's r
 | **spec** | "spec the right interaction", "define the expected states", judgment applied before or during a build | `references/surfaces.md`, `references/naming-and-copy.md`; route the build to `ui-design` |
 | **review** | "review this for product correctness", "what's wrong with this UX decision", "audit this flow" | `references/interface-quality.md`, `references/rules.md` |
 | **action** | "what should this action affect", "which object or scope does this action cover", or action reversibility is unsettled | `references/naming-and-copy.md`; route final wording polish to `copywriting` |
-| **harden** | "make this resilient", "what breaks here", error, permission, offline, and destructive paths | `references/surfaces.md`, `references/interface-quality.md` (Resilience) |
+| **harden** | "make this resilient", "what breaks here", error, permission, offline, and destructive paths | `references/surfaces.md`, `references/interface-quality.md` |
 
 Modes chain: shape leads into spec; review leads into harden. When intent is ambiguous, use the narrowest mode the verb supports. A URL, screenshot, route, or component identifies scope; it does not authorize edits.
 
@@ -91,35 +91,20 @@ Five pillars. Each cites its governing rule IDs in `references/rules.md` and its
 - **Right interaction.** Pick the control from the choice's shape; keep options visible and reversible; prefer inline disclosure over a modal; choose the smallest coherent intervention. `rule/control-matches-cardinality`, `rule/navigation-vs-action`, `rule/inline-before-modal`, `rule/smallest-intervention`. See `references/product-judgment.md`.
 - **Action naming.** Name the object, scope, and consequence; destructive CTAs use Verb plus Noun, never "Confirm" or "OK"; make friction proportional to impact and offer undo when honest. `rule/name-object-scope-consequence`, `rule/destructive-names-action`, `rule/destructive-proportional`. See `references/naming-and-copy.md`.
 - **State coverage.** Design every reachable state, not just the populated one; empty states name the object and a first action; errors explain and offer recovery; preserve user input. `rule/cover-reachable-states`, `rule/empty-state-action`, `rule/error-states-recovery`, `rule/preserve-user-input`. See `references/surfaces.md`.
-- **Resilience.** Survive overflow, extreme data, localization and RTL, and network failure; every fetch lands in a designed state. See `references/interface-quality.md` (Resilience).
+- **Resilience.** Require that overflow, extreme data, localization and RTL, and network-failure states be designed; every fetch lands in a designed state. `rule/cover-reachable-states`. See `references/surfaces.md`. Whether the built UI renders them correctly is `ui-audit`'s check.
 - **Accessibility as a product concern.** Every control has an accessible name; the primary flow is completable by keyboard with visible focus; state and consequence are understandable, not just labeled. `rule/accessible-name-required`, `rule/keyboard-complete-flow`, `rule/no-custom-focus-bypass`. Route axe-style markup checks to `ui-audit`. See `references/interface-quality.md`.
 
 ## Review output
 
-In review and harden modes, lead with findings ordered by user impact:
-
-- **P0:** blocks the primary task, a severe accessibility failure, or unrecoverable user harm (data loss, permission bypass, an unintelligible destructive action).
-- **P1:** likely task failure, a misleading consequence, a missing critical state, or a major responsive or accessibility defect.
-- **P2:** meaningful friction, inconsistency, weak hierarchy, or a recoverability issue.
-- **P3:** minor craft or consistency improvement.
-
-For each finding: location (file and line, or rendered location and viewport), verification status, the rule ID, the user consequence, and the smallest concrete fix with the skill that owns implementing it. Keep findings at decision altitude; a line-level code or framework fix is `ui-audit`'s output. Full rubric in `references/interface-quality.md`.
+In review and harden modes, lead with findings ordered by user impact (P0-P3), each with location, verification status, rule ID, user consequence, and the smallest concrete fix with the skill that owns it. Keep findings at decision altitude; a line-level code or framework fix is `ui-audit`'s output. Full severity rubric and finding format in `references/interface-quality.md` > Severity rubric.
 
 ## Linters vs agent guidance
 
-Deterministic, structural, single-file checks (control selection by option count, nested modals, missing accessible names) belong in the consuming project's linter, wired to that project's components; judgment that needs product context (which object, what consequence) stays here. Visual-token checks (raw shadows, off-grid spacing, design-system overrides, modal scroll) belong to `ui-audit` and the project's visual lint. See `references/lint-patterns.md` for the decision tree and example rule shapes.
-
-## Evals and the review loop
-
-Keep this skill calibrated. Evals test whether the guidance still produces the right edits on unseen interfaces; a review loop prepares guideline updates for human review. Both are recommended practice, not runtime behavior. See `references/evals.md` for fixtures, the judge rubric, and the review loop.
+Deterministic, structural, single-file checks (control selection by option count, nested modals, missing accessible names) belong in the consuming project's linter, wired to that project's components; judgment that needs product context (which object, what consequence) stays here. See `references/lint-patterns.md` for the decision tree and the rules worth encoding.
 
 ## Gotchas
 
-- Do not restyle or rebuild. That is `ui-design`. This skill decides, then routes (see "product-design or ui-audit?").
-- Do not invent rule IDs. Cite only IDs in `references/rules.md` (or, for copy, the copywriting skill's `references/ui-states.md`).
 - A mockup with only a happy path is a P1 minimum, not a pass (`rule/cover-reachable-states`).
-- The project's design system outranks this skill's defaults; do not impose a pattern the project decided against.
-- "Accessibility as a product concern" means keyboard-completable flows and understandable states, not axe-clean markup. Route the markup audit to `ui-audit`.
 - A select with two options is not a style nit; it is `rule/control-matches-cardinality`, and a project linter can catch it (see `references/lint-patterns.md`).
 
 ## Related skills

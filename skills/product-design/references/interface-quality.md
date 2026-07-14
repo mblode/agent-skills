@@ -2,15 +2,6 @@
 
 Load in `review` and `harden` modes, and for any material visual change. Holds the correctness and resilience standards and the severity rubric for reporting findings. Not visual aesthetics (route to `ui-design`) or implementation audits (route to `ui-audit`).
 
-## Verify the real surface
-
-Source inspection establishes behavior; rendering establishes visual and interaction quality. Never claim visual verification from code alone. State which you did:
-
-- "Verified in source": you read the component and traced the logic.
-- "Verified rendered": you looked at the running interface at the stated viewport.
-
-A review that says "looks good" without naming which verification happened is not a verification.
-
 ## Standards
 
 ### Correctness
@@ -34,19 +25,9 @@ Owns whether a user can complete the task with assistive technology, not the imp
 
 - Group content with hierarchy, spacing, and alignment before adding containers (`rule/structure-before-containers`); nested boxes add weight, not meaning.
 
-Visual-token integrity (design-system overrides, raw shadows, off-grid spacing, modal scroll structure) is not this skill's concern: route those rendered and lint checks to `ui-audit` and the project's visual lint, and taste-level visual decisions (palette, type scale, polish) to `ui-design`. This skill checks that interaction and structure are correct, not whether the result is beautiful.
-
 ## Resilience
 
-The interface must survive reality beyond demo data.
-
-- Overflow: long names, labels, and single words do not break layout or clip silently. Truncate with intent and a way to see the full value.
-- Extreme data: large counts, long lists, zero, negative, and boundary values render without breaking alignment or pagination.
-- Localization and RTL: translated strings are longer; layouts assuming English width break. Mirror correctly under RTL.
-- Network and error: every fetch can fail or hang. Slow, offline, and partial responses land in a designed state (`surfaces.md`), not a blank screen or spinner.
-- Time and timezone: relative times and date formatting do not silently assume the viewer's locale.
-
-A surface that only works with short English strings and fast, successful responses is a demo, not resilient.
+Which resilience states must exist (overflow, extreme data, localization and RTL, network failure) is a decision that lives in `surfaces.md`. Whether the built UI renders them correctly is `ui-audit`'s concern.
 
 ## Severity rubric
 
