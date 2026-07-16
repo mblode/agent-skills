@@ -2,6 +2,15 @@
 
 Pinned patterns to copy into the scaffolded CLI when a command needs them. Copy the block verbatim, adjust only the command and field names. The base `src/cli.ts` already ships the globals these build on: `--output text|json`, `--no-input`, the stdout data / stderr log split, and the top-level JSON error envelope. Copy a pattern only when its condition holds; do not add all of them by default.
 
+## Contents
+
+- [Input validation helper](#input-validation-helper)
+- [Dry-run pattern](#dry-run-pattern)
+- [Confirmation and no-input](#confirmation-and-no-input)
+- [Schema command](#schema-command)
+
+---
+
 ## Input validation helper
 
 Copy into `src/` when a command takes an identifier, path, or URL segment. An agent will pass plausible but wrong values, and this is the last checkpoint before they reach the filesystem or a URL.
@@ -51,7 +60,7 @@ program
   });
 ```
 
-## Confirmation and --no-input
+## Confirmation and no-input
 
 Copy into destructive commands. Confirm in a TTY; when stdin is not a TTY, require an explicit `--yes` and fail naming the flag rather than hang on a prompt.
 
