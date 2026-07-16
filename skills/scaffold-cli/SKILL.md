@@ -16,6 +16,7 @@ Low-freedom scaffold. Generate files exactly as templated, substituting only `{{
 |------|-----------|
 | `references/scaffold-configs.md` | Step 3: package.json, tsconfig, tsdown, gitignore, license, changeset config, GitHub Actions |
 | `references/scaffold-source.md` | Steps 4-5: src/cli.ts, src/index.ts, src/types.ts, AGENTS.md, README.md, skills/SKILL.md |
+| `references/agent-friendly-cli.md` | Step 4: agent-friendly CLI patterns (input validation, dry-run, confirmation, schema) |
 | `references/post-scaffold.md` | Steps 6-7: post-scaffold commands, validation checklist, troubleshooting |
 
 ## Scaffold Workflow
@@ -67,9 +68,11 @@ Files: `package.json`, `tsconfig.json`, `tsdown.config.ts`, `.gitignore`, `LICEN
 
 Load `references/scaffold-source.md`. Generate:
 
-- `src/cli.ts`: Commander entry point
+- `src/cli.ts`: Commander entry point with agent-friendly defaults (`--output text|json`, `--no-input`, stdout data / stderr log split, JSON error envelope)
 - `src/index.ts`: Public API exports
 - `src/types.ts`: Shared type definitions
+
+When a command takes an identifier, path, or URL, or mutates state, also load `references/agent-friendly-cli.md` and copy the matching pinned pattern (input validation, dry-run, confirmation, or the schema command).
 
 ### Step 5: Generate docs and skill
 
@@ -107,7 +110,9 @@ Run the validation checklist in `references/post-scaffold.md`. Every item must p
 - **Do not add `oxlint`/`oxfmt` scripts or devDeps by hand, or call those binaries directly.** `ultracite init` owns them; run `npm run check` (lint) and `npm run fix` (autofix). By-hand entries cause duplicate scripts and version skew.
 - **Do not run `ultracite init` before `git init`.** Its lefthook integration installs hooks into `.git/hooks` and fails without a repo.
 - **Do not write `"test": "vitest run"` without `--passWithNoTests`.** Zero test files means plain `vitest run` exits 1 and the first CI run goes red.
-- **Do not skip AGENTS.md or `skills/`.** The contract is that every generated CLI is agent-ready out of the box.
+- **Do not skip AGENTS.md or `skills/`.** The contract is that every generated CLI is agent-ready out of the box, in behavior as well as discovery.
+- **Do not mix prose and JSON on stdout.** Data goes to stdout, logs and progress to stderr; a stray `console.log` breaks an agent parsing `--output json`.
+- **Do not prompt when stdin is not a TTY.** Provide a flag for every value and honor `--no-input`; a prompt under a pipe hangs forever.
 - **Do not create test files;** the user adds tests for their specific features.
 - **No chalk or ora;** see Replacements above.
 
