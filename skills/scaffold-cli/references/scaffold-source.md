@@ -15,21 +15,41 @@
 
 No shebang here: tsdown's `banner` injects it at build; a source shebang would double it in `dist/cli.js`.
 
+The entry ships agent-friendly defaults: a global `--output text|json`, `--no-input`, a stdout data / stderr log split, and a top-level handler that prints a JSON error envelope with a non-zero exit in json mode. Per-command patterns (input validation, dry-run, confirmation, schema) live in `references/agent-friendly-cli.md`; copy them in as commands are added.
+
 ```typescript
+import { styleText } from "node:util";
 import { Command } from "commander";
+
+// stdout carries data only; stderr carries logs, progress, and human hints.
+const isInteractive =
+  Boolean(process.stdout.isTTY) && !process.env.NO_COLOR && !process.env.CI;
 
 const program = new Command();
 
 program
   .name("{{bin}}")
   .description("{{description}}")
-  .version("0.0.1");
+  .version("0.0.1")
+  .option("--output <format>", "output format: text or json", "text")
+  .option("--no-input", "never prompt; fail if a required value is missing");
 
 // Register commands here
 // import { registerExampleCommand } from "./commands/example.js";
 // registerExampleCommand(program);
 
-program.parse();
+program.parseAsync().catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  if (program.opts().output === "json") {
+    process.stdout.write(
+      JSON.stringify({ error: true, code: "UNEXPECTED", message, details: {} }),
+    );
+  } else {
+    const label = isInteractive ? styleText("red", "Error:") : "Error:";
+    process.stderr.write(`${label} ${message}\n`);
+  }
+  process.exitCode = 1;
+});
 ```
 
 ## src/index.ts
@@ -82,6 +102,14 @@ src/
 - **Linting via ultracite**: Run `npm run fix` (autofix) or `npm run check` (CI lint) instead of calling oxlint or oxfmt directly.
 - **Git hooks via lefthook**: The `prepare` script runs `lefthook install` on every `npm install`; no manual hook setup.
 - **No chalk/ora**: Use `import { styleText } from "node:util"` for colors (stable in Node 22.13+) and the `@clack/prompts` spinner for progress indicators.
+
+## Agent invariants
+
+- Prefer `--output json` for machine-readable output; the default `text` is for humans and strips to plain when piped.
+- The CLI never prompts when stdin is not a TTY. Pass `--no-input` and provide every value as a flag.
+- Mutating commands support `--dry-run`; run it first. Destructive ops require `--yes` when stdin is not a TTY.
+- Exit codes: 0 on success, non-zero on failure. In `--output json` mode, errors print a `{ error, code, message, details }` envelope on stdout with a human hint on stderr.
+- The core logic lives in `src/index.ts` and can also back an MCP server; keep CLI-only concerns in `src/cli.ts`.
 ```
 
 ## README.md
@@ -154,4 +182,12 @@ description: {{description}}. Use when the user wants to use {{bin}}, run {{bin}
 |---------|-------------|
 | `{{bin}} --help` | Show available commands and options |
 | `{{bin}} --version` | Show version number |
+| `{{bin}} --output json` | Emit machine-readable JSON instead of text |
+| `{{bin}} --no-input` | Never prompt; provide every value as a flag |
+
+## Invariants
+
+- Data goes to stdout, logs and progress to stderr.
+- Exit code is 0 on success, non-zero on failure.
+- Mutating commands support `--dry-run`; run it before executing.
 ```

@@ -7,7 +7,7 @@ tags: cli, help, discoverability
 
 ## Ship --help and --version
 
-`--help`/`-h` and `--version`/`-V` are the first thing a developer types. Help must list commands, flags, and at least one example; version must print the package version and exit 0. Erroring or hanging on these flags signals the tool ignores convention everywhere.
+`--help`/`-h` and `--version`/`-V` are the first thing a developer types. Help must list commands, flags, and at least one example; version must print the package version and exit 0. Lead with the examples, since that is what users copy first, and when the tool is run with no arguments but needs them, print that same concise help rather than an opaque error or a hang. Erroring or hanging on these flags signals the tool ignores convention everywhere.
 
 **Incorrect (unknown flag, non-zero exit, no usage):**
 
@@ -24,6 +24,9 @@ $ echo $?
 $ mytool --help
 Usage: mytool <command> [options]
 
+Example:
+  mytool build ./src --watch
+
 Commands:
   init            Create a config file
   build [dir]     Build the project
@@ -31,9 +34,6 @@ Commands:
 Options:
   -h, --help      Show this help
   -V, --version   Print version
-
-Example:
-  mytool build ./src --watch
 $ mytool --version
 1.4.2
 ```

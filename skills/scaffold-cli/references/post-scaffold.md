@@ -32,7 +32,8 @@ Validation:
 - [ ] `npm run check` passes with no errors
 - [ ] `npm run test` passes (0 test files; requires --passWithNoTests in the test script)
 - [ ] `node dist/cli.js --version` prints 0.0.1
-- [ ] `node dist/cli.js --help` shows the description
+- [ ] `node dist/cli.js --help` shows the description and lists the `--output` and `--no-input` global options
+- [ ] `node dist/cli.js --version | cat` prints 0.0.1 with no ANSI escape codes (color is suppressed when stdout is not a TTY)
 - [ ] `ls -la CLAUDE.md` shows a symlink to AGENTS.md
 - [ ] `.github/workflows/ci.yml` and `.github/workflows/npm-publish.yml` exist
 - [ ] `skills/{{bin}}/SKILL.md` has frontmatter with name and description
