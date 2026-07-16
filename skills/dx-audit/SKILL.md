@@ -1,6 +1,6 @@
 ---
 name: dx-audit
-description: Audits the developer-facing surface of a library, CLI, SDK, or npm package across API and SDK ergonomics, the error messages developers see, CLI UX, type ergonomics, install and first-run onboarding, and config ergonomics. 27 prefix-dispatched rules; reports findings by file and location with impact tiers and concrete fixes. Use when asked to "audit my CLI", "is this API ergonomic", "review the developer experience", "improve these error messages", "is this SDK easy to adopt", "is this package easy to install", or "review my library's DX". For end-user UI quality and React/Next UX use ui-audit, for agentic-app UX use ax-audit, for documentation prose use docs-writing, for a README use readme-creator, for AGENTS.md use agents-md, and for repo structure use define-architecture.
+description: Audits the developer-facing surface of a library, CLI, SDK, or npm package across API and SDK ergonomics, the error messages developers see, CLI UX, type ergonomics, install and first-run onboarding, and config ergonomics. 31 prefix-dispatched rules; reports findings by file and location with impact tiers and concrete fixes. Use when asked to "audit my CLI", "is this API ergonomic", "review the developer experience", "improve these error messages", "is this SDK easy to adopt", "is this package easy to install", or "review my library's DX". For end-user UI quality and React/Next UX use ui-audit, for agentic-app UX use ax-audit, for documentation prose use docs-writing, for a README use readme-creator, for AGENTS.md use agents-md, and for repo structure use define-architecture.
 ---
 
 # DX Audit
@@ -31,13 +31,13 @@ Audit progress:
 
 ## Rule Categories by Priority
 
-27 rules. Per-rule frontmatter may override the category impact; report the rule's own impact, not the category's.
+31 rules. Per-rule frontmatter may override the category impact; report the rule's own impact, not the category's.
 
 | Priority | Prefix | Category | Impact | Rules |
 |----------|--------|----------|--------|-------|
 | 1 | `api-` | API and SDK Ergonomics | CRITICAL | 7 |
 | 2 | `err-` | Developer-Facing Errors | CRITICAL | 5 |
-| 3 | `cli-` | CLI UX | HIGH | 4 |
+| 3 | `cli-` | CLI UX | HIGH | 8 |
 | 4 | `types-` | Type Ergonomics | HIGH | 5 |
 | 5 | `onboard-` | Install and First Run | HIGH | 4 |
 | 6 | `config-` | Config Ergonomics | MEDIUM | 2 |
@@ -82,7 +82,7 @@ Report findings in this format:
 
 ## Gotchas
 
-- Do not load all 27 rule files for a scoped audit; the context cost flattens finding quality. Load only the Step 1 prefixes: a CLI-only audit needs `cli-` and `err-`, not `types-` or `config-`.
+- Do not load all 31 rule files for a scoped audit; the context cost flattens finding quality. Load only the Step 1 prefixes: a CLI-only audit needs `cli-` and `err-`, not `types-` or `config-`.
 - Do not invent rule ids. Cite only filenames under `rules/`; describe id-less issues in prose.
 - Do not audit internal or private code as public surface. A `T | T[]` return on an unexported helper is not a DX finding; scope is what consumers import, run, or configure.
 - Do not widen scope unprompted. A full sweep when one entry point changed buries the real findings; it requires an explicit request.
