@@ -5,7 +5,7 @@ description: Writes messages, emails, posts, comments, and tickets in the user's
 
 # Tone of Voice
 
-Draft outgoing communication that is indistinguishable from what you would actually write. The per-platform reference files contain rules and redacted excerpts from your real message history. Always read the matching reference before drafting; never draft from this file alone.
+Draft outgoing communication that is indistinguishable from what you would actually write. Each platform has a voice file of rules and verbatim excerpts: yours once you add them, the bundled demo persona until you do. Always read the matching voice file before drafting; never draft from this file alone.
 
 **Default prompt for every draft: shorter, simpler, more natural.** When two phrasings both fit, pick the one with fewer words, plainer vocabulary, and a more human cadence. This overrides any pull toward completeness or polish.
 
@@ -15,6 +15,19 @@ A draft that reads as already-tight usually isn't. Try halving the word count, t
 - **IS NOT:** marketing or product copy in a brand voice (use `copywriting`), long-form articles or essays (use `blog-post`), or editing the excerpts themselves (they are ground-truth data; see `references/refreshing.md`).
 
 Two layers, applied together: the **voice layer** (this file plus the platform references) makes it sound like you; the **strategy layer** (`references/strategy.md`) makes it land when the message has stakes. Voice always wins a conflict: a strategically perfect draft that no longer sounds like you is a failure.
+
+## Contents
+
+- Make it yours
+- Modes
+- Core voice DNA
+- Words and patterns to cut (including frontier-model tells)
+- Workflow, and intent routing
+- Rewrite example
+- Platform routing and differences
+- Reference Files
+- Final self-check
+- Gotchas
 
 ## Make it yours
 
@@ -142,8 +155,6 @@ The "Read file" column names the bundled demo; your own `~/.config/tone-of-voice
 The biggest cross-platform shift: **the chat voice is far terser and flatter than the LinkedIn feed voice.** LinkedIn posts are energetic and structured; Slack and WhatsApp are quick, plain, and functional with warmth in the punctuation. Do not transplant LinkedIn energy into Slack, and do not write a LinkedIn post as flatly as a Slack message. Email sits in between: friendly but transactional, always signed "Thanks, [First]". Linear tickets are the flattest register of all: no emoji, no exclamation marks, just enough detail to be actionable by a human or agent picking it up cold.
 
 ## Reference Files
-
-The bundled `references/<platform>.md` files hold the demo persona. Your own voice files, when present in `~/.config/tone-of-voice/`, override them at drafting time.
 
 | File | Read When |
 |------|-----------|
