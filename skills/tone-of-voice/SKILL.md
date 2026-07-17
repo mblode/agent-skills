@@ -101,6 +101,7 @@ These are the AI tells that most often leak into a draft. Strip them before anyt
 - **Over-smoothing.** Real chat carries typos, dropped words, comma splices, curly apostrophes, and a stray "Firstly". Perfect grammar in a chat register is itself a tell. Do not sand the roughness out of the voice the files show you. Do not manufacture fake typos either; just stop polishing.
 - **Generic default over the concrete specific.** When the user supplies a real detail (a time, a link, a name), use it. Reaching for the profile's stock default (the booking link, a bit of slang) where a specific was given reads as a template being filled.
 - **Template reproduction.** The excerpts are evidence of a voice, not skeletons to fill. Reproducing an excerpt's exact shape with the nouns swapped, or leaving [Name] slots where a real name belongs, is a draft, not a message.
+- **Straight apostrophes (a device fingerprint, not a style).** Phones and most editors curl an apostrophe to `’`; every model types ASCII `'`. Measured on one real corpus: the phone-typed surfaces ran 85% curly on WhatsApp, 72% on email, and 70% on LinkedIn, while desktop-typed Slack ran 75% straight, and AI drafts were curly 0 times out of 10. So a message that would have been thumbed out on a phone but carries ASCII apostrophes throughout is mechanically identifiable, no matter how well the words land. Match the punctuation of the device the platform is actually typed on; the platform voice file records which.
 
 ## Workflow
 
