@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
-25 skills for shipping better software.
+26 skills for shipping better software.
 
 ## Quickstart
 
@@ -38,6 +38,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 - **[blog-post](./skills/blog-post/SKILL.md)**: Long-form blog posts (listicles, tutorials, narratives, thought leadership) with research, SEO, and polish.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Technical docs. Diataxis doc types, 52 rules, audit and writing workflows.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README tailored to the project type, validated against quality checks.
+- **[tone-of-voice](./skills/tone-of-voice/SKILL.md)**: Drafts, rewrites, critiques, and coaches messages in your own per-platform voice (Slack, email, WhatsApp, LinkedIn, Linear), with a strategy layer and an anti-AI-tells self-check. Ships a fictional demo persona; drop your own voice files in `~/.config/tone-of-voice/` to make it yours.
 
 ### Quality
 
