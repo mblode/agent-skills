@@ -42,6 +42,20 @@ jq -r 'select(.sender_id=="YOUR_SENDER_ID") | .chat_title' messages.jsonl | sort
 - Stratify by conversation, not volume: cover several channels and DM partners on Slack; family, friends, and other contexts on WhatsApp. Do not let one chatty thread dominate.
 - Skip noise rows: "You joined the chat", bot chats, forwarded messages, calendar acceptances.
 - Watch for shifts in the norms (sign-off, emoji set, post structure), not just new excerpts. Update the rule text only when the data contradicts it.
+- Verify every claimed frequency against the data before you keep it. Hand-written profiles drift badly: one can claim "an emoji in about one message in four" when the real rate is 6%, or list a signature opener that appears zero times in 700 messages. Count it, or cut it.
+
+## Exclude AI-drafted source material
+
+The biggest trap, and the one that silently inverts the skill. Any channel where you draft with an AI agent (ticket trackers, PR descriptions, docs) contains AI artifacts. Sampling that text teaches the profile to reproduce the exact tells this skill exists to strip.
+
+Detect it with a cross-channel prevalence check, not by eye. Measure a marker (em dashes are the clearest) across every channel:
+
+- If one channel is a wild outlier, that channel is AI-contaminated, not a different register of your voice. A real example: 32% of one person's tickets contained an em dash while their typed chat, email, and social sat at 0%. The tickets were agent-drafted.
+- The channels where you type fast and unaided (chat, DMs, email) are the ground truth. Trust them over any channel you draft with help.
+
+Drop contaminated records before sampling. Practical markers: em dashes, unicode arrows, and templated multi-header bodies (## Problem / ## Root cause / ## Verification) that read as agent execution briefs rather than something a person typed.
+
+Never resolve a contradiction in favour of the polluted channel. If the data says you use em dashes but only in the one place you use an agent, the honest reading is that the agent uses them and you do not.
 
 ## Redaction rules (non-negotiable before saving)
 
@@ -60,6 +74,10 @@ jq -r 'select(.sender_id=="YOUR_SENDER_ID") | .chat_title' messages.jsonl | sort
 ## Eval scenarios (re-run after every refresh)
 
 Give a fresh agent session only the skill files plus one scenario; judge the draft against the reference rules and 2-3 held-out real messages. Any em dash is an automatic fail.
+
+**Keep the split disjoint, or the eval grades itself.** Split the corpus into a profile set and a held-out set *first*, build the profile only from the profile set, then grep the finished profile to confirm no held-out message is quoted in it. If you sample excerpts from the same corpus you test against, the skill reproduces the excerpt near-verbatim and every score inflates. Refreshing a profile from the full corpus after a held-out set already exists silently breaks the split, so rebuild the split whenever you rebuild a profile.
+
+**Blind the drafter.** In a real-vs-generated comparison, the agent writing the candidate must never see the real message, only a neutral one-line scenario derived from it. An agent that reads the real text first will mimic it, and an indistinguishable result then proves nothing.
 
 1. **Slack channel reply.** A teammate asks whether anyone validated a flow; you did and found a minor ticketed bug. Expect: your reply-opener shape, the ticket ID delivered plainly with a colon, no emoji on the bug, no sign-off.
 2. **Email accepting a speaking invite.** Expect: "Hey [First]," / genuine keenness / logistics in one or two short paragraphs / your sign-off / at most one emoji.
