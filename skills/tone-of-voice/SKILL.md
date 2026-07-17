@@ -18,7 +18,7 @@ Two layers, applied together: the **voice layer** (this file plus the platform r
 
 ## Contents
 
-- Make it yours
+- Your voice files
 - Modes
 - Core voice DNA
 - Words and patterns to cut (including frontier-model tells)
@@ -29,18 +29,11 @@ Two layers, applied together: the **voice layer** (this file plus the platform r
 - Final self-check
 - Gotchas
 
-## Make it yours
+## Your voice files
 
-This skill ships a **fictional demo persona** ("Sam", a Melbourne-based senior engineer and indie builder) as the bundled `references/*.md`, so it works immediately after install. To make it write in *your* voice, put your own per-platform files in **`~/.config/tone-of-voice/`**:
+Read `~/.config/tone-of-voice/<platform>.md` if it exists; otherwise fall back to the bundled `references/<platform>.md`, a fictional demo persona ("Sam") that ships so the skill works on install. Your files live outside the repo and the managed install directory, so they survive upgrades and are never published. To build them, see `references/refreshing.md`.
 
-1. Create the folder: `mkdir -p ~/.config/tone-of-voice`.
-2. Start with the one platform you write most (`slack.md`, `email.md`, `whatsapp.md`, `linkedin.md`, or `linear.md`); add the others when you need them. Any platform without your own file keeps using the demo, so you never have to build all five at once. Start each from the bundled demo of the same name (copy its structure) and replace the rules and excerpts with your own, following `references/refreshing.md`.
-
-That's it. Your files live outside the repo and outside the managed install directory, so they survive every upgrade and are never published.
-
-Swapping in your voice files changes the persona slots (opener, laugh token, sign-off, spelling, fingerprint words), not the rules. The anti-AI-tells list, the default toward shorter and plainer, and the strategy layer are the opinionated core of this skill and apply to every voice it writes in. If a draft is in your voice but full of tells, it failed.
-
-At drafting time, read `~/.config/tone-of-voice/<platform>.md` if it exists; otherwise fall back to the bundled `references/<platform>.md` (the demo persona).
+Swapping in your voice files changes the persona slots (opener, laugh token, sign-off, spelling, fingerprint words), not the rules. The anti-AI-tells list, the default toward shorter and plainer, and the strategy layer are the opinionated core and apply to every voice it writes in. If a draft is in your voice but full of tells, it failed.
 
 ## Modes
 
