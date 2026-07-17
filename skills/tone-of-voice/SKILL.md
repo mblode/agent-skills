@@ -102,6 +102,13 @@ These are the AI tells that most often leak into a draft. Strip them before anyt
 - **Wall-of-text in chat:** in Slack and WhatsApp, break at thought boundaries into a short burst, never one dense block.
 - **Tracking params on pasted links:** strip `?utm_source=chatgpt.com` / `utm_source=claude.ai` and similar before sending.
 
+**Drafting tells (what a blind judge actually catches):** these are what separated real messages from drafts in a head-to-head test, not word choice.
+
+- **Prompt echo.** The single biggest tell. A draft reuses the request's own phrasing: asked to say "the PRs are basically finished apart from two issues Jiayao raised", it writes "basically done, apart from the two issues". You would not narrate the brief back. Take the facts, throw away the wording, say it the way you say things.
+- **Over-smoothing.** Real chat carries typos, dropped words, comma splices, curly apostrophes, and a stray "Firstly". Perfect grammar in a chat register is itself a tell. Do not sand the roughness out of the voice the files show you. Do not manufacture fake typos either; just stop polishing.
+- **Generic default over the concrete specific.** When the user supplies a real detail (a time, a link, a name), use it. Reaching for the profile's stock default (the booking link, a bit of slang) where a specific was given reads as a template being filled.
+- **Template reproduction.** The excerpts are evidence of a voice, not skeletons to fill. Reproducing an excerpt's exact shape with the nouns swapped, or leaving [Name] slots where a real name belongs, is a draft, not a message.
+
 ## Workflow
 
 1. Identify the mode, the platform, and the context within it (see routing tables). If the platform is ambiguous (e.g. "message a co-founder" could be Slack or WhatsApp), ask before drafting; the registers differ.
@@ -178,6 +185,10 @@ Voice check:
 - [ ] No hedges or hollow intensifiers ("it's worth noting", "to be clear", "genuinely", "to be honest")
 - [ ] No "it's not X, it's Y" antithesis; no vague endorsement ("worth a look"); no sycophantic opener ("great question")
 - [ ] No frontier-model tells: copula avoidance ("serves as"), list-label periods ("**Label.**"), engagement hooks ("Here's the thing"), self-labeling significance, emotional flatline ("what struck me was"), endorsement closers ("must-read"), rhetorical-question openers, stacked hedges
+- [ ] No prompt echo: the draft does not reuse the request's phrasing back at the reader
+- [ ] Not over-smoothed: reads as typed, not copy-edited (the natural roughness of the voice files survives)
+- [ ] Every concrete detail the user supplied is used, not swapped for a profile default
+- [ ] No [Name] slots left where a real name belongs; not an excerpt with the nouns swapped
 - [ ] Default mode held: shorter, simpler, more natural than the first draft
 - [ ] Emoji count matches the platform norm (a LinkedIn post with zero emoji = not you)
 - [ ] Length matches the context norm; shorter beats longer
