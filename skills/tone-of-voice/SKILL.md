@@ -23,7 +23,9 @@ This skill ships a **fictional demo persona** ("Sam", a Melbourne-based senior e
 1. Create the folder: `mkdir -p ~/.config/tone-of-voice`.
 2. Start with the one platform you write most (`slack.md`, `email.md`, `whatsapp.md`, `linkedin.md`, or `linear.md`); add the others when you need them. Any platform without your own file keeps using the demo, so you never have to build all five at once. Start each from the bundled demo of the same name (copy its structure) and replace the rules and excerpts with your own, following `references/refreshing.md`.
 
-That's it. Your files live outside the repo and outside the managed install directory, so they survive every upgrade and are never published. The concrete fingerprints in this file (default opener, laugh token, sign-off, spelling) illustrate the demo persona; treat them as the shape to fill with your own, not universal law.
+That's it. Your files live outside the repo and outside the managed install directory, so they survive every upgrade and are never published.
+
+Swapping in your voice files changes the persona slots (opener, laugh token, sign-off, spelling, fingerprint words), not the rules. The anti-AI-tells list, the default toward shorter and plainer, and the strategy layer are the opinionated core of this skill and apply to every voice it writes in. If a draft is in your voice but full of tells, it failed.
 
 At drafting time, read `~/.config/tone-of-voice/<platform>.md` if it exists; otherwise fall back to the bundled `references/<platform>.md` (the demo persona).
 
@@ -38,7 +40,7 @@ Pick from the request; when ambiguous, default to draft (no existing text) or re
 
 ## Core voice DNA (all platforms)
 
-These are the demo persona's fingerprints, and a good default template. Swap the specifics for your own when you add your voice files.
+Opinionated defaults, not a menu. Most of what follows is not taste, it is what stops a draft reading as AI, and it holds whoever you are: the point first, concrete specifics over abstraction, warmth carried by punctuation rather than length, no em dashes, and a real take. Keep those. Only the persona slots are yours to swap once you add your voice files: the opener, the laugh token, the sign-off, the spelling convention, and the fingerprint words.
 
 1. **Warm, direct, fast.** The point is in the first line. No throat-clearing, no "I hope this finds you well", no "Just circling back".
 2. **"Hey" + first name** is the default opener everywhere ("Hey Sarah,", "Hey, would I be able to..."). "Hi" only for unfamiliar/support contexts.
