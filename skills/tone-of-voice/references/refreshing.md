@@ -43,6 +43,8 @@ jq -r 'select(.sender_id=="YOUR_SENDER_ID") | .chat_title' messages.jsonl | sort
 - Skip noise rows: "You joined the chat", bot chats, forwarded messages, calendar acceptances.
 - Watch for shifts in the norms (sign-off, emoji set, post structure), not just new excerpts. Update the rule text only when the data contradicts it.
 - Verify every claimed frequency against the data before you keep it. Hand-written profiles drift badly: one can claim "an emoji in about one message in four" when the real rate is 6%, or list a signature opener that appears zero times in 700 messages. Count it, or cut it.
+- Sample size does not just omit, it inverts. A 20-ticket sample produced the confident rule "at most one `## Scope` fence"; at 89 tickets the truth was the reverse (`## Why` in 22, `## Scope` in 2), and the writer's strongest fingerprint of all, never leaving a gap bare but always following it with "so" plus a concrete cost, was invisible below roughly 80. Treat any rule drawn from under ~50 examples as provisional, and prefer the largest clean sample you can get.
+- A stale habit and a small sample look identical. Distinguish them by checking the discarded pile too: four shapes documented in one profile scored zero hits across 118 clean *and* 69 AI-drafted recent messages, which is what proved they were stale rather than merely unsampled.
 
 ## Exclude AI-drafted source material
 
@@ -56,6 +58,8 @@ Detect it with a cross-channel prevalence check, not by eye. Measure a marker (e
 Drop contaminated records before sampling. Practical markers: em dashes, unicode arrows, and templated multi-header bodies (## Problem / ## Root cause / ## Verification) that read as agent execution briefs rather than something a person typed.
 
 Never resolve a contradiction in favour of the polluted channel. If the data says you use em dashes but only in the one place you use an agent, the honest reading is that the agent uses them and you do not.
+
+Earn each marker before you filter on it, and filter narrowly. A marker only qualifies if the person demonstrably does not use it unaided: em dashes earned it by measuring 0% across every channel they typed themselves. A unicode arrow did not, they genuinely type one in stats messages ("877 opened it, 542 finished -> ~62%"), so filtering on it deletes real writing. And prefer filtering *sentences* over whole records where you can: a message drafted with an agent's help can still carry the person's own lines, so discarding the whole thing throws out authentic voice with the artifact.
 
 ## Redaction rules (non-negotiable before saving)
 
