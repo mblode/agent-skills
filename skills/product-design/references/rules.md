@@ -202,3 +202,10 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Why: unexpected context shifts disorient the user and lose their place.
 - Source: `product-judgment.md` > Context.
 - Enforcement: judgment.
+
+### rule/value-before-interruption
+- Scope: onboarding and first-run flows.
+- Rule: the flow reaches its core value moment before any secondary interruption (OS permission prompt, sign-up or paywall, gamification, upsell). Defer each interruption to first use in context; do not front-load it at launch.
+- Why: an ask that arrives before the user grasps the product's value gets declined or abandoned, pushing the aha moment past the drop-off point.
+- Source: `product-judgment.md` > Hierarchy and structure; route permission wording to `rule/permission-benefit-first`.
+- Enforcement: judgment.
