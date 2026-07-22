@@ -17,7 +17,7 @@ Rule categories in audit priority order. The ID in parentheses is the filename p
 ## 3. CLI UX (cli)
 
 **Impact:** HIGH
-**Description:** How a CLI behaves in a real shell and pipeline, for both humans and the agents that now drive it: discoverable help and version, consistent kebab-case flags, correct exit codes, pipe/TTY awareness (no color when piped, machine output on request, progress to stderr, stdin support), plus structured JSON I/O, a machine-readable schema, hardened inputs, mutations guarded by dry-run, prompt responsiveness and progress, order-independent flags, and correction suggestions on a near miss. A CLI that ignores Unix conventions fights every script that wraps it, and one that ignores agent conventions hangs on the first prompt.
+**Description:** How a CLI behaves in a real shell and pipeline, for both humans and the agents that now drive it: discoverable help and version, consistent kebab-case flags, correct exit codes, pipe/TTY awareness (no color when piped, machine output on request, progress to stderr, stdin support), structured JSON I/O, a machine-readable schema, hardened inputs, mutations guarded by dry-run, resumable retries, delta-based polling, prompt responsiveness and progress, order-independent flags, and correction suggestions on a near miss. A CLI that ignores Unix conventions fights every script that wraps it, and one that ignores agent conventions hangs, duplicates work, or repeatedly spends context on unchanged state.
 
 ## 4. Type Ergonomics (types)
 

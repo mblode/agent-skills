@@ -7,7 +7,7 @@ tags: cli, security, validation, agents, injection
 
 ## Harden Inputs Against Hallucinated and Hostile Values
 
-An agent will confidently pass a plausible but wrong value, and the CLI is the last checkpoint before that value reaches a filesystem, URL, or API, so reject path traversal (`../`), control characters (0x00 to 0x1F), and identifiers carrying `?`, `#`, or `%`, percent-encode any value spliced into a URL path, and never concatenate agent input straight into a URL or shell string. This extends `err-fail-fast-validation` from shape checks to the adversarial case; the same guard is where you strip any prompt-injection sequence from a value before echoing it back.
+An agent will confidently pass a plausible but wrong value, and the CLI is the last checkpoint before that value reaches a filesystem, URL, shell, or API. Validate according to the actual sink: contain filesystem paths, reject control characters where the target format forbids them, percent-encode URL path segments, and pass shell arguments as discrete values rather than concatenated command strings. This extends `err-fail-fast-validation` from shape checks to concrete trust-boundary sinks.
 
 **Incorrect (agent input flows straight into a path and a URL):**
 
