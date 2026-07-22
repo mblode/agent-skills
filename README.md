@@ -20,47 +20,47 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Architecture
 
-- **[define-architecture](./skills/define-architecture/SKILL.md)**: Folder structures, module contracts, and middleware pipelines for TypeScript apps, plus deepening existing codebases and agent-friendly codebase guardrails.
-- **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Scaffolds a Next.js turborepo with Blode UI, Ultracite tooling, GitHub setup, and Vercel deploy.
-- **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: Scaffolds a TypeScript CLI/npm package: ESM, dual tsdown build, vitest, ultracite, changesets, GitHub Actions.
-- **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Multi-tenant domain strategy, isolation, routing, custom domains, and plan mapping on Cloudflare or Vercel.
+- **[define-architecture](./skills/define-architecture/SKILL.md)**: Folder structures, module contracts, and guardrails for TypeScript apps.
+- **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with Blode UI, Ultracite, GitHub, and Vercel.
+- **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI package: ESM, tsdown, vitest, changesets, CI.
+- **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Tenant isolation, routing, and custom domains on Cloudflare or Vercel.
 
 ### Design
 
-- **[product-design](./skills/product-design/SKILL.md)**: Product and UX judgment: the right interaction, action scope and consequence, reachable-state coverage, resilience, and accessibility as a product concern. Routes by mode (shape, spec, review, action, harden) and defers builds to ui-design, audits to ui-audit, and wording to copywriting.
-- **[ui-design](./skills/ui-design/SKILL.md)**: Designs and builds UI end to end: visual direction (palettes, type scales, tokens, CRO, brand kits), Tailwind implementation with the ui.sh design guidelines, multi-variant browser picker, screenshot-to-markup scaffolding, dark-mode and responsive retrofits, and componentization with Tailwind class cleanup.
-- **[ui-animation](./skills/ui-animation/SKILL.md)**: Designs, implements, reviews, and reverse-engineers UI motion: springs, gestures, easing, CSS transition recipes, plus extracting easing and spring curves from a screen recording into CSS, Motion, SwiftUI, RN, or UIKit code.
-- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first slide decks with narrative arcs, speaker notes, investor pitch decks, and a QA pass.
+- **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
+- **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, Tailwind builds, screenshot to markup, dark mode, responsive.
+- **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
+- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Dark-first decks with narrative arcs, speaker notes, and a QA pass.
 
 ### Writing
 
-- **[copywriting](./skills/copywriting/SKILL.md)**: Short product and marketing copy; persuasion frameworks, seven sweeps, AI-ism removal, before/after diffs, and product-state copy (destructive CTAs, error, success, empty, loading, and permission strings).
-- **[blog-post](./skills/blog-post/SKILL.md)**: Long-form blog posts (listicles, tutorials, narratives, thought leadership) with research, SEO, and polish.
-- **[docs-writing](./skills/docs-writing/SKILL.md)**: Technical docs. Diataxis doc types, 52 rules, audit and writing workflows.
-- **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README tailored to the project type, validated against quality checks.
-- **[tone-of-voice](./skills/tone-of-voice/SKILL.md)**: Drafts, rewrites, critiques, and coaches messages in your own per-platform voice (Slack, email, WhatsApp, LinkedIn, Linear), with a strategy layer and an anti-AI-tells self-check. Ships a fictional demo persona; drop your own voice files in `~/.config/tone-of-voice/` to make it yours.
+- **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, AI-ism removal.
+- **[blog-post](./skills/blog-post/SKILL.md)**: Long-form posts with research, SEO, and polish.
+- **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 52 rules, audit and writing modes.
+- **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README for the project type.
+- **[tone-of-voice](./skills/tone-of-voice/SKILL.md)**: Messages in your voice: Slack, email, WhatsApp, LinkedIn, Linear.
 
 ### Quality
 
-- **[ui-audit](./skills/ui-audit/SKILL.md)**: Frontend UX audit for React/Next.js diffs and rendered web surfaces. 95 rules, 12 playbooks, 3-tier ship verdict.
-- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 23 rules over architecture + trust layers, ship verdict, AX Relationship Summary.
-- **[dx-audit](./skills/dx-audit/SKILL.md)**: Developer-experience audit for libraries, CLIs, and SDKs: API ergonomics and contract stability, dev-facing errors, CLI UX, type ergonomics, onboarding and bundle ergonomics, and config, grounded in DX principles.
-- **[typography-audit](./skills/typography-audit/SKILL.md)**: 90-rule typography audit: punctuation, fonts, sizing, spacing, OpenType, hierarchy, pairing.
-- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js App Router SEO: sitemaps, metadata, structured data, hreflang, CWV, security headers, and resilience.
+- **[ui-audit](./skills/ui-audit/SKILL.md)**: React and Next.js UX audit: 95 rules, 12 playbooks, ship verdict.
+- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 23 rules, ship verdict.
+- **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, and SDKs: root-cause findings, agent-friendly checks.
+- **[typography-audit](./skills/typography-audit/SKILL.md)**: 90 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
+- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js SEO: sitemaps, metadata, structured data, hreflang, CWV.
 
 ### Shipping
 
-- **[planning](./skills/planning/SKILL.md)**: Builds and stress-tests a plan before any code: Create mode interrogates one question at a time; Review mode scores six dimensions to 5/5, verifying claims against local code and docs.
-- **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only review of your local diff: bugs, structural quality, AI slop, and on-request security audits.
-- **[tidy](./skills/tidy/SKILL.md)**: Fix-in-place cleanup of the current diff via four concurrent review agents (reuse, quality, efficiency, test discipline), then verifies the build.
-- **[pr-creator](./skills/pr-creator/SKILL.md)**: Creates PRs with short human-sounding descriptions, Linear ID titles, commit restructuring, and reviewer guidance.
-- **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Autonomously monitors an open PR: conflicts, CI, review comments, merge readiness. Fixes what it can.
-- **[autoship](./skills/autoship/SKILL.md)**: End-to-end npm releases with changesets: fix loop, CI watch, Version Packages merge, publish verify.
+- **[planning](./skills/planning/SKILL.md)**: Builds the plan, then scores it to 5/5 before any code.
+- **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only diff review: bugs, structure, AI slop, security.
+- **[tidy](./skills/tidy/SKILL.md)**: The same sweep across four agents, but it applies the fixes.
+- **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, tidied commits.
+- **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
+- **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, publish verify.
 
 ### Authoring
 
-- **[agents-md](./skills/agents-md/SKILL.md)**: Audits, scores, and refactors AGENTS.md/CLAUDE.md: 10-check triage or 45-check full audit with grades.
-- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Skill creation and improvement following the open format spec.
+- **[agents-md](./skills/agents-md/SKILL.md)**: Audits and refactors AGENTS.md and CLAUDE.md, with grades.
+- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and improves skills to the open format spec.
 
 ## License
 
