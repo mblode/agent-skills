@@ -83,7 +83,6 @@ No automated test suite. See smoke-test above.
 - Every `SKILL.md` must have YAML frontmatter with both `name` and `description`; skills without it will not be recognized.
 - Reference files are only loaded when explicitly listed in the `SKILL.md`; dropping a file in the folder is not enough.
 - The `cp -R skills/* ~/.claude/skills/` approach bypasses the `~/.agents/skills` symlink chain. Use `npx skills add` instead.
-- `tone-of-voice` keeps no personal data in the repo. The bundled `references/*.md` are a fictional demo persona ("Sam"); users override per-platform files from `~/.config/tone-of-voice/` (outside the repo, survives upgrades). Never add anyone's real voice data to the repo.
 
 ## Commit & Pull Request Guidelines
 
