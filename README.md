@@ -7,7 +7,7 @@
 ## Quickstart
 
 ```bash
-npx skills add mblode/agent-skills
+npx skills add mblode/agent-skills -g --agent codex claude-code -y
 ```
 
 Works with Claude Code, OpenCode, Codex, and Cursor.
