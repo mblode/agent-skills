@@ -1,17 +1,33 @@
 # Bot Patterns
 
-Detection, severity, deduplication, and false-positive rules for PR review bots.
+Detection, severity, deduplication, and false-positive rules for PR review bots and human reviewers.
 
 ## Contents
 
+- [Triage default: unlisted reviewers are findings](#triage-default-unlisted-reviewers-are-findings)
 - [Bot classification](#bot-classification)
 - [Shared identity: github-actions bot](#shared-identity-github-actions-bot)
 - [Active review bots](#active-review-bots)
+- [Merge-gate bots](#merge-gate-bots)
 - [Noise bots](#noise-bots)
+- [Check-only bots](#check-only-bots)
 - [Human review patterns](#human-review-patterns)
 - [Severity normalization](#severity-normalization)
 - [Deduplication](#deduplication)
 - [False positive detection](#false-positive-detection)
+
+## Triage default: unlisted reviewers are findings
+
+The tables below are a shortcut for stripping boilerplate and mapping severity. They are not an allowlist of who counts. **Any author not listed, bot or human, is triaged as an active reviewer, and every one of its inline comments is read in full.**
+
+For an unrecognized author:
+
+1. Treat each inline comment as a real finding at Major unless its own text says otherwise.
+2. Take severity from whichever of these the body carries: a bold `**<Word> Severity**` line, a `P1`/`P2`/`P3` or `high`/`medium`/`low` token (including inside a badge image URL), a coloured circle emoji, or the words critical, blocker, major, minor, nit.
+3. Strip generically: HTML comments, `<details>` blocks, `<sup>` and `<sub>` footers, lines that are only a link image ("Fix in ...", "Open in ..."), `Reviewed by ... for commit <sha>` footers, "Comment `@x review` to trigger another review" invitations, "Was this helpful?" prompts. What survives is the finding.
+4. Label it in the report as `unlisted reviewer: <login>` so the user can have it added here.
+
+**Noise requires a positive match on a detection marker below.** Never classify an author as noise because it is missing from a table. A bot listed here as Noise or Check-only that posts an inline review comment is a stale row: triage the comment on its content and flag the drift in the report.
 
 ## Bot classification
 
@@ -20,8 +36,12 @@ Classify by **content first**, then username. `github-actions[bot]` is a shared 
 | Tier | Behavior | Action |
 |------|----------|--------|
 | Active reviewer | Posts findings with severity or actionable suggestions | Parse and triage |
-| Noise | Linkbacks, deployment status, CI notifications, rate limits | Always ignore |
-| Check-only | Appears in PR checks but leaves no comments | Skip (nothing to triage) |
+| Merge gate | States a verdict on whether the PR may merge | Record for the readiness check, never fix |
+| Noise | Linkbacks, deployment status, CI notifications, rate limits | Ignore, on a positive marker match only |
+| Check-only | Appears in PR checks but has left no comments | Skip while that holds |
+| Unlisted / unknown | Not in any table below | Triage as an active reviewer, per the section above |
+
+Identity hints, never verdicts: a `[bot]` login suffix and GraphQL `author { __typename } == "Bot"` both suggest automation, but machine users such as `developer-platform-actions` are plain `User` logins, and `github-actions[bot]` is shared across unrelated workflows. Content decides.
 
 ## Shared identity: github-actions bot
 
@@ -46,7 +66,7 @@ Severity: parse from the HTML comment metadata:
 - `warning` count > 0 → minor
 - table cells use `:warning:` emoji for warnings
 
-Body is an HTML table of actionable warnings; treat as real findings. Updates in place: same comment ID gets new content each push.
+Body is an HTML table of actionable warnings; treat as real findings. Updates in place: the same comment ID gets new content on each push, so compare `updated_at`, not just the ID.
 
 ### Schema compatibility checker: active reviewer
 
@@ -68,31 +88,90 @@ Detection: single-line comment starting with "Event-lib RC version is triggered"
 
 Detection: comment body starts with "This PR was opened by the [Changesets release]" or contains a `# Releases` heading with version changelogs.
 
-### Auto-approval: noise
+### Empty-body approvals: noise (any automation identity)
 
-Detection: review with state `APPROVED` and empty body from `github-actions[bot]`. Skip (programmatic approval from a passing workflow).
+Detection: a review with state `APPROVED`, an empty body, and no inline comments of its own, from any automation identity. Keyed on shape, not login: `github-actions[bot]`, `developer-platform-actions`, and any other machine account qualify. Skip it as a finding, but record that it fired: it is often the evidence that a merge gate cleared.
+
+An empty-body `APPROVED` that **does** have inline comments is not this pattern. Triage the inline comments.
 
 ## Active review bots
 
+For every bot here, findings live in the **inline review comments**, not in the review body. The body is a count or a summary. Never triage a bot on its review body alone, and never conclude a bot found nothing because its body reads like a header.
+
+### Cursor Bugbot (`cursor[bot]`)
+
+Detection:
+- review body contains `<!-- BUGBOT_REVIEW -->`, or the sentence "Cursor Bugbot has reviewed your changes"
+- inline comments carry `<!-- BUGBOT_BUG_ID: <uuid> -->`
+- footer `<sup>Reviewed by [Cursor Bugbot](...) for commit <sha></sup>`
+
+Review-level body is a **count only** ("found 2 potential issues"). Use it as an expected-findings count and reconcile it against the inline threads you fetched. Fewer threads than the count means the fetch lost something.
+
+Inline shape: `### <Title>`, then a bold severity line, then the finding between `<!-- DESCRIPTION START -->` and `<!-- DESCRIPTION END -->`.
+
+| Pattern | Severity |
+|---------|----------|
+| `**High Severity**` | Critical |
+| `**Medium Severity**` | Major |
+| `**Low Severity**` | Minor |
+
+Anchors: the `<!-- LOCATIONS START ... LOCATIONS END -->` block lists one `path#Lstart-Lend` per site, and `<details><summary>Additional Locations (N)</summary>` holds the rest. When the thread's `line` is null, this block is the anchor. **Multiple locations are one finding with several sites, not several findings.**
+
+Strip: the `<!-- BUGBOT_FIX_ALL -->` block, `<!-- BUGBOT_AUTOFIX_REVIEW_FOOTNOTE_BEGIN -->` and "Bugbot Autofix is OFF", "Want higher recall? **High effort** reviews...", "_Comment `@cursor review` or `bugbot run` to trigger another review_", the "Fix in Cursor" and "Fix in Web" link images, the `<sup>Reviewed by ...</sup>` footer, and the bug-id marker.
+
+No findings (noise): the body reports zero issues **and** there are no inline comments.
+
+Re-reviews on each commit. The `for commit <sha>` footer names the commit a finding was written against, which feeds the staleness rule in the GitHub API reference.
+
+### Codex (`chatgpt-codex-connector[bot]`)
+
+Detection:
+- review body contains `### 💡 Codex Review` and `**Reviewed commit:** `<sha>``
+- inline comments open with a shields.io priority badge: `**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  <Title>**`
+
+Severity from the badge token in the image URL:
+
+| Badge | Severity |
+|-------|----------|
+| `P1` | Critical |
+| `P2` | Major |
+| `P3` | Minor |
+| No badge | Major (default) |
+
+Structure: badge, then the bold title, then the finding in the following paragraph.
+
+Strip: the badge markup and `<sub>` wrappers, "Here are some automated review suggestions for this pull request.", the `<details> <summary>ℹ️ About Codex in GitHub</summary>` block.
+
+Rate limit, noise but **not silence**: a body that is only "You have reached your Codex usage limits", with no `### 💡 Codex Review` heading and no inline comments. Skip it as a finding, and report once that `Codex did not review this PR (usage limit)`, so the user knows a reviewer was silent rather than satisfied.
+
 ### Devin (`devin-ai-integration[bot]`)
 
-Posts a PR review (state: `COMMENTED`); may inject a badge into the PR body. Findings usually arrive as **inline comments on specific file lines**, not the review-level body, so read the inline `reviewThreads` comments even when the review body is empty or says "No Issues Found."
+Posts a PR review (state: `COMMENTED`); may inject a badge into the PR body. Findings arrive as **inline comments on specific file lines**, not the review-level body.
 
 **No findings (noise):**
 - review body starts with `## ✅ Devin Review: No Issues Found` **and** no inline threads
 - "View in Devin Review to see N additional findings" (paywalled teaser) with no inline detail → noise
 
 **Findings (active reviewer):**
-- inline comments cite `path:line` and explain the issue; each is a real finding
-- default Major; downgrade to Minor when the language is advisory ("worth a follow-up", "pre-existing", "outside the PR diff")
-- ignore trailing "Was this helpful?" reaction prompts; they are not part of the finding
+- review body reads `**Devin Review** found N potential issue(s).` → expect N inline comments. Fewer threads than N means the remainder is paywalled: report the gap rather than assuming N was covered
+- each inline comment opens with metadata, then a `🔍 **<Title>**` heading:
 
-**Badge injection (always ignore):**
-- injects `<!-- devin-review-badge-begin -->` / `<!-- devin-review-badge-end -->` into the PR body
-- `<picture>` elements with dark/light SVGs linking to `app.devin.ai`
-- appears in the PR description, not a comment
+```
+<!-- devin-review-comment {"id": "BUG_pr-review-job-<hash>_0001", "file_path": "...", "start_line": 78, "end_line": 78, "side": "RIGHT"} -->
+🔍 **<Title>**
+```
 
-**CI check:** `check-devin-approval` GitHub Action gates merging on Devin's review. Not a comment; skip.
+- that JSON is the **authoritative anchor**: `file_path`, `start_line`, `end_line`, and `side` hold even when the thread's `line` is null
+- the `id` prefix classifies the **kind**: `BUG_` → a defect, default Major; `ANALYSIS_` → an observation, default Minor unless the text names a defect
+- the emoji on the title line carries the **severity**, and takes precedence over the kind's default: 🔴 Critical, 🟠 Major, 🟡 Minor. `🔍` is a marker, not a severity
+- kind and severity are independent, so both tokens can appear together and neither is redundant. A `BUG_` titled 🟡 is a real defect at Minor
+- downgrade to Minor when the language is advisory ("worth a follow-up", "pre-existing", "outside the PR diff")
+
+Strip: the HTML comment, the `🔍` title prefix, trailing "Was this helpful?" reaction prompts.
+
+**Badge injection (always ignore):** `<!-- devin-review-badge-begin -->` / `<!-- devin-review-badge-end -->` in the PR body, with `<picture>` elements linking to `app.devin.ai`. This is in the PR description, not a comment.
+
+**CI check:** `check-devin-approval` gates merging on Devin's review. Not a comment; skip.
 
 ### CodeRabbit (`coderabbitai[bot]`)
 
@@ -128,37 +207,85 @@ Scan for `gstatic.com/codereviewagent/` in image URLs.
 
 Uses native ` ```suggestion ` blocks with the proposed fix. Summary comment starts with "Hello @author, I'm Gemini Code Assist!"; skip it.
 
+## Merge-gate bots
+
+A comment that states a verdict about whether the PR **may merge** (auto-approval, merge freeze, release window, CODEOWNERS coverage) is a readiness-check input, not a finding. Record the verdict, never open a fix item from it, never reply to it, never resolve it.
+
+### Auto-approval assessment (`linktree-stamp[bot]`)
+
+Detection: an **issue-level comment**, not a review, containing `<!-- stamp-assessment -->`. Heading is `## ✅ Auto-Approval Assessment ([`<sha>`](...))` or `## 👀 Auto-Approval Assessment (...)`.
+
+**Edited in place on each commit:** the comment ID never changes and only the body does, so a state comparison keyed on comment IDs sees nothing new. Compare `updated_at`, and compare the commit SHA in the heading against the head SHA to spot a stale assessment.
+
+| `**Verdict:**` | Meaning | Handling |
+|----------------|---------|----------|
+| `Auto-approved (LLM assessment)` | the gate will approve | Satisfied gate, record it |
+| `Human review required` | no auto-approval, a human must review | **Blocking merge gate.** Name the `**Path criteria:**` value that forced it |
+
+Carry these fields verbatim into the report when present: `**Custom criteria:**`, `**Path criteria:**`, `**Change type:**`, `**Blast radius:**`, `**Sensitive domains:**`.
+
+`### Reasoning` bullets are context, not findings. Do not open fix items from them.
+
+`### <emoji> Path-specific review: <criteria>` sections: 🟢 means that path review found nothing. **Any other colour, or an explicit issue list, means treat the section body as findings and triage at Major.**
+
+Strip the `> If you're unsure ... post in #ask-developer-platform` footer.
+
+The approving identity is separate: `developer-platform-actions` posts the empty-body `APPROVED` review once the gate clears. That review is noise as a finding and evidence as a gate.
+
+### mergefreeze
+
+Merge gate, status only ("Ok to merge"). A freeze verdict blocks merging and is not fixable from code.
+
 ## Noise bots
 
-Always ignore; no actionable findings:
+Always ignore, on a positive marker match only; no actionable findings:
 
 | Bot | Detection | What it posts |
 |-----|-----------|---------------|
-| `linear[bot]` | `<!-- linear-linkback -->` in body | Linkback to Linear ticket |
+| `linear-code[bot]` | `<!-- linear-linkback -->` in body | Linkback to Linear ticket |
 | `vercel[bot]` | Body starts with `[vc]: #` | Deployment status tables with base64 metadata |
-| `chatgpt-codex-connector[bot]` | "You have reached your Codex usage limits" | Rate-limit messages only |
 | `renovate[bot]` | Author match | Dependency update descriptions, artifact failures |
 | `dependabot[bot]` | Author match | Dependency bump descriptions, `@dependabot` commands |
 
+Match the **content marker**, not the login: the Linear bot's login has already drifted once (from `linear[bot]`) while `<!-- linear-linkback -->` survived.
+
+Removed from this table on purpose: `cursor[bot]` and `chatgpt-codex-connector[bot]` are active reviewers above. Only their zero-finding and rate-limit bodies are noise.
+
 ## Check-only bots
 
-Appear in `gh pr checks` but leave no comments. Nothing to triage:
+Appear in `gh pr checks` but have left no comments. Nothing to triage:
 
-- **Cursor Bugbot**: code review from cursor.com, results in check status only
-- **mergefreeze**: merge gate, status only ("Ok to merge")
 - **Buildkite**: CI pipeline checks (`buildkite/{project}/{step}`)
 - **Telemetry service attributes**: service metadata validation from `blstrco/telemetry`
 
+Check-only means "has posted no comments on this PR", which is an observation about today, not a property of the bot. **A review or an inline comment from any of these promotes it to active reviewer**, triaged on content under the unlisted-reviewer procedure.
+
 ## Human review patterns
 
-Humans use no structured severity markers. Classify by review state and context:
+**An empty review body is the normal case, not an absence of content.** A human `COMMENTED` review with an empty body means all of the content is in inline thread comments. Several empty-body reviews from the same person in a row are **one review pass**, not several: group them by author. Never report that a reviewer left no comments on the strength of an empty body.
+
+**Replies nested in bot threads are human comments.** A thread's author is its first comment's author, so a human reply inside a `cursor[bot]` or `devin-ai-integration[bot]` thread sits under a bot's name. It carries full human weight: never deduplicated, never auto-resolved, never skipped because the thread's author is a bot. Classify per comment, not per thread.
+
+**Intent decides what handling means.** Severity says how urgent; intent says what the reviewer wants back.
+
+| Text signal | Intent | Handling |
+|-------------|--------|----------|
+| `Nit:`, "nitpick", "up to you", "non-blocking" | Nitpick | Fix if cheap, else reply with why not |
+| Imperative ("use X", "please rename", "this should") | Fix request | Fix, reply, resolve |
+| Interrogative, ends in `?` ("Are these properties tethered?", "is this a restriction we're comfortable with longer term?") | Question | Answer in a reply. Invent no code change. Do not resolve; the reviewer resolves after reading the answer. Surface it under Questions in the report |
+| "Are you sure", "did you consider", "what happens if" | Latent-defect probe | Check the code, then either fix and reply with the finding, or reply explaining why it holds |
+| Praise ("nice", "LGTM", "👍") | Acknowledgement | No action, no reply |
+
+A question with no code change is **not** an ignored item. It goes in the plan's Questions section and gets a reply. Reporting "0 items to fix" while a reviewer is waiting on an answer is a triage failure, not a clean run.
+
+Classify by review state and context for blocking status:
 
 | Pattern | Severity | Blocking? |
 |---------|----------|-----------|
 | `CHANGES_REQUESTED` review with body text | Major | Yes (merge blocked) |
 | `CHANGES_REQUESTED` review, empty body + inline comments | Major | Yes |
 | `COMMENTED` review + inline question → then `APPROVED` seconds later | Minor | No (conversational) |
-| `APPROVED` review, empty body | n/a | No (skip) |
+| `APPROVED` review, empty body | n/a | No (skip only when it has no inline comments) |
 | Issue-level comment with soft language ("I'd also...", "but up to you") | Minor | No |
 | Issue-level comment with directive language ("please use...", "must...") | Major | Depends on review state |
 
@@ -170,15 +297,21 @@ Unified four-level scale:
 
 | Source | Critical | Major | Minor | Nitpick |
 |--------|----------|-------|-------|---------|
+| Cursor Bugbot | `High Severity` | `Medium Severity` | `Low Severity` | n/a |
+| Codex | `P1` badge | `P2` badge | `P3` badge | n/a |
 | CodeRabbit | 🔴 | 🟠 | 🟡 | n/a |
 | Gemini | high-priority | medium-priority | low-priority | n/a |
 | DangerJS | n/a | failure count > 0 | warning count > 0 | n/a |
 | Schema checker | n/a | 🔴 Error | 🟡 Warning | n/a |
-| Devin (with findings) | n/a | Major (default) | advisory language | n/a |
+| Devin | 🔴 | 🟠, or `BUG_` with no emoji | 🟡, or `ANALYSIS_` prefix | n/a |
+| Unlisted reviewer | n/a | Default | advisory language | "nit" |
 | Human (CHANGES_REQUESTED) | "critical"/"blocker" | Default | "nit"/"minor" | "nit"/"nitpick" |
 | Human (APPROVED + question) | n/a | n/a | Minor (default) | n/a |
+| Human question | n/a | n/a | n/a | No severity; tracked as a question |
 
 When multiple sources flag the same issue, use the highest severity.
+
+**Severity orders the fix queue. It never decides whether a comment gets read.**
 
 ## Deduplication
 
@@ -193,7 +326,9 @@ Multiple bots may flag the same issue on overlapping lines.
 
 **Exceptions:**
 - never deduplicate human comments; each gets its own entry
-- human + bot on the same issue: keep both (human confirms bot, raising confidence)
+- human + bot on the same issue: keep both (the human confirms the bot, raising confidence)
+- a bot finding listing several `LOCATIONS` is **one item with several sites**. Do not split it, and do not treat the extra sites as duplicates
+- a bot re-reviewing a new commit opens a fresh thread on the same lines while the old one goes `isOutdated`. Keep the newest, mark the older `ignore-superseded`, and quote its thread ID
 
 ## False positive detection
 
@@ -221,4 +356,4 @@ If a bot finding contradicts a rule in the project's `CLAUDE.md` or `AGENTS.md`,
 
 ### Outdated threads
 
-Threads where `isOutdated == true` and the flagged code no longer exists. Verify by reading the current file; if it changed substantially, mark `ignore-outdated`.
+`isOutdated == true` is **not** grounds to ignore anything. It means GitHub can no longer map the thread onto the current diff, which is also why `line` comes back null. Recover the anchor first via the ladder in the GitHub API reference, read the current file, and mark `ignore-outdated` only when the flagged construct is genuinely gone. An outdated thread carrying a human reply is never ignored.

@@ -22,6 +22,7 @@ Substitute `{N}`, `{owner}`, `{repo}`, and the interval (default 120 seconds; re
 
 ```bash
 PR={N}; OWNER={owner}; REPO={repo}; INTERVAL=120
+ME=$(gh api user --jq .login)
 prev=""
 while true; do
   view=$(gh pr view "$PR" --repo "$OWNER/$REPO" \
@@ -31,22 +32,36 @@ while true; do
   if [ "$state" != "OPEN" ]; then echo "TERMINAL: PR $state"; exit 0; fi
   checks=$(gh pr checks "$PR" --repo "$OWNER/$REPO" --json name,state 2>/dev/null \
     | jq -c 'sort_by(.name)')
-  threads=$(gh api graphql \
-    -f query='query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){pullRequest(number:$n){reviewThreads(first:100){nodes{isResolved}}}}}' \
-    -f o="$OWNER" -f r="$REPO" -F n="$PR" 2>/dev/null \
-    | jq '[.data.repository.pullRequest.reviewThreads.nodes[] | select(.isResolved | not)] | length')
-  fp="$(jq -r '[.headRefOid,.mergeable,.mergeStateStatus,.reviewDecision] | join("|")' <<<"$view")|$checks|threads=$threads"
+  tdata=$(gh api graphql \
+    -f query='query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){pullRequest(number:$n){reviewThreads(first:100){nodes{isResolved comments(last:1){nodes{author{login}}}}}}}}' \
+    -f o="$OWNER" -f r="$REPO" -F n="$PR" 2>/dev/null)
+  nodes='.data.repository.pullRequest.reviewThreads.nodes[]'
+  threads=$(jq "[$nodes | select(.isResolved | not)] | length" <<<"$tdata")
+  awaiting=$(jq --arg me "$ME" \
+    "[$nodes | select(.comments.nodes[0].author.login != \$me)] | length" <<<"$tdata")
+  newest=$(for ep in pulls issues; do
+    gh api "repos/$OWNER/$REPO/$ep/$PR/comments?per_page=1&sort=updated&direction=desc" \
+      --jq '.[0].updated_at // empty' 2>/dev/null
+  done | sort | tail -1)
+  fp="$(jq -r '[.headRefOid,.mergeable,.mergeStateStatus,.reviewDecision] | join("|")' <<<"$view")"
+  fp="$fp|$checks|threads=$threads|awaiting=$awaiting|newest=$newest"
   if [ -n "$prev" ] && [ "$fp" != "$prev" ]; then echo "CHANGED: $fp"; fi
   prev="$fp"
   sleep "$INTERVAL"
 done
 ```
 
+`threads` alone was blind to the two events that matter most. A human reply on an already-resolved thread and a bot comment edited in place both leave the head SHA, mergeability, review decision, check states, and unresolved count **all unchanged**, so the watch never woke. `awaiting` and `newest` are what move on those events.
+
+Both new probes are deliberately coarse: `awaiting` counts every thread whose newest comment is not yours, resolved or not, with no `resolvedBy` carve-out. A fingerprint only has to **change**, so over-counting here costs nothing and under-counting loses an event. The precise bucketing happens in Phase 4.
+
+`ME` is resolved once before the loop, not per iteration.
+
 Emitted lines:
 
 | Line | Meaning | React by |
 |------|---------|----------|
-| `CHANGED: {fingerprint}` | Head SHA, mergeability, review decision, a check state, or the unresolved thread count changed | Run phases 2-5 |
+| `CHANGED: {fingerprint}` | Head SHA, mergeability, review decision, a check state, the unresolved thread count, the awaiting-reply count, or the newest comment timestamp changed. This includes a reply on a resolved thread and an edited-in-place bot comment | Run phases 2-5 |
 | `TERMINAL: PR MERGED` / `TERMINAL: PR CLOSED` | PR left the OPEN state; the script exits and the watch ends | Report the final summary, stop |
 
 Transient `gh` failures skip the iteration and retry next interval; they never emit.
@@ -106,6 +121,9 @@ Write to `.claude/scratchpad/babysit-pr-{N}.md`. Create the directory if needed.
 - **Mergeable:** {MERGEABLE|CONFLICTING|UNKNOWN}
 - **Review Decision:** {APPROVED|CHANGES_REQUESTED|REVIEW_REQUIRED}
 - **Unresolved Threads:** {count}
+- **Awaiting My Reply:** {count}
+- **Merge Gate:** {verdict or none}
+- **Newest Comment:** {timestamp}
 - **Checks:**
   - {check_name}: {SUCCESS|FAILURE|PENDING} ({platform})
   - ...
