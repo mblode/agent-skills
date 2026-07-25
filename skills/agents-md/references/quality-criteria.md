@@ -1,4 +1,4 @@
-# Full Quality Criteria (45 Checks)
+# Full Quality Criteria (49 Checks)
 
 Score each AGENTS.md root file against this checklist. Standard: the file helps an agent execute correctly with minimal context.
 
@@ -7,8 +7,8 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 - Scoring
 - A. Commands and execution readiness (12 checks)
 - B. Gotchas and repeated mistakes (10 checks)
-- C. Conventions and decision boundaries (8 checks)
-- D. Signal-to-noise and bloat control (8 checks)
+- C. Conventions and decision boundaries (11 checks)
+- D. Signal-to-noise and bloat control (9 checks)
 - E. Currency and validation (7 checks)
 - Grade mapping
 - Automatic fails
@@ -47,37 +47,41 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 21. Separates universal rules from edge-case rules
 22. Removes gotchas that no longer happen
 
-## C. Conventions and decision boundaries (8)
+## C. Conventions and decision boundaries (11)
 
 23. States conventions that materially change implementation choices
 24. States naming/path conventions when CI/tooling depends on them
 25. States test strategy conventions (unit/e2e boundaries) when relevant
 26. Uses `@import` or links for non-universal detail instead of inlining in root
 27. Marks scope boundaries: monorepo root vs workspace files
-28. Avoids restating defaults agents already know
-29. Uses precise language (specific verbs, explicit conditions)
+28. Avoids restating what the agent or harness already does (tool-use conventions, read before edit, todo tracking, run tests after a change)
+29. Rules name the condition that triggers them, so precision lands on *when* a rule applies rather than on forbidding a whole class of action
 30. Emphasis markers (IMPORTANT, NEVER, YOU MUST) used sparingly on critical rules agents skip
+31. Guidance states the outcome wanted; blanket prohibitions appear only where the harmful-precision test clears them
+32. No rule contradicts a parent instruction file, an installed skill, or another section of the same file; precedence is stated where overlap is deliberate
+33. Conventions with an exemplar in the repo name that file path instead of describing the pattern in prose
 
-## D. Signal-to-noise and bloat control (8)
+## D. Signal-to-noise and bloat control (9)
 
-31. Root file concise for repo complexity (60-150 lines for active app repos)
-32. No full framework documentation pasted inline
-33. No copy-pasted full templates
-34. No exhaustive file tree or "every file" inventory
-35. No long architecture deep dives in root file
-36. Links to detail files for non-universal guidance
-37. No duplicate guidance across sections
-38. Each section passes the litmus test: removing it would cause mistakes
+34. Root file concise for repo complexity (60-150 lines for active app repos)
+35. No full framework documentation pasted inline
+36. No copy-pasted full templates
+37. No exhaustive file tree or "every file" inventory
+38. No long architecture deep dives in root file
+39. Links to detail files for non-universal guidance
+40. No duplicate guidance across sections
+41. No content auto-memory owns (user preferences, personal feedback, evolving project status)
+42. Each section passes the litmus test: removing it would cause mistakes
 
 ## E. Currency and validation (7)
 
-39. Referenced file paths exist
-40. Referenced tools/dependencies are still in use
-41. Commands have been run (or limitations documented when run isn't possible)
-42. Removed references to deleted folders/APIs
-43. Version-sensitive guidance is date/version scoped where needed
-44. Clear maintenance loop (how to keep the file current)
-45. CLAUDE.local.md used for personal/gitignored overrides (not mixed into shared AGENTS.md)
+43. Referenced file paths exist
+44. Referenced tools/dependencies are still in use
+45. Commands have been run (or limitations documented when run isn't possible)
+46. Removed references to deleted folders/APIs
+47. Version-sensitive guidance is date/version scoped where needed
+48. Clear maintenance loop (how to keep the file current)
+49. CLAUDE.local.md used for personal/gitignored overrides (not mixed into shared AGENTS.md)
 
 ## Grade mapping
 
@@ -96,5 +100,5 @@ Example: `36/40 = 90%` -> Grade `B`.
 Mark grade `F` regardless of score if any hold:
 
 - Commands are mostly broken/stale
-- Instructions are primarily generic advice
+- Instructions are primarily generic advice, or restatements of default agent behavior
 - File is dominated by copied docs/templates rather than executable guidance

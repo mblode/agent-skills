@@ -1,8 +1,8 @@
-# Quick Checklist (10 Checks)
+# Quick Checklist (12 Checks)
 
 Fast triage for any AGENTS.md/CLAUDE.md root file.
 
-Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 8/10` (or equivalent with `N/A`).
+Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 10/12` (or equivalent with `N/A`).
 
 1. Core run/test/build/lint commands exist when applicable
 2. Commands appear runnable and match project scripts/tooling
@@ -14,14 +14,16 @@ Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 8/10
 8. Root file avoids framework doc dumps/templates
 9. Linked paths and commands are current (not stale/dead)
 10. Non-universal detail is linked out (via `@import` or child files), not inlined
+11. Rules are phrased as the outcome wanted, with absolutes reserved for safety, data loss, format contracts, and observed failures
+12. Nothing restates harness or model default behavior, and no rule conflicts with a parent file or an installed skill
 
 Quick grade:
 
-- Pass: >= 8
-- Borderline: 6-7, escalate to the full criteria
-- Fail: <= 5, escalate to the full criteria; likely needs the refactor workflow
+- Pass: >= 10
+- Borderline: 8-9, escalate to the full criteria
+- Fail: <= 7, escalate to the full criteria; likely needs the refactor workflow
 
 Automatic fail regardless of score:
 
 - Commands are mostly broken/stale
-- Content is mostly generic advice/template text
+- Content is mostly generic advice, template text, or restatements of default agent behavior

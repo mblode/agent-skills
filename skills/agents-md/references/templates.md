@@ -99,3 +99,5 @@ Each workspace has its own `AGENTS.md`:
 - Keep root within 60-150 lines for typical active repos
 - 3-8 gotchas from real failures beats 20 hypothetical ones
 - Each line must save debugging time or prevent a known mistake
+- State the outcome and let the surrounding code pick the path; reserve absolutes for safety, data loss, format contracts, and failures already observed here
+- Point at an exemplar file path where one exists, instead of paraphrasing what it already shows

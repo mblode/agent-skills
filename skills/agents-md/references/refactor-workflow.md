@@ -24,7 +24,7 @@ Everything else: link to a reference or delete.
 
 ## Step 2: Remove bloat fast
 
-Delete first, add back only what earns its place. For every removed line, record one reason: `generic`, `duplicate`, `stale`, or `moved` (to a reference). This log makes the final report traceable.
+Delete first, add back only what earns its place. For every line, record one reason: `generic`, `duplicate`, `stale`, `moved` (to a reference), or `reworded`. This log makes the final report traceable, and `reworded` keeps the Step 5 safety re-check from treating a rewritten rule as lost content.
 
 Remove:
 
@@ -33,6 +33,10 @@ Remove:
 - Exhaustive file maps
 - Generic advice ("write clean code", "use best practices")
 - Outdated commands and dead links
+- Restatements of default agent behavior ("read before editing", "run the tests")
+- Facts auto-memory owns: user preferences, personal feedback, evolving project status
+
+Reword rather than remove: a blanket prohibition that some plausible task would want broken becomes the outcome it was protecting. Tag it `reworded`, since deleting it outright loses a real constraint.
 
 ## Step 3: Rebuild root file in strict order
 
