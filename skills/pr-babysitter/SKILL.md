@@ -120,7 +120,7 @@ Load `references/ci-platforms.md` for per-platform commands, the Buildkite auth 
 
 ### Phase 4: Comment Check
 
-1. **Count two numbers**: open threads, and threads awaiting my reply (newest comment is not mine, resolved or not)
+1. **Count two numbers**: open threads, and threads awaiting my reply (newest comment is not mine, in any resolution state, minus a reviewer who resolved their own last comment)
 2. **Compare with the state file** on both counts plus the newest comment timestamp across review and issue comments. An edited-in-place bot comment and a reply on a resolved thread both have to register
 3. **Any increase** → notify "N new review comments on PR #{N}", then run the Comment Triage Workflow
 4. **Auto-resolve noise** only on a positive marker match, with a one-line reason. Never auto-resolve human comments, questions, critical or major findings, or merge-gate comments

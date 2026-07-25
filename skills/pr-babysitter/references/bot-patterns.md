@@ -117,7 +117,7 @@ Inline shape: `### <Title>`, then a bold severity line, then the finding between
 
 Anchors: the `<!-- LOCATIONS START ... LOCATIONS END -->` block lists one `path#Lstart-Lend` per site, and `<details><summary>Additional Locations (N)</summary>` holds the rest. When the thread's `line` is null, this block is the anchor. **Multiple locations are one finding with several sites, not several findings.**
 
-Strip: the `<!-- BUGBOT_FIX_ALL -->` block, `<!-- BUGBOT_AUTOFIX_REVIEW_FOOTNOTE_BEGIN -->` and "Bugbot Autofix is OFF", "Want higher recall? **High effort** reviews...", "_Comment `@cursor review` or `bugbot run` to trigger another review_", the "Fix in Cursor" and "Fix in Web" link images, the `<sup>Reviewed by ...</sup>` footer, and the bug-id marker.
+Strip: the `<!-- BUGBOT_FIX_ALL -->` block, the `<!-- BUGBOT_AUTOFIX_REVIEW_FOOTNOTE_BEGIN -->` wrapper, the "Fix in Cursor" and "Fix in Web" link images, the `<sup>Reviewed by ...</sup>` footer, and the bug-id marker. The fetch script already removes the "Bugbot Autofix is OFF", "Want higher recall?", and `@cursor review` invitation lines, so strip those by hand only when working without it.
 
 No findings (noise): the body reports zero issues **and** there are no inline comments.
 

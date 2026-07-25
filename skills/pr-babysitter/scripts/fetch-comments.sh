@@ -126,7 +126,8 @@ jq -n \
 # REST and GraphQL disagree on bot logins: "cursor[bot]" vs "cursor".
 def canon: sub("\\[bot\\]$"; "");
 
-# Generic strippers only. Anything bot-specific belongs in bot-patterns.md.
+# Generic markup, plus the vendor footers common enough to be worth hard-coding.
+# Anything narrower than that belongs in bot-patterns.md.
 def strip_markup:
   gsub("<!--(?:.|\n)*?-->"; "")
   | gsub("<details[^>]*>(?:.|\n)*?</details>"; "")
@@ -134,7 +135,6 @@ def strip_markup:
   | gsub("<sub>(?:.|\n)*?</sub>"; "")
   | gsub("<picture>(?:.|\n)*?</picture>"; "")
   | gsub("<a\\s[^>]*>(?:.|\n)*?</a>"; "")
-  | gsub("<img\\s[^>]*?/?>"; "")
   | gsub("!\\[[^\\]]*\\]\\([^)]*\\)"; "")
   # Nested <sub><sub>...</sub></sub> leaves an orphan closing tag behind, since
   # the non-greedy block match stops at the first close. Sweep what is left.
@@ -163,7 +163,9 @@ def severity_hints:
     , ( if ($b | test("🟠")) then "🟠" else empty end )
     , ( if ($b | test("🟡")) then "🟡" else empty end )
     , ( if ($b | test("⚠️ Potential issue")) then "⚠️ Potential issue" else empty end )
-    , ( $b | capture("(?i)\\b(?<s>critical|blocker)\\b") | .s )?
+    # Severity-adjacent context only. A bare word match reports "critical" for
+    # both "not critical at all" and "the critical path".
+    , ( $b | capture("(?i)(^|\\*\\*|\\b(severity|priority)\\s*[:=]\\s*)(?<s>critical|blocker)\\b") | .s )?
     , ( if ($b | test("(?i)\\bnit(pick)?\\b")) then "nit" else empty end )
     ] | unique;
 
@@ -227,6 +229,14 @@ def anchor($t; $first):
   (.comments.nodes | map(norm_comment($me))) as $cs
   | ($cs | sort_by(.createdAt) | last) as $last
   | ($cs | first) as $first
+  # One predicate for "a reply is owed", mirroring the awaiting-reply table.
+  # A bot only owes on an open thread. A human owes in any resolution state,
+  # unless they resolved their own last comment, which is them closing the
+  # conversation: without that carve-out, readiness never clears.
+  | ($last != null and ($last.isMe | not)
+     and (if $last.isBot then (.isResolved | not)
+          else ((.isResolved and ((.resolvedBy.login // null) == $last.author)) | not)
+          end)) as $owed
   | {
       id, path, subjectType,
       isResolved, isOutdated, isCollapsed,
@@ -236,13 +246,11 @@ def anchor($t; $first):
       lastComment: (if $last then
           {author: $last.author, isMe: $last.isMe, isBot: $last.isBot,
            createdAt: $last.createdAt, url: $last.url} else null end),
-      owedReply: (if $last then ($last.isMe | not) else false end),
+      owedReply: $owed,
       bucket: (
         if .path == null then "pr-level"
         elif (.isResolved | not) then "open"
-        elif ($last != null and ($last.isMe | not) and ($last.isBot | not)
-              and ((.resolvedBy.login // null) != $last.author)) then
-          "resolved-with-unanswered-reply"
+        elif $owed then "resolved-with-unanswered-reply"
         else "resolved-quiet" end),
       commentCount: ($cs | length),
       comments: $cs
