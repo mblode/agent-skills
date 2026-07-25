@@ -1,12 +1,12 @@
 ---
 title: Use Midpoint Separators with Thin Spaces
-impact: CRITICAL
+impact: LOW-MEDIUM
 tags: midpoint, interpunct, separator, thin-space
 ---
 
 ## Use Midpoint Separators with Thin Spaces
 
-Prefer midpoints (\u00b7) over pipes (|) or bullets (\u2022) for inline horizontal list separators. Flank the midpoint with hair spaces (`&hairsp;`) or thin spaces (`&thinsp;`).
+Prefer midpoints (·) over pipes (|) or bullets (•) for inline horizontal list separators. Flank the midpoint with hair spaces (`&hairsp;`) or thin spaces (`&thinsp;`).
 
 **Incorrect (pipes or bullets as separators):**
 

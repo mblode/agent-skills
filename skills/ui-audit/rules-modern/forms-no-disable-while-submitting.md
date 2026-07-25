@@ -10,10 +10,7 @@ related: forms-use-form-status-misuse, forms-lost-data-on-error
 
 ## Submit button not disabled while pending
 
-A double-clickable submit button creates duplicate accounts, double-charges cards, and posts the same comment twice. React 19's `useFormStatus` makes the fix mechanical: a child component reads `pending` from the surrounding `<form>`, disables itself, and swaps its label. Unprotected forms are release blockers on any monetary or account-creation surface.
-
-## Contents
-[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
+A double-clickable submit button creates duplicate accounts, double-charges cards, and posts the same comment twice. React 19's `useFormStatus` makes the fix mechanical: a child component reads `pending` from the surrounding `<form>`, disables itself, and exposes a busy state. Keep the label stable while busy and show a non-text affordance: swapping the text jumps the layout and loses which action is in flight (`rule/loading-stable-labels`, owned by `product-design`). Unprotected forms are release blockers on any monetary or account-creation surface.
 
 ## What goes wrong
 
@@ -36,8 +33,8 @@ rg -l '<form' --type=ts src/
 
 # For each form file, look for any pending-aware mechanism
 rg -l '<form' --type=ts src/ | while read f; do
-  rg -L 'useFormStatus|isPending|isSubmitting|disabled=\{.*pending' "$f" \
-    && echo "$f: form without pending-aware submit"
+  rg -q 'useFormStatus|isPending|isSubmitting|disabled=\{.*pending' "$f" \
+    || echo "$f: form without pending-aware submit"
 done
 
 # Submit buttons that hard-code disabled=false or no disabled at all
@@ -73,7 +70,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <button type="submit" disabled={pending} aria-busy={pending}>
-      {pending ? "Placing order…" : "Place order"}
+      Place order{pending && <Spinner aria-hidden="true" />}
     </button>
   );
 }
@@ -95,8 +92,8 @@ const [state, action, isPending] = useActionState(placeOrderAction, initial);
 return (
   <form action={action}>
     {/* fields */}
-    <button type="submit" disabled={isPending}>
-      {isPending ? "Placing order…" : "Place order"}
+    <button type="submit" disabled={isPending} aria-busy={isPending}>
+      Place order{isPending && <Spinner aria-hidden="true" />}
     </button>
   </form>
 );
@@ -113,7 +110,7 @@ await processOrder({ idempotencyKey: key, ... });
 Docs:
 - React: https://react.dev/reference/react-dom/hooks/useFormStatus
 - React: https://react.dev/reference/react/useActionState
-- Stripe Idempotency Keys: https://stripe.com/docs/api/idempotent_requests
+- Stripe Idempotency Keys: https://docs.stripe.com/api/idempotent_requests
 
 ## Default tier and overrides
 
@@ -132,30 +129,10 @@ Docs:
 
 Double-submit on a payment is real money lost; one of the few rules that defaults to release-blocker without further reasoning.
 
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-<form action={placeOrder}>
-  <input name="card" />
-  <button type="submit">Place order</button> {/* always enabled */}
-</form>
-```
-
-**Applied (passes):**
-
-```tsx
-<form action={placeOrder}>
-  <input name="card" />
-  <SubmitButton />
-</form>
-```
-
 ## Defer-to (when this is another tool's job)
 
 - Idempotency keys at the API layer are the durable fix; UI-level disable is the second line of defense. Both belong on payment surfaces.
-- React Hook Form's `formState.isSubmitting` for codebases not yet on React 19.
+- React Hook Form's `formState.isSubmitting` where the form is not driven by a React action.
 
 ## Suppression
 

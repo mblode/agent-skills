@@ -1,6 +1,6 @@
 ---
 title: Space Navigation Items with CSS Padding
-impact: HIGH
+impact: MEDIUM
 tags: navigation, padding, spacing, selected-state
 ---
 

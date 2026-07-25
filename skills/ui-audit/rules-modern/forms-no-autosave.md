@@ -12,16 +12,6 @@ related: forms-lost-data-on-error
 
 Long and multi-step forms need persistence across renders, refreshes, and accidental navigations: filling 12 fields then hitting a stray link should not wipe the form. Fix: autosave to `localStorage`/`sessionStorage`, debounced on change, restored on mount.
 
-## Contents
-
-- What goes wrong
-- Detection
-- Fix
-- Default tier and overrides
-- Examples
-- Defer-to
-- Suppression
-
 ## What goes wrong
 
 Job-application form, 6 fields on page 1, 4 on page 2: user clicks Next, goes back to fix a typo, page 1 is blank. Or a call interrupts, the tab reloads, 20 minutes of typing gone. The component never wrote values outside React state.
@@ -44,8 +34,8 @@ done
 
 # Forms missing localStorage persistence
 rg -l '<form' --type=ts src/ | while read f; do
-  rg -L 'localStorage|sessionStorage|saveDraft|persistDraft|useFormPersistence' "$f" \
-    && echo "$f: form without autosave"
+  rg -q 'localStorage|sessionStorage|saveDraft|persistDraft|useFormPersistence' "$f" \
+    || echo "$f: form without autosave"
 done
 
 # Field count heuristic per form file
@@ -143,22 +133,6 @@ Docs:
 | Checkout (multi-step) | release-blocker |
 | Sign-in | N/A (do not persist passwords) |
 | Internal admin | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-const [form, setForm] = useState(emptyForm);
-// no useEffect, no localStorage, no draft
-return <form>...</form>;
-```
-
-**Applied (passes):**
-
-```tsx
-const [form, setForm, clearDraft] = useFormDraft("draft:onboarding", emptyForm);
-```
 
 ## Defer-to (when this is another tool's job)
 

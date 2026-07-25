@@ -1,6 +1,6 @@
 ---
 title: Balance Layouts Optically
-impact: MEDIUM
+impact: LOW-MEDIUM
 tags: optical-centering, visual-balance, alignment, overshoot
 ---
 

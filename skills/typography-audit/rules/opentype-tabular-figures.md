@@ -1,6 +1,6 @@
 ---
 title: Use Tabular Figures in Data Contexts
-impact: MEDIUM-HIGH
+impact: HIGH
 tags: tabular-figures, tnum, tables, alignment, numbers
 ---
 

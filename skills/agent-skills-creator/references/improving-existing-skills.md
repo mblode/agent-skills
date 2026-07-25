@@ -78,6 +78,8 @@ Execute in order: correctness, then triggers, then structure, then deletion, the
 | Multiple rules folders (e.g. `rules/` + `rules-modern/`), SKILL.md dispatches to each layer explicitly | Keep: sanctioned layered design |
 | Multiple rules folders, no explicit dispatch | Consolidate into one `rules/` folder |
 | `agents/` folder with subagent prompts dispatched from SKILL.md | Keep: sanctioned |
+| A bundle file whose stated load condition is "do not load in normal use" (launcher metadata for external runners, e.g. `agents/openai.yaml`) | Keep: the condition is the point. State it in the reference table so nobody re-litigates it per skill |
+| A reference whose only load condition is "when changing this skill" (eval fixtures, scenario files) | Keep, but say so explicitly: it never loads during a user task, so it is not dead weight and not progressive disclosure either |
 | File in the folder but never linked from SKILL.md | Link it with a read-when condition, or delete it |
 
 After any rename or move: `grep -rn "<old-path>" <repo>/skills/*/SKILL.md` must return nothing.

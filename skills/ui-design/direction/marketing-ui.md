@@ -86,7 +86,7 @@ If deleting 30 percent of the copy improves the page, keep deleting.
 ## UX baseline (non-negotiable)
 
 - Full keyboard support and visible focus.
-- Hit targets >= 24px (>= 44px on mobile).
+- Hit targets 44x44px on touch (WCAG 2.5.5). 24x24px is the floor only for dense desktop UI under `pointer: fine` (WCAG 2.5.8).
 - Accessible forms (labels, enter-to-submit, inline errors).
 - Handle loading/empty/error states and long content.
 

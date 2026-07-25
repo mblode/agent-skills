@@ -7,7 +7,7 @@ Layer 3 (rendered quality) of `ui-audit`: checks reasoned from the rendered outp
 ## 1. Accessibility and Semantics (a11y)
 
 **Impact:** CRITICAL
-**Description:** Semantic structure, accessible names, contrast, media alternatives, and document language. Failures exclude assistive-tech users entirely, so run this category first.
+**Description:** Semantic structure, accessible names, non-color state cues, media alternatives, and document language. Failures exclude assistive-tech users entirely, so run this category first. Contrast ratios are not checked here: axe-core computes them, so run it rather than eyeballing hex values.
 
 ## 2. Keyboard and Interaction (interaction)
 

@@ -51,9 +51,9 @@ User need: understand what the agent is doing, stop it if wrong, trust the outco
 
 1. **`trust-no-escalation-path`** (release-blocker): high-stakes actions (deletes, payments, external calls) can hand off to a human first.
 2. **`control-no-approval-gate`** (release-blocker): the approval UI matches the stakes and reversibility of the action.
-3. **`comm-no-approval-gate`** (rules-arch, release-blocker): the orchestrator code path actually gates high-stakes tools (stakes × reversibility logic), not just the UI.
+3. **`comm-no-approval-gate`** (rules-arch, release-blocker): a gate exists on the orchestrator's execution path and every tool reaches it, not just the ones with a confirmation dialog at the call site.
 4. **`control-no-escape-hatch`** (release-blocker): every completed action has undo or revise; the user is never locked into an agent decision.
-5. **`comm-no-progress-visibility`** (rules-arch, release-blocker): multi-step tasks show step-level progress, not just a spinner.
+5. **`comm-no-progress-visibility`** (rules-arch, release-blocker): the server emits step-level events during a multi-step run; `comm-no-progress-signal` covers whether the UI shows them.
 6. **`comm-no-completion-signal`** (rules-arch, release-blocker): completion is explicitly signalled (`stop_reason`, completion tool), never inferred from idle time.
 7. **`comm-no-intent-handshake`** (release-blocker on this surface): ambiguous or multi-interpretation requests get a playback/confirmation before the agent acts.
 8. **`context-under-contextual`** (fix-this-sprint on this surface): the agent uses available context (current page, selection, recent actions) instead of asking redundant questions.
@@ -75,7 +75,7 @@ User need: see what the agent has done, what it's doing now, and what went wrong
 
 1. **`comm-no-completion-signal`** (rules-arch, release-blocker): completed tasks are explicitly marked done, not left ambiguous.
 2. **`parity-crud-incomplete`** (rules-arch, release-blocker): tasks have full CRUD: create, view, cancel, retry, and delete.
-3. **`comm-no-progress-visibility`** (rules-arch, fix-this-sprint on this surface): running tasks show live step-level progress.
+3. **`comm-no-progress-visibility`** (rules-arch, fix-this-sprint on this surface): the run loop emits step events the dashboard can subscribe to or poll, not just a start and end row.
 4. **`trust-no-confidence-cues`** (fix-this-sprint): completed results include reasoning or a summary of what was done and why.
 5. **`context-memory-not-visible`** (backlog on this surface): the agent's accumulated context is viewable and editable.
 6. **`context-no-checkpoint-resume`** (rules-arch, backlog): interrupted or failed tasks resume from the last checkpoint, not from scratch.

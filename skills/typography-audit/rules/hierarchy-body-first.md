@@ -1,6 +1,6 @@
 ---
 title: Start Layout with Body Text
-impact: MEDIUM-HIGH
+impact: MEDIUM
 tags: body-text, layout, design-process, hierarchy
 ---
 

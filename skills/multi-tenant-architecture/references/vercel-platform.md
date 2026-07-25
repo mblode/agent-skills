@@ -26,7 +26,19 @@ Strategy choice lives in SKILL.md; this is the per-strategy extraction logic.
 
 ## Tenant context passing
 
-Middleware is the single authority; the header contract and read paths are in SKILL.md step 5.
+Middleware is the single authority; SKILL.md step 5 states which headers to set and where they are read. The implementation:
+
+```ts
+// middleware.ts
+import { NextRequest, NextResponse } from "next/server";
+export function middleware(request: NextRequest) {
+  const hostname = request.headers.get("host") ?? "";
+  const tenant = hostname.split(".")[0]; // resolve from Edge Config/DB in production
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-tenant-id", tenant);
+  return NextResponse.next({ request: { headers: requestHeaders } });
+}
+```
 
 ## Edge Config (tenant lookup)
 

@@ -1,6 +1,6 @@
 ---
 title: Use Hair and Thin Spaces for Fine Adjustments
-impact: HIGH
+impact: LOW-MEDIUM
 tags: hair-space, thin-space, em-dash, citations, spacing
 ---
 
@@ -11,14 +11,14 @@ When a full word space is too wide but no space is too tight, use hair spaces (`
 **Incorrect (no space or full space around em dashes):**
 
 ```html
-<p>Typography[em dash character]the art of type[em dash character]matters.</p>     <!-- too tight -->
-<p>Typography [em dash character] the art of type [em dash character] matters.</p>  <!-- too loose -->
+<p>Typography&mdash;the art of type&mdash;matters.</p>       <!-- too tight -->
+<p>Typography &mdash; the art of type &mdash; matters.</p>  <!-- too loose -->
 ```
 
 **Correct (thin spaces around em dashes):**
 
 ```html
-<p>Typography&thinsp;[em dash character]&thinsp;the art of type&thinsp;[em dash character]&thinsp;matters.</p>
+<p>Typography&thinsp;&mdash;&thinsp;the art of type&thinsp;&mdash;&thinsp;matters.</p>
 ```
 
 **Common uses:**

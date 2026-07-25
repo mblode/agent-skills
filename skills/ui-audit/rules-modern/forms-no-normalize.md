@@ -12,9 +12,6 @@ related: forms-lost-data-on-error
 
 Postel's Law: be liberal in what you accept, strict in what you send. Emails with trailing whitespace, mixed case, or pasted quotes should be silently fixed, not rejected with "Invalid email." Phones should land in E.164, URLs accept missing protocols, all server-side. Strict client validation pushes users into corner cases; normalize in the server action to fix it in one place.
 
-## Contents
-[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
-
 ## What goes wrong
 
 A user pastes `  Alice@Example.COM ` from a CRM. The lowercase-only regex rejects it as "Invalid email"; the user fixes case but misses the trailing space, rejected again. Or sign-up stores `Alice@Example.com` and next-day sign-in fails: the lookup is case-sensitive and the stored value differs from what was typed.
@@ -42,8 +39,8 @@ rg '<input[^>]*pattern=' --type=ts src/
 
 # Actions that don't normalize
 rg -l 'formData\.get\("email"\)' --type=ts src/ | while read f; do
-  rg -L 'toLowerCase|\.trim\(\)|z\.string\(\)\.email\(\)' "$f" \
-    && echo "$f: email used without normalization"
+  rg -q 'toLowerCase|\.trim\(\)|z\.string\(\)\.email\(\)' "$f" \
+    || echo "$f: email used without normalization"
 done
 ```
 
@@ -98,7 +95,7 @@ export async function signUp(_p, fd: FormData) {
 
 Docs:
 - React: https://react.dev/reference/rsc/server-functions
-- Zod: https://zod.dev/?id=strings
+- Zod: https://zod.dev/api?id=strings
 - MDN URL: https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
 
 ## Default tier and overrides
@@ -112,30 +109,6 @@ Docs:
 | Checkout (phone for delivery SMS) | fix-this-sprint |
 | Newsletter signup | fix-this-sprint |
 | Internal admin | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-"use server";
-export async function login(_p, fd: FormData) {
-  const user = await db.users.findFirst({
-    where: { email: fd.get("email") }, // case-sensitive: locks out users
-  });
-  if (!user) return { error: "Not found" };
-}
-```
-
-**Applied (passes):**
-
-```tsx
-"use server";
-export async function login(_p, fd: FormData) {
-  const email = String(fd.get("email") ?? "").trim().toLowerCase();
-  const user = await db.users.findFirst({ where: { email } });
-}
-```
 
 ## Defer-to (when this is another tool's job)
 

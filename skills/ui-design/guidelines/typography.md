@@ -4,10 +4,10 @@ Covers: text sizes, line heights, heading styles, font weights, tracking, text w
 
 ## Design Rules
 
-- Never use `text-xs` for body, paragraph, or general content: the smallest body size is `text-sm`, only at `sm:` or larger; the mobile default is at least `text-base` (16px).
+- Body, paragraph, and general content is `text-base` (16px) at every breakpoint. `text-sm` is for labels, captions, and helper text, never for reading copy; `text-xs` is for neither.
 - Never use `font-bold` for headings: use `font-semibold` or `font-medium`.
 - Use at most two font weights per view: one for emphasis (headings, labels), one for body; reuse them.
-- Never add `leading-*` or line-height modifiers to headings: use Tailwind's default (e.g. `text-6xl`, not `text-6xl/tight`).
+- Don't hand-tune leading below `text-5xl`; Tailwind's defaults are already tight enough. At `text-5xl` and above the default leaves excessive vertical gaps, so set `leading-[1.05]` alongside `tracking-tight`.
 - Use `text-balance` on headings, `text-pretty` on paragraph text.
 - Add `tracking-tight` to headings larger than `text-xl`, unless the font is a condensed headline font (already tight).
 - Large type should not look airy: tighten tracking before adding weight, and constrain line length before shrinking the type.

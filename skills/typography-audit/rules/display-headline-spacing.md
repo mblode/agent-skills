@@ -1,6 +1,6 @@
 ---
 title: Tighten Spacing for Large Headlines
-impact: LOW-MEDIUM
+impact: MEDIUM
 tags: headlines, tracking, line-height, negative-leading, display
 ---
 

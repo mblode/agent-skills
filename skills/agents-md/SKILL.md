@@ -20,7 +20,7 @@ description: >-
 
 AGENTS.md files are execution contracts, not knowledge bases. **Litmus test per line:** "Would removing this cause the agent to make a mistake?" If no, cut it; bloat makes agents ignore the rules that matter.
 
-AGENTS.md is the tool-agnostic source of truth. Claude Code loads `AGENTS.md`, `CLAUDE.md`, and `CLAUDE.local.md` natively at any directory level, no symlinks. If only a `CLAUDE.md` exists, recommend `mv CLAUDE.md AGENTS.md`.
+AGENTS.md is the tool-agnostic source of truth. Claude Code loads `AGENTS.md`, `CLAUDE.md`, and `CLAUDE.local.md` natively at any directory level, so Claude Code alone needs no symlink. A `CLAUDE.md -> AGENTS.md` symlink is still correct when the repo also targets tools that read only `CLAUDE.md`; it keeps one source of truth instead of two files to drift. If only a `CLAUDE.md` exists, recommend `mv CLAUDE.md AGENTS.md`.
 
 ## Reference Files
 

@@ -39,7 +39,7 @@ Visual-token integrity (design-system overrides, raw shadows, off-grid spacing, 
 
 ## Copy rule IDs (defined in copywriting)
 
-These IDs are authored and worded in the copywriting skill's `references/ui-states.md`; this skill cites them for the product decision and routes the wording there. Restated here so a citation resolves without loading another skill's file. For the exact strings and verb vocabulary, open that file.
+These IDs are authored and worded in the copywriting skill's `references/ui-states.md`; this skill cites them for the product decision and routes the wording there. Restated here so a citation resolves without loading another skill's file. For the exact strings and verb vocabulary, open that file. The detailed entries below for these IDs carry `Scope`, `Why`, `Source`, and `Enforcement` but no `Rule` line: the constraint's wording has a single owner in `copywriting`, and the row in this table is what resolves the citation.
 
 | ID | The decision it governs |
 |----|-------------------------|
@@ -94,7 +94,6 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 
 ### rule/destructive-names-action
 - Scope: confirmation and primary buttons for destructive or irreversible actions.
-- Rule: destructive CTAs use Verb plus Noun naming the exact object (`Delete project`, `Remove member`, `Discard changes`). Never `Confirm`, `OK`, `Yes`, or a bare verb.
 - Why: a generic label hides what is about to happen, so the user confirms without reading.
 - Source: defined in the copywriting skill's `references/ui-states.md`; cited by `naming-and-copy.md`.
 - Enforcement: copy plus judgment.
@@ -131,14 +130,12 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 
 ### rule/empty-state-action
 - Scope: empty and zero-data states.
-- Rule: an empty state names the object and offers the first action. No dead ends.
 - Why: a bare "No items" leaves the user with nothing to do and no way to begin.
 - Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Empty state.
 - Enforcement: copy plus judgment.
 
 ### rule/error-states-recovery
 - Scope: error states and failure messages.
-- Rule: an error states what happened, why when known, and the recovery action. Never surface raw exception or stack text. Never a bare "Something went wrong" with no next step.
 - Why: an error without a recovery path strands the user.
 - Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Error state.
 - Enforcement: copy plus judgment.
@@ -152,7 +149,6 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 
 ### rule/loading-state-specific
 - Scope: loading copy.
-- Rule: prefer specific loading text over a bare "Loading..." when the target is known (what is loading, and roughly how long for long operations).
 - Why: specific feedback tells the user the system is working, not stuck.
 - Source: defined in the copywriting skill's `references/ui-states.md`.
 - Enforcement: copy.

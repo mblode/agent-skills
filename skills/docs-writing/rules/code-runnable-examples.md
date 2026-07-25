@@ -29,4 +29,4 @@ const user = await createUser({
 ```
 ````
 
-Reference: [Google Technical Writing: Code samples](https://developers.google.com/tech-writing/two/code-samples)
+Reference: [Google developer documentation style guide: Code samples](https://developers.google.com/style/code-samples)

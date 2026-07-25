@@ -1,6 +1,6 @@
 ---
 name: optimise-seo
-description: Optimises SEO and technical foundations for Next.js App Router apps, covering sitemaps, robots, meta tags, structured data, canonical URLs, redirects, indexing policy, hreflang and internationalisation, Core Web Vitals, programmatic SEO, security headers, privacy/consent, and error-page resilience. Use when asked to "improve SEO", "add a sitemap", "fix meta tags", "add structured data", "set canonical URLs", "set up redirects", "fix soft 404s", "add hreflang", "add security headers", "add cookie consent", "improve Core Web Vitals", "audit SEO", or "build SEO pages at scale". Performs no visual redesigns; for visual direction use ui-design, for page-level UI quality use ui-audit. Does not cover llms.txt or AI-agent readability; research current specs for that work.
+description: Optimises SEO and technical foundations for Next.js App Router apps, covering sitemaps, robots, meta tags, structured data, canonical URLs, redirects, indexing policy, hreflang and internationalisation, Core Web Vitals, programmatic SEO, security headers, privacy/consent, and error-page resilience. Use when asked to "improve SEO", "add a sitemap", "fix meta tags", "add structured data", "set canonical URLs", "set up redirects", "fix soft 404s", "add hreflang", "add security headers", "add cookie consent", "improve Core Web Vitals", "audit SEO", or "build SEO pages at scale". Performs no visual redesigns; for visual direction use ui-design, for page-level UI quality use ui-audit, for writing the article itself use blog-post. Does not cover llms.txt or AI-agent readability; research current specs for that work.
 ---
 
 # Optimise SEO
@@ -69,7 +69,7 @@ Security headers (HSTS, CSP, `nosniff`, `frame-ancestors`, `Referrer-Policy`, `P
 - Don't over-generate thin or doorway pages: indexation drops and sitewide quality signals suffer.
 - Don't let canonicals conflict across variants (trailing slash, www, uppercase): ranking signal splits between duplicates.
 - Don't block crawlers via `robots.txt`, `noindex`, or auth walls on routes meant to rank; check before shipping, not after traffic drops.
-- Don't rely on client-only JS rendering for indexable content; ship SSR/SSG HTML.
+- Don't move indexable content behind a client-only render (`"use client"` plus a fetch in `useEffect`): the crawler indexes the empty shell, so the page ranks for nothing. Server Components already render on the server, so this is a regression you introduce, not a default to fix.
 - Don't change URLs without 301/308 redirects: link equity and crawl budget are lost.
 - Don't add JSON-LD that doesn't match visible content; Google treats it as spam and may demote the page.
 - Don't ship `hreflang` that isn't reciprocal across every alternate; search engines ignore non-mutual sets.
@@ -91,6 +91,7 @@ Security headers (HSTS, CSP, `nosniff`, `frame-ancestors`, `Referrer-Policy`, `P
 
 - `ui-design`: visual direction, palettes, typography, landing-page CRO
 - `ui-audit`: page-level UI quality and rendered i18n behavior (locale formatting, plurals, RTL); `optimise-seo` owns hreflang and localized metadata
+- `multi-tenant-architecture`: per-tenant routing and custom domains. It owns the constraint that `robots.txt`, `sitemap.xml`, and `llms.txt` vary by tenant and never come from `/public`; this skill owns their content once routing works.
 
 ## Validation (step 5, evidence required)
 

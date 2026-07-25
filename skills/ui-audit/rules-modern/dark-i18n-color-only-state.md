@@ -12,16 +12,6 @@ related: states-no-error-state, dark-i18n-untested, microcopy-vague-error
 
 Around 8 % of men and 0.5 % of women have color-vision deficiency; many also browse high-contrast, dark mode, or low-saturation displays where red and green converge. WCAG 1.4.1 (Use of Color) requires color-conveyed information to also use text, icon, pattern, or position. Common failure: an input with `aria-invalid="true"` and a red border but no error icon, no helper text, and no `aria-describedby`. Sighted color-blind users can't tell anything is wrong; screen-reader users learn only from the ARIA attribute, not the visual.
 
-## Contents
-
-- What goes wrong
-- Detection
-- Fix
-- Default tier and overrides
-- Examples
-- Defer-to
-- Suppression
-
 ## What goes wrong
 
 On validation failure a form input renders `<input className="border-red-500" />`. To a deuteranope the red border looks identical to the gray default; the submit button stays enabled and the user can't tell why it failed. The same pattern hides success (green) and warnings (yellow) on dashboards.
@@ -114,7 +104,7 @@ For status badges:
 
 Reference docs:
 - WCAG 1.4.1 Use of Color: https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html
-- WAI-ARIA `aria-describedby`: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
+- WAI-ARIA `aria-describedby`: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-describedby
 - Color-blindness simulator: https://www.color-blindness.com/coblis-color-blindness-simulator/
 
 ## Default tier and overrides
@@ -130,37 +120,10 @@ Reference docs:
 | Marketing landing | backlog |
 | Internal admin | fix-this-sprint |
 
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-<input
-  aria-invalid={hasError}
-  className={cn('border', hasError && 'border-red-500')}
-/>
-```
-
-**Applied (passes):**
-
-```tsx
-<input
-  aria-invalid={hasError}
-  aria-describedby={hasError ? 'field-error' : undefined}
-  className={cn('border', hasError && 'border-destructive')}
-/>
-{hasError && (
-  <p id="field-error" role="alert" className="flex items-center gap-1 text-destructive">
-    <AlertCircleIcon className="h-4 w-4" aria-hidden="true" />
-    {errorMessage}
-  </p>
-)}
-```
-
 ## Defer-to (when this is another tool's job)
 
-- **axe-core** flags some color-only patterns under WCAG 1.4.1; link, don't restate: https://dequeuniversity.com/rules/axe/4.10/color-contrast
-- **Storybook a11y addon** runs axe per story.
+- **axe-core** has no rule for this: its `color-contrast` rule covers WCAG 1.4.3 (contrast ratio), not 1.4.1 (information carried by color). A clean axe run is not evidence. Rule list: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+- **Storybook a11y addon** runs axe per story, so it inherits the same gap.
 - **eslint-plugin-jsx-a11y** catches missing labels but not color-only state.
 
 ## Suppression

@@ -1,6 +1,6 @@
 ---
 title: Use Appropriate Body Text Weight
-impact: CRITICAL
+impact: HIGH
 tags: font-weight, body-text, legibility, thin-fonts
 ---
 

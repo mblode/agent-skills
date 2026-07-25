@@ -18,5 +18,5 @@ Action text should state outcome, not generic intent.
 **Correct (specific):**
 
 ```tsx
-<button>Save API Key</button>
+<button>Save API key</button>
 ```

@@ -1,6 +1,6 @@
 ---
 title: Choose UI Fonts with Distinct Ambiguous Glyphs
-impact: MEDIUM
+impact: HIGH
 tags: ui, glyphs, l-I-1, legibility, interface
 ---
 

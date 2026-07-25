@@ -13,6 +13,8 @@ related: parity-no-tool-parity, parity-crud-incomplete
 
 A PR adds a new UI feature (button, page, form action) but no new tool. Each PR without tool parity widens the gap between what users and agents can do.
 
+Scope: diff only. Every finding here names a capability introduced by the change under review, which is why it tiers lower than `parity-no-tool-parity`: the author is still in the room and the tool is a few lines away. A gap the diff did not introduce is not this rule's finding, even when the grep hits it.
+
 ## What goes wrong
 
 PR adds a "Duplicate project" button calling a new endpoint, but no tool. It merges. Months later a user asks the agent to duplicate a project. It can't.
@@ -54,6 +56,13 @@ export const duplicateProject = tool({
 ## Default tier and overrides
 
 **Defaults to:** `fix-this-sprint`: orphans are drift, not crisis. Cumulative effect degrades agent usefulness.
+
+| Surface | Tier |
+|---|---|
+| Agent tool execution | fix-this-sprint |
+| Agent config | fix-this-sprint |
+
+No tool-execution bump: one new orphan is a gap the author can close next sprint, not a shipped hard wall. Promoting it to blocker on every PR is how teams learn to ignore ❌ verdicts.
 
 ## Examples
 

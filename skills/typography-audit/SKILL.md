@@ -1,12 +1,12 @@
 ---
 name: typography-audit
 description: >-
-  Audits web typography against 90 rules in 10 categories: punctuation, font
-  selection and @font-face setup, sizing and measure, spacing and rhythm,
-  OpenType features, hierarchy, alignment and layout, typeface pairing, brand
-  identity, and display type. Reports file:line findings with concrete
-  CSS/HTML fixes ordered by impact. Use when writing or reviewing CSS/HTML for
-  text, selecting or pairing typefaces, configuring font-feature-settings or
+  Audits web typography against 78 rules in 10 categories: font selection and
+  @font-face setup, sizing and measure, punctuation, spacing and rhythm,
+  hierarchy, alignment and layout, OpenType features, brand identity, typeface
+  pairing, and display type. Reports file:line findings with concrete CSS/HTML
+  fixes ordered by impact. Use when writing or reviewing CSS/HTML for text,
+  selecting or pairing typefaces, configuring font-feature-settings or
   @font-face, building a type scale, or asking "audit my typography", "fix the
   fonts", "review my type system", "why does this text look off". Triggers on
   font-family, font-size, line-height, letter-spacing, smart quotes, em dashes,
@@ -17,9 +17,9 @@ description: >-
 
 # Typography Audit
 
-90 rules in 10 categories for web typography. Every finding names file, rule, and fix.
+78 rules in 10 categories for web typography. Every finding names file, rule, and fix.
 
-- **IS:** typography only: punctuation, font loading, sizing, spacing, OpenType features, hierarchy, text layout, typeface pairing, brand type, display type.
+- **IS:** typography only: font loading, sizing, punctuation, spacing, hierarchy, text layout, OpenType features, typeface pairing, brand type, display type.
 - **IS NOT:** broad UI review (accessibility, forms, navigation: use `ui-audit`), or a redesign (new typefaces, scales: use `ui-design`).
 
 ## Audit Workflow
@@ -29,15 +29,15 @@ Track this checklist:
 ```text
 Audit progress:
 - [ ] Step 1: Scope. List changed files (or full sweep), map signals to categories
-- [ ] Step 2: Run CRITICAL rules in scope (punct-, font-)
-- [ ] Step 3: Run HIGH rules in scope (size-, spacing-)
+- [ ] Step 2: Run CRITICAL rules in scope (font-, size-, punct-)
+- [ ] Step 3: Run HIGH rules in scope (spacing-)
 - [ ] Step 4: Run remaining in-scope categories by descending priority
 - [ ] Step 5: Report per the contract; every finding has file:line, rule ID, fix
 ```
 
 1. Scope to changed files unless a full sweep is requested. For a PR: `git diff --name-only` filtered to `.css`, `.scss`, `.html`, `.tsx`/`.jsx`, and template files.
 2. Map code to categories via the signal table; skip categories with no signal.
-3. Load rule files by prefix (`rules/punct-*.md`, etc.), only for the categories the signals selected.
+3. Load rule files by prefix (`rules/font-*.md`, etc.), only for the categories the signals selected.
 4. Run categories in priority order so CRITICAL findings surface even if the audit is cut short.
 5. After fixes, re-run only the rules that produced findings, then finalize the report.
 
@@ -45,33 +45,33 @@ Audit progress:
 
 | Signal in code | Categories to load |
 |--------------------|--------------------|
+| `@font-face`, `font-family`, font files, variable fonts, `font-stretch`, `transform: scaleX` on text | `font-` |
+| `font-size`, `clamp()`, media-query type changes, `max-width` on text, `<em>`/`<strong>`, `text-decoration` | `size-` |
 | Copy in HTML/JSX (headings, paragraphs, labels) | `punct-` |
-| `@font-face`, `font-family`, font files, variable fonts | `font-` |
-| `font-size`, `clamp()`, media-query type changes, `max-width` on text | `size-` |
-| `line-height`, `letter-spacing`, `margin` on text, `text-transform: uppercase` | `spacing-` |
-| `font-feature-settings`, `font-variant-*`, figures/fractions in copy | `opentype-` |
+| `line-height`, `letter-spacing`, `word-spacing`, `margin` on text, `text-transform: uppercase` | `spacing-` |
 | Heading elements, type scale tokens, `--text-*` properties | `hierarchy-` |
 | `text-align`, lists, blockquotes, multi-column text | `layout-` |
+| `font-feature-settings`, `font-variant-*`, figures/fractions in copy | `opentype-` |
+| Logo/wordmark styles, brand tokens, text color tokens, license comments | `brand-` |
 | Two or more distinct `font-family` values | `pairing-` |
-| Logo/wordmark styles, brand tokens, license comments | `brand-` |
 | Hero/display sizes, drop caps, `initial-letter` | `display-` |
 
 ## Rule Categories by Priority
 
 | Priority | Category | Impact | Prefix | Rules |
 |----------|----------|--------|--------|-------|
-| 1 | Punctuation & Special Characters | CRITICAL | `punct-` | 12 |
-| 2 | Font Selection & Weights | CRITICAL | `font-` | 11 |
-| 3 | Sizing & Measure | HIGH | `size-` | 7 |
-| 4 | Spacing & Rhythm | HIGH | `spacing-` | 10 |
-| 5 | OpenType Features | MEDIUM-HIGH | `opentype-` | 8 |
-| 6 | Hierarchy & Scale | MEDIUM-HIGH | `hierarchy-` | 8 |
-| 7 | Alignment & Layout | MEDIUM | `layout-` | 8 |
-| 8 | Typeface Pairing | MEDIUM | `pairing-` | 10 |
-| 9 | Brand & Identity | LOW-MEDIUM | `brand-` | 8 |
-| 10 | Display & Headlines | LOW-MEDIUM | `display-` | 8 |
+| 1 | Font Selection & Weights | CRITICAL | `font-` | 11 |
+| 2 | Sizing & Measure | CRITICAL | `size-` | 6 |
+| 3 | Punctuation & Special Characters | CRITICAL | `punct-` | 12 |
+| 4 | Spacing & Rhythm | HIGH | `spacing-` | 8 |
+| 5 | Hierarchy & Scale | MEDIUM-HIGH | `hierarchy-` | 8 |
+| 6 | Alignment & Layout | MEDIUM | `layout-` | 6 |
+| 7 | OpenType Features | MEDIUM | `opentype-` | 7 |
+| 8 | Brand & Identity | MEDIUM | `brand-` | 8 |
+| 9 | Typeface Pairing | MEDIUM | `pairing-` | 5 |
+| 10 | Display & Headlines | LOW-MEDIUM | `display-` | 7 |
 
-Category map and impact rationale: `rules/_sections.md`. Each rule file gives why it matters plus an incorrect and a correct example. Report findings with the rule's own frontmatter `impact`, which may differ from its category (e.g., `font-rendering` is MEDIUM inside the CRITICAL `font-` category).
+Category map and impact rationale: `rules/_sections.md`. Each rule file gives why it matters plus an incorrect and a correct example. Category impact reflects the category's worst-case rules; report findings with the rule's own frontmatter `impact`, which frequently differs (e.g. `brand-color` is HIGH inside the MEDIUM `brand-` category because it holds the WCAG contrast floor).
 
 ## Review Output Contract
 
@@ -83,7 +83,7 @@ Report findings as:
 ### path/to/file.css
 - [CRITICAL] `punct-smart-quotes` (file.css:42): Straight quotes in heading copy.
   - Fix: Replace `"` with `&ldquo;`/`&rdquo;` (or UTF-8 curly quotes).
-- [HIGH] `size-line-height` (file.css:18): `line-height: 20px`, a fixed value that breaks at larger font sizes.
+- [CRITICAL] `size-line-height` (file.css:18): `line-height: 20px`, a fixed value the 48px `h1` inherits, so its lines overlap.
   - Fix: Use unitless `line-height: 1.5`.
 
 ### path/to/clean-file.css
@@ -97,7 +97,8 @@ Report findings as:
 
 ## Gotchas
 
-- Don't preload all 90 rule files (~90 KB before the audit starts). Load only the prefixes the signal table selects.
+- Don't preload all 78 rule files. Load only the prefixes the signal table selects.
+- Report the rule's frontmatter `impact`, never the category's. Two rules get misreported most: `brand-color` is HIGH (an accessibility floor, not a brand nicety) and `punct-daggers` is LOW-MEDIUM (decoration, despite sitting in a CRITICAL category).
 - Punctuation rules apply to rendered copy only. Flagging straight quotes or `--` inside `<code>`, `<pre>`, or JS/TS string literals is a false positive; "fixing" them breaks the code.
 - Don't flag missing OpenType features without confirming the loaded font ships them. Browsers silently ignore unsupported `font-feature-settings` tags, so the fix does nothing.
 - Every finding needs `file:line` and a concrete fix; an unactionable finding forces a redo.
@@ -108,3 +109,4 @@ Report findings as:
 
 - `ui-audit`: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower.
 - `ui-design`: choosing typefaces, scales, and visual direction from scratch; run when a finding becomes a redesign request.
+- `copywriting`: heading and label wording. This skill governs only the casing of that copy (`punct-case-rules`).

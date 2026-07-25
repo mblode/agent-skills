@@ -12,16 +12,6 @@ related: dark-i18n-locale-formatting, microcopy-vague-error
 
 `count === 1 ? 'item' : 'items'` bakes English's two-form plural into the UI. Most languages differ: Russian and Polish have forms for 1, 2-4, and 5+; Arabic has six (zero, one, two, few, many, other); Japanese and Chinese have one. The ternary produces wrong grammar there, and the English literals never translate. `Intl.PluralRules` exposes CLDR plural categories: feed the category into a per-locale message map, or use your i18n library's ICU `{count, plural, ...}` syntax.
 
-## Contents
-
-- What goes wrong
-- Detection
-- Fix
-- Default tier and overrides
-- Examples
-- Defer-to
-- Suppression
-
 ## What goes wrong
 
 A badge renders `${n} ${n === 1 ? 'message' : 'messages'}`. Fine in English. In Russian, "5 messages" should be "5 сообщений", but two slots can't express the few/many distinction, so the result is "5 сообщение" (singular grammar on a plural count), which reads as broken to a native speaker. Inline literals also make a Polish or Arabic translation impossible without code changes.
@@ -77,7 +67,7 @@ const word = forms[locale][pr.select(count)];
 Reference docs:
 - `Intl.PluralRules`: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules
 - CLDR plural rules: https://cldr.unicode.org/index/cldr-spec/plural-rules
-- ICU MessageFormat plural: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format
+- ICU MessageFormat plural: https://formatjs.github.io/docs/core-concepts/icu-syntax/#plural-format
 
 ## Default tier and overrides
 
@@ -91,25 +81,6 @@ Reference docs:
 | Dashboard / lists | backlog |
 | Marketing landing | backlog |
 | Internal admin | backlog (often English-only) |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-export function ResultCount({ n }: { n: number }) {
-  return <p>{n} result{n === 1 ? "" : "s"}</p>;
-}
-```
-
-**Applied (passes):**
-
-```tsx
-export function ResultCount({ n }: { n: number }) {
-  // messages: { "results": "{n, plural, one {# result} other {# results}}" }
-  return <p>{t("results", { n })}</p>;
-}
-```
 
 ## Defer-to (when this is another tool's job)
 

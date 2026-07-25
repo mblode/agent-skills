@@ -10,9 +10,9 @@ Covers: headings, taglines, subtitles, descriptions, labels, list items, button 
 
 ## UI microcopy
 
-- Name actions verb + noun ("Delete Member", "Deploy Project"), never bare "Confirm", "OK", or a lone verb.
+- Name actions verb + noun ("Delete member", "Deploy project"), never bare "Confirm", "OK", or a lone verb.
 - Write errors as what happened + what to do next: "Build failed. Bundle exceeds 50 MB. Reduce it or raise the limit."
 - Toasts name the specific thing changed, no trailing period, never say "successfully": "Project deleted", not "Successfully deleted the project."
 - Empty states point to the first action: "No deployments yet. Push to your Git repository to create one."
-- In-progress states use the present participle + ellipsis: "Deploying...", "Saving..."
-- Use Title Case for labels, buttons, titles, and tabs; sentence case for body, helper text, and toasts.
+- In-progress states use the present participle plus a real ellipsis character: "Deploying…", "Saving…", never three periods.
+- Sentence case everywhere: labels, buttons, titles, tabs, body, helper text, and toasts. This matches `copywriting`, which owns final wording.

@@ -59,6 +59,8 @@ export function Component() {
 
 Link canonical docs: React https://react.dev/reference/react/<api>, Next.js https://nextjs.org/docs/app/api-reference/<api>.
 
+One before/after pair per rule, here. Add an extra `## Examples` section only for a bank of genuinely different scenarios that the Fix cannot carry (the `microcopy-*` rules do this, because the defect is the string itself). Never restate the Fix in a second pair, and don't add a `## Contents` index: these headings are the whole file shape.
+
 ## Default tier and overrides
 
 **Defaults to:** `<tier>`
@@ -70,20 +72,6 @@ Link canonical docs: React https://react.dev/reference/react/<api>, Next.js http
 | Checkout | <usually one tier higher> |
 | Marketing landing | <usually one tier lower> |
 | Internal admin | <usually one tier lower> |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-// Real-world example showing the bug.
-```
-
-**Applied (passes):**
-
-```tsx
-// Same component with the modern fix applied.
-```
 
 ## Defer-to (when this is another tool's job)
 

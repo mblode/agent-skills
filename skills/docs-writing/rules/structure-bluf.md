@@ -6,7 +6,7 @@ tags: structure, bluf, introduction, purpose
 
 ## Start with the bottom line
 
-Open with the bottom line up front: state what the doc covers, what the reader can do after reading, and the problem plus the outcome. Move backstory later or into a separate explanation doc.
+Open with the bottom line up front: state what the doc covers, what the reader can do after reading, and the problem plus the outcome. Push backstory and caveats to the end of the page, or into a separate explanation doc.
 
 **Incorrect (buries the purpose under background):**
 

@@ -23,4 +23,4 @@ The system validates the input and determines the output format.
 After installing, verify the configuration.
 ```
 
-Reference: [Federal Plain Language Guidelines: Use strong verbs](https://www.plainlanguage.gov/guidelines/words/use-strong-verbs/)
+Reference: [Microsoft Writing Style Guide: Verbs](https://learn.microsoft.com/en-us/style-guide/grammar/verbs)

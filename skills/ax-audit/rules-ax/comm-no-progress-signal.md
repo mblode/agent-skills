@@ -6,12 +6,14 @@ defaultTier: release-blocker
 surfaces: agent-chat, agent-tool-execution, agent-dashboard
 ax-pattern: Confidence Cues (progress dimension)
 detection: code-auditable
-related: comm-no-intent-handshake, context-no-adaptive-canvas
+related: comm-no-intent-handshake, context-no-adaptive-canvas, comm-no-progress-visibility
 ---
 
 ## Multi-step agent task shows no progress
 
 Agent runs a task that takes 30+ seconds. The UI shows nothing: no streaming, no step counter, no thinking indicator. User doesn't know if it's working, stuck, or crashed. Silent agents feel broken.
+
+Scope: this rule audits what the user sees. If the server never emitted progress events in the first place, the finding belongs to `rules-arch/comm-no-progress-visibility`, and fixing the component cannot resolve it.
 
 ## What goes wrong
 
@@ -24,15 +26,15 @@ User asks the agent to analyze a dataset. Three tool calls, API waits, synthesis
 **Auditability:** code-auditable
 
 **Static signals:**
-1. Find agent invocation code (chat submit handlers, tool execution triggers).
-2. Check for streaming (`onChunk`, `onToken`, SSE, `useChat`) or progress events (`onProgress`, `onStatus`).
-3. Flag agent calls with only a final result handler and no intermediate feedback.
+1. Find the components that call the agent (chat submit handlers, action panel triggers).
+2. Check whether they subscribe to progress (`onChunk`, `onToken`, `onProgress`, `onStatus`, `useChat`) and render what arrives, not just the final value.
+3. Flag components that receive events but only render on completion: a handler that sets state no JSX reads is the same silence to the user.
 
 **Concrete commands:**
 ```bash
-rg '(useChat|useCompletion|agent\.chat|agent\.run|streamText|generateText)' --type=ts -l src/
-rg '(onChunk|onToken|onProgress|onStatus|stream:\s*true)' --type=ts src/
-rg -A 10 '(executeTool|runTool|toolCall)' --type=ts src/ | rg -v '(onProgress|onStatus|stream)'
+rg '(useChat|useCompletion|agent\.chat|agent\.run|streamText|generateText)' --type=ts -l src/components/ src/app/
+rg '(onChunk|onToken|onProgress|onStatus|stream:\s*true)' --type=ts src/components/ src/app/
+rg -n 'isStreaming|isLoading|status ===' --type=ts src/components/ | rg -v '(Spinner|Skeleton)'
 ```
 
 **False-positive guards:**
@@ -42,7 +44,7 @@ rg -A 10 '(executeTool|runTool|toolCall)' --type=ts src/ | rg -v '(onProgress|on
 
 ## Fix
 
-Stream responses incrementally. Show a thinking indicator. For multi-step tasks, emit step-level progress: "Thinking..." then "Searching for X..." then "Found 3 results, analyzing..." then final response.
+Render each event as it arrives instead of waiting for the final value. Name the current step in the user's words, not the tool's: "Searching for X..." then "Found 3 results, analyzing..." beats three identical spinners. A generic "Thinking..." held for 45 seconds is still a frozen UI.
 
 ## Default tier and overrides
 

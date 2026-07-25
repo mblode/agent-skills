@@ -1,33 +1,35 @@
 ---
-title: High-stakes irreversible action with no approval step
+title: Orchestrator executes high-stakes tools with no gate on the code path
 slug: comm-no-approval-gate
 category: comm
 defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-chat
 agent-native-principle: Parity (agent-UI communication)
 detection: hybrid
-related: comm-no-progress-visibility
+related: comm-no-progress-visibility, control-no-approval-gate
 ---
 
-## High-stakes irreversible action with no approval step
+## Orchestrator executes high-stakes tools with no gate on the code path
 
-Agent autonomously sends email, deletes files, or publishes content with no confirmation. The user discovers it after the fact: trust destroyed. Violates Parity: stakes and reversibility must determine oversight level, not agent confidence.
+The tool-use loop calls `tool.execute()` directly, so nothing in the orchestrator can interpose a confirmation. Whatever the UI renders, a destructive tool registered tomorrow ships ungated by default. Violates Parity: oversight belongs on the execution path both the user and the agent go through.
+
+Scope: this rule asks whether a gate exists in the orchestrator at all, and whether tool definitions carry the risk metadata a gate needs. Which approval treatment each risk level earns (auto-apply, quick confirm, diff, modal) is `rules-ax/control-no-approval-gate`.
 
 ## What goes wrong
 
-User says "clean up my inbox." Agent archives 200 emails including an unread message from the CEO. Or: "deploy the fix" and the agent pushes to production without showing what changed.
+A chat surface ships a confirmation modal for the three delete tools it knows about, wired at the call site. Someone adds `transfer_funds` to the registry. The loop calls it the same way it calls `list_files`, and no reviewer notices, because the gate was never on the path, only on three call sites.
 
 ## Detection
 
 **Surfaces:** agent-tool-execution, agent-chat
 
 **Static signals:**
-1. Find tool execution handlers.
+1. Find the tool-use loop and every call site that reaches `.execute(`. More than one path to execution means there is no single gate.
 2. Identify destructive/financial/external operations: send, delete, publish, deploy, charge, transfer.
-3. Check for confirmation dialog or approval handler between decision and execution.
-4. Flag direct execution of high-stakes operations with no gate.
+3. Check whether an approval handler sits between dispatch and execution on that path, and whether it is reached for every tool or only for named ones.
+4. Check what happens to a tool with no stakes metadata: defaulting to auto-approve is a fail even when today's registry is fully labelled.
 
-**Runtime signals:** Agent executes destructive tools with no preceding user confirmation.
+**Runtime signals:** a destructive tool added to the registry with no other change executes without prompting.
 
 **Concrete commands:**
 ```bash
@@ -44,42 +46,42 @@ rg '(requireApproval|confirmBefore|approvalGate|stakesLevel)' --type=ts src/
 
 ## Fix
 
-Stakes x reversibility matrix: low+easy = auto, low+hard = quick confirm, high+easy = suggest with diff, high+hard = explicit modal.
+Every tool call passes through one checkpoint, and tools declare their own risk so the checkpoint can classify them without a hardcoded name list. Fail closed: a tool with no declared stakes is treated as high.
 
 ```tsx
-// before
+// before: no interposition point, gating is per-call-site or absent
 async function executeTool(tc: ToolCall) {
   return tools[tc.name].execute(tc.args);
 }
 
-// after: approval gate based on stakes and reversibility
+// after: single choke point, risk declared on the tool
 async function executeTool(tc: ToolCall, onApproval: ApprovalHandler) {
   const tool = tools[tc.name];
-  switch (getApprovalLevel(tool.stakes, tool.reversibility)) {
-    case "auto":     return tool.execute(tc.args);
-    case "quick":    await onApproval({ type: "toast", timeout: 5000 }); return tool.execute(tc.args);
-    case "suggest":  await onApproval({ type: "diff", diff: await tool.preview(tc.args) }); return tool.execute(tc.args);
-    case "explicit": await onApproval({ type: "modal", requireConfirm: true }); return tool.execute(tc.args);
-  }
+  const risk = tool.stakes ?? "high";        // unlabelled tools are not auto-approved
+  const decision = await onApproval({ tool: tc.name, args: tc.args, risk, reversibility: tool.reversibility });
+  if (decision !== "approved") return { status: "cancelled", reason: decision };
+  return tool.execute(tc.args);
 }
 ```
+
+The `onApproval` handler owns the treatment per risk level, so it is audited by `rules-ax/control-no-approval-gate`, not here. This rule passes once the checkpoint exists, covers every tool, and cannot be bypassed by registering a new one.
 
 ## Default tier and overrides
 
 **Defaults to:** `release-blocker`
 
+The gap is in shared orchestrator code, so it reaches every surface that can trigger a mutating tool. The rows do not taper the way a presentation rule's do.
+
 | Surface | Tier |
 |---|---|
 | Agent tool execution | release-blocker |
 | Agent chat | release-blocker |
-| Agent config | fix-this-sprint |
-| Agent dashboard | fix-this-sprint |
 
 ## Examples
 
-**Anti-pattern (fails):** `execute: async (args) => emailClient.send(args)`: no confirmation.
+**Anti-pattern (fails):** the tool-use loop calls `tools[tc.name].execute(tc.args)` with no handler parameter threaded in, and `grep` for `requireApproval|approvalGate` in the orchestrator returns nothing. Confirmation modals in the chat component do not count; they cannot see a tool call the loop makes on the server.
 
-**Applied (passes):** Tool declares `stakes: "high", reversibility: "hard"`: gate applied automatically.
+**Applied (passes):** one `executeTool` wrapper, every registration path goes through it, and tool definitions carry `stakes` / `reversibility` fields the checkpoint reads.
 
 ## Suppression
 

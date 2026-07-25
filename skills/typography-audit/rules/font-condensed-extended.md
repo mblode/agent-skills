@@ -1,23 +1,28 @@
 ---
-title: Use Condensed Faces for Headlines Only
-impact: CRITICAL
-tags: condensed, extended, width, headlines, body-text
+title: Change Width with Real Faces, Never Distortion
+impact: HIGH
+tags: condensed, extended, width, distortion, font-stretch
 ---
 
-## Use Condensed Faces for Headlines Only
+## Change Width with Real Faces, Never Distortion
 
-Use condensed and extra-condensed faces for headlines and tight spaces where you control line breaks. Never for body copy: narrow letterforms cut readability at small sizes. Extended variants are rarely needed but work for stylistic effect at large sizes. Re-tune all spacing when swapping widths.
+Never stretch, squish, or skew type with CSS transforms or width hacks; distortion destroys the designed stroke proportions, thinning verticals and thickening horizontals. Need narrower or wider text? Use a condensed or extended cut, or a variable font's width axis. Use condensed faces for headlines and tight UI labels (navigation, badges, tags) where you control line breaks, never for body copy: narrow letterforms cut readability at small sizes. Extended cuts are rarely needed but work for stylistic effect at large sizes.
 
-**Incorrect (condensed face for body):**
+**Incorrect (CSS distortion, or condensed used for body):**
 
 ```css
+h1 {
+  font-family: 'Inter', sans-serif;
+  transform: scaleX(0.8); /* squished, stroke weights now uneven */
+}
+
 body {
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 16px;
+  font-size: 16px; /* narrow letterforms at reading size */
 }
 ```
 
-**Correct (condensed for headlines, normal for body):**
+**Correct (real width variants):**
 
 ```css
 body {
@@ -30,6 +35,12 @@ h1 {
   font-size: 48px;
   letter-spacing: -0.01em;
 }
+
+/* Or a variable font's width axis */
+h1 {
+  font-family: 'Inter VF', sans-serif;
+  font-stretch: 85%; /* real condensed rendering */
+}
 ```
 
-Condensed faces also suit tight UI labels (navigation, badges, tags). When switching project fonts, a metrically compatible replacement swaps in more easily, but always re-tune size, line-height, letter-spacing, and padding after any change.
+Exception: deliberate distortion inside a logo, as an explicit design choice on a fixed piece of artwork. Re-tune size, line height, letter-spacing, and padding after any width swap; a metrically compatible replacement swaps in more easily but still needs the pass.

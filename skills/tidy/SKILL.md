@@ -13,7 +13,8 @@ description: >-
   "simplify", "clean up this diff", "polish my changes", "check for
   duplication", or "any reuse opportunities?", i.e. when the intent is to have
   the changes made automatically. For a read-only report that lists findings
-  without touching files, use `pr-reviewer` instead.
+  without touching files, use `pr-reviewer` instead. This skill edits code; for
+  the PR's title, description, or commit history, use `pr-creator`.
 ---
 
 # tidy

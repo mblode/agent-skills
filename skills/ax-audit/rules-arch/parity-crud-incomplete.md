@@ -58,6 +58,14 @@ export const deleteNote = tool({
 
 **Defaults to:** `release-blocker`: incomplete CRUD strands agents mid-workflow.
 
+| Surface | Tier |
+|---|---|
+| Agent tool execution | release-blocker |
+| Agent config | release-blocker |
+| Agent dashboard | release-blocker |
+
+Dashboard does not taper. A run the user can start and watch but not cancel or retry is the same dead end as a note the agent cannot edit.
+
 ## Examples
 
 **Anti-pattern (fails):**

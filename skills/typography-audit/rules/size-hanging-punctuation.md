@@ -1,6 +1,6 @@
 ---
 title: Use Hanging Punctuation Where Feasible
-impact: HIGH
+impact: LOW-MEDIUM
 tags: hanging-punctuation, alignment, optical, blockquotes
 ---
 

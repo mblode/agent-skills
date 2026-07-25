@@ -34,7 +34,7 @@ Surface typography sweep for UI audits: punctuation, sizing, spacing, styles, te
 
 ## Capitalization, spacing, and emphasis
 
-- [ ] Sentence or title case for headings: one choice, consistent.
+- [ ] Sentence case for headings and labels, applied consistently. `copywriting` owns wording; flag deviations, don't relitigate the choice.
 - [ ] One space after sentence punctuation; no double spaces.
 - [ ] Italics for emphasis (sparingly), not bold-everything, all caps, or quotes.
 - [ ] Underlines for links only, never decoration or emphasis.

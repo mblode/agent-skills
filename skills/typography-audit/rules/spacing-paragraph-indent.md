@@ -1,6 +1,6 @@
 ---
 title: Apply Indents Correctly
-impact: HIGH
+impact: MEDIUM
 tags: text-indent, paragraphs, first-paragraph, sizing
 ---
 

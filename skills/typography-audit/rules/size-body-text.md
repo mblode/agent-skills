@@ -1,6 +1,6 @@
 ---
 title: Set Body Text Size by Context
-impact: HIGH
+impact: CRITICAL
 tags: font-size, body-text, mobile, desktop, print
 ---
 

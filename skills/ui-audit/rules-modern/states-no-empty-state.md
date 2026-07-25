@@ -12,16 +12,6 @@ related: states-no-skeleton, states-no-error-state
 
 When a list, table, or feed is empty, "No items" alone is a dead end: the user can't tell whether nothing exists, the filter is too narrow, or they must act to populate it. A good empty state names the situation, explains why, and offers exactly one primary action. Onboarding empty states (first-run inbox, fresh dashboard) are the product's highest-leverage surfaces, and the most commonly skipped.
 
-## Contents
-
-- What goes wrong
-- Detection
-- Fix
-- Default tier and overrides
-- Examples
-- Defer-to
-- Suppression
-
 ## What goes wrong
 
 A new user lands on the dashboard. The "Recent invoices" widget reads "No invoices": no button, no link, nothing suggesting they create one. The user assumes the feature is broken and bounces. Or a power user filters their inbox to "starred + label:billing + last 7 days": zero results, same dead-end "No messages" with no "Clear filters" CTA.
@@ -96,7 +86,7 @@ For zero-result searches:
 ```
 
 Docs:
-- shadcn/ui empty patterns: https://ui.shadcn.com/docs/components/card
+- shadcn/ui empty patterns: https://ui.shadcn.com/docs/components/base/card
 - Next.js Link: https://nextjs.org/docs/app/api-reference/components/link
 
 ## Default tier and overrides
@@ -112,26 +102,6 @@ Docs:
 | Search results | fix-this-sprint |
 | Internal admin | backlog |
 | Power-user filter scenarios | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-{posts.length === 0 && <div>No posts</div>}
-```
-
-**Applied (passes):**
-
-```tsx
-{posts.length === 0 && (
-  <EmptyState
-    title="No posts yet"
-    description="Share your first post to get started."
-    action={<Button onClick={onCompose}>Write a post</Button>}
-  />
-)}
-```
 
 ## Defer-to (when this is another tool's job)
 

@@ -111,7 +111,7 @@ Prefer specific copy over bare "Loading..." when the target is known. Say what l
 
 | Bad | Good |
 |-----|------|
-| `Loading...` | `Loading your projects...` |
+| `Loading...` | `Loading your projects…` |
 | `Please wait` | `Importing 1,240 rows. This takes about a minute.` |
 | `...` | `Deploying. Usually under 30 seconds.` |
 

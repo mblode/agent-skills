@@ -53,6 +53,13 @@ export const moveEmail = tool({ name: "move_email", /* ... */ });
 
 **Defaults to:** `fix-this-sprint`: works until the user disagrees with a bundled decision.
 
+| Surface | Tier |
+|---|---|
+| Agent tool execution | fix-this-sprint |
+| Agent config | fix-this-sprint |
+
+No tool-execution bump: a bundled tool still does what it says, it just does too much of it. The blocker in that neighbourhood is an ungated action (`comm-no-approval-gate`), not a coarse one.
+
 ## Examples
 
 **Anti-pattern (fails):**

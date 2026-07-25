@@ -12,9 +12,6 @@ related: interaction-target-size, focus-on-dynamic-content
 
 Reveal-on-hover quietly disappears on touch: a row exposes "Edit / Delete / Share" only when the cursor enters, but a phone has no cursor. Touch users never discover the actions, or only via a frustrating long-press. The same pattern hides tooltips, secondary CTAs, and meaningful state ("3 unread") behind `:hover`. `@media (hover: hover)` and `@media (pointer: fine)` scope hover-reveal to hover-capable input, but most codebases skip this and ship a desktop-only experience to mobile.
 
-## Contents
-[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
-
 ## What goes wrong
 
 A row uses `opacity-0 group-hover:opacity-100` to reveal action buttons. On desktop the cursor enters and they fade in; on mobile the tap navigates to a detail view and the inline actions are never seen. Same pattern hides "X" close buttons on cards, "Copy link" on code blocks, and tooltip content carrying real information.
@@ -90,8 +87,8 @@ For tooltip content carrying real information, switch to a focus-visible, click-
 ```
 
 Docs:
-- MDN `@media (hover)`: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
-- MDN `(pointer: fine|coarse)`: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer
+- MDN `@media (hover)`: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/hover
+- MDN `(pointer: fine|coarse)`: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/pointer
 - Tailwind hover-hover variant docs: https://tailwindcss.com/docs/hover-focus-and-other-states#pointer-and-any-pointer
 
 ## Default tier and overrides
@@ -106,33 +103,6 @@ Docs:
 | List / feed | fix-this-sprint |
 | Marketing landing | backlog |
 | Internal admin | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-<div className="group">
-  <span>{file.name}</span>
-  <button className="opacity-0 group-hover:opacity-100" onClick={onDelete}>
-    Delete
-  </button>
-</div>
-```
-
-**Applied (passes):**
-
-```tsx
-<div className="group">
-  <span>{file.name}</span>
-  <button
-    className="opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:focus-visible:opacity-100"
-    onClick={onDelete}
-  >
-    Delete
-  </button>
-</div>
-```
 
 ## Defer-to (when this is another tool's job)
 

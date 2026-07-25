@@ -40,7 +40,7 @@ rg -c 'variant="(primary|default)"|className=".*bg-(primary|brand)' src/Componen
 
 ## Fix
 
-**If fail:** Defer secondary controls behind tabs, accordions, or progressive disclosure. Demote competing CTAs to `variant="ghost"` or `variant="outline"`. Break body copy into ≤75ch lines with subheadings every 2-3 paragraphs.
+**If fail:** Defer secondary controls behind tabs, accordions, or progressive disclosure. Demote competing CTAs to `variant="ghost"` or `variant="outline"`. Break walls of body copy with a subheading every 2-3 paragraphs; measure and leading are `rules-surface/type-measure-leading`'s thresholds, so route that finding there instead of restating a character count here.
 
 **If warn:** Demote one of the competing primaries (`variant="secondary"`); collapse the lowest-priority interactive cluster behind a "Show more" toggle.
 

@@ -1,6 +1,6 @@
 ---
 title: Place Subheadings Closer to Following Content
-impact: HIGH
+impact: MEDIUM-HIGH
 tags: subheadings, proximity, whitespace, visual-grouping
 ---
 

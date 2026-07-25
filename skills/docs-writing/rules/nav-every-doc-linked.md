@@ -24,4 +24,4 @@ These settings control cluster behavior...
 For cluster tuning options, see [Advanced configuration](advanced-config.md).
 ```
 
-Reference: [Google developer documentation style guide: Links](https://developers.google.com/style/links)
+Reference: [Google developer documentation style guide: Cross-references](https://developers.google.com/style/cross-references)

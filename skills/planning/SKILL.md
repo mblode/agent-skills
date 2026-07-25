@@ -61,7 +61,7 @@ Conflict rule: current requirements win first. Then `as simple as possible, no s
 | `references/html-question-form.md` | Create | Create Step 2, optional: batched HTML question form for large or greenfield specs instead of one-at-a-time chat |
 | `references/plan-quality-rubric.md` | Review | Review Step 2 triage: 1-5 scoring criteria per dimension |
 | `references/questioning-framework.md` | Review | Review Step 3: question templates and pushback patterns per dimension |
-| `references/dialogue-examples.md` | Review | Before the Review dialogue: tone calibration and all four moves in action |
+| `references/dialogue-examples.md` | Review | Before the Review dialogue: tone calibration, and the Verify move's claim/evidence/verdict block worked through |
 | `references/claim-verification.md` | Review | When a claim is checkable against local code, docs, or specs, or the user asks to verify one |
 
 ## Create mode
@@ -71,7 +71,7 @@ Create progress:
 - [ ] Step 1: Understand intent (read the request, scan code and docs, state findings)
 - [ ] Step 2: Interrogate (one question at a time; end with the "radically simpler?" challenge)
 - [ ] Step 3: Synthesize (write the plan file, format matched to scope)
-- [ ] Step 4: Validate (check the plan against the original request, report the path)
+- [ ] Step 4: Validate (run the four checks, emit the validation block)
 - [ ] Step 5: Hand off to Review mode
 ```
 
@@ -128,7 +128,20 @@ Name an implementation-notes file next to the plan and instruct the executor to 
 - **Scope gate:** the plan fails if it violates any decision principle, especially an unneeded extension point, horizontal setup before the first tracer bullet, new code or a new dependency where a higher ladder rung holds, or a cut that drops required correctness, permissions, rollback, migration safety, or edge states.
 - Any unstated assumptions that should be explicit?
 
-Fix failures in the plan directly; don't reopen the interrogation. Report the plan path and confirm each check passed.
+Fix failures in the plan directly; don't reopen the interrogation.
+
+Then emit the validation block. Every row cites the plan section that satisfies its check, so a check with nothing to cite is a failure to fix before reporting rather than a claim to assert:
+
+```text
+PLAN VALIDATION: <path>
+  Answers the request    <section stating the intended outcome>
+  Answers landed         <n of n interrogation answers; name any dropped>
+  Scope gate             <section carrying the cut list; principles checked>
+  Assumptions explicit   <section, or "none found">
+  Verification           <the plan's Verification commands, copied>
+```
+
+Lightweight plans have no Verification section; cite the one check that proves the approach instead.
 
 ### Step 5: Hand off
 
@@ -221,6 +234,14 @@ Plan edits happen incrementally during the loop; this final pass confirms the fi
 - No "great plan, but...": start with the triage table and go straight to gaps. Acknowledge strengths in one clause at most.
 - Direct but constructive; aim to strengthen, not criticize.
 - Name scope creep, unearned abstractions, and horizontal-layer plans explicitly. Push for the minimum executable slice that proves the approach end-to-end.
+
+## Gotchas
+
+- A question the code or docs can answer spends one of the 5-10 budget and returns what Step 1 would have read for free.
+- Past 10 questions the scope is too big for one plan. Asking an eleventh buys detail on a plan that cannot be executed in one pass; propose a split.
+- Re-asking a stalled question in different words never produces the 5/5 answer. Propose a concrete fix to accept or reject, or record what blocks 5/5 and move to the next dimension.
+- A handoff plan with no named implementation-notes file loses every deviation the code forced on the executor, so review afterwards has nothing to read.
+- A plan that arrived as pasted text has no file to write resolutions into, so the whole Review evaporates when the session ends. Output the full updated plan in a code block and offer a path.
 
 ## Related skills
 

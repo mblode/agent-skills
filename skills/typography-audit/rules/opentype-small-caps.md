@@ -1,6 +1,6 @@
 ---
 title: Use Real Small Caps, Not Pseudo
-impact: MEDIUM-HIGH
+impact: MEDIUM
 tags: small-caps, font-variant, opentype, abbreviations
 ---
 
@@ -32,4 +32,4 @@ Real small caps are designed glyphs whose proportions match lowercase letters. P
 }
 ```
 
-Verify the font ships `smcp` (small caps from lowercase) and optionally `c2sc` (from uppercase); not all fonts include real small-cap glyphs.
+Verify the font ships `smcp` (small caps from lowercase) and optionally `c2sc` (from uppercase); not all fonts include real small-cap glyphs. Without them the browser fakes small caps by shrinking uppercase, producing the same thin uneven result as doing it by hand.

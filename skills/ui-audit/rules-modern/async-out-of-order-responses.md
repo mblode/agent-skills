@@ -12,16 +12,6 @@ related: states-no-skeleton, async-no-suspense-boundary
 
 Type "ca" then "cat" quickly: two requests fly. On a slow network the "ca" response can land after "cat", so the UI shows "ca" results while the input says "cat." Fix: cancel in-flight requests with `AbortController`, or drive the request key with `useDeferredValue` so React collapses to the latest value.
 
-## Contents
-
-- What goes wrong
-- Detection
-- Fix
-- Default tier and overrides
-- Examples
-- Defer-to
-- Suppression
-
 ## What goes wrong
 
 A search input fetches on every keystroke over a jittery network. The "iphon" response lands after "iphone", overwriting the iphone results with iphon results. It looks broken, yet intermittently looks correct, so it is hard to reproduce.
@@ -45,7 +35,7 @@ rg -A 8 'onChange=|onInput=' --type=ts | rg -B 2 'fetch\(|useQuery\(|axios\.'
 
 # Files using fetch in inputs without AbortController
 rg 'onChange|onInput' --type=ts -l | while read f; do
-  rg -L 'AbortController|useDeferredValue|signal:' "$f" && echo "$f: input fetch with no cancellation"
+  rg -q 'AbortController|useDeferredValue|signal:' "$f" || echo "$f: input fetch with no cancellation"
 done
 
 # useEffect with fetch but no cleanup
@@ -123,25 +113,6 @@ Docs:
 | Async form validation | fix-this-sprint |
 | Dashboard date-range refetch | fix-this-sprint |
 | Marketing | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-```tsx
-<input onChange={(e) => fetch(`/api/search?q=${e.target.value}`).then(r => r.json()).then(setResults)} />
-```
-
-**Applied (passes):**
-```tsx
-const deferred = useDeferredValue(q);
-useEffect(() => {
-  const ac = new AbortController();
-  fetch(`/api/search?q=${deferred}`, { signal: ac.signal })
-    .then((r) => r.json()).then(setResults)
-    .catch((e) => { if (e.name !== 'AbortError') throw e; });
-  return () => ac.abort();
-}, [deferred]);
-```
 
 ## Defer-to (when this is another tool's job)
 

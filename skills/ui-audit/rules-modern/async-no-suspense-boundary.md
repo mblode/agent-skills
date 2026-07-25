@@ -82,7 +82,7 @@ export default function DashboardPage() {
 
 Docs:
 - React: https://react.dev/reference/react/Suspense
-- Next.js streaming: https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming
+- Next.js streaming: https://nextjs.org/docs/app/getting-started/fetching-data
 - Next.js loading.tsx: https://nextjs.org/docs/app/api-reference/file-conventions/loading
 
 ## Default tier and overrides
@@ -96,35 +96,6 @@ Docs:
 | Checkout / Sign-in | release-blocker (TTFB on critical path) |
 | Marketing landing | fix-this-sprint |
 | Internal admin | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-```tsx
-// app/dashboard/page.tsx: no Suspense, no loading.tsx
-export default async function Page() {
-  const billing = await fetchBilling();      // slow
-  const usage = await fetchUsage();          // slow
-  return <Dashboard billing={billing} usage={usage} />;
-}
-```
-
-**Applied (passes):**
-```tsx
-// app/dashboard/page.tsx
-export default function Page() {
-  return (
-    <>
-      <Suspense fallback={<BillingSkeleton />}>
-        <BillingWidget />
-      </Suspense>
-      <Suspense fallback={<UsageSkeleton />}>
-        <UsageWidget />
-      </Suspense>
-    </>
-  );
-}
-```
 
 ## Defer-to (when this is another tool's job)
 

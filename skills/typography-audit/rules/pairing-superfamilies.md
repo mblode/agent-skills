@@ -1,6 +1,6 @@
 ---
 title: Use Superfamilies for Easy Pairing
-impact: MEDIUM
+impact: LOW-MEDIUM
 tags: superfamily, serif-sans, pairing, harmony
 ---
 

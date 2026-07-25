@@ -2,7 +2,7 @@
 title: Preload Critical Resources and Preconnect to Origins
 impact: HIGH
 impactDescription: shaves request-chain latency off the largest paint
-tags: performance, resource-hints, preload, preconnect
+tags: performance, resource-hints, preload, preconnect, fonts
 ---
 
 ## Preload Critical Resources and Preconnect to Origins
@@ -24,3 +24,5 @@ Preload the LCP image and critical web font so the browser fetches them early; `
   <link rel="preload" as="font" type="font/woff2" href="/inter.woff2" crossorigin />
 </head>
 ```
+
+`crossorigin` on a font preload is mandatory even for a same-origin file. CSS `@font-face` always fetches in CORS anonymous mode, so a preload without it lands in a different mode, gets discarded, and is re-fetched when the stylesheet references the font: double download, preload defeated.

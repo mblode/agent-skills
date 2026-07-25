@@ -89,25 +89,6 @@ Reference docs:
 | Marketing landing | backlog |
 | Internal admin | backlog (often single-locale) |
 
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-export function Price({ cents }: { cents: number }) {
-  return <span>${(cents / 100).toFixed(2)}</span>;
-}
-```
-
-**Applied (passes):**
-
-```tsx
-export function Price({ cents, currency, locale }: PriceProps) {
-  const fmt = new Intl.NumberFormat(locale, { style: "currency", currency });
-  return <span>{fmt.format(cents / 100)}</span>;
-}
-```
-
 ## Defer-to (when this is another tool's job)
 
 - **ESLint**: `@typescript-eslint` can't catch this; a custom rule or `eslint-plugin-i18n` can flag locale-less `toLocale*`.

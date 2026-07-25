@@ -1,6 +1,6 @@
 ---
 title: Manage Widows and Orphans with Non-Breaking Spaces
-impact: MEDIUM
+impact: LOW-MEDIUM
 tags: widows, orphans, non-breaking-space, headlines, nowrap
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Avoid Justified Text on the Web
-impact: MEDIUM
+impact: MEDIUM-HIGH
 tags: text-align, justified, hyphenation, rivers
 ---
 

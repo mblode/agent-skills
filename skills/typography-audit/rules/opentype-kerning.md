@@ -1,6 +1,6 @@
 ---
 title: Use Metrics Kerning, Adjust Tracking First
-impact: MEDIUM-HIGH
+impact: MEDIUM
 tags: kerning, tracking, metrics, optical, letter-spacing
 ---
 

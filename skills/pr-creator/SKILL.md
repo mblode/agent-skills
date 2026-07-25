@@ -10,9 +10,10 @@ description: >
   "create a PR", "make a PR", "open a pull request", "PR this", "ship it",
   "update the PR description", "update the PR title", "make this PR easy to
   review", "polish this PR", "tidy the PR", "clean up commits", "restructure
-  commits", or "split this PR". For reviewing a diff for bugs, use pr-reviewer. For
-  monitoring a PR after creation, use pr-babysitter. For npm releases, use
-  autoship.
+  commits", or "split this PR". This skill edits the PR, not the code; to apply
+  fixes to the diff itself use tidy. For reviewing a diff for bugs, use
+  pr-reviewer. For monitoring a PR after creation, use pr-babysitter. For npm
+  releases, use autoship.
 ---
 
 # pr-creator

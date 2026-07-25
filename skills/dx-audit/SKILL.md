@@ -1,6 +1,6 @@
 ---
 name: dx-audit
-description: Audits the smallest relevant developer-facing surface of a library, CLI, SDK, or npm package across API contracts, errors, CLI behavior, public types, onboarding, and config. Uses candidate-first rule loading, bounded local evidence, and compact root-cause findings. Use when asked to "audit my CLI", "make this CLI agent-friendly", "is this API ergonomic", "review the developer experience", "improve these errors", "simplify first run", or "review my SDK". For end-user UI use ui-audit, for agentic-app trust use ax-audit, for docs prose use docs-writing, for README work use readme-creator, and for repo architecture use define-architecture.
+description: Audits the smallest relevant developer-facing surface of a library, CLI, SDK, or npm package across API contracts, errors, CLI behavior, public types, onboarding, and config. Uses candidate-first rule loading, bounded local evidence, and compact root-cause findings. Use when asked to "audit my CLI", "make this CLI agent-friendly", "is this API ergonomic", "review the developer experience", "improve these errors", "simplify first run", or "review my SDK". For end-user UI use ui-audit, for agentic-app trust use ax-audit, for docs prose use docs-writing, for README work use readme-creator, and for repo architecture use define-architecture. Inside a product that also ships a UI, this is the skill for the developer-facing half, so pick it when the complaint is about an import, command, error string, exported type, or config rather than a screen.
 ---
 
 # DX Audit
@@ -183,12 +183,9 @@ alone does not prove exported types. Verification evidence must match the findin
 
 ## Gotchas
 
-- **Selected prefixes are not permission to read the whole repo.** Stay on public reachability from
-  the scope receipt.
-- **Contract archaeology needs a changed contract.** Do not search git tags or npm versions for an
-  unchanged public surface.
-- **A safe audit does not create real resources.** Use dry-run, fixtures, or a disposable local
-  target for mutation paths.
+- **Probe the local build, not the published binary.** `npx <pkg>` and an existing global install
+  both resolve the registry copy, so `--help`, exit codes, and error strings describe a release the
+  working tree has not changed. Build, then invoke the local entry point (`node ./dist/cli.js`).
 
 ## Related skills
 

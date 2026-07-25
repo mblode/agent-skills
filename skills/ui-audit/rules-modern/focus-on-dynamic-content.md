@@ -104,7 +104,7 @@ export default function BillingPage() {
 
 Docs:
 - React refs: https://react.dev/reference/react/useRef
-- ARIA live regions: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions
+- ARIA live regions: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Guides/Live_regions
 - WCAG 4.1.3 Status Messages: https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html
 
 ## Default tier and overrides
@@ -119,40 +119,6 @@ Docs:
 | Onboarding step transitions | fix-this-sprint |
 | Marketing landing | backlog |
 | Internal admin | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-```tsx
-function Search() {
-  const [q, setQ] = useState('');
-  const [results, setResults] = useState<Item[]>([]);
-  // results render visually but no announcement, no focus move
-  return (
-    <>
-      <input value={q} onChange={(e) => setQ(e.target.value)} />
-      <Results items={results} />
-    </>
-  );
-}
-```
-
-**Applied (passes):**
-```tsx
-function Search() {
-  const [q, setQ] = useState('');
-  const [results, setResults] = useState<Item[]>([]);
-  return (
-    <>
-      <input value={q} onChange={(e) => setQ(e.target.value)} />
-      <div role="status" aria-live="polite" className="sr-only">
-        {results.length} results for &ldquo;{q}&rdquo;
-      </div>
-      <Results items={results} />
-    </>
-  );
-}
-```
 
 ## Defer-to (when this is another tool's job)
 

@@ -27,16 +27,16 @@ Use UTF-8 encoding and normalize content at build or render time. Enable smart-q
 Or using UTF-8 directly:
 
 ```html
-<p>\u201CIt\u2019s a beautiful day,\u201D she said.</p>
+<p>“It’s a beautiful day,” she said.</p>
 ```
 
 **Key characters:**
 
 | Character | Name | HTML Entity | Mac Shortcut |
 |-----------|------|-------------|--------------|
-| \u201C | Left double quote | `&ldquo;` | Opt+[ |
-| \u201D | Right double quote | `&rdquo;` | Opt+Shift+[ |
-| \u2018 | Left single quote | `&lsquo;` | Opt+] |
-| \u2019 | Right single quote / apostrophe | `&rsquo;` | Opt+Shift+] |
+| “ | Left double quote | `&ldquo;` | Opt+[ |
+| ” | Right double quote | `&rdquo;` | Opt+Shift+[ |
+| ‘ | Left single quote | `&lsquo;` | Opt+] |
+| ’ | Right single quote / apostrophe | `&rsquo;` | Opt+Shift+] |
 
 Use single quotes inside double quotes (US convention). Reserve straight quotes exclusively for code contexts.

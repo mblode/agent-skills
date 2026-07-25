@@ -1,6 +1,6 @@
 ---
 title: Use Line Breaks or Indents, Not Both
-impact: HIGH
+impact: MEDIUM
 tags: paragraphs, line-breaks, indents, separation
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Build Hierarchy with Multiple Axes
-impact: MEDIUM-HIGH
+impact: MEDIUM
 tags: hierarchy, weight, italics, caps, color, contrast
 ---
 

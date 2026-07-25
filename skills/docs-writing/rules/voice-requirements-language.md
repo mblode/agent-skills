@@ -26,4 +26,4 @@ The configuration file must have `600` permissions. Back up the
 database before upgrading.
 ```
 
-Reference: [RFC 2119: Key words for use in RFCs](https://www.rfc-editor.org/rfc/rfc2119)
+Reference: [RFC 2119: Key words for use in RFCs](https://datatracker.ietf.org/doc/html/rfc2119)

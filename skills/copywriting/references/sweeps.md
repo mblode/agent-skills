@@ -12,7 +12,6 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 - [Sweep 5: specificity](#sweep-5-specificity)
 - [Sweep 6: emotion](#sweep-6-emotion)
 - [Sweep 7: zero risk](#sweep-7-zero-risk)
-- [Common copy problems and solutions](#common-copy-problems-and-solutions)
 - [Quick-pass editing checks](#quick-pass-editing-checks)
 
 ---
@@ -57,10 +56,15 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 
 **Action:** Identify the dominant voice, standardise to it. Don't average; pick one and commit.
 
+**Flag:** `[VOICE-DRIFT]` on the line that breaks from the dominant voice, not on the voice you decided to keep.
+
+**The test:** Read the section as one speaker. If two people seem to be talking, the second one is the flag. For each drifting line, ask "how would a confident human say this?" and rewrite that way.
+
 **Common mismatches:**
 - Marketing page enthusiastic; product description reads like a manual
 - Hero uses "you"; about page switches to "our customers"
 - Email subject punchy; body formal and slow
+- Corporate register ("leverage", "synergise", "solution-oriented") next to plain sentences
 
 ---
 
@@ -128,28 +132,20 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 
 ## Sweep 6: emotion
 
-**Focus:** Evoke the right feeling alongside the right facts.
+**Focus:** Name the pain the reader already feels before selling the outcome. Readers act once they feel understood, so pain acknowledgment usually outperforms one more benefit statement.
+
+**Flag:** `[PAIN-NOT-NAMED]` on a section that states benefits without ever naming the frustration the reader arrived with.
+
+**The test:** Point at the exact line where the reader thinks "yes, that's exactly my problem". If the section has no such line, flag it. If it has three, the copy is wallowing; cut to one.
 
 **Check for:**
-- Pain points named and acknowledged, not just implied
-- Aspirational outcomes that let the reader picture success
-- Sensory or visceral language that makes abstract benefits feel real
-- Emotional pacing: does it move from problem to possibility?
+- Pain named in the reader's own words, not abstracted ("teams struggle with alignment")
+- Aspirational outcomes concrete enough to picture
+- Movement from problem to possibility, not benefits listed flat
 
 **Guidance:**
-- Don't manufacture emotion; forced enthusiasm reads as inauthentic.
-- Mirror the reader's actual emotional state at this point in the copy.
-- Pain acknowledgment often beats benefit statements: readers feel understood before they feel sold to.
-
-**Ask per section:**
-- What is the reader feeling before they read this?
-- What do they want to feel after?
-- Does the copy bridge those two states?
-
-**Signs emotion is missing:**
-- Reads like a product spec sheet
-- No "yes, that's exactly my problem" moment
-- Benefits listed but never made vivid or personal
+- Don't manufacture emotion; forced enthusiasm reads as inauthentic and is the default failure here.
+- Mirror the reader's actual state at this point in the page; a pricing page reader is further along than an ad reader.
 
 ---
 
@@ -178,28 +174,12 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 
 ---
 
-## Common copy problems and solutions
-
-| Problem | Symptom | Fix |
-|---|---|---|
-| Wall of features | Features listed, no reader benefit | Add "which means..." bridges linking each feature to an outcome |
-| Corporate speak | "leverage", "synergise", "solution-oriented" | Ask "How would a confident human say this?" Rewrite that way |
-| Weak opening | Starts with product name or "We are..." | Lead with the reader's problem, not your identity |
-| Buried CTA | CTA only at page bottom | Make CTA visible in the first screen; repeat contextually |
-| No proof | Pure claims, nothing behind them | Add testimonials, hard numbers, named customers |
-| Generic claims | "Best in class", "industry-leading", "world-class" | Specify: who says so, how measured, by how much |
-| Mixed audiences | Speaks to multiple buyers at once | One primary audience per page/section; separate paths for others |
-| Feature overload | 10+ features at equal weight | Focus on 3 to 5 key benefits; move secondary ones to a comparison table or FAQ |
-
----
-
 ## Quick-pass editing checks
 
 Apply at the end of all seven sweeps as a final line-level pass.
 
-### Word level
+Cut these words on sight; they rarely add meaning:
 
-Cut on sight; these rarely add meaning:
 - "very", "really", "truly", "highly"
 - "just", "simply", "easily"
 - "actually", "basically", "essentially"
@@ -207,20 +187,4 @@ Cut on sight; these rarely add meaning:
 
 **Test:** Remove the word. If the sentence still means the same, cut it.
 
-### Sentence level
-
-- One idea per sentence.
-- Max ~25 words for web and marketing copy.
-- Front-load the key claim: most important word or phrase early.
-- Avoid opening with "There is", "It is", or "We believe".
-
-**Test:** Read each sentence aloud. If you run out of breath or lose the thread, split it.
-
-### Paragraph level
-
-- One topic per paragraph.
-- 2 to 4 sentences for web copy; longer only when depth is needed.
-- The opening sentence carries the paragraph's main point.
-- Skimming only the first sentence of each paragraph should convey the full argument.
-
-**Test:** Read only the first sentence of each paragraph in sequence. Does the story hold?
+**Paragraph length:** 2 to 4 sentences is the web-copy norm, but vary it deliberately and use 1-sentence paragraphs for emphasis. Uniform paragraph length is itself an AI tell; see `ai-patterns.md` section 5.

@@ -18,7 +18,7 @@ Track this checklist:
 Presentation progress:
 - [ ] Step 1: Gather context (audience, setting, format: live / async / pitch)
 - [ ] Step 2: Outline narrative arc and slide sequence (references/outline-structure.md)
-- [ ] Step 3: Write slide copy (references/writing-slides.md)
+- [ ] Step 3: Write slide copy (references/writing-slides.md; pitch decks: references/pitch-decks.md instead)
 - [ ] Step 4: Design visual layout and composition (references/visual-design.md)
 - [ ] Step 5: Write speaker notes (references/speaker-notes.md); skip for pitch decks
 - [ ] Step 6: QA pass, output the slide-by-slide review table
@@ -35,7 +35,7 @@ Establish three things (ask if not provided):
 Route by format:
 
 - **Live talk or internal/recorded deck** → Steps 2-6 in order.
-- **Investor pitch deck** (read without a presenter) → read [references/pitch-decks.md](references/pitch-decks.md) first. Use its 10-slide framework for Step 2 and async copy rules (denser, standalone headlines) for Step 3. Skip Step 5 (no presenter); Steps 4 and 6 still apply.
+- **Investor pitch deck** (read without a presenter) → read [references/pitch-decks.md](references/pitch-decks.md) first. Its 10-slide framework replaces Step 2's outline, and its async copy rules (denser, standalone headlines, 2-3 bullets per section) replace `writing-slides.md` for Step 3: do not load `writing-slides.md` on this path, its presented-deck copy limits contradict it. Skip Step 5 (no presenter); Steps 4 and 6 still apply.
 
 ### Steps 2-5: Build the deck
 
@@ -44,7 +44,7 @@ Read each step's reference when you reach it:
 | Step | Reference | Covers |
 |------|-----------|--------|
 | 2. Outline | [references/outline-structure.md](references/outline-structure.md) | Narrative flow, 12 slide types, section colors, outline output format |
-| 3. Write | [references/writing-slides.md](references/writing-slides.md) | Headline patterns, body text rules, per-type slide templates, before/after examples |
+| 3. Write | [references/writing-slides.md](references/writing-slides.md), replaced by [references/pitch-decks.md](references/pitch-decks.md) on the pitch path | Headline patterns, body text rules, copy per slide type, before/after examples |
 | 4. Design | [references/visual-design.md](references/visual-design.md) | Typography scale, layout patterns, slide-type → layout mapping, visual elements |
 | 5. Notes | [references/speaker-notes.md](references/speaker-notes.md) | Per-slide note structure, delivery cues, notes by slide type |
 

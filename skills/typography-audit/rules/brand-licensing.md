@@ -1,6 +1,6 @@
 ---
 title: License Fonts Properly
-impact: LOW-MEDIUM
+impact: HIGH
 tags: licensing, web-fonts, open-source, commercial
 ---
 

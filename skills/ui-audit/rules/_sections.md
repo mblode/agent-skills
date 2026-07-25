@@ -54,7 +54,7 @@ memory-jakobs-law                   memory-peak-end-rule
 interaction-fittss-law              interaction-doherty-threshold
 ```
 
-### Observational (2 rules)
+### Rubric (2 rules)
 1-5 anchored rubric scoring; full anchors in `references/observational-rubrics.md`.
 
 ```
@@ -65,10 +65,13 @@ cognitive-working-memory            perception-pragnanz
 
 ## Cross-law interactions
 
-These pairings often co-fire. Emit both findings with the same `surface` to make the link explicit.
+These pairings often co-fire. Emit both findings with the same `surface` to make the link explicit, except where a bullet below names a single owner: three findings and three near-identical fixes for one defect read as padding, not thoroughness.
 
 - **Hick's + Miller's**: Both push toward fewer choices. A nav with 12+ items fails both.
 - **Hick's + Chunking**: When count cannot drop, group. Chunking softens Hick's penalty.
+- **Miller's + Chunking + Cognitive Load**: One 12-field ungrouped form trips all three, and all three fixes are the same `<fieldset>`/`<legend>` pass. `cognitive-chunking` owns the finding (it owns form grouping). Add Miller's only if any group still exceeds 7 fields after grouping, and Cognitive Load only if the surface also has competing primary CTAs.
+- **Hick's + Choice Overload**: A flat pricing grid trips both. `decision-choice-overload` owns the recommended-option finding; `decision-hicks-law` owns cutting the visible count. Don't emit "flag a recommended plan" from both.
+- **The three grouping laws**: `perception-proximity`, `perception-common-region`, and `perception-uniform-connectedness` all co-fire on an ungrouped list. Report the weakest cue actually missing, per the established precedence (Uniform Connectedness > Common Region > Proximity): no spacing ratio at all is proximity's, a dense dashboard or list with no boundaries is common-region's, and a radio/segmented/step set with no shared connector is uniform-connectedness's.
 - **Fitts's + Proximity**: Tap targets need both adequate size and adequate spacing.
 - **Peak-End + Goal-Gradient**: A strong end matters more if the user accelerated into it.
 - **Serial Position + Von Restorff**: Position effect predicts edge-recall; distinctiveness breaks the pattern.

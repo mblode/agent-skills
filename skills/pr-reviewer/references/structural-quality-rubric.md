@@ -2,6 +2,8 @@
 
 Unusually strict review of implementation quality, maintainability, and codebase health. Loaded by pr-reviewer's Structural mode ("thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", "code judo").
 
+SKILL.md lists seven of these as an always-on floor, because Standard mode never loads this file. This rubric deepens them and adds the rest; the overlap is deliberate, not drift.
+
 The core question is not "will this code break?" but "should this code exist in this form?"
 
 ## Contents

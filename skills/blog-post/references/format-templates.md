@@ -1,120 +1,38 @@
 # Format Templates
 
-Structural templates per format. Load only the one matching the format chosen in Step 1.
+One skeleton for every format. The spine table in SKILL.md Step 1 decides what the body sections are; this file gives the shape around them and the per-format sections that differ.
 
-## Contents
-
-- Listicle
-- Tutorial / how-to
-- Narrative
-- Thought leadership
-
-## Listicle Template
+## Skeleton
 
 ```markdown
-# [Headline with a specific promise]
+# [Headline carrying the angle]
 
-[Hook: 1-2 sentences, relatable problem or surprising fact]
+[Hook: 1-2 sentences. Relatable problem, surprising fact, or the belief being challenged.]
 
-[Bridge: why this matters now]
+[Bridge: why this matters now, and what the reader can do after reading.]
 
-[Promise: the reader's takeaway]
+## [Body section 1, labelled per the format's spine]
 
-## [Takeaway 1: bold insight]
+[2-4 sentences of analysis, not summary. Specific details: tool names, commands, real numbers.]
 
-[2-4 sentences. Analyze why it's interesting, don't just summarize.]
-
-> "[Powerful quote from source]" ([Attribution])
+> "[Quote from source]" ([Attribution])
 
 [What this means for the reader.]
 
-## [Takeaway 2: bold insight]
+## [Body section 2]
 
-[Continue for each insight]
+[Continue for each insight, step, beat, or evidence point.]
 
-## Looking Ahead
+## [Forward-looking close]
 
-[The bigger picture, 1-2 sentences]
-
-[Thought-provoking closing question]
+[The bigger picture in 1-2 sentences, then a question, CTA, or provocation.]
 ```
 
-## Tutorial / How-To Template
+## Per-format differences
 
-```markdown
-# [How to achieve a specific outcome]
-
-[Hook: the problem this solves, 1-2 sentences]
-
-[Who it's for and what they can do after reading]
-
-## What You Need
-
-[Prerequisites, tools, or context; brief]
-
-## Step 1: [action verb + outcome]
-
-[What and why, 2-3 sentences]
-
-[Code, command, or screenshot if applicable]
-
-## Step 2: [action verb + outcome]
-
-[Continue for each step]
-
-## Common Pitfalls
-
-[2-3 mistakes to avoid, with fixes]
-
-## What's Next
-
-[Next steps, related topics, or CTA]
-```
-
-## Narrative Template
-
-```markdown
-# [Headline that hints at the journey]
-
-[Opening scene: specific, concrete, grounded in experience]
-
-[Tension: what was uncomfortable, uncertain, or challenging]
-
-## [The Shift]
-
-[What changed: the discovery, realization, or turning point]
-
-[Specific details: tool names, commands, real examples]
-
-## [What I Learned]
-
-[Lessons with enough context to apply them]
-
-## [Where This Goes]
-
-[Forward-looking close that ties back to the opening]
-```
-
-## Thought Leadership Template
-
-```markdown
-# [Thesis as headline]
-
-[Hook: conventional wisdom or belief to challenge]
-
-[Thesis in one clear sentence]
-
-## [Evidence Point 1]
-
-[Argument with data, examples, or quotes]
-
-## [Evidence Point 2]
-
-[Continue for each point]
-
-## What This Means
-
-[Implications for the reader's work or thinking]
-
-[CTA or call to reflection]
-```
+| Format | Body sections | Extra sections | Close |
+|---|---|---|---|
+| Listicle | One H2 per takeaway, strongest first | Promise line in the intro naming the reader's takeaway | "Looking Ahead" plus a question |
+| Tutorial / how-to | `## Step N: [action verb + outcome]` | "What You Need" (prerequisites) before Step 1; "Common Pitfalls" (2-3 mistakes with fixes) after the last step | "What's Next": next steps or related topics |
+| Narrative | The shift, then what it taught | Opening scene replaces the hook: concrete, grounded in experience | Ties back to the opening scene |
+| Thought leadership | One H2 per evidence point | Thesis in one sentence directly under the hook | "What This Means": implications, then a call to reflection |

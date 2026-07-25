@@ -1,6 +1,6 @@
 ---
 title: Limit to Two Typefaces
-impact: MEDIUM
+impact: MEDIUM-HIGH
 tags: pairing, typeface-count, simplicity, system
 ---
 

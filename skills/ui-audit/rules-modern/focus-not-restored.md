@@ -33,8 +33,8 @@ User opens "Edit profile" via keyboard, submits, and closes. Focus drops to `<bo
 ```bash
 # Dialogs missing focus-restoration evidence
 rg 'role="dialog"|<Dialog\b|<Sheet\b' --type=ts -l | while read f; do
-  rg -L 'onCloseAutoFocus|triggerRef|finalFocus|returnFocusOnDeactivate' "$f" \
-    && echo "$f: dialog with no focus restoration"
+  rg -q 'onCloseAutoFocus|triggerRef|finalFocus|returnFocusOnDeactivate' "$f" \
+    || echo "$f: dialog with no focus restoration"
 done
 
 # Cases where onCloseAutoFocus is preventDefault'd
@@ -99,7 +99,7 @@ function EditProfile() {
 
 Docs:
 - Radix Dialog onCloseAutoFocus: https://www.radix-ui.com/primitives/docs/components/dialog#content
-- react-aria DialogTrigger: https://react-spectrum.adobe.com/react-aria/DialogTrigger.html
+- react-aria `FocusScope` (`restoreFocus`): https://react-aria.adobe.com/FocusScope
 - WCAG 2.4.3 Focus Order: https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html
 
 ## Default tier and overrides
@@ -114,26 +114,6 @@ Docs:
 | Confirm-delete dialog | release-blocker |
 | Marketing newsletter | fix-this-sprint |
 | Internal admin | fix-this-sprint |
-
-## Examples
-
-**Anti-pattern (fails):**
-```tsx
-{open && (
-  <div role="dialog">
-    <button onClick={() => setOpen(false)}>Close</button>
-    {/* trigger ref discarded; focus drops to <body> */}
-  </div>
-)}
-```
-
-**Applied (passes):**
-```tsx
-<Dialog.Root open={open} onOpenChange={setOpen}>
-  <Dialog.Trigger asChild><button>Edit</button></Dialog.Trigger>
-  <Dialog.Content>...</Dialog.Content>
-</Dialog.Root>
-```
 
 ## Defer-to (when this is another tool's job)
 

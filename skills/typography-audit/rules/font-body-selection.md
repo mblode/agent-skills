@@ -1,6 +1,6 @@
 ---
 title: Choose Body Fonts for Legibility
-impact: CRITICAL
+impact: HIGH
 tags: body-text, x-height, apertures, counters, contrast
 ---
 

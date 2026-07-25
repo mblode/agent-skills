@@ -38,17 +38,11 @@
 2. **Capabilities**: what the agent can do
 3. **Recent activity**: what happened since last session
 
-**Context engineering.** Long-running agents manage a finite window:
-
-| Technique | When to use |
-|-----------|-------------|
-| **Compaction**: summarize old messages, drop raw history | Context >70% full |
-| **Structured note-taking**: agent keeps `notes.md` of learnings and decisions | Multi-step research/planning |
-| **Just-in-time retrieval**: load files/schemas only when the step needs them | Large data sets, many tools |
+**Durable state outside the transcript.** A session that outgrows its window silently drops the earliest decisions, so anything the agent must still honour at step 40 belongs in a file it re-reads, not in message history (see `rules-arch/context-no-checkpoint-resume`). Audit the store, not the window-management technique.
 
 ## Agent-UI Communication
 
-**Completion signals.** Explicit via `stop_reason`, never heuristic: `tool_use` loops, `end_turn` stops. Orchestrators can add `pause`, `escalate`, `retry`.
+**Completion signals.** Every model API returns a terminal reason for a turn. The audit question is whether the orchestrator reads that field, or infers "done" from idle time, an empty delta, or a timeout. Orchestrators that add their own states (`pause`, `escalate`, `retry`) must emit them as explicitly as completion, or the UI guesses again.
 
 **Partial completion tracking.** Per-task status (pending, in_progress, completed, failed, skipped); show `3/5 tasks complete (60%)` with error notes.
 

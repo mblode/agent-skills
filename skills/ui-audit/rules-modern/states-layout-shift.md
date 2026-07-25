@@ -131,26 +131,6 @@ Docs:
 
 A field that shifts under the cursor mid-click causes mis-clicks on destructive actions, so checkout escalates.
 
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-{isLoading && <Spinner />}                          {/* 0px height */}
-{!isLoading && <Cards data={data} />}                 {/* 600px when loaded */}
-
-<img src="/banner.png" alt="" />                      {/* no width/height */}
-```
-
-**Applied (passes):**
-
-```tsx
-{isLoading && <CardsSkeleton />}                     {/* same height as loaded */}
-{!isLoading && <Cards data={data} />}
-
-<Image src="/banner.png" alt="" width={1200} height={400} />
-```
-
 ## Defer-to (when this is another tool's job)
 
 - Lighthouse / web-vitals report the CLS metric: this rule prevents the bug at write time, Lighthouse confirms it at runtime. Link out, don't restate.

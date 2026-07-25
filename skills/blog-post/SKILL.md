@@ -1,6 +1,6 @@
 ---
 name: blog-post
-description: Generates engaging long-form blog posts from source materials or a topic brief. Supports listicles, editorial tutorials, how-to articles, narrative essays, and thought leadership. Handles research, outlining, drafting, on-page SEO, and polishing. Use when "write a blog post about this", "create a listicle", "turn this research into an article", "write an editorial tutorial", "draft a thought leadership piece", or "write a how-to article". For short product or marketing copy (headlines, CTAs, landing pages, onboarding strings) use copywriting; for slide decks use presentation-creator; for API references, READMEs, or how-to docs in a documentation site use docs-writing.
+description: Generates engaging long-form blog posts from source materials or a topic brief. Supports listicles, editorial tutorials, how-to articles, narrative essays, and thought leadership. Handles research, outlining, drafting, on-page SEO, and polishing. Use when "write a blog post about this", "create a listicle", "turn this research into an article", "write an editorial tutorial", "draft a thought leadership piece", or "write a how-to article". For short product or marketing copy (headlines, CTAs, landing pages, onboarding strings) use copywriting; for slide decks use presentation-creator; for API references, READMEs, or how-to docs in a documentation site use docs-writing. This skill does on-page SEO for the post it writes; for sitemaps, metadata, redirects, or site-wide SEO use optimise-seo.
 ---
 
 # Blog Post
@@ -53,7 +53,7 @@ Outline one purpose line per section before drafting; cut any section whose only
 
 ### Step 4: Draft from the matching template
 
-Load only the matching format block from [references/format-templates.md](references/format-templates.md), not all four. Follow its structure, then write through.
+Load [references/format-templates.md](references/format-templates.md): fill the shared skeleton, applying your format's row for body-section labels, extra sections, and the close. Then write through.
 
 ### Step 5: On-page SEO and polish
 
@@ -116,7 +116,8 @@ Pick one: number + insight ("7 Things [Source] Reveals About [Topic]"), surprisi
 
 | When | Run |
 |------|-----|
-| Audit finished prose against doc/style rules | `docs-writing` |
 | Turn the post into a slide deck | `presentation-creator` |
 | Sharpen hooks, CTAs, or strip AI writing tells | `copywriting` |
 | Deepen on-page SEO beyond the basics | `optimise-seo` |
+
+`docs-writing` is not a handoff for a finished post: it puts editorial articles out of scope, and its sentence-case, requirements-language, and bold-for-UI-elements rules contradict the blog voice above. For a sentence-level clarity pass only, load its `clarity-*` rules and `voice-no-jargon`, nothing else from that rule set.

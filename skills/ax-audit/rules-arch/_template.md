@@ -6,7 +6,7 @@ defaultTier: release-blocker | fix-this-sprint | backlog
 surfaces: <comma-separated agentic feature playbooks this rule fires in>
 agent-native-principle: <which agent-native principle this enforces>
 detection: code-auditable | hybrid | observational
-related: <comma-separated other rule slugs (arch or ax)>
+related: <comma-separated other rule slugs (arch or ax); cross-layer pairs list each other in both files>
 ---
 
 ## <Rule title>
@@ -51,13 +51,14 @@ rg 'pattern' --type=ts src/
 
 **Defaults to:** `<tier>`
 
-**Surface overrides:**
 | Surface | Tier |
 |---|---|
 | Agent tool execution | <usually one tier higher> |
 | Agent chat | <same or one tier lower> |
 | Agent config | <same> |
 | Agent dashboard | <usually one tier lower> |
+
+Cover every surface listed in `surfaces:`. A missing row hands that surface to the generic bump in `references/ship-readiness.md`, so the table is required even when every row just repeats `defaultTier`: the repetition is what suppresses the bump. When a row does not follow the shape above, say why in one line under the table (shared orchestrator code does not taper by surface; a flexibility ceiling does not rise on tool execution).
 
 ## Examples
 
@@ -72,11 +73,6 @@ rg 'pattern' --type=ts src/
 ```tsx
 // Same component with the fix applied.
 ```
-
-## Cross-reference
-
-If a finding overlaps with ui-audit rules, link out:
-- `ui-audit` rule `<slug>` for the traditional UX dimension
 
 ## Suppression
 

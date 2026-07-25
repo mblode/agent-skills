@@ -78,8 +78,8 @@ export function ContactForm() {
   return (
     <form action={sendMessage}>
       <input name="message" />
-      <button type="submit" disabled={pending}>
-        {pending ? "Sending…" : "Send"}
+      <button type="submit" disabled={pending} aria-busy={pending}>
+        Send{pending && <Spinner aria-hidden="true" />}
       </button>
     </form>
   );
@@ -92,8 +92,8 @@ import { useFormStatus } from "react-dom";
 function SubmitButton() {
   const { pending } = useFormStatus(); // reads parent <form> state
   return (
-    <button type="submit" disabled={pending}>
-      {pending ? "Sending…" : "Send"}
+    <button type="submit" disabled={pending} aria-busy={pending}>
+      Send{pending && <Spinner aria-hidden="true" />}
     </button>
   );
 }
@@ -121,40 +121,6 @@ A silent runtime bug that nullifies `useFormStatus` entirely. Blocks merge regar
 | Surface | Tier |
 |---|---|
 | All | release-blocker |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-export function NewsletterForm() {
-  const { pending } = useFormStatus();
-  return (
-    <form action={subscribe}>
-      <input name="email" />
-      <button disabled={pending}>Subscribe</button>
-    </form>
-  );
-}
-```
-
-**Applied (passes):**
-
-```tsx
-function Submit() {
-  const { pending } = useFormStatus();
-  return <button disabled={pending}>Subscribe</button>;
-}
-
-export function NewsletterForm() {
-  return (
-    <form action={subscribe}>
-      <input name="email" />
-      <Submit />
-    </form>
-  );
-}
-```
 
 ## Defer-to (when this is another tool's job)
 

@@ -1,12 +1,12 @@
 ---
 title: Clean Up Abbreviations and Decades
-impact: CRITICAL
+impact: HIGH
 tags: abbreviations, acronyms, decades, punctuation
 ---
 
 ## Clean Up Abbreviations and Decades
 
-Remove unnecessary punctuation from abbreviations and decades. Drop apostrophes from decades (1990s, not 1990\u2019s). Remove periods from acronyms (NASA, not N.A.S.A.). These errors mark amateur work.
+Remove unnecessary punctuation from abbreviations and decades. Drop apostrophes from decades (1990s, not 1990’s). Remove periods from acronyms (NASA, not N.A.S.A.). These errors mark amateur work.
 
 **Incorrect (unnecessary punctuation):**
 

@@ -12,9 +12,6 @@ related: states-layout-shift, microcopy-generic-loading
 
 A centered spinner gives no preview, occupies different space than the loaded layout, and triggers Cumulative Layout Shift on arrival. A skeleton (low-fidelity outline matching the loaded content's shape and size) fixes all three: primes the user, reserves space, feels faster at the same latency.
 
-## Contents
-[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
-
 ## What goes wrong
 
 A dashboard shows a centered spinner (0x0 layout) where six cards will appear. 800ms later they pop in and shove the footer down: nothing anchors the eye, perceived latency beats real, Lighthouse flags CLS.
@@ -36,8 +33,8 @@ rg -l 'isLoading|isPending|loading.tsx' --type=ts src/ app/
 
 # Of those, files lacking any Skeleton component
 rg -l 'isLoading|isPending' --type=ts src/ | while read f; do
-  rg -L 'Skeleton|aria-busy="true"' "$f" \
-    && echo "$f: loading branch without skeleton"
+  rg -q 'Skeleton|aria-busy="true"' "$f" \
+    || echo "$f: loading branch without skeleton"
 done
 
 # loading.tsx files in app dir
@@ -118,20 +115,6 @@ Docs:
 | Search results | fix-this-sprint |
 | Marketing landing | backlog |
 | Internal admin | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-if (isLoading) return <div className="flex justify-center"><Spinner /></div>;
-```
-
-**Applied (passes):**
-
-```tsx
-if (isLoading) return <InvoiceListSkeleton />;
-```
 
 ## Defer-to (when this is another tool's job)
 

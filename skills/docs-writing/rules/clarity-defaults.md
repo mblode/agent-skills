@@ -36,4 +36,4 @@ When a token expires, the client requests a new one. The refresh token
 endpoint handles this automatically.
 ```
 
-Reference: [Federal Plain Language Guidelines](https://www.plainlanguage.gov/guidelines/)
+Reference: [Digital.gov: Plain language guide](https://digital.gov/guides/plain-language/)

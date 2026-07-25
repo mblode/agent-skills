@@ -1,6 +1,6 @@
 ---
 title: Use a Modular Scale as a Guide, Not a Constraint
-impact: MEDIUM-HIGH
+impact: MEDIUM
 tags: modular-scale, type-scale, sizing, hierarchy
 ---
 
@@ -33,4 +33,4 @@ A modular scale (e.g., 1.25, 1.333, 1.5 ratios) gives a starting set of harmonio
 }
 ```
 
-Choose body size first, then derive headings. Keep strong contrast between levels: clearly different or exactly the same, never almost the same.
+Store the resolved sizes as tokens rather than computing the ratio in CSS. The whole point of the rule is that some steps deviate from the ratio, and a `calc()` chain cannot hold a deviation.

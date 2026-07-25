@@ -56,6 +56,12 @@ export const readContent = tool({
 
 **Defaults to:** `backlog`: scaling problem, not correctness. Works fine for small, stable APIs.
 
+| Surface | Tier |
+|---|---|
+| Agent tool execution | backlog |
+
+The row exists to block the generic tool-execution bump. Static mapping is a flexibility ceiling, not an unsafe action, so it stays `backlog` on the surface where every other rule rises a tier.
+
 ## Examples
 
 **Anti-pattern (fails):**

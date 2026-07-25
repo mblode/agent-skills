@@ -32,7 +32,7 @@ Defines the 7 categories of modern frontend UX failure modes; each rule file use
 ## 6. Dark mode / i18n (dark-i18n)
 
 **Default tier:** mostly backlog
-**Why critical:** patterns that pass desk-checks but fail with non-Latin text, RTL, or in dark theme. Color-only validation is the only release-blocker in this category (a11y).
+**Why critical:** patterns that pass desk-checks but fail with non-Latin text, RTL, or in dark theme. `dark-i18n-color-only-state` is the highest-severity rule here (WCAG 1.4.1): `fix-this-sprint` by default, release-blocker on sign-in and checkout, where an unperceivable error blocks the task. Take the tier from the rule file's override table, not from this category default.
 
 ## 7. Microcopy (microcopy)
 

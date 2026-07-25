@@ -94,7 +94,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 Docs:
 - Next.js error.tsx: https://nextjs.org/docs/app/api-reference/file-conventions/error
-- Next.js global-error.tsx: https://nextjs.org/docs/app/building-your-application/routing/error-handling
+- Next.js global-error.tsx: https://nextjs.org/docs/app/getting-started/error-handling
 - react-error-boundary: https://github.com/bvaughn/react-error-boundary
 
 ## Default tier and overrides
@@ -109,27 +109,6 @@ Docs:
 | Dashboard widget (per-widget) | release-blocker |
 | Marketing landing | fix-this-sprint |
 | Internal admin | fix-this-sprint |
-
-## Examples
-
-**Anti-pattern (fails):**
-```
-app/
-  dashboard/
-    page.tsx     // awaits fetchBilling()
-    layout.tsx
-    // no error.tsx
-```
-
-**Applied (passes):**
-```
-app/
-  dashboard/
-    page.tsx
-    layout.tsx
-    error.tsx    // catches segment errors with reset()
-  global-error.tsx  // catches root layout errors
-```
 
 ## Defer-to (when this is another tool's job)
 

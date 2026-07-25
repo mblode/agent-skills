@@ -1,12 +1,12 @@
 ---
 title: Use Color Intentionally in Typography
-impact: LOW-MEDIUM
+impact: HIGH
 tags: color, contrast, tinted-black, brand, accessibility
 ---
 
 ## Use Color Intentionally in Typography
 
-Use color for hierarchy and brand identity. Avoid pure black (#000) on pure white (#fff): the extreme contrast strains the eyes. Use tinted blacks and off-whites for a refined, readable result.
+Every text color has to clear WCAG AA: 4.5:1 against its background for body text, 3:1 for large text (24px+, or 19px+ bold). That is the floor, not the target, and it applies to secondary text, placeholders, and disabled labels too, which is where brand palettes usually fail. Inside that budget, use color for hierarchy and identity. Avoid pure black (#000) on pure white (#fff): the extreme contrast strains the eyes. Use tinted blacks and off-whites for a refined, readable result.
 
 **Incorrect (pure black on pure white, no brand color):**
 
@@ -37,4 +37,4 @@ a {
 }
 ```
 
-Subtle tints (warm, cool, brand-hued) add atmosphere without hurting readability. Keep contrast above 4.5:1 for body text, 3:1 for large text (WCAG AA).
+Subtle tints (warm, cool, brand-hued) add atmosphere without hurting readability. Measure the computed pair, not the token name: a `--text-secondary` that reads as "gray" can still land at 3.1:1 on an off-white background.

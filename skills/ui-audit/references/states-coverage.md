@@ -26,7 +26,7 @@ Each component type must implement these states (or mark N/A with a comment). Tr
 | State | What user sees | Pass | Fail |
 |---|---|---|---|
 | `idle` | Default form, fields empty or autofilled | - | - |
-| `pending` | Submit disabled + visible pending indicator | `useFormStatus().pending` drives `disabled` + label change | No disable; double-submit possible |
+| `pending` | Submit disabled + visible pending indicator | `useFormStatus().pending` drives `disabled` + `aria-busy`, label stays stable | No disable; double-submit possible |
 | `error` | Field-level errors + values preserved | `useActionState` `state.errors` + `state.fields` | Form clears on error |
 | `success` | Confirmation; route forward or reset | Named completion screen | Generic toast then redirect |
 

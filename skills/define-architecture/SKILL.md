@@ -38,7 +38,7 @@ Load references only when the condition applies:
 | Reference | Read when |
 |-----------|-----------|
 | [references/stack-defaults.md](references/stack-defaults.md) | Choosing libraries, tooling, or deploy targets |
-| [references/api-design.md](references/api-design.md) | Designing endpoints, module contracts, or reviewing API surface changes |
+| [references/api-design.md](references/api-design.md) | Designing endpoints, module contracts, or request context; reviewing API surface changes |
 | [references/distributed-correctness.md](references/distributed-correctness.md) | Designing flows that call external systems, consume webhooks, retry, need an audit trail, or move money (billing, credits, payouts) |
 | [references/deepening-existing.md](references/deepening-existing.md) | Running the Adoption workflow (domain mapping, opportunity patterns, output template) |
 | [references/craftsmanship.md](references/craftsmanship.md) | Writing the team-conventions, testing, or quality-bar sections |
@@ -58,16 +58,7 @@ Load references only when the condition applies:
    - `mapper`: DB/proto/domain transformations.
    - `constants` and `types`: module-local contracts.
 4. Define request context and middleware:
-   - Use an AsyncLocalStorage-backed `RequestContext`:
-     ```ts
-     import { AsyncLocalStorage } from "node:async_hooks";
-     type RequestContext = { tenantId: string; userId: string; traceId: string };
-     const store = new AsyncLocalStorage<RequestContext>();
-     export const getContext = () => store.getStore()!;
-     export const runWithContext = (ctx: RequestContext, fn: () => void) => store.run(ctx, fn);
-     ```
-   - Initialize in every entrypoint (RPC, HTTP, jobs, CLI). Forgetting jobs/CLI makes `getContext()` throw far from the cause.
-   - Read context via `getContext()`; never thread a ctx parameter through business functions.
+   - Carry `tenantId`, `userId`, and `traceId` in an AsyncLocalStorage-backed `RequestContext`, initialized in every entrypoint (RPC, HTTP, jobs, CLI) and read via `getContext()`; never thread a ctx parameter through business functions. Implementation in [references/api-design.md](references/api-design.md).
    - Require explicit auth policy per RPC method at registration; a method without one fails registration, never defaults to open.
    - Keep auth, logging, errors, and context in shared middleware, not per-handler code.
 5. Define frontend boundaries:

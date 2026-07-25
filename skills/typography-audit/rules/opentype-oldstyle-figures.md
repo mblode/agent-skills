@@ -1,6 +1,6 @@
 ---
 title: Use Oldstyle Figures in Running Text
-impact: MEDIUM-HIGH
+impact: LOW-MEDIUM
 tags: oldstyle-figures, onum, lnum, lining, numbers
 ---
 

@@ -78,6 +78,8 @@ Three patterns: drop fixed widths on text controls; reset `min-width` on truncat
 </div>
 ```
 
+In grid, the equivalent is the track, not the child: `grid-cols-[minmax(0,200px)_1fr]` instead of `grid-cols-[200px_1fr]`, so a long label shrinks its column rather than overflowing it.
+
 ```tsx
 // before: fixed breakpoint, ignores parent context
 <section className="md:grid md:grid-cols-2">
@@ -96,9 +98,9 @@ p  { text-wrap: pretty; overflow-wrap: anywhere; }
 
 Reference docs:
 - W3C i18n string-length guidance: https://www.w3.org/International/articles/article-text-size
-- MDN `min-width`: https://developer.mozilla.org/en-US/docs/Web/CSS/min-width
+- MDN `min-width`: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/min-width
 - Tailwind container queries: https://tailwindcss.com/docs/responsive-design#container-queries
-- `text-wrap: pretty`: https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap
+- `text-wrap: pretty`: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-wrap
 
 ## Default tier and overrides
 
@@ -112,26 +114,6 @@ Reference docs:
 | Form | fix-this-sprint |
 | Marketing landing | backlog |
 | Internal admin | backlog (often English-only) |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-<div className="grid grid-cols-[200px_1fr]">
-  <span className="truncate">{label}</span>
-  <span>{value}</span>
-</div>
-```
-
-**Applied (passes):**
-
-```tsx
-<div className="grid grid-cols-[minmax(0,200px)_1fr] gap-3">
-  <span className="truncate min-w-0">{label}</span>
-  <span className="min-w-0">{value}</span>
-</div>
-```
 
 ## Defer-to (when this is another tool's job)
 

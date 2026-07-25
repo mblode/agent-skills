@@ -1,49 +1,40 @@
 ---
-title: Async fetch has no error state or boundary
+title: Async fetch has no inline error state
 slug: states-no-error-state
 category: states
 defaultTier: release-blocker
 surfaces: checkout, sign-in, list, dashboard, search, error-state
-react-apis: error.tsx, Suspense, ErrorBoundary
-related: states-no-skeleton, states-no-empty-state
+react-apis: n/a (render-time error branch; TanStack Query / SWR error flags)
+related: states-no-skeleton, states-no-empty-state, async-no-error-boundary
 ---
 
-## Async fetch has no error state or boundary
+## Async fetch has no inline error state
 
-Every async op can fail. A happy-path-only component turns a transient 500 into a blank screen, an infinite spinner, or a silent stale render. Fix is two-layered: per-component fallbacks for inline failures (one widget down, the rest still work) plus a route-level `error.tsx` for catastrophic crashes. Both must offer a way out: retry, go back, or contact support.
+Every async op can fail. A happy-path-only component turns a transient 500 into a blank screen, an infinite spinner, or a silent stale render. This rule owns the component's own error branch: the failure renders a message naming what broke plus a way out (retry, go back, contact support), in place, without unmounting the surrounding UI. Structural boundaries (`error.tsx`, `<ErrorBoundary>`) are `async-no-error-boundary`'s job; a component needs both, and a boundary alone still loses the working parts of the page.
 
 ## What goes wrong
 
-Dashboard loads; 3 of 4 widgets succeed; the 4th returns 500. With no error boundary the exception bubbles to the route, the whole dashboard renders the global 500 page, and the user loses the 3 working widgets. Or: a list fetch fails, the component renders the loading skeleton forever (no error branch), the user reloads, sees the same skeleton, and assumes the product is broken.
+A list fetch fails; the component has no error branch, so it renders the loading skeleton forever. The user reloads, sees the same skeleton, and assumes the product is broken. Or the fetch resolves to `undefined` and the render reads `data.name`, so the widget throws and the nearest boundary swallows the whole surrounding page along with it.
 
 ## Detection
 
-**Surfaces:** every async fetcher, every Suspense boundary, every route.
+**Surfaces:** every async fetcher.
 
 **Static signals:**
 1. Find async calls: `useQuery`, `useSWR`, `fetch(`, `await`, async server components.
-2. Per component, check both render-time error branches AND structural boundaries:
-   - **Inline branch:** `if (isError|error) return ...` with a retry path.
-   - **Suspense + boundary:** `<ErrorBoundary fallback={...}><Suspense>...</Suspense></ErrorBoundary>` OR `<Suspense errorFallback={...}>`.
-   - **Route-level:** `app/<route>/error.tsx` where catastrophic failure is possible.
-3. Fail if a component fetches without inline handling AND no error boundary AND its route has no `error.tsx`.
+2. Per component, look for a render-time error branch: `if (isError|error) return ...`.
+3. That branch must carry a retry path (`refetch`, `reset`, `onClick`) and name what failed.
+4. Fail if a fetching component has no error branch, or has one with no retry path.
 
 **Concrete commands:**
 ```bash
 # Async fetchers
 rg -l 'useQuery|useSWR|await fetch|async function' --type=ts src/ app/
 
-# Files lacking error handling
+# Files lacking an inline error branch
 rg -l 'useQuery|useSWR' --type=ts src/ | while read f; do
-  rg -L 'isError|hasError|onError|catch|ErrorBoundary|errorFallback' "$f" \
-    && echo "$f: fetcher without inline error or boundary"
-done
-
-# Routes lacking error.tsx
-find app -type d | while read d; do
-  if ls "$d"/page.* >/dev/null 2>&1 && ! ls "$d"/error.* >/dev/null 2>&1; then
-    echo "$d: route without error.tsx"
-  fi
+  rg -q 'isError|hasError|onError|catch' "$f" \
+    || echo "$f: fetcher without an inline error branch"
 done
 
 # Inline error branches without retry
@@ -56,11 +47,11 @@ done
 **False-positive guards:**
 - Skip files with `// ui-audit-ignore:states-no-error-state`.
 - Static / pre-rendered components with no fetch are exempt.
-- Skip layouts that explicitly delegate error handling to a child route.
+- A wrapping `<ErrorBoundary>` does not clear this finding: it replaces the subtree instead of the failed part. Report the boundary gap under `async-no-error-boundary` and the missing branch here.
 
 ## Fix
 
-Use both layers: per-widget fallback + route-level error boundary:
+Add the error branch with a retry, next to the loading branch:
 
 ```tsx
 // before
@@ -87,45 +78,15 @@ export function InvoiceList() {
   }
   return <ul>{data.map(InvoiceRow)}</ul>;
 }
-
-// app/invoices/error.tsx: route-level catch
-"use client";
-export default function ErrorPage({ error, reset }: { error: Error; reset: () => void }) {
-  return (
-    <div className="mx-auto max-w-md py-16 text-center">
-      <h1 className="text-2xl font-semibold">Something went wrong loading invoices</h1>
-      <p className="mt-2 text-muted-foreground">
-        We've logged the issue. You can retry or go back home.
-      </p>
-      <div className="mt-4 flex gap-2 justify-center">
-        <Button onClick={reset}>Try again</Button>
-        <Button variant="ghost" asChild><Link href="/">Home</Link></Button>
-      </div>
-    </div>
-  );
-}
-
-// app/dashboard/page.tsx: Suspense + ErrorBoundary per widget
-import { ErrorBoundary } from "react-error-boundary";
-
-export default function Dashboard() {
-  return (
-    <div className="grid grid-cols-2 gap-4">
-      <ErrorBoundary fallback={<WidgetError name="Revenue" />}>
-        <Suspense fallback={<WidgetSkeleton />}><RevenueWidget /></Suspense>
-      </ErrorBoundary>
-      <ErrorBoundary fallback={<WidgetError name="Users" />}>
-        <Suspense fallback={<WidgetSkeleton />}><UsersWidget /></Suspense>
-      </ErrorBoundary>
-    </div>
-  );
-}
 ```
 
+For a server component, the equivalent is a `try`/`catch` around the fetch that returns the same error markup, so the failure stays inside the widget's slot.
+
+Then add the structural boundary underneath it: see `async-no-error-boundary`.
+
 Docs:
-- React: https://react.dev/reference/react/Suspense
-- Next.js error.tsx: https://nextjs.org/docs/app/api-reference/file-conventions/error
-- react-error-boundary: https://github.com/bvaughn/react-error-boundary
+- TanStack Query error handling: https://tanstack.com/query/latest/docs/framework/react/guides/query-functions#handling-and-throwing-errors
+- SWR error handling: https://swr.vercel.app/docs/error-handling
 
 ## Default tier and overrides
 
@@ -136,30 +97,12 @@ Docs:
 |---|---|
 | Checkout / Payment | release-blocker |
 | Sign-in / Sign-up | release-blocker |
-| Dashboard root | release-blocker (per-widget boundaries required) |
+| Dashboard root | release-blocker (per-widget branch, so one failure keeps the rest usable) |
 | First-run onboarding | release-blocker |
 | List / Feed / Inbox | fix-this-sprint |
 | Search results | fix-this-sprint |
 | Marketing landing | backlog |
 | Internal admin | fix-this-sprint |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-const { data } = useUser();
-return <h1>Welcome, {data.name}</h1>; // crashes on null/error
-```
-
-**Applied (passes):**
-
-```tsx
-const { data, isError, refetch } = useUser();
-if (isError) return <ErrorCard onRetry={refetch} />;
-if (!data) return <SkeletonCard />;
-return <h1>Welcome, {data.name}</h1>;
-```
 
 ## Defer-to (when this is another tool's job)
 
@@ -169,6 +112,6 @@ return <h1>Welcome, {data.name}</h1>;
 ## Suppression
 
 ```tsx
-{/* ui-audit-ignore:states-no-error-state, wrapped by parent ErrorBoundary in app/(dashboard)/error.tsx */}
+{/* ui-audit-ignore:states-no-error-state, prefetched by the parent route loader, cannot fail here */}
 <RevenueWidget />
 ```

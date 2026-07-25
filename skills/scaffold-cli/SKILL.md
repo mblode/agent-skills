@@ -110,11 +110,8 @@ Run the validation checklist in `references/post-scaffold.md`. Every item must p
 - **Do not add `oxlint`/`oxfmt` scripts or devDeps by hand, or call those binaries directly.** `ultracite init` owns them; run `npm run check` (lint) and `npm run fix` (autofix). By-hand entries cause duplicate scripts and version skew.
 - **Do not run `ultracite init` before `git init`.** Its lefthook integration installs hooks into `.git/hooks` and fails without a repo.
 - **Do not write `"test": "vitest run"` without `--passWithNoTests`.** Zero test files means plain `vitest run` exits 1 and the first CI run goes red.
-- **Do not skip AGENTS.md or `skills/`.** The contract is that every generated CLI is agent-ready out of the box, in behavior as well as discovery.
 - **Do not mix prose and JSON on stdout.** Data goes to stdout, logs and progress to stderr; a stray `console.log` breaks an agent parsing `--output json`.
 - **Do not prompt when stdin is not a TTY.** Provide a flag for every value and honor `--no-input`; a prompt under a pipe hangs forever.
-- **Do not create test files;** the user adds tests for their specific features.
-- **No chalk or ora;** see Replacements above.
 
 ## After Scaffolding
 

@@ -1,6 +1,6 @@
 ---
 title: Handle Dark Backgrounds Carefully
-impact: LOW-MEDIUM
+impact: MEDIUM-HIGH
 tags: dark-mode, reversed-text, contrast, readability
 ---
 

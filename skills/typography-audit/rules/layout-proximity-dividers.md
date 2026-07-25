@@ -33,5 +33,3 @@ Place captions and descriptions close to the images or elements they describe. U
   <figcaption>The team during a strategy session.</figcaption>
 </figure>
 ```
-
-Choose hanging vs standard indented bullets by readability in your layout.

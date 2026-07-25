@@ -43,4 +43,6 @@ If authentication fails, check these common issues:
 - **IP allowlist**: Verify your server IP is on the allowlist.
 ```
 
+The same test applies to the page: reaching H5 or H6 means it covers too many topics, so split it into multiple documents.
+
 Reference: [Write the Docs: Content organization](https://www.writethedocs.org/guide/writing/style-guides/)

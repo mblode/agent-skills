@@ -186,6 +186,27 @@ validate_skill() {
     check format rules-frontmatter "no frontmatter:$no_fm" "$(printf '%s' "$no_fm" | wc -w | tr -d ' ')"
   done
 
+  # Counts stated in the SKILL.md BODY (priority tables, gotchas) drift too, and
+  # the description check below misses them entirely when the description states
+  # no count. A body count is valid only if it equals the grand total, one
+  # folder's total, or one prefix's total. Anything else is stale.
+  if [ "$found_rules" -eq 1 ]; then
+    valid=" $rules_total "
+    for rd in "$skill_dir"/rules*; do
+      [ -d "$rd" ] || continue
+      valid="$valid $(ls "$rd"/*.md 2>/dev/null | grep -v '/_' | wc -l | tr -d ' ') "
+      for p in $(ls "$rd"/*.md 2>/dev/null | grep -v '/_' | xargs -n1 basename 2>/dev/null | sed 's/-.*//' | sort -u); do
+        valid="$valid $(ls "$rd"/$p-*.md 2>/dev/null | wc -l | tr -d ' ') "
+      done
+    done
+    stale=""
+    for n in $(grep -oE '[0-9]+ rules' "$md" | grep -oE '^[0-9]+' | sort -u); do
+      case "$valid" in *" $n "*) ;; *) stale="$stale $n" ;; esac
+    done
+    check format rules-body-counts "SKILL.md states a rule count matching no folder, prefix, or total:$stale" \
+      "$(printf '%s' "$stale" | wc -w | tr -d ' ')"
+  fi
+
   if [ "$found_rules" -eq 1 ]; then
     stated=$(ruby -ryaml -e '
       src = File.read(ARGV[0])

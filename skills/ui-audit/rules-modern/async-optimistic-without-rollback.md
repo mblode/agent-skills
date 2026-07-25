@@ -39,7 +39,7 @@ done
 
 # Optimistic without catch / rollback / onError
 rg 'useOptimistic\b' --type=ts -l | while read f; do
-  rg -L 'catch|onError|throw' "$f" && echo "$f: optimistic with no error path"
+  rg -q 'catch|onError|throw' "$f" || echo "$f: optimistic with no error path"
 done
 ```
 
@@ -106,7 +106,7 @@ function Likes({ post }: { post: Post }) {
 Docs:
 - React useOptimistic: https://react.dev/reference/react/useOptimistic
 - React useTransition: https://react.dev/reference/react/useTransition
-- Next.js server actions + optimistic: https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#optimistic-updates
+- Next.js server functions (the action the optimistic update wraps): https://nextjs.org/docs/app/getting-started/mutating-data
 
 ## Default tier and overrides
 
@@ -120,30 +120,6 @@ Docs:
 | List (likes, reorder) | release-blocker |
 | Dashboard toggle | fix-this-sprint |
 | Internal admin | fix-this-sprint |
-
-## Examples
-
-**Anti-pattern (fails):**
-```tsx
-const [items, setItems] = useOptimistic(server);
-function add(item) {
-  setItems([...items, item]); // outside transition + no rollback
-  fetch('/api/cart', { method: 'POST', body: JSON.stringify(item) });
-}
-```
-
-**Applied (passes):**
-```tsx
-const [items, addItem] = useOptimistic(server, (cur, x) => [...cur, x]);
-const [, startTransition] = useTransition();
-
-const add = (item) =>
-  startTransition(async () => {
-    addItem(item);
-    const res = await fetch('/api/cart', { method: 'POST', body: JSON.stringify(item) });
-    if (!res.ok) throw new Error('Cart rejected');
-  });
-```
 
 ## Defer-to (when this is another tool's job)
 

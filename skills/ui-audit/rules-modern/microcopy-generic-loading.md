@@ -12,16 +12,6 @@ related: states-no-skeleton, states-layout-shift, microcopy-vague-error, interac
 
 "Loading…" tells the user nothing about *what* is loading or *how long* to expect. A context-specific string ("Confirming your order, 2 to 3 seconds", "Searching invoices…") sets expectations, cuts perceived wait, and stops the user assuming the page is stuck. Low-stakes polish, not a release-blocker, but it compounds on critical paths.
 
-## Contents
-
-- What goes wrong
-- Detection
-- Fix
-- Default tier and overrides
-- Examples
-- Defer-to
-- Suppression
-
 ## What goes wrong
 
 User clicks "Place order" and sees "Loading…" for four seconds. They don't know if payment went through, if the page is hung, or if to refresh (which would double-charge). "Confirming your order, please don't refresh" answers all three.
@@ -71,16 +61,21 @@ Replace with the specific operation. Add a duration estimate if it predictably t
 // after: search context
 {deferredQuery !== query && <p>Searching invoices…</p>}
 
-// after: combined with useFormStatus
+// after: combined with useFormStatus, specific copy next to a stable label
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <button disabled={pending}>
-      {pending ? 'Saving your changes…' : 'Save'}
-    </button>
+    <>
+      <button disabled={pending} aria-busy={pending}>
+        Save{pending && <Spinner aria-hidden="true" />}
+      </button>
+      {pending && <p aria-live="polite">Saving your changes…</p>}
+    </>
   );
 }
 ```
+
+The specific string belongs in a status region, not in the button. Swapping the label mid-flight moves the layout and loses which action is in flight (`forms-no-disable-while-submitting`).
 
 Reference:
 - NN/g, Response Times: The 3 Important Limits: https://www.nngroup.com/articles/response-times-3-important-limits/
@@ -109,7 +104,8 @@ Reference:
 {isLoading && <p>Loading…</p>}
 
 // 2. Even worse on a critical path
-<button disabled={pending}>{pending ? 'Please wait' : 'Place order'}</button>
+<button disabled={pending} aria-busy={pending}>Place order</button>
+{pending && <p>Please wait</p>}
 
 // 3. Generic spinner, no copy
 {isPending && <Spinner />}
@@ -122,9 +118,8 @@ Reference:
 {isPending && <p>Confirming your order, please don't refresh.</p>}
 
 // 2. Critical path with duration hint
-<button disabled={pending}>
-  {pending ? 'Charging your card, 2 to 3 seconds…' : 'Place order'}
-</button>
+<button disabled={pending} aria-busy={pending}>Place order</button>
+{pending && <p aria-live="polite">Charging your card, 2 to 3 seconds…</p>}
 
 // 3. Search with the actual query
 {deferredQuery !== query && <p>Searching for "{query}"…</p>}

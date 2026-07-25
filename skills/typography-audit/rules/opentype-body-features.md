@@ -1,6 +1,6 @@
 ---
 title: Enable Standard OpenType Features for Body
-impact: MEDIUM-HIGH
+impact: MEDIUM
 tags: font-feature-settings, kern, liga, calt, opentype
 ---
 

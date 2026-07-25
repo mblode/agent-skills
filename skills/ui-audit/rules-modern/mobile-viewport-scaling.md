@@ -12,16 +12,6 @@ related: interaction-target-size, states-layout-shift
 
 Three quiet bugs ship together on mobile, each a one-line fix invisible in desktop testing: a missing `<meta name="viewport">` makes iOS Safari render at 980 px and zoom out; `100vh` includes the address bar (~60 px wrong on iOS); a fixed bottom bar covers the home-indicator notch and clips content. Modern CSS fixes these with `100dvh` (dynamic viewport height) and `env(safe-area-inset-*)`.
 
-## Contents
-
-- What goes wrong
-- Detection
-- Fix
-- Default tier and overrides
-- Examples
-- Defer-to
-- Suppression
-
 ## What goes wrong
 
 No viewport meta in `app/layout.tsx`: iOS Safari renders at desktop width and the user pinches to zoom. A modal uses `h-screen` (100vh): on iOS the URL bar covers the bottom 60 px and the primary CTA is unreachable. A bottom nav uses `pb-4`: on iPhone X+ the home indicator overlaps the buttons.
@@ -101,7 +91,7 @@ export const viewport: Viewport = {
 
 Reference docs:
 - Next.js viewport export: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
-- MDN dynamic viewport units: https://developer.mozilla.org/en-US/docs/Web/CSS/length#dynamic_viewport_size
+- MDN dynamic viewport units: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/length#dynamic_viewport_units
 - WebKit safe-area: https://webkit.org/blog/7929/designing-websites-for-iphone-x/
 
 ## Default tier and overrides
@@ -117,43 +107,9 @@ Reference docs:
 | Marketing landing | backlog |
 | Internal admin | backlog |
 
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-// app/layout.tsx: no viewport export
-export default function Layout({ children }) {
-  return <html><body>{children}</body></html>;
-}
-
-// Sheet.tsx
-<div className="fixed inset-0 h-screen flex flex-col">
-  <button className="fixed bottom-4 inset-x-4">Continue</button>
-</div>
-```
-
-**Applied (passes):**
-
-```tsx
-// app/layout.tsx
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  viewportFit: 'cover',
-};
-
-// Sheet.tsx
-<div className="fixed inset-0 min-h-[100dvh] flex flex-col">
-  <button className="fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))]">
-    Continue
-  </button>
-</div>
-```
-
 ## Defer-to (when this is another tool's job)
 
-- **Lighthouse** mobile audit catches missing viewport meta: https://developer.chrome.com/docs/lighthouse/pwa/viewport/
+- **Lighthouse** mobile audit catches missing viewport meta: https://developer.chrome.com/docs/lighthouse/best-practices/viewport
 - **Playwright** device emulation reproduces the URL-bar issue on iOS profiles.
 - **Chromatic** with mobile viewports catches the visual end of safe-area bugs.
 

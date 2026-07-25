@@ -112,8 +112,8 @@ For directional icons (chevrons, arrows), use Tailwind's `rtl:` variant or a `Ch
 ```
 
 Reference docs:
-- MDN CSS logical properties: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values
-- Tailwind logical-property utilities (v3.3+): https://tailwindcss.com/blog/tailwindcss-v3-3#extended-color-palette-for-logical-properties
+- MDN CSS logical properties: https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Logical_properties_and_values
+- Tailwind logical-property utilities (`ps-*`, `pe-*`, `ms-*`, `me-*`): https://tailwindcss.com/docs/padding
 - W3C RTL guide: https://www.w3.org/International/articles/inline-bidi-markup/
 
 ## Default tier and overrides
@@ -128,26 +128,6 @@ Reference docs:
 | Marketing landing | backlog |
 | Internal admin | backlog |
 | Any locale-aware product | fix-this-sprint |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-<header className="flex items-center pl-6 pr-4 text-left">
-  <Logo className="mr-3" />
-  <nav className="ml-auto">{links}</nav>
-</header>
-```
-
-**Applied (passes):**
-
-```tsx
-<header className="flex items-center ps-6 pe-4 text-start">
-  <Logo className="me-3" />
-  <nav className="ms-auto">{links}</nav>
-</header>
-```
 
 ## Defer-to (when this is another tool's job)
 

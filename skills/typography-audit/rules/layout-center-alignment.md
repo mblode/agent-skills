@@ -1,6 +1,6 @@
 ---
 title: Center-Align Text Sparingly
-impact: MEDIUM
+impact: MEDIUM-HIGH
 tags: text-align, center, alignment, readability
 ---
 

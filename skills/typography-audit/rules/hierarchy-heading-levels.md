@@ -6,9 +6,9 @@ tags: headings, h1, h2, h3, semantic, skimmable
 
 ## Keep Heading Levels Shallow and Descriptive
 
-Limit heading depth to h1\u2013h3 in most contexts. Deeper levels (h4\u2013h6) often indicate content that should be restructured. Write descriptive, skimmable headings that tell the reader what the section contains, not generic labels.
+Limit heading depth to h1–h3 in most contexts. Deeper levels (h4–h6) often indicate content that should be restructured. Write descriptive, skimmable headings that tell the reader what the section contains, not generic labels.
 
-Avoid heading colors that match link colors (causes confusion). Avoid all-italic headings (they feel weak).
+Avoid all-italic headings; they feel weak at heading sizes.
 
 **Incorrect (deep nesting, generic headings):**
 

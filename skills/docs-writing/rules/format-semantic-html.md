@@ -6,24 +6,25 @@ tags: html, semantics, accessibility
 
 ## Use semantic HTML for content structure
 
-Use the correct HTML element for each content type: headings for sections, lists for groups, tables for tabular data, `<code>` for inline code. Generic `<div>` and `<span>` carry no meaning for screen readers or search engines.
+Use the correct element for each content type: headings for sections, lists for groups, tables for tabular data, `<code>` for inline code. In Markdown and MDX, that means the Markdown syntax, not raw HTML: `<b>` and `<br>` carry no structure for screen readers, and a hand-rolled `<ul>` or `<h2>` skips the docs site's own renderer, so it gets no heading anchor, no table-of-contents entry, and no copy button.
 
-**Incorrect (divs used for structure):**
+**Incorrect (raw HTML in an MDX file where Markdown carries the semantics):**
 
-```html
-<div class="heading">Prerequisites</div>
-<div class="list-item">Node.js 18+</div>
-<div class="list-item">PostgreSQL 15+</div>
-```
-
-**Correct (semantic elements match content type):**
-
-```html
-<h2>Prerequisites</h2>
+```markdown
+<b>Prerequisites</b><br>
 <ul>
   <li>Node.js 18+</li>
   <li>PostgreSQL 15+</li>
 </ul>
+```
+
+**Correct (Markdown syntax; reach for HTML only where Markdown has no equivalent):**
+
+```markdown
+## Prerequisites
+
+- Node.js 18+
+- PostgreSQL 15+
 ```
 
 Reference: [MDN: Semantics](https://developer.mozilla.org/en-US/docs/Glossary/Semantics)

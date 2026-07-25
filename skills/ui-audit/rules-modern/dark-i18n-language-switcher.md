@@ -12,9 +12,6 @@ related: dark-i18n-locale-formatting, dark-i18n-rtl-untested
 
 A switcher that labels options with flag emoji, or with names in the *current* UI language, fails the users it exists for. Flags are countries, not languages: 🇺🇸 isn't English (spoken in dozens of countries), 🇧🇷 vs 🇵🇹 splits one language, and Arabic, Spanish, or French map to no single flag. A user whose language isn't active can't read "German / French / Spanish" in English: the one list they need is written in a language they don't speak. Fix: list each locale **endonymously** (in its own language: "Deutsch", "日本語", "العربية") and tag each option with the correct `lang` so screen readers pronounce it.
 
-## Contents
-[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
-
 ## What goes wrong
 
 A footer renders `🇩🇪 German`, `🇫🇷 French`, `🇸🇦 Arabic`. A Brazilian seeking Portuguese sees only 🇵🇹 and assumes it's unavailable. A screen-reader user hits `<option>` "Deutsch" with no `lang="de"`, so the English voice mangles it. The selection also never reaches `<html lang>`, so the whole page is announced with the wrong pronunciation engine.
@@ -77,8 +74,8 @@ const LOCALES = [
 Also ensure the active locale reaches `<html lang>` (e.g. `<html lang={locale}>` in the root layout) so the rest of the page is announced correctly.
 
 Docs:
-- MDN `lang`: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang
-- MDN `hreflang`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#hreflang
+- MDN `lang`: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/lang
+- MDN `hreflang`: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#hreflang
 - W3C i18n articles index: https://www.w3.org/International/articlelist
 
 ## Default tier and overrides
@@ -93,20 +90,6 @@ Docs:
 | Settings | backlog |
 | Marketing landing | backlog |
 | Internal admin | backlog (often single-locale) |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-<button>🇫🇷 French</button>
-```
-
-**Applied (passes):**
-
-```tsx
-<button lang="fr" hrefLang="fr">Français</button>
-```
 
 ## Defer-to (when this is another tool's job)
 

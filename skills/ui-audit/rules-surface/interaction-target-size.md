@@ -7,7 +7,7 @@ tags: interaction, touch, targets
 
 ## Meet Minimum Hit Target Size
 
-Tap targets at least 24px (44px preferred on mobile).
+Touch targets need 44x44px (WCAG 2.5.5 Target Size Enhanced). 24x24px (WCAG 2.5.8 Target Size Minimum) is the floor only for dense desktop UI under `pointer: fine`; on touch it is a mistap generator, not a pass.
 
 **Incorrect (small tap area):**
 

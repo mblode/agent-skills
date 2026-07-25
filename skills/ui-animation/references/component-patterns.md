@@ -239,11 +239,11 @@ Fix hover flicker: apply hover on the parent, animate the child. `translateY` on
   transform: translateY(-20%);
 }
 .box-inner {
-  transition: transform 200ms ease;
+  transition: transform 150ms ease;
 }
 ```
 
-For scale-based hover, use `scale(1.01)` to `scale(1.02)`; `scale(1.05)` is visibly inflated. Hover transitions should be 100-150ms; 300ms feels laggy because the user's eye is already on the element.
+For scale-based hover, use `scale(1.01)` to `scale(1.02)`; `scale(1.05)` is visibly inflated. Transform hovers run 100-150ms, faster than the 200ms colour/opacity hover above: the user's eye is already on the element, so movement past 150ms reads as lag.
 
 ```css
 @media (hover: hover) and (pointer: fine) {

@@ -1,6 +1,6 @@
 ---
 title: Reserve Monospaced Fonts for Short Blocks
-impact: CRITICAL
+impact: MEDIUM-HIGH
 tags: monospace, code, body-text, readability
 ---
 

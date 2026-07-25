@@ -6,7 +6,7 @@ defaultTier: release-blocker | fix-this-sprint | backlog
 surfaces: <comma-separated agentic feature playbooks this rule fires in>
 ax-pattern: <which AX pattern or anti-pattern this enforces>
 detection: code-auditable | hybrid | observational
-related: <comma-separated other rule slugs (arch or ax)>
+related: <comma-separated other rule slugs (arch or ax); cross-layer pairs list each other in both files>
 ---
 
 ## <Rule title>
@@ -57,13 +57,14 @@ rg 'pattern' --type=ts src/
 
 **Defaults to:** `<tier>`
 
-**Surface overrides:**
 | Surface | Tier |
 |---|---|
 | Agent tool execution | <usually one tier higher> |
 | Agent chat | <same or one tier lower> |
 | Agent config | <same> |
 | Agent dashboard | <usually one tier lower> |
+
+Cover every surface listed in `surfaces:`. A missing row hands that surface to the generic bump in `references/ship-readiness.md`, so the table is required even when every row just repeats `defaultTier`: the repetition is what suppresses the bump.
 
 ## Examples
 
@@ -78,11 +79,6 @@ rg 'pattern' --type=ts src/
 ```tsx
 // Same component with trust pattern applied.
 ```
-
-## Cross-reference
-
-If a finding overlaps with ui-audit rules, link out:
-- `ui-audit` rule `<slug>` for the traditional UX dimension
 
 ## Suppression
 

@@ -7,8 +7,6 @@ tags: tag1, tag2
 
 ## Rule Title Here
 
-**Impact: MEDIUM (optional consequence note)**
-
 One or two sentences on why the rule matters; name the developer-facing failure, not just the best practice. Set `impact` higher than the category default only when the failure mode justifies it.
 
 **Incorrect (what is wrong and why):**

@@ -44,6 +44,7 @@ Writing progress:
 - [ ] Step 4: Choose framework and load references
 - [ ] Step 5: Write 2-3 alternatives
 - [ ] Step 6: Recommend and explain
+- [ ] Step 7: Verify every line before handing back
 ```
 
 ### Step 1: Gather context
@@ -112,6 +113,10 @@ Write exactly 2-3 distinct alternatives, labeled **Option A**, **Option B**, **O
 
 Pick one; state which and why in one sentence. For each unpicked option, give one specific edit note: what would make it stronger.
 
+### Step 7: Verify every line before handing back
+
+Check each line of every option: leads with Why, names a concrete outcome, no banned word, no em dash as ordinary punctuation. New copy containing a banned word is not an option to present; rewrite it first.
+
 ---
 
 ## Mode B: Editing existing copy
@@ -167,6 +172,8 @@ Attach a label inline to every weak line. Use exactly these labels:
 | `[TELL-NOT-SHOW]` | Adjective claim without proof ("powerful", "seamless", "easy") |
 | `[VAGUE]` | Generic; could describe any product in the category |
 | `[PASSIVE]` | Subject is acted upon instead of acting |
+| `[VOICE-DRIFT]` | Breaks from the dominant voice of the surrounding copy (register, tense, or person) |
+| `[PAIN-NOT-NAMED]` | States benefits without naming the frustration the reader arrived with |
 | `[DEAD-WEIGHT]` | Adds nothing not already conveyed; safe to cut |
 | `[JARGON]` | Technical term that obscures meaning for non-experts |
 | `[NO-PROOF]` | Claim needing a number, example, or testimonial |
@@ -237,8 +244,7 @@ Also ban **"simple"** as a claim ("our simple onboarding"): never earned upfront
 - State the brief before writing and mark what you inferred: copy written without a goal and value proposition reads well and solves the wrong problem.
 - Edit mode: flag only the 3-7 highest-impact issues; over-flagging dilutes the audit into a list nobody acts on.
 - Read copy in context before judging; a vague-looking line may carry contrast with adjacent copy.
-- Preserve the project's locale and brand voice; check existing copy before switching spelling or tone.
-- If CTAs aren't in markdown, ask where the component strings live before auditing.
+- Preserve the project's locale and brand voice; check existing copy before switching spelling or tone. A US-spelling rewrite on an en-AU product ships as a regression across every string it touches.
 
 ---
 

@@ -20,4 +20,4 @@ See [here](/docs/reference/api.md) for more info.
 See [API authentication methods](../reference/api.md#authentication) for token setup.
 ```
 
-Reference: [MDN: Absolute vs. relative URLs](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#absolute_urls_vs._relative_urls)
+Reference: [MDN: Absolute vs. relative URLs](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_URL#absolute_urls_vs._relative_urls)

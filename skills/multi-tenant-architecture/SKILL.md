@@ -6,7 +6,7 @@ description: Provides architecture guidance for multi-tenant SaaS platforms on C
 # Multi-Tenant Platform Architecture (Cloudflare or Vercel)
 
 - **IS:** domain strategy, tenant identification and isolation, subdomain routing, custom domains, white-label setup, and plan/limit mapping on Cloudflare or Vercel.
-- **IS NOT:** general app folder structure or module boundaries (use `define-architecture`), or scaffolding a new repo (use `scaffold-nextjs`).
+- **IS NOT:** general app folder structure or module boundaries (use `define-architecture`), scaffolding a new repo (use `scaffold-nextjs`), or the content of per-tenant SEO artifacts once routing serves them dynamically: sitemap entries, canonical URLs, structured data, indexing policy (use `optimise-seo`).
 
 ## Contents
 
@@ -32,6 +32,22 @@ description: Provides architecture guidance for multi-tenant SaaS platforms on C
 
 ## Workflow (order matters)
 
+Copy this checklist to track progress:
+
+```text
+Multi-tenant progress:
+- [ ] Step 1: Domain strategy and PSL decision
+- [ ] Step 2: Tenant identification strategy
+- [ ] Step 3: Isolation model
+- [ ] Step 4: Deterministic routing
+- [ ] Step 5: Tenant context propagation
+- [ ] Step 6: Least-privilege bindings and tenant config
+- [ ] Step 7: Custom domains and per-tenant static files
+- [ ] Step 8: Limits mapped to plans
+- [ ] Step 9: API parity with the UI
+- [ ] Step 10: Extension modes
+```
+
 1. Choose domain strategy
 - Dedicated tenant domain, separate from the brand domain, for all subdomains and custom hostnames. Reputation does not isolate: a phishing site on `random.acme.com` damages the whole domain.
 - Register a separate TLD for tenant workloads (e.g. `acme.app` for tenants, `acme.com` for brand).
@@ -53,18 +69,7 @@ description: Provides architecture guidance for multi-tenant SaaS platforms on C
 
 5. Pass tenant context through the stack (single authority: Middleware or platform Worker; never trust client-supplied identity)
 - **Cloudflare**: platform Worker resolves the tenant, injects headers/bindings before dispatching to the tenant Worker.
-- **Vercel**: Middleware sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` on forwarded request headers (not the response). Server Components read via `headers()`; API routes read from request headers:
-  ```ts
-  // middleware.ts
-  import { NextRequest, NextResponse } from "next/server";
-  export function middleware(request: NextRequest) {
-    const hostname = request.headers.get("host") ?? "";
-    const tenant = hostname.split(".")[0]; // resolve from Edge Config/DB in production
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set("x-tenant-id", tenant);
-    return NextResponse.next({ request: { headers: requestHeaders } });
-  }
-  ```
+- **Vercel**: Middleware sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` on forwarded request headers (not the response). Server Components read via `headers()`; API routes read from request headers. Implementation in [vercel-platform.md](references/vercel-platform.md).
 
 6. Bind only what is needed
 - **Cloudflare**: least-privilege bindings per tenant (DB/storage/limited platform API), no shared global state. New bindings are explicit changes; redeploy to grant access.

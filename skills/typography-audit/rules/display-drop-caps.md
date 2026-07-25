@@ -1,6 +1,6 @@
 ---
 title: Implement Drop Caps or Initial Caps
-impact: LOW-MEDIUM
+impact: MEDIUM
 tags: drop-cap, initial-letter, initial-cap, editorial
 ---
 

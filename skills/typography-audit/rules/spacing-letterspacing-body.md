@@ -6,7 +6,9 @@ tags: letter-spacing, tracking, body-text, readability
 
 ## Never Letterspace Body Text
 
-Adding letter-spacing to body text destroys the carefully designed spacing built into the font's metrics. Professional typefaces are spaced for optimal readability at text sizes. The only exceptions are tiny captions (below 10px) where slight positive tracking aids legibility, and display-size lowercase.
+Adding letter-spacing to body text destroys the carefully designed spacing built into the font's metrics. Professional typefaces are spaced for optimal readability at text sizes. The only exceptions are very small captions, where slight positive tracking aids legibility, and display-size lowercase.
+
+If small text is hard to read, the fix is a larger font size, not tracking. Tracking does not buy back legibility lost to size, and anything below 12px fails readers with low vision and is unreadable at arm's length on a high-density phone. Keep 12px as the floor, and reserve it for non-essential text (a photo credit, a legal footnote), never for content a reader has to act on.
 
 **Incorrect (letterspacing applied to body):**
 
@@ -27,9 +29,9 @@ body {
   letter-spacing: normal;
 }
 
-/* Only tiny text may benefit from slight tracking */
-.caption {
-  font-size: 10px;
+/* Only small non-essential text may benefit from slight tracking */
+.photo-credit {
+  font-size: 12px;
   letter-spacing: 0.02em;
 }
 ```

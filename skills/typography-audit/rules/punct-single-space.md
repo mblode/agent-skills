@@ -1,6 +1,6 @@
 ---
 title: One Space After Periods
-impact: CRITICAL
+impact: MEDIUM
 tags: spacing, periods, sentences, double-space
 ---
 

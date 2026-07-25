@@ -6,7 +6,7 @@ tags: diacritics, accents, unicode, utf-8, glyphs
 
 ## Support Accented Characters and Diacritics
 
-Ensure fonts include all needed accented characters. Use correct diacritics (caf\u00e9, not cafe; na\u00efve, not naive). Store accents as Unicode characters, not composed sequences. Avoid over-subsetting, which strips accented glyphs.
+Ensure fonts include all needed accented characters. Use correct diacritics (café, not cafe; naïve, not naive). Store accents as Unicode characters, not composed sequences. Avoid over-subsetting, which strips accented glyphs.
 
 **Incorrect (missing diacritics, wrong encoding):**
 

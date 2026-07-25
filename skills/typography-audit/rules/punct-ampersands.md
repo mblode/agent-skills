@@ -1,6 +1,6 @@
 ---
 title: Use Ampersands Sparingly
-impact: CRITICAL
+impact: MEDIUM
 tags: ampersand, punctuation, proper-names
 ---
 

@@ -1,21 +1,24 @@
 ---
-title: Add Adequate Margins Around Text
+title: Add Adequate Margins, Gutters, and Padding Around Text
 impact: HIGH
-tags: margins, padding, gutters, mobile, breathing-room
+tags: margins, padding, gutters, columns, mobile
 ---
 
-## Add Adequate Margins Around Text
+## Add Adequate Margins, Gutters, and Padding Around Text
 
-Ensure adequate padding and margins around text blocks, including column padding, outer margins, thumb space on mobile, and print gutters. Keep paragraph spacing modest and responsive. Avoid paragraphs that touch each other or have excessive gaps.
+Text needs breathing room on every edge: column gutters wide enough that adjacent columns do not read as one, container padding that keeps text off the screen edges, thumb space on mobile, and print gutters. Text touching a phone's bezel is one of the most common and most obvious layout defects. Keep paragraph spacing modest and responsive; paragraphs should neither run together nor float apart.
 
-Set line height first, then adjust paragraph spacing. The two values work together.
-
-**Incorrect (cramped margins):**
+**Incorrect (no gutters, text hits the screen edge, paragraphs run together):**
 
 ```css
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0; /* columns touch */
+}
+
 .article {
-  padding: 0;
-  margin: 0;
+  padding: 0; /* text hits screen edges on mobile */
 }
 
 p {
@@ -23,9 +26,15 @@ p {
 }
 ```
 
-**Correct (generous, responsive margins):**
+**Correct (gutters, container padding, responsive paragraph spacing):**
 
 ```css
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem; /* comfortable gutter between columns */
+}
+
 .article {
   padding: 2rem;
   max-width: 65ch;
@@ -38,9 +47,13 @@ p {
 
 @media (max-width: 768px) {
   .article {
-    padding: 1rem; /* adequate thumb space */
+    padding: 1rem; /* minimum thumb space */
+  }
+
+  .grid {
+    grid-template-columns: 1fr; /* stack rather than shrink the measure */
   }
 }
 ```
 
-Break long copy into readable paragraphs. Avoid walls of text. Use subheadings and lists where useful.
+Set line height before paragraph spacing; the two values work together to make vertical rhythm. Break long copy into readable paragraphs with subheadings and lists rather than shipping a wall of text.

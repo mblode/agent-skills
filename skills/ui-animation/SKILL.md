@@ -77,7 +77,8 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | Modals, drawers               | 200-350ms    | `cubic-bezier(0.22, 1, 0.36, 1)` |
 | Move/slide on screen          | 200-300ms    | `cubic-bezier(0.25, 1, 0.5, 1)`  |
 | Page transitions              | 250-400ms    | enter or move curve              |
-| Simple hover (colour/opacity) | 200ms        | `ease`                           |
+| Hover (colour/opacity)        | 200ms        | `ease`                           |
+| Hover (transform/scale)       | 100-150ms    | enter curve                      |
 | Illustrative/marketing        | Up to 1000ms | Spring or custom                 |
 
 Keep routine UI under 300ms; scale duration with distance (a full-screen slide can exceed 300ms, a 6px tooltip shift stays under 150ms).

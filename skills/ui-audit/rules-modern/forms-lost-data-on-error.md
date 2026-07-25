@@ -139,38 +139,10 @@ Docs:
 
 Data loss on critical paths (payment, account creation, multi-step) is a release blocker: the cost compounds across millions of submissions.
 
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-const [form, setForm] = useState({ email: "", password: "" });
-async function onSubmit(e) {
-  e.preventDefault();
-  const res = await fetch("/api/signin", { ... });
-  if (!res.ok) {
-    e.currentTarget.reset(); // wipes both fields
-    setError("Try again");
-  }
-}
-```
-
-**Applied (passes):**
-
-```tsx
-const [state, action] = useActionState(signInAction, { fields: {} });
-return (
-  <form action={action}>
-    <input name="email" defaultValue={state.fields?.email} />
-    <input name="password" type="password" />
-  </form>
-);
-```
-
 ## Defer-to (when this is another tool's job)
 
 - jsx-a11y enforces `aria-invalid` at lint time.
-- React Hook Form / Zod resolvers handle client-side preservation pre-React 19.
+- React Hook Form / Zod resolvers handle client-side preservation where the form is not driven by a React action.
 
 ## Suppression
 

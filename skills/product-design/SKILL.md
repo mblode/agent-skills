@@ -80,9 +80,19 @@ Product design pass:
 - [ ] Step 5: Enumerate reachable states; check coverage (surfaces.md)
 - [ ] Step 6: Apply standards; cite a stable rule ID per finding or decision
 - [ ] Step 7: Emit output (review and harden use P0-P3); route follow-on work to siblings
+- [ ] Step 8: Run the pass self-check and report its counts
 ```
 
 For shape, spec, harden, or any material product or flow change, write the compact internal brief specified in `references/product-judgment.md` before proposing UI. If its job, desired outcome, and consequence fields cannot be filled in, stop and ask rather than guessing.
+
+## Pass self-check
+
+Close every pass with these counts, and label the pass `INCOMPLETE` if any line fails:
+
+- Rules cited versus rules applicable to the surfaces in scope (name the applicable ones you did not reach).
+- Findings or non-mechanical decisions carrying no rule ID from `references/rules.md`: must be zero.
+- Coverage gaps recorded for every decision no existing rule governs.
+- Internal brief present with job, desired outcome, and consequence filled, for shape, spec, and harden.
 
 ## Product design standards
 
@@ -104,8 +114,9 @@ Deterministic, structural, single-file checks (control selection by option count
 
 ## Gotchas
 
-- A mockup with only a happy path is a P1 minimum, not a pass (`rule/cover-reachable-states`).
-- A select with two options is not a style nit; it is `rule/control-matches-cardinality`, and a project linter can catch it (see `references/lint-patterns.md`).
+- Emitting a line-level fix (a prop, a hook, a `className`) instead of the decision. It arrives without the rendered check that would validate it, and the product decision it was supposed to carry goes unstated. Route it to `ui-audit`.
+- Proposing UI when the internal brief's job, desired outcome, or consequence field cannot be filled. Every finding after that rests on a guessed job, so stop and ask (`references/product-judgment.md`).
+- Citing a plausible-sounding rule ID that does not exist (`rule/clear-labels`). The citation resolves to nothing, so the finding cannot be deduped against a sibling audit or traced to a rule. Record a coverage gap instead.
 
 ## Related skills
 

@@ -12,9 +12,6 @@ related: dark-i18n-color-only-state, states-layout-shift
 
 Hardcoded colors (`bg-white`, `text-black`, `#fff`, `text-gray-900`) break in dark mode: white surfaces glow on a dark background, fixed grays lose contrast, borders disappear. CSS-variable tokens (`bg-background`, `text-foreground`) make the same JSX work in both themes. The companion bug: no Storybook dark story or Chromatic dark snapshot, so the regression ships unnoticed.
 
-## Contents
-[What goes wrong](#what-goes-wrong) · [Detection](#detection) · [Fix](#fix) · [Tiers](#default-tier-and-overrides) · [Examples](#examples) · [Defer-to](#defer-to-when-this-is-another-tools-job) · [Suppression](#suppression)
-
 ## What goes wrong
 
 A card uses `bg-white border-gray-200 text-gray-900`. In dark mode it's a white rectangle on a near-black canvas, and nothing catches it because the component's only Storybook story renders the default (light) theme.
@@ -93,7 +90,7 @@ Or derive variants with `color-mix` (no second token):
 Docs:
 - shadcn theming via CSS variables: https://ui.shadcn.com/docs/theming
 - Tailwind dark mode strategies: https://tailwindcss.com/docs/dark-mode
-- MDN `color-mix()`: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix
+- MDN `color-mix()`: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/color-mix
 
 ## Default tier and overrides
 
@@ -107,32 +104,6 @@ Docs:
 | Dashboard | fix-this-sprint |
 | Marketing landing | backlog |
 | Internal admin | backlog |
-
-## Examples
-
-**Anti-pattern (fails):**
-
-```tsx
-export function Alert({ children }) {
-  return (
-    <div className="bg-white border border-gray-200 text-gray-900 shadow">
-      {children}
-    </div>
-  );
-}
-```
-
-**Applied (passes):**
-
-```tsx
-export function Alert({ children }) {
-  return (
-    <div className="bg-card border border-border text-card-foreground shadow-sm">
-      {children}
-    </div>
-  );
-}
-```
 
 ## Defer-to (when this is another tool's job)
 

@@ -1,6 +1,6 @@
 ---
 title: Lighten Headings as They Grow
-impact: MEDIUM-HIGH
+impact: MEDIUM
 tags: headings, color, weight, large-type, balance
 ---
 
@@ -36,4 +36,4 @@ h3 {
 }
 ```
 
-Avoid heading colors that match your link color (typically blue), as readers will try to click them.
+Lighten weight before lightening color. A lower weight at 48px keeps full contrast, while a lighter color spends contrast the reader needs; heading text still has to clear the WCAG floor (see `brand-color`).

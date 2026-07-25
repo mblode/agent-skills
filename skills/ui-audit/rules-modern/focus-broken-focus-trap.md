@@ -34,14 +34,14 @@ A custom `<div role="dialog">` opens. The user presses Tab; focus moves to a bod
 ```bash
 # Hand-rolled dialogs
 rg 'role="(dialog|alertdialog)"' --type=ts -l | while read f; do
-  rg -L '@radix-ui/react-dialog|react-aria|focus-trap-react|@headlessui/react' "$f" \
-    && echo "$f: dialog without trap library"
+  rg -q '@radix-ui/react-dialog|react-aria|focus-trap-react|@headlessui/react' "$f" \
+    || echo "$f: dialog without trap library"
 done
 
 # Components named *Modal*/*Dialog* without primitive
 rg -l --type=ts '(Modal|Dialog|Sheet|Drawer|Popover)\b' src/ | while read f; do
-  rg -L '@radix-ui|react-aria|@headlessui|focus-trap' "$f" \
-    && echo "$f: custom modal without primitive"
+  rg -q '@radix-ui|react-aria|@headlessui|focus-trap' "$f" \
+    || echo "$f: custom modal without primitive"
 done
 ```
 
@@ -89,7 +89,7 @@ export function ConfirmDialog({ children, trigger }) {
 
 Docs:
 - Radix Dialog: https://www.radix-ui.com/primitives/docs/components/dialog
-- react-aria Modal: https://react-spectrum.adobe.com/react-aria/Modal.html
+- react-aria Modal: https://react-aria.adobe.com/Modal
 - focus-trap-react: https://github.com/focus-trap/focus-trap-react
 
 ## Default tier and overrides
@@ -103,23 +103,6 @@ Docs:
 | Confirm-destruction dialog | release-blocker |
 | Marketing newsletter modal | fix-this-sprint |
 | Internal admin | fix-this-sprint |
-
-## Examples
-
-**Anti-pattern (fails):**
-```tsx
-<div role="dialog" aria-modal="true" className="fixed inset-0">
-  <h2>Confirm</h2>
-  <button onClick={onClose}>Cancel</button>
-</div>
-```
-
-**Applied (passes):**
-```tsx
-<Dialog.Root open={open} onOpenChange={setOpen}>
-  <Dialog.Content>...</Dialog.Content>
-</Dialog.Root>
-```
 
 ## Defer-to (when this is another tool's job)
 

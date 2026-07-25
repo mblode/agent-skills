@@ -1,6 +1,6 @@
 # Sections
 
-All 9 categories with ordering, impact, and rules. The ID in parentheses is the filename prefix. 52 rules total. To add a rule, copy `_template.md` and update the three counts it lists.
+All 9 categories with ordering, impact, and rules. The ID in parentheses is the filename prefix. 47 rules total. To add a rule, copy `_template.md` and update the three counts it lists.
 
 ---
 
@@ -12,22 +12,22 @@ All 9 categories with ordering, impact, and rules. The ID in parentheses is the 
 ## 2. Structure & Organization (structure)
 
 **Impact:** CRITICAL
-**10 rules:** Diataxis one-type-per-file, bottom line up front, conditions before instructions, heading followed by overview, hierarchical headings, next steps, numbered lists vs bullets, one idea per section, clear procedures, quick start for getting-started docs.
+**8 rules:** Diataxis one-type-per-file, bottom line up front, conditions before instructions, heading followed by overview, next steps, one idea per section (and per page), clear procedures, quick start for getting-started docs.
 
 ## 3. Clarity & Language (clarity)
 
 **Impact:** HIGH
-**6 rules:** clarity defaults (plain language, cut filler, be specific, global audience, short paragraphs), serial comma, no Latin abbreviations, no nominalizations, meaningful names, one idea per sentence.
+**5 rules:** clarity defaults (plain language, cut filler, be specific, global audience, short paragraphs; the source of truth for paragraph length), serial comma, no Latin abbreviations, no nominalizations, one idea per sentence.
 
 ## 4. Code Examples (code)
 
 **Impact:** HIGH
-**7 rules:** runnable examples (with why-not-what comments), code-to-context ratio, isolated-to-full layering, multiple languages, error descriptions, named functions, descriptive variables.
+**7 rules:** runnable examples (with why-not-what comments), code-to-context ratio, isolated-to-full layering, multiple languages, error descriptions, named functions, realistic example names.
 
 ## 5. Formatting & Syntax (format)
 
 **Impact:** MEDIUM-HIGH
-**8 rules:** sentence case headings, bold UI elements and code font for commands, descriptive link text, image alt text, lowercase filenames, parallel lists, periods inside quotes, semantic HTML.
+**7 rules:** sentence case headings, bold UI elements and code font for commands, descriptive link text, image alt text, lowercase filenames, periods inside quotes, semantic HTML.
 
 ## 6. Navigation & Linking (nav)
 
@@ -37,7 +37,7 @@ All 9 categories with ordering, impact, and rules. The ID in parentheses is the 
 ## 7. Scanability & Readability (scan)
 
 **Impact:** MEDIUM
-**2 rules:** scan defaults (front-load key information, white space between groups, diagrams and tables over prose, varied sentence rhythm), three-column API reference layout.
+**2 rules:** scan defaults (white space between logical groups, diagrams and tables over prose), three-column API reference layout.
 
 ## 8. Content Hygiene (hygiene)
 
@@ -47,4 +47,4 @@ All 9 categories with ordering, impact, and rules. The ID in parentheses is the 
 ## 9. Review & Testing (review)
 
 **Impact:** LOW-MEDIUM
-**3 rules:** review defaults (fresh-reader test, read aloud and cut, verify against implementation), verify links, readability score.
+**2 rules:** review defaults (fresh-reader test, read aloud and cut, verify against implementation), verify links.

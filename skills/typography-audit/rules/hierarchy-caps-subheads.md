@@ -1,6 +1,6 @@
 ---
 title: Use Letterspaced Caps for Subheadings
-impact: MEDIUM-HIGH
+impact: LOW-MEDIUM
 tags: subheadings, uppercase, small-caps, letterspacing, hierarchy
 ---
 

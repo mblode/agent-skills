@@ -34,8 +34,8 @@ rg '<(fieldset|section|div role="group")' src/Header.tsx
 | Tier | Condition | Severity |
 |---|---|---|
 | pass | every ungrouped group has ≤7 items |: |
-| warn | 8-9 items in any ungrouped group | MEDIUM |
-| fail | ≥10 items in any ungrouped group | HIGH |
+| warn | 8-10 items in any ungrouped group | MEDIUM |
+| fail | >10 items in any ungrouped group | HIGH |
 
 ## Fix
 

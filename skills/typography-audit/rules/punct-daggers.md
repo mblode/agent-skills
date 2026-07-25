@@ -1,12 +1,12 @@
 ---
 title: Use Daggers and Special Marks Correctly
-impact: CRITICAL
+impact: LOW-MEDIUM
 tags: dagger, double-dagger, footnotes, hedera, manicule
 ---
 
 ## Use Daggers and Special Marks Correctly
 
-Use dagger (\u2020) and double dagger (\u2021) for footnotes when asterisks are taken or numbering is impractical. Use hedera (\u2767) and manicule (\u261e) sparingly, as decoration only.
+Use dagger (†) and double dagger (‡) for footnotes when asterisks are taken or numbering is impractical. Use hedera (❧) and manicule (☞) sparingly, as decoration only.
 
 **Incorrect (improvised footnote markers):**
 
@@ -27,4 +27,4 @@ Use dagger (\u2020) and double dagger (\u2021) for footnotes when asterisks are 
 </footer>
 ```
 
-**Footnote marker order:** * \u2020 \u2021 \u00a7 \u2016 \u00b6 (then double up: ** \u2020\u2020 etc.)
+**Footnote marker order:** * † ‡ § ‖ ¶ (then double up: ** †† etc.)

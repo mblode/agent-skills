@@ -25,7 +25,10 @@ Reference: [Link to documentation or resource](https://example.com)
 <!--
 Conventions:
 - Filename: <prefix>-<slug>.md where <prefix> matches a section in _sections.md
-- impact: must match the section's impact level (CRITICAL, HIGH, MEDIUM-HIGH, MEDIUM, LOW-MEDIUM)
+- impact: must match the section's impact level (CRITICAL, HIGH, MEDIUM-HIGH, MEDIUM, LOW-MEDIUM).
+  Severity is a property of the category, not the rule, so this field is deliberately
+  redundant with the filename prefix: it lets a rule file read standalone. A rule that
+  wants a different severity belongs in a different section.
 - H2 title matches the frontmatter title
 - The Incorrect/Correct parentheticals name the specific failure/fix, not just "bad"/"good"
 - Use ````markdown fences (four backticks) when the example itself contains code fences

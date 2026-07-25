@@ -1,12 +1,12 @@
 ---
 title: Use Proper Fraction and Math Entities
-impact: CRITICAL
+impact: MEDIUM
 tags: fractions, multiplication, math, entities
 ---
 
 ## Use Proper Fraction and Math Entities
 
-Use Unicode fraction characters and proper math symbols instead of improvised alternatives. The multiplication sign (\u00d7) is not the letter "x". Standard fractions have dedicated Unicode characters.
+Use Unicode fraction characters and proper math symbols instead of improvised alternatives. The multiplication sign (×) is not the letter "x". Standard fractions have dedicated Unicode characters.
 
 **Incorrect (improvised fractions and symbols):**
 
@@ -26,8 +26,8 @@ Use Unicode fraction characters and proper math symbols instead of improvised al
 
 | Fraction | Entity | Unicode |
 |----------|--------|---------|
-| \u00bd | `&frac12;` | U+00BD |
-| \u00bc | `&frac14;` | U+00BC |
-| \u00be | `&frac34;` | U+00BE |
-| \u2153 | `&#8531;` | U+2153 |
-| \u2154 | `&#8532;` | U+2154 |
+| ½ | `&frac12;` | U+00BD |
+| ¼ | `&frac14;` | U+00BC |
+| ¾ | `&frac34;` | U+00BE |
+| ⅓ | `&#8531;` | U+2153 |
+| ⅔ | `&#8532;` | U+2154 |

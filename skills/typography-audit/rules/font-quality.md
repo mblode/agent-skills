@@ -1,6 +1,6 @@
 ---
 title: Evaluate Font Quality Before Use
-impact: CRITICAL
+impact: MEDIUM
 tags: font-quality, kerning, licensing, sources
 ---
 

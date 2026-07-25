@@ -1,6 +1,6 @@
 ---
 title: Prefer WOFF2 and Variable Fonts
-impact: CRITICAL
+impact: MEDIUM
 tags: woff2, variable-fonts, font-format, performance
 ---
 

@@ -9,7 +9,9 @@ description: >-
   commit, push, or handoff. For fixes use tidy; for PR creation use
   pr-creator; for CI or review comments use pr-babysitter; for frontend UX,
   accessibility, layout, state coverage, or rendered quality use ui-audit; for
-  plans use planning.
+  library, CLI, or SDK developer experience use dx-audit; for folder structure
+  and module boundaries outside a diff use define-architecture; for plans use
+  planning.
 ---
 
 # Local Review
@@ -34,7 +36,6 @@ Conditional loads:
 
 - `references/security-checklist.md` for auth, input handling, external APIs, uploads, or environment config.
 - `references/performance-checklist.md` for fetching, rendering, images, dependencies, or bundle-affecting imports.
-- `references/comment-examples.md` for output-format calibration.
 - `agents/openai.yaml` only for the optional second-opinion pass below.
 
 ## Workflow
@@ -50,7 +51,7 @@ Review progress:
 ```
 
 1. **Discover target.** Review staged/unstaged changes first; if clean, review the branch diff. For a PR, use the same criteria and the PR handoff format.
-2. **Gather context.** Capture intent. Load scoped `AGENTS.md` / `CLAUDE.md`. Run documented lint, type-check, and tests where they exist; record baseline failures.
+2. **Gather context.** Capture intent. Load scoped `AGENTS.md` / `CLAUDE.md`; conventions there override this skill's defaults when they conflict, so a pattern they mandate is not a finding. Run documented lint, type-check, and tests where they exist; record baseline failures.
 3. **Review.** Apply the loaded rubric and high-signal criteria; shard large diffs. Optional: run an installed different-model CLI (`codex exec`, `droid exec`) read-only with `agents/openai.yaml`'s `default_prompt`, then validate its findings.
 4. **Validate.** Re-check exact lines. Drop speculative, duplicate, misread, mis-attributed, or pre-existing findings. Diff modes require changed lines; Security audit requires real in-scope code.
 5. **Report.** Use `references/severity-rubric.md`; structural blockers go under `Must fix before push`.
@@ -67,20 +68,22 @@ Report only when certain:
 - Test setup that requires helper tracing to understand assertions.
 - New lint, type-check, or test failures versus baseline.
 - Scoped instruction-file violation, with the rule quoted.
-- Speculative abstraction or avoidable complexity without a current requirement.
-- AI-generated patterns from `references/ai-slop-patterns.md`.
-- File pushed past ~1000 lines when the new behavior has a local module, component, or helper boundary.
-- Feature-specific conditionals added to unrelated shared paths.
-- Bespoke helper duplicating a canonical utility.
-- Hand-rolled reimplementation of stdlib or native platform behavior, with the replacement named.
-- New dependency added for what the stdlib, the platform, or an already-installed dependency covers.
-- Logic in the wrong layer when the canonical home is clear.
 - Retried or at-least-once write with no idempotency key or dedupe barrier, so a duplicate delivery applies twice.
 - Database commit plus an external publish (queue, webhook, email) without an outbox or transactional guarantee (dual-write): one side can fail independently.
 - External input (webhook/callback) trusted blindly: signature not verified over the raw bytes, or state overwritten directly from the payload instead of confirming against the source.
 - Floats or other lossy types used for money or precision-sensitive values, or money serialized as a bare JSON number rather than a string or integer minor-units.
 - Multi-step flow with an irreversible external effect and no compensation or resume path if a later step fails.
 - Sensitive mutation (funds, permissions, config) with no audit trail of what changed, who changed it, and why.
+
+Structural checks that fire in every mode, including Standard, which does not load the structural rubric. `references/structural-quality-rubric.md` deepens each one for Structural mode; these are the always-on floor:
+
+- Speculative abstraction or avoidable complexity without a current requirement.
+- File pushed past ~1000 lines when the new behavior has a local module, component, or helper boundary. A project-configured `max-lines` wins over this number.
+- Feature-specific conditionals added to unrelated shared paths.
+- Bespoke helper duplicating a canonical utility.
+- Hand-rolled reimplementation of stdlib or native platform behavior, with the replacement named.
+- New dependency added for what the stdlib, the platform, or an already-installed dependency covers.
+- Logic in the wrong layer when the canonical home is clear.
 
 Do not report style preferences, unrelated pre-existing issues, risks without a repro or exploit path, broad rewrites outside the diff's intent, linter-only noise, or explicitly silenced violations.
 
@@ -105,6 +108,14 @@ Default local report:
 - <readiness summary, including lint/type-check/test baseline>
 ```
 
+One finding, filled in:
+
+```markdown
+- [major] `src/profile/page.tsx:42` Missing null guard before dereferencing `profile`
+  Why: `profile` can be `null` on the first render, so `profile.id` throws before the loading state completes.
+  Fix: Guard `profile` before dereferencing, or move the access into the branch that handles loaded data.
+```
+
 If no issues, write `None.` under the first two tiers and state what was checked.
 
 PR handoff format:
@@ -122,8 +133,8 @@ PR handoff format:
 - Local changes beat PR lookup; review the working tree first or you miss uncommitted bugs.
 - Loading every rubric makes standard review noisy. Load only the selected mode.
 - Editing mid-review breaks the contract. Route fixes to `tidy`.
-- Findings without `file:line`, concrete impact, and a fix do not belong in the report.
-- Merge duplicate findings that share one root cause.
+- Line numbers counted off `git diff` hunk headers land in the report off by the hunk offset, and a reviewer who cannot find the cited line discards the rest of it too.
+- One broken helper reported once per call site reads as three problems and gets three separate patches, while the helper itself stays broken.
 - External-engine output is advisory. Re-validate everything against the actual diff.
 - Skipping the baseline makes pre-existing failures look like regressions.
 

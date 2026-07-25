@@ -14,7 +14,7 @@ Write or rewrite a README.md tailored to the project type and audience.
 
 | File | Read when |
 |------|-----------|
-| `references/section-templates.md` | Phase 3: copy the matching skeleton and section guidance |
+| `references/section-templates.md` | Phase 3: per-section markup plus the per-type notes |
 | `references/badges-and-shields.md` | Phase 4: only if publishing to a registry |
 | `references/quality-checklist.md` | Phase 5: score before declaring done |
 
@@ -81,7 +81,7 @@ Load `references/section-templates.md`. Use this matrix to pick sections (`yes` 
 
 ### Phase 3: Write sections
 
-Copy the matching skeleton from `references/section-templates.md` and fill it. The skeleton plus its Notes block carries per-type detail; these rules hold across every type:
+Copy each selected section's skeleton from `references/section-templates.md`, fill it, then apply the per-type notes at the end of that file. These rules hold across every type:
 
 - H1 is the project name. The one-liner sits directly below with no heading; state what it does, not what it "is". Good: "Manage configurations across environments with type-safe schemas." Bad: "This is a tool that helps you manage your configurations."
 - Put the feature list above the fold (before Install) so value lands before setup cost.
