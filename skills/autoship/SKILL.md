@@ -31,7 +31,7 @@ The local job ends at "push the changeset file". CI owns versioning and publishi
 
 | File | Read when |
 |------|-----------|
-| `references/changeset-and-commit.md` | Changeset, quality gates, commit and push (Steps 1-3) |
+| `references/changeset-and-commit.md` | Writing the changeset file and running each quality gate non-interactively (Steps 1-2) |
 | `references/ci-polling.md` | Monitor scripts, CI failures, Changeset Status check (Steps 4-5) |
 | `references/version-pr-and-publish.md` | Finding/merging the Version Packages PR, watching publish (Steps 4-5) |
 
@@ -52,7 +52,7 @@ If the user says "ship it" without explicit npm release context, route to `pr-cr
 
 Invoking autoship is standing consent for the full release flow. Do not pause mid-flow to re-confirm; gate risky steps with objective preconditions instead.
 
-- **Green (execute directly):** `gh run list`, `gh run view`, `gh pr list`, `gh pr checks`, `npm view`, reading CI status, listing changesets, reading `package.json` scripts, `git log`, `git status`.
+- **Green (execute directly):** any read, including CI and PR state, `npm view`, pending changesets, `package.json` scripts, and git history or status.
 - **Yellow (announce, then execute):** writing changeset files, running lint/typecheck/test/format fixers, `git add/commit/push`, starting `Monitor` background watches, and `gh pr merge` of the Version Packages PR once its identity is confirmed and all checks are green.
 - **Red (explicit confirmation required):** force-pushing, history rewrites, any destructive git operation.
 

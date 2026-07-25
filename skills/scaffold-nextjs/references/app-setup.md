@@ -149,4 +149,4 @@ mv {{name}} {{name}}-turbo/apps/web
 mv {{name}}-turbo {{name}}
 ```
 
-The app is now at `{{name}}/apps/web/`. Next: load `references/turbo-configs.md` and generate root config files in `{{name}}/`.
+The app is now at `{{name}}/apps/web/`. Root config files are generated in `{{name}}/` during Phase 6.

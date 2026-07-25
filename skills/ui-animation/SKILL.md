@@ -139,8 +139,6 @@ High-signal failures not covered above:
 - Animating both a container and staggering its children: pick one entrance per container. If the panel slides in, its content should already be visible on arrival.
 - Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.
 
-(The transform-owner clash and keyframes-on-rapid-fire failures are stated canonically under Performance and Core rules above.)
-
 ## Workflow
 
 Copy and track:

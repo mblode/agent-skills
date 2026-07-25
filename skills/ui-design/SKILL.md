@@ -77,8 +77,7 @@ For "create a brand kit", "generate a visual identity", or a brand direction boa
 Rules:
 
 - Guideline files in this skill are the source of truth for new UI design work.
-- `design-guidelines.md` is the single one-level index for `guidelines/`; load applicable rule files from there, do not maintain a second list here.
-- Load too many applicable guideline files rather than too few.
+- `design-guidelines.md` is the single one-level index for `guidelines/`; it also owns the load contract, so load applicable rule files from there and do not maintain a second list here.
 - Preserve user constraints unless a guideline requires asking about a design conflict.
 
 Other modes follow their loaded file: Options [ideas.md](./ideas.md), Scaffold [markup-from-image.md](./markup-from-image.md), Dark mode [add-dark-mode.md](./add-dark-mode.md), Responsive [make-responsive.md](./make-responsive.md), Componentize [componentize.md](./componentize.md).
@@ -112,7 +111,7 @@ Reference calibration:
 - Start the local dev server when the app requires one, and report its URL.
 - Check desktop and mobile viewports; capture screenshot paths or browser tool observations.
 - Check console errors and failed network requests.
-- Exercise the primary interaction states: hover, focus, pressed, disabled, loading, empty, and error where applicable.
+- Exercise the interaction states the Quality Bar requires.
 - Confirm text does not overflow or overlap in buttons, cards, sidebars, and compact panels.
 - List the guideline, track, and mode files loaded.
 

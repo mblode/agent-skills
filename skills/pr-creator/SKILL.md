@@ -69,27 +69,9 @@ Do not ask the user to confirm the description before creating or updating; the 
 - A "Test plan" section with checkboxes
 - A long list of bullets that restates the diff
 
-## Before / after examples
+## Examples
 
-### Feature (Linear ID available)
-
-**Bad** (default AI behavior):
-
-```text
-Title: Implement user authentication flow with session management and error handling
-
-## Summary
-- Added new `AuthProvider` component in `src/components/AuthProvider.tsx`
-- Implemented `useAuth` hook for login, logout, and session refresh
-- Updated `src/app/layout.tsx` to include the AuthProvider wrapper
-- Configured session timeout to 30 minutes with automatic refresh
-
-## Test plan
-- [ ] Verify login flow works with valid credentials
-- [ ] Verify session persists across page refreshes
-```
-
-**Good** (assume `ABC-123` is the real Linear ID):
+### Feature (assume `ABC-123` is the real Linear ID)
 
 ```text
 Title: ABC-123: Add auth flow with session management
@@ -99,23 +81,6 @@ Adds the auth flow needed for session-based login, including refresh, timeout ha
 
 ### Bugfix (real risk, real testing)
 
-**Bad:**
-
-```text
-Title: Fix issue with duplicate invoice creation in webhook handler
-
-## Summary
-This PR addresses an issue where the Stripe webhook handler was not idempotent,
-which could result in duplicate invoices under certain retry conditions. The
-handler has been updated to track processed event IDs, ensuring retried events
-are safely ignored.
-
-## Test plan
-- [ ] Verify duplicate webhooks no longer create duplicate invoices
-```
-
-**Good:**
-
 ```text
 Title: PAY-482: Dedupe Stripe webhook retries
 
@@ -123,6 +88,8 @@ Stripe retries webhooks on timeout and our handler wasn't idempotent, so retried
 
 Risk: touches the billing write path.
 ```
+
+Both carry the real why from the commits and then stop. `Risk:` earns its line in the second because the diff touches billing writes; the testing sentence is there only because a replay actually ran.
 
 ## Creating the PR
 

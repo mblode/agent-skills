@@ -78,7 +78,7 @@ Load references only when the condition applies:
    - Unit tests stay DB-free; integration/E2E run in parallel with dynamically generated IDs so runs never collide on fixtures.
    - Release in small, complete, reversible vertical slices with a rollback plan per change.
    - A slice is complete only when reliability, error paths, observability, and user-facing states are covered; do not defer them to a later polish pass.
-7. Agent guardrails: wire dead-code, duplication, boundary, and file-size checks into pre-commit and CI per [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md); anything a static tool can enforce stays out of AGENTS.md.
+7. Agent guardrails: wire dead-code, duplication, boundary, and file-size checks into pre-commit and CI per [references/agent-friendly-codebase.md](references/agent-friendly-codebase.md).
 
 ## Adoption workflow (existing codebase)
 

@@ -82,7 +82,7 @@ Product design pass:
 - [ ] Step 7: Emit output (review and harden use P0-P3); route follow-on work to siblings
 ```
 
-For shape, spec, harden, or any material product or flow change, write the compact internal brief in `references/product-judgment.md` before proposing UI: user, job, current behavior, desired outcome, success signal, non-goals, object, action, consequence, reversibility, permissions, and open decisions.
+For shape, spec, harden, or any material product or flow change, write the compact internal brief specified in `references/product-judgment.md` before proposing UI. If its job, desired outcome, and consequence fields cannot be filled in, stop and ask rather than guessing.
 
 ## Product design standards
 

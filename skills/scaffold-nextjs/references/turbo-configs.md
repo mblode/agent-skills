@@ -144,7 +144,7 @@ Update the `scripts` block in `apps/web/package.json`:
 }
 ```
 
-Script names match the tasks in `turbo.json` so turbo can orchestrate them across workspaces. The `oxlint`/`oxfmt` invocations here are for turbo orchestration only; for ad-hoc runs use `npx ultracite fix` / `npx ultracite check` so config resolution matches the pre-commit hook. If you add a test runner later, add a matching `test` task to `turbo.json` at the same time.
+Script names match the tasks in `turbo.json` so turbo can orchestrate them across workspaces; the `oxlint`/`oxfmt` invocations here exist for that orchestration only. If you add a test runner later, add a matching `test` task to `turbo.json` at the same time.
 
 ## apps/web/next.config.ts
 

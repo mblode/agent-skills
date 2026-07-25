@@ -56,7 +56,7 @@ Run the create-next-app command from `references/app-setup.md` exactly as writte
 
 ### Phase 3: Install Blode UI components
 
-Blode UI section of `references/app-setup.md`: `shadcn init`, register the `@blode` namespace, then add components. Registration must precede any `add @blode/...` call. Use `blode-icons-react` for icon imports, never `lucide-react`.
+Blode UI section of `references/app-setup.md`: `shadcn init`, register the `@blode` namespace, then add components.
 
 ### Phase 4: Install Agentation
 

@@ -88,7 +88,7 @@ Enter can be slightly slower than exit. Hold-to-delete: 2s linear on press, 200m
 
 ### Instant enter, animated exit (productivity tools)
 
-Restates SKILL.md's asymmetric-timing core rule for high-frequency ephemeral UI: enter instantly (0ms), exit with a brief fade (100-150ms).
+High-frequency ephemeral UI inverts the rule above: enter instantly (0ms), exit with a brief fade (100-150ms).
 
 ```css
 /* Hover highlight: instant appear, soft dismiss */

@@ -35,9 +35,6 @@ Use when turning a UI image into semantic, unstyled HTML or JSX markup as a scaf
 
 ## Guardrails
 
-- Don't style, infer colors, recreate spacing, add responsiveness, or add Tailwind classes.
-- Don't turn the scaffold into a finished implementation or componentize it; keep a single editable markup block.
-- Don't guess the insertion location when repository edits are requested.
 - Keep interpretation conservative: don't invent sections, copy, data, or behavior that isn't visible or requested.
 
 ## Verify

@@ -88,6 +88,7 @@ State findings in 2-3 sentences before the first question.
 
 Load `references/interrogation-protocol.md`. Ask ONE question at a time. Every question carries a **recommended answer** grounded in Step 1: name the file, function, approach.
 
+- **Diverge before converging (first move):** put 2-3 genuinely different framings of the work on the table, not variations on one, each with what it buys and what it forecloses, then recommend one. Every later question narrows, so this is the only turn where the frame itself is still open. It costs at most one question and catches the two scope errors nothing else does: too narrow (a one-line fix where the whole bug class needed handling) and too wide (a framework where one function held).
 - If code or docs can answer it, answer it yourself; never spend a user question on it.
 - Each answer shapes the next. Walk the decision tree: resolve intent and scope before approach, approach before risks.
 - Flag fuzzy terms ("handle auth", "make it fast"): propose a sharp version and ask if it is right.
@@ -96,7 +97,7 @@ Load `references/interrogation-protocol.md`. Ask ONE question at a time. Every q
 - **Probe for a reference-as-spec:** ask if existing code, a library, a design, or a site already does this the way the user wants. If so, read it and treat its semantics as the spec, interrogating only deviations.
 - **Blindspot pass (conditional):** when the user is unfamiliar with the area or asks for one ("blindspot pass", "unknown unknowns"), pause questions to surface what good looks like, prior work, and potholes, then teach it back before resuming. Detail in `references/interrogation-protocol.md`.
 
-**Budget:** 5-10 questions, then synthesize.
+**Budget:** 5-10 questions, then synthesize. Needing more than 10 is evidence the scope is too big for one plan; propose a split instead of continuing to ask.
 
 **Mandatory scope challenge (before synthesizing):** ask "What can we cut without dropping a current requirement?" Carry a recommended cut list: removed extension points, setup collapsed into the first vertical slice, new code or dependencies a higher ladder rung already covers, abstractions kept only when they protect a shared invariant/owner/lifecycle, and safety gates preserved where "simpler" would drop correctness. Challenge the *sum* of the plan, not each piece.
 
@@ -117,6 +118,8 @@ Write the plan file to the active agent's native plan directory when one exists;
 Keep plans scannable yet executable without re-reading the conversation. Record only the chosen approach; rejected alternatives become one-line rationale under Key decisions.
 
 **Handoff plans:** when another agent or session will execute, the executor has not seen this conversation. Inline any code excerpts and conventions it needs (with `file:line` markers), and add a **STOP conditions** section: assumptions that, if false, mean stop and report back rather than improvise.
+
+Name an implementation-notes file next to the plan and instruct the executor to keep it: every deviation the code forced on the plan gets logged under a `## Deviations` heading as what the plan said, what the code required, and which option was taken. A deviation that is not a STOP condition never pauses the work; take the conservative option, log it, keep going. The notes file is what review reads afterwards, so a handoff without one loses every decision made during execution.
 
 ### Step 4: Validate
 
@@ -218,15 +221,6 @@ Plan edits happen incrementally during the loop; this final pass confirms the fi
 - No "great plan, but...": start with the triage table and go straight to gaps. Acknowledge strengths in one clause at most.
 - Direct but constructive; aim to strengthen, not criticize.
 - Name scope creep, unearned abstractions, and horizontal-layer plans explicitly. Push for the minimum executable slice that proves the approach end-to-end.
-
-## Gotchas
-
-- Explore before asking. Never ask what code or docs answer; ask about rationale and tradeoffs instead.
-- Create mode: each question needs a recommended answer and stays collaborative. Stop at 10 questions and propose a split.
-- Review mode: one question per turn, apply each accepted resolution immediately, use the stall rule after two failed pushes.
-- Use batch questions only in explicit HTML batch mode.
-- Do not implement. The deliverable is the plan file.
-- Verification steps need a command and expected result, never just "verify it works".
 
 ## Related skills
 

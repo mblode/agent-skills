@@ -166,9 +166,9 @@ Full coverage map plus the gaps only ui-audit catches: `references/defer-to-othe
 | `references/ship-readiness.md` | Step 5: tier definitions, surface bump table, verdict logic |
 | `references/output-adapters.md` | Step 6: verbatim terminal / PR-comment / JSON templates |
 | `references/output-schema.md` | Step 6: strict JSON schema and validation rules |
-| `references/observational-rubrics.md` | Scoring any of the 10 Layer 4 rubric-kind rules (1-5 anchors) |
+| `references/observational-rubrics.md` | Scoring either Layer 4 rubric-kind rule (1-5 anchors) |
 | `references/defer-to-other-tools.md` | Deciding whether a concern is another tool's job |
-| `references/craft-checklist.md` | Optional polish sweep (hit targets, hover states, chrome hierarchy, optical alignment, concentric radii) when polish or pre-release sign-off is in scope |
+| `references/craft-checklist.md` | Optional polish sweep for details no rule encodes (hover affordances, pointer corridors, preserved scroll and object position, chrome hierarchy, theme-switch behavior) when polish or pre-release sign-off is in scope |
 | `references/typography-checklist.md` | Optional typography sweep (punctuation, measure, leading, OpenType basics, link styling, table numerals) when typography is named |
 | `rules-modern/_sections.md` | Layer 2 category index (behavior failure modes) |
 | `rules-modern/<category>-<slug>.md` | Step 4: running a named Layer 2 behavior check |

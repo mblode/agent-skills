@@ -77,10 +77,8 @@ The other four types are headline-only ([outline-structure.md](outline-structure
 > **Headline:** Building blocks over modules
 > **Supporting:** A platform built on configurable building blocks.
 
-## Writing workflow
+## Order of work per slide
 
-1. Identify the one thing the audience must remember
-2. Write the headline first: bold statement or question
-3. Add body only if it earns its place
-4. Read at arm's length; if not parseable in 3 seconds, simplify
-5. Cut anything the speaker will say anyway
+1. Write the headline first: bold statement or question. Everything else is optional.
+2. Add body only if it says something the headline does not.
+3. Cut anything the speaker will say aloud anyway; a slide that repeats the talk track makes one of them redundant.

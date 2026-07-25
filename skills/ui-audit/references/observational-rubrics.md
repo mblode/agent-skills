@@ -4,8 +4,6 @@ Layer 4 rules with `kind: rubric` score 1-5. Aggregates the 2 rubrics so two age
 
 Scoring: pick the closest anchor, emit `score` + the verbatim anchor text in the finding's `anchor` field. Pass ≥4, warn 3, fail ≤2.
 
-Pure design-decision scoring (choice architecture, information hierarchy, mental-model fit, dark-pattern framing, visual polish) is `product-design`'s job (and `ui-design`'s for visual direction), not ui-audit's. Only rubrics that read a built/rendered defect remain here.
-
 ## Table of contents
 
 1. [`cognitive-working-memory`](#cognitive-working-memory)

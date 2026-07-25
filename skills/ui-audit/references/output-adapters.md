@@ -130,52 +130,7 @@ Rules:
 
 ## Adapter 3: CI JSON
 
-For pipelines, dashboards, status checks. Emit strict JSON using the output schema for this skill.
-
-```json
-{
-  "audit": {
-    "ranAt": "2026-05-01T12:34:56Z",
-    "skill": "ui-audit",
-    "scope": {
-      "mode": "diff",
-      "diffBase": "main",
-      "files": ["src/checkout/PaymentStep.tsx", "src/checkout/CheckoutForm.tsx", "..."],
-      "filesAudited": 8
-    },
-    "selfCheck": { "passed": true, "failures": [] }
-  },
-  "verdict": "NOT_READY",
-  "summary": {
-    "releaseBlockers": 1,
-    "fixThisSprint": 3,
-    "backlog": 3,
-    "unknown": 0
-  },
-  "deferredTo": [
-    { "concern": "performance", "tool": "Lighthouse" },
-    { "concern": "wcag", "tool": "axe-core" },
-    { "concern": "bundle", "tool": "size-limit" }
-  ],
-  "findings": [
-    {
-      "rule": "forms-lost-data-on-error",
-      "assignedTier": "release-blocker",
-      "feature": "checkout",
-      "surface": "PaymentStep",
-      "file": "src/checkout/PaymentStep.tsx",
-      "line": 42,
-      "severity": "HIGH",
-      "result": "fail",
-      "observed": "Card number cleared when shipping-address validation returns 422.",
-      "fix": "Use useActionState; hoist field state across error responses.",
-      "fixSnippet": "const [state, formAction] = useActionState(...)",
-      "docsLink": "https://react.dev/reference/react/useActionState",
-      "tierReason": "Surface is checkout; payment-data loss is money-flow blocker."
-    }
-  ]
-}
-```
+For pipelines, dashboards, status checks. Emit the document verbatim as specified in `output-schema.md`; this adapter adds no fields and drops none, so there is no second copy of the schema here.
 
 CI usage:
 

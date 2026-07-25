@@ -6,9 +6,7 @@ Personalisation and mobile-first conversion. Load alongside `cro.md` when buildi
 
 - [AI personalisation](#ai-personalisation)
 - [Mobile-first conversion](#mobile-first-conversion)
-- [Page speed](#page-speed)
-- [Accessible copy](#accessible-copy)
-- [Microcopy](#microcopy)
+- [Owned elsewhere](#owned-elsewhere)
 
 ---
 
@@ -73,24 +71,12 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 - **`inputmode` attributes.** Use `inputmode="email"`, `inputmode="tel"`, `inputmode="numeric"` to show the right keyboard.
 - **Single-column forms only.** Never place fields side-by-side on mobile.
 
-### Speed
-
-Pages under 1 second convert 3x better than 5+ seconds. Mobile speed is non-negotiable; see [Page speed](#page-speed).
-
 ---
 
-## Page speed
+## Owned elsewhere
 
-Speed is a conversion lever (pages under 1 second convert ~3x better than 5+ seconds), but Core Web Vitals (LCP/INP/CLS), `font-display`, WebP/AVIF, and third-party script budgets are owned by the `optimise-seo` skill. Route all page-speed and CWV work there.
+Three conversion levers belong to sibling skills; name the lever, then route the work.
 
----
-
-## Accessible copy
-
-The `copywriting` skill owns accessible-copy writing (descriptive link/CTA text, plain-language reading level); the `ui-audit` and `typography-audit` skills own the a11y-copy checks (WCAG link purpose, heading hierarchy, contrast). Route those there.
-
----
-
-## Microcopy
-
-Microcopy (button labels, form help text, privacy reassurance, error messages) is owned by the `copywriting` skill. Route microcopy work there.
+- **Page speed.** Pages under 1 second convert roughly 3x better than 5+ seconds, so mobile speed is a conversion decision. Core Web Vitals (LCP/INP/CLS), `font-display`, WebP/AVIF, and third-party script budgets: route to `optimise-seo`.
+- **Accessible copy.** Descriptive link and CTA text and plain-language reading level: route to `copywriting`. The a11y checks (WCAG link purpose, heading hierarchy, contrast): route to `ui-audit` or `typography-audit`.
+- **Microcopy.** Button labels, form help text, privacy reassurance, error messages: route to `copywriting`.

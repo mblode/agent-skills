@@ -1,19 +1,8 @@
 # Badges and Shields
 
-Badges go directly below the title and one-liner. Only for published projects with real CI and registry presence.
+Markup and placement for badges. Phase 4 of SKILL.md decides whether this project gets badges at all; this file assumes it does. They sit directly below the title and one-liner.
 
-## When to Add Badges
-
-- Project is published to a package registry (npm, crates.io, PyPI)
-- Project has CI that actually runs
-- Maximum 4 badges; more adds noise
-
-## When NOT to Add Badges
-
-- Private or unpublished projects
-- Projects without CI
-- Web apps not packaged for distribution
-- Skill bundles (unless published to npm)
+One extra condition applies to the CI badge specifically: add it only if CI actually runs, since a badge pointing at a workflow that never fires renders as a permanent failure.
 
 ## Recommended Badges by Registry
 
@@ -72,7 +61,7 @@ Simpler, less visual weight; badges sit below the markdown title.
 
 ## Common Badge Set
 
-Most projects need at most three:
+Version and license carry almost all the signal; CI is the only common third.
 
 | Badge | Why | URL pattern |
 |-------|-----|-------------|

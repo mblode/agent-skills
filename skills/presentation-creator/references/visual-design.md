@@ -101,7 +101,6 @@ Statement, big-statement, and section-divider layouts follow the [mapping table]
 
 - Light backgrounds (breaks the system)
 - Heavy font weights for headlines (use scale)
-- More than 4-5 bullets per slide
 - Multiple competing focal points
 - Dense paragraphs
 - Animation for its own sake

@@ -74,14 +74,7 @@ Use navigation components for navigation, action components for actions (`rule/n
 
 ## Evidence over taste
 
-Trace each non-mechanical decision to one of:
-
-1. The user's explicit goal and constraints.
-2. Verified product behavior and system truth (what the mutation does).
-3. Repository-canonical guidance: the project's `AGENTS.md`, its design system, and routed sibling skills.
-4. An accepted product or design decision with stable evidence.
-5. A verified adjacent shipped pattern in the same product area.
-6. General interface heuristics, only when nothing above applies.
+Trace each non-mechanical decision to something in SKILL.md's Decision authority order. Two evidence sources sit below project-canonical guidance and above general heuristics: an accepted product or design decision with stable evidence, then a verified adjacent shipped pattern in the same product area.
 
 If a decision rests only on heuristics or preference, say so and flag it open. Do not present taste as evidence.
 

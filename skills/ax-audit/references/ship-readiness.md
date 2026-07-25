@@ -56,8 +56,8 @@ Never stack adjustments: a rule whose table already says `release-blocker` on to
 | Surface context | Generic adjustment |
 |---|---|
 | Agent tool execution / action panel | Bump 1 tier (sprint → blocker; backlog → sprint): autonomous actions demand higher safety |
-| Agent chat / copilot | Same: conversational surfaces tolerate slightly more friction |
-| Agent config / system prompt editor | Same |
+| Agent chat / copilot | No adjustment: conversational surfaces tolerate slightly more friction |
+| Agent config / system prompt editor | No adjustment |
 | Agent dashboard / status | Down 1 tier (blocker → sprint; sprint → backlog): monitoring is less critical than action surfaces |
 
 ## Verdict logic

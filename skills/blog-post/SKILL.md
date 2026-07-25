@@ -45,7 +45,7 @@ No sources, only a topic? Research first, then build a research packet before ou
 ### Step 3: Extract insights and outline
 
 - Pull the most surprising, counter-intuitive, or high-impact takeaways; rank by reader value and lead with the strongest.
-- Mark 2 to 4 quotes worth blockquoting (only the strongest); discard the rest.
+- Mark 2 to 4 quotes worth blockquoting (only the strongest); paraphrase or discard the rest, or the post reads as a clip reel of other people's words.
 - Find the curiosity gap or concrete problem that anchors the intro.
 - Check for a narrative thread worth tracing: a shift from one understanding to another.
 
@@ -59,9 +59,9 @@ Load only the matching format block from [references/format-templates.md](refere
 
 - **Title:** under 60 chars, keyword near front, sentence case, no trailing period.
 - **Meta description:** 150 to 160 chars that sell the click, not a dry summary.
-- **Keyword:** in the title, first paragraph, and 2 to 4 times across the body. Do not stuff; unnatural repetition hurts more than it helps.
+- **Keyword:** in the title, first paragraph, and 2 to 4 times across the body. Past that it reads as spam and risks a search penalty, so place them naturally and stop.
 - **Headers:** descriptive H2/H3 that stand alone in a table of contents.
-- **Internal links:** suggest 2 to 3 if the user has related content; never invent URLs.
+- **Internal links:** suggest 2 to 3 if the user has related content; never invent URLs, which ship as dead links.
 
 ### Step 6: Run the quality gate
 
@@ -70,7 +70,7 @@ Walk this list, then fill the Quality Report table below, which owns the numeric
 ```text
 - [ ] Hook lands in the first 1-2 sentences
 - [ ] Headline is specific and the body delivers on its promise
-- [ ] Every paragraph is 2-4 sentences
+- [ ] No paragraph runs past 4 sentences, and lengths vary (uniform blocks read as generated)
 - [ ] Each section adds analysis or insight, not just restated source
 - [ ] Conclusion looks forward (question, CTA, or provocation), not a recap
 - [ ] Voice is conversational throughout, no academic register
@@ -108,12 +108,9 @@ Pick one: number + insight ("7 Things [Source] Reveals About [Topic]"), surprisi
 ## Gotchas
 
 - A conclusion that restates the body teaches nothing; close with a forward look, CTA, or provocation.
-- Blockquoting every source makes a clip reel; cap at 2 to 4 and paraphrase the rest.
 - Drafting from assumptions when sources exist yields confident wrong claims; read every source in Step 2 first.
-- Keyword-stuffing reads like spam and risks search penalties; place keywords naturally and stop.
-- Paragraphs over four sentences kill mobile scannability; split them.
 - Clickbait the body cannot pay off burns trust and raises bounce; promise only what the draft delivers.
-- Inventing internal-link URLs ships dead links; suggest only links the user confirms exist.
+- Summarising each source in turn produces a digest with no argument; the angle from Step 1 decides what gets cut.
 
 ## Skill handoffs
 

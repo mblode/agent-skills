@@ -78,10 +78,7 @@
 }
 ```
 
-Notes:
-
-- `--passWithNoTests` is required: zero test files means plain `vitest run` exits 1 and fails the first CI run.
-- `ultracite init --linter oxlint --integrations lefthook` (post-scaffold) adds `oxlint`, `oxfmt`, `lefthook` to devDependencies plus `check`, `fix`, and `prepare: lefthook install` scripts. Never list those by hand: causes duplicate scripts and version skew against ultracite's pins.
+`ultracite init` (post-scaffold) adds the `oxlint`, `oxfmt`, and `lefthook` devDependencies plus the `check`, `fix`, and `prepare` scripts, which is why this template omits them.
 
 ## tsconfig.json
 
@@ -133,7 +130,7 @@ export default defineConfig([
 ]);
 ```
 
-`banner` injects the shebang into `dist/cli.js` at build. Never add `#!/usr/bin/env node` to `src/cli.ts` or the build doubles it. Keep the two configs separate: CLI entry needs the shebang and no `.d.ts`; library entry needs `.d.ts` and no shebang.
+`banner` injects the shebang into `dist/cli.js` at build, which is why `src/cli.ts` carries none.
 
 ## .gitignore
 

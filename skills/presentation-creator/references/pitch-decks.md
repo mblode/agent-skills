@@ -78,7 +78,7 @@ VCs use AI to screen decks. Optimize for extraction:
 | Features over benefits | Lead with outcomes |
 | TAM fantasy | Bottom-up calculation, not "$1T market" |
 | No traction proof | Charts, logos, testimonials |
-| Too many slides | 10 ideal, 15 max. Appendix clearly separated |
+| Too many slides | Trim to the 10-slide framework; anything else goes in a clearly separated appendix |
 
 ## Format guidelines
 

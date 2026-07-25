@@ -8,7 +8,6 @@ Define the narrative arc and slide sequence before writing copy.
 - [Slide types](#slide-types)
 - [Section colors](#section-colors)
 - [Output format](#output-format)
-- [Workflow](#workflow)
 
 ## Standard flow
 
@@ -20,6 +19,8 @@ Opening → Context / Problem → Core Sections (2-4) → Closing
 - **Context**: current state, the tension or question to resolve
 - **Core sections**: 3-5 content slides each, dividers between topics
 - **Closing**: recap (one line per section), resources, Q&A
+
+Every slide earns its place against one of the three key messages; cut the ones that only add facts.
 
 ## Slide types
 
@@ -99,12 +100,3 @@ One accent per major section. Reinforces structure, helps the audience track pos
 - **Headline:** Recap
 - **Points:** [One-liner per section]
 ```
-
-## Workflow
-
-1. Ask context: audience, purpose, setting (live vs. async)
-2. Identify 3 key messages that must land
-3. Map the arc: Opening → Context → Core sections → Close
-4. Assign section colors
-5. Draft the slide sequence using the output format above
-6. Cut slides that don't earn their place

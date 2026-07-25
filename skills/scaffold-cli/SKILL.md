@@ -86,7 +86,7 @@ Do not create the CLAUDE.md symlink here; Step 6 creates it exactly once.
 
 ### Step 6: Run post-scaffold commands
 
-Load `references/post-scaffold.md`. Run the full sequence in order: `git init` must precede `ultracite init` (lefthook hooks need `.git/` to install into).
+Load `references/post-scaffold.md`. Run the full sequence in the order given there.
 
 ### Step 7: Validate scaffold
 

@@ -37,7 +37,7 @@ Audit progress:
 
 1. Scope to changed files unless a full sweep is requested. For a PR: `git diff --name-only` filtered to `.css`, `.scss`, `.html`, `.tsx`/`.jsx`, and template files.
 2. Map code to categories via the signal table; skip categories with no signal.
-3. Load rule files progressively by prefix (`rules/punct-*.md`, etc.). Never preload all 90.
+3. Load rule files by prefix (`rules/punct-*.md`, etc.), only for the categories the signals selected.
 4. Run categories in priority order so CRITICAL findings surface even if the audit is cut short.
 5. After fixes, re-run only the rules that produced findings, then finalize the report.
 

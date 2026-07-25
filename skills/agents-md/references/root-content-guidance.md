@@ -27,6 +27,8 @@ Link detail files from root with `@import`:
 - Personal overrides: @~/.claude/my-project-instructions.md
 ```
 
+A repeated multi-step procedure (release flow, verification sequence, migration runbook) belongs in a skill the agent invokes on demand, not inlined and not `@import`ed; root keeps one pointer line naming the skill. An `@import` loads every session, so it costs context on every task that never touches the procedure.
+
 If framework behavior causes repeated mistakes, don't paste the docs; add one short gotcha plus the command or link that resolves it.
 
 ## File placement hierarchy

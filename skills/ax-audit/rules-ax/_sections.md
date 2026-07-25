@@ -43,8 +43,8 @@ Total: 12 rules.
 
 These pairings often co-fire on the same surface:
 
-- **no-confidence-cues + no-uncertainty-markers**, Both address "why should I trust this." Different targets: rationale vs. hedging.
-- **no-escape-hatch + no-approval-gate**: For autonomous actions, both fire. Approval gate may partially satisfy escape hatch.
-- **no-progress-signal + no-intent-handshake**: Long-running tasks that didn't confirm scope AND show no progress are doubly opaque.
-- **memory-not-visible + under-contextual**, Complementary: one says the agent knows things the user can't see; the other says it doesn't know things it should.
-- **over-conversational + no-generative-momentum**, Paradoxical pairing: forcing chat where buttons would do, while failing to offer drafts where blanks would benefit.
+- **no-confidence-cues + no-uncertainty-markers**: both address "why should I trust this." Different targets: rationale vs. hedging.
+- **no-escape-hatch + no-approval-gate**: for autonomous actions, both fire. Approval gate may partially satisfy escape hatch.
+- **no-progress-signal + no-intent-handshake**: long-running tasks that didn't confirm scope AND show no progress are doubly opaque.
+- **memory-not-visible + under-contextual**: complementary. One says the agent knows things the user can't see; the other says it doesn't know things it should.
+- **over-conversational + no-generative-momentum**: paradoxical pairing. Forcing chat where buttons would do, while failing to offer drafts where blanks would benefit.

@@ -1,6 +1,6 @@
 # Page Types
 
-Reference for Step 3 (writing mode): structure, norms, and gotchas for the five common marketing page types.
+Structure, norms, and gotchas for the five common marketing page types.
 
 ## Table of contents
 

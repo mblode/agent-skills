@@ -142,7 +142,7 @@ Adjectives claim; specifics prove.
 | "Beautifully designed" | "Built to feel native on every device" |
 | "Robust infrastructure" | "99.97% uptime across 3 regions, verified by StatusPage" |
 
-**Banned adjectives** (flag every instance in hero copy; subset, full list in [word-lists.md](word-lists.md)):
+**Unearned adjectives**, flag every instance in hero copy. Each claims a quality the reader has no reason to believe yet:
 - powerful, simple, easy, seamless, beautiful, robust, flexible, scalable, smart, intuitive, modern, next-generation, cutting-edge, best-in-class
 
 **Rule:** If you can't name the outcome, the claim doesn't belong in the hero.

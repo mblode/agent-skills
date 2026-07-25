@@ -39,7 +39,7 @@ Two modes, auto-detected (do not ask):
 ```
 Writing progress:
 - [ ] Step 1: Gather context
-- [ ] Step 2: Lock the brief (hard gate)
+- [ ] Step 2: State the brief, then write
 - [ ] Step 3: Discover brand voice
 - [ ] Step 4: Choose framework and load references
 - [ ] Step 5: Write 2-3 alternatives
@@ -48,7 +48,7 @@ Writing progress:
 
 ### Step 1: Gather context
 
-Answer all four before writing; never invent audience or goal. Skip one only if files answer it unambiguously.
+Settle all four before writing, from the user or from the files. Where the files do not settle one, infer it and name the inference in Step 2; the failure mode is an invented audience or goal presented as fact.
 
 1. **Page purpose.** The one action this page drives (sign up, book a demo, download).
 2. **Audience.** The specific reader: job title, pain, what they've already tried.
@@ -57,9 +57,9 @@ Answer all four before writing; never invent audience or goal. Skip one only if 
 
 Traffic source sets temperature: cold needs more Why; warm can lead with How or What.
 
-### Step 2: Lock the brief (hard gate)
+### Step 2: State the brief, then write
 
-State the brief back and get explicit confirmation before writing:
+State the brief and keep going. Mark every field you inferred rather than were told, so the user can correct it against real copy instead of against a question:
 
 ```
 Brief:
@@ -70,24 +70,23 @@ Brief:
 - Tone: [inferred from brand voice or user-stated]
 - Traffic temperature: [cold / warm / hot]
 
-Confirm this is correct before I write.
+Inferred (correct me): [fields you guessed]
 ```
 
-If they push back, update and re-confirm. Do not write until confirmed.
+Stop and ask before writing only when a wrong guess makes the work useless or unsafe: the copy ships in this turn with no review, or the goal is genuinely unknown and each candidate goal produces different copy.
 
 ### Step 3: Discover brand voice
 
 Find voice signals before inventing one; never default to generic corporate warmth.
 
 - Read existing copy files, README headers, or marketing pages if accessible.
-- Ask: "Do you have brand guidelines, a tone-of-voice doc, or existing copy I should match?"
-- If nothing exists, infer from product and audience: B2B SaaS direct and confident, consumer apps warmer, developer tools terse and honest.
+- If nothing exists, infer from product and audience: B2B SaaS direct and confident, consumer apps warmer, developer tools terse and honest. Ask for brand guidelines or a tone-of-voice doc alongside the draft, not instead of it.
 
 Note the inferred voice in the brief.
 
 ### Step 4: Choose framework and load references
 
-Load `references/frameworks.md` and `references/page-types.md`. Choose the primary framework from the brief:
+Load `references/frameworks.md`, plus `references/page-types.md` when the target is a homepage, landing, pricing, feature, or about page. Choose the primary framework from the brief:
 
 | Situation | Lead framework |
 |-----------|---------------|
@@ -139,17 +138,17 @@ Write one sentence before auditing: "[User] can now [do X] without [old pain]." 
 
 ### Step 3: Audit against persuasion frameworks
 
-Load `references/frameworks.md`. Check every major copy block against each framework. Identify the 3-7 highest-impact problems only; don't flag everything.
+Load `references/frameworks.md`. Check every major copy block against each framework, and carry forward only the highest-impact problems; Step 6 sets the flag budget.
 
 ### Step 4: Remove AI writing patterns
 
 Load `references/word-lists.md` and `references/ai-patterns.md`. Flag each AI-ism with `[AI-ISM]` plus its pattern type:
 
-- **Tier 1 words** (`word-lists.md`): always flag and replace (delve, leverage, robust, seamless, paradigm, holistic, and more).
-- **Tier 2 clusters** (`word-lists.md`): flag when 2+ appear in one paragraph (harness, empower, streamline, elevate, and more).
+- **Tier 1 words** (`word-lists.md`): always flag and replace.
+- **Tier 2 clusters** (`word-lists.md`): flag when 2+ appear in one paragraph.
 - **Structural patterns** (`ai-patterns.md`): formulaic openings, chatbot artefacts, "let's" transitions, significance inflation, copula avoidance, em dashes as ordinary punctuation.
 
-The em dash (and `--` substitute) is itself a Tier 1 tell: cap at 1 per 1,000 words, zero is better. See `ai-patterns.md` section 1 for the rule, section 7 for P0/P1/P2 triage.
+The em dash and its `--` substitute are Tier 1 tells in their own right; `ai-patterns.md` section 1 holds the threshold, section 7 the P0/P1/P2 triage.
 
 Skip for persuasion-only edits. If the user asked for AI pattern removal, run this first, before the sweeps.
 
@@ -185,7 +184,7 @@ Flag the 3-7 weakest elements, prioritised by impact on conversion or comprehens
 - Replace adjectives with proof: "powerful analytics" becomes "see which pages kill signups".
 - Make CTAs outcome-specific: "Start syncing" beats "Get started".
 - Every sentence adds new information or gets cut.
-- Never lengthen a CTA for clarity.
+- A CTA stays short; it is not the place to explain the feature.
 - When replacing AI-isms, rewrite the sentence; don't swap the flagged word for a synonym.
 
 ### Step 8: Output before/after diff
@@ -223,22 +222,22 @@ Verify each "After" line before handing back: leads with Why, names a concrete o
 
 ## Banned words
 
-Never write these; flag immediately in edit mode. Full replacement list in `references/word-lists.md`.
+The never-write set. Applies in both modes, no exceptions, so it lives here rather than behind a reference load:
 
 > delve, leverage (verb), robust, seamless, holistic, paradigm, game-changing, cutting-edge, innovative, synergy, revolutionary, effortless, world-class, powerful
 
 Also ban **"simple"** as a claim ("our simple onboarding"): never earned upfront, reads as an unkept promise.
 
+`references/word-lists.md` holds the wider tiered AI vocabulary with replacements; that list is for detection in Edit mode, not a second copy of this one.
+
 ---
 
 ## Gotchas
 
-- Confirm the brief before writing: without goal and value proposition, good-sounding copy solves the wrong problem.
-- Edit mode: flag only the 3-7 highest-impact issues; over-flagging dilutes the audit.
+- State the brief before writing and mark what you inferred: copy written without a goal and value proposition reads well and solves the wrong problem.
+- Edit mode: flag only the 3-7 highest-impact issues; over-flagging dilutes the audit into a list nobody acts on.
 - Read copy in context before judging; a vague-looking line may carry contrast with adjacent copy.
 - Preserve the project's locale and brand voice; check existing copy before switching spelling or tone.
-- Keep CTAs short; don't lengthen a label to explain the whole feature.
-- Treat em dashes, Tier 1 AI words, and unearned "simple/easy/powerful/seamless" as immediate rewrite triggers.
 - If CTAs aren't in markdown, ask where the component strings live before auditing.
 
 ---

@@ -100,4 +100,5 @@ The fit fixes `mass = 1`. From `stiffness` (k), `damping` (c), `mass` (m):
   `dampingFraction = c / (2·√(k·m))` (that's `zeta`).
 - **Reanimated**: `withSpring(to, { stiffness, damping, mass })`.
 - **CSS**: no native spring. Use the fitted `bezier.css`, or generate a `linear()` easing by
-  sampling the spring response (more faithful for overshoot). Read `references/code-output.md`.
+  sampling the spring response (more faithful for overshoot). The per-target templates come from
+  the Emit step of SKILL.md's reverse-engineer workflow.

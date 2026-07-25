@@ -185,12 +185,8 @@ alone does not prove exported types. Verification evidence must match the findin
 
 - **Selected prefixes are not permission to read the whole repo.** Stay on public reachability from
   the scope receipt.
-- **Priority is conditional on applicability.** Do not run `api-` against a CLI-only change.
-- **Contract archaeology needs a changed contract.** Do not search tags or npm for an unchanged
-  public surface.
-- **A long session is not stronger evidence.** Stop after the behavior and fix are concrete.
-- **Multiple skills need one owner per surface.** Do not duplicate README, UI, architecture, or docs
-  work owned by sibling skills.
+- **Contract archaeology needs a changed contract.** Do not search git tags or npm versions for an
+  unchanged public surface.
 - **A safe audit does not create real resources.** Use dry-run, fixtures, or a disposable local
   target for mutation paths.
 

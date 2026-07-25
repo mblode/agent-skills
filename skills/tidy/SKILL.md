@@ -132,16 +132,11 @@ Scope rules:
 
 ## Gotchas
 
-- Letting subagents edit files: two agents rewriting the same hunk corrupts the working tree with interleaved edits. Agents return findings; only the orchestrator edits.
-- Skipping the Phase 1 baseline: a pre-existing test failure gets misread as a regression, and the session burns down fixing code outside the diff.
 - Launching agents sequentially: four serial agent runs roughly quadruple wall-clock time. All four launch in one message.
-- Applying quality fixes before reuse deletions: you polish code the reuse swap then deletes. Follow the Phase 3 precedence order.
 - A formatter autofix (`yarn lint --fix` or equivalent) reformatting unrelated files: the diff fills with churn the reviewer must wade through. `git restore` every out-of-diff path before finishing.
 - Widening a type to `any` to silence an error a fix introduced: that hides the breakage instead of resolving it. Find the real type.
 - Fixing pre-existing failures because they are "right there": scope creep turns a cleanup pass into an unreviewable mixed change. Surface them in the summary instead.
 - Agent 4 padding the summary with test proposals: coverage looks like rigor, so review agents over-propose tests. Every proposal without a named failure it prevents gets dropped in the Phase 3 false-positive pass.
-- A repro test anchored to a helper invented during the fix: it passes trivially and would never have caught the original failure. Anchor the repro at the seam that failed.
-- Ending on "everything looks fine": without quoted lint/type-check/test output compared to the baseline, a broken build ships. Evidence or it did not pass.
 
 ## Related skills
 
