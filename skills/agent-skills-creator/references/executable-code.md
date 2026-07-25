@@ -26,49 +26,18 @@ Execute deterministic work; read-as-reference only when Claude must adapt the al
 
 Handle recoverable errors in the script, not defer them to Claude. Punting wastes a turn and is non-deterministic.
 
-**Punt (bad):**
-
-```python
-def process_file(path):
-    return open(path).read()
-```
-
-**Solve (good):**
-
-```python
-def process_file(path):
-    try:
-        with open(path) as f:
-            return f.read()
-    except FileNotFoundError:
-        print(f"{path} not found, creating default")
-        with open(path, "w") as f:
-            f.write("")
-        return ""
-```
-
-Return a sensible default, or fail with a specific, actionable error message; do not raise raw exceptions to Claude.
+A script that returns `open(path).read()` hands Claude a `FileNotFoundError` to interpret; one that catches it, creates the default, and says so keeps the turn deterministic. Return a sensible default, or fail with a specific actionable message. Never raise raw exceptions to Claude.
 
 ## No Voodoo Constants
 
-Every magic number needs a comment explaining why. If the author can't justify it, neither can Claude.
-
-**Voodoo:**
-
-```python
-TIMEOUT = 47
-MAX_RETRIES = 5
-```
-
-**Justified:**
+Every magic number needs a comment explaining why. If the author can't justify it, neither can Claude, and an unexplained constant is one nobody dares change.
 
 ```python
 # HTTP requests typically complete under 30s; extra margin for slow connections
 REQUEST_TIMEOUT = 30
-
-# 3 retries covers most intermittent failures without excessive latency
-MAX_RETRIES = 3
 ```
+
+`TIMEOUT = 47` is the failure mode: a number chosen once for a reason now lost.
 
 ## Plan-Validate-Execute
 
@@ -88,7 +57,6 @@ Skills run in a filesystem with bash and code execution. The execution model sha
 - SKILL.md is read when a trigger matches; reference files are read on demand
 - Scripts can be **executed** via bash without their source entering the context window; only output counts
 - Large reference files and datasets are free until accessed
-- Use forward slashes in all paths; Windows-style paths break on Unix
 - Name files descriptively (`form-validation-rules.md`, not `doc2.md`) so Claude can guess content from the path
 
 Bundle comprehensive resources (docs, examples, datasets); they cost nothing until read.

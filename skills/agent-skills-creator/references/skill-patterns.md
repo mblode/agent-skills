@@ -1,216 +1,92 @@
 # Skill Patterns
 
-Structural templates for the four skill patterns. Pick one and adapt. These cover **how** a skill is organized; for **what problem** it solves, see `skill-categories.md`.
+Four structural patterns. Pick one by what the skill has to do, then copy the shape of the named in-repo example rather than a generic skeleton: a real skill shows how the pattern actually holds up.
 
 ## Contents
 
-- Simple/hub pattern
-- Workflow pattern
-- Rules-based pattern
-- Mixed pattern
+- Picking a pattern
+- Simple/hub
+- Workflow
+- Rules-based
+- Mixed
+- Cross-cutting: anti-rationalization tables
 
-## Simple/Hub Pattern
+## Picking a Pattern
 
-**When:** dispatch to 2-5 focused files by track or concern.
+| Pattern | Use when | In-repo example |
+|---------|----------|-----------------|
+| Simple/hub | Dispatching to 2-5 focused files by track or mode | `ui-design` |
+| Workflow | A multi-step process with progressive reference loading | `agents-md`, `pr-reviewer` |
+| Rules-based | Auditing or linting against categorized rules | `typography-audit`, `docs-writing` |
+| Mixed | Workflow steps with conditional or platform-specific references | `multi-tenant-architecture` |
+
+Decision guide: auditing against a checklist is rules-based; guiding a process is workflow; dispatching by context is simple/hub. Unsure means workflow, the most flexible.
+
+The problem a skill solves suggests its pattern. These are recommendations, not requirements: a runbook could be rules-based with categorized diagnostic checks.
+
+| Problem the skill solves | Typical pattern |
+|--------------------------|-----------------|
+| Library, API, or CLI reference | Simple/hub or Workflow |
+| Product verification with tools | Workflow |
+| Data fetching and analysis | Workflow or Mixed |
+| Business process automation | Workflow |
+| Code scaffolding and templates | Workflow |
+| Code quality and review | Rules-based or Workflow |
+| CI/CD and deployment | Workflow |
+| Runbooks | Workflow or Mixed |
+| Infrastructure operations | Workflow |
+
+## Simple/Hub
+
+Dispatch to focused files by track. SKILL.md stays 20-35 lines: a tracks table and nothing else of substance.
 
 ```
 skills/<name>/
-  SKILL.md          (20-35 lines)
+  SKILL.md
   <track-1>.md
   <track-2>.md
 ```
 
-**SKILL.md skeleton:**
+Root-level track files are exclusive to this pattern; every other pattern keeps supporting files in `references/` or a rules folder.
 
-```markdown
----
-name: <name>
-description: <what it does>. Use when <triggers>.
----
-
-# Title
-
-Choose the right track and follow its guidance.
-
-## Tracks
-
-- **Track A**: See [track-a.md](track-a.md)
-- **Track B**: See [track-b.md](track-b.md)
-
-## Related skills
-
-- `skill-name` for related concern
-```
-
-**Example:** `ui-design` (a mode hub dispatching to root-level track files: `design-guidelines.md`, `add-dark-mode.md`, `componentize.md`, and a `direction/` folder)
-
-**Category affinity:** Library & API Reference, Business Process & Team Automation
-
-Root-level track files are exclusive to this pattern; other patterns keep supporting files in `references/` (or `rules/`).
-
-**Comprehensive-reference variant (canonical home for this guidance):** for broad domains (design system, full CLI surface, style guide), the hub dispatches into a folder of small files, e.g. `design-guidelines/` with 40 files (`buttons.md`, `colors.md`, `forms.md`), each 50-200 lines, mapped from an `index.md`. One concern per file, named after it; each stands alone (no cross-file reading order); files may run to ~450 lines when single-topic and TOC'd. Claude loads only what a task needs, not a 2000-line reference.
-
-## Workflow Pattern
-
-**When:** multi-step sequential process with progressive reference loading.
-
-```
-skills/<name>/
-  SKILL.md          (80-130 lines)
-  references/
-    <detail-1>.md
-    <detail-2>.md
-```
-
-**SKILL.md skeleton:**
-
-```markdown
----
-name: <name>
-description: <what it does>. Use when <triggers>.
----
-
-# Title
-
-One-line summary.
-
-## Reference Files
-
-| File | Read When |
-|------|-----------|
-| `references/<file>.md` | <condition> |
+**Comprehensive-reference variant** (canonical home for this guidance): for broad domains, the hub dispatches into a folder of small files, e.g. `design-guidelines/` with 40 files (`buttons.md`, `colors.md`, `forms.md`), each 50-200 lines, mapped from an `index.md`. One concern per file, named after it; each stands alone with no cross-file reading order; files may run to roughly 450 lines when single-topic and TOC'd. Claude loads what the task needs instead of a 2000-line reference.
 
 ## Workflow
 
-Copy this checklist to track progress:
-
-[checklist]
-
-### Step 1: ...
-### Step 2: ...
-
-## Anti-patterns
-- ...
-
-## Related skills
-- ...
-```
-
-**Example:** `agents-md` (workflow SKILL dispatching to 5 references with conditional loading)
-
-**Category affinity:** most categories: Scaffolding, CI/CD, Verification, Runbooks, Infrastructure Operations
-
-## Rules-Based Pattern
-
-**When:** audit or lint against categorized rules with priority levels.
+A sequential process, 80-130 lines of SKILL.md, with references loaded per step.
 
 ```
 skills/<name>/
-  SKILL.md          (75-90 lines)
+  SKILL.md
+  references/<detail>.md
+```
+
+Load-bearing parts, in the order they matter: a "Read when" table mapping each reference to its trigger condition, a copyable progress checklist, numbered steps, and a final step that produces evidence. `agents-md` is the reference implementation.
+
+## Rules-Based
+
+An audit or lint against categorized rules, 75-90 lines of SKILL.md.
+
+```
+skills/<name>/
+  SKILL.md
   rules/
-    _sections.md
-    _template.md
-    <prefix>-<slug>.md  (one per rule)
+    _sections.md          (categories: prefix, impact, why it matters)
+    _template.md          (per-rule schema)
+    <prefix>-<slug>.md    (one per rule)
 ```
 
-**SKILL.md skeleton:**
+SKILL.md carries a priority table (category, impact, prefix, rule count) so a truncated audit still surfaces the worst findings first, plus an output contract fixing the finding format. Rule counts in the description and the table must reconcile with the folder, which `validate.sh` checks. Folder mechanics are in `rules-folder-structure.md`.
 
-```markdown
----
-name: <name>
-description: <what it does>. N rules across M categories covering A, B, C. Use when <triggers>.
----
+## Mixed
 
-# Title
-
-N rules across M categories for [domain] quality.
-
-## Audit Workflow
-
-Copy and track this checklist during the audit:
-
-[checklist with steps: scope, load by category, prioritize, fix, recheck]
-
-## Rule Categories by Priority
-
-| Priority | Category | Impact | Prefix | Rules |
-|----------|----------|--------|--------|-------|
-| 1 | Category Name | CRITICAL | `prefix-` | N |
-
-## Quick Reference
-
-Read only what is needed for the current scope:
-- Category map and impact rationale: `rules/_sections.md`
-- Rule-level guidance and examples: `rules/<prefix>-*.md`
-
-Each rule file contains:
-- Why the rule matters
-- Incorrect example
-- Correct example
-
-## Review Output Contract
-
-Report findings in this format:
-
-[finding format template with severity, rule ID, issue, fix]
-```
-
-**Example:** `typography-audit` (90 rules in 10 categories)
-
-**Category affinity:** Code Quality & Review
-
-## Mixed Pattern
-
-**When:** workflow steps with conditional or platform-specific references.
-
-```
-skills/<name>/
-  SKILL.md          (50-105 lines)
-  references/
-    <context-1>.md
-    <context-2>.md
-```
-
-**SKILL.md skeleton:**
-
-```markdown
----
-name: <name>
-description: <what it does>. Use when <triggers>.
----
-
-# Title
-
-## Workflow
-
-1. Determine context
-2. If context A, load [references/a.md](references/a.md)
-3. If context B, load [references/b.md](references/b.md)
-4. Execute based on loaded reference
-5. Validate output
-
-## References
-
-Load only the reference matching your context:
-- **Context A**: [references/a.md](references/a.md)
-- **Context B**: [references/b.md](references/b.md)
-```
-
-**Example:** `multi-tenant-architecture` (workflow with 5 platform-specific references loaded by context)
-
-**Category affinity:** Data Fetching & Analysis, Runbooks, Infrastructure Operations
+Workflow steps where one branch of references applies and the rest do not: platform-specific, framework-specific, or context-specific. The workflow determines context first, then loads only the matching reference. `multi-tenant-architecture` dispatches on Cloudflare versus Vercel this way.
 
 ## Cross-Cutting: Anti-Rationalization Tables
 
-Any pattern can include an anti-rationalization table: pre-written rebuttals to excuses for skipping the workflow. Agents (and tired engineers) generate plausible justifications; this table is the counter.
-
-**When to include:** steps get skipped under time pressure (specs, tests, security review, code review).
-
-**Format:**
+Any pattern can include one. Agents and tired engineers generate plausible reasons to skip a step; this table is the pre-written counter. Include it when steps get skipped under time pressure (specs, tests, security review).
 
 ```markdown
-## Anti-Rationalizations
-
 | Excuse | Rebuttal |
 |--------|----------|
 | "This task is too simple for a spec." | Acceptance criteria still apply. Five lines is fine. Zero lines is not. |
@@ -218,4 +94,4 @@ Any pattern can include an anti-rationalization table: pre-written rebuttals to 
 | "Tests pass, ship it." | Passing tests are evidence, not proof. Did you verify user-visible behavior? |
 ```
 
-Place it after the workflow section, before anti-patterns. Each row: a specific excuse plus a rebuttal redirecting to the skipped step.
+Place it after the workflow, before anti-patterns. Each row pairs a specific excuse with a rebuttal that redirects to the skipped step.

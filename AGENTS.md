@@ -54,29 +54,24 @@ The list should match the folders in `skills/` here.
 
 ## Coding Style & Naming Conventions
 
-- Files are Markdown-first. Keep `SKILL.md` concise with clear headings and short bullet points.
+- Files are Markdown-first, with two exceptions: `skills/agent-skills-creator/scripts/validate.sh` and `skills/pr-babysitter/scripts/fetch-comments.sh`.
 - No em dashes anywhere (skill bodies, descriptions, READMEs, commits). Restructure with commas, colons, periods, or parentheses; don't substitute a spaced hyphen.
-- Use YAML frontmatter at the top of every `SKILL.md` with `name` and `description` fields.
-- Prefer kebab-case for folder and reference file names (`frontend-standards`, `react-patterns.md`).
 - When detail is needed, add a focused reference file rather than expanding `SKILL.md`.
 
-## Skill Authoring (key constraints)
+## Skill Authoring
 
-For full authoring rules, run the `agent-skills-creator` skill. The highest-signal constraints:
+Every mechanical constraint (frontmatter limits, body length, reference chains, TOCs, kebab-case, rule-count reconciliation, README bullets) is enforced by the validator and stated nowhere else:
 
-| Rule          | Detail                                                                                   |
-| ------------- | ---------------------------------------------------------------------------------------- |
-| `name`        | max 64 chars, lowercase letters/numbers/hyphens only; no "anthropic" or "claude"         |
-| `description` | max 1024 chars, non-empty, no XML tags; third-person voice; include "Use when…" triggers |
-| Body length   | under 500 lines; split into reference files if longer                                    |
-| References    | one level deep only (no reference-to-reference chains)                                   |
-| Content       | only context Claude doesn't already have; no time-sensitive content                      |
-| Paths         | forward slashes only                                                                     |
-| Boundaries    | open the body with an IS/IS-NOT pair when sibling skills exist                           |
+```bash
+skills/agent-skills-creator/scripts/validate.sh skills/<name>
+skills/agent-skills-creator/scripts/validate.sh --all
+```
+
+For the judgement a script cannot make (what to include, how prescriptive to be, when an absolute earns its place), run the `agent-skills-creator` skill.
 
 ## Testing
 
-No automated test suite. See smoke-test above.
+No unit tests. The validator above is the test suite: run it on every skill you touch, plus the smoke-test above when install behavior changes.
 
 ## Gotchas
 
@@ -90,14 +85,8 @@ No automated test suite. See smoke-test above.
 - PRs: brief summary, list of skills changed/added, README updates (especially when adding a new skill).
 - When adding reference files, note how they are used by the corresponding `SKILL.md`.
 
-## ui.sh-sourced skills
-
-- `ui-design` (Build mode guidelines plus the `ideas.md`, `markup-from-image.md`, `add-dark-mode.md`, `dark-mode-image.md`, `make-responsive.md`, `componentize.md`, `canonicalize-tailwind.md`, and `guidelines/` files) contains content pulled from the ui.sh skills API (`npx @uidotsh/install` with the account token, or `GET https://ui.sh/api/skills/<name>`). Published here with permission.
-- Upstream ships nine separate skills; this repo consolidates them all into ui-design (seven modes). A re-pull is a manual merge: it would resurface upstream's split structure, short descriptions, and em dashes, so diff carefully and re-apply the local curation (mode dispatch, IS/IS-NOT blocks, trigger descriptions, dash stripping).
-- Never commit the ui.sh token. It lives only in the maintainer's environment.
-
 ## Maintenance
 
 - When adding or removing a skill, update the `README.md` skill count and add/remove the bullet under the matching category heading.
 - When renaming folders or reference files, grep all `SKILL.md` files for stale paths.
-- Verify the README bullet count equals `ls skills/ | wc -l`.
+- Verify counts and bullets with `skills/agent-skills-creator/scripts/validate.sh --all`. Don't count with `ls skills/ | wc -l`: git leaves empty directories behind when a skill moves out, which inflates it.

@@ -5,6 +5,7 @@ Build evals before docs: they reveal real gaps, not imagined ones.
 ## Contents
 
 - Build Evaluations First
+- Ablate Constraints
 - Test Across Models
 - Iterate with Two Claudes
 - Observe How Claude Navigates
@@ -37,6 +38,17 @@ Eval scenario structure:
 ```
 
 No runner exists: use as a rubric, run manually or via a thin harness.
+
+## Ablate Constraints
+
+Evals tell you what to add. Ablation tells you what to remove, and it is the only honest way to run the constraint cut in `improving-existing-skills.md`.
+
+For a rule you suspect is carrying no weight: delete it, rerun the scenarios, and keep it only if one regresses. Claude Code's system prompt lost over 80% of its content this way with no measurable eval loss, because most of it was guarding against failures the current model no longer makes.
+
+- Ablate one rule at a time, or you learn nothing about which one mattered
+- A rule kept without an ablation is a guess, and guesses accumulate into the bloat you are trying to cut
+- A rule whose absence regresses a scenario has earned permanent tenure; note the scenario next to it so nobody re-litigates it later
+- Opinions are not ablatable this way: a house style has no failing scenario, it is the preference the skill exists to encode
 
 ## Test Across Models
 
