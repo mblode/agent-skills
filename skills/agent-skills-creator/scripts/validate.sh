@@ -98,11 +98,16 @@ validate_skill() {
   # Hub skills index subfolders (guidelines/, direction/) from a root track file,
   # so a file counts as reachable if SKILL.md or any root .md names it. Without
   # this, deleting a file and its only link passes silently.
+  # NUL-delimited throughout: a filename with whitespace otherwise word-splits,
+  # which made this check pass and the kebab check miss the very name it exists
+  # to catch. Process substitution, not a pipe, so $orphans survives the loop.
   orphans=""
-  for f in $(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' 2>/dev/null); do
+  while IFS= read -r -d '' f; do
     base="$(basename "$f")"
-    grep -qr "$base" "$md" $(find "$skill_dir" -maxdepth 1 -name '*.md') 2>/dev/null || orphans="$orphans $base"
-  done
+    # -F so a dot in the filename is a literal, not a regex wildcard.
+    find "$skill_dir" -maxdepth 1 -name '*.md' -exec grep -qF "$base" {} + 2>/dev/null \
+      || orphans="$orphans $base"
+  done < <(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' -print0 2>/dev/null)
   check format all-md-reachable "unreachable from SKILL.md or a root track file:$orphans" \
     "$(printf '%s' "$orphans" | wc -w | tr -d ' ')"
 
@@ -129,21 +134,21 @@ validate_skill() {
   # fixes their schema, so they are single-topic by construction and a TOC there
   # is noise, not navigation.
   no_toc=""
-  for f in $(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' 2>/dev/null); do
+  while IFS= read -r -d '' f; do
     fl=$(wc -l <"$f" | tr -d ' ')
-    [ "$fl" -le 100 ] && continue
+    [ "${fl:-0}" -le 100 ] && continue
     head -20 "$f" | grep -qiE '^#{2,3} (contents|table of contents)' || no_toc="$no_toc $(basename "$f"):${fl}L"
-  done
+  done < <(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' -print0 2>/dev/null)
   check format toc-over-100-lines "over 100 lines with no Contents heading:$no_toc" \
     "$(printf '%s' "$no_toc" | wc -w | tr -d ' ')"
 
   # bash 3.2 mis-parses `case` inside $( ), so build this in the current shell.
   bad_names=""
-  for f in $(find "$skill_dir" -name '*.md' 2>/dev/null); do
+  while IFS= read -r -d '' f; do
     b="$(basename "$f" .md)"
     if [ "$b" = "SKILL" ] || [ "$b" = "_sections" ] || [ "$b" = "_template" ]; then continue; fi
-    printf '%s' "$b" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || bad_names="$bad_names $b"
-  done
+    printf '%s' "$b" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || bad_names="$bad_names ${b// /<space>}"
+  done < <(find "$skill_dir" -name '*.md' -print0 2>/dev/null)
   check format kebab-case-filenames "not kebab-case:$bad_names" "$(printf '%s' "$bad_names" | wc -w | tr -d ' ')"
 
   # Root-level track files belong to the simple/hub pattern only.
@@ -194,9 +199,9 @@ validate_skill() {
     valid=" $rules_total "
     for rd in "$skill_dir"/rules*; do
       [ -d "$rd" ] || continue
-      valid="$valid $(ls "$rd"/*.md 2>/dev/null | grep -v '/_' | wc -l | tr -d ' ') "
-      for p in $(ls "$rd"/*.md 2>/dev/null | grep -v '/_' | xargs -n1 basename 2>/dev/null | sed 's/-.*//' | sort -u); do
-        valid="$valid $(ls "$rd"/$p-*.md 2>/dev/null | wc -l | tr -d ' ') "
+      valid="$valid $(find "$rd" -maxdepth 1 -name '*.md' -not -name '_*' | wc -l | tr -d ' ') "
+      for p in $(find "$rd" -maxdepth 1 -name '*.md' -not -name '_*' -exec basename {} \; | sed 's/-.*//' | sort -u); do
+        valid="$valid $(find "$rd" -maxdepth 1 -name "$p-*.md" | wc -l | tr -d ' ') "
       done
     done
     stale=""
@@ -226,7 +231,7 @@ validate_skill() {
   fi
 
   # --- hygiene ---
-  aux="$(find "$skill_dir" -maxdepth 1 \( -name 'README.md' -o -name 'CHANGELOG.md' -o -name 'INSTALLATION_GUIDE.md' \) 2>/dev/null | xargs -n1 basename 2>/dev/null | tr '\n' ' ')"
+  aux="$(find "$skill_dir" -maxdepth 1 \( -name 'README.md' -o -name 'CHANGELOG.md' -o -name 'INSTALLATION_GUIDE.md' \) -exec basename {} \; 2>/dev/null | tr '\n' ' ')"
   check format no-auxiliary-docs "auxiliary docs in the skill folder: $aux" "$(printf '%s' "$aux" | wc -w | tr -d ' ')"
 
   # Only a real command line counts. Prose warning against cp -R is correct content.
@@ -240,7 +245,7 @@ validate_skill() {
   check format mcp-tools-qualified "MCP tool named without a Server:tool prefix" "$n"
 
   # --- house style ---
-  n=$(perl -CSD -ne 'print if /\x{2014}/' $(find "$skill_dir" -name '*.md') 2>/dev/null | wc -l | tr -d ' ')
+  n=$(find "$skill_dir" -name '*.md' -exec perl -CSD -ne 'print if /\x{2014}/' {} + 2>/dev/null | wc -l | tr -d ' ')
   check house no-em-dashes "em dash present, restructure with commas, colons, or periods" "$n"
 
   # --- repo integration ---

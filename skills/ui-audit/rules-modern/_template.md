@@ -77,6 +77,10 @@ One before/after pair per rule, here. Add an extra `## Examples` section only fo
 
 If another tool owns the finding, link out: Lighthouse (runtime measurement), axe (WCAG rule), ESLint plugin (write-time prevention).
 
+## Examples
+
+Optional, and only where wording is the deliverable: a `microcopy-*` rule needs the actual bad and good strings shown, because a prose description of a string is not the string. Everywhere else the `## Fix` before/after already carries it, so a second pair here is redundant.
+
 ## Suppression
 
 To ignore this rule on a specific component:
