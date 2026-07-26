@@ -1,6 +1,6 @@
 ---
 name: scaffold-nextjs
-description: Scaffolds a production-ready Next.js turborepo end to end. Runs create-next-app with TypeScript, Tailwind CSS, and React Compiler, sets up shadcn/ui with Blode UI components from the ui.blode.co registry, blode-icons-react icons, Agentation, and Ultracite (Oxlint, Oxfmt, Lefthook), converts the app into a turborepo, then creates the GitHub repo and deploys to Vercel with a pre-launch checklist. Use when creating a brand-new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new repo for a website or marketing site, or asking "create a Next.js project", "set up a turborepo", or "start a new web app". For a TypeScript CLI or npm package, use scaffold-cli. For folder structure and module contracts in an existing app, use define-architecture. For building a page inside an existing app, visual direction, palettes, and theming, use ui-design.
+description: Scaffolds a production-ready Next.js turborepo end to end. Runs create-next-app with TypeScript 7, Tailwind CSS, and React Compiler, sets up shadcn/ui with Blode UI components from the ui.blode.co registry, blode-icons-react icons, Agentation, and Ultracite (Oxlint, Oxfmt, Lefthook), converts the app into a turborepo, then creates the GitHub repo and deploys to Vercel with a pre-launch checklist. Use when creating a brand-new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new repo for a website or marketing site, or asking "create a Next.js project", "set up a turborepo", or "start a new web app". For a TypeScript CLI or npm package, use scaffold-cli. For folder structure and module contracts in an existing app, use define-architecture. For building a page inside an existing app, visual direction, palettes, and theming, use ui-design.
 ---
 
 # Scaffold Next.js
@@ -16,7 +16,7 @@ Low-freedom workflow. The reference files are the single source of truth for com
 
 | File | Read When |
 |------|-----------|
-| `references/app-setup.md` | Phase 2: create-next-app flags, shadcn + Blode registry, Agentation, Ultracite, move into apps/web/ |
+| `references/app-setup.md` | Phase 2: create-next-app flags, TypeScript 7 upgrade, shadcn + Blode registry, Agentation, Ultracite, move into apps/web/ |
 | `references/turbo-configs.md` | Phase 6: root package.json, turbo.json, .gitignore, knip.json, workspace scripts, next.config.ts |
 | `references/deploy-and-launch.md` | Phase 7: GitHub, Vercel, favicon, OG images, validation checklist |
 
@@ -28,6 +28,7 @@ Copy this checklist to track progress:
 Scaffold progress:
 - [ ] Phase 1: Gather project info
 - [ ] Phase 2: Create Next.js app
+- [ ] Phase 2.1: Upgrade to TypeScript 7
 - [ ] Phase 3: Install Blode UI components
 - [ ] Phase 4: Install Agentation
 - [ ] Phase 5: Install Ultracite
@@ -54,6 +55,10 @@ Collect from the user (ask only for what is missing):
 
 Run the create-next-app command from `references/app-setup.md` exactly as written (it pins linter, React Compiler, and package-manager flags). Confirm the app loads at `http://localhost:3000` before continuing.
 
+### Phase 2.1: Upgrade to TypeScript 7
+
+TypeScript 7 section of `references/app-setup.md`: install `typescript@^7`, set `experimental.useTypeScriptCli: true` in `next.config.ts`, and confirm `npm run build` type-checks through `tsc`. Do both steps together, never one alone.
+
 ### Phase 3: Install Blode UI components
 
 Blode UI section of `references/app-setup.md`: `shadcn init`, register the `@blode` namespace, then add components.
@@ -72,7 +77,7 @@ Move the app into `apps/web/` (commands at the end of `references/app-setup.md`)
 
 1. Generate root `package.json`, `turbo.json`, `knip.json`, and `.gitignore` from the templates.
 2. Update `apps/web/package.json` scripts to the turbo-compatible block.
-3. Verify `apps/web/next.config.ts` has `reactCompiler: true`.
+3. Verify `apps/web/next.config.ts` still has `reactCompiler: true` and `experimental.useTypeScriptCli: true`.
 4. Run `npm install` from the root.
 5. Verify `npm run dev` works from the root (turbo runs apps/web).
 
@@ -97,6 +102,8 @@ A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a 
 ## Gotchas
 
 - No `src/` directory. The scaffold uses `--no-src-dir`; adding `src/` later breaks the `@/*` alias and every shadcn component path.
+- Never install `typescript@^7` without `experimental.useTypeScriptCli: true`, or set the flag on TypeScript 5. Next.js does not enable the CLI checker for you, and the mismatch fails `next build` outright rather than degrading.
+- Expect raw `tsc` diagnostics once the CLI checker is on: no Next.js code frames, and the full `tsconfig.json` project is checked (tests and `.next/dev/types` included), so a type error in a file `next build` used to skip now blocks the build.
 - No ESLint or Prettier. Ultracite owns lint and format via Oxlint + Oxfmt; a stray `.eslintrc` makes the editor disagree with the lefthook pre-commit hook.
 - Never run `oxlint` or `oxfmt` ad hoc; use `npx ultracite fix` / `npx ultracite check` (or root `npm run fix` / `npm run check`) so config resolution matches the hook. The `oxlint .` / `oxfmt .` scripts in `apps/web/package.json` exist only for turbo's per-workspace orchestration.
 - No manual git hooks. `ultracite init` writes `lefthook.yml` and a `prepare: lefthook install` script; husky or another hook manager double-runs or skips fixes.

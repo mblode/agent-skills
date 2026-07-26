@@ -3,6 +3,7 @@
 ## Contents
 
 - [Phase 2: Create Next.js app](#phase-2-create-nextjs-app)
+- [Phase 2.1: Upgrade to TypeScript 7](#phase-21-upgrade-to-typescript-7)
 - [Phase 3: Install Blode UI components](#phase-3-install-blode-ui-components)
 - [Phase 4: Install Agentation](#phase-4-install-agentation)
 - [Phase 4.1: Add Google Analytics (optional)](#phase-41-add-google-analytics-optional)
@@ -32,13 +33,50 @@ npm run dev
 
 Confirm the app loads at `http://localhost:3000`.
 
+## Phase 2.1: Upgrade to TypeScript 7
+
+`create-next-app` installs TypeScript 5. Move to TypeScript 7 and point `next build` at the project-local `tsc` CLI.
+
+```bash
+npm install -D typescript@^7
+```
+
+Then add `experimental.useTypeScriptCli` to `next.config.ts`:
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  reactCompiler: true,
+  experimental: {
+    useTypeScriptCli: true,
+  },
+};
+
+export default nextConfig;
+```
+
+Both parts are required. TypeScript 7 does not ship the JavaScript compiler API that Next.js type-checks with by default, so installing it without the flag makes `next build` exit with an error telling you to enable the option or downgrade.
+
+Verify:
+
+```bash
+npx tsc --version   # Version 7.x
+npm run build       # type check runs through tsc, build succeeds
+```
+
+Behaviour changes to expect:
+- Errors are raw `tsc` diagnostics; no Next.js code frames or route-specific rewrites.
+- The whole `tsconfig.json` project is checked, including test files and `.next/dev/types`.
+- In VS Code, run "TypeScript: Select TypeScript Version" > "Use Workspace Version" so the editor matches the build.
+
 ## Phase 3: Install Blode UI components
 
 Blode UI is a third-party shadcn/ui registry at `ui.blode.co`. Use the hosted `@blode` namespace flow.
 
 ```bash
 npx shadcn@latest init
-npx shadcn@latest registry add @blode=https://ui.blode.co/r/{name}.json
+npx shadcn@latest registry add @blode=https://blode.co/ui/r/{name}.json
 npx shadcn@latest add @blode/button
 ```
 
