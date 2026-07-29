@@ -1,12 +1,12 @@
 ---
 name: docs-writing
-description: Writes and audits technical documentation using the Diataxis framework and Stripe-style clarity. 47 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, documenting APIs, writing documentation-site tutorials or how-to guides, auditing an existing README or docs site, or asking "review my docs", "improve this documentation", or "write docs for this". For editorial blog tutorials use blog-post; for creating a README from scratch use readme-creator; for AGENTS.md or CLAUDE.md files use agents-md; for marketing copy use copywriting.
+description: Writes and audits technical documentation using the Diataxis framework and Stripe-style clarity. 47 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, documenting APIs, writing documentation-site tutorials or how-to guides, auditing an existing README or docs site, or asking "review my docs", "improve this documentation", or "write docs for this". For editorial blog tutorials use the external ghostwriter skill with platform blog; for creating a README from scratch use readme-creator; for AGENTS.md or CLAUDE.md files use agents-md; for marketing copy use copywriting.
 ---
 
 # Documentation Writing
 
 - **IS:** writing and auditing technical documentation quality (Diataxis doc types, voice, structure, clarity, runnable code, formatting, navigation, content hygiene) for docs sites, API references, documentation-site tutorials, how-to docs, and existing READMEs.
-- **IS NOT:** editorial blog tutorials or articles (use `blog-post`), a README from scratch (use `readme-creator`), AGENTS.md or CLAUDE.md instructions (use `agents-md`), or marketing and landing-page copy (use `copywriting`).
+- **IS NOT:** editorial blog tutorials or articles (use the external `ghostwriter` skill with platform `blog`), a README from scratch (use `readme-creator`), AGENTS.md or CLAUDE.md instructions (use `agents-md`), or marketing and landing-page copy (use `copywriting`).
 
 ## Mode dispatch
 
@@ -93,5 +93,5 @@ For the full rule list per category, read `rules/_sections.md`. The `*-defaults.
 - `readme-creator`: a README from scratch; this skill audits and improves existing ones.
 - `agents-md`: AGENTS.md/CLAUDE.md instruction files (execution-first, not reader-facing docs).
 - `copywriting`: marketing, landing-page, and product copy.
-- `blog-post`: editorial tutorials, how-to articles, thought leadership, long-form posts.
+- Optional external `ghostwriter` where installed: editorial tutorials, how-to articles, thought leadership, and long-form posts, drafted from the `blog` platform profile.
 - Optional external `blodemd` where installed: scaffolds/deploys MDX docs sites; this skill governs content quality inside them.

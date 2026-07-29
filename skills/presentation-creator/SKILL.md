@@ -1,6 +1,6 @@
 ---
 name: presentation-creator
-description: Creates bold, minimal, dark-first presentations with structured narrative arcs, punchy slide copy, high-contrast visual design, and conversational speaker notes. Covers live talks, async/recorded decks, and 10-slide investor pitch decks. Use when creating a presentation, structuring a deck, writing slides, building a pitch deck for investors, or asking "outline a presentation about...", "write slides for...", "design a deck for...", or "turn this doc into a deck". For long-form articles use blog-post; for marketing copy outside slides use copywriting; for product UI design systems use ui-design.
+description: Creates bold, minimal, dark-first presentations with structured narrative arcs, punchy slide copy, high-contrast visual design, and conversational speaker notes. Covers live talks, async/recorded decks, and 10-slide investor pitch decks. Use when creating a presentation, structuring a deck, writing slides, building a pitch deck for investors, or asking "outline a presentation about...", "write slides for...", "design a deck for...", or "turn this doc into a deck". For long-form articles use the external ghostwriter skill with platform blog; for marketing copy outside slides use copywriting; for product UI design systems use ui-design.
 ---
 
 # Presentation Creator
@@ -8,7 +8,7 @@ description: Creates bold, minimal, dark-first presentations with structured nar
 Bold, minimal, dark-first slide decks: narrative arc to final QA.
 
 - **IS:** slide decks end to end: narrative structure, slide copy, visual design, speaker notes, and investor pitch decks.
-- **IS NOT:** long-form prose (use `blog-post`), marketing copy outside slides (use `copywriting`), or general visual systems for product UI (use `ui-design`).
+- **IS NOT:** long-form prose (use the external `ghostwriter` skill with platform `blog`), marketing copy outside slides (use `copywriting`), or general visual systems for product UI (use `ui-design`).
 
 ## Workflow
 
@@ -94,6 +94,6 @@ Fix every flagged row and re-output the table before handing over.
 
 ## Related skills
 
-- `blog-post`: long-form articles and tutorials; use when the output is prose, not slides
+- Optional external `ghostwriter` where installed: long-form articles and tutorials from the `blog` platform profile; use when the output is prose, not slides
 - `copywriting`: landing pages, CTAs, marketing copy outside a deck
 - `ui-design`: visual systems for product UI and landing pages; presentation visual rules live in references/visual-design.md instead

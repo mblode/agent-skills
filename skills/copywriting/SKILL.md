@@ -6,14 +6,15 @@ description: >-
   copy, and AI-ism cleanup. Use when asked to "write copy", "fix the copy",
   "make this shorter", "improve the CTA", "rewrite from first principles",
   "remove AI-isms", "clean up AI writing", or "flag AI patterns". For blog
-  posts use blog-post; for slide copy use presentation-creator; for docs use
-  docs-writing; for product behavior decisions use product-design.
+  posts use the external ghostwriter skill with platform blog; for slide copy
+  use presentation-creator; for docs use docs-writing; for product behavior
+  decisions use product-design.
 ---
 
 # Copywriting
 
 - **IS:** short conversion copy (landing pages, hero, subheads, CTAs, product descriptions, onboarding strings, email subjects); product-state strings (destructive CTAs, error, success, empty, loading, permission copy); stripping AI writing tells from any copy.
-- **IS NOT:** long-form articles or posts (use `blog-post`), slide or deck copy (use `presentation-creator`), API/product/reference docs (use `docs-writing`), or deciding which action exists, its scope, consequence, reversibility, or reachable states (use `product-design`; this skill writes final wording once those are decided).
+- **IS NOT:** long-form articles or posts (use the external `ghostwriter` skill with platform `blog`), slide or deck copy (use `presentation-creator`), API/product/reference docs (use `docs-writing`), or deciding which action exists, its scope, consequence, reversibility, or reachable states (use `product-design`; this skill writes final wording once those are decided).
 
 Two modes, auto-detected (do not ask):
 
