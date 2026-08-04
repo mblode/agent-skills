@@ -148,19 +148,22 @@ Script names match the tasks in `turbo.json` so turbo can orchestrate them acros
 
 ## apps/web/next.config.ts
 
-Verify `apps/web/next.config.ts` has React Compiler and the TypeScript 7 CLI checker enabled:
+Verify `apps/web/next.config.ts` still has React Compiler and the Instant
+Navigations flags after the move:
 
 ```typescript
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  cacheComponents: true,
+  partialPrefetching: true,
   reactCompiler: true,
   experimental: {
-    useTypeScriptCli: true,
+    turbopackRustReactCompiler: true,
   },
 };
 
 export default nextConfig;
 ```
 
-`create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present. `useTypeScriptCli` comes from Phase 2.1 and must survive the move into `apps/web/`; without it, the TypeScript 7 install in `apps/web/package.json` fails `next build`.
+`create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present. The other three come from Phase 2.2 and must survive the move into `apps/web/`, since dropping `cacheComponents` silently takes `partialPrefetching` with it.

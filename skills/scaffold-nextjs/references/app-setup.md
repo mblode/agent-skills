@@ -4,6 +4,7 @@
 
 - [Phase 2: Create Next.js app](#phase-2-create-nextjs-app)
 - [Phase 2.1: Upgrade to TypeScript 7](#phase-21-upgrade-to-typescript-7)
+- [Phase 2.2: Turn on Instant Navigations](#phase-22-turn-on-instant-navigations)
 - [Phase 3: Install Blode UI components](#phase-3-install-blode-ui-components)
 - [Phase 4: Install Agentation](#phase-4-install-agentation)
 - [Phase 4.1: Add Google Analytics (optional)](#phase-41-add-google-analytics-optional)
@@ -35,28 +36,17 @@ Confirm the app loads at `http://localhost:3000`.
 
 ## Phase 2.1: Upgrade to TypeScript 7
 
-`create-next-app` installs TypeScript 5. Move to TypeScript 7 and point `next build` at the project-local `tsc` CLI.
+`create-next-app` installs TypeScript 5. Move to TypeScript 7:
 
 ```bash
 npm install -D typescript@^7
 ```
 
-Then add `experimental.useTypeScriptCli` to `next.config.ts`:
-
-```typescript
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  reactCompiler: true,
-  experimental: {
-    useTypeScriptCli: true,
-  },
-};
-
-export default nextConfig;
-```
-
-Both parts are required. TypeScript 7 does not ship the JavaScript compiler API that Next.js type-checks with by default, so installing it without the flag makes `next build` exit with an error telling you to enable the option or downgrade.
+That is the whole step. No config goes with it: since 16.3, `next build` runs the
+project-local `tsc` CLI by default rather than loading TypeScript's JavaScript
+compiler API, which is what makes TypeScript 7 work at all (7 does not ship that
+API). `experimental.useTypeScriptCli` exists only to turn the CLI checker back
+**off** by setting it to `false`, so a fresh scaffold should never mention it.
 
 Verify:
 
@@ -70,9 +60,57 @@ Behaviour changes to expect:
 - The whole `tsconfig.json` project is checked, including test files and `.next/dev/types`.
 - In VS Code, run "TypeScript: Select TypeScript Version" > "Use Workspace Version" so the editor matches the build.
 
+## Phase 2.2: Turn on Instant Navigations
+
+Cache Components and Partial Prefetching make rendering dynamic by default and
+let every `<Link>` prefetch a shared App Shell. Adopting them in an existing app
+is a migration; in a new one it is four lines, because there is no legacy
+caching to unwind and no `<Link prefetch={true}>` to audit.
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  cacheComponents: true,
+  partialPrefetching: true,
+  reactCompiler: true,
+  experimental: {
+    // Runs the React Compiler inside Turbopack instead of Babel.
+    turbopackRustReactCompiler: true,
+  },
+};
+
+export default nextConfig;
+```
+
+`partialPrefetching` only works with `cacheComponents`, so the two ship together
+or not at all.
+
+With the Rust compiler on, `babel-plugin-react-compiler` is not needed. Leave it
+out, and add no other Babel transform: any Babel step in the pipeline gives back
+most of what the Rust path saves.
+
+What the flags change, and what to write from day one:
+- Nothing is cached unless a function says `'use cache'`. Add it at the data
+  access, with `cacheLife` for how long.
+- Never `await params` or `searchParams` at the top of a page. Pass the promise
+  into a `<Suspense>`-wrapped child and await it there, or the shell is tied to
+  one URL.
+- Same for `cookies()` and `headers()`: read them inside a boundary so the rest
+  of the page still prerenders.
+- No `new Date()`, `Date.now()`, `Math.random()` or `crypto.randomUUID()` during
+  render, in server or client components. These are hard build errors. Stamp the
+  value at build time in `next.config.ts` via `env`, or read it after hydration
+  in a `useEffect`.
+- `useSearchParams` always needs a `<Suspense>` boundary.
+
+Verify with `next dev` rather than the build. Instant navigation insights are
+development-only and never fail `next build`, so a green build is not evidence.
+Load each route and confirm the dev overlay reports none.
+
 ## Phase 3: Install Blode UI components
 
-Blode UI is a third-party shadcn/ui registry at `ui.blode.co`. Use the hosted `@blode` namespace flow.
+Blode UI is a third-party shadcn/ui registry served at `blode.co/ui` (the `ui.blode.co` subdomain 301s there). Use the hosted `@blode` namespace flow.
 
 ```bash
 npx shadcn@latest init
@@ -85,7 +123,7 @@ Order matters: `registry add` must run before any `add @blode/...` call, or the 
 Creates:
 - `components.json`: shadcn config plus the Blode registry mapping
 - `lib/utils.ts`: `cn()` helper (clsx + tailwind-merge)
-- `components/ui/button.tsx`: button from the `ui.blode.co` registry
+- `components/ui/button.tsx`: button from the Blode registry
 - CSS variable updates in `app/globals.css`
 
 Icons: use `blode-icons-react` for all icon imports. If any generated file imports `lucide-react`, replace the import paths with `blode-icons-react`.
