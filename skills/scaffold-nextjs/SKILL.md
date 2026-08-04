@@ -1,6 +1,6 @@
 ---
 name: scaffold-nextjs
-description: Scaffolds a production-ready Next.js turborepo end to end. Runs create-next-app with TypeScript 7, Tailwind CSS, React Compiler, and Cache Components, sets up shadcn/ui with Blode UI components from the Blode registry, blode-icons-react icons, Agentation, and Ultracite (Oxlint, Oxfmt, Lefthook), converts the app into a turborepo, then creates the GitHub repo and deploys to Vercel with a pre-launch checklist. Use when creating a brand-new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new repo for a website or marketing site, or asking "create a Next.js project", "set up a turborepo", or "start a new web app". For a TypeScript CLI or npm package, use scaffold-cli. For folder structure and module contracts in an existing app, use define-architecture. For building a page inside an existing app, visual direction, palettes, and theming, use ui-design.
+description: Scaffolds a production-ready Next.js turborepo end to end. Runs create-next-app with TypeScript 7, Tailwind CSS, React Compiler, and Cache Components, sets up shadcn/ui with Blode UI components from the Blode registry, blode-icons-react icons, Agentation, and Ultracite (Oxlint, Oxfmt, Lefthook), converts the app into a turborepo, then creates the GitHub repo and deploys to Vercel with a pre-launch checklist. Use when creating a brand-new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new repo for a website or marketing site, or asking "create a Next.js project", "set up a turborepo", or "start a new web app". For a TypeScript CLI or npm package, use scaffold-cli. For folder structure and module contracts in an existing app, use codebase-architecture. For building a page inside an existing app, visual direction, palettes, and theming, use ui-design.
 ---
 
 # Scaffold Next.js
@@ -8,7 +8,7 @@ description: Scaffolds a production-ready Next.js turborepo end to end. Runs cre
 Scaffold a Next.js turborepo with full tooling, GitHub, and Vercel deployment.
 
 - **IS:** bootstrapping a brand-new Next.js turborepo end to end: app creation, Blode UI, Ultracite tooling, turborepo conversion, GitHub, and Vercel.
-- **IS NOT:** scaffolding a TypeScript CLI or npm package (use `scaffold-cli`), designing folder structure or module contracts for an existing app (use `define-architecture`), building a page inside an existing app, or choosing visual direction and palettes (use `ui-design`).
+- **IS NOT:** scaffolding a TypeScript CLI or npm package (use `scaffold-cli`), designing folder structure or module contracts for an existing app (use `codebase-architecture`), building a page inside an existing app, or choosing visual direction and palettes (use `ui-design`).
 
 Low-freedom workflow. The reference files are the single source of truth for commands: run them as written, in phase order. Do not reconstruct commands from memory.
 

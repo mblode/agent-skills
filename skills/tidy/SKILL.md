@@ -143,3 +143,4 @@ Scope rules:
 
 - `pr-reviewer`: read-only, severity-tiered findings report that also hunts bugs; it never edits files. Both skills cover reuse, quality, and efficiency; the difference is report-only vs fix-in-place. Route there when the user wants to see findings before deciding what to fix.
 - `pr-creator`: creates the PR after tidy finishes and the build is green.
+- `agent-ready-codebase`: repo-wide guardrails (dead code, duplication, file size) wired into hooks and CI. What keeps each tidy pass small instead of a sweep.

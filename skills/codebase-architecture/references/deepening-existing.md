@@ -4,13 +4,26 @@ Find domain-informed deepening opportunities in existing code. "Deepening" means
 
 ## Contents
 
-1. [Map the domain language](#map-the-domain-language)
-2. [Deepening opportunity patterns](#deepening-opportunity-patterns)
-3. [Module-depth screen](#module-depth-screen)
-4. [Dependency and testing checks](#dependency-and-testing-checks)
-5. [Rank by leverage](#rank-by-leverage)
-6. [Output template](#output-template)
-7. [Anti-patterns](#anti-patterns)
+1. [Vocabulary](#vocabulary)
+2. [Map the domain language](#map-the-domain-language)
+3. [Deepening opportunity patterns](#deepening-opportunity-patterns)
+4. [Module-depth screen](#module-depth-screen)
+5. [Dependency and testing checks](#dependency-and-testing-checks)
+6. [Rank by leverage](#rank-by-leverage)
+7. [Output template](#output-template)
+8. [Anti-patterns](#anti-patterns)
+
+## Vocabulary
+
+Use these words exactly. Substituting a synonym is not a style slip: it splits one concept across two names in the output, which is the exact failure this analysis exists to find.
+
+- **Module**: anything with an interface and an implementation. Scale-agnostic on purpose: a function, a class, a package, or a slice spanning tiers. _Avoid_: component, service, unit.
+- **Interface**: everything a caller must know to use the module correctly. Not just the type signature: also invariants, ordering constraints, error modes, required configuration. _Avoid_: API, signature (both name only the type-level surface).
+- **Seam**: the place a module's interface lives, where behavior can be altered without editing in that place. _Avoid_: boundary (reserved here for import and layer rules, and for trust boundaries where input is validated).
+- **Depth**: leverage at the interface, meaning how much behavior a caller or a test exercises per unit of interface it has to learn.
+- **Locality**: what maintainers get from depth. Change, bugs, and verification concentrate in one place instead of spreading across callers.
+
+**Rejected framing:** depth as the ratio of implementation lines to interface lines. It is the common definition and the one to drift back toward, and it rewards padding the implementation. A module that grew 200 lines of duplicated branching did not get deeper. Depth is leverage at the interface; measure it by what a caller stops having to know.
 
 ## Map the domain language
 
@@ -20,10 +33,10 @@ Recover the ubiquitous language the code uses before proposing changes:
 
 - **Entities and values:** domain nouns (Order, Subscription, Payout). Where do they live? Real types, or `any`/loose objects?
 - **Actions:** verbs (settle, refund, suspend). Methods on a domain object, or free functions scattered across handlers?
-- **Bounded contexts:** seams where one part stops caring about another's internals (billing vs catalog vs identity).
+- **Contexts:** where one part stops caring about another's internals (billing vs catalog vs identity).
 - **Naming divergence:** one concept named three ways, or one name meaning three things. The strongest signal the model is unclear.
 
-Capture a short glossary so opportunities reference real names, not invented ones.
+Capture a short glossary so opportunities reference real names, not invented ones. Its format and the rules for when a decision is worth recording are in `domain-language.md`.
 
 ## Deepening opportunity patterns
 
@@ -33,7 +46,7 @@ Each is a concrete, nameable issue, not a vague "this could be cleaner".
 |---|---|---|
 | Anemic domain concept | Data in one place, its rules scattered across handlers/services | Changing the rule means hunting every call site; the model doesn't own its invariants |
 | Shallow module | Public interface nearly matches the implementation, or callers must know internal ordering/invariants | The module adds little leverage; tests and callers still carry the complexity |
-| Leaking boundary | One context reaches into another's tables, internals, or private helpers | Couples contexts; a change in one silently breaks the other |
+| Leaking seam | One context reaches into another's tables, internals, or private helpers | Couples contexts; a change in one silently breaks the other |
 | Naming divergence | Same concept, different names per module, or one name for several concepts | Names can't be trusted; refactors miss instances |
 | Duplicated concept | Same domain idea reimplemented in parallel | Fixes and rules drift between copies |
 | Primitive obsession | Core concepts as bare strings/numbers (a `string` userId everywhere) | Nowhere to centralize validation; easy to mix up arguments |
@@ -46,6 +59,7 @@ Use this screen to keep the review from becoming generic cleanup advice:
 - A candidate must hide more behavior behind a smaller public surface, improve locality, or make tests cross one stable interface.
 - Deletion test: if deleting the module only moves identical complexity elsewhere, it is a pass-through; if deleting it spreads behavior across callers, the module is earning its place and may be worth deepening.
 - Friction prompts: understanding one concept requires opening many small files; callers need private sequencing knowledge; pure helpers were extracted only to make tests possible while orchestration bugs remain elsewhere; tests cannot exercise behavior through the public surface.
+- One adapter means a hypothetical seam; two means a real one. A port with a single implementation is indirection you pay for and nothing varies across it. (Distinct from the rule of three for duplicated code below: that one counts copies, this one counts things that differ.)
 - Do not propose a new seam only because it is aesthetically tidy. A seam needs current variation, a real test adapter, or a named future change it makes local.
 
 ## Dependency and testing checks

@@ -18,7 +18,7 @@ answer repeats the skill wording.
 
 ## 2. Multi-skill request
 
-**Prompt:** "Use dx-audit, readme-creator, and define-architecture. Make this package simple."
+**Prompt:** "Use dx-audit, readme-creator, and codebase-architecture. Make this package simple."
 
 **Expected behavior:**
 

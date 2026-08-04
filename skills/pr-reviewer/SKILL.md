@@ -10,14 +10,14 @@ description: >-
   pr-creator; for CI or review comments use pr-babysitter; for frontend UX,
   accessibility, layout, state coverage, or rendered quality use ui-audit; for
   library, CLI, or SDK developer experience use dx-audit; for folder structure
-  and module boundaries outside a diff use define-architecture; for plans use
+  and module boundaries outside a diff use codebase-architecture; for plans use
   planning.
 ---
 
 # Local Review
 
 - **IS:** read-only review of a local diff, branch diff, or PR. Returns severity-tiered findings; leaves the working tree unchanged.
-- **IS NOT:** fixing code (`tidy`), creating PRs (`pr-creator`), monitoring CI or review threads (`pr-babysitter`), frontend PR UX/accessibility/rendered-quality review (`ui-audit`), architecture briefs (`define-architecture`), reviewing plans (`planning`).
+- **IS NOT:** fixing code (`tidy`), creating PRs (`pr-creator`), monitoring CI or review threads (`pr-babysitter`), frontend PR UX/accessibility/rendered-quality review (`ui-audit`), architecture briefs (`codebase-architecture`), reviewing plans (`planning`).
 
 Only report issues you can defend with `file:line` evidence.
 
@@ -144,5 +144,5 @@ PR handoff format:
 - `pr-creator`: creates or updates the PR after review.
 - `pr-babysitter`: monitors CI and inbound review comments.
 - `ui-audit`: frontend PR review for user-facing UX, accessibility, layout, state coverage, and rendered quality.
-- `define-architecture`: forward-looking architecture briefs and adoption opportunities outside a diff review.
+- `codebase-architecture`: forward-looking architecture briefs and adoption opportunities outside a diff review.
 - `planning`: builds and reviews plans before implementation.

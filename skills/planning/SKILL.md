@@ -13,7 +13,7 @@ description: >-
   this plan ready", "get this plan to 5/5", "what am I missing", "verify this
   claim", "prove this plan", "fact-check this plan", or when the user
   explicitly wants a plan artifact before implementation. For code review use
-  pr-reviewer; for architecture briefs use define-architecture.
+  pr-reviewer; for architecture briefs use codebase-architecture.
 ---
 
 # Planning
@@ -21,7 +21,7 @@ description: >-
 Build a plan by collaborative interrogation, then stress-test it adversarially, before coding. The deliverable is always a plan file, never code.
 
 - **IS:** building a plan from intent through one-question-at-a-time interrogation (Create), and strengthening an existing plan by scoring six dimensions to 5/5 with claim verification (Review). Both write to the plan file.
-- **IS NOT:** implementing or generating code, authoring a PR (use `pr-creator`), reviewing a code diff (use `pr-reviewer`), or writing an architecture brief (use `define-architecture`).
+- **IS NOT:** implementing or generating code, authoring a PR (use `pr-creator`), reviewing a code diff (use `pr-reviewer`), or writing an architecture brief (use `codebase-architecture`).
 
 Pipeline position: `planning` (create then review) -> implementation -> `pr-reviewer` -> `pr-creator` -> `pr-babysitter`.
 
@@ -249,4 +249,4 @@ Pipeline: `planning` -> implementation -> `pr-reviewer` -> `pr-creator` -> `pr-b
 
 - `pr-reviewer`: code review after implementation; route here the moment the input is code, not a plan.
 - `pr-creator`: opens the PR once the plan is implemented.
-- `define-architecture`: architectural decisions that feed into plans.
+- `codebase-architecture`: architectural decisions that feed into plans.

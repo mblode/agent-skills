@@ -1,12 +1,12 @@
 ---
 name: scaffold-cli
-description: Scaffolds a production-ready TypeScript CLI and npm package with ESM, a dual tsdown build (CLI binary plus typed library), vitest, oxlint and oxfmt via ultracite, changesets, GitHub Actions CI with OIDC npm publishing, AGENTS.md, and a bundled agent skill definition. Use when creating a new CLI tool, bootstrapping a TypeScript package, scaffolding a node CLI, starting a new npm package, or asking "scaffold a CLI project" or "set up a new TypeScript CLI". For a Next.js web app use scaffold-nextjs; for structuring an existing codebase use define-architecture; for releasing an already-built package use autoship.
+description: Scaffolds a production-ready TypeScript CLI and npm package with ESM, a dual tsdown build (CLI binary plus typed library), vitest, oxlint and oxfmt via ultracite, changesets, GitHub Actions CI with OIDC npm publishing, AGENTS.md, and a bundled agent skill definition. Use when creating a new CLI tool, bootstrapping a TypeScript package, scaffolding a node CLI, starting a new npm package, or asking "scaffold a CLI project" or "set up a new TypeScript CLI". For a Next.js web app use scaffold-nextjs; for structuring an existing codebase use codebase-architecture; for releasing an already-built package use autoship.
 ---
 
 # Scaffold CLI
 
 - **IS:** bootstrapping a brand-new TypeScript CLI or npm package (Node 24+, TypeScript 7) from the pinned templates in `references/`.
-- **IS NOT:** a Next.js web app (use `scaffold-nextjs`), folder structure or module contracts for an existing codebase (use `define-architecture`), or shipping a release of an existing package (use `autoship`).
+- **IS NOT:** a Next.js web app (use `scaffold-nextjs`), folder structure or module contracts for an existing codebase (use `codebase-architecture`), or shipping a release of an existing package (use `autoship`).
 
 Low-freedom scaffold. Generate files exactly as templated, substituting only `{{placeholder}}` variables. Do not swap tools (no eslint, prettier, tsup, jest, chalk, or ora) or restructure the layout.
 

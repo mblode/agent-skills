@@ -7,6 +7,7 @@ Contract-first patterns for REST APIs, module boundaries, request context, and T
 - Core principles
 - Format contracts
 - Request context
+- Errors as a contract
 - Agent-facing surfaces
 
 ## Core Principles
@@ -67,6 +68,16 @@ export const runWithContext = (ctx: RequestContext, fn: () => void) => store.run
 ```
 
 Initialize it in every entrypoint: RPC, HTTP, jobs, and CLI. Forgetting jobs and CLI makes `getContext()` throw far from the cause.
+
+## Errors as a Contract
+
+Whoever debugs a failure works from the output alone, and a structured failure is the difference between one fix loop and five.
+
+- Structured error classes carrying a machine-readable code. Callers and tests assert on class and code; message strings are not API and change without warning.
+- Two audiences by construction: a caller-safe message plus a developer-only guidance field, with user-facing copy registered separately from internal error identity so internals never leak to users.
+- Domain errors stay transport-agnostic. Middleware owns the mapping to HTTP or RPC status, so services never pick status codes ad hoc.
+- Log the raw error object and let serializers extract type, stack, and cause. Never catch-log-rethrow: middleware already logs unhandled errors once, and the duplicate sends whoever is debugging after two failures that are one.
+- The ambient request context above auto-enriches every log line with request and correlation IDs, so a failure is traceable from log output with no per-call-site work.
 
 ## Agent-Facing Surfaces
 

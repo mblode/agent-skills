@@ -1,12 +1,12 @@
 ---
 name: multi-tenant-architecture
-description: Provides architecture guidance for multi-tenant SaaS platforms on Cloudflare or Vercel. Covers platform choice, domain strategy, tenant identification and isolation, subdomain routing, custom domains and SSL, white-label setup, tenant context propagation, PSL submission, and mapping platform limits to pricing plans. Use when building a multi-tenant application or asking "how do I support multiple tenants", "build a white-label platform", "add custom domains", "route tenants by subdomain", or "map limits to plans". For general app folder structure use define-architecture; for scaffolding a new Next.js repo use scaffold-nextjs.
+description: Provides architecture guidance for multi-tenant SaaS platforms on Cloudflare or Vercel. Covers platform choice, domain strategy, tenant identification and isolation, subdomain routing, custom domains and SSL, white-label setup, tenant context propagation, PSL submission, and mapping platform limits to pricing plans. Use when building a multi-tenant application or asking "how do I support multiple tenants", "build a white-label platform", "add custom domains", "route tenants by subdomain", or "map limits to plans". For general app folder structure use codebase-architecture; for scaffolding a new Next.js repo use scaffold-nextjs.
 ---
 
 # Multi-Tenant Platform Architecture (Cloudflare or Vercel)
 
 - **IS:** domain strategy, tenant identification and isolation, subdomain routing, custom domains, white-label setup, and plan/limit mapping on Cloudflare or Vercel.
-- **IS NOT:** general app folder structure or module boundaries (use `define-architecture`), scaffolding a new repo (use `scaffold-nextjs`), or the content of per-tenant SEO artifacts once routing serves them dynamically: sitemap entries, canonical URLs, structured data, indexing policy (use `optimise-seo`).
+- **IS NOT:** general app folder structure or module boundaries (use `codebase-architecture`), scaffolding a new repo (use `scaffold-nextjs`), or the content of per-tenant SEO artifacts once routing serves them dynamically: sitemap entries, canonical URLs, structured data, indexing policy (use `optimise-seo`).
 
 ## Contents
 
@@ -177,6 +177,6 @@ Evidence commands (run or mark N/A):
 
 ## Related skills
 
-- `define-architecture`: folder structure, module contracts, and middleware pipelines for the application itself.
+- `codebase-architecture`: folder structure, module contracts, and middleware pipelines for the application itself.
 - `scaffold-nextjs`: bootstrap the Next.js turborepo before applying these tenancy patterns.
 - `optimise-seo`: per-tenant sitemaps, canonical URLs, and structured data once routing works.

@@ -122,4 +122,4 @@ Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evid
 
 - `ui-audit`: traditional frontend UX quality around agentic surfaces; run both on agentic feature PRs, with ax-audit covering the agent layer
 - `agents-md`: audit CLAUDE.md / AGENTS.md agent instruction files
-- `define-architecture`: repo structure and module boundaries
+- `codebase-architecture`: repo structure and module boundaries

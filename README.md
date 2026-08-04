@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
 
-24 skills for shipping better software.
+25 skills for shipping better software.
 
 ## Quickstart
 
@@ -20,7 +20,8 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Architecture
 
-- **[define-architecture](./skills/define-architecture/SKILL.md)**: Folder structures, module contracts, and guardrails for TypeScript apps.
+- **[codebase-architecture](./skills/codebase-architecture/SKILL.md)**: Folder structures, module contracts, domain language, and deepening passes.
+- **[agent-ready-codebase](./skills/agent-ready-codebase/SKILL.md)**: Guardrails, CI gates, and wayfinding that make a repo cheap for agents.
 - **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with Blode UI, Ultracite, GitHub, and Vercel.
 - **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI package: ESM, tsdown, vitest, changesets, CI.
 - **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Tenant isolation, routing, and custom domains on Cloudflare or Vercel.
