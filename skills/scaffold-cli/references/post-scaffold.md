@@ -2,6 +2,14 @@
 
 Run in order after all files are generated.
 
+## Contents
+
+- Command Sequence
+- Replace the generated lefthook.yml
+- Command Notes
+- Validation Checklist
+- Troubleshooting
+
 ## Command Sequence
 
 ```bash
@@ -10,7 +18,7 @@ git init
 npx ultracite@latest init --linter oxlint --integrations lefthook --pm npm --quiet
 ```
 
-Then **overwrite the generated `lefthook.yml`** with the version below before committing —
+Then **overwrite the generated `lefthook.yml`** with the version below before committing:
 see "Replace the generated lefthook.yml" for why.
 
 ```bash
@@ -22,7 +30,7 @@ git commit -m "Initial commit"
 ## Replace the generated lefthook.yml
 
 `ultracite init` emits a single job that runs `npx ultracite fix` with **no file arguments**,
-so every commit formats the whole repo — silently rewriting files the commit never touched,
+so every commit formats the whole repo, silently rewriting files the commit never touched,
 including in-progress work elsewhere in the tree. Overwrite it with:
 
 ```yaml
@@ -34,7 +42,7 @@ including in-progress work elsewhere in the tree. Overwrite it with:
 #
 # 2. Empty sets. `ultracite fix` runs oxfmt then oxlint, and oxlint exits
 #    non-zero when handed no lintable files. Globbing json/css into the same
-#    job as ts/tsx would therefore fail any JSON-only commit — which is exactly
+#    job as ts/tsx would therefore fail any JSON-only commit, which is exactly
 #    what the changesets bot produces for "Version Packages", breaking the
 #    release workflow. So lint only what oxlint can lint, and format the rest
 #    with oxfmt directly.
@@ -51,7 +59,7 @@ pre-commit:
     - name: oxfmt
       glob: "*.{json,jsonc,css}"
       # oxfmt ignores lockfiles, and exits non-zero when every file it is given
-      # is ignored — so a lockfile-only commit would fail the hook.
+      # is ignored, so a lockfile-only commit would fail the hook.
       exclude:
         - "package-lock.json"
         - "**/package-lock.json"
@@ -102,4 +110,4 @@ Validation:
 - `npm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).
 - `npm run test` exits 1 with "No test files found": the test script is missing `--passWithNoTests`.
 - `git commit` blocked by a hook, with real lint errors in the output: lefthook is active from `ultracite init`; run `npm run fix` and retry rather than bypassing with `--no-verify`.
-- `git commit` blocked by a hook reporting "No files found to lint" / "Expected at least one target file": this is the empty-set failure, not a lint error — `npm run fix` cannot clear it. It means `lefthook.yml` still routes non-lintable files (JSON, CSS, or anything oxlint ignores, such as dot-directory configs) into the `ultracite fix` job. Apply the two-job `lefthook.yml` above.
+- `git commit` blocked by a hook reporting "No files found to lint" / "Expected at least one target file": this is the empty-set failure, not a lint error, and `npm run fix` cannot clear it. It means `lefthook.yml` still routes non-lintable files (JSON, CSS, or anything oxlint ignores, such as dot-directory configs) into the `ultracite fix` job. Apply the two-job `lefthook.yml` above.

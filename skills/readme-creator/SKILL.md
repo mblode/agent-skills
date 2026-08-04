@@ -90,6 +90,7 @@ Copy each selected section's skeleton from `references/section-templates.md`, fi
 - Every code block runs as-is after copy-paste: no pseudocode, no leftover placeholder imports.
 - A first-time reader gets something running within 60 seconds.
 - Disclose progressively: basics in the README, advanced detail in linked docs.
+- Write each section to the shortest form that still works, and omit a matrix `opt` section rather than padding it to look complete. A README that explains the obvious, restates the one-liner in an intro paragraph, or documents every flag when the CLI's `--help` already does pushes the runnable example below the fold, which is the only part most readers want.
 
 ### Phase 4: Add badges
 

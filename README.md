@@ -36,17 +36,17 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 ### Writing
 
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, AI-ism removal.
-- **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 52 rules, audit and writing modes.
+- **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README for the project type.
 
 Personal voice training, evaluation, and long-form blog writing now live in the standalone [ghostwriter](https://github.com/mblode/ghostwriter) project, where posts are drafted from the `blog` platform profile.
 
 ### Quality
 
-- **[ui-audit](./skills/ui-audit/SKILL.md)**: React and Next.js UX audit: 95 rules, 12 playbooks, ship verdict.
+- **[ui-audit](./skills/ui-audit/SKILL.md)**: React and Next.js UX audit: 82 rules, 12 playbooks, ship verdict.
 - **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 23 rules, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, and SDKs: root-cause findings, agent-friendly checks.
-- **[typography-audit](./skills/typography-audit/SKILL.md)**: 90 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
+- **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
 - **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js SEO: sitemaps, metadata, structured data, hreflang, CWV.
 
 ### Shipping

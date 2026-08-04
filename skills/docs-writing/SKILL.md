@@ -1,6 +1,6 @@
 ---
 name: docs-writing
-description: Writes and audits technical documentation using the Diataxis framework and Stripe-style clarity. 47 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, documenting APIs, writing documentation-site tutorials or how-to guides, auditing an existing README or docs site, or asking "review my docs", "improve this documentation", or "write docs for this". For editorial blog tutorials use the external ghostwriter skill with platform blog; for creating a README from scratch use readme-creator; for AGENTS.md or CLAUDE.md files use agents-md; for marketing copy use copywriting.
+description: Writes and audits technical documentation using the Diataxis framework and Stripe-style clarity. 48 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, documenting APIs, writing documentation-site tutorials or how-to guides, auditing an existing README or docs site, or asking "review my docs", "improve this documentation", or "write docs for this". For editorial blog tutorials use the external ghostwriter skill with platform blog; for creating a README from scratch use readme-creator; for AGENTS.md or CLAUDE.md files use agents-md; for marketing copy use copywriting.
 ---
 
 # Documentation Writing
@@ -50,7 +50,7 @@ Step 5 is the exit criterion: a doc ships only after its examples run and links 
 | Priority | Category | Impact | Prefix | Rules |
 |----------|----------|--------|--------|-------|
 | 1 | Voice & Tone | CRITICAL | `voice-` | 4 |
-| 2 | Structure & Organization | CRITICAL | `structure-` | 8 |
+| 2 | Structure & Organization | CRITICAL | `structure-` | 9 |
 | 3 | Clarity & Language | HIGH | `clarity-` | 5 |
 | 4 | Code Examples | HIGH | `code-` | 7 |
 | 5 | Formatting & Syntax | MEDIUM-HIGH | `format-` | 7 |
@@ -83,7 +83,7 @@ For the full rule list per category, read `rules/_sections.md`. The `*-defaults.
 
 - Doc-type misclassification is the top false-positive source: `structure-quick-start` applies only to getting-started docs and READMEs, `scan-three-column-api` only to API references. Flagging a missing quick start on an explanation page tells the author to break Diataxis.
 - Cite the specific failing check in a `*-defaults.md` bundle ("`voice-defaults`: passive voice"), not just the filename, or the author can't locate the issue.
-- Don't load all 47 rule files up front; load by prefix for in-scope categories only, to avoid flooding context before scope is known.
+- Don't load all 48 rule files up front; load by prefix for in-scope categories only, to avoid flooding context before scope is known.
 - Don't rank MEDIUM/LOW polish above CRITICAL/HIGH; authors fix what they see first, so a serial-comma nit can bury a structure problem.
 - Don't rewrite content you were asked to review; report and propose fixes unless the user said "improve/fix".
 - Don't audit unchanged files unless a full sweep was explicitly requested; unscoped findings drown the real ones.

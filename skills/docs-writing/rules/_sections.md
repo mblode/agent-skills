@@ -12,7 +12,7 @@ All 9 categories with ordering, impact, and rules. The ID in parentheses is the 
 ## 2. Structure & Organization (structure)
 
 **Impact:** CRITICAL
-**8 rules:** Diataxis one-type-per-file, bottom line up front, conditions before instructions, heading followed by overview, next steps, one idea per section (and per page), clear procedures, quick start for getting-started docs.
+**9 rules:** Diataxis one-type-per-file, bottom line up front, conditions before instructions, heading followed by overview, next steps, one idea per section (and per page), every section earns its place, clear procedures, quick start for getting-started docs.
 
 ## 3. Clarity & Language (clarity)
 

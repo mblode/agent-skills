@@ -5,6 +5,7 @@ What to put in a skill and how hard to say it. The mechanical rules live in `scr
 ## Contents
 
 - Don't State the Obvious
+- Don't Instruct Behavior the Model Already Has
 - Judgement Over Rules
 - Don't Fight the Harness or a Sibling
 - Cut Constraints, Keep Opinions
@@ -34,6 +35,21 @@ Claude knows coding and the codebase. Write only what pushes it off its defaults
 - Target where your org deviates from defaults or Claude consistently errs
 
 **Test:** for each line, ask "Would removing this cause a mistake?" If not, cut it.
+
+## Don't Instruct Behavior the Model Already Has
+
+The sharpest case of the section above, and the one that costs most, because these instructions do not sit there inertly: they compound with behavior the model already performs and push it past useful.
+
+Current models verify their own work, catch and fix their own mistakes, and delegate to subagents readily. So "add a final verification step", "double-check your answer before responding", "re-verify", and "use a subagent to check your work" buy nothing and spend real tokens producing over-verification. Delete them; output quality holds.
+
+An external check is not this. "Run the test suite and quote the output" and "watch the check fail, then pass" produce evidence the model cannot generate by reasoning, so they stay.
+
+Two related levers skew long by default and are worth setting deliberately:
+
+- **Calibrate the length of artifacts the skill writes to disk.** Reports, plans, briefs, and docs run long, and a fixed output template invites filling every section instead of dropping the ones the task does not need. Say that length follows the work, not the template. This is a real opinion, unlike "write concisely", which the model already believes it is doing.
+- **Cap delegation where the skill fans out.** Genuinely independent, sizeable tracks justify subagents; small tasks do not, and verification never does. A deterministic cap beats a judgement call, which is why `tidy` fixes the number at four launched in one message rather than leaving it open.
+
+**Test:** would the model do this unprompted? If yes, the instruction is at best inert and at worst additive. Same test as "Cut Constraints, Keep Opinions" below, pointed at the model's behavior rather than at its knowledge.
 
 ## Judgement Over Rules
 

@@ -117,6 +117,8 @@ Write the plan file to the active agent's native plan directory when one exists;
 
 Keep plans scannable yet executable without re-reading the conversation. Record only the chosen approach; rejected alternatives become one-line rationale under Key decisions.
 
+**Size the plan to the work, not to the template.** Pick the lightest format the task supports, and drop any section the task does not need rather than filling it. A plan that restates the codebase, enumerates every file when a pattern plus three representative paths would do, or explains decisions the reader already made costs review attention and buries the parts that need a second look.
+
 **Handoff plans:** when another agent or session will execute, the executor has not seen this conversation. Inline any code excerpts and conventions it needs (with `file:line` markers), and add a **STOP conditions** section: assumptions that, if false, mean stop and report back rather than improvise.
 
 Name an implementation-notes file next to the plan and instruct the executor to keep it: every deviation the code forced on the plan gets logged under a `## Deviations` heading as what the plan said, what the code required, and which option was taken. A deviation that is not a STOP condition never pauses the work; take the conservative option, log it, keep going. The notes file is what review reads afterwards, so a handoff without one loses every decision made during execution.
