@@ -1,6 +1,6 @@
 # Deepening an existing codebase
 
-Find domain-informed deepening opportunities in existing code. "Deepening" means making the design express the domain more faithfully so future changes stay local; not adding layers, not a rewrite. Load during the Adoption workflow.
+Find domain-informed deepening opportunities in existing code. "Deepening" means making the design express the domain more faithfully so future changes stay local; not adding layers, not a rewrite. Load during Deepen mode.
 
 ## Contents
 

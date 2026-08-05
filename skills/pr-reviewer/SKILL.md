@@ -144,5 +144,5 @@ PR handoff format:
 - `pr-creator`: creates or updates the PR after review.
 - `pr-babysitter`: monitors CI and inbound review comments.
 - `ui-audit`: frontend PR review for user-facing UX, accessibility, layout, state coverage, and rendered quality.
-- `codebase-architecture`: forward-looking architecture briefs and adoption opportunities outside a diff review.
+- `codebase-architecture`: forward-looking architecture briefs, deepening opportunities, and repo-wide guardrails outside a diff review.
 - `planning`: builds and reviews plans before implementation.

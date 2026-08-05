@@ -120,7 +120,7 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 
 Two halves: **guardrails** stop the wrong thing landing, **wayfinding** makes the right thing cheap to find. Both exist because agents arrive by grep, not by reading docs, so the warning has to live where they land and the rule has to be an exit code rather than a sentence someone might recall.
 
-1. **Survey what exists.** Package scripts, CI steps, hook config, lint config, the instruction file, the docs index. Find two things: checks that run locally but do not gate the merge, and dormant config nobody invokes. Delete the dormant config, especially anything pointing at a path that no longer exists; an agent reads it as live convention, and a check aimed at a missing file passes while covering nothing.
+1. **Survey what exists.** Package scripts, CI steps, hook config, lint config, the instruction file, the docs index. Find two things: checks that run locally but do not gate the merge, and dormant config nobody invokes. Wire the first, delete the second ([references/contagion-markers.md](references/contagion-markers.md)).
 2. **Choose checks by the failure they prevent**, never by tool popularity. Categories and tools in [references/guardrail-tooling.md](references/guardrail-tooling.md). Pick the two or three failures this repo actually exhibits; installing the full set at once forces the weakest enforcement rung on all of them.
 3. **Install each check:** pick an enforcement rung for the violations that already exist ([references/enforcement-ladder.md](references/enforcement-ladder.md)), ship it green, then prove it bites (run it, break it on purpose, watch it fail with a message naming the fix, revert). Wire it into both a pre-commit hook and CI.
 4. **Wayfinding** per [references/wayfinding.md](references/wayfinding.md): naming and locality, the add-a-new-X recipe file, the trust-labeled docs index, one canonical instruction file. The recipe file is the highest-value item and the one most often skipped.
@@ -160,13 +160,13 @@ Design mode produces this brief. Deepen mode's ranked-opportunity template is in
 
 ## Excuses
 
+Each rebuttal redirects to the step being skipped; none of them repeat a gotcha below.
+
 | Excuse | Rebuttal |
 |--------|----------|
 | "The check is obviously configured right." | You have not watched it fail. A misconfigured gate passes on everything and reads as coverage. |
 | "There are too many existing violations to fix." | That is what the enforcement ladder is for. Pick a rung and land it green today rather than a perfect rule next quarter. |
-| "I'll write the baseline file, it's only 30 lines." | It was built and deleted. Every tool in this category ships the mechanism already; the custom layer is maintenance for no added coverage. |
 | "AGENTS.md already says not to do that." | A prompt rule decays under context pressure. If a static tool can check it, it belongs in tooling. |
-| "The recipe is obvious, I don't need to trace it." | A recipe naming a file that moved sends the agent to the wrong place with full confidence. Trace it. |
 | "We'll add the enforcement in a follow-up." | The follow-up is the deadline's first casualty, and the contract decays from the day it ships unenforced. |
 
 ## Related skills
@@ -200,7 +200,6 @@ Design mode produces this brief. Deepen mode's ranked-opportunity template is in
 
 - Don't hand-roll a shrink-only baseline (`*-ratchet.mjs` plus `*.baseline.json`): it was built once and deleted, because knip, eslint, madge, and jscpd all ship native ignore, allowlist, and warn mechanisms that do the same job with no code to maintain.
 - Don't land a rule red: agents and humans both learn the check is noise, and the next person adds `--no-verify` instead of a fix.
-- Don't ship a check you have not watched fail: a wrong glob or a filter matching zero files passes on everything and reads as coverage.
 - Don't leave dormant config or an unused devDep in place: an agent reads it as live convention and extends it, and one pointing at a missing file yields a confident wrong answer instead of an error.
 - Don't index a doc that does not exist: agents cite confidently, so a dangling pointer is worse than a missing one.
 - Don't write add-a-new-X recipes from memory: a recipe naming a moved file sends the agent somewhere wrong, and it will not doubt the doc.
