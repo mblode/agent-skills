@@ -33,7 +33,6 @@ Decide a TypeScript codebase's structure, improve it where change has become exp
 - Validation loop
 - Output template
 - Excuses
-- Related skills
 - Gotchas
 
 ## Modes
@@ -48,16 +47,9 @@ Pick by the problem, not by the artifact.
 
 **Modes compose, and running more than one is normal.** Design ends in Harden, because a contract with no check is a suggestion. Deepen ends in Harden, so the new seam cannot decay back. Harden runs alone when the structure is already right and only the enforcement is missing, which is the common case in a repo that agents work in.
 
-Track this checklist:
+**When the two look equally right, prefer Deepen.** A user reporting "agents keep using the old pattern" is describing a Harden symptom, but if the cause is one concept living in two places, quarantine only freezes the duplicate in place: Deepen deletes it and Harden holds the line until that lands. Harden alone is the right answer when the old thing genuinely has to stay.
 
-```text
-Architecture progress:
-- [ ] Step 1: Pick the mode or modes
-- [ ] Step 2: Run each end to end
-- [ ] Step 3: Produce the output (brief, ranked opportunities, or wired checks)
-- [ ] Step 4: Run the Validation loop items for the modes you ran
-- [ ] Step 5: Fix what failed, re-run the loop
-```
+**When you cannot write to the repo** (no checkout, read-only request, or the user asked a question rather than for a change), each mode's output degrades to its plan: the brief, the ranked opportunities, or the named checks with their rungs. Say which checks remain unproven, since none of them are wired.
 
 ## References
 
@@ -82,7 +74,7 @@ Load only when the condition applies.
 
 ## Design mode (new codebase)
 
-1. Constraints first: product scope, team size, compliance/security, expected scale, deploy targets, required integrations, and quality bar.
+1. Constraints first: product scope, team size, compliance/security, expected scale, deploy targets, required integrations, and quality bar. A one-line request supplies none of these, so assume the common case, state every assumption you made in the brief's first section, and invite correction. Ask outright only where a wrong guess would restructure the brief rather than extend it, which in practice is multi-tenancy and whether the API is public.
 2. Choose repo shape:
    - `apps/` for deployable surfaces (`api`, `web`, `admin`).
    - `packages/` for shared libraries (`shared`, `ui`, `icons`, `auth`, `proto`).
@@ -121,16 +113,18 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 
 Two halves: **guardrails** stop the wrong thing landing, **wayfinding** makes the right thing cheap to find. Both exist because agents arrive by grep, not by reading docs, so the warning has to live where they land and the rule has to be an exit code rather than a sentence someone might recall.
 
+Steps 1 to 3 always run. Steps 4 to 6 run only when their condition holds, and a request to add one check stops at step 3. Running all six for every request loads most of the bundle and is the failure this mode is most prone to.
+
 1. **Survey what exists.** Package scripts, CI steps, hook config, lint config, the instruction file, the docs index. Find two things: checks that run locally but do not gate the merge, and dormant config nobody invokes. Wire the first, delete the second ([references/contagion-markers.md](references/contagion-markers.md)).
 2. **Choose checks by the failure they prevent**, never by tool popularity. Categories and tools in [references/guardrail-tooling.md](references/guardrail-tooling.md). Pick the two or three failures this repo actually exhibits; installing the full set at once forces the weakest enforcement rung on all of them.
 3. **Install each check:** pick an enforcement rung for the violations that already exist ([references/enforcement-ladder.md](references/enforcement-ladder.md)), ship it green, then prove it bites (run it, break it on purpose, watch it fail with a message naming the fix, revert). Wire it into both a pre-commit hook and CI.
-4. **Wayfinding** per [references/wayfinding.md](references/wayfinding.md): naming and locality, the add-a-new-X recipe file, the trust-labeled docs index, one canonical instruction file. The recipe file is the highest-value item and the one most often skipped.
+4. **Wayfinding** per [references/wayfinding.md](references/wayfinding.md): naming and locality, the add-a-new-X recipe file, the trust-labeled docs index, one canonical instruction file.
 5. **Contagion markers** per [references/contagion-markers.md](references/contagion-markers.md): anything an agent must not copy or must not edit gets a greppable marker at the code site naming what to use instead.
 6. **Runtime ergonomics:** verification tiers in [references/verification-tiers.md](references/verification-tiers.md); session hooks, permission allowlists, and review gating in [references/agent-runtime.md](references/agent-runtime.md).
 
 ## Validation loop
 
-Run the items matching the modes you ran, and record results in the output. Each needs evidence; "looks consistent" is not a pass.
+Run the items matching the modes you ran, and record results in the output. Each needs evidence; "looks consistent" is not a pass. An item that cannot execute yet, because nothing is installed or the repo is not writable, is recorded N/A with that reason. Silently passing it is how an unenforced contract ships looking verified.
 
 1. **Consistency** (Design, Deepen): naming, module contracts, and middleware rules read the same across every service. Evidence: a contradiction scan with zero findings.
 2. **Enforceability** (all): every contract names its lint rule, type check, or test. Evidence: an enforcement note per contract, and for any check actually installed, the pass, then fail on a deliberate violation, then pass after revert.
@@ -170,16 +164,6 @@ Each rebuttal redirects to the step being skipped; none of them repeat a gotcha 
 | "AGENTS.md already says not to do that." | A prompt rule decays under context pressure. If a static tool can check it, it belongs in tooling. |
 | "We'll add the enforcement in a follow-up." | The follow-up is the deadline's first casualty, and the contract decays from the day it ships unenforced. |
 
-## Related skills
-
-- `scaffold-nextjs` or `scaffold-cli`: scaffold the repo once the brief is agreed.
-- `multi-tenant-architecture`: tenant identification, isolation, and domain strategy.
-- `pr-reviewer`: structural review of a local diff once implemented.
-- `planning`: turn a Deepen opportunity into an implementation plan, then stress-test it.
-- `agents-md`: the instruction file's own content. Harden mode decides what moves out of it into tooling, and owns the docs tree around it.
-- `tidy`: diff-scoped cleanup. Harden mode's guardrails are what keep each tidy pass small.
-- `dx-audit`: the developer surface a library, CLI, or SDK ships outward, rather than the repo worked in.
-
 ## Gotchas
 
 ### Design and Deepen
@@ -190,7 +174,7 @@ Each rebuttal redirects to the step being skipped; none of them repeat a gotcha 
 - Don't thread a ctx parameter through business functions instead of AsyncLocalStorage: every signature grows, and adding one field later touches hundreds of call sites.
 - Don't place `"use client"` at page or layout level: it converts the whole subtree to client rendering and forfeits streaming and direct server data access. Push it to leaves.
 - Don't propose a big-bang rewrite in Deepen mode: migrate one vertical slice, verify it, then generalize.
-- Don't extract to `packages/` early: wait until 3+ apps need the same code; a premature shared package couples release cycles for nothing.
+- Don't extract to `packages/` early: wait until 3+ apps need the same code; a premature shared package couples release cycles for nothing. The exception is the contract two surfaces already share (generated types, the RPC schema, branded IDs): that is not speculative reuse, it is the interface between them, and it belongs in a package at two apps.
 - Don't finalize a brief without a rollback plan per change: an irreversible decision needs a documented fallback before it ships.
 - Don't dual-write to a database and a queue/webhook without an outbox (or CDC): one side commits, the other fails, and you silently lose or fabricate a notification. See `references/distributed-correctness.md`.
 - Don't enforce an externally-forceable invariant by construction (unsigned type, hard CHECK): when the outside world forces the state, the system crashes or clamps instead of recording it. Represent it, detect it post-factum, recover explicitly.
@@ -206,4 +190,4 @@ Each rebuttal redirects to the step being skipped; none of them repeat a gotcha 
 - Don't write add-a-new-X recipes from memory: a recipe naming a moved file sends the agent somewhere wrong, and it will not doubt the doc.
 - Don't rely on pre-commit hooks alone: they are not guaranteed installed on a fresh clone or in a worktree, which is exactly where agents run.
 - Don't put a marker only in `docs/legacy.md`: an agent that arrived by grep never opens it. The marker goes in the frozen file.
-- Don't generate the instruction file wholesale: one 2026 study found LLM-generated context files reduced task success and raised inference cost. Hand-curate it and update it in the PR that changes the convention.
+- Don't generate the instruction file wholesale: generated files mostly restate documentation the agent can already read, cost 20 to 23% more per task, and measurably lose to hand-written ones. Hand-curate it and update it in the PR that changes the convention.

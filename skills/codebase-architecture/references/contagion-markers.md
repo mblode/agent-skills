@@ -16,9 +16,9 @@ Mixed-quality code teaches the wrong conventions, and deleting legacy is not alw
 
 2. **A short `docs/legacy.md`** naming each frozen area, why it is frozen, and **what to use instead**. The replacement is the part that matters: "react-final-form is frozen, use react-hook-form" redirects, "this is legacy" only discourages.
 
-3. **A lint rule at `warn`** on the deprecated import or package, so the redirect fires at the moment of temptation rather than in review.
+3. **A lint rule** on the deprecated import or package, so the redirect fires at the moment of temptation rather than in review. Pick its severity from the enforcement ladder like any other check rather than defaulting to `warn`: a handful of importers is a rung-1 fix-and-block, and `warn` is right only when the list is too long to clear now.
 
-State the marker convention once in the instruction file, so agents know what it means before they hit one.
+State the marker convention once in the instruction file, so agents know what it means before they hit one, and add a CI grep asserting every file under a quarantined path carries the marker. Without it the convention is true on the day you write it and decays from the next file added.
 
 Two further rules:
 
