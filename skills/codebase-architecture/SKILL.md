@@ -18,7 +18,7 @@ description: >-
 
 # Codebase Architecture
 
-Decide a TypeScript codebase's structure, improve it where change has become expensive, and make it hold.
+Decide a TypeScript codebase's structure, improve it where change has become expensive, and make it hold. The target is a codebase a reader can hold in their head: few surfaces, one canonical way to do each job, and behaviour where you would first look for it.
 
 - **IS:** folder structures, module contracts, middleware pipelines, frontend/backend boundaries; architecture briefs; domain language and decision records; domain-informed deepening; guardrail tooling, CI gates, and agent wayfinding.
 - **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a diff-scoped cleanup pass (`tidy`), or structural review of a local diff (`pr-reviewer`).
@@ -50,6 +50,8 @@ Pick by the problem, not by the artifact.
 **When the two look equally right, prefer Deepen.** A user reporting "agents keep using the old pattern" is describing a Harden symptom, but if the cause is one concept living in two places, quarantine only freezes the duplicate in place: Deepen deletes it and Harden holds the line until that lands. Harden alone is the right answer when the old thing genuinely has to stay.
 
 **When you cannot write to the repo** (no checkout, read-only request, or the user asked a question rather than for a change), each mode's output degrades to its plan: the brief, the ranked opportunities, or the named checks with their rungs. Say which checks remain unproven, since none of them are wired.
+
+**As simple as possible, no simpler.** Every mode cuts: surfaces in Design, concepts in Deepen, dual paths and dormant config in Harden. The floor does not get cut for simplicity: validation at trust boundaries, error handling that prevents data loss, security, accessibility, observability on anything deployed, and whatever was explicitly asked for. A simplification that reaches one of those is a bug, not a simplification. Where a corner is genuinely cut on purpose, mark it with its ceiling and upgrade path rather than leaving the next reader to guess whether it is finished.
 
 ## References
 
@@ -106,7 +108,7 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 
 1. **Map the domain language and decisions.** Read `CONTEXT.md`, `docs/adr/`, or local equivalents if present, then read the code for entities, actions, and contexts as the team names them. Note divergence (one concept, three names; or one name, three concepts). Format and ADR rules in [references/domain-language.md](references/domain-language.md).
 2. **Scope the scan by where change lands.** Deepening pays off on code that keeps changing, so `git log --oneline` over a good stretch of history first and weight the files that keep coming up. An unscoped scan drifts into speculative cleanup.
-3. **Find deepening opportunities.** Look for anemic concepts, shallow modules, leaking seams, naming divergence, duplicated concepts, primitive obsession, misplaced logic, and tests forced past the public interface. Record each with file paths, never a vague smell.
+3. **Find deepening opportunities.** Look for anemic concepts, shallow modules, leaking seams, naming divergence, duplicated concepts, primitive obsession, misplaced logic, and tests forced past the public interface. Record each with file paths, never a vague smell. Check deletion first on every candidate: a concept with no live caller, a flag whose branch never runs, a layer with one implementation. Deleting it is the deepening, and it is the only move that cannot make the codebase harder to read.
 4. **Rank by leverage.** Prefer opportunities that pass the deletion test, localize named future changes, have low churn, meet a current requirement, and have a viable testing seam. Rank candidates before designing target interfaces; drop speculative cleanups.
 5. **Migrate one vertical slice first.** Prove the highest-leverage move end to end through one slice before generalizing.
 6. **Enforce the new seam** with lint, type, or test checks so it cannot decay, then roll out module by module. Continue into Harden mode for the enforcement rung and the check-bites test.
@@ -134,6 +136,7 @@ Run the items matching the modes you ran, and record results in the output. Each
 4. **Quality gates** (whenever code changed): the repo's lint, type-check, and targeted tests (`npm run lint`, `npm run check-types`, `npm run test --workspace=<pkg>` or equivalents). Evidence: passing output.
 5. **CI and local agree** (Harden): the CI step invokes the same umbrella command a developer runs, or the difference is deliberate and stated.
 6. **No dangling pointers, and a recipe works cold** (Harden): a grep proving every path named in the docs index and instruction file exists, plus a fresh-context agent following one add-a-new-X recipe end to end with no further guidance.
+7. **Net simplicity** (all): the result leaves a reader less to hold, not more. Evidence: the net change in files, surfaces, and exported names, with every increase named and paid for by what it removed elsewhere; plus, for each layer, port, or indirection introduced, the second caller or implementation that made it real. An architecture pass that only adds has failed this check even when every other item passes.
 
 On failure: fix the brief, the conventions, or the wiring, then re-run the loop.
 
