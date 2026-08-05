@@ -78,6 +78,7 @@ Load only when the condition applies.
 | [references/contagion-markers.md](references/contagion-markers.md) | Harden | The repo has legacy, generated, or dual-path code |
 | [references/verification-tiers.md](references/verification-tiers.md) | Harden | Defining which commands an agent should run, and when |
 | [references/agent-runtime.md](references/agent-runtime.md) | Harden | Configuring session hooks, permissions, or review gating |
+| [references/evaluation-scenarios.md](references/evaluation-scenarios.md) | none | Changing this skill. Never loads during a user task; it is the author's rubric |
 
 ## Design mode (new codebase)
 
