@@ -20,8 +20,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Architecture
 
-- **[codebase-architecture](./skills/codebase-architecture/SKILL.md)**: Folder structures, module contracts, domain language, and deepening passes.
-- **[agent-ready-codebase](./skills/agent-ready-codebase/SKILL.md)**: Guardrails, CI gates, and wayfinding that make a repo cheap for agents.
+- **[codebase-architecture](./skills/codebase-architecture/SKILL.md)**: Design a structure, deepen an existing one, or harden it with guardrails.
 - **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with Blode UI, Ultracite, GitHub, and Vercel.
 - **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI package: ESM, tsdown, vitest, changesets, CI.
 - **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Tenant isolation, routing, and custom domains on Cloudflare or Vercel.
@@ -48,6 +47,7 @@ Personal voice training, evaluation, and long-form blog writing now live in the 
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, and SDKs: root-cause findings, agent-friendly checks.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
 - **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js SEO: sitemaps, metadata, structured data, hreflang, CWV.
+- **[browser-evidence](./skills/browser-evidence/SKILL.md)**: Throwaway headless browser: screenshots and console errors an unattended agent can cite.
 
 ### Shipping
 

@@ -90,7 +90,7 @@ Refactor safety equals test coverage: a thin suite caps how aggressive a pass ca
 
 ## Convention entries for the brief
 
-Format per `codebase-architecture`, which consumes these: **Boundary** (what it applies to), **Failure mode** (what it prevents), **Enforcement** (what catches a violation), **Owner** (who owns exceptions). A convention that cannot name all four does not belong in the brief.
+Four fields, per the entry format in `craftsmanship.md`: **Boundary** (what it applies to), **Failure mode** (what it prevents), **Enforcement** (what catches a violation), **Owner** (who owns exceptions). A convention that cannot name all four does not belong in the brief.
 
 - **Dead code:** Boundary: all packages. Failure mode: agents grep dead helpers, treat them as live conventions, and extend them. Enforcement: `knip` in pre-commit and CI. Owner: platform/tooling.
 - **File size:** Boundary: all source files. Failure mode: agents burn tokens on chunked reads and revisit the file per task. Enforcement: eslint `max-lines` at ~400, per-file overrides requiring a comment. Owner: each package.

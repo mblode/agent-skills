@@ -128,5 +128,5 @@ Apply approved edits, re-score with the same checklist, report before/after scor
 - `agent-skills-creator`: authoring and improving SKILL.md files (different format and rules).
 - External `cadence-advise` skill where installed: proposes AGENTS.md/CLAUDE.md edits from observed session history; complements this skill's file-first audit.
 - `readme-creator` / `docs-writing`: human-facing documentation; AGENTS.md content that belongs in docs should move there.
-- `agent-ready-codebase`: the rest of the repo an agent works in. A rule a linter can enforce belongs there as an exit code, not here as prose, and it owns the docs tree this file indexes.
+- `codebase-architecture` (Harden mode): the rest of the repo an agent works in. A rule a linter can enforce belongs there as an exit code, not here as prose, and it owns the docs tree this file indexes.
 - Claude Code's `/doctor` command: runs Anthropic's own rightsizing pass over skills and CLAUDE.md files. Complementary automated triage; it doesn't run the commands, so it never replaces Step 6.

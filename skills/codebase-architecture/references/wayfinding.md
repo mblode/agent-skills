@@ -23,7 +23,7 @@ Code cleanliness does not change an agent's pass rate; it changes the cost of ev
 - Name files for what someone would grep first: `invoice-refunds.ts`, not `utils2.ts` or `helpers.ts`.
 - Keep files small enough to read in one pass. The ~400-line lint cap doubles as a traversal budget.
 - Co-locate code that changes together. A feature spread across six directories is six reads before the first edit.
-- One canonical name per concept. Naming divergence, one concept with three names, is the strongest confusion signal for agents and humans alike; `codebase-architecture` covers recovering and fixing the domain vocabulary.
+- One canonical name per concept. Naming divergence, one concept with three names, is the strongest confusion signal for agents and humans alike. Deepen mode recovers the vocabulary; the glossary format is in `domain-language.md`.
 
 ## Add-a-new-X recipes
 

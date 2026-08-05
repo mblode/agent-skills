@@ -194,5 +194,4 @@ alone does not prove exported types. Verification evidence must match the findin
 - `docs-writing`: documentation prose and information quality
 - `readme-creator`: README structure and first-reader narrative
 - `agents-md`: AGENTS.md and CLAUDE.md instruction files
-- `codebase-architecture`: repository and module structure
-- `agent-ready-codebase`: the repo an agent works inside, rather than the surface a package ships outward
+- `codebase-architecture`: repository and module structure, and the repo an agent works inside rather than the surface a package ships outward
