@@ -59,7 +59,7 @@ Load only when the condition applies.
 |-----------|------|-----------|
 | [references/stack-defaults.md](references/stack-defaults.md) | Design | Choosing libraries, tooling, or deploy targets |
 | [references/api-design.md](references/api-design.md) | Design, Deepen | Designing endpoints, module contracts, request context, or error shapes |
-| [references/distributed-correctness.md](references/distributed-correctness.md) | Design, Deepen | Flows that call external systems, consume webhooks, retry, need an audit trail, or move money |
+| [references/distributed-correctness.md](references/distributed-correctness.md) | Design, Deepen | The work provably touches an external system, webhook, retry, audit trail, or money. In Deepen you can grep for it; in Design it is a question about requirements, so confirm before loading rather than inferring it from the product's domain |
 | [references/craftsmanship.md](references/craftsmanship.md) | Design | Writing the team-conventions, testing, or quality-bar sections |
 | [references/shipping-practices.md](references/shipping-practices.md) | Design | Writing the rollout and rollback section |
 | [references/deepening-existing.md](references/deepening-existing.md) | Deepen | Running Deepen: vocabulary, opportunity patterns, output template |
@@ -73,6 +73,8 @@ Load only when the condition applies.
 | [references/evaluation-scenarios.md](references/evaluation-scenarios.md) | none | Changing this skill. Never loads during a user task; it is the author's rubric |
 
 ## Design mode (new codebase)
+
+Before any of this, ask whether each surface needs to exist. A module, service, app, or entrypoint that could be a folder in something that already ships is the cheapest architecture decision available, and the only one that stays cheap. Every surface you do accept pays the relationship cost in `craftsmanship.md`'s surface-area budget: name its owner, tests, observability, and deletion path before it goes in the brief.
 
 1. Constraints first: product scope, team size, compliance/security, expected scale, deploy targets, required integrations, and quality bar. A one-line request supplies none of these, so assume the common case, state every assumption you made in the brief's first section, and invite correction. Ask outright only where a wrong guess would restructure the brief rather than extend it, which in practice is multi-tenancy and whether the API is public.
 2. Choose repo shape:

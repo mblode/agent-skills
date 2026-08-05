@@ -49,6 +49,21 @@ Anything derivable from a schema (API clients, GraphQL types, protobuf messages,
 
 The banner is the same contagion defense as the LEGACY marker, pointed at the opposite failure: one says do not copy this, the other says do not edit this.
 
+## Deliberate simplifications
+
+The third marker, and the one most repos lack. Code that is knowingly simpler than the problem (the in-memory queue that will need a real one, the O(n²) loop that is fine at current volume, the single-region assumption) reads to an agent as either finished work to extend or a bug to fix. Both are wrong, and both are expensive.
+
+Mark it at the code site with the ceiling and the upgrade path, so the next reader learns when it stops being correct rather than whether it is:
+
+```ts
+// SIMPLIFIED: in-memory, single process. Fine to ~10k queued items.
+// Move to the outbox table (see docs/adr/0012) before multi-instance deploy.
+```
+
+The ceiling is the load-bearing half. "This is a simplification" invites a rewrite nobody asked for; "fine to 10k, then do X" is a decision the reader can check against reality.
+
+Two rules keep it honest: the marker is for corners cut on purpose, never for a shortcut you would be embarrassed to name, and it is not a substitute for the things that are never simplified (validation at trust boundaries, error handling that prevents data loss, security, accessibility). A simplification that cuts one of those is a bug wearing a marker.
+
 ## Dormant config
 
 A config file, script, or devDependency nobody invokes is a contagion source in its own right. An agent reads it as live convention and extends it, or runs it and trusts the result.
