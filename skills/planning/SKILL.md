@@ -11,16 +11,18 @@ description: >-
   through", "blindspot pass", "unknown unknowns", "this is new to me", "review
   my plan", "rubber duck this", "stress test this plan", "is
   this plan ready", "get this plan to 5/5", "what am I missing", "verify this
-  claim", "prove this plan", "fact-check this plan", or when the user
-  explicitly wants a plan artifact before implementation. For code review use
-  pr-reviewer; for architecture briefs use codebase-architecture.
+  claim", "prove this plan", "fact-check this plan", "split this into
+  tickets", "break this down into slices", "this is too big for one plan", or
+  when the user explicitly wants a plan artifact before implementation. For
+  code review use pr-reviewer; for architecture briefs use
+  codebase-architecture.
 ---
 
 # Planning
 
-Build a plan by collaborative interrogation, then stress-test it adversarially, before coding. The deliverable is always a plan file, never code.
+Build a plan by collaborative interrogation, then stress-test it adversarially, before coding. The deliverable is a plan file, or the tickets that plan splits into when the work is too big for one pass. Never code.
 
-- **IS:** building a plan from intent through one-question-at-a-time interrogation (Create), and strengthening an existing plan by scoring six dimensions to 5/5 with claim verification (Review). Both write to the plan file.
+- **IS:** building a plan from intent through one-question-at-a-time interrogation (Create), and strengthening an existing plan by scoring six dimensions to 5/5 with claim verification (Review). Both write to the plan file. When the work exceeds one plan, both exit through the split in `references/splitting.md`, which publishes vertical-slice tickets.
 - **IS NOT:** implementing or generating code, authoring a PR (use `pr-creator`), reviewing a code diff (use `pr-reviewer`), or writing an architecture brief (use `codebase-architecture`).
 
 Pipeline position: `planning` (create then review) -> implementation -> `pr-reviewer` -> `pr-creator` -> `pr-babysitter`.
@@ -62,6 +64,7 @@ Conflict rule: current requirements win first. Then `as simple as possible, no s
 | `references/plan-quality-rubric.md` | Review | Review Step 2 triage: 1-5 scoring criteria per dimension |
 | `references/questioning-framework.md` | Review | Review Step 3: question templates and pushback patterns per dimension |
 | `references/dialogue-examples.md` | Review | Before the Review dialogue: tone calibration, and the Verify move's claim/evidence/verdict block worked through |
+| `references/splitting.md` | Both | The work is too big for one plan: vertical slice rules, blocking edges, the expand-contract exception, granularity confirmation, and how to publish the tickets |
 | `references/claim-verification.md` | Review | When a claim is checkable against local code, docs, or specs, or the user asks to verify one |
 
 ## Create mode
@@ -97,7 +100,7 @@ Load `references/interrogation-protocol.md`. Ask ONE question at a time. Every q
 - **Probe for a reference-as-spec:** ask if existing code, a library, a design, or a site already does this the way the user wants. If so, read it and treat its semantics as the spec, interrogating only deviations.
 - **Blindspot pass (conditional):** when the user is unfamiliar with the area or asks for one ("blindspot pass", "unknown unknowns"), pause questions to surface what good looks like, prior work, and potholes, then teach it back before resuming. Detail in `references/interrogation-protocol.md`.
 
-**Budget:** 5-10 questions, then synthesize. Needing more than 10 is evidence the scope is too big for one plan; propose a split instead of continuing to ask.
+**Budget:** 5-10 questions, then synthesize. Needing more than 10 is evidence the scope is too big for one plan; propose a split instead of continuing to ask, and load `references/splitting.md` to run it. A split redirects Step 3: the deliverable becomes the approved tickets, indexed by a `## Slices` section in a lightweight plan file, rather than one plan no executor can finish in a pass. Steps 4 and 5 still run on that file.
 
 **Mandatory scope challenge (before synthesizing):** ask "What can we cut without dropping a current requirement?" Carry a recommended cut list: removed extension points, setup collapsed into the first vertical slice, new code or dependencies a higher ladder rung already covers, abstractions kept only when they protect a shared invariant/owner/lifecycle, and safety gates preserved where "simpler" would drop correctness. Challenge the *sum* of the plan, not each piece.
 
@@ -183,7 +186,7 @@ PLAN TRIAGE:
   Assumptions     ██░░░  2/5  Three unstated assumptions
 ```
 
-State: "I'll work each dimension up to 5/5, starting with the weakest." If more than 3 dimensions start at 1-2, the plan needs rewriting, not review: switch to Create mode instead of grinding the loop.
+State: "I'll work each dimension up to 5/5, starting with the weakest." If more than 3 dimensions start at 1-2, the plan needs rewriting, not review: switch to Create mode instead of grinding the loop. If Scope stays below 5 because the plan carries more than one shippable outcome, it is two plans and no amount of tightening fixes that: split it with `references/splitting.md`.
 
 ### Step 3: Rubber duck loop
 
@@ -241,6 +244,8 @@ Plan edits happen incrementally during the loop; this final pass confirms the fi
 
 - A question the code or docs can answer spends one of the 5-10 budget and returns what Step 1 would have read for free.
 - Past 10 questions the scope is too big for one plan. Asking an eleventh buys detail on a plan that cannot be executed in one pass; propose a split.
+- A split that names slices without publishing them leaves the work exactly where it was, in prose. The deliverable is tickets a human approved and an agent can pick up, each declaring its blockers.
+- Blocking edges declared only in a ticket's prose are invisible to whatever picks the tickets up. Use the tracker's native blocking relation, and only where the dependency is real: a false edge parks a ticket that could have started.
 - Re-asking a stalled question in different words never produces the 5/5 answer. Propose a concrete fix to accept or reject, or record what blocks 5/5 and move to the next dimension.
 - A handoff plan with no named implementation-notes file loses every deviation the code forced on the executor, so review afterwards has nothing to read.
 - A plan that arrived as pasted text has no file to write resolutions into, so the whole Review evaporates when the session ends. Output the full updated plan in a code block and offer a path.
