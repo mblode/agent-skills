@@ -59,7 +59,7 @@ Personal voice training, evaluation, and long-form blog writing live in [ghostwr
 
 - **[planning](./skills/planning/SKILL.md)**: Builds the plan, then scores it to 5/5 before any code.
 - **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only diff review: bugs, structure, AI slop, security.
-- **[tidy](./skills/tidy/SKILL.md)**: The same sweep across five angles, but it applies the fixes.
+- **[tidy](./skills/tidy/SKILL.md)**: Hunts complexity across five angles and applies the simplifications.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, publish verify.

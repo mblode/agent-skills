@@ -25,7 +25,7 @@ Self-contained by design: every step runs on any harness that loads a skill, usi
 
 **When to run:** on a diff that compiles and whose tests pass, before commit, push, or handoff. Cost scales with diff size, so shard a large one rather than skimming all of it.
 
-**Then hand off.** `pr-reviewer` decides, `tidy` applies. The report is `tidy`'s input, so write it to be consumed: confirmed findings are work it will do without asking, plausible ones it will verify first, and every `Fix:` line has to be something a person could commit. Do not apply anything yourself, even a one-character fix; the moment this skill edits a file the user loses the read-only report they asked for.
+**Then hand off.** `tidy` runs next in the usual flow, hunting complexity and applying what it finds, including this report's confirmed findings. So write the report to be consumed: every `Fix:` line has to be something a person could commit. Do not apply anything yourself, even a one-character fix; the moment this skill edits a file the user loses the read-only report they asked for.
 
 ## Mode dispatch
 
@@ -166,7 +166,7 @@ PR handoff format:
 
 ## Related skills
 
-- `tidy`: the apply half of the same job. It consumes this report, applies the confirmed findings first, then covers the ground this review deliberately skips: style, dead code, over-memoisation, and useless tests to delete. The usual sequence is this skill, then that one.
+- `tidy`: the complexity hunt, and it applies what it finds. It runs its own five-angle sweep over the same diff for duplication, overbuilt code, and wrong-altitude fixes, and applies this report's confirmed findings alongside them. The usual sequence is this skill, then that one.
 - `pr-creator`: creates or updates the PR after review.
 - `pr-babysitter`: monitors CI and inbound review comments.
 - `ui-audit`: frontend PR review for user-facing UX, accessibility, layout, state coverage, and rendered quality.

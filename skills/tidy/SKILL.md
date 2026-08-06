@@ -1,32 +1,33 @@
 ---
 name: tidy
 description: >-
-  APPLIES fixes directly to the working tree and verifies the build, rather
-  than reporting them. Runs five angles over the current diff: reuse
+  Hunts complexity in the current diff and APPLIES the simplifications
+  directly to the working tree, then verifies the build. Five angles: reuse
   (duplicate logic, hand-rolled stdlib, platform features), quality
   (React/TypeScript hygiene, over-memoisation, exhaustive-deps, `any`,
   `CLAUDE.md`/`AGENTS.md` violations), efficiency (unnecessary work,
   missed concurrency, hot-path bloat), altitude (bandaid fixes special-cased
   onto shared code), and test discipline (repro test per bug fix, useless
-  tests deleted, new tests only when they prevent a named failure). Also the
-  apply half of a review: hand it a `pr-reviewer` report and it applies the
-  confirmed findings first, then covers what the report missed. Use when the
-  user says "tidy this up", "simplify", "clean up this diff", "polish my
-  changes", "apply the review findings", "fix what the review found", or "any
-  reuse opportunities?". For a read-only report instead, use `pr-reviewer`;
-  for the PR's title, description, or commits, use `pr-creator`.
+  tests deleted, new tests only when they prevent a named failure). Hand it a
+  `pr-reviewer` report and it applies those confirmed findings too. Use when
+  the user says "tidy this up", "simplify", "clean up this diff", "polish my
+  changes", "make this simpler", "apply the review findings", or "any reuse
+  opportunities?". For a read-only report instead, use `pr-reviewer`; for the
+  PR's title, description, or commits, use `pr-creator`.
 ---
 
 # tidy
 
-- **IS:** the apply half of review. It takes fixes that are already decided, from an incoming review report or from its own five angles, edits the working tree, and proves the build is still green. `git status` shows more changes after than before.
-- **IS NOT:** a findings report (use `pr-reviewer`: read-only, severity-tiered, never edits a file), an architecture refactor, or a license to touch files outside the diff. It does not hunt for bugs on its own, and it does apply bug fixes a review already confirmed. The line is that tidy applies decisions; it does not make them.
+- **IS:** a hunt for complexity, then the fix. Five angles read the current diff looking for what is duplicated, overbuilt, wasteful, bolted on at the wrong depth, or untested; the orchestrator merges the findings, edits the working tree, and proves the build is still green. `git status` shows more changes after than before.
+- **IS NOT:** a findings report (use `pr-reviewer`: read-only, severity-tiered, never edits a file), an architecture refactor, or a license to touch files outside the diff.
+
+It hunts complexity, not correctness. A concurrency race or a missing idempotency key is `pr-reviewer`'s ground; duplicated logic, a layer with one caller, and a special case bolted onto shared code are this skill's, and it finds them itself rather than waiting to be handed a list.
 
 Self-contained by design: every phase runs on any harness that loads a skill, with or without a subagent tool, and never depends on a host's built-in review command.
 
 **When to run:** after the feature works and the tests pass, before opening the PR. Not mid-implementation, where it polishes code the next commit deletes. It reads the whole diff, so cost scales with diff size; on a large one, narrow it to a path.
 
-**After a review.** `pr-reviewer` then `tidy` is the common pair, and the second half is cheaper when it knows about the first. A review that already ran is an input, not something to reproduce: Phase 1 reads it, Phase 2 skips the ground it covered, Phase 3 applies its confirmed findings before anything else.
+**After a review.** `pr-reviewer` then `tidy` is the common pair. A report that already exists is extra input, never a smaller sweep: run all five angles regardless, and apply the report's confirmed findings alongside your own. Two passes looking for different things is the point of running both, and the correctness fixes a review confirmed would otherwise be left for the user to hand-apply.
 
 ## Contents
 
@@ -45,7 +46,7 @@ Copy this to track progress:
 ```text
 Tidy progress:
 - [ ] Phase 1: Scope the diff, read any incoming review, load instruction files, capture lint/type-check/test baseline
-- [ ] Phase 2: Run the angles the review did not cover (read-only, fixed return format), concurrently where possible
+- [ ] Phase 2: Run all five angles (read-only, fixed return format), concurrently where possible
 - [ ] Phase 3: Merge findings, resolve conflicts, apply fixes in precedence order
 - [ ] Phase 4: Re-run checks, revert out-of-diff churn, report with command evidence
 ```
@@ -53,7 +54,7 @@ Tidy progress:
 ## Phase 1: Scope, baseline, and any incoming review
 
 1. Run `git diff` (plus `git diff --staged` when changes are staged) to capture the diff. No git changes: review the files you edited earlier in this session or the files the user named.
-2. **Look for a review that already ran** over this diff: a `pr-reviewer` report earlier in the session, a host review command's findings, or PR comments the user pasted. Take its confirmed findings as decided work with the fix already written; they need no re-derivation and no second opinion. Treat findings it marked plausible as candidates instead: verify each against the code before applying, and drop it with a reason if the trigger is not real. If no review ran, skip to step 3 and the angles carry the whole load.
+2. **Look for a review that already ran** over this diff: a `pr-reviewer` report earlier in the session, a host review command's findings, or PR comments the user pasted. Its confirmed findings are decided work with the fix already written, so they go straight into Phase 3 without re-derivation. Findings it marked plausible are candidates: verify each against the code before applying, and drop it with a reason if the trigger is not real. This is a head start, not a substitute; the angles still run in full. If no review ran, go to step 3.
 3. Read `CLAUDE.md`/`AGENTS.md` in the project root and in any nested package or MFE directory whose code is in the diff. Conventions there (design system, styling tokens, data-fetching patterns, naming) override this skill's defaults when they conflict; extract the rules that cover the changed paths.
 4. Run the project's lint, type-check, and test commands (read `package.json` scripts; `yarn lint`, `yarn type-check`, `yarn test` are typical) and record pre-existing failures. Without this baseline you cannot tell a regression you introduced from a failure that was already there.
 
@@ -66,18 +67,25 @@ Two ways to run them, same five angles and same output either way:
 
 Either way, nothing is edited until Phase 3, and the orchestrator makes every edit. That is what keeps two angles from rewriting the same hunk.
 
-**Skip what the incoming review already covered.** A review that swept the diff for reuse and structural quality has done Angle 1 and most of Angle 4; running them again buys a second opinion nobody asked for. Skip an angle only when the report shows it actually looked there, and name each skipped angle in the Phase 4 summary so the user can see the coverage. Angles 2 and 5 almost never get skipped: `pr-reviewer` explicitly drops style preferences and reports missing tests without deleting useless ones, so that ground stays uncovered.
+**All five run every time**, including after a review. A review reports what it can defend as a defect and drops the rest; these angles hunt what it is built to leave alone, so an angle that overlaps a report still turns up findings the report did not carry. Where an angle lands on something already in the report, Phase 3's dedupe collapses it. Skipping an angle because someone else looked nearby trades a certain loss for a speculative saving.
 
 The return format for each angle: one finding per bullet as `file:line`, issue, proposed fix; or an explicit "no findings" statement when the diff is clean on that angle.
 
 ### Angle 1: Reuse
 
-1. **Search for existing utilities and helpers** that could replace newly written code. Look for similar patterns elsewhere in the codebase; common locations are utility directories, shared modules, and files adjacent to the changed ones.
-2. **Flag any new function that duplicates existing functionality.** Name the existing function to use instead. Near-duplicate blocks inside the diff count too: two copies of the same logic with one value changed want one function with a parameter.
-3. **Flag any inline logic that could use an existing in-repo utility**: hand-rolled string manipulation, manual path handling, custom environment checks, ad-hoc type guards, and similar patterns are common candidates.
-4. **Flag hand-rolled implementations of stdlib functionality.** Name the stdlib function to use instead.
-5. **Flag code or dependencies doing what the platform already does**: `<input type="date">` over a picker lib, CSS over JS, `Intl` over a formatting lib, a DB constraint over app-level checks.
-6. **Flag any new dependency added in this diff** for something the stdlib, the platform, or an already-installed dependency covers.
+Take each block of new code down this ladder and stop at the first rung that holds. The rung it stops on is the finding: everything below it is code that did not need to be written.
+
+1. **Does it need to exist at all?** Nothing calls it, nothing needs it yet, or the requirement it serves is speculative. Delete it.
+2. **Is it already in this codebase?** Search utility directories, shared modules, and the files adjacent to the changed ones. Name the existing function to use instead. Near-duplicate blocks inside the diff count too: two copies of the same logic with one value changed want one function with a parameter.
+3. **Does the stdlib do it?** Hand-rolled string manipulation, date maths, path handling, ad-hoc type guards. Name the stdlib function.
+4. **Does a native platform feature cover it?** `<input type="date">` over a picker lib, CSS over JS, `Intl` over a formatting lib, a DB constraint over an app-level check.
+5. **Does an already-installed dependency solve it?** Check `package.json` before accepting anything new. Flag any dependency this diff adds for something the rungs above already cover.
+6. **Can it be one line?** If so, one line.
+
+Two guards, because a shorter diff is not automatically the better one:
+
+- **The ladder runs after you understand the code, not instead of it.** Trace what the block actually does before proposing the rung above it. A smaller change in the wrong place is not a simplification, it is a second bug.
+- **Where two options are the same size, take the more correct one.** Simpler means less code, not the flimsier algorithm. A one-liner that mishandles an empty input is not a win over three lines that do not.
 
 ### Angle 2: Quality
 
@@ -115,7 +123,7 @@ Lint already catches unused imports, unreachable code, and hooks called conditio
 One question: is each change made at the right depth, or bolted on above it? The signal is a special case layered onto shared infrastructure. When a fix reads as "except for this case", the mechanism underneath is usually the thing that should have changed.
 
 1. **Special case on a shared path**: a branch keyed to one caller, route, tenant, feature flag, or file type added inside code that serves all of them. Name the general rule the branch is an instance of, and whether the shared mechanism can express it
-2. **Fix at the call site instead of the source**: the same guard, coercion, or normalisation added at one caller when the function it calls could return the right shape for every caller. Check the other call sites for the bug still sitting there
+2. **Fix at the call site instead of the source**: the same guard, coercion, or normalisation added at one caller when the function it calls could return the right shape for every caller. Grep every caller of the function the diff touches. One guard inside the shared function is a smaller diff than one per caller, and fixing only the path the ticket named leaves the sibling callers broken
 3. **Symptom fix**: a value corrected after the fact (clamping, re-sorting, patching a field back in) rather than produced correctly. Trace back to where it was built wrong
 4. **Fix that only holds for the reported input**: a condition tuned to the example in the ticket. Ask what the neighbouring input does
 
@@ -136,8 +144,8 @@ Collect the incoming review's findings and all five angles' findings, then merge
 
 1. **Dedupe**: collapse findings that point at the same lines or share one root cause into a single fix. Where an angle rediscovers something the incoming review already confirmed, keep the review's version: it carries the severity and the reasoning the user has already read.
 2. **Drop false positives**: if a finding is wrong or not worth the churn, skip it and record the reason for the summary. Do not argue with the finding or apply it halfway. A confirmed finding from the incoming review is not dropped on your own judgement; if you believe it is wrong, apply nothing there and say so, because the user read that report and expects those lines to change.
-3. **Order by precedence**: confirmed review findings first, since they are the reason the pass was run and the rest is polish; then altitude, since lifting a fix can delete the code the other angles were about to clean; then reuse swaps and deletions (Angle 1 plus dead-code findings), then quality rewrites (Angle 2), then efficiency (Angle 3), then test-assertion updates last so they target the final shape of the code. Polishing a block another finding deletes is wasted work.
-4. **Resolve conflicts**: when two findings propose incompatible rewrites of the same lines, prefer the one that deletes more code. If neither clearly wins, apply neither and present both options in the summary instead of guessing.
+3. **Order by precedence**: confirmed review findings first, since a correctness fix changes what the right shape even is; then altitude, since lifting a fix can delete the code the other angles were about to clean; then reuse swaps and deletions (Angle 1 plus dead-code findings), then quality rewrites (Angle 2), then efficiency (Angle 3), then test-assertion updates last so they target the final shape of the code. Simplifying a block another finding deletes is wasted work.
+4. **Resolve conflicts**: when two findings propose incompatible rewrites of the same lines, prefer the one that deletes more code, and where they delete about the same amount, the more boring one. If neither clearly wins, apply neither and present both options in the summary instead of guessing. Deleting more is the tie-break, not the goal: a rewrite that sheds lines by dropping a case the old code handled is a regression wearing a smaller diff.
 
 Apply each fix directly, re-reading the target region first; earlier fixes shift line numbers.
 
@@ -165,10 +173,8 @@ Scope rules:
 **For you to decide**
 - Test gaps, each with the one-sentence failure it prevents
 - Altitude findings whose real fix is a separate change
+- Simplifications applied that cut a real corner, each naming the ceiling it now has and what to do when the code outgrows it
 - TODOs found in the diff, with what each is blocking
-
-**Coverage**
-- Angles run: <list>. Skipped: <angle> (<covered by the incoming review>)
 
 **Checks**
 - `<command>`: <result> (baseline: <result>)
@@ -183,11 +189,12 @@ Scope rules:
 - Fixing pre-existing failures because they are "right there": scope creep turns a cleanup pass into an unreviewable mixed change. Surface them in the summary instead.
 - Angle 5 padding the summary with test proposals: coverage looks like rigor, so review passes over-propose tests. Every proposal without a named failure it prevents gets dropped in the Phase 3 false-positive pass.
 - Rewriting a shared mechanism because Angle 4 found a special case: the altitude finding was right and the fix is a separate PR. This pass reports it and moves on.
-- Re-reviewing a diff a review just swept, then reporting the same findings back in different words. The user paid for that analysis once. Phase 1 reads the report; Phase 2 covers what it missed.
+- Narrowing the sweep because a review already ran. The two look for different things, so a skipped angle is a real loss and the saving is imaginary. Run all five; dedupe at Phase 3.
+- Repeating a report's finding back in different words as if it were new. That is a dedupe failure, not a coverage win. Where an angle rediscovers something the report confirmed, it is one finding.
 - Quietly not applying a confirmed review finding because you disagree with it. The user read that report and is expecting those lines to change. Apply it, or say plainly that you did not and why.
 
 ## Related skills
 
-- `pr-reviewer`: the decide half of the same job. Read-only, severity-tiered, never edits a file, and hunts bugs this skill does not. Running it first is the common path: its report becomes this skill's Phase 1 input and its confirmed findings get applied before anything else. Route there when the user wants to see findings before deciding what to fix.
+- `pr-reviewer`: the other hunt. It looks for correctness, security, and structural defects it can defend, and reports without editing; this skill looks for complexity and fixes it. Running it first is the common path, and its confirmed findings get applied here alongside this skill's own. Route there when the user wants to see findings before anything changes.
 - `pr-creator`: creates the PR after tidy finishes and the build is green.
 - `codebase-architecture` (Harden mode): repo-wide guardrails (dead code, duplication, file size) wired into hooks and CI. What keeps each tidy pass small instead of a sweep.
