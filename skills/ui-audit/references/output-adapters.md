@@ -156,3 +156,4 @@ ui-audit --format json | jq -e '.summary.releaseBlockers == 0'
 - **Pass findings elide.** Don't render `result: "pass"` findings in terminal or PR adapters; keep them in JSON.
 - **One finding = one observable bug.** Don't bundle bugs under one rule; two issues firing the same rule are two findings.
 - **Tier-first, surface-second sort.** ⛔ first, ⚠️ next, 📋 last; within tier, group by surface.
+- **Closing line last, and only when something failed.** The terminal and PR-comment adapters end with the closing line from SKILL.md, after the footers; the JSON adapter never carries it. An audit with no fail or warn findings ends at the verdict.
