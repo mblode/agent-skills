@@ -23,14 +23,14 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | File | Read when |
 | --- | --- |
 | [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character |
-| [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params, Apple damping/response values, interruption mechanics |
+| [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params, Apple damping/response values, asymmetric open/close character, interruption mechanics |
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
-| [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection |
+| [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
-| [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, fixed-offset exits |
-| [references/transition-recipes.md](references/transition-recipes.md) | Installing a CSS transition: card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, text swap, success, avatar hover, error shake |
+| [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, peripheral de-emphasis, fixed-offset exits |
+| [references/transition-recipes.md](references/transition-recipes.md) | Installing a CSS transition: container morph, card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, odometer roll, text swap, success, avatar hover, error shake |
 | [references/measurement-guide.md](references/measurement-guide.md) | Reverse-engineer: what to measure, eye vs script, reading `metrics.json`, choosing an ROI |
 | [references/curve-fitting.md](references/curve-fitting.md) | Reverse-engineer: reading `fit_curves.py` output, spring vs bezier, judging fit error, asymmetric open/close |
 | [references/code-output.md](references/code-output.md) | Reverse-engineer: emitting code for CSS, Motion/Framer Motion, SwiftUI, React Native, UIKit |
@@ -51,7 +51,8 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 
 - **Continuity over teleportation.** Elements visible in both states transition in place; expand from where elements sit rather than fading in a new instance. Never duplicate a persistent element or hard-cut between views that share components; hard cuts lose spatial context.
 - **Directional motion matches position.** Tab and carousel transitions animate in the direction matching spatial layout (left-to-right forward, right-to-left back).
-- **Emerge from the trigger.** Overlays, trays, and panels animate outward from the element that opened them; generic centre-screen entrances break spatial orientation.
+- **Emerge from the trigger.** Overlays, trays, and panels animate outward from the element that opened them; generic centre-screen entrances break spatial orientation. Better still where the shapes allow: let the trigger *become* the surface (see the container-morph recipe).
+- **Confirm in place, not in a corner.** An action's result belongs on the control that caused it: the button becomes "Copied", holds, and reverts. A toast in the far corner makes the user's eye leave the thing they just touched to find out whether it worked. Reserve corner toasts for results with no on-screen origin (a background job finishing, an incoming message).
 - **Animate paired states together.** If open animates, close animates. If hover has motion, focus and pressed states get equivalent feedback. Do not polish only one half of a repeated interaction.
 - **Delight scales inversely with frequency.** Rarer interactions get more personality; high-frequency actions must be invisible.
 - **Motion enhances perceived speed.** Smooth transitions feel faster than hard cuts, even at identical load times.
@@ -60,7 +61,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 
 - Movement: `transform` and `opacity` only; they skip layout and paint.
 - State feedback: `color`, `background-color`, and `opacity` are acceptable.
-- Never animate layout properties (`width`, `height`, `top`, `left`); they trigger layout recalc every frame. (Exception: a deliberate container resize tween, see the card-resize recipe.)
+- Never animate layout properties (`width`, `height`, `top`, `left`); they trigger layout recalc every frame. (Exception: a deliberate container tween, see the card-resize and container-morph recipes.)
 - Never use `transition: all`; it animates unintended properties and silently adopts future ones. List them explicitly.
 - Avoid `filter` animation for core interactions; if unavoidable keep blur ≤ 20px (heavy blur is expensive, especially in Safari).
 - SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it they rotate/scale around the canvas origin.
@@ -98,6 +99,7 @@ Match the UI element first, then pick the recipe from [references/transition-rec
 | UI pattern | Recipe |
 |---|---|
 | Trigger + floating dot/count | Notification badge |
+| Trigger grows into the surface it opens | Container morph |
 | Trigger + anchored surface | Menu dropdown |
 | Centred surface on top of page | Modal dialog |
 | Panel sliding into existing container | Panel reveal |
@@ -105,7 +107,8 @@ Match the UI element first, then pick the recipe from [references/transition-rec
 | Element dimension changes | Card resize |
 | Text updating in place | Text state swap |
 | Two icons in same slot | Icon swap |
-| Number updating | Number pop-in |
+| Number arriving on its own | Number pop-in |
+| Number the user is driving | Odometer digit roll |
 | Confirmation / success moment | Success celebration |
 | Hovering item in horizontal stack | Avatar group hover |
 | Form validation error | Error state shake |

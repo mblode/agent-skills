@@ -10,6 +10,8 @@ Drag, swipe, and gesture patterns where the user directly manipulates elements.
 - [Pointer capture](#pointer-capture)
 - [Multi-touch protection](#multi-touch-protection)
 - [Friction vs hard stops](#friction-vs-hard-stops)
+- [Rotary drag](#rotary-drag)
+- [Detents and snapping](#detents-and-snapping)
 - [Swipe-to-dismiss pattern](#swipe-to-dismiss-pattern)
 
 ## Momentum-based dismissal
@@ -142,6 +144,57 @@ function applyFriction(delta: number, isAtBoundary: boolean): number {
 ```
 
 Hard stops feel broken; users expect physics. Apply friction for scroll containers, sliders, and drawers.
+
+## Rotary drag
+
+For knobs and dials, track the *angle* from the control's centre, not the pointer delta. Reading `dx`/`dy` makes the knob respond to how far the pointer moved rather than where it moved to, so the grip slides off the moment the user circles wide.
+
+The trap is the wrap at ±180°. `atan2` jumps from `π` to `-π` in one frame, and an unguarded subtraction sends the value flying a full turn. Normalise every delta into `(-π, π]` before accumulating:
+
+```ts
+const TWO_PI = Math.PI * 2;
+
+function angleFrom(el: HTMLElement, e: PointerEvent): number {
+  const r = el.getBoundingClientRect();
+  return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2));
+}
+
+let last = 0;
+let turns = 0; // accumulated rotation in radians, unbounded
+
+function onPointerDown(e: PointerEvent) {
+  el.setPointerCapture(e.pointerId); // see Pointer capture
+  last = angleFrom(el, e);
+}
+
+function onPointerMove(e: PointerEvent) {
+  const now = angleFrom(el, e);
+  // Shortest way round, so the ±180 seam never registers as a full turn.
+  const delta = ((now - last + Math.PI * 3) % TWO_PI) - Math.PI;
+  turns += delta;
+  last = now;
+  setValue(clamp(turns / TWO_PI));
+}
+```
+
+Two things fall out of this. A knob with a limited range (a volume dial, not an endless encoder) needs the *accumulated* value clamped, never the per-frame angle, or the knob detaches from the pointer at the limit and jumps back when the user reverses. And a knob whose travel is under one full turn should apply Boundary damping at each end, exactly as a linear slider does.
+
+## Detents and snapping
+
+A ruler picker, tick slider, or segment scrubber has discrete stops. Do not snap during the drag: the value should follow the pointer continuously, and settle to the nearest detent only on release. Snapping live makes the control feel like it is fighting the finger.
+
+```ts
+function onRelease(value: number, velocity: number) {
+  // Project where momentum would carry it, then snap that (see Momentum projection).
+  const projected = value + velocity * 0.15;
+  const target = Math.round(projected / STEP) * STEP;
+  animate(value, target, { type: "spring", stiffness: 500, damping: 40 });
+}
+```
+
+Snapping the *projected* landing point rather than the release position is what makes a flick feel like it threw the control several notches, instead of dropping it at the nearest tick.
+
+The tick marks themselves carry the feedback during the drag. Scale or darken the tick under the indicator as it passes, on `transform` and `color` only. This is the visual stand-in for the haptic click a physical detent would give, and without it a continuous drag over a ruler reads as a smooth slider that happens to be drawn with lines. On a device that supports it, pair the passing tick with `navigator.vibrate(1)`, gated behind `prefers-reduced-motion` like any other feedback.
 
 ## Swipe-to-dismiss pattern
 

@@ -5,6 +5,7 @@ Patterns for icon swaps, word-level stagger entrances, and subtle exits.
 ## Contents
 - [Contextual icon swaps](#contextual-icon-swaps)
 - [Word-level stagger entrances](#word-level-stagger-entrances)
+- [Peripheral de-emphasis](#peripheral-de-emphasis)
 - [Subtle exit animations](#subtle-exit-animations)
 
 ---
@@ -134,6 +135,38 @@ For hero text or page-header entrances, split content into sections (or words) a
 ```
 
 These differ from the general-purpose 30-50ms item stagger in `component-patterns.md`: use 30-50ms for lists, 80-100ms for page-level entrances where each chunk carries narrative weight.
+
+---
+
+## Peripheral de-emphasis
+
+To focus attention on one item in a set, animate the *siblings*, not the item. Blurring and fading the neighbours pushes them behind the focal plane, which reads as depth. A scrim over the whole page reads as a mode change, which is a much heavier claim than "this one is active".
+
+Use it for hover previews in a dense grid of chips or thumbnails, and for a picker whose options stay visible behind it. Do not use it as a substitute for a modal backdrop: a dialog that traps focus needs the scrim, because the dim is communicating that the rest of the page is inert, not merely secondary.
+
+```css
+.chip {
+  transition: opacity 200ms ease, filter 200ms ease, scale 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Blur the siblings of whatever is hovered, not the hovered chip. */
+@media (hover: hover) and (pointer: fine) {
+  .chip-grid:has(.chip:hover) .chip:not(:hover) {
+    opacity: 0.5;
+    filter: blur(2px);
+  }
+  .chip:hover { scale: 1.04; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip { transition-property: opacity; }
+  .chip:hover { scale: 1; }
+}
+```
+
+Keep the blur at 2-3px. Past about 4px the neighbours stop reading as content and the grid looks broken rather than defocused. Fade to roughly 0.5 opacity, never to invisible: the point is that the set is still there.
+
+The reduced-motion path keeps the opacity change and drops the blur and scale. The de-emphasis is the information; the softening is the decoration.
 
 ---
 

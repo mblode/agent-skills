@@ -7,6 +7,7 @@ Springs simulate physics, so they feel more natural than duration-based animatio
 - [Spring parameters](#spring-parameters)
 - [Configuration presets](#configuration-presets)
 - [Apple's damping and response framing](#apples-damping-and-response-framing)
+- [Asymmetric spring character](#asymmetric-spring-character)
 - [Interruptibility advantage](#interruptibility-advantage)
 - [Spring-based mouse interactions](#spring-based-mouse-interactions)
 - [Snap instead of spring](#snap-instead-of-spring)
@@ -74,6 +75,23 @@ animate(el, { y: 0 }, { type: "spring", bounce: 0, duration: 0.4 });
 // Momentum interaction: a little bounce, only because a flick preceded it
 animate(el, { y: target }, { type: "spring", bounce: 0.2, duration: 0.4 });
 ```
+
+## Asymmetric spring character
+
+Open and close differ in **stiffness, not just duration**: when an element earns bounce, the bounce belongs to the open and the close stays critically damped. Bouncing both directions is the most common reason a well-built morph still feels cheap.
+
+Measured on a production container morph (frame-by-frame at 60fps):
+
+| Direction | Time to extreme | Overshoot | Fitted spring | At rest |
+|---|---|---|---|---|
+| Open | 284ms | 121% of travel | `stiffness: 155, damping: 11` (ζ 0.44) | 584ms |
+| Close | 185ms | ~102% of travel | `stiffness: 620, damping: 36` (ζ ~0.75) | 300ms |
+
+The close is twice as fast *and* nearly four times as stiff. Its 2% undershoot is below the perceptual threshold, so a plain `cubic-bezier(0.32, 0.72, 0, 1)` substitutes for it cleanly.
+
+This widens the "bounce only after momentum" default above rather than replacing it. A menu that merely faded in still should not bounce. A container the user watched push outwards has enough implied mass to justify a settle, and that is the one case where the default reads as too conservative.
+
+For measuring asymmetry off a recording rather than choosing it, `choreography.md` covers reading the two directions out of the frame timeline.
 
 ## Interruptibility advantage
 

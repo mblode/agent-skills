@@ -72,6 +72,7 @@ Answer: **Rubber-banding**: Resistance and snap-back when you drag past a bounda
 - **Crossfade**: One element fades out as another fades in, in the same spot.
 - **Continuity transition**: A change that keeps the user oriented by visually connecting before and after. For example, making the same rectangle bigger and smaller.
 - **Morph**: One shape smoothly turns into another shape, e.g. Dynamic Island.
+- **Container morph**: A trigger grows in place into the surface it summons, so the button becomes the search field or form instead of opening one next to it.
 - **Shared element transition**: An element travels and transforms from one position into another, like a thumbnail expanding into a card.
 - **Layout animation**: When an element's size or position changes, it animates to the new spot instead of snapping.
 - **Accordion / Collapse**: A section smoothly expands and collapses its height to show or hide content.
@@ -92,6 +93,8 @@ Answer: **Rubber-banding**: Resistance and snap-back when you drag past a bounda
 - **Drag to reorder**: Dragging items in a list to rearrange them, while the others shift to make room.
 - **Swipe to dismiss**: Dragging an element off-screen to close it, like a drawer or toast.
 - **Rubber-banding**: Resistance and snap-back when you drag past a boundary (the iOS overscroll feel).
+- **Detent**: A discrete stop a control settles onto when released, like the notches on a ruler picker or tick slider.
+- **Peripheral de-emphasis**: Blurring and fading everything around the focused item instead of dimming the whole page, so the set stays visible but recedes.
 - **Shake / Wiggle**: A quick side-to-side jitter signaling an error or rejected input.
 - **Ripple**: A circle expanding from the point of a tap, confirming the press.
 
@@ -133,6 +136,7 @@ Answer: **Rubber-banding**: Resistance and snap-back when you drag past a bounda
 - **Text morph**: Text that animates character by character when it changes, drawing attention to the new value.
 - **Skeleton / Shimmer**: A placeholder with a moving sheen shown while content loads.
 - **Number ticker**: Digits rolling or counting up to a value.
+- **Odometer roll**: Digits rolling vertically in the direction the value moved, up for an increase and down for a decrease, like a car's odometer.
 - **Tabular numbers**: Fixed-width digits so numbers don't shift around as they change. Essential for tickers, timers, and counters.
 - **Typewriter**: Text appearing one character at a time, as if being typed.
 

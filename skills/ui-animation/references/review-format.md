@@ -71,6 +71,8 @@ Rows add recipe-specific signal beyond the ten standards; for the standard viola
 | Missing close-state cleanup after `setTimeout` | Add `is-closing` class, remove after transition duration |
 | Missing reflow (`void el.offsetWidth`) between class changes | Force reflow before re-adding classes to restart transitions |
 | Animating container instead of inner pieces | Apply transitions to child elements, not the wrapper |
+| Same bouncy spring on open and close | Bounce the open only; damp the close and roughly halve its duration |
+| Value snapped to its detent during the drag | Follow the pointer continuously; snap the projected landing point on release |
 | Hardcoded `stroke-dasharray` on SVG success path | Use `path.getTotalLength()` to measure the path |
 | `.is-error` and `.is-shaking` merged into one class | Keep them separate: `.is-shaking` controls animation only, `.is-error` controls visual state |
 
