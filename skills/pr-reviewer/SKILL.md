@@ -23,7 +23,9 @@ Only report issues you can defend with `file:line` evidence.
 
 Self-contained by design: every step runs on any harness that loads a skill, using git and the file tools alone. Nothing here requires a host's built-in review command, a subagent tool, or a second model.
 
-**When to run:** on a diff that compiles and whose tests pass, before commit, push, or handoff. Cost scales with diff size, so shard a large one rather than skimming all of it. `pr-reviewer` decides what is wrong; `tidy` applies the fixes.
+**When to run:** on a diff that compiles and whose tests pass, before commit, push, or handoff. Cost scales with diff size, so shard a large one rather than skimming all of it.
+
+**Then hand off.** `pr-reviewer` decides, `tidy` applies. The report is `tidy`'s input, so write it to be consumed: confirmed findings are work it will do without asking, plausible ones it will verify first, and every `Fix:` line has to be something a person could commit. Do not apply anything yourself, even a one-character fix; the moment this skill edits a file the user loses the read-only report they asked for.
 
 ## Mode dispatch
 
@@ -104,6 +106,8 @@ Do not report style preferences, unrelated pre-existing issues, risks without a 
 
 ## Output
 
+Every finding carries `file:line`, a one-line impact, and a committable fix. A plausible finding adds one more line, `Plausible: <what would confirm it>`; a confirmed one omits it. Keep `Fix:` genuinely committable: it is what `tidy` applies, and a fix phrased as "consider refactoring this" cannot be applied by anyone.
+
 Default local report:
 
 ```markdown
@@ -113,13 +117,11 @@ Default local report:
 - [<severity>] `path/to/file.ts:line` <short factual title>
   Why: <concrete impact>
   Fix: <committable fix>
-  <omit on a confirmed finding; on a plausible one: "Plausible: <what would confirm it>">
 
 ### Should fix soon
 - [<severity>] `path/to/file.ts:line` <short factual title>
   Why: <concrete impact>
   Fix: <committable fix>
-  <omit on a confirmed finding; on a plausible one: "Plausible: <what would confirm it>">
 
 ### Ready for handoff
 - <readiness summary, including lint/type-check/test baseline>
@@ -148,7 +150,6 @@ PR handoff format:
 - [<severity>] `path/to/file.ts:line` <short factual title>
   Why: <concrete impact>
   Fix: <committable fix>
-  <omit on a confirmed finding; on a plausible one: "Plausible: <what would confirm it>">
 ```
 
 ## Gotchas
@@ -165,7 +166,7 @@ PR handoff format:
 
 ## Related skills
 
-- `tidy`: applies fixes in place and verifies them.
+- `tidy`: the apply half of the same job. It consumes this report, applies the confirmed findings first, then covers the ground this review deliberately skips: style, dead code, over-memoisation, and useless tests to delete. The usual sequence is this skill, then that one.
 - `pr-creator`: creates or updates the PR after review.
 - `pr-babysitter`: monitors CI and inbound review comments.
 - `ui-audit`: frontend PR review for user-facing UX, accessibility, layout, state coverage, and rendered quality.
