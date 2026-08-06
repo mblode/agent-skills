@@ -1,239 +1,180 @@
 # Section Templates
 
-Markup for each README section, plus the notes that differ per project type. Phase 2's section matrix in SKILL.md decides which sections a type gets; copy those skeletons from here, then apply the notes for your type.
+Markup for each section, plus which capability sections fit each project type. Phase 2 of SKILL.md fixes the five-section spine; this file supplies the skeletons and the per-type choices that go between Quickstart and License.
 
 ## Contents
 
-- [Section skeletons](#section-skeletons)
+- [The spine](#the-spine)
+- [Capability sections](#capability-sections)
 - [Per-type notes](#per-type-notes)
+- [Sections that belong somewhere else](#sections-that-belong-somewhere-else)
 
-## Section skeletons
+## The spine
 
-### Title block
+### Header block
 
-Centered with badges for published CLIs and libraries (`<h1>` for a CLI, `<h3>` for a library):
+One shape for every type. Published projects keep the badge row; everything else drops it.
 
 ```markdown
-<h1 align="center">{{name}}</h1>
+<div align="center">
 
-<p align="center">{{one-liner}}</p>
+# {{Display Name}}
+
+**{{tagline, 8 to 16 words, no full stop, inline links where an upstream project earns credit}}**
+
+{{one plain sentence on what you actually do with it}}
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/{{name}}"><img src="https://img.shields.io/npm/v/{{name}}.svg" alt="npm version"></a>
-  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+  <a href="{{registry-url}}"><img src="{{version-badge}}" /></a>
+  <a href="{{license-url}}"><img src="{{license-badge}}" /></a>
+</p>
+
+</div>
+```
+
+Link the H1 to the live site when one exists: `# [{{Display Name}}]({{url}})`.
+
+The blank lines inside the `<div>` are load-bearing. GitHub only parses Markdown inside an HTML block when the block is separated by blank lines, so `# Title` on the line directly after `<div align="center">` renders as literal text.
+
+### Demo
+
+Only when a live URL exists. One line, then the button:
+
+```markdown
+## Demo
+
+{{One line naming what the reader will see.}}
+
+<p>
+<a href="{{live-url}}">
+<img alt="View demo" src=".github/assets/demo.svg" width="200" />
+</a>
 </p>
 ```
 
-Plain for apps, monorepos, and skill bundles:
+A plain link works too. The button is a house-style choice; check the ghostwriter `readme` profile for the asset.
 
-```markdown
-# {{name}}
+A screenshot can stand in for a demo when there is nothing to interact with. Commit it under `.github/assets/`.
 
-{{one-liner: what it does and who it's for}}
-```
+### Install
 
-Frameworks keep the plain H1 with inline badges between title and one-liner:
-
-```markdown
-# {{name}}
-
-[![npm version](https://img.shields.io/npm/v/{{name}}.svg)](https://www.npmjs.com/package/{{name}})
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
-
-{{one-liner explaining the core value proposition}}
-```
-
-### Features / Highlights
-
-Three to five bullets, heading `## Features` everywhere except libraries, which use `## Highlights`.
-
-### Install / Getting Started
-
-Published packages head this `## Install`, with a `Requires Node.js {{node-version}}+.` line under the block:
+The single fastest path, one command:
 
 ```bash
-npm install -g {{name}}
+npm install -g {{name}}      # CLI
+npm install {{name}}         # library
 ```
 
-Clone-and-run projects head it `## Getting Started` (private monorepos: `## Quick start`), followed by `Open [http://localhost:3000](http://localhost:3000).` for apps:
+Add one sentence under it only when the command has a consequence worth stating ("Run that inside any git repository", "Requires Node 20.11+").
 
-```bash
-git clone https://github.com/{{owner}}/{{repo}}.git
-cd {{repo}}
-npm install
-cp .env.example .env.local
-npm run dev
-```
+No package-manager matrix, no `<details>` tabs. Anyone who prefers pnpm can translate `npm install`.
 
-Skill bundles head it `## Quick Start` with one command, then "Supports OpenCode, Claude Code, Codex, and Cursor. Install a single skill with `--skill <name>`.":
+For an app with no install step, this section becomes the deploy or hosted link, or drops out entirely and Demo carries it.
 
-```bash
-npx skills add {{owner}}/{{repo}} -g --all -y
-```
+### Quickstart
 
-### Usage
-
-CLI, `## Usage` with one line per command, simplest first:
-
-```bash
-{{name}} {{basic-command}}
-{{name}} {{command-with-flag}}
-{{name}} {{command-with-options}}
-```
-
-Library or framework, `## Quick Start` (install plus a minimal working example) then `## Usage` for the patterns:
-
-```tsx
-// Pattern one
-import { A } from "{{name}}"
-
-// Pattern two (tree-shaking)
-import { B } from "{{name}}/b"
-```
-
-Frameworks split Usage into `### Basic` and `### Advanced` subsections, the second showing configuration in context.
-
-A CLI that also exports a programmatic API adds an `## API` section with a single `import` plus call example.
-
-### Options (CLI flags)
-
-Under `## Options`, as an unlabelled code block copied from `--help`, not a table:
-
-```
--o, --output <file>    Description
--v, --verbose          Description
--h, --help             Show help
--V, --version          Show version
-```
-
-### Configuration
+The shortest complete thing that produces visible output. Complete beats short: this is the one section that keeps its full length.
 
 ```markdown
-## Configuration
+## Quickstart
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `option` | `string` | `"default"` | What it controls |
+{{optional one-line setup, e.g. the HTML element the library mounts to}}
+
+{{one code block, real values, runnable as pasted}}
 ```
 
-Libraries state options inline under Usage instead: `` `option`: description (default: `value`) ``.
+For a CLI, that is two or three commands with a comment above each. For a library, one import plus one rendered result. For an app, the URL to open.
 
-### Environment variables
+### License
 
 ```markdown
-## Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `DATABASE_URL` | Database connection string | Yes |
-| `API_KEY` | Third-party API key | Yes |
-```
-
-### Inventory table
-
-One row per package, app, or skill, each name linked to its directory:
-
-| Type | Heading | Columns |
-|------|---------|---------|
-| Monorepo (published) | `## Packages` | Package, Description, Version |
-| Monorepo (private) | `## Workspaces` | Package (apps and packages together), Purpose |
-| Skill bundle | `## Skills` | Skill, Phase, What it does |
-
-The Version column holds a per-package npm badge:
-
-```markdown
-| [`{{pkg-a}}`](packages/{{pkg-a}}) | What it does | [![npm](https://img.shields.io/npm/v/{{pkg-a}}.svg)](https://www.npmjs.com/package/{{pkg-a}}) |
-```
-
-### Requirements
-
-```markdown
-## Requirements
-
-- Node {{node-version}}+ (npm {{npm-version}}, see `packageManager` in `package.json`)
-- {{additional-runtime}} (e.g. Python 3 for pipeline scripts)
-```
-
-### Common commands / Development
-
-Published monorepos head this `## Development`, private ones `## Common commands`:
-
-```bash
-npm run build            # build all workspaces
-npm run typecheck        # type-check applicable workspaces
-{{project-specific commands with inline comments}}
-```
-
-### Closing sections
-
-```markdown
-## Tech Stack
-
-- [Next.js](https://nextjs.org/): framework
-- [TypeScript](https://www.typescriptlang.org/): language
-
-## Contributing
-
-See individual package READMEs for package-specific setup.
-
 ## License
 
-[MIT](LICENSE.md)
+{{MIT}}
+
+---
+
+{{footer credit line, if the house style has one}}
 ```
 
-Tech Stack is apps only. License links `LICENSE.md`, never a badge in the body.
+Bare licence name is the default. A licence that imposes real constraints keeps its real text: font licences, non-commercial upstreams, and anything the reader could get wrong need the sentence that explains the constraint.
+
+## Capability sections
+
+Two to four, between Quickstart and License. Named for what the reader gets, as a plain noun phrase.
+
+| Section | Use it for | Shape |
+|---------|-----------|-------|
+| `## What you can do` | An app or tool whose value is a set of things you do | `- **Verb phrase:** what happens.` bullets |
+| `## Modes` / `## Presets` | Distinct operating modes the reader picks between | one bullet per mode, with the parameters it exposes |
+| `## Usage` | A library with two or three patterns beyond the Quickstart | one code block per pattern, simplest first |
+| `## API` | A library or a CLI that also exports one | signature plus one-line description per public export |
+| `## Options` | A CLI with more than three flags | table: Flag, Default, Description |
+| `## Commands` | A CLI with subcommands | table: Command, Description |
+| `## Keyboard shortcuts` | Anything with a UI | table: Key, Action |
+| `## Configuration` | A config file or options object | table: Option, Type, Default, Description |
+| `## Environment variables` | An app the reader self-hosts | table: Variable, Description, Required |
+| `## Requirements` | A non-obvious runtime, OS, or hardware need | bullets, each with the reason |
+| `## Notes` | The two or three awkward facts, plus credit to prior art | bullets |
+| `## Theming` / `## Browser support` | Where it is the actual question readers have | whatever fits |
+
+`## Notes` is the pressure valve. Three sections of one bullet each (Requirements, Caveats, Credits) read as padding; one `## Notes` with three bullets reads as honest.
+
+Bullet form throughout: `- **Name:** what it does.` Colon after the bold label, never a spaced hyphen. Full stop at the end.
+
+Table cells meaning "not applicable" are empty, not a dash.
 
 ## Per-type notes
 
 ### CLI tool
 
-- Lead with the centered title + one-liner + badges block for impact.
-- Show `npm install -g` first, then `npx` as alternative if applicable.
-- Options: copy from `--help` output; keep as a code block, not a table.
-- API section: only if the CLI also exports a programmatic API; else omit.
+- Install shows the global install; add `npx {{name}}@latest` above it when the tool is more often run than installed.
+- `## Options` as a table beats a pasted `--help` dump, which goes stale silently and is unreadable on mobile.
+- Document the flags a reader would not guess. `--help` already covers the rest, and a README documenting all thirty flags pushes Quickstart below the fold.
+- Only add `## API` if the package genuinely exports one.
 
 ### Library / package
 
-- "Highlights" not "Features": show what makes the library stand out.
-- Quick Start = install + minimal working example, under 10 lines total.
-- Link an external docs site if one exists (add a Documentation section after Highlights).
+- Quickstart is install plus a minimal working example, under about 15 lines.
+- Link an external docs site rather than growing an API section past a screenful.
+- `## Notes` carries the platform requirements and the prior art. A library inspired by others should say so; it is also the fastest way for a reader to place it.
 
 ### Web app
 
-- No badges, no centered title for apps (no registry presence, less brand).
-- Getting Started replaces Install: readers clone and configure.
-- Environment variables table is critical; include `.env.example` in the repo.
-- Tech Stack is optional but helps contributors.
+- No badges, no registry install. Demo is the most important section, and often the only one above Quickstart.
+- `## Environment variables` matters only for an app readers self-host. For a hosted app nobody will run locally, skip it and skip Quickstart too; Demo plus capability sections is the whole README.
+- A privacy or data-handling claim, where true, is worth its own two-sentence section. It is often the reader's real question.
 
 ### Framework
 
-- Feature descriptions run longer than CLI/library: explain the "why" with the "what".
-- Progressive disclosure: Quick Start (5 lines) → Basic Usage → Advanced Usage → Configuration reference.
-- Configuration table with types and defaults is essential.
-- Requirements matters more here: frameworks often have specific runtime needs.
+- Feature descriptions run longer here: explain the why with the what.
+- Quickstart then one `## Usage` with the two or three core patterns. Push the configuration reference to a docs site rather than inlining a forty-row table.
 
-### Monorepo (published)
+### Monorepo
 
-- The packages table is the centerpiece: how readers discover what's in the monorepo.
-- Link each package name to its directory (which should have its own README).
-- Version badges give at-a-glance status per package.
-- Development commands run from root via the workspace tool (turbo, nx, etc.).
+Write the README for what a stranger installs or visits, not for the repo layout. A repo whose `apps/cli` publishes to npm gets a CLI README at the root, with the published package name in the install command and the badge.
 
-### Monorepo (private / internal)
-
-Use when the monorepo is unpublished (`"private": true` in package.json, no npm publish).
-
-- No badges, no version column: no registry presence.
-- "Workspaces" not "Packages" reads clearer for mixed app + package monorepos.
-- "Purpose" column not "Description" encourages specific, action-oriented text.
-- Requirements is critical with multiple runtimes (Node + Python, Node + Rust).
-- List secondary-runtime setup in Quick start (e.g. `npm run setup:python`).
-- Common commands lists what people actually run, not generic build/test/lint.
-- Close with one optional paragraph on what is gitignored and why.
+- No workspaces table. The layout is `AGENTS.md` content.
+- If the repo genuinely ships several things a reader chooses between, that is a `## Packages` table of two to five rows, each linking to its own README, and it is a capability section rather than the lede.
 
 ### Skill bundle
 
-- Quick Start is the single install command, nothing else.
-- Skills table is the core content: one row per skill with phase and description.
-- Contributing is minimal: point to the `skills/` directory.
-- No license section unless the bundle is a published package.
+- Install is the one command, then a line naming the compatible hosts.
+- The skills table is the core content: one row per skill, name linked to its `SKILL.md`, plus what it does.
+- Group the table by category once past about ten skills.
+
+## Sections that belong somewhere else
+
+The audience gate in Phase 2 rules these out. Move the content, do not delete it, and create the destination file when it does not exist.
+
+| Section | Destination |
+|---------|-------------|
+| `## Development`, `## Scripts`, `## Common commands` | `AGENTS.md` or `CONTRIBUTING.md` |
+| `## Workspaces`, `## Project structure`, `## Architecture` | `AGENTS.md` |
+| `## Release`, `## Publishing` | `CONTRIBUTING.md` |
+| `## Tech Stack` | nowhere; the reader can see the language badge on the repo |
+| `## Contributing` | `CONTRIBUTING.md`, which GitHub surfaces in its own UI |
+| `## Roadmap` | GitHub issues or a project board, where it can stay current |
+| `## Changelog` | `CHANGELOG.md` or GitHub releases |
+
+`## Contributing` is the one worth arguing about. GitHub already links `CONTRIBUTING.md` from the issue and PR composer, so a README section repeating it costs a screenful and reaches nobody who was not already looking.
