@@ -8,7 +8,8 @@
 4. [Transition phrases](#4-transition-phrases)
 5. [Structural issues](#5-structural-issues)
 6. [Chatbot artefacts](#6-chatbot-artefacts)
-7. [Severity tiers](#7-severity-tiers)
+7. [Drafting tells](#7-drafting-tells)
+8. [Severity tiers](#8-severity-tiers)
 
 ---
 
@@ -16,7 +17,11 @@
 
 ### Em dashes
 
-Hard max 1 per 1,000 words; zero is better. Replace with a comma, full stop, parentheses, or two sentences. Applies to headings and body copy. Catch `U+2014` and the double-hyphen substitute (`--`); treat each as an AI tell.
+Zero, in headings and body copy alike. Replace with a comma, colon, full stop, parentheses, or two sentences; a colon is the usual fix when the dash introduced an elaboration. Catch `U+2014`, the double-hyphen substitute (`--`), and a spaced hyphen standing in for one (` - `). Copy is short enough that any allowance is meaningless, so treat a single occurrence as a failure rather than a frequency to manage.
+
+### Bold labels
+
+A bold label takes a colon, not a period: `**Pricing:**`, never `**Pricing.**`. The period version is a formatting tell that survives most edits because it looks deliberate.
 
 ### Bold overuse
 
@@ -44,7 +49,15 @@ Cut: worth reading, worth paying attention to, worth a look, worth exploring, wo
 
 ### Hedging
 
-Cut: perhaps, could potentially, it's important to note that, to be clear. Make the point directly.
+Cut: perhaps, could potentially, it's important to note that, to be clear. Make the point directly. Don't stack them either ("could potentially eventually").
+
+### Announced honesty
+
+Cut: "honestly", "to be honest", "one honest note", "I'll be straight with you". Labelling one line as the honest one implies the rest isn't. Delete the label and keep the line.
+
+### Emotional flatline
+
+Cut: "what struck me was", "I couldn't help but notice", "it's fascinating that". These narrate a reaction instead of giving the reader the thing that caused it. State the thing.
 
 ### "It's not X, it's Y"
 
@@ -96,6 +109,14 @@ If every paragraph is roughly the same size, vary deliberately: some one sentenc
 
 If it opens with broad context before the point ("In the rapidly evolving world of..."), lead with the news or insight instead. Context comes second.
 
+### Rhetorical-question openers
+
+"So why should you care?", "What does this mean for your team?", "Sound familiar?" Questions the reader didn't ask, answered by the writer. Delete the question and open with the answer.
+
+### Engagement hooks
+
+"Here's the thing.", "The kicker?", "Plot twist:", "But here's where it gets interesting." A tee-up that promises significance the next sentence has to deliver anyway. Cut the tee-up and state the thing; if the thing is interesting, it survives without the label.
+
 ### Copula avoidance
 
 AI avoids "is" and "has" with fancier verbs: "serves as," "features," "boasts," "presents," "represents." Reads like a press release. Default to "is" or "has" unless a specific verb adds real meaning.
@@ -131,7 +152,25 @@ Remove entirely from published prose:
 
 ---
 
-## 7. Severity tiers
+## 7. Drafting tells
+
+These don't show up as a bad phrase on the page. They show up as copy that is competent and still reads as generated, so they survive every word-level pass.
+
+### Prompt echo
+
+The draft reuses the brief's own phrasing. Asked for copy about "a unified workspace for distributed teams", it returns a headline about a unified workspace for distributed teams. Take the facts from the brief, throw away its wording, and say it the way the brand says things. This is the single biggest tell in copy that otherwise passes every other check here.
+
+### Generic default over the supplied specific
+
+The brief gives a real number, name, integration, or price, and the draft ships the category-standard placeholder instead ("thousands of teams" over the supplied 4,200; "your favourite tools" over the supplied Slack and Linear). Every specific the user supplied appears in the copy, or it was cut for a stated reason.
+
+### Uniform confidence
+
+Every line lands at the same pitch, usually mid-enthusiasm. Real copy has a flat line next to a strong one. If no sentence is plainer than the ones around it, the emphasis is doing nothing.
+
+---
+
+## 8. Severity tiers
 
 Prioritise fixes when time is limited.
 
@@ -141,21 +180,26 @@ Prioritise fixes when time is limited.
 - Chatbot artefacts: "I hope this helps!", "Great question!"
 - Vague attributions without named sources: "Experts believe"
 - Significance inflation on routine events: "a watershed moment for the industry"
+- A specific the user supplied (number, name, price, integration) replaced by a generic default
 
 ### P1: obvious AI smell (fix before publishing)
 
+- Prompt echo: the copy hands the brief's own wording back
 - Tier 1 word violations (delve, leverage, robust, seamless, etc.)
 - Template phrases and slot-fill constructions
 - "Let's" transition openers
 - Formulaic openings ("In the rapidly evolving world of...")
+- Engagement hooks and rhetorical-question openers
 - Bold overuse
-- Em dash frequency above 1 per 1,000 words
+- Any em dash, `--`, or spaced hyphen standing in for one
 
 ### P2: stylistic polish (fix when time allows)
 
 - Generic conclusions ("The future looks bright", "Only time will tell")
 - Compulsive rule of three
-- Uniform paragraph length
+- Uniform paragraph length and uniform confidence
+- Announced honesty and emotional flatline
+- Bold labels closed with a period instead of a colon
 - Copula avoidance (serves as, features, boasts)
 - Overused transition phrases (Moreover, Furthermore, Additionally)
 - Tier 2 word clusters in the same paragraph

@@ -34,7 +34,7 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 ### Writing
 
-- **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, AI-ism removal.
+- **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README for the project type.
 

@@ -13,6 +13,7 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 - [Sweep 6: emotion](#sweep-6-emotion)
 - [Sweep 7: zero risk](#sweep-7-zero-risk)
 - [Quick-pass editing checks](#quick-pass-editing-checks)
+- [Compound adjective hyphenation](#compound-adjective-hyphenation)
 
 ---
 
@@ -55,6 +56,8 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 - Mismatched register (technical then colloquial)
 
 **Action:** Identify the dominant voice, standardise to it. Don't average; pick one and commit.
+
+**Voice, not tone.** Tone is meant to shift with the reader's state: brisk on a routine save, careful before a deletion. That is not drift. Flag the line where the copy reads as a different brand, not the line where the same brand meets a different moment. The tone table in `SKILL.md` Step 3 sets the expected shifts.
 
 **Flag:** `[VOICE-DRIFT]` on the line that breaks from the dominant voice, not on the voice you decided to keep.
 
@@ -188,3 +191,40 @@ Cut these words on sight; they rarely add meaning:
 **Test:** Remove the word. If the sentence still means the same, cut it.
 
 **Paragraph length:** 2 to 4 sentences is the web-copy norm, but vary it deliberately and use 1-sentence paragraphs for emphasis. Uniform paragraph length is itself an AI tell; see `ai-patterns.md` section 5.
+
+---
+
+## Compound adjective hyphenation
+
+Mechanical, high-frequency, and invisible to a persuasion pass. The rule turns on one question: does the multi-word modifier sit **before** the noun it describes?
+
+**Before the noun, hyphenate.** Most often number plus unit.
+
+| Correct | Incorrect |
+|---------|-----------|
+| a **7-day** free trial | a 7 day free trial |
+| a **4-digit** code | a 4 digit code |
+| **real-time** updates | real time updates |
+| **one-click** setup | one click setup |
+| **full-width** imagery | full width imagery |
+
+**Standing alone as a noun phrase, no hyphen.** Usually after a verb or a preposition.
+
+| Correct | Incorrect |
+|---------|-----------|
+| The trial lasts **7 days** | The trial lasts 7-days |
+| Expiring in **14 days** | Expiring in 14-days |
+| Your code must be **4 digits** | Your code must be 4-digits |
+| **3 days** left in your trial | 3-days left in your trial |
+
+**Template variables follow the same rule.** The hyphen goes between the variable and the unit, which is the case teams get wrong most often because the variable hides the pattern.
+
+| Correct | Incorrect |
+|---------|-----------|
+| `{{days}}-day free trial` | `{{days}} day free trial` |
+| `a {{count}}-digit code` | `a {{count}} digit code` |
+| `Expiring in {{numOfDays}} days` | `Expiring in {{numOfDays}}-days` |
+
+**Decision:** is a noun coming next, and does the modifier describe it? Hyphenate. Otherwise leave it open. Never hyphenate an adverb ending in `-ly`: "a fully managed service", not "a fully-managed service".
+
+Fix these silently in a rewrite. They don't earn a flag of their own unless the same error repeats across a surface, which makes it a style decision worth naming.

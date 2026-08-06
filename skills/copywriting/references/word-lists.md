@@ -8,6 +8,10 @@
 
 ---
 
+A discovered voice file outranks every tier below. When a brand or personal voice file names a word as a signature, keep it and do not flag it; the lists describe generic AI vocabulary, not a house style that deliberately uses one of these words.
+
+---
+
 ## Tier 1: always replace
 
 5-20x more common in AI text than human writing. Replace on sight.
@@ -36,6 +40,8 @@
 | vibrant | (describe what makes it active, or cut) |
 | deep dive / dive into | look at, examine, explore |
 | unpack / unpacking | explain, break down, walk through |
+| showcase | show, demonstrate (or name what it shows) |
+| unlock | enable, give access to, let (or name what becomes possible) |
 | intricate / intricacies | complex, detailed (or name the specific complexity) |
 | holistic / holistically | complete, full, whole |
 | actionable | practical, useful, concrete |
@@ -62,7 +68,7 @@ One is fine; two or more signals a pattern. Flag and suggest replacements.
 | navigate / navigating | work through, handle, deal with |
 | foster | encourage, support, build |
 | elevate | improve, raise, strengthen |
-| unleash | release, enable, unlock |
+| unleash | release, enable, open up |
 | streamline | simplify, speed up |
 | empower | enable, let, allow |
 | bolster | support, strengthen |
