@@ -1,20 +1,30 @@
+<div align="center">
+
 # Agent Skills
 
-[![skills.sh](https://skills.sh/b/mblode/agent-skills)](https://skills.sh/mblode/agent-skills)
+**UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-25 skills for shipping better software.
+25 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+
+</div>
+
+## Install
+
+```bash
+npx skills add mblode/agent-skills
+```
+
+Works with Claude Code, OpenCode, Codex, and Cursor. The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
 ## Quickstart
 
+Take one skill rather than all 25:
+
 ```bash
-npx skills add mblode/agent-skills -g --agent codex claude-code -y
+npx skills add mblode/agent-skills -g --skill pr-reviewer -y
 ```
 
-Works with Claude Code, OpenCode, Codex, and Cursor.
-
-## Why these skills exist
-
-Code review catches logic bugs. Nobody checks the loading states, the type scale, or whether half the diff is AI slop. These skills do.
+Then type `/pr-reviewer` in Claude Code, or just ask it to review your changes. Each skill declares when it applies, so the agent loads it without being told.
 
 ## Skills
 
@@ -36,9 +46,9 @@ Code review catches logic bugs. Nobody checks the loading states, the type scale
 
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
-- **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README for the project type.
+- **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README as a public-facing shop window.
 
-Personal voice training, evaluation, and long-form blog writing now live in the standalone [ghostwriter](https://github.com/mblode/ghostwriter) project, where posts are drafted from the `blog` platform profile.
+Personal voice training, evaluation, and long-form blog writing live in [ghostwriter](https://github.com/mblode/ghostwriter), where posts are drafted from the `blog` platform profile.
 
 ### Quality
 
@@ -65,7 +75,7 @@ Personal voice training, evaluation, and long-form blog writing now live in the 
 
 ## License
 
-[MIT](LICENSE.md)
+MIT
 
 ---
 
