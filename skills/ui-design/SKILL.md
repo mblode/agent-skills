@@ -131,3 +131,4 @@ Reference calibration:
 - `copywriting`: landing-page copy, message match, persuasion frameworks
 - `product-design`: the product decision before the build (which interactions exist, action naming, reachable-state coverage); decide there, then build here
 - `optimise-seo`: meta descriptions and page titles
+- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion

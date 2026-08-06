@@ -124,3 +124,4 @@ Deterministic, structural, single-file checks (control selection by option count
 - `ui-audit`: the built result, both rendered quality and accessibility-markup audit and React or Next diff-level UX bug hunt with a ship verdict.
 - `copywriting`: exact wording for names, errors, and empty and loading copy; defines shared copy rule IDs in its `references/ui-states.md`.
 - `typography-audit`, `ui-animation`: type and motion.
+- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

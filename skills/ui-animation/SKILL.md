@@ -211,3 +211,4 @@ Reverse-engineer progress:
 - `ui-design`: visual direction, palettes, typography; settle the visual system before tuning motion.
 - `ui-audit`: page/feature-level UI quality audit; its motion findings route back here for fixes.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
+- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

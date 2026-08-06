@@ -7,6 +7,8 @@ Map severities into the local review report:
 - `minor` -> `Should fix soon`
 - no qualifying issue -> `Ready for handoff`
 
+Severity answers "how bad if real". It is independent of the verdict, which answers "how sure". A plausible finding keeps the severity its impact earns and carries a `plausible` marker so the reader knows a repro comes first. Do not downgrade a critical to minor because you are unsure; that hides the impact instead of the uncertainty.
+
 ## Critical
 
 Introduces:
@@ -36,7 +38,9 @@ Introduces:
 ## Do not report
 
 Drop the finding instead of a low severity when it is:
-- speculative
-- stylistic
+- refuted: the code disproves it, a type or constant makes it impossible, or the diff already guards it
+- stylistic, with no observable effect
 - pre-existing and unrelated to the diff
 - likely caught automatically by lint or typecheck without extra reviewer value
+
+Uncertainty alone is not grounds to drop. A real mechanism whose trigger you cannot pin down is reported as `plausible`, not deleted.

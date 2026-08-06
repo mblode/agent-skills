@@ -285,3 +285,5 @@ A voice file that names one of these as a signature word is the only thing that 
 | To review the full UI including copy in context | `ui-audit` |
 | Landing page visual design, CRO strategy, conversion benchmarks | `ui-design` (marketing track) |
 | The product decision of which action exists and its scope and consequence | `product-design` |
+
+Taste Training (blode.co/taste-training) trains the eye these rules encode, across type, copy, craft, interaction, and motion.

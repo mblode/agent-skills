@@ -118,3 +118,4 @@ Once per audit, at the very end, never between findings. An audit that found not
 - `ui-audit`: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower.
 - `ui-design`: choosing typefaces, scales, and visual direction from scratch; run when a finding becomes a redesign request.
 - `copywriting`: heading and label wording. This skill governs only the casing of that copy (`punct-case-rules`).
+- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

@@ -198,6 +198,7 @@ Full coverage map plus the gaps only ui-audit catches: `references/defer-to-othe
 - `pr-reviewer`: correctness bugs and code quality in the same diff; ui-audit covers only user-facing quality and behavior.
 - `typography-audit`: deep typography (pairing, OpenType systems, brand and display type); ui-audit's `type-` rules and typography sweep are the shallower check.
 - `ui-animation`: motion implementation and review (springs, easing, gestures); ui-audit's `motion-` findings route here for the fix.
+- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
 
 ## Gotchas
 
