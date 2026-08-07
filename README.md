@@ -6,10 +6,14 @@
 
 24 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/skills/installs/mblode/agent-skills/ui-animation.svg?variant=branded&mode=dark">
-  <img alt="skill installs" src="https://shieldcn.dev/skills/installs/mblode/agent-skills/ui-animation.svg?variant=branded&mode=light">
-</picture>
+<p align="center">
+  <a href="https://www.skills.sh/mblode/agent-skills">
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.skills.sh%2Fapi%2Fbadge%2Fmblode%2Fagent-skills&label=installs" />
+  </a>
+  <a href="https://github.com/mblode/agent-skills/blob/main/LICENSE.md">
+    <img src="https://img.shields.io/github/license/mblode/agent-skills?style=flat&colorA=000000&colorB=000000" />
+  </a>
+</p>
 
 </div>
 
@@ -21,7 +25,7 @@ npx skills add mblode/agent-skills -g --agent claude-code,codex -y
 
 Cursor and OpenCode work too: swap the `--agent` list. The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
-The judgement these skills encode is trainable. [Taste Training](https://blode.co/taste-training) is 319 exercises for the eye behind the rules. The first unit is free.
+[Taste Training](https://blode.co/taste-training) is 319 exercises for the eye behind these rules. The first unit is free.
 
 ## Skills
 
@@ -37,7 +41,7 @@ The judgement these skills encode is trainable. [Taste Training](https://blode.c
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, Tailwind builds, screenshot to markup, dark mode, responsive.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
-- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a QA pass. Ships as markdown or a web app.
+- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a QA pass, as markdown or a web app.
 
 ### Writing
 
@@ -45,7 +49,7 @@ The judgement these skills encode is trainable. [Taste Training](https://blode.c
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README as a public-facing shop window.
 
-Personal voice training, evaluation, and long-form blog writing live in [ghostwriter](https://github.com/mblode/ghostwriter), where posts are drafted from the `blog` platform profile.
+Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://github.com/mblode/ghostwriter).
 
 ### Quality
 
