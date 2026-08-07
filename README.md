@@ -25,7 +25,7 @@ npx skills add mblode/agent-skills -g --agent claude-code,codex -y
 
 Cursor and OpenCode work too: swap the `--agent` list. The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
-[Taste Training](https://blode.co/taste-training) is 319 exercises for the eye behind these rules. The first unit is free.
+Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
 
 ## Skills
 
