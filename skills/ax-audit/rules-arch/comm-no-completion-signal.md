@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-dashboard
 agent-native-principle: Parity (agent-UI communication)
 detection: code-auditable
-related: comm-no-progress-visibility
+related: comm-no-progress-visibility, comm-no-subagent-attribution, context-no-checkpoint-resume
 ---
 
 ## Agent completion detected by heuristic instead of explicit signal

@@ -6,7 +6,7 @@ defaultTier: backlog
 surfaces: agent-chat, agent-tool-execution
 ax-pattern: Under-contextual (anti-pattern)
 detection: hybrid
-related: context-memory-not-visible, context-starvation
+related: context-memory-not-visible, context-starvation, comm-no-generative-momentum
 ---
 
 ## Agent ignores available context it should use

@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-chat, agent-tool-execution, agent-dashboard
 agent-native-principle: Parity (agent-UI communication)
 detection: code-auditable
-related: comm-no-completion-signal, comm-no-approval-gate, comm-no-progress-signal
+related: comm-no-completion-signal, comm-no-approval-gate, comm-no-progress-signal, comm-no-subagent-attribution
 ---
 
 ## Orchestrator emits no progress events during execution

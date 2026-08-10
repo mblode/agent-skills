@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-chat, agent-tool-execution, agent-dashboard
 ax-pattern: Confidence Cues (progress dimension)
 detection: code-auditable
-related: comm-no-intent-handshake, context-no-adaptive-canvas, comm-no-progress-visibility
+related: comm-no-intent-handshake, context-no-adaptive-canvas, comm-no-progress-visibility, comm-no-subagent-attribution
 ---
 
 ## Multi-step agent task shows no progress

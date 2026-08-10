@@ -6,12 +6,14 @@ defaultTier: fix-this-sprint
 surfaces: agent-chat, agent-tool-execution, agent-config
 agent-native-principle: Improvement Over Time
 detection: code-auditable
-related: context-no-injection
+related: context-no-injection, context-unscoped-tool-surface, context-volatile-prompt-prefix, context-under-contextual
 ---
 
 ## System prompt missing resource injection
 
 System prompt says "You are a helpful assistant" with zero dynamic context. Agent asks "What files do you have?" instead of using them. Violates Improvement Over Time: agents should accumulate context, not start blind.
+
+Scope: context is a budget with two ends, and this rule guards the floor. Satisfying it by pasting every resource and procedure into the always-on prompt trips `context-unscoped-tool-surface` at the other end. Inject an inventory of what exists, plus a way to reach the detail on demand, rather than the detail itself.
 
 ## What goes wrong
 

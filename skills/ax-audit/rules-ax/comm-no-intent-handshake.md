@@ -6,7 +6,7 @@ defaultTier: fix-this-sprint
 surfaces: agent-chat, agent-tool-execution
 ax-pattern: Intent Handshake
 detection: hybrid
-related: control-no-escape-hatch, control-no-approval-gate
+related: control-no-escape-hatch, control-no-approval-gate, trust-no-refusal-path, comm-no-progress-signal, control-over-conversational
 ---
 
 ## Agent acts on non-trivial request without confirming intent

@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-chat
 agent-native-principle: Parity (agent-UI communication)
 detection: hybrid
-related: comm-no-progress-visibility, control-no-approval-gate
+related: comm-no-progress-visibility, control-no-approval-gate, granularity-raw-primitive-escape, granularity-permissive-tool-schema
 ---
 
 ## Orchestrator executes high-stakes tools with no gate on the code path
@@ -28,6 +28,7 @@ A chat surface ships a confirmation modal for the three delete tools it knows ab
 2. Identify destructive/financial/external operations: send, delete, publish, deploy, charge, transfer.
 3. Check whether an approval handler sits between dispatch and execution on that path, and whether it is reached for every tool or only for named ones.
 4. Check what happens to a tool with no stakes metadata: defaulting to auto-approve is a fail even when today's registry is fully labelled.
+5. Check what the checkpoint receives. Tool name and arguments alone cannot express provenance (did the agent create this object this conversation, does the target reach outside the workspace), so a gate given only those can be tuned by strictness and nothing else. See the third axis in `references/agent-native-principles.md`.
 
 **Runtime signals:** a destructive tool added to the registry with no other change executes without prompting.
 

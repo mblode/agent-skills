@@ -17,7 +17,9 @@
 
 ## Tool Design
 
-**Atomic primitives first.** Bash, file ops, storage; prove the architecture before domain tools.
+**Atomic primitives first.** One action per tool, scoped to a domain noun: `read_note`, `update_note`, `list_projects`. Prove the architecture on these before bundling them into workflow tools. Bash, file ops and storage count as primitives only while they operate on a sandbox or scratch data.
+
+**Atomic is not raw.** The same word covers two different things, and only one of them is the principle. An atomic *domain* primitive has a blast radius you can state in a sentence, and `granularity-workflow-shaped-tool` fires when those get bundled away. Raw *substrate* access over production data (arbitrary code eval, a shell on the live host, a SQL or GraphQL passthrough, an untyped SDK call) has the blast radius of the whole system, and makes every tool boundary above it advisory. Ship the first, and audit the second with `rules-arch/granularity-raw-primitive-escape`. The cost of dropping a substrate tool is real: some long-tail requests stop being servable, which is why it pairs with a refusal path rather than a workaround.
 
 **CRUD completeness.** Verify every entity has create, read, update, delete. Common failure: `create_note` + `read_notes` exist but `update_note` and `delete_note` are missing.
 
@@ -60,3 +62,10 @@
 | High | Hard | Explicit approval |
 
 An explicit user request is already approval. Self-modification always requires explicit approval + audit log + rollback.
+
+**Provenance is the third axis.** Stakes and reversibility alone classify by tool name, which is why a gate built from them treats every delete the same. Two questions adjust the row:
+
+- **Did the agent create this in the current conversation?** Deleting a draft it just made is not the same act as deleting a record that existed before the session. Same tool, one tier apart.
+- **Does the target reach outside the workspace?** Posting to an internal thread and posting to one synced with a public repo differ in blast radius, not in stakes as the schema sees them.
+
+A gate that cannot read those two facts can only be tuned by making it stricter, and a gate strict enough to catch the pre-existing delete will also interrupt the draft cleanup. Pass provenance into the checkpoint alongside stakes, so it can be lenient where the agent owns the object and strict where it does not. Audited by `rules-arch/comm-no-approval-gate` (does the checkpoint receive it) and `rules-ax/control-no-approval-gate` (does the treatment change when it does).

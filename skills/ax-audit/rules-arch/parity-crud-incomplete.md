@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-config, agent-dashboard
 agent-native-principle: Parity
 detection: code-auditable
-related: parity-no-tool-parity
+related: parity-no-tool-parity, parity-orphan-ui-action
 ---
 
 ## Entity with incomplete CRUD tool coverage

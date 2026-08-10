@@ -59,8 +59,8 @@ Step notes:
 
 | Layer | Folder | Rules | Question it answers | Category index |
 |---|---|---|---|---|
-| 1: Agent-native architecture | `rules-arch/` | 11 | Can the agent do what the user can do? Are tools atomic? Does the agent know what exists? Is completion explicit? | `rules-arch/_sections.md` |
-| 2: Agentic experience | `rules-ax/` | 12 | Does the agent earn trust? Can the user interrupt, undo, push back? Is memory visible? | `rules-ax/_sections.md` |
+| 1: Agent-native architecture | `rules-arch/` | 16 | Can the agent do what the user can do? Are tools atomic and bounded? Does the agent get the right context, and only that? Is completion explicit? | `rules-arch/_sections.md` |
+| 2: Agentic experience | `rules-ax/` | 13 | Does the agent earn trust? Can the user interrupt, undo, push back? Is memory visible? Can it decline? | `rules-ax/_sections.md` |
 
 Load `rules-arch/<category>-<slug>.md` or `rules-ax/<category>-<slug>.md` when a playbook check names it. Categories: arch = parity, granularity, context, comm; ax = trust, control, context, comm. Both layers share the `comm` and `context` prefixes, but the rules differ: `rules-arch/comm-no-approval-gate.md` (orchestrator code has no gate logic) is not `rules-ax/control-no-approval-gate.md` (approval UI doesn't match the stakes).
 
@@ -99,11 +99,11 @@ Rendered after findings when any agentic feature was detected. Findings serve en
 
 ## Gotchas
 
-- **Scope before rules.** Running all 23 rules repo-wide on a 3-file PR buries a new release-blocker under pre-existing backlog noise; the verdict stops meaning "can this PR merge."
+- **Scope before rules.** Running all 29 rules repo-wide on a 3-file PR buries a new release-blocker under pre-existing backlog noise; the verdict stops meaning "can this PR merge."
 - **The rule's override table is authoritative.** `comm-no-intent-handshake` defaults to `fix-this-sprint` but its table says `release-blocker` on tool execution. Stacking the generic "+1 tier on tool execution" bump on an explicit override double-upgrades backlog findings into blockers.
 - **A stop button not wired to `AbortController.abort()` is a false affordance.** `control-no-escape-hatch` still fails: verify the `abort()` call, not the button label, or the audit passes a UI that lies to users.
 - **Absence checks need a recorded file list.** "Find components lacking X" greps return nothing both when everything passes and when nothing was scanned. List candidate files first (`rg -l <feature-pattern>`), check each for the counter-pattern, and cite the file list as evidence.
-- **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`.
+- **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`. Two `hybrid` rules need the same care for the same reason: `trust-no-refusal-path` needs a trace of a request the agent could not serve, and `comm-no-subagent-attribution` needs one where a branch failed. Report the static half as evidence and mark the rest `unknown` rather than inferring the behaviour from the code.
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the count in the verdict block; a suppression with no reason is itself worth a `warn`.
 - **Don't duplicate ui-audit findings.** "Missing loading state" and "form clears on error" are `ui-audit` territory; duplicating them trains engineers to dismiss the whole AX report.
 - **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. Promoting cosmetic findings to blocker trains the team to ignore ❌ verdicts.

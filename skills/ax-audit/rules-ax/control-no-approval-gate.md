@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-chat
 ax-pattern: Escape Hatch (pre-execution dimension)
 detection: hybrid
-related: control-no-escape-hatch, trust-no-escalation-path, comm-no-approval-gate
+related: control-no-escape-hatch, trust-no-escalation-path, comm-no-approval-gate, comm-no-intent-handshake
 ---
 
 ## Autonomous agent action without stakes-appropriate approval
@@ -37,6 +37,7 @@ rg -B 10 'sendEmail|delete|publish' --type=ts src/ | rg 'confirm|approval|modal'
 **Judgment signals:**
 - "User-requested" vs. "agent-initiated" matters. "Clean up my inbox" per-email = user-requested. Agent proactively acting = agent-initiated.
 - A single "Are you sure?" for 50 actions is insufficient.
+- Provenance moves the row (see the third axis in `references/agent-native-principles.md`). Deleting something the agent created this conversation earns a lighter treatment than deleting a record that predates the session, and a target that reaches outside the workspace earns a heavier one. A gate whose treatment is identical for both is tuned by tool name only, which is the mismatch this rule reports.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:control-no-approval-gate`, test, and Storybook files.

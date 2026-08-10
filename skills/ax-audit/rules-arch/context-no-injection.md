@@ -6,7 +6,7 @@ defaultTier: fix-this-sprint
 surfaces: agent-chat, agent-tool-execution
 agent-native-principle: Improvement Over Time
 detection: code-auditable
-related: context-starvation, context-no-checkpoint-resume
+related: context-starvation, context-no-checkpoint-resume, context-unscoped-tool-surface, context-volatile-prompt-prefix
 ---
 
 ## Agent session starts without knowing what data exists
@@ -55,6 +55,8 @@ async function createSession(userId: string) {
   };
 }
 ```
+
+The order matters as much as the content. `STATIC_PROMPT` comes first so the provider's prefix cache still matches up to the point the session's own context begins; leading with the dynamic part invalidates the cache on every turn and trips `context-volatile-prompt-prefix`. Inject an inventory rather than the full contents, so satisfying this rule does not trip `context-unscoped-tool-surface`.
 
 ## Default tier and overrides
 

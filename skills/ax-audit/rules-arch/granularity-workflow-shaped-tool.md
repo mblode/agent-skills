@@ -6,7 +6,7 @@ defaultTier: fix-this-sprint
 surfaces: agent-tool-execution, agent-config
 agent-native-principle: Granularity
 detection: hybrid
-related: granularity-static-api-mapping
+related: granularity-static-api-mapping, granularity-raw-primitive-escape, granularity-permissive-tool-schema
 ---
 
 ## Tool bundles decision logic instead of being atomic

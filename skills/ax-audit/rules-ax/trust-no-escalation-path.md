@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-chat
 ax-pattern: Escape Hatch (escalation dimension)
 detection: code-auditable
-related: control-no-approval-gate, control-no-escape-hatch
+related: control-no-approval-gate, control-no-escape-hatch, trust-no-uncertainty-markers, trust-no-refusal-path
 ---
 
 ## High-stakes agent action with no human escalation

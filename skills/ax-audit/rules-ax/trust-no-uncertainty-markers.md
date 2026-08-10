@@ -6,7 +6,7 @@ defaultTier: fix-this-sprint
 surfaces: agent-chat, agent-dashboard
 ax-pattern: Confidence Cues
 detection: observational
-related: trust-no-confidence-cues, trust-no-escalation-path
+related: trust-no-confidence-cues, trust-no-escalation-path, trust-no-refusal-path
 ---
 
 ## Agent presents everything with equal certainty

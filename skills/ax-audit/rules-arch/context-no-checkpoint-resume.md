@@ -6,7 +6,7 @@ defaultTier: backlog
 surfaces: agent-tool-execution, agent-dashboard
 agent-native-principle: Improvement Over Time
 detection: hybrid
-related: comm-no-completion-signal
+related: comm-no-completion-signal, comm-no-subagent-attribution, context-no-injection
 ---
 
 ## Long-running agent with no checkpoint/resume

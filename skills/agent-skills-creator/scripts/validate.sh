@@ -15,7 +15,10 @@
 
 set -uo pipefail
 
-RESULTS="$(mktemp -t skillvalidate)"
+# An explicit XXXXXX template rather than `mktemp -t skillvalidate`: BSD mktemp
+# treats a bare -t argument as a prefix, GNU mktemp rejects it, so the bare form
+# ran on macOS only and died on Linux and CI.
+RESULTS="$(mktemp "${TMPDIR:-/tmp}/skillvalidate.XXXXXX")"
 trap 'rm -f "$RESULTS"' EXIT
 
 # record <PASS|FAIL|SKIP> <format|house> <check-name> <detail>
@@ -40,7 +43,10 @@ validate_skill() {
   # --- frontmatter: ruby owns YAML parsing and emits its own result lines ---
   ruby -ryaml -e '
     path, folder = ARGV
-    src = File.read(path)
+    # Pin the encoding: File.read honours the locale, so on a box with no
+    # LANG set it reads US-ASCII and any emoji in the body (the verdict line,
+    # for one) raises on the first regex match.
+    src = File.read(path, encoding: "UTF-8")
     m = src.match(/\A---\n(.*?)\n---\n/m)
     # Detail explains a failure, so suppress it on PASS to avoid lines that read
     # as their own contradiction ("PASS name-reserved ... contains a reserved word").
@@ -214,7 +220,7 @@ validate_skill() {
 
   if [ "$found_rules" -eq 1 ]; then
     stated=$(ruby -ryaml -e '
-      src = File.read(ARGV[0])
+      src = File.read(ARGV[0], encoding: "UTF-8")
       m = src.match(/\A---\n(.*?)\n---\n/m)
       d = m ? (YAML.safe_load(m[1])["description"].to_s rescue "") : ""
       puts(d[/(\d+)\s+rules/, 1] || "")
