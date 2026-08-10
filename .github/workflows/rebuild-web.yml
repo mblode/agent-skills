@@ -1,0 +1,19 @@
+name: Rebuild agent-skills-web
+
+# blode.co/agent-skills renders this repo. It pulls the content fresh at build
+# time, so a rebuild is all the sync it needs. The path filter matches exactly
+# what that site reads: everything below a skill folder is left to GitHub.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "README.md"
+      - "skills/*/SKILL.md"
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Vercel deploy hook
+        run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_AGENT_SKILLS_WEB }}"
