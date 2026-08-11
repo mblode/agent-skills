@@ -1,13 +1,14 @@
 ---
 title: Set Image Dimensions and Priority Intentionally
-impact: CRITICAL
-impactDescription: prevents layout shift and improves LCP
-tags: performance, images, cls, lcp
+id: perf-image-dimensions-and-priority
+category: perf
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Set Image Dimensions and Priority Intentionally
 
-Declare `width`/`height` (or aspect ratio) and prioritize only above-the-fold hero images.
+Declare `width`/`height` (or aspect ratio) and prioritize only above-the-fold hero images. Undeclared dimensions shift the page as images arrive, and an unprioritized hero delays the largest paint.
 
 **Incorrect (layout shift risk):**
 

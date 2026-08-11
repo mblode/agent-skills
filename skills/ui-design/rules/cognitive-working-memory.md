@@ -1,9 +1,9 @@
 ---
 title: Working Memory
-impact: MEDIUM-HIGH
-kind: rubric
-prefix: cognitive
-tags: recognition, recall, persistence, short-term-memory
+id: cognitive-working-memory
+category: cognitive
+defaultTier: fix-this-sprint
+detect: rubric
 related: cognitive-millers-law, cognitive-chunking, cognitive-cognitive-load
 ---
 

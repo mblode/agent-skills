@@ -1,9 +1,9 @@
 ---
 title: Hick's Law
-impact: HIGH
-kind: programmatic
-prefix: decision
-tags: choices, navigation, decision-time, progressive-disclosure
+id: decision-hicks-law
+category: decision
+defaultTier: fix-this-sprint
+detect: static
 related: decision-choice-overload, cognitive-millers-law, cognitive-cognitive-load, perception-von-restorff
 ---
 

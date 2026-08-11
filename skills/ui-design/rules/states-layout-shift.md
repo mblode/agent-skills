@@ -1,10 +1,9 @@
 ---
 title: Loading state causes layout shift on data arrival
-slug: states-layout-shift
+id: states-layout-shift
 category: states
 defaultTier: fix-this-sprint
-surfaces: list, dashboard, marketing, loading-state, search
-react-apis: next/image, next/font, min-height, Skeleton
+detect: rendered
 related: states-no-skeleton
 ---
 

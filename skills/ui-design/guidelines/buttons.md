@@ -25,4 +25,4 @@ Covers: primary/secondary buttons, CTAs, icon buttons, destructive actions, form
 
 ## Coding Rules
 
-- Small/icon buttons must meet the 48×48px minimum touch target: make the button `relative` and add `<span class="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-1/2 pointer-fine:hidden" aria-hidden="true" />` as a direct child
+- Small/icon buttons ship at a 48x48px touch target: make the button `relative` and add `<span class="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-1/2 pointer-fine:hidden" aria-hidden="true" />` as a direct child. This file owns the 48px build default. It sits deliberately above the 44x44 WCAG 2.5.5 floor that `rules/interaction-target-size.md` audits to, so a later padding change cannot drop the control under conformance

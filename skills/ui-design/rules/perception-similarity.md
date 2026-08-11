@@ -1,9 +1,9 @@
 ---
 title: Law of Similarity
-impact: HIGH
-kind: programmatic
-prefix: perception
-tags: gestalt, grouping, color, shape, perception
+id: perception-similarity
+category: perception
+defaultTier: fix-this-sprint
+detect: static
 related: perception-proximity, perception-common-region, cognitive-chunking
 ---
 

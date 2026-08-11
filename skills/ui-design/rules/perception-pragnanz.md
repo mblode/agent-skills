@@ -1,9 +1,9 @@
 ---
 title: Law of Prägnanz
-impact: MEDIUM
-kind: rubric
-prefix: perception
-tags: gestalt, simplicity, perception, cognitive-effort
+id: perception-pragnanz
+category: perception
+defaultTier: backlog
+detect: rubric
 related: perception-similarity, cognitive-cognitive-load
 ---
 

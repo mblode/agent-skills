@@ -1,9 +1,9 @@
 ---
 title: Parkinson's Law
-impact: HIGH
-kind: programmatic
-prefix: decision
-tags: time, deadlines, autofill, perceived-effort
+id: decision-parkinsons-law
+category: decision
+defaultTier: fix-this-sprint
+detect: static
 related: memory-goal-gradient, memory-zeigarnik, decision-teslers-law
 ---
 

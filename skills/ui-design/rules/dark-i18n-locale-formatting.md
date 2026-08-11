@@ -1,10 +1,9 @@
 ---
 title: Dates, numbers, and currency hardcoded to one locale
-slug: dark-i18n-locale-formatting
+id: dark-i18n-locale-formatting
 category: dark-i18n
 defaultTier: backlog
-surfaces: dashboard, checkout, list, form, settings
-react-apis: n/a (Intl APIs)
+detect: static
 related: dark-i18n-plural-rules, dark-i18n-string-overflow
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: Law of Proximity
-impact: HIGH
-kind: programmatic
-prefix: perception
-tags: gestalt, grouping, spacing, layout, perception
+id: perception-proximity
+category: perception
+defaultTier: fix-this-sprint
+detect: static
 related: perception-similarity, perception-common-region, perception-uniform-connectedness, cognitive-chunking
 ---
 

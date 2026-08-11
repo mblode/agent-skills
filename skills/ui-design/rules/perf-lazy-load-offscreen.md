@@ -1,8 +1,9 @@
 ---
 title: Lazy-Load Offscreen Media, Never the LCP Element
-impact: HIGH
-impactDescription: cuts initial payload without delaying the largest paint
-tags: performance, images, lazy-loading, lcp
+id: perf-lazy-load-offscreen
+category: perf
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Lazy-Load Offscreen Media, Never the LCP Element

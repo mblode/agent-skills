@@ -1,8 +1,9 @@
 ---
 title: Preload Critical Resources and Preconnect to Origins
-impact: HIGH
-impactDescription: shaves request-chain latency off the largest paint
-tags: performance, resource-hints, preload, preconnect, fonts
+id: perf-resource-hints
+category: perf
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Preload Critical Resources and Preconnect to Origins

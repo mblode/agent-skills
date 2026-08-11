@@ -1,9 +1,9 @@
 ---
 title: Tesler's Law
-impact: HIGH
-kind: programmatic
-prefix: decision
-tags: complexity, conservation, defaults, system-burden
+id: decision-teslers-law
+category: decision
+defaultTier: fix-this-sprint
+detect: static
 related: cognitive-cognitive-load, decision-hicks-law
 ---
 

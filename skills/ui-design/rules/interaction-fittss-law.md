@@ -1,9 +1,9 @@
 ---
 title: Fitts's Law
-impact: HIGH
-kind: programmatic
-prefix: interaction
-tags: hit-targets, buttons, touch, accessibility, motor
+id: interaction-fittss-law
+category: interaction
+defaultTier: fix-this-sprint
+detect: static
 related: interaction-doherty-threshold, perception-proximity, decision-hicks-law
 ---
 
@@ -41,9 +41,11 @@ rg -n '<button[^>]*aria-label' src/
 
 ## Fix
 
-**If fail:** Increase to `h-11 w-11` (44 px) for touch; keep the visual glyph small (`h-4 w-4` ≈ 16 px) by using padding for the hit area. Anchor to edges or corners when possible.
+**If fail:** Raise the target to the size `interaction-target-size` requires for the surface; for new UI use the build default in `guidelines/buttons.md`. Keep the visual glyph small by using padding for the hit area rather than resizing it. Anchor to edges or corners when possible.
 
-**If warn:** Bump to `h-11 w-11` for touch surfaces, or add invisible padding (`p-2`) to extend the hit target without resizing the glyph.
+**If warn:** Same fix, or add invisible padding (`p-2`) to extend the hit target without resizing the glyph.
+
+`interaction-target-size` owns every finding about target **size**. This rule fires only for **distance** and **edge anchoring**: a target that is large enough but placed far from the pointer's likely origin. Do not report both for one control.
 
 ## Examples
 

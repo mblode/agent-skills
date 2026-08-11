@@ -1,13 +1,14 @@
 ---
 title: Make Error Messages Actionable
-impact: HIGH
-impactDescription: reduces repeated failure loops
-tags: copy, errors, ux
+id: microcopy-actionable-error-messages
+category: microcopy
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Make Error Messages Actionable
 
-Error messages should include what failed and what to do next.
+Error messages should include what failed and what to do next. A message that only names the problem sends the user back into the same failed attempt.
 
 **Incorrect (problem only):**
 

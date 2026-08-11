@@ -1,10 +1,9 @@
 ---
 title: Focus not restored after modal/sheet/popover close
-slug: focus-not-restored
+id: focus-not-restored
 category: focus
 defaultTier: release-blocker
-surfaces: modal, sheet, drawer, popover, sign-in
-react-apis: Radix onCloseAutoFocus, useRef, ref.current.focus()
+detect: static
 related: focus-broken-focus-trap, focus-on-dynamic-content, async-no-error-boundary
 ---
 

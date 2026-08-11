@@ -1,9 +1,9 @@
 ---
 title: Miller's Law
-impact: CRITICAL
-kind: programmatic
-prefix: cognitive
-tags: working-memory, chunks, magical-number-seven, grouping
+id: cognitive-millers-law
+category: cognitive
+defaultTier: release-blocker
+detect: static
 related: cognitive-chunking, cognitive-working-memory, decision-hicks-law
 ---
 

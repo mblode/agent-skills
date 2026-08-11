@@ -1,10 +1,9 @@
 ---
 title: Async tree without an error boundary
-slug: async-no-error-boundary
+id: async-no-error-boundary
 category: async
 defaultTier: release-blocker
-surfaces: dashboard, list, checkout, sign-in, error-state, modal
-react-apis: error.tsx, global-error.tsx, ErrorBoundary, react-error-boundary
+detect: static
 related: async-no-suspense-boundary, states-no-error-state, microcopy-leaked-error-message
 ---
 

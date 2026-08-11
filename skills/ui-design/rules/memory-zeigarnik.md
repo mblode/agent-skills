@@ -1,9 +1,9 @@
 ---
 title: Zeigarnik Effect
-impact: MEDIUM-HIGH
-kind: programmatic
-prefix: memory
-tags: memory, motivation, completion, progress, onboarding
+id: memory-zeigarnik
+category: memory
+defaultTier: fix-this-sprint
+detect: static
 related: memory-goal-gradient, memory-peak-end-rule, decision-parkinsons-law
 ---
 

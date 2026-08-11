@@ -1,10 +1,9 @@
 ---
 title: Generic loading copy, "Loading…" with no context
-slug: microcopy-generic-loading
+id: microcopy-generic-loading
 category: microcopy
 defaultTier: backlog
-surfaces: loading-state, search, onboarding, dashboard, list, modal
-react-apis: Suspense, useFormStatus, useTransition
+detect: static
 related: states-no-skeleton, states-layout-shift, microcopy-vague-error, interaction-doherty-threshold
 ---
 

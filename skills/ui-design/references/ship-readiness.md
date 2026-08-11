@@ -2,6 +2,8 @@
 
 Every finding gets exactly one tier, deciding whether the PR ships, waits, or merges with follow-up.
 
+The audit fixes what it can in the same pass, so tier and verdict answer different questions. Tier is a property of the finding and never changes when a fix lands: a payment-data-loss bug is a release-blocker whether or not the audit repaired it. The verdict is a property of the working tree at the end of the run, so it counts only what remains.
+
 ## Table of contents
 
 - [The three tiers](#the-three-tiers)
@@ -14,7 +16,7 @@ Every finding gets exactly one tier, deciding whether the PR ships, waits, or me
 
 ### ⛔ release-blocker: fix before merge
 
-Fix before merge. These cause user-visible harm or data loss in production.
+These cause user-visible harm or data loss in production. Fix them in the pass if the fix lands inside the audited files. If it doesn't, the finding stays remaining, and the PR does not ship until a human resolves it.
 
 Tier triggers:
 - **Data loss**: user input destroyed by code (form clears on validation error, optimistic update without rollback on server reject)
@@ -34,7 +36,7 @@ Examples per playbook:
 
 ### ⚠️ fix-this-sprint: merge but log issue
 
-Degrade UX but don't block shipping. Create a tracking issue before merge, resolve within the sprint.
+Degrade UX but don't block shipping. Fix in the pass where the change is mechanical and in scope. Whatever remains gets a tracking issue before merge, resolved within the sprint.
 
 Tier triggers:
 - Sub-44 px tap target on touch surface (Fitts's violation, not data-loss)
@@ -54,7 +56,7 @@ Examples:
 
 ### 📋 backlog: track, ship
 
-Real but low-stakes. Ship, log a backlog issue, prioritize by frequency or impact later.
+Real but low-stakes. Ship, log a backlog issue, prioritize by frequency or impact later. Apply a backlog fix only when it is a one-line change in a file already being edited; otherwise leave it and log it. Backlog nits are not worth widening the diff.
 
 Tier triggers:
 - Dark mode untested (works but may have contrast issues)
@@ -80,16 +82,16 @@ When a rule's default tier conflicts with surface context, use the higher tier:
 
 ## Verdict logic
 
-Aggregate per-finding tiers into a top-level verdict:
+Aggregate the tiers of the findings still present at the end of the run. Findings the audit fixed in the pass do not count toward the verdict; findings it could not fix, including ones whose fix falls outside the audited files, do.
 
 | Verdict | Condition |
 |---|---|
-| ✅ READY | 0 release-blockers AND ≤3 fix-this-sprint |
-| ⚠️ READY WITH FOLLOW-UP | 0 release-blockers AND ≥4 fix-this-sprint |
-| ❌ NOT READY | ≥1 release-blocker |
+| ✅ READY | 0 remaining release-blockers AND ≤3 remaining fix-this-sprint |
+| ⚠️ READY WITH FOLLOW-UP | 0 remaining release-blockers AND ≥4 remaining fix-this-sprint |
+| ❌ NOT READY | ≥1 remaining release-blocker |
 | 🚫 INCOMPLETE | Audit-self-check failed; re-run |
 
-Verdict shows in the summary block atop every audit report.
+Verdict shows in the summary block atop every audit report, under the found / applied / remaining counts, so a reader can see both what the code arrived as and what it ships as.
 
 ## Anti-patterns
 
@@ -97,8 +99,12 @@ Verdict shows in the summary block atop every audit report.
 - ❌ **Tier deflation**: dumping everything to `backlog` for a greener verdict. Catches up at the next prod incident.
 - ❌ **Tier per rule, not per finding**: a default tier is a starting point; surface context bumps it up or down.
 - ❌ **Skipping the override step**: justify every tier in the output ("release-blocker because checkout flow"). Never render bare tiers.
+- ❌ **Fixing quietly to reach green**: an applied fix that isn't reported is indistinguishable from a missed finding. Every fix names the file, the lines, and the edit, so the verdict can be walked against the diff.
+- ❌ **Downgrading a tier because the fix was hard**: an out-of-scope release-blocker is still a release-blocker, and the verdict stays ❌ NOT READY until a human decides on the shared component.
 
 ## Examples
+
+Bumped up, then fixed in the pass. Counts as a found release-blocker and an applied one; it does not hold the verdict.
 
 ```json
 {
@@ -106,9 +112,13 @@ Verdict shows in the summary block atop every audit report.
   "surface": "CheckoutForm",
   "defaultTier": "fix-this-sprint",
   "assignedTier": "release-blocker",
-  "tierReason": "Surface is checkout; data loss on payment-fields validation is a money-flow blocker."
+  "tierReason": "Surface is checkout; data loss on payment-fields validation is a money-flow blocker.",
+  "applied": true,
+  "appliedChange": "src/checkout/CheckoutForm.tsx:42-58, hoisted field state into useActionState so a 422 no longer remounts the form."
 }
 ```
+
+Bumped down and left alone. Counts as a found and remaining backlog item, which no verdict tier reacts to.
 
 ```json
 {
@@ -116,6 +126,22 @@ Verdict shows in the summary block atop every audit report.
   "surface": "MarketingHero",
   "defaultTier": "fix-this-sprint",
   "assignedTier": "backlog",
-  "tierReason": "Surface is marketing landing; sub-44 px CTA hurts mobile conversion but not data integrity."
+  "tierReason": "Surface is marketing landing; sub-44 px CTA hurts mobile conversion but not data integrity.",
+  "applied": false
+}
+```
+
+Bumped up and out of scope. Still a release-blocker, still remaining, so the verdict is ❌ NOT READY even though the audit fixed everything else.
+
+```json
+{
+  "rule": "focus-not-restored",
+  "surface": "CheckoutModal",
+  "defaultTier": "fix-this-sprint",
+  "assignedTier": "release-blocker",
+  "tierReason": "Surface is checkout; keyboard users are locked out of the payment step.",
+  "applied": false,
+  "outOfScope": true,
+  "outOfScopeReason": "Root cause is src/components/Dialog.tsx, outside the audited files; 14 other surfaces consume it."
 }
 ```

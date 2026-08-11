@@ -1,13 +1,14 @@
 ---
 title: Prefer Flex/Grid Over JS Measurement
-impact: HIGH
-impactDescription: simplifies layout and reduces runtime fragility
-tags: layout, css, resilience
+id: layout-flex-grid-first
+category: layout
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Prefer Flex/Grid Over JS Measurement
 
-Use CSS layout systems before runtime measurement logic.
+Use CSS layout systems before runtime measurement logic. Measurement code reruns on every resize, font swap, and content change, and it is wrong in the frame before it runs.
 
 **Incorrect (measurement-driven layout):**
 

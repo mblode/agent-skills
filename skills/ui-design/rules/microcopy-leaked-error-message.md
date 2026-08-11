@@ -1,10 +1,9 @@
 ---
 title: Leaked raw error message in UI
-slug: microcopy-leaked-error-message
+id: microcopy-leaked-error-message
 category: microcopy
 defaultTier: release-blocker
-surfaces: checkout, sign-in, sign-up, form, error-state, toast, dashboard
-react-apis: useActionState, error-boundary, Suspense
+detect: static
 related: microcopy-vague-error, states-no-error-state, async-no-error-boundary
 ---
 

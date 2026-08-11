@@ -1,9 +1,9 @@
 ---
 title: Law of Uniform Connectedness
-impact: HIGH
-kind: programmatic
-prefix: perception
-tags: gestalt, grouping, connection, perception
+id: perception-uniform-connectedness
+category: perception
+defaultTier: fix-this-sprint
+detect: static
 related: perception-common-region, perception-proximity, cognitive-chunking
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Load Scripts With defer, async, or module
-impact: HIGH
-impactDescription: stops render-blocking scripts from delaying first paint
-tags: performance, scripts, render-blocking
+id: perf-script-loading
+category: perf
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Load Scripts With defer, async, or module

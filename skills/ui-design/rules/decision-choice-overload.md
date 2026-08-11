@@ -1,9 +1,9 @@
 ---
 title: Choice Overload
-impact: HIGH
-kind: programmatic
-prefix: decision
-tags: choices, comparison, filtering, defaults
+id: decision-choice-overload
+category: decision
+defaultTier: fix-this-sprint
+detect: static
 related: decision-hicks-law, cognitive-cognitive-load
 ---
 

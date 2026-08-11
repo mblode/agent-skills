@@ -1,9 +1,9 @@
 ---
 title: Law of Common Region
-impact: HIGH
-kind: programmatic
-prefix: perception
-tags: gestalt, grouping, container, card, perception
+id: perception-common-region
+category: perception
+defaultTier: fix-this-sprint
+detect: static
 related: perception-proximity, perception-uniform-connectedness, cognitive-chunking
 ---
 

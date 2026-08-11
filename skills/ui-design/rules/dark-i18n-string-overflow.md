@@ -1,10 +1,9 @@
 ---
 title: String overflow on long translations (German, Finnish, Russian)
-slug: dark-i18n-string-overflow
+id: dark-i18n-string-overflow
 category: dark-i18n
 defaultTier: backlog
-surfaces: form, sign-in, checkout, list, dashboard, modal
-react-apis: n/a (CSS layout)
+detect: rendered
 related: states-layout-shift, dark-i18n-rtl-untested
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Declare Document and Inline Language
-impact: CRITICAL
-impactDescription: makes screen readers pronounce content correctly
-tags: accessibility, language, i18n
+id: a11y-document-language
+category: a11y
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Declare Document and Inline Language

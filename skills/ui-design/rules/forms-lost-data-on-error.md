@@ -1,10 +1,9 @@
 ---
 title: Form data lost on validation error
-slug: forms-lost-data-on-error
+id: forms-lost-data-on-error
 category: forms
 defaultTier: fix-this-sprint
-surfaces: sign-in, sign-up, checkout, onboarding, form
-react-apis: useActionState, useFormStatus, server actions
+detect: static
 related: forms-no-disable-while-submitting, forms-use-form-status-misuse, forms-no-normalize
 ---
 

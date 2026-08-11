@@ -1,10 +1,9 @@
 ---
 title: Vague error message, no cause, no recovery
-slug: microcopy-vague-error
+id: microcopy-vague-error
 category: microcopy
 defaultTier: fix-this-sprint
-surfaces: sign-in, sign-up, checkout, form, search, toast, error-state
-react-apis: useActionState, useFormStatus
+detect: static
 related: microcopy-leaked-error-message, states-no-empty-state, states-no-error-state, forms-no-normalize
 ---
 

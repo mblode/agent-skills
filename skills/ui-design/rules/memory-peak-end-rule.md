@@ -1,9 +1,9 @@
 ---
 title: Peak-End Rule
-impact: MEDIUM-HIGH
-kind: programmatic
-prefix: memory
-tags: memory, emotion, onboarding, completion, microcopy
+id: memory-peak-end-rule
+category: memory
+defaultTier: fix-this-sprint
+detect: static
 related: memory-serial-position, memory-zeigarnik
 ---
 

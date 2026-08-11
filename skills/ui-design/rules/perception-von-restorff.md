@@ -1,9 +1,9 @@
 ---
 title: Von Restorff Effect
-impact: HIGH
-kind: programmatic
-prefix: perception
-tags: isolation, emphasis, memory, attention, perception
+id: perception-von-restorff
+category: perception
+defaultTier: fix-this-sprint
+detect: static
 related: memory-serial-position, decision-hicks-law
 ---
 

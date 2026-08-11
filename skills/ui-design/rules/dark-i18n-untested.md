@@ -1,10 +1,9 @@
 ---
 title: Component lacks dark-mode coverage and hardcodes light tokens
-slug: dark-i18n-untested
+id: dark-i18n-untested
 category: dark-i18n
 defaultTier: backlog
-surfaces: dashboard, list, modal, sign-in, checkout, marketing
-react-apis: n/a (CSS variables / Tailwind tokens)
+detect: rendered
 related: dark-i18n-color-only-state, states-layout-shift
 ---
 

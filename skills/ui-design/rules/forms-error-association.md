@@ -1,8 +1,9 @@
 ---
 title: Associate and Announce Form Errors
-impact: CRITICAL
-impactDescription: makes validation failures reachable by assistive tech
-tags: forms, validation, accessibility, aria
+id: forms-error-association
+category: forms
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Associate and Announce Form Errors

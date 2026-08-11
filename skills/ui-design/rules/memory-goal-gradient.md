@@ -1,9 +1,9 @@
 ---
 title: Goal-Gradient Effect
-impact: MEDIUM-HIGH
-kind: programmatic
-prefix: memory
-tags: memory, motivation, progress, onboarding, gamification
+id: memory-goal-gradient
+category: memory
+defaultTier: fix-this-sprint
+detect: static
 related: memory-zeigarnik, memory-peak-end-rule, decision-parkinsons-law
 ---
 

@@ -1,13 +1,14 @@
 ---
 title: Announce Status Changes with Live Regions
-impact: HIGH
-impactDescription: makes async feedback perceivable to assistive tech
-tags: navigation, feedback, aria-live
+id: nav-live-region-feedback
+category: nav
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Announce Status Changes with Live Regions
 
-Toasts and validation summaries should use polite live regions unless interruption is critical.
+Toasts and validation summaries should use polite live regions unless interruption is critical. A toast that is only painted on screen never reaches assistive tech, so the user never learns the action finished.
 
 **Incorrect (visual-only toast):**
 

@@ -1,13 +1,14 @@
 ---
 title: Set a Readable Type Scale
-impact: HIGH
-impactDescription: improves scan speed and reading comfort
-tags: typography, readability, scale
+id: type-readable-scale
+category: type
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Set a Readable Type Scale
 
-Use body sizes and weights readable across desktop and mobile.
+Use body sizes and weights readable across desktop and mobile. Undersized or underweight body text slows scanning and tires readers.
 
 **Incorrect (too small and too light):**
 

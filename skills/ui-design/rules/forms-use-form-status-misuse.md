@@ -1,10 +1,9 @@
 ---
 title: useFormStatus called in same component as form (silent bug)
-slug: forms-use-form-status-misuse
+id: forms-use-form-status-misuse
 category: forms
 defaultTier: release-blocker
-surfaces: sign-in, sign-up, checkout, onboarding, form
-react-apis: useFormStatus
+detect: static
 related: forms-no-disable-while-submitting
 ---
 

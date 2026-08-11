@@ -1,9 +1,9 @@
 ---
 title: Chunking
-impact: CRITICAL
-kind: programmatic
-prefix: cognitive
-tags: grouping, hierarchy, scannability, information-architecture
+id: cognitive-chunking
+category: cognitive
+defaultTier: release-blocker
+detect: static
 related: cognitive-millers-law, cognitive-working-memory, perception-proximity, perception-common-region
 ---
 

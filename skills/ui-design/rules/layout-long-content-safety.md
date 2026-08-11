@@ -1,13 +1,14 @@
 ---
 title: Handle Long and Unbroken Content Safely
-impact: HIGH
-impactDescription: prevents overflow and broken layouts
-tags: layout, overflow, truncation
+id: layout-long-content-safety
+category: layout
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Handle Long and Unbroken Content Safely
 
-Protect UI against long names, URLs, and dense content blocks.
+Protect UI against long names, URLs, and dense content blocks. Unhandled, a single long token overflows its container and breaks the layout around it.
 
 **Incorrect (overflow risk):**
 

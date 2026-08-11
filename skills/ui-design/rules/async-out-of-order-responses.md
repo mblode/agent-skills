@@ -1,10 +1,9 @@
 ---
 title: Out-of-order async responses (stale results)
-slug: async-out-of-order-responses
+id: async-out-of-order-responses
 category: async
 defaultTier: release-blocker
-surfaces: search, list, form, dashboard
-react-apis: AbortController, useDeferredValue, useTransition, useEffect cleanup
+detect: static
 related: states-no-skeleton, async-no-suspense-boundary
 ---
 

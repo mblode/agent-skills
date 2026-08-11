@@ -1,10 +1,9 @@
 ---
 title: Critical actions hidden behind hover-only affordances
-slug: mobile-hover-only-affordance
+id: mobile-hover-only-affordance
 category: mobile
 defaultTier: fix-this-sprint
-surfaces: list, dashboard, modal, toast, search
-react-apis: n/a (CSS-only)
+detect: static
 related: interaction-target-size, focus-on-dynamic-content
 ---
 

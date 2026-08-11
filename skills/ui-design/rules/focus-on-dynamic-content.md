@@ -1,10 +1,9 @@
 ---
 title: No focus management on dynamic content (route change, async load, error)
-slug: focus-on-dynamic-content
+id: focus-on-dynamic-content
 category: focus
 defaultTier: fix-this-sprint
-surfaces: search, list, error-state, onboarding, dashboard, modal
-react-apis: useEffect + ref.current.focus(), aria-live, role="status", role="alert"
+detect: static
 related: focus-not-restored, a11y-skip-link-heading-order, states-no-error-state
 ---
 

@@ -1,10 +1,9 @@
 ---
 title: Async fetch has no inline error state
-slug: states-no-error-state
+id: states-no-error-state
 category: states
 defaultTier: release-blocker
-surfaces: checkout, sign-in, list, dashboard, search, error-state
-react-apis: n/a (render-time error branch; TanStack Query / SWR error flags)
+detect: static
 related: states-no-skeleton, states-no-empty-state, async-no-error-boundary
 ---
 

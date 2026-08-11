@@ -1,9 +1,9 @@
 ---
 title: Doherty Threshold
-impact: HIGH
-kind: programmatic
-prefix: interaction
-tags: latency, response-time, loading, skeleton, optimistic-ui
+id: interaction-doherty-threshold
+category: interaction
+defaultTier: fix-this-sprint
+detect: static
 related: memory-zeigarnik, interaction-fittss-law
 ---
 

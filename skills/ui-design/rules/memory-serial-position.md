@@ -1,9 +1,9 @@
 ---
 title: Serial Position Effect
-impact: MEDIUM-HIGH
-kind: programmatic
-prefix: memory
-tags: memory, navigation, primacy, recency, ordering
+id: memory-serial-position
+category: memory
+defaultTier: fix-this-sprint
+detect: static
 related: memory-peak-end-rule, perception-von-restorff, cognitive-millers-law
 ---
 

@@ -1,10 +1,9 @@
 ---
 title: Long form has no autosave
-slug: forms-no-autosave
+id: forms-no-autosave
 category: forms
 defaultTier: fix-this-sprint
-surfaces: onboarding, form, checkout
-react-apis: useEffect, useDebouncedCallback, localStorage
+detect: static
 related: forms-lost-data-on-error
 ---
 

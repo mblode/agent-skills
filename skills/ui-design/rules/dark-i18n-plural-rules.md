@@ -1,10 +1,9 @@
 ---
 title: Hardcoded English pluralization (item / items)
-slug: dark-i18n-plural-rules
+id: dark-i18n-plural-rules
 category: dark-i18n
 defaultTier: backlog
-surfaces: list, dashboard, cart, notifications, form
-react-apis: n/a (Intl.PluralRules)
+detect: static
 related: dark-i18n-locale-formatting, microcopy-vague-error
 ---
 

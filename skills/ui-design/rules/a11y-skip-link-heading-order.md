@@ -1,13 +1,14 @@
 ---
 title: Provide Skip Link and Logical Heading Order
-impact: HIGH
-impactDescription: improves keyboard and screen reader navigation
-tags: accessibility, headings, skip-link
+id: a11y-skip-link-heading-order
+category: a11y
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Provide Skip Link and Logical Heading Order
 
-Include a skip link and keep heading levels sequential.
+Include a skip link and keep heading levels sequential. Without both, keyboard and screen reader users walk the whole header on every page and lose the outline they navigate by.
 
 **Incorrect (no skip link, jumps heading levels):**
 

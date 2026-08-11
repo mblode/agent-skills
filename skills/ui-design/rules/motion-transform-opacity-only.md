@@ -1,13 +1,14 @@
 ---
 title: Animate Transform and Opacity, Not Layout
-impact: HIGH
-impactDescription: reduces jank and improves smoothness
-tags: motion, performance, animation
+id: motion-transform-opacity-only
+category: motion
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Animate Transform and Opacity, Not Layout
 
-Avoid animating properties that trigger layout/reflow.
+Avoid animating properties that trigger layout/reflow. Layout-property animation forces reflow on every frame, which reads as jank.
 
 **Incorrect (layout-thrashing animation):**
 

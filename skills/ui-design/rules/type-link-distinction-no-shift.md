@@ -1,8 +1,9 @@
 ---
 title: Distinguish Links Without Layout Shift
-impact: MEDIUM
-impactDescription: improves discoverability and stability
-tags: typography, links, interaction
+id: type-link-distinction-no-shift
+category: type
+defaultTier: backlog
+detect: rendered
 ---
 
 ## Distinguish Links Without Layout Shift

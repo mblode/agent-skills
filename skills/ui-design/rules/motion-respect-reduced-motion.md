@@ -1,13 +1,14 @@
 ---
 title: Respect prefers-reduced-motion
-impact: HIGH
-impactDescription: prevents vestibular distress, migraines, and seizures
-tags: motion, accessibility, animation, reduced-motion
+id: motion-respect-reduced-motion
+category: motion
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Respect prefers-reduced-motion
 
-Gate non-essential animation, parallax, and autoplay behind `prefers-reduced-motion`. Users who request reduced motion get an instant or cross-fade instead of large movement. Keep essential motion (e.g. a loading spinner); tone down decorative effects.
+Large unreduced movement can trigger vestibular distress, migraines, and seizures, so gate non-essential animation, parallax, and autoplay behind `prefers-reduced-motion`. Users who request reduced motion get an instant or cross-fade instead of large movement. Keep essential motion (e.g. a loading spinner); tone down decorative effects.
 
 **Incorrect (animation always runs):**
 

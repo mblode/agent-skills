@@ -1,10 +1,9 @@
 ---
 title: Missing viewport meta, 100vh on mobile, no safe-area insets
-slug: mobile-viewport-scaling
+id: mobile-viewport-scaling
 category: mobile
 defaultTier: backlog
-surfaces: dashboard, checkout, modal, list, sign-in
-react-apis: n/a (HTML / CSS only)
+detect: static
 related: interaction-target-size, states-layout-shift
 ---
 

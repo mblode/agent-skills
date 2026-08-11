@@ -1,10 +1,9 @@
 ---
 title: Empty state has no call to action
-slug: states-no-empty-state
+id: states-no-empty-state
 category: states
 defaultTier: fix-this-sprint
-surfaces: list, dashboard, search, onboarding, empty-state
-react-apis: Link, Button
+detect: static
 related: states-no-skeleton, states-no-error-state
 ---
 

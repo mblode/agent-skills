@@ -1,10 +1,9 @@
 ---
 title: Async data renders a spinner instead of a skeleton
-slug: states-no-skeleton
+id: states-no-skeleton
 category: states
 defaultTier: fix-this-sprint
-surfaces: list, dashboard, search, form, loading-state
-react-apis: Suspense, loading.tsx, Skeleton
+detect: static
 related: states-layout-shift, microcopy-generic-loading
 ---
 

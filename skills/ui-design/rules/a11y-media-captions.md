@@ -1,13 +1,14 @@
 ---
 title: Caption Video and Transcribe Audio
-impact: CRITICAL
-impactDescription: makes media accessible to deaf and hard-of-hearing users
-tags: accessibility, media, captions, transcripts
+id: a11y-media-captions
+category: a11y
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Caption Video and Transcribe Audio
 
-Video needs synchronised captions via `<track kind="captions">`; audio-only needs a text transcript. Auto-generated captions alone are not sufficient for meaning-critical media.
+Deaf and hard-of-hearing users get nothing from uncaptioned media. Video needs synchronised captions via `<track kind="captions">`; audio-only needs a text transcript. Auto-generated captions alone are not sufficient for meaning-critical media.
 
 **Incorrect (video with no captions track):**
 

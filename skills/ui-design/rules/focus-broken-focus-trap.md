@@ -1,10 +1,9 @@
 ---
 title: Modal without working focus trap
-slug: focus-broken-focus-trap
+id: focus-broken-focus-trap
 category: focus
 defaultTier: release-blocker
-surfaces: modal, sheet, drawer, popover
-react-apis: Radix Dialog, react-aria-modal, focus-trap-react
+detect: static
 related: focus-not-restored, focus-on-dynamic-content, states-no-error-state
 ---
 

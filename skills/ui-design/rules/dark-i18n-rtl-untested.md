@@ -1,10 +1,9 @@
 ---
 title: Layout uses physical (left/right) instead of logical (start/end) properties
-slug: dark-i18n-rtl-untested
+id: dark-i18n-rtl-untested
 category: dark-i18n
 defaultTier: backlog
-surfaces: form, sign-in, checkout, list, dashboard, modal, marketing
-react-apis: n/a (CSS logical properties)
+detect: rendered
 related: dark-i18n-string-overflow, dark-i18n-untested
 ---
 

@@ -1,10 +1,9 @@
 ---
 title: Optimistic update without rollback on server reject
-slug: async-optimistic-without-rollback
+id: async-optimistic-without-rollback
 category: async
 defaultTier: release-blocker
-surfaces: checkout, list, form, dashboard, modal
-react-apis: useOptimistic, useTransition, startTransition, server actions
+detect: static
 related: states-no-error-state, microcopy-leaked-error-message
 ---
 

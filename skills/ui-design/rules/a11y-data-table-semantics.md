@@ -1,8 +1,9 @@
 ---
 title: Mark Up Data Tables With Real Table Semantics
-impact: CRITICAL
-impactDescription: lets screen readers announce row and column relationships
-tags: accessibility, tables, semantics
+id: a11y-data-table-semantics
+category: a11y
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Mark Up Data Tables With Real Table Semantics

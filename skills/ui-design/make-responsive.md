@@ -31,7 +31,7 @@ Audit order: page shell, navigation, text/forms, overflow, then component-specif
 - Body, paragraph, and general page content stays `text-base` (16px) at every breakpoint, per [Typography](./guidelines/typography.md), which owns body size. Desktop reading distance is longer than mobile, so stepping body copy down to `text-sm` at `sm:` makes it harder to read, not denser
 - Text input with font size below `16px`: add `max-sm:text-base/{lh}` to bump it to `16px` on mobile
 - Checkboxes, radios, and toggles larger on mobile, scaling at `sm:`: e.g. `size-5 sm:size-4` for checkboxes/radios and `w-11 sm:w-9` for toggles
-- Small/icon buttons must meet the 48×48px minimum touch target: make the button `relative` and add a direct child `<span class="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-1/2 pointer-fine:hidden" aria-hidden="true" />` when the visual button is smaller
+- Small/icon buttons need their touch target expanded on coarse pointers: see [Buttons](./guidelines/buttons.md), which owns the size and the expander markup
 - Never fix cramped heading groups by constraining the wrapper with `max-w-*` or `max-lg:max-w-*`: constrain each text element directly with `max-w-[*ch]`
 
 ### Overflow and Flexible Sizing

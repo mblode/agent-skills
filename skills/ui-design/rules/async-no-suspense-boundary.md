@@ -1,10 +1,9 @@
 ---
 title: Async server component without Suspense boundary
-slug: async-no-suspense-boundary
+id: async-no-suspense-boundary
 category: async
 defaultTier: fix-this-sprint
-surfaces: dashboard, list, search, loading-state, checkout, onboarding
-react-apis: <Suspense>, server components, loading.tsx, streaming
+detect: static
 related: states-no-skeleton, states-layout-shift, async-no-error-boundary
 ---
 

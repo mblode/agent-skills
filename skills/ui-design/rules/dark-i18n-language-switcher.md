@@ -1,10 +1,9 @@
 ---
 title: Language switcher uses flags or untranslated labels
-slug: dark-i18n-language-switcher
+id: dark-i18n-language-switcher
 category: dark-i18n
 defaultTier: backlog
-surfaces: settings, navigation, footer, onboarding
-react-apis: n/a (HTML lang attribute)
+detect: static
 related: dark-i18n-locale-formatting, dark-i18n-rtl-untested
 ---
 

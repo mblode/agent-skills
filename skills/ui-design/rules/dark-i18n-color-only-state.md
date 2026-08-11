@@ -1,10 +1,9 @@
 ---
 title: State communicated by color alone (red error, green success, yellow warn)
-slug: dark-i18n-color-only-state
+id: dark-i18n-color-only-state
 category: dark-i18n
 defaultTier: fix-this-sprint
-surfaces: form, sign-in, checkout, toast, dashboard, list
-react-apis: n/a (HTML semantics + CSS)
+detect: static
 related: states-no-error-state, dark-i18n-untested, microcopy-vague-error
 ---
 

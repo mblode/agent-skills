@@ -1,8 +1,9 @@
 ---
 title: Avoid Color-Only Meaning
-impact: CRITICAL
-impactDescription: keeps state readable without color perception
-tags: accessibility, status, color-only
+id: a11y-color-only-meaning
+category: a11y
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Avoid Color-Only Meaning

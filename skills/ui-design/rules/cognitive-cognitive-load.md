@@ -1,9 +1,9 @@
 ---
 title: Cognitive Load
-impact: CRITICAL
-kind: programmatic
-prefix: cognitive
-tags: mental-effort, scannability, signal-to-noise, density
+id: cognitive-cognitive-load
+category: cognitive
+defaultTier: release-blocker
+detect: static
 related: cognitive-millers-law, cognitive-chunking, decision-hicks-law, decision-teslers-law
 ---
 

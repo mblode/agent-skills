@@ -1,10 +1,9 @@
 ---
 title: Submit button not disabled while pending
-slug: forms-no-disable-while-submitting
+id: forms-no-disable-while-submitting
 category: forms
 defaultTier: release-blocker
-surfaces: sign-in, sign-up, checkout, onboarding, form
-react-apis: useFormStatus, useActionState
+detect: static
 related: forms-use-form-status-misuse, forms-lost-data-on-error
 ---
 

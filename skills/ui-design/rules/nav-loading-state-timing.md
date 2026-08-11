@@ -1,13 +1,14 @@
 ---
 title: Stabilize Loading Indicator Timing
-impact: MEDIUM
-impactDescription: avoids flicker and perceived instability
-tags: navigation, loading, feedback
+id: nav-loading-state-timing
+category: nav
+defaultTier: backlog
+detect: static
 ---
 
 ## Stabilize Loading Indicator Timing
 
-Apply a short reveal delay and minimum visible duration for spinners/skeletons.
+Apply a short reveal delay and minimum visible duration for spinners/skeletons. Without them a fast response flashes a spinner for one frame and the page reads as unstable.
 
 **Incorrect (instant flicker):**
 

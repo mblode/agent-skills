@@ -51,7 +51,7 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 ### Layout rules
 
 - **Single-column layout.** No side-by-side comparisons forcing horizontal scroll.
-- **44-48px tap targets.** Apple minimum 44px, Google recommends 48px. Smaller frustrates thumb navigation.
+- **Tap targets.** Apple's floor is 44px and Google recommends 48px; this skill ships 48, per [guidelines/buttons.md](../guidelines/buttons.md). Smaller frustrates thumb navigation.
 - **Thumb-zone CTA placement.** Primary actions in the bottom-centre, reachable without stretching.
 - **Sticky CTA.** Keep the primary CTA visible as the user scrolls. A fixed bottom bar or floating button keeps the action one tap away.
 

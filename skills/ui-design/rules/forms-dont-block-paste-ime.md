@@ -1,13 +1,14 @@
 ---
 title: Do Not Block Paste or IME Input
-impact: HIGH
-impactDescription: preserves accessibility and international input support
-tags: forms, paste, ime
+id: forms-dont-block-paste-ime
+category: forms
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Do Not Block Paste or IME Input
 
-Avoid handlers that prevent paste or aggressively filter keystrokes.
+Avoid handlers that prevent paste or aggressively filter keystrokes. Blocking paste breaks password managers and assistive input, and keystroke filters swallow the composition events IME users type with.
 
 **Incorrect (blocks user input):**
 

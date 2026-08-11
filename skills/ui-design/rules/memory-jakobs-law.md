@@ -1,9 +1,9 @@
 ---
 title: Jakob's Law
-impact: MEDIUM-HIGH
-kind: programmatic
-prefix: memory
-tags: memory, conventions, web-patterns, familiarity, transfer
+id: memory-jakobs-law
+category: memory
+defaultTier: fix-this-sprint
+detect: static
 related: memory-serial-position, cognitive-cognitive-load, perception-similarity
 ---
 

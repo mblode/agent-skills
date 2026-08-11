@@ -1,13 +1,14 @@
 ---
 title: Preserve Visible Focus States
-impact: CRITICAL
-impactDescription: critical for keyboard operability
-tags: interaction, focus, keyboard
+id: interaction-focus-visible
+category: interaction
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Preserve Visible Focus States
 
-Never remove outlines without a clear `:focus-visible` replacement.
+Never remove outlines without a clear `:focus-visible` replacement. With the outline gone, keyboard users cannot see where they are and the interface stops being navigable.
 
 **Incorrect (focus removed):**
 

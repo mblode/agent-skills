@@ -1,10 +1,9 @@
 ---
 title: Form input not normalized server-side
-slug: forms-no-normalize
+id: forms-no-normalize
 category: forms
 defaultTier: fix-this-sprint
-surfaces: sign-in, sign-up, checkout, onboarding, form
-react-apis: server actions, zod
+detect: static
 related: forms-lost-data-on-error
 ---
 

@@ -1,13 +1,14 @@
 ---
 title: Give Every Image a Correct Alt Attribute
-impact: CRITICAL
-impactDescription: makes images usable to screen readers and when loading fails
-tags: accessibility, images, alt-text
+id: a11y-image-alt-text
+category: a11y
+defaultTier: release-blocker
+detect: static
 ---
 
 ## Give Every Image a Correct Alt Attribute
 
-Every `<img>` needs an `alt`: describe the purpose for informative images, use an empty `alt=""` for decorative ones so screen readers skip them. A missing `alt` makes the file name get read aloud.
+Every `<img>` needs an `alt`: describe the purpose for informative images, use an empty `alt=""` for decorative ones so screen readers skip them. A missing `alt` makes the file name get read aloud. The `alt` is also what renders when the image itself fails to load.
 
 **Incorrect (missing alt, and decorative image announced):**
 

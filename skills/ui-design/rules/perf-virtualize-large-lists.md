@@ -1,13 +1,14 @@
 ---
 title: Virtualize Long Lists
-impact: HIGH
-impactDescription: improves scroll performance and memory usage
-tags: performance, lists, virtualization
+id: perf-virtualize-large-lists
+category: perf
+defaultTier: fix-this-sprint
+detect: static
 ---
 
 ## Virtualize Long Lists
 
-Large lists (roughly >50 visible items) should use virtualization/windowing.
+Large lists (roughly >50 visible items) should use virtualization/windowing. Rendering the whole dataset stalls scrolling and grows memory with the list.
 
 **Incorrect (renders entire dataset):**
 
