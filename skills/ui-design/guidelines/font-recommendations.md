@@ -12,7 +12,7 @@ Optional. Reference only when font selection is part of the task; never force th
 
 ## General Guidelines
 
-- Default to Inter for body/UI unless the user is exploring other options.
+- Start with the project's existing body/UI face. When no type system exists, choose a restrained sans that fits the product and audience; Inter is one valid option, not an automatic default.
 - Recommend sans-serif unless the user asks for serif, says "sophisticated" or "editorial", or the project calls for it (luxury brand, literary magazine, fashion editorial).
 
 ## By Purpose

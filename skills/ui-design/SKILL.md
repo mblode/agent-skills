@@ -7,9 +7,10 @@ description: >-
   asked to "build a landing page", "create a dashboard", "make this look
   premium", "pick a visual style", "design the UI", "show me 3 options",
   "create a brand kit", "turn this screenshot into markup", "add dark mode",
-  "make this responsive", or "clean up the Tailwind". For product behavior use
-  product-design; for UI audits use ui-audit; for motion use ui-animation; for
-  copy use copywriting.
+  "make this responsive", "clean up the Tailwind", "remove AI slop", "make
+  this look less AI-generated", "simplify this UI", or "polish this vibe-coded
+  UI". For product behavior use product-design; for audit-only requests use
+  ui-audit; for motion use ui-animation; for copy use copywriting.
 ---
 
 # UI Design
@@ -17,7 +18,7 @@ description: >-
 Pick the visual direction, then implement it in code via the ui.sh design guideline system.
 
 - **IS:** choosing visual direction (palettes, type scales, tokens, layout systems, CRO strategy, brand boards) and building or refining UI in code: one definitive design, variants compared in the browser, a semantic markup scaffold from a UI image, dark-mode and responsive retrofits, or component extraction and Tailwind canonicalization.
-- **IS NOT:** deciding what should exist, action scope, consequence, or reachable states (use `product-design`); auditing existing UI quality (use `ui-audit`); deep typography audits (use `typography-audit`); motion design (use `ui-animation`); landing-page copy (use `copywriting`).
+- **IS NOT:** deciding what should exist, action scope, consequence, or reachable states (use `product-design`); auditing existing UI without changing it (use `ui-audit`); deep typography audits (use `typography-audit`); motion design (use `ui-animation`); landing-page copy (use `copywriting`).
 
 ## Modes
 
@@ -26,7 +27,8 @@ Pick one mode from the user's wording; load only that mode's files:
 | Mode | Dispatch when the user asks for | Load |
 |------|--------------------------------|------|
 | **Direction** | visual direction, palettes, fonts, tokens, "make this look premium", "pick a style", conversion strategy, a brand kit; deliverable is a spec, not code | the Direction section below |
-| **Build** (default) | one design in code: "build a landing page", "create a dashboard", "add a pricing section" | [design-guidelines.md](./design-guidelines.md), then the applicable rule files from its index |
+| **Build** (default) | one design in code: "build a landing page", "create a dashboard", "add a pricing section" | [direction/aesthetic-direction.md](./direction/aesthetic-direction.md), [design-guidelines.md](./design-guidelines.md), then the applicable rule files from its index |
+| **Refine** | implement an anti-slop pass: "remove AI slop", "looks vibe coded", "delete useless elements", "simplify this UI", "polish this generated page" | the Refine section below, plus the Build files |
 | **Options** | variants to compare in the browser: "show me 3 hero layouts", "a few ideas for this section" | [ideas.md](./ideas.md) plus the guidelines per variant |
 | **Scaffold** | semantic, unstyled markup from a screenshot, Figma export, mockup, or wireframe: "turn this screenshot into markup" | [markup-from-image.md](./markup-from-image.md) only; scaffold stays unstyled |
 | **Dark mode** | dark mode onto existing UI, or a dark variant of an image: "add dark mode", "make a dark version of this image" | [add-dark-mode.md](./add-dark-mode.md); for raster images also [dark-mode-image.md](./dark-mode-image.md) (requires the `imagegen` skill, Codex) |
@@ -37,7 +39,7 @@ Direction and Build chain: for a new surface with no direction, run Direction fi
 
 ## Direction mode
 
-Output a decision set, not markup: a one-sentence visual thesis (mood, material, energy), palette as CSS variables, type pairing and scale, spacing grid, radius and depth strategy, the layout pattern for the primary surface, and for conversion pages the section sequence, CTA plan, and proof placement. Close with the track's litmus checks as the exit gate, then hand off to Build mode.
+Output a decision set, not markup: a one-sentence visual thesis (mood, material, energy), palette as CSS variables, type pairing and scale, spacing grid, radius and depth strategy, the layout pattern for the primary surface, and for conversion pages the section sequence, CTA plan, and proof placement. Confirm that type, colour, radius, and interface language express one personality for the stated audience. Close with the track's litmus checks as the exit gate, then hand off to Build mode.
 
 ### Pick a track
 
@@ -50,7 +52,7 @@ Tie-breakers: a marketing site *for* a SaaS product is the marketing track; the 
 
 ### Shared foundations (load with either track)
 
-- [direction/aesthetic-direction.md](./direction/aesthetic-direction.md): AI-slop signals, restraint philosophy, reference products, polish details. Read after the track pick, before proposing a direction.
+- [direction/aesthetic-direction.md](./direction/aesthetic-direction.md): AI-slop signals, restraint philosophy, reference products, polish details. Direction mode reads it after the track pick; Build and Refine load it first, with no track pick.
 - [direction/design-in-code.md](./direction/design-in-code.md): low-fi ASCII wireframing and the copy-what-works workflow. Read before building a new surface from scratch.
 
 ### Marketing references (conversion pages only)
@@ -70,15 +72,26 @@ For "create a brand kit", "generate a visual identity", or a brand direction boa
 ## Build mode
 
 1. Inspect the request, target files, existing design conventions, and available components.
-2. Load [design-guidelines.md](./design-guidelines.md), then every applicable rule and reference file from its index.
+2. Load [direction/aesthetic-direction.md](./direction/aesthetic-direction.md), then [design-guidelines.md](./design-guidelines.md) and only the applicable rule and reference files from its index.
 3. Implement using the project's existing framework, component patterns, assets, and Tailwind conventions.
-4. Check across responsive breakpoints and interaction states.
+4. Render at representative desktop and mobile widths, then check interaction states.
 
 Rules:
 
 - Guideline files in this skill are the source of truth for new UI design work.
 - `design-guidelines.md` is the single one-level index for `guidelines/`; it also owns the load contract, so load applicable rule files from there and do not maintain a second list here.
 - Preserve user constraints unless a guideline requires asking about a design conflict.
+
+## Refine mode
+
+Edit the current UI rather than regenerating it. Preserve decisions that already serve the product.
+
+1. **Delete:** remove unsupported furniture before styling: repeated claims, fake proof, decorative dividers, redundant sections, extra actions, and faux product chrome.
+2. **Structure:** name the primary task or proposition, make its next action obvious, and give each remaining section one distinct job.
+3. **System:** reconcile type, colour, radius, spacing, depth, and interface language with the project and audience. Replace unjustified one-offs with existing tokens.
+4. **Surface:** refine hierarchy and grouping. Make existing controls and content feel owned before adding decoration.
+5. **States:** restore hover, focus, pressed, disabled, loading, empty, success, and error states where applicable.
+6. **Render:** inspect desktop and mobile captures at final size. Name the three strongest remaining AI tells and revise once when two or more are unearned effects, faux product framing, repeated persuasion furniture, or generic copy.
 
 Other modes follow their loaded file: Options [ideas.md](./ideas.md), Scaffold [markup-from-image.md](./markup-from-image.md), Dark mode [add-dark-mode.md](./add-dark-mode.md), Responsive [make-responsive.md](./make-responsive.md), Componentize [componentize.md](./componentize.md).
 
@@ -88,6 +101,8 @@ Reference products below are calibration only; verify with this litmus checklist
 
 - Product UI keeps high information density without card piles, hero furniture, or marketing copy.
 - Marketing UI has one primary conversion path, visible proof, and no generic SaaS gradients or stock-like imagery.
+- Type, colour, radius, and interface language express one personality for the product and audience.
+- Sizes, gaps, radii, weights, colours, and elevation values trace to project tokens or a documented exception; near-duplicates and arbitrary one-offs are removed.
 - Hierarchy is readable at desktop and mobile widths without viewport-scaled type.
 - Palette uses project tokens or a deliberate direction; no default Tailwind indigo/gray look.
 - Interactive states exist for hover, focus, pressed, disabled, loading, empty, and error where applicable.
@@ -110,16 +125,19 @@ Reference calibration:
 
 - Start the local dev server when the app requires one, and report its URL.
 - Check desktop and mobile viewports; capture screenshot paths or browser tool observations.
+- Judge subtle hierarchy, state, and edge treatments at the rendered size, theme, background, and platform where users encounter them. If a distinction is not visible there, it does not exist.
 - Check console errors and failed network requests.
 - Exercise the interaction states the Quality Bar requires.
+- Scroll the first and last content past sticky or fixed headers, footers, and action bars at desktop and mobile widths. Content must not disappear beneath them, and overlapping chrome needs a visible edge or scroll cue.
 - Confirm text does not overflow or overlap in buttons, cards, sidebars, and compact panels.
 - List the guideline, track, and mode files loaded.
 
 ## Gotchas
 
 - Marketing track on a product surface puts hero sections and campaign copy on dashboards, so operators can't find status or actions. product-ui.md's "Utility copy" section exists for this failure.
-- Load `aesthetic-direction.md` in Direction mode; skipping it defaults output toward generic Inter, white backgrounds, and purple gradients.
+- Skipping `aesthetic-direction.md` in any mode that produces visuals defaults output toward generic Inter, undesigned white backgrounds, and purple gradients.
 - Loading CRO references for a brand or portfolio page biases toward conversion furniture (badge strips, sticky CTAs, urgency banners) the brief never asked for.
+- Replacing one slop costume with another leaves the structure untouched: swapping purple for cyan, Inter for decorative mono, or cards for glass panels is not a refinement pass.
 - Quoting the references' conversion stats as promises ("this will lift conversions 34%") misrepresents them; they are directional priors for prioritising tests.
 - Skipping `colors.md` in Build mode produces the stock Tailwind look: indigo accents and `gray-*` neutrals, both banned as defaults.
 
@@ -132,3 +150,5 @@ Reference calibration:
 - `product-design`: the product decision before the build (which interactions exist, action naming, reachable-state coverage); decide there, then build here
 - `optimise-seo`: meta descriptions and page titles
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion
+
+Maintenance only: when changing anti-slop behavior, run the three scenarios in [evaluations/refine-ai-ui.json](./evaluations/refine-ai-ui.json) as a regression rubric. Do not load them during a UI task.

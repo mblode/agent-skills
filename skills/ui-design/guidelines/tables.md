@@ -6,7 +6,7 @@ Covers: data tables, comparison tables, table headings, row dividers, horizontal
 
 - Never use uppercase in table headings: use sentence case.
 - Never let table headings wrap: add `whitespace-nowrap` to `<th>`.
-- Never put tables in containers or cards: place them directly on the background.
+- In dense work surfaces, default to tables directly on the page with row dividers. Use a bounded shell when search, filters, the table, page size, and pagination form one module, or when the project already does.
 - Divide rows with horizontal lines only: no vertical lines, no outer borders.
 - Always use `w-full` so tables fill their container.
 - Hide headings with `sr-only` when column content is self-explanatory (typically 2-3 column tables where headings add no value).

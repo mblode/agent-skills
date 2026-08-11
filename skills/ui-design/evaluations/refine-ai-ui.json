@@ -1,0 +1,35 @@
+[
+  {
+    "skills": ["ui-design"],
+    "query": "Remove the AI slop from this generated B2B SaaS landing page. It has stacked gradients, a grid background, a giant wordmark, repeated CTA blocks, fake logo proof, an unreadable dashboard in browser chrome, and decorative monospace. Keep the yellow CTA that belongs to the brand.",
+    "expected_behavior": [
+      "Selects Refine mode and edits the current UI instead of regenerating it",
+      "Deletes unsupported proof, repeated conversion furniture, and faux product framing before styling",
+      "Preserves the earned yellow brand moment instead of banning every strong visual choice",
+      "Uses authentic product behavior or legible product imagery as proof",
+      "Runs the final desktop and mobile anti-slop render gate"
+    ]
+  },
+  {
+    "skills": ["ui-design"],
+    "query": "Simplify this analytics screen. Four cards are selectable choices and the fifth is reference context, but all five look clickable. The leaf duplicates the shell title and Done action, selection disappears after hover, and the sticky footer hides the final row.",
+    "expected_behavior": [
+      "Selects Refine mode and follows Delete, Structure, System, Surface, States, Render",
+      "Keeps shared title and Done controls under one visual owner",
+      "Gives the reference context a quieter non-interactive treatment than the four choices",
+      "Adds a persistent accessible selected state distinct from hover",
+      "Scroll-tests the final content against sticky chrome at desktop and mobile widths"
+    ]
+  },
+  {
+    "skills": ["ui-design"],
+    "query": "Refactor this settings page to match the supplied product reference. Search, filters, table, page size, and pagination form one module. Keep the product screenshot legible and the account form compact.",
+    "expected_behavior": [
+      "Treats the live project and supplied reference as the spec instead of applying generic visual motifs",
+      "Allows a bounded table shell because the controls and table form one module",
+      "Keeps the product screenshot straight-on and readable without decorative perspective or fake chrome",
+      "Sizes the account form to its task rather than filling the available canvas",
+      "Uses project type, colour, radius, spacing, and depth tokens unless an optical exception is justified"
+    ]
+  }
+]

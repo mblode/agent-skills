@@ -4,8 +4,8 @@ Use when designing or building new UI, or when a workflow tells you to load desi
 
 ## Load Contract
 
-- Before writing UI code, scan the index below and load every rule file that could apply; err toward loading too many.
-- Treat rules as applicable even when indirect: heading-group rules apply to hero sections; landing-page rules to individual page sections; surface rules to dashboard cards and list items.
+- Before writing UI code, scan the index below and load the rule files supported by concrete elements in the request or target UI. Do not load unrelated component rules as generic inspiration.
+- Three mappings are not obvious from a filename, so treat them as direct hits rather than inspiration: a hero section loads heading-group rules, an individual page section loads landing-page rules, and a dashboard card or list item loads surface rules.
 - Load reference modules only when the request needs that material.
 
 ## General Design Principles
@@ -46,13 +46,13 @@ Follow these when designing or building UI:
 - [Pricing Cards](./guidelines/pricing-cards.md): pricing tiers, pricing tables, plan cards, emphasized/popular plan styling, button alignment across columns
 - [Responsive Design](./guidelines/responsive-design.md): responsive breakpoints, container queries, `@container` placement, mobile-to-desktop layout adaptation
 - [SVG](./guidelines/svg.md): inline SVG elements, `xmlns` attributes, SVG color styling (`fill`, `stroke`, `currentColor`), SVG markup conventions in HTML/JSX
-- [Section Layout](./guidelines/section-layout.md): left-aligned vs centered section layouts, content width constraints, aligning containers across stacked page sections
+- [Section Layout](./guidelines/section-layout.md): left-aligned vs centered section layouts, content width constraints, aligning containers across stacked page sections, spacing rhythm and grouping, sizing a panel to its task, single ownership of shared chrome
 - [Shadows](./guidelines/shadows.md): box shadows on cards, modals, popovers, dropdowns, elevated elements, including border-pairing rules
 - [Surfaces](./guidelines/surfaces.md): cards, wells, borders, dividers, and white space as surface treatments; when to use cards vs subtle dividers vs recessed backgrounds vs no separation; applies to stat grids, dashboard metrics, list items, sidebars, any content grouping decision
 - [Tables](./guidelines/tables.md): data tables, comparison tables, table headings, row dividers, table containers
 - [Team Sections](./guidelines/team-sections.md): team grids, team member cards, staff listings, about-us sections, people galleries with photos and bios
 - [Testimonials](./guidelines/testimonials.md): customer quotes, reviews, social proof sections, testimonial cards, hanging punctuation, attribution layout
-- [Typography](./guidelines/typography.md): font weights, line heights, text sizes, heading styles, max-width constraints, text-pretty/text-balance, tracking, eyebrow text
+- [Typography](./guidelines/typography.md): font weights, line heights, text sizes, heading styles, max-width constraints, text-pretty/text-balance, tracking, eyebrow text, when to omit a label, link styling in dense UI
 
 ## Reference Modules
 

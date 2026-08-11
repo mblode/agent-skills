@@ -27,8 +27,8 @@ Audit order: page shell, navigation, text/forms, overflow, then component-specif
 
 ### Text, Forms, and Touch Targets
 
-- Body text, subheadings, form controls, and icons are **larger on mobile**, scaling down at `sm:`: write the mobile (larger) size as default and the desktop (smaller) size with `sm:` (e.g. `text-2xl/8 sm:text-xl/8`, `text-base/7 sm:text-sm/6`, `text-lg/6 sm:text-sm/6`, `size-5 sm:size-4`, `py-2.5 sm:py-1.5`). Applies to body text, subheadings, stat values, form input labels, badges, buttons, select/input padding, and icons, **not** h1s (page titles stay the same or get smaller on mobile, never bigger)
-- Body, paragraph, and general page content: at least `text-base` (16px) on mobile; never `text-xs`; `text-sm` only at `sm:` or larger (e.g. `text-base/7 sm:text-sm/6`, never bare `text-sm/6` for body copy)
+- Subheadings, form controls, and icons are **larger on mobile**, scaling down at `sm:`: write the mobile (larger) size as default and the desktop (smaller) size with `sm:` (e.g. `text-2xl/8 sm:text-xl/8`, `text-lg/6 sm:text-sm/6`, `size-5 sm:size-4`, `py-2.5 sm:py-1.5`). Applies to subheadings, stat values, form input labels, badges, buttons, select/input padding, and icons. It does **not** apply to h1s (page titles stay the same or get smaller on mobile, never bigger) or to reading copy (next rule)
+- Body, paragraph, and general page content stays `text-base` (16px) at every breakpoint, per [Typography](./guidelines/typography.md), which owns body size. Desktop reading distance is longer than mobile, so stepping body copy down to `text-sm` at `sm:` makes it harder to read, not denser
 - Text input with font size below `16px`: add `max-sm:text-base/{lh}` to bump it to `16px` on mobile
 - Checkboxes, radios, and toggles larger on mobile, scaling at `sm:`: e.g. `size-5 sm:size-4` for checkboxes/radios and `w-11 sm:w-9` for toggles
 - Small/icon buttons must meet the 48×48px minimum touch target: make the button `relative` and add a direct child `<span class="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-1/2 pointer-fine:hidden" aria-hidden="true" />` when the visual button is smaller

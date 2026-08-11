@@ -48,7 +48,7 @@ Highest to lowest trust:
 ### Placement rules
 
 - **Near the CTA:** within one scroll of every conversion point.
-- **Above the fold:** 3-5 logos or one credibility stat; don't delay trust signals.
+- **Above the fold:** 3-5 logos or one credibility stat; don't delay trust signals. Every logo, number, and quote must be real and checkable. If the product has none yet, leave the slot empty or show the product working; a fabricated logo strip is the single most common AI tell on a landing page.
 - **Adjacent to pricing:** testimonials matched to plan type reduce choice anxiety.
 - **After objection sections:** proof answers "but does it actually work?"
 

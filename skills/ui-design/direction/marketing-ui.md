@@ -92,16 +92,16 @@ If deleting 30 percent of the copy improves the page, keep deleting.
 
 ## Aesthetic rules
 
-- Typography: distinctive fonts (not Inter/Roboto/Arial/system). Weight >= 400. Use `clamp()`.
+- Typography: distinctive fonts (not Inter/Roboto/Arial/system). Weight >= 400. Use `clamp()`. This is a hard rule on the marketing track specifically, where the type is the brand; product surfaces follow [aesthetic-direction.md](aesthetic-direction.md) instead.
 - Colour: commit to a palette via CSS variables; avoid pure black/white; one sharp accent.
 - Composition: intentional asymmetry, contrast, and negative space.
-- Backgrounds: atmosphere via gradients/noise/patterns, not flat fills.
+- Backgrounds: give the canvas a material via tint, texture, imagery, or a gradient whose stops sit within roughly 30 degrees of hue. Never a purple or cyan wash on white, and never a flat default fill you did not choose.
 - Interaction: set `pointer-events: none` on decorative layers; allow text selection by default.
 
 ## Motion
 
-- Ship 2-3 intentional motions: a hero entrance sequence, one scroll-linked or depth effect, one hover/reveal/layout transition.
-- Follow `ui-animation` guidelines for timing, easing, and motion review.
+- Ship 2-3 intentional motions: a hero entrance sequence, one scroll-linked or depth effect, one hover/reveal/layout transition. Fewer is fine when the page has nothing to reveal; more is furniture.
+- Follow `ui-animation` for timing, easing, implementation, and review.
 
 ## Hard rules
 
@@ -130,9 +130,9 @@ For conversion-goal pages, load [cro.md](cro.md) (persuasion, social proof, benc
 
 ### Conversion-aware layout
 
-- **One CTA, repeated.** Primary CTA appears after hero, after proof, and at bottom. No competing actions.
+- **One CTA, repeated.** Primary CTA appears after hero, after proof, and at bottom. No competing actions. Drop the middle placement on pages under two scrolls; do not add CTA blocks as furniture beyond these three.
 - **Strip navigation** on landing pages. Every link that isn't the CTA is a leak.
 - **Every section must earn its place.** Each builds confidence, handles an objection, or drives toward the CTA. Sections that just describe the company are furniture; cut them.
 - **Message match.** The hero headline must echo the promise that brought the reader (ad, email, referral). If the ad said "Cut your AWS bill in half" and the page opens with "Welcome to CloudSave", the reader bounces.
-- **Proof near every conversion point:** within one scroll of each CTA, with 3-5 logos or one credibility stat above the fold. Placement and the proof credibility hierarchy are in [cro.md](cro.md).
+- **Proof near every conversion point:** within one scroll of each CTA, with 3-5 logos or one credibility stat above the fold. Use real, checkable proof only. If none exists, show authentic product behavior rather than inventing a logo strip, statistic, testimonial, or framed dashboard, and leave the slot empty rather than filling it. Placement and the proof credibility hierarchy are in [cro.md](cro.md).
 - **Mobile is a separate design**, not a reflow: sticky above-the-fold CTA, proof within two scroll-lengths, single-column 16px+ forms. Full rules in [modern.md](modern.md).

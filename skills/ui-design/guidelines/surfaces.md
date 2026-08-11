@@ -6,6 +6,7 @@ Covers: cards, wells, borders, dividers, white space, recessed backgrounds, cont
 - Choose surface treatments by information hierarchy: white space alone for tightly related items; subtle borders/dividers for sibling content needing separation; wells (recessed backgrounds like `bg-gray-50`) for secondary or nested content; cards with borders or shadows for standalone, interactive, or highly distinct items
 - Use the lightest separation that works: whitespace, then subtle borders/dividers, then cards; never jump straight to cards
 - Reserve cards for independently interactive content (clickable to navigate) or fundamentally different content types
+- Make semantic roles look different. Context, references, previews, and captions must not receive the same card or action treatment as selectable or clickable peers; if five items look equally interactive, users will assume five choices.
 - Container borders must contrast with both adjacent surfaces. On dark-on-darker UI the border is lighter than both surfaces; on light-on-lighter UI it is darker than both.
 - Avoid two hard divides touching: a background transition plus a card edge plus a divider creates visual noise. Remove one layer or soften it with whitespace.
 - Put simple foregrounds on complex backgrounds, and complex foregrounds on simple backgrounds. Avoid complex-on-complex unless the content is intentionally decorative and low-stakes.
@@ -15,3 +16,4 @@ Covers: cards, wells, borders, dividers, white space, recessed backgrounds, cont
 - Reconfigure dividers at each breakpoint when grid columns change: use `nth-child` to target items not in the first column: 2 columns use `[&:nth-child(2n)]:border-l-*`; 4 columns use `[&:not(:nth-child(4n+1))]:border-l-*`; adjust the pattern per breakpoint to match the column count; when collapsing to a single column, remove vertical dividers and add horizontal dividers between rows (`border-t-*` on all items except the first)
 - Whitespace alone suffices when content has inherent contrast (large numbers vs small labels, bold headings vs body text)
 - Never use solid divider colors: use opacity-based like `divide-gray-950/5` or `border-gray-950/10`, not `divide-gray-200` or `border-gray-300`
+- When a faint divider disappears at its rendered size, add weight before adding contrast. A soft 2px rule separates without repeating a harsh dark line.
