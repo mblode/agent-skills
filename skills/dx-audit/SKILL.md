@@ -1,6 +1,6 @@
 ---
 name: dx-audit
-description: Audits the smallest relevant developer-facing surface of a library, CLI, SDK, or npm package across API contracts, errors, CLI behavior, public types, onboarding, and config. Uses candidate-first rule loading, bounded local evidence, and compact root-cause findings. Use when asked to "audit my CLI", "make this CLI agent-friendly", "is this API ergonomic", "review the developer experience", "improve these errors", "simplify first run", or "review my SDK". For end-user UI use ui-audit, for agentic-app trust use ax-audit, for docs prose use docs-writing, for README work use readme-creator, and for repo architecture use codebase-architecture. Inside a product that also ships a UI, this is the skill for the developer-facing half, so pick it when the complaint is about an import, command, error string, exported type, or config rather than a screen.
+description: Audits the smallest relevant developer-facing surface of a library, CLI, SDK, or npm package across API contracts, errors, CLI behavior, public types, onboarding, and config. Uses candidate-first rule loading, bounded local evidence, and compact root-cause findings. Use when asked to "audit my CLI", "make this CLI agent-friendly", "is this API ergonomic", "review the developer experience", "improve these errors", "simplify first run", or "review my SDK". For end-user UI use ui-design Audit mode, for agentic-app trust use ax-audit, for docs prose use docs-writing, for README work use readme-creator, and for repo architecture use codebase-architecture. Inside a product that also ships a UI, this is the skill for the developer-facing half, so pick it when the complaint is about an import, command, error string, exported type, or config rather than a screen.
 ---
 
 # DX Audit
@@ -9,7 +9,7 @@ Audit or improve what developers import, run, configure, or read when something 
 
 - **IS:** a bounded review of public APIs, developer-facing errors, CLI commands, exported types,
   install and first-run behavior, and config.
-- **IS NOT:** a repo-wide quality sweep, end-user UI audit (`ui-audit`), agent trust review
+- **IS NOT:** a repo-wide quality sweep, end-user UI audit (`ui-design` Audit mode), agent trust review
   (`ax-audit`), prose rewrite (`docs-writing`), README rewrite (`readme-creator`), or repository
   architecture review (`codebase-architecture`).
 
@@ -189,7 +189,7 @@ alone does not prove exported types. Verification evidence must match the findin
 
 ## Related skills
 
-- `ui-audit`: rendered end-user frontend quality and accessibility
+- `ui-design` Audit mode: rendered end-user frontend quality and accessibility
 - `ax-audit`: agentic application architecture and trust
 - `docs-writing`: documentation prose and information quality
 - `readme-creator`: README structure and first-reader narrative

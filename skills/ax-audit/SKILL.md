@@ -7,7 +7,8 @@ description: >-
   adaptive canvases. Produces a ship-readiness verdict plus an AX Relationship
   Summary. Use when reviewing agentic feature PRs or asking "is this
   agent-native", "AX review", "critique this AI feature", "does this earn user
-  trust", or "audit this for AX". For traditional frontend UX use ui-audit.
+  trust", or "audit this for AX". For traditional frontend UX use ui-design
+  Audit mode.
 ---
 
 # AX Audit
@@ -15,9 +16,9 @@ description: >-
 Feature-level reviewer for apps where an agent acts for the user. One question: **does it earn trust, and where does it break?**
 
 - **IS:** rules-based audit of agentic surfaces (agent chat, tool execution panels, agent config, dashboards) across two layers (architecture in `rules-arch/`, trust/relationship design in `rules-ax/`), ending in a ship-readiness verdict plus an AX Relationship Summary.
-- **IS NOT:** traditional frontend UX (forms, states, focus, async, microcopy, accessibility, layout, typography, performance, use `ui-audit`); agent instruction-file quality (use `agents-md`).
+- **IS NOT:** traditional frontend UX (forms, states, focus, async, microcopy, accessibility, layout, typography, performance, use `ui-design` Audit mode); agent instruction-file quality (use `agents-md`).
 
-No agentic features in scope (only forms, lists, modals)? Route to `ui-audit`; AX rules against traditional UI produce only noise.
+No agentic features in scope (only forms, lists, modals)? Route to `ui-design` Audit mode; AX rules against traditional UI produce only noise.
 
 ## Contents
 
@@ -105,7 +106,7 @@ Rendered after findings when any agentic feature was detected. Findings serve en
 - **Absence checks need a recorded file list.** "Find components lacking X" greps return nothing both when everything passes and when nothing was scanned. List candidate files first (`rg -l <feature-pattern>`), check each for the counter-pattern, and cite the file list as evidence.
 - **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`.
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the count in the verdict block; a suppression with no reason is itself worth a `warn`.
-- **Don't duplicate ui-audit findings.** "Missing loading state" and "form clears on error" are `ui-audit` territory; duplicating them trains engineers to dismiss the whole AX report.
+- **Don't duplicate `ui-design` Audit mode findings.** "Missing loading state" and "form clears on error" are its territory; duplicating them trains engineers to dismiss the whole AX report.
 - **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. Promoting cosmetic findings to blocker trains the team to ignore ❌ verdicts.
 
 ## Audit self-check
@@ -120,6 +121,6 @@ Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evid
 
 ## Related skills
 
-- `ui-audit`: traditional frontend UX quality around agentic surfaces; run both on agentic feature PRs, with ax-audit covering the agent layer
+- `ui-design` Audit mode: traditional frontend UX quality around agentic surfaces; run both on agentic feature PRs, with ax-audit covering the agent layer
 - `agents-md`: audit CLAUDE.md / AGENTS.md agent instruction files
 - `codebase-architecture`: repo structure and module boundaries

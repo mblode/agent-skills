@@ -102,4 +102,4 @@ Aggregate the per-finding tiers into a top-level verdict (shown in the summary b
 
 ## Cross-reference
 
-For traditional UX findings on agentic surfaces (form data loss, focus management, loading states), run `ui-audit` alongside `ax-audit`. They are complementary: `ax-audit` covers agent-specific safety and interaction; `ui-audit` covers general frontend quality.
+For traditional UX findings on agentic surfaces (form data loss, focus management, loading states), run `ui-design` Audit mode alongside `ax-audit`. They are complementary: `ax-audit` covers agent-specific safety and interaction; `ui-design` Audit mode covers general frontend quality.

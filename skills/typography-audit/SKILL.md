@@ -11,8 +11,9 @@ description: >-
   fonts", "review my type system", "why does this text look off". Triggers on
   font-family, font-size, line-height, letter-spacing, smart quotes, em dashes,
   faux bold or italic, variable fonts, widows and orphans. For whole-UI audits
-  beyond type (accessibility, forms, navigation), use ui-audit; for choosing a
-  visual direction or designing a new type system, use ui-design.
+  beyond type (accessibility, forms, navigation), use ui-design Audit mode; for
+  choosing a visual direction or designing a new type system, use ui-design
+  Direction mode.
 ---
 
 # Typography Audit
@@ -20,7 +21,7 @@ description: >-
 78 rules in 10 categories for web typography. Every finding names file, rule, and fix.
 
 - **IS:** typography only: font loading, sizing, punctuation, spacing, hierarchy, text layout, OpenType features, typeface pairing, brand type, display type.
-- **IS NOT:** broad UI review (accessibility, forms, navigation: use `ui-audit`), or a redesign (new typefaces, scales: use `ui-design`).
+- **IS NOT:** broad UI review (accessibility, forms, navigation: use `ui-design` Audit mode), or a redesign (new typefaces, scales: use `ui-design` Direction mode).
 
 ## Audit Workflow
 
@@ -115,7 +116,7 @@ Once per audit, at the very end, never between findings. An audit that found not
 
 ## Related Skills
 
-- `ui-audit`: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower.
-- `ui-design`: choosing typefaces, scales, and visual direction from scratch; run when a finding becomes a redesign request.
+- `ui-design` Audit mode: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower.
+- `ui-design` Direction mode: choosing typefaces, scales, and visual direction from scratch; run when a finding becomes a redesign request.
 - `copywriting`: heading and label wording. This skill governs only the casing of that copy (`punct-case-rules`).
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

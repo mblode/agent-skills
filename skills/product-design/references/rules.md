@@ -35,7 +35,7 @@ A rule is observable when you can point at the interface and say it passes or fa
 - Accessibility as a product concern
 - Hierarchy and structure
 
-Visual-token integrity (design-system overrides, raw shadows, off-grid spacing, modal scroll structure) is not this skill's: it is a rendered or lint concern owned by `ui-audit` and the project's visual lint. This skill decides whether a modal should exist or be nested; whether its body scrolls correctly is `ui-audit`'s check.
+Visual-token integrity (design-system overrides, raw shadows, off-grid spacing, modal scroll structure) is not this skill's: it is a rendered or lint concern owned by `ui-design` and the project's visual lint. This skill decides whether a modal should exist or be nested; whether its body scrolls correctly is `ui-design` Audit mode's check.
 
 ## Copy rule IDs (defined in copywriting)
 
@@ -66,7 +66,7 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Scope: any clickable element.
 - Rule: use a link for navigation (changes location, shareable, back-button safe) and a button for an action (mutates state, submits, opens an overlay). Do not style one as the other.
 - Why: the wrong semantic breaks the back button, open-in-new-tab, keyboard activation, and screen-reader role.
-- Source: `product-judgment.md` > Semantics; `ui-audit` for the rendered check.
+- Source: `product-judgment.md` > Semantics; `ui-design` Audit mode for the rendered check.
 - Enforcement: judgment.
 
 ### rule/no-nested-modals
@@ -116,7 +116,7 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Scope: forms, editors, and any input across validation, error, or navigation.
 - Rule: preserve user input through validation failures and recoverable errors. Do not clear fields on a failed submit.
 - Why: discarding entered data on error forces re-entry and loses the user's work and trust.
-- Source: `surfaces.md` > Error state; `ui-audit` for the React-level check.
+- Source: `surfaces.md` > Error state; `ui-design` Audit mode for the React-level check.
 - Enforcement: judgment.
 
 ## State coverage
@@ -166,7 +166,7 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Scope: any multi-step or interactive flow.
 - Rule: the primary task is completable by keyboard alone, with visible focus and a sensible focus order. Focus moves to new surfaces and returns on close.
 - Why: keyboard and screen-reader users must finish the job, not just reach the first control.
-- Source: `interface-quality.md` > Accessibility; route rendered checks to `ui-audit`.
+- Source: `interface-quality.md` > Accessibility; route rendered checks to `ui-design` Audit mode.
 - Enforcement: judgment.
 
 ### rule/no-custom-focus-bypass

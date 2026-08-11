@@ -23,7 +23,7 @@ The tier in parentheses is the rule's override for that surface, copied here for
 | agent configuration / system prompt editor | `<SystemPrompt>`, `<AgentConfig>`, `<PromptEditor>`, route `/agent/settings`, `/configure`, `systemPrompt` |
 | agent dashboard / status | `<AgentStatus>`, `<TaskList>`, `<RunHistory>`, `<RunLog>`, component `*AgentDashboard*`, route `/agent`, `/runs` |
 
-No agentic features detected → stop; this skill does not apply. Route to `ui-audit`.
+No agentic features detected → stop; this skill does not apply. Route to `ui-design` Audit mode.
 
 ## Diff-wide checks
 

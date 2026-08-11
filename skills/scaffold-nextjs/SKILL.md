@@ -128,5 +128,5 @@ A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a 
 | When | Run |
 |------|-----|
 | After deployment, optimise SEO | `optimise-seo` |
-| Before launch, audit UI quality | `ui-audit` |
+| Before launch, audit UI quality | `ui-design` (Audit mode) |
 | Before launch, add motion and animation | `ui-animation` |

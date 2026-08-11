@@ -1,6 +1,6 @@
 # Interface Quality
 
-Load in `review` and `harden` modes, and for any material visual change. Holds the correctness and resilience standards and the severity rubric for reporting findings. Not visual aesthetics (route to `ui-design`) or implementation audits (route to `ui-audit`).
+Load in `review` and `harden` modes, and for any material visual change. Holds the correctness and resilience standards and the severity rubric for reporting findings. Not visual aesthetics or implementation audits: both route to `ui-design` (Direction and Build modes for aesthetics, Audit mode for the built result).
 
 ## Standards
 
@@ -13,7 +13,7 @@ Load in `review` and `harden` modes, and for any material visual change. Holds t
 
 ### Accessibility as a product concern
 
-Owns whether a user can complete the task with assistive technology, not the implementation-level markup audit (`ui-audit`).
+Owns whether a user can complete the task with assistive technology, not the implementation-level markup audit (`ui-design` Audit mode).
 
 - Every interactive control has an accessible name (`rule/accessible-name-required`).
 - Primary flow is keyboard-completable, with visible focus and sensible order (`rule/keyboard-complete-flow`).
@@ -27,7 +27,7 @@ Owns whether a user can complete the task with assistive technology, not the imp
 
 ## Resilience
 
-Which resilience states must exist (overflow, extreme data, localization and RTL, network failure) is a decision that lives in `surfaces.md`. Whether the built UI renders them correctly is `ui-audit`'s concern.
+Which resilience states must exist (overflow, extreme data, localization and RTL, network failure) is a decision that lives in `surfaces.md`. Whether the built UI renders them correctly is `ui-design` Audit mode's concern.
 
 ## Severity rubric
 
@@ -46,4 +46,4 @@ For each finding include:
 - User consequence: what goes wrong for the user, not just what the code does.
 - Smallest concrete fix: the narrowest change that resolves it, and which skill owns it.
 
-Keep findings at decision altitude: naming the wrong control, missing error state, or unnamed destructive action. A line-level React bug with a code patch is `ui-audit`'s; hand it over, don't write the fix here.
+Keep findings at decision altitude: naming the wrong control, missing error state, or unnamed destructive action. A line-level React bug with a code patch is `ui-design` Audit mode's; hand it over, don't write the fix here.

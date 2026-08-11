@@ -19,7 +19,7 @@ skills/<name>/
 └── <track>.md            (simple/hub pattern only)
 ```
 
-Root-level `<track>.md` files belong to the simple/hub pattern; every other pattern keeps supporting files in `references/` or a rules folder. Multiple rules folders (`rules/` plus `rules-modern/`) are legal only when SKILL.md dispatches to each layer explicitly, as `ui-audit` does.
+Root-level `<track>.md` files belong to the simple/hub pattern; every other pattern keeps supporting files in `references/` or a rules folder. Multiple rules folders (`rules-arch/` plus `rules-ax/`) are legal only when SKILL.md dispatches to each layer explicitly, as `ax-audit` does.
 
 ## Optional Frontmatter
 

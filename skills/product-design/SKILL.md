@@ -8,7 +8,7 @@ description: >-
   interaction", "design the flow", "what control should this use", "what should
   this action affect", "which states should this have", "make this resilient",
   or "what breaks here". For building or styling use ui-design; for built-code
-  audits use ui-audit; for copy wording use copywriting.
+  audits use ui-design Audit mode; for copy wording use copywriting.
 ---
 
 # Product Design
@@ -18,20 +18,19 @@ Decide what the interface should do, then route who builds and verifies it: pick
 - **IS:** the decision layer. From a brief, spec, mockup, intent, or existing UI: choose the right interaction and control, name the object, scope, and consequence of actions, enumerate every reachable state, set resilience expectations, require accessibility as task completion. It decides, then routes build and verification out.
 - **IS NOT:**
   - building or styling UI, visual direction, palettes, type: use `ui-design`.
-  - auditing the built result (rendered quality, a11y markup, keyboard, layout, performance, type surface, React/Next code-level UX with a ship verdict): use `ui-audit`.
+  - auditing the built result (rendered quality, a11y markup, keyboard, layout, performance, type surface, React/Next code-level UX with a ship verdict): use `ui-design` Audit mode.
   - copy wording, persuasion, or AI-ism removal: use `copywriting`.
   - deep typography or motion: use `typography-audit` or `ui-animation`.
 
-## product-design or ui-audit?
+## product-design or ui-design?
 
-Dispatch on the artifact, not the topic. Both care about states and interaction; they act at different moments.
+Both care about states and interaction; they act at different moments.
 
-| You have... | The question is | Use |
-|---|---|---|
-| A brief, spec, mockup, intent, or a UI you decide *about* | What should exist: the right interaction, the action's name, which states *should* be reachable | `product-design` |
-| Code, a diff, or a running UI you decide *on* | Is the built result right: states covered, accessible, renders and behaves correctly, ready to ship | `ui-audit` |
+- **Primary:** code, a diff, or a running UI in hand, use `ui-design`. A brief, spec, mockup, or intent with no code, use `product-design`.
+- **Tiebreak when code exists:** would the change alter what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all? That is a capability, so `product-design` decides and `ui-design` implements. If it only changes how the same capability looks, reads, or behaves, `ui-design` owns it end to end.
+- **Both fire:** `product-design` first, then `ui-design`.
 
-One artifact often needs both in sequence: `product-design` decides the states that must exist, `ui-audit` verifies the built code and rendered result implement them. Looking at code or a running screen is `ui-audit`'s turn. This skill reviews the *decision* and stops at decision altitude; it never writes line-level code fixes.
+One artifact often needs both in sequence: `product-design` decides the states that must exist, `ui-design` Audit mode verifies the built code and rendered result implement them. This skill reviews the *decision* and stops at decision altitude; it never writes line-level code fixes.
 
 ## Operating contract
 
@@ -101,12 +100,12 @@ Five pillars. Each cites its governing rule IDs in `references/rules.md` and its
 - **Right interaction.** Pick the control from the choice's shape; keep options visible and reversible; prefer inline disclosure over a modal; choose the smallest coherent intervention. `rule/control-matches-cardinality`, `rule/navigation-vs-action`, `rule/inline-before-modal`, `rule/smallest-intervention`. See `references/product-judgment.md`.
 - **Action naming.** Name the object, scope, and consequence; destructive CTAs use Verb plus Noun, never "Confirm" or "OK"; make friction proportional to impact and offer undo when honest. `rule/name-object-scope-consequence`, `rule/destructive-names-action`, `rule/destructive-proportional`. See `references/naming-and-copy.md`.
 - **State coverage.** Design every reachable state, not just the populated one; empty states name the object and a first action; errors explain and offer recovery; preserve user input. `rule/cover-reachable-states`, `rule/empty-state-action`, `rule/error-states-recovery`, `rule/preserve-user-input`. See `references/surfaces.md`.
-- **Resilience.** Require that overflow, extreme data, localization and RTL, and network-failure states be designed; every fetch lands in a designed state. `rule/cover-reachable-states`. See `references/surfaces.md`. Whether the built UI renders them correctly is `ui-audit`'s check.
-- **Accessibility as a product concern.** Every control has an accessible name; the primary flow is completable by keyboard with visible focus; state and consequence are understandable, not just labeled. `rule/accessible-name-required`, `rule/keyboard-complete-flow`, `rule/no-custom-focus-bypass`. Route axe-style markup checks to `ui-audit`. See `references/interface-quality.md`.
+- **Resilience.** Require that overflow, extreme data, localization and RTL, and network-failure states be designed; every fetch lands in a designed state. `rule/cover-reachable-states`. See `references/surfaces.md`. Whether the built UI renders them correctly is `ui-design` Audit mode's check.
+- **Accessibility as a product concern.** Every control has an accessible name; the primary flow is completable by keyboard with visible focus; state and consequence are understandable, not just labeled. `rule/accessible-name-required`, `rule/keyboard-complete-flow`, `rule/no-custom-focus-bypass`. Route axe-style markup checks to `ui-design` Audit mode. See `references/interface-quality.md`.
 
 ## Review output
 
-In review and harden modes, lead with findings ordered by user impact (P0-P3), each with location, verification status, rule ID, user consequence, and the smallest concrete fix with the skill that owns it. Keep findings at decision altitude; a line-level code or framework fix is `ui-audit`'s output. Full severity rubric and finding format in `references/interface-quality.md` > Severity rubric.
+In review and harden modes, lead with findings ordered by user impact (P0-P3), each with location, verification status, rule ID, user consequence, and the smallest concrete fix with the skill that owns it. Keep findings at decision altitude; a line-level code or framework fix is `ui-design` Audit mode's output. Full severity rubric and finding format in `references/interface-quality.md` > Severity rubric.
 
 ## Linters vs agent guidance
 
@@ -114,14 +113,13 @@ Deterministic, structural, single-file checks (control selection by option count
 
 ## Gotchas
 
-- Emitting a line-level fix (a prop, a hook, a `className`) instead of the decision. It arrives without the rendered check that would validate it, and the product decision it was supposed to carry goes unstated. Route it to `ui-audit`.
+- Emitting a line-level fix (a prop, a hook, a `className`) instead of the decision. It arrives without the rendered check that would validate it, and the product decision it was supposed to carry goes unstated. Route it to `ui-design` Audit mode.
 - Proposing UI when the internal brief's job, desired outcome, or consequence field cannot be filled. Every finding after that rests on a guessed job, so stop and ask (`references/product-judgment.md`).
 - Citing a plausible-sounding rule ID that does not exist (`rule/clear-labels`). The citation resolves to nothing, so the finding cannot be deduped against a sibling audit or traced to a rule. Record a coverage gap instead.
 
 ## Related skills
 
-- `ui-design`: visual direction and building the decided interaction in code.
-- `ui-audit`: the built result, both rendered quality and accessibility-markup audit and React or Next diff-level UX bug hunt with a ship verdict.
+- `ui-design`: visual direction and building the decided interaction in code; its Audit mode covers the built result, both rendered quality and accessibility-markup audit and React or Next diff-level UX bug hunt with a ship verdict.
 - `copywriting`: exact wording for names, errors, and empty and loading copy; defines shared copy rule IDs in its `references/ui-states.md`.
 - `typography-audit`, `ui-animation`: type and motion.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

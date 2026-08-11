@@ -1,12 +1,12 @@
 ---
 name: optimise-seo
-description: Optimises SEO and technical foundations for Next.js App Router apps, covering sitemaps, robots, meta tags, structured data, canonical URLs, redirects, indexing policy, hreflang and internationalisation, Core Web Vitals, programmatic SEO, security headers, privacy/consent, and error-page resilience. Use when asked to "improve SEO", "add a sitemap", "fix meta tags", "add structured data", "set canonical URLs", "set up redirects", "fix soft 404s", "add hreflang", "add security headers", "add cookie consent", "improve Core Web Vitals", "audit SEO", or "build SEO pages at scale". Performs no visual redesigns; for visual direction use ui-design, for page-level UI quality use ui-audit, for writing the article itself use the external ghostwriter skill with platform blog. Does not cover llms.txt or AI-agent readability; research current specs for that work.
+description: Optimises SEO and technical foundations for Next.js App Router apps, covering sitemaps, robots, meta tags, structured data, canonical URLs, redirects, indexing policy, hreflang and internationalisation, Core Web Vitals, programmatic SEO, security headers, privacy/consent, and error-page resilience. Use when asked to "improve SEO", "add a sitemap", "fix meta tags", "add structured data", "set canonical URLs", "set up redirects", "fix soft 404s", "add hreflang", "add security headers", "add cookie consent", "improve Core Web Vitals", "audit SEO", or "build SEO pages at scale". Performs no visual redesigns; for visual direction use ui-design Direction mode, for page-level UI quality use ui-design Audit mode, for writing the article itself use the external ghostwriter skill with platform blog. Does not cover llms.txt or AI-agent readability; research current specs for that work.
 ---
 
 # Optimise SEO
 
 - **IS:** crawlability, metadata, structured data, canonicals, redirects, hreflang, Core Web Vitals, programmatic SEO, security/privacy headers, and error-page status behaviour for Next.js App Router apps.
-- **IS NOT:** visual redesigns or layout changes (use `ui-design`), or page-level UI quality review (use `ui-audit`). Making a site readable by AI agents (llms.txt, MCP discovery, WebMCP) is out of scope; research current specs rather than relying on static SEO guidance.
+- **IS NOT:** visual redesigns or layout changes (use `ui-design` Direction and Build modes), or page-level UI quality review (use `ui-design` Audit mode). Making a site readable by AI agents (llms.txt, MCP discovery, WebMCP) is out of scope; research current specs rather than relying on static SEO guidance.
 
 Allowed surface: metadata, structured data, semantic HTML, internal links, alt text, `app/sitemap.ts`, `app/robots.ts`, `next.config.ts` redirects and headers, error pages, performance tuning. Never touch component styling or layout.
 
@@ -89,8 +89,8 @@ Security headers (HSTS, CSP, `nosniff`, `frame-ancestors`, `Referrer-Policy`, `P
 
 ## Related skills
 
-- `ui-design`: visual direction, palettes, typography, landing-page CRO
-- `ui-audit`: page-level UI quality and rendered i18n behavior (locale formatting, plurals, RTL); `optimise-seo` owns hreflang and localized metadata
+- `ui-design` Direction mode: visual direction, palettes, typography, landing-page CRO
+- `ui-design` Audit mode: page-level UI quality and rendered i18n behavior (locale formatting, plurals, RTL); `optimise-seo` owns hreflang and localized metadata
 - `multi-tenant-architecture`: per-tenant routing and custom domains. It owns the constraint that `robots.txt`, `sitemap.xml`, and `llms.txt` vary by tenant and never come from `/public`; this skill owns their content once routing works.
 
 ## Validation (step 5, evidence required)

@@ -7,14 +7,14 @@ description: >-
   "add animations", "make this feel smooth", "review my animations", "add a
   swipe gesture", "match this easing", "reverse engineer this animation",
   "extract the animation curve", or "what's it called when..." to name a motion
-  effect from a vague description. For visual direction use ui-design; for
-  page-level UI audit use ui-audit.
+  effect from a vague description. For visual direction use ui-design Direction
+  mode; for page-level UI audit use ui-design Audit mode.
 ---
 
 # UI Animation
 
 - **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
-- **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design`), auditing a whole page's UI quality (use `ui-audit`), or named text-effect specs (use the external `animate-text` skill where installed).
+- **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design` Direction mode), auditing a whole page's UI quality (use `ui-design` Audit mode), or named text-effect specs (use the external `animate-text` skill where installed).
 
 Canonical home for reverse-engineering motion from a recording: route "reverse engineer this animation" and "match this easing" here, not to a separate skill. If the input is a screen recording or video, you are MEASURING motion: follow the Reverse-engineer workflow. Otherwise (designing, implementing, reviewing) use the rules and Workflow below.
 
@@ -208,7 +208,7 @@ Reverse-engineer progress:
 
 ## Related skills
 
-- `ui-design`: visual direction, palettes, typography; settle the visual system before tuning motion.
-- `ui-audit`: page/feature-level UI quality audit; its motion findings route back here for fixes.
+- `ui-design` Direction mode: visual direction, palettes, typography; settle the visual system before tuning motion.
+- `ui-design` Audit mode: page/feature-level UI quality audit; its motion findings route back here for fixes.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

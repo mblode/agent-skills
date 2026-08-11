@@ -12,7 +12,7 @@ Output structure for ax-audit results: a findings table, then the AX relationshi
 
 ## Findings table
 
-Each finding is a JSON object (schema is compatible with ui-audit findings, so the two reports merge):
+Each finding is a JSON object (schema is compatible with `ui-design` Audit mode findings, so the two reports merge):
 
 ```json
 {
@@ -102,6 +102,6 @@ AX Relationship:
   Key gap:     No session context; every interaction starts cold
   Question:    Will users accept inline rationale on every response?
 
-Cross-reference:     Run ui-audit for traditional UX findings
+Cross-reference:     Run ui-design Audit mode for traditional UX findings
 ═══════════════════════════════════════════════════════════
 ```

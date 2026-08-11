@@ -84,11 +84,11 @@ State coverage:
 ## Overlays
 
 - Never nest modals (`rule/no-nested-modals`). Resolve, sequence, or inline the second step.
-- Long content must never push the confirm and cancel actions out of reach. Keeping the actions reachable is this skill's decision; whether the modal body scrolls correctly is a rendered check for `ui-audit` and the project's lint.
+- Long content must never push the confirm and cancel actions out of reach. Keeping the actions reachable is this skill's decision; whether the modal body scrolls correctly is a rendered check for `ui-design` Audit mode and the project's lint.
 - Focus moves into the overlay on open, returns to the trigger on close; escape closes it.
 
 ## Responsive and resilience handoff
 
 - Check compact and wide viewports for every materially changed state.
 - Test long strings, large numbers, constrained width, and localization or RTL risk.
-- These resilience states (overflow, localization, extreme data, network failure) must be designed here; whether the built UI renders them correctly is `ui-audit`'s check.
+- These resilience states (overflow, localization, extreme data, network failure) must be designed here; whether the built UI renders them correctly is `ui-design` Audit mode's check.

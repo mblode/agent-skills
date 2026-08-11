@@ -8,8 +8,9 @@ description: >-
   "clean up AI code", "security audit", "find vulnerabilities", or before
   commit, push, or handoff. For fixes use tidy; for PR creation use
   pr-creator; for CI or review comments use pr-babysitter; for frontend UX,
-  accessibility, layout, state coverage, or rendered quality use ui-audit; for
-  library, CLI, or SDK developer experience use dx-audit; for folder structure
+  accessibility, layout, state coverage, or rendered quality use ui-design
+  Audit mode; for library, CLI, or SDK developer experience use dx-audit;
+  for folder structure
   and module boundaries outside a diff use codebase-architecture; for plans use
   planning.
 ---
@@ -17,7 +18,7 @@ description: >-
 # Local Review
 
 - **IS:** read-only review of a local diff, branch diff, or PR. Returns severity-tiered findings; leaves the working tree unchanged.
-- **IS NOT:** fixing code (`tidy`), creating PRs (`pr-creator`), monitoring CI or review threads (`pr-babysitter`), frontend PR UX/accessibility/rendered-quality review (`ui-audit`), architecture briefs (`codebase-architecture`), reviewing plans (`planning`).
+- **IS NOT:** fixing code (`tidy`), creating PRs (`pr-creator`), monitoring CI or review threads (`pr-babysitter`), frontend PR UX/accessibility/rendered-quality review (`ui-design` Audit mode), architecture briefs (`codebase-architecture`), reviewing plans (`planning`).
 
 Only report issues you can defend with `file:line` evidence.
 
@@ -169,6 +170,6 @@ PR handoff format:
 - `tidy`: the complexity hunt, and it applies what it finds. It runs its own five-angle sweep over the same diff for duplication, overbuilt code, and wrong-altitude fixes, and applies this report's confirmed findings alongside them. The usual sequence is this skill, then that one.
 - `pr-creator`: creates or updates the PR after review.
 - `pr-babysitter`: monitors CI and inbound review comments.
-- `ui-audit`: frontend PR review for user-facing UX, accessibility, layout, state coverage, and rendered quality.
+- `ui-design` Audit mode: frontend PR review for user-facing UX, accessibility, layout, state coverage, and rendered quality.
 - `codebase-architecture`: forward-looking architecture briefs, deepening opportunities, and repo-wide guardrails outside a diff review.
 - `planning`: builds and reviews plans before implementation.
