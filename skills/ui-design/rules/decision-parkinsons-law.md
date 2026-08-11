@@ -13,7 +13,7 @@ A task expands to fill the time allotted to it (C. Northcote Parkinson, 1955). I
 
 Compress perceived effort with three levers: shorten the actual work (autofill, smart defaults, saved values), shorten the visual work (one-screen flows, condensed layouts), and set credible expectations (progress meters, step counts, "1 of 3" labels). Be honest: overstating speed then under-delivering damages trust on the next step.
 
-## Check
+## Detection
 
 **Surfaces:** form, multi-step flow
 

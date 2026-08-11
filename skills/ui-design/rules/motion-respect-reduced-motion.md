@@ -16,7 +16,7 @@ List the files that move something (keyframes, `animation`, translate/scale/rota
 
 ```bash
 rg -lP '@keyframes|\banimation:|translate[XYZ]?\(|\bscale\(|\brotate\(|<motion\.' -g '*.css' -g '*.tsx' src/ \
-| xargs rg --files-without-match -P 'prefers-reduced-motion|useReducedMotion'
+| xargs -r rg --files-without-match -P 'prefers-reduced-motion|useReducedMotion'
 ```
 
 Essential motion matches too: a spinner has to keep spinning under reduced motion, so a loader stylesheet is a false positive. So is a codebase whose guard lives in one global reset (`@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important } }`); check for that block before reporting per-file misses.

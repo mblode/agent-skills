@@ -13,7 +13,7 @@ Cognitive load is the total mental effort a user spends to understand and operat
 
 A surface fails when it crosses the working-memory threshold of ~7 simultaneous decisions (Miller, 1956), shows competing primary actions, or buries the critical action in walls of unbroken copy.
 
-## Check
+## Detection
 
 **Surfaces:** form, dashboard, marketing-hero
 

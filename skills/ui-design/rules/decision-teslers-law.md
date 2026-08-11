@@ -13,7 +13,7 @@ The Law of Conservation of Complexity (Larry Tesler, ~1985): every workflow has 
 
 Default to the system carrying it. A week of engineering that removes a confusing step almost always beats a million users each spending an extra minute. Smart defaults, inferred values, autocomplete, and error recovery shift complexity from user to system. Beware the inverse: stripping options to look "simple" while pushing the now-hidden decisions onto the user via support tickets.
 
-## Check
+## Detection
 
 **Surfaces:** form
 

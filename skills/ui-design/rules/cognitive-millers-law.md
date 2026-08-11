@@ -13,7 +13,7 @@ A person holds roughly 7 ± 2 chunks in working memory at once (Miller, 1956). A
 
 7 ± 2 is not a UI element-count rule. A well-grouped 30-item menu beats an ungrouped 7-item one because the user holds the group, not the items. The threshold below applies to *ungrouped* siblings: items not wrapped in `<fieldset>`, `role="group"`, a `<section>` with a heading, or a visually-distinct subgroup.
 
-## Check
+## Detection
 
 **Surfaces:** primary-nav, dashboard
 

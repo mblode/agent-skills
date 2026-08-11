@@ -13,7 +13,7 @@ Items at the start (primacy) and end (recency) of a sequence are recalled more r
 
 The effect weakens once a list exceeds working-memory chunks (≈7), so combine with chunking and grouping for long lists. Primacy aids deliberate recall (users return looking for it); recency aids immediate recall (users just saw it).
 
-## Check
+## Detection
 
 **Surfaces:** primary-nav, list, search-results
 

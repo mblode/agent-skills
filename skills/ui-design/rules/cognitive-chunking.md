@@ -13,7 +13,7 @@ Chunking breaks content into small, semantically meaningful groups so users can 
 
 Recall caps at ~4 chunks for novel content (Cowan, 2001) and ~7 ± 2 for rehearsed content (Miller, 1956); long unbroken digit strings or flat lists exceed both budgets. Chunks that split a logical unit or merge unrelated items are worse than no chunking.
 
-## Check
+## Detection
 
 **Surfaces:** form, list, secondary-nav
 

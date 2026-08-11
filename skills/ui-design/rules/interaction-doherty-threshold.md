@@ -13,7 +13,7 @@ Productivity climbs sharply when system response stays under 400 ms: neither use
 
 Tiered targets: under 100 ms feels instant (hover, focus, expand/collapse); under 400 ms maintains flow (navigation, search, save); over 1000 ms requires explicit progress feedback (skeletons, progress bars, streaming). When real work cannot finish under 400 ms, fake the perception with optimistic UI, skeleton screens, or streamed partial results; never block on a centered spinner.
 
-## Check
+## Detection
 
 **Surfaces:** loading, search-results, error-state
 

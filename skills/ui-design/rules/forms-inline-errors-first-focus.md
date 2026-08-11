@@ -16,7 +16,7 @@ List the files containing a `<form>`, then keep only the ones that never move fo
 
 ```bash
 rg -lP '<form\b' -g '*.tsx' -g '*.jsx' src/ \
-  | xargs rg --files-without-match -P '\.focus\(\)|autoFocus|shouldFocusError'
+  | xargs -r rg --files-without-match -P '\.focus\(\)|autoFocus|shouldFocusError'
 ```
 
 A form that leans on native constraint validation (`required` inputs, no `noValidate`) also matches, and there the browser focuses the first invalid field itself. Distinguish by the submit handler: if it calls `preventDefault` and validates in JS, focus is the code's job.

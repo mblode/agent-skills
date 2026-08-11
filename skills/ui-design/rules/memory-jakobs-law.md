@@ -13,7 +13,7 @@ Users spend most of their time on other sites, so they expect yours to behave li
 
 Honour it and existing knowledge transfers; deviate and the user pays a learning tax every visit. Innovate only where the deviation is the product itself, and provide a transition path (preview, opt-in, revert) when changing a familiar pattern.
 
-## Check
+## Detection
 
 **Surfaces:** primary-nav, marketing-hero, e-commerce
 

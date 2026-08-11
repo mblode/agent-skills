@@ -13,7 +13,7 @@ People remember unfinished or interrupted tasks more vividly than completed ones
 
 Surface unfinished work, persist it across sessions, and pair the open loop with a clear next action so tension resolves into completion, not anxiety. Don't weaponize it: fabricated "incomplete" states erode trust.
 
-## Check
+## Detection
 
 **Surfaces:** modal, empty-state, loading
 

@@ -13,7 +13,7 @@ Also called the Isolation Effect: in a set of similar items, the one distinctive
 
 The trap: distinctiveness is finite. Highlight one item and it pulls attention; highlight three and they fight; highlight everything and nothing stands out (the page becomes uniform noise). Reserve emphasis for the single most important action or item per surface, and pair color with a redundant cue (weight, icon, position) so low-vision or color-blind users still see the contrast.
 
-## Check
+## Detection
 
 **Surfaces:** primary-nav, pricing, marketing-hero, search-results
 

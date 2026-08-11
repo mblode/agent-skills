@@ -13,7 +13,7 @@ Decision time grows logarithmically with the number and complexity of options (H
 
 Fix is rarely "fewer items"; it is fewer items *visible at once*: group, prioritize, progressively disclose. Highlight a recommended path so the easy decision is the default. Beware over-collapsing: replacing choice cost with search cost is no win.
 
-## Check
+## Detection
 
 **Surfaces:** primary-nav, secondary-nav, modal, search-results, pricing
 

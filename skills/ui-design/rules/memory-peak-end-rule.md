@@ -13,7 +13,7 @@ People judge an experience by two moments (its emotional peak, positive or negat
 
 The "end" applies to every closed loop, not just the whole product: each task (a purchase, a saved draft, a completed onboarding). A generic toast at the close of an effortful flow flattens what should be a memorable resolution.
 
-## Check
+## Detection
 
 **Surfaces:** error-state, multi-step flow completion
 

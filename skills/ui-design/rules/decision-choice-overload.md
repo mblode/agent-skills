@@ -13,7 +13,7 @@ When comparable options shown at once cross ~7-10, users stall, regret their pic
 
 Fix is rarely "delete options"; design the *decision flow*: a recommended default, comparison for items that need it, up-front narrowing via search, filters, or curated rails.
 
-## Check
+## Detection
 
 **Surfaces:** pricing, search-results
 

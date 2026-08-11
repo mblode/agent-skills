@@ -13,7 +13,7 @@ Gestalt grouping: items sharing visual properties (color, shape, size, weight, o
 
 Among grouping laws, similarity is weaker than enclosure (Common Region) or shared backgrounds (Uniform Connectedness), roughly comparable to Proximity. Use it to signal role: links share a color, primary actions a shape, destructive actions a hue. The inverse is just as load-bearing: anything that *should not* be confused with another role must look different.
 
-## Check
+## Detection
 
 **Surfaces:** list, dashboard, primary-nav
 

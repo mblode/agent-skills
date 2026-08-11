@@ -13,7 +13,7 @@ Gestalt grouping: items placed near each other read as belonging together. Spaci
 
 Proximity is the baseline of the four grouping laws. Uniform Connectedness and Common Region beat it when they conflict: a card border holds contents together even if internal spacing is loose. Let proximity do the work first; reach for borders only when spacing alone cannot communicate the group.
 
-## Check
+## Detection
 
 **Surfaces:** dashboard, list, form
 

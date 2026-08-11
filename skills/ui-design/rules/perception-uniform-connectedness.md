@@ -13,7 +13,7 @@ Gestalt grouping: items joined by an explicit visual connection (a line, bracket
 
 Use it sparingly. A connecting line, shared row background, or pill container signals a tight relationship the eye accepts without question. Overuse makes it noise: every line is a claim about structure, and false claims confuse.
 
-## Check
+## Detection
 
 **Surfaces:** form, list
 

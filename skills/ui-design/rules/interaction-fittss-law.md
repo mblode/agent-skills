@@ -13,7 +13,7 @@ Time to acquire a pointer target scales with distance and inversely with size: s
 
 Screen edges and corners are effectively infinite targets: the cursor can't overshoot the viewport boundary. Anchor frequent actions to edges; never put a critical action behind a 24 px icon on touch.
 
-## Check
+## Detection
 
 **Surfaces:** primary-nav, modal, form
 

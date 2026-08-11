@@ -13,7 +13,7 @@ Gestalt grouping: items inside a defined boundary (border, shared background, or
 
 Strength when cues compete: Uniform Connectedness > Common Region > Proximity > Similarity. Reach for it when proximity alone cannot carry structure, when grouped items are heterogeneous, or when the group must survive responsive reflow.
 
-## Check
+## Detection
 
 **Surfaces:** dashboard, list
 

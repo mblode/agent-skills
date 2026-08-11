@@ -13,7 +13,7 @@ User effort accelerates as perceived distance to a goal shrinks. The closer the 
 
 Pair with a single, clear goal: competing goals dilute the gradient. Classic pattern: a 10-stamp loyalty card with 2 free stamps outperforms an 8-stamp card with 0, because users feel they have already started.
 
-## Check
+## Detection
 
 **Surfaces:** empty-state, multi-step flow
 

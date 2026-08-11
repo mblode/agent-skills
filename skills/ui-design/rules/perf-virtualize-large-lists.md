@@ -16,7 +16,7 @@ Search for list containers mapping straight over a collection, in files that imp
 
 ```bash
 rg -lUP '<(?:ul|ol|tbody)\b[^>]*>\s*\{[^}]*\.map\(' -g '*.tsx' -g '*.jsx' src/ \
-  | xargs rg --files-without-match -P 'react-window|@tanstack/react-virtual|react-virtuoso|virtua'
+  | xargs -r rg --files-without-match -P 'react-window|@tanstack/react-virtual|react-virtuoso|virtua'
 ```
 
 Most matches are short lists that are correct as they stand. Confirm the collection can exceed roughly 50 rows (an unpaginated fetch, no page size, no `.slice`) before reporting.

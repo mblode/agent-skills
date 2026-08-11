@@ -16,7 +16,7 @@ List the files that render a conditional error message, then keep only the ones 
 
 ```bash
 rg -lP '\{\s*[\w.?]*[Ee]rror[\w.?]*\s*&&' -g '*.tsx' -g '*.jsx' src/ \
-  | xargs rg --files-without-match -P 'aria-describedby'
+  | xargs -r rg --files-without-match -P 'aria-describedby'
 ```
 
 A shared field wrapper (`<FormField>`, `<FormMessage>`, a react-hook-form `<Controller>`) can wire the association internally, leaving no literal attribute at the call site. Open the wrapper once: if it sets `aria-describedby`, `aria-invalid`, and `role="alert"`, its consumers are clean.
