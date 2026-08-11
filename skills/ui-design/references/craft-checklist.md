@@ -1,6 +1,6 @@
 # Craft Checklist (Detailed)
 
-Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; it carries only the built-UI details no rule file encodes. Anything already owned by a rule (`rules-surface/interaction-*`, `forms-*`, `a11y-*`, `nav-*`, `layout-*`, `perf-*`, `rules-modern/states-*`, `dark-i18n-*`) is not repeated here, so a craft finding never duplicates a rule finding. Visual direction, motion, SEO, and deep typography belong to sibling skills and are pointed to, not restated.
+Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; it carries only the built-UI details no rule file encodes. Anything already owned by a rule (`rules/interaction-*`, `forms-*`, `a11y-*`, `nav-*`, `layout-*`, `perf-*`, `rules/states-*`, `dark-i18n-*`) is not repeated here, so a craft finding never duplicates a rule finding. Visual direction, motion, SEO, and deep typography belong to sibling skills and are pointed to, not restated.
 
 ## Contents
 - Legibility and typography → sibling

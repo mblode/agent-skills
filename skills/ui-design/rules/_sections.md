@@ -166,7 +166,7 @@ These pairings often co-fire. Emit both findings with the same `surface` to make
 - **Peak-End + Goal-Gradient**: A strong end matters more if the user accelerated into it.
 - **Serial Position + Von Restorff**: Position effect predicts edge-recall; distinctiveness breaks the pattern.
 - **Zeigarnik + Goal-Gradient**: Open loops plus visible progress accelerate completion.
-- **States + Layout**: `states` owns the missing empty, loading, or error state. `layout` owns the container that overflows or collapses once that state renders. One defect, one owner, per the states-ownership rule above.
+- **States + Layout**: `states` owns the missing empty, loading, or error state. `layout` owns the container that overflows or collapses once that state renders. One defect, one owner, per the `states` category description above.
 
 ---
 

@@ -62,9 +62,9 @@ It is what keeps the taste rules honest. `slop-` findings are judgement calls ag
 
 Each entry is one candidate, the rule it was tested against, and the specific fact that cleared it:
 
-- "Logo strip under the hero, tested against `slop-placeholder-proof`: six real named customers with live links, not filler."
-- "Hero gradient, tested against `slop-gradient-stack`: one layer, threshold is 3."
-- "`Submit` on the coupon field, tested against `microcopy-vague-label`: the adjacent label already names the object."
+- "Logo strip under the hero, tested against `slop-unverifiable-proof`: six real named customers with live links, not filler."
+- "Hero gradient, tested against `slop-decoration-no-role`: one layer, threshold is 3."
+- "`Submit` on the coupon field, tested against `microcopy-specific-action-labels`: the adjacent label already names the object."
 
 Vague entries ("checked the spacing, seemed fine") do not count. If the audit cannot name the guard, it did not really consider the candidate.
 
@@ -123,15 +123,15 @@ REMAINING (5)
        Help tooltip only on hover; touch users miss it.
 
 📋 src/checkout/ConfirmStep.tsx
-  L88  backlog  layout-magic-number
+  L88  backlog  slop-token-drift
        `top: 37px` on the badge; no token covers it.
 
 CONSIDERED AND REJECTED (3)
 
-  · Logo strip under the hero, vs slop-placeholder-proof: six real named
+  · Logo strip under the hero, vs slop-unverifiable-proof: six real named
     customers with live links, not filler proof.
-  · Hero gradient, vs slop-gradient-stack: one layer, threshold is 3.
-  · "Submit" on the coupon field, vs microcopy-vague-label: the adjacent
+  · Hero gradient, vs slop-decoration-no-role: one layer, threshold is 3.
+  · "Submit" on the coupon field, vs microcopy-specific-action-labels: the adjacent
     label already names the object ("Apply coupon code").
 
 ═══════════════════════════════════════════════════════════
@@ -249,17 +249,17 @@ Findings emit as JSON matching this schema; render the terminal table only after
   "consideredAndRejected": [
     {
       "candidate": "Logo strip under the hero",
-      "rule": "slop-placeholder-proof",
+      "rule": "slop-unverifiable-proof",
       "guard": "Six real named customers with live links, not filler proof."
     },
     {
       "candidate": "Hero background gradient",
-      "rule": "slop-gradient-stack",
+      "rule": "slop-decoration-no-role",
       "guard": "One gradient layer; threshold is 3."
     },
     {
       "candidate": "\"Submit\" on the coupon field",
-      "rule": "microcopy-vague-label",
+      "rule": "microcopy-specific-action-labels",
       "guard": "The adjacent label already names the object (\"Apply coupon code\")."
     }
   ],
@@ -294,12 +294,11 @@ Default tier comes from the rule's frontmatter (`defaultTier`); the rule's `surf
 
 If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 
-### Finding (modern, Layer 2), applied
+### Finding, applied
 
 ```json
 {
   "rule": "forms-lost-data-on-error",
-  "layer": "modern",
   "category": "forms",
   "feature": "checkout",
   "surface": "PaymentStep",
@@ -325,12 +324,11 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 }
 ```
 
-### Finding (surface, Layer 3), out of scope
+### Finding, out of scope
 
 ```json
 {
   "rule": "focus-not-restored",
-  "layer": "surface",
   "category": "a11y",
   "feature": "modal",
   "surface": "ConfirmStep",
@@ -350,13 +348,11 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 }
 ```
 
-### Finding (laws, Layer 4)
+### Finding, laws rule
 
 ```json
 {
   "rule": "decision-hicks-law",
-  "layer": "laws",
-  "prefix": "decision",
   "feature": "modal",
   "surface": "ConfirmDialog",
   "file": "src/checkout/ConfirmDialog.tsx",
@@ -372,13 +368,11 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 }
 ```
 
-### Finding (rubric, Layer 4)
+### Finding, rubric rule
 
 ```json
 {
   "rule": "perception-pragnanz",
-  "layer": "laws",
-  "kind": "rubric",
   "feature": "marketing-hero",
   "surface": "Hero",
   "file": "src/Hero.tsx",
@@ -399,7 +393,6 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 ```json
 {
   "rule": "async-out-of-order-responses",
-  "layer": "modern",
   "category": "async",
   "feature": "search",
   "surface": "SearchBar",
@@ -415,12 +408,9 @@ An `unknown` never gets a tier, never gets a fix, and never counts toward `appli
 
 | Field | Required when | Description |
 |---|---|---|
-| `rule` | always | kebab-case slug matching a file in `rules/` |
-| `layer` | always | `modern` (Layer 2), `surface` (Layer 3), or `laws` (Layer 4) |
-| `category` | layer=modern | `forms \| states \| async \| focus \| mobile \| dark-i18n \| microcopy \| slop` |
-| `category` | layer=surface | `a11y \| interaction \| forms \| type \| nav \| layout \| perf \| motion \| copy` |
-| `prefix` | layer=laws | `cognitive \| decision \| perception \| memory \| interaction` |
-| `kind` | layer=laws | `programmatic \| rubric` (from the rule's frontmatter; rubric rules also emit `score` + `anchor`) |
+| `rule` | always | the rule's `id`, which matches its filename in `rules/` |
+| `category` | always | the rule's `category`, one of the 19 in `rules/_sections.md` |
+| `detect` | always | `static \| rendered \| rubric`, copied from the rule's frontmatter |
 | `feature` | always | feature playbook this finding came from (`checkout`, `sign-in`, etc.) |
 | `surface` | always | component or page name (PascalCase, no extension) |
 | `file` | when result ≠ unknown | source file path |
@@ -430,10 +420,10 @@ An `unknown` never gets a tier, never gets a fix, and never counts toward `appli
 | `assignedTier` | fail / warn | tier after surface overrides applied |
 | `tierReason` | when assignedTier ≠ defaultTier | explanation of override |
 | `severity` | fail / warn | `HIGH \| MEDIUM \| LOW` |
-| `observed` | Layer 2 or 3 fail | string OR object describing measurement |
-| `expected` | Layer 2 or 3 fail (when applicable) | object with rule threshold |
-| `score` | Layer 4 rubric | integer 1-5 |
-| `anchor` | Layer 4 rubric | verbatim text from rule's rubric table |
+| `observed` | fail on a non-rubric rule | string OR object describing measurement |
+| `expected` | fail on a non-rubric rule (when applicable) | object with rule threshold |
+| `score` | `detect: rubric` | integer 1-5 |
+| `anchor` | `detect: rubric` | verbatim text from rule's rubric table |
 | `evidence` | fail (recommended) | array of `file:line: observation` strings |
 | `fix` | fail / warn | string with the literal change |
 | `fixSnippet` | fail (recommended) | code snippet for the prescribed change |

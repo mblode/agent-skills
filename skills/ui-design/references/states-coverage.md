@@ -1,6 +1,6 @@
 # States Coverage
 
-The highest-leverage check: every component that fetches data, takes input, or runs a transient process needs a full set of states. The commonest production UX bug is a happy-path-only component missing `loading`, `empty`, or `error`. Per-rule detection greps live in the `rules-modern/states-*` and `rules-modern/forms-*` files; this reference is the coverage map, not a second copy of those greps.
+The highest-leverage check: every component that fetches data, takes input, or runs a transient process needs a full set of states. The commonest production UX bug is a happy-path-only component missing `loading`, `empty`, or `error`. Per-rule detection greps live in the `rules/states-*` and `rules/forms-*` files; this reference is the coverage map, not a second copy of those greps.
 
 ## Table of contents
 
@@ -9,7 +9,7 @@ The highest-leverage check: every component that fetches data, takes input, or r
 
 ## Canonical state matrix per component type
 
-Each component type must implement these states (or mark N/A with a comment). Trimmed to the four types the feature playbooks dispatch on; button/input/toast state details live in the `rules-surface/interaction-*`, `rules-surface/forms-*`, and `rules-surface/nav-*` rules.
+Each component type must implement these states (or mark N/A with a comment). Trimmed to the four types the feature playbooks dispatch on; button/input/toast state details live in the `rules/interaction-*`, `rules/forms-*`, and `rules/nav-*` rules.
 
 ### Async data fetcher (list, dashboard widget, search)
 
@@ -52,7 +52,7 @@ Each component type must implement these states (or mark N/A with a comment). Tr
 
 ## Mandatory state pairings
 
-These pairs always go together; one without the other is the bug that ships to production. (Each pairing maps to a `rules-modern/` or `rules-surface/` rule that carries the detection grep.)
+These pairs always go together; one without the other is the bug that ships to production. (Each pairing maps to a `rules/` or `rules/` rule that carries the detection grep.)
 
 | Pair | Why they pair | Bug if violated |
 |---|---|---|
