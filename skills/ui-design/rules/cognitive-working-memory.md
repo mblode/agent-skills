@@ -13,6 +13,12 @@ Working memory is the temporary buffer holding and manipulating information for 
 
 Design rule: prefer recognition over recall. Show the value, don't make the user remember it. Carry context across screens; surface visited state, recent items, partial selections. The system has unlimited memory; the user does not.
 
+## Detection
+
+No grep. This rule is scored 1-5 against the anchors below, expanded in `references/observational-rubrics.md`. What matters is what survives across steps, which only the walked flow shows.
+
+Score by walking the multi-step flow end to end, looking at: whether prior choices stay visible (summary strip, sidebar, echoed step labels) or collapse to a bare "Step 3 of 5", what the back button preserves versus resets, whether the active query and filters are echoed on results pages, and whether correcting an earlier step forces re-entry of values the system already has. Report the score, the flow it was scored on, and the verbatim text of the anchor that was matched, so the reader can check the judgement against the same wording the scorer used.
+
 ## Rubric
 
 **Surfaces:** form, modal, search-results, dashboard

@@ -10,6 +10,17 @@ detect: static
 
 Never remove outlines without a clear `:focus-visible` replacement. With the outline gone, keyboard users cannot see where they are and the interface stops being navigable.
 
+## Detection
+
+Find files that remove the outline and never define a `:focus-visible` replacement anywhere.
+
+```bash
+rg -lP 'outline:\s*(none|0)|\boutline-none\b' -g '*.css' -g '*.tsx' -g '*.jsx' src/ \
+| xargs -r rg --files-without-match -P 'focus-visible'
+```
+
+`outline-none` on a container focused programmatically with `tabIndex={-1}` (a modal panel, a scroll region) matches but has no ring to show and is not a finding. The file-level pairing also cuts the other way: one `focus-visible` rule hides an unrelated outline removal in the same file, so read each hit rather than trusting the file list.
+
 **Incorrect (focus removed):**
 
 ```css

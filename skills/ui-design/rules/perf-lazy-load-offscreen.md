@@ -10,6 +10,16 @@ detect: static
 
 Add `loading="lazy"` to offscreen images and iframes so they defer until the user scrolls near. Never lazy-load the LCP/above-the-fold hero; that delays the largest paint. Pair with `eager`/`priority` on the hero.
 
+## Detection
+
+Search for lazy-loaded images whose tag also names a first-viewport role or a priority hint, the combination that delays the largest paint.
+
+```bash
+rg -nUP '<(?:img|Image)\b(?=[^>]*loading="lazy")(?=[^>]*(?i:hero|banner|cover|masthead|priority))[^>]*>' -g '*.tsx' -g '*.jsx' src/
+```
+
+A "hero" or "cover" inside a below-the-fold component (a card cover in a feed, a banner in a footer CTA) is correctly lazy, so confirm the element renders in the first viewport before reporting. The mirror defect, an offscreen image with no `loading` attribute, needs that same position evidence rather than a grep.
+
 **Incorrect (hero lazy-loaded, offscreen image eager):**
 
 ```tsx

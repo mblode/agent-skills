@@ -10,6 +10,17 @@ detect: static
 
 Large lists (roughly >50 visible items) should use virtualization/windowing. Rendering the whole dataset stalls scrolling and grows memory with the list.
 
+## Detection
+
+Search for list containers mapping straight over a collection, in files that import no windowing library.
+
+```bash
+rg -lUP '<(?:ul|ol|tbody)\b[^>]*>\s*\{[^}]*\.map\(' -g '*.tsx' -g '*.jsx' src/ \
+  | xargs rg --files-without-match -P 'react-window|@tanstack/react-virtual|react-virtuoso|virtua'
+```
+
+Most matches are short lists that are correct as they stand. Confirm the collection can exceed roughly 50 rows (an unpaginated fetch, no page size, no `.slice`) before reporting.
+
 **Incorrect (renders entire dataset):**
 
 ```tsx

@@ -10,6 +10,17 @@ detect: static
 
 Deaf and hard-of-hearing users get nothing from uncaptioned media. Video needs synchronised captions via `<track kind="captions">`; audio-only needs a text transcript. Auto-generated captions alone are not sufficient for meaning-critical media.
 
+## Detection
+
+Find files that render `<video>` or `<audio>` and never ship a captions track; a hit is confirmed when the media carries speech or meaning-critical sound.
+
+```bash
+rg -lP '<video\b|<audio\b' -g '*.tsx' -g '*.jsx' src/ \
+| xargs -r rg --files-without-match -P 'kind="captions"'
+```
+
+A muted decorative background loop has no audio to caption and is not a finding. A shared player component that injects its own `<track>` also matches at each call site, so read the player before reporting.
+
 **Incorrect (video with no captions track):**
 
 ```tsx

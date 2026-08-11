@@ -13,6 +13,12 @@ The "law of good figure" / "law of simplicity": faced with an ambiguous or compl
 
 Prägnanz is the umbrella behind the other Gestalt laws: it is *why* the brain groups by proximity, similarity, region, and connection. If a composition can be misread as a simpler shape, it will be.
 
+## Detection
+
+No grep. This rule is scored 1-5 against the anchors below, expanded in `references/observational-rubrics.md`. Simplicity of reading is a property of the composed result, not of any string in the source.
+
+Score from the rendered surface, looking at: how many dominant shapes each section resolves to, whether one alignment axis holds across the section or competes with a second, whether rotated, skewed, or overlapping elements break the figure-ground reading, and how long it takes to locate the primary action. Report the score, the surface it was scored on, and the verbatim text of the anchor that was matched, so the reader can check the judgement against the same wording the scorer used.
+
 ## Rubric
 
 **Surfaces:** marketing-hero, dashboard, empty-state, pricing
