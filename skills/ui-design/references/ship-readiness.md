@@ -104,44 +104,9 @@ Verdict shows in the summary block atop every audit report, under the found / ap
 
 ## Examples
 
-Bumped up, then fixed in the pass. Counts as a found release-blocker and an applied one; it does not hold the verdict.
+Two tier assignments worth stating, both about the bump rules above rather than about JSON shape:
 
-```json
-{
-  "rule": "forms-lost-data-on-error",
-  "surface": "CheckoutForm",
-  "defaultTier": "fix-this-sprint",
-  "assignedTier": "release-blocker",
-  "tierReason": "Surface is checkout; data loss on payment-fields validation is a money-flow blocker.",
-  "applied": true,
-  "appliedChange": "src/checkout/CheckoutForm.tsx:42-58, hoisted field state into useActionState so a 422 no longer remounts the form."
-}
-```
+- A `forms-lost-data-on-error` finding on a checkout surface bumps to release-blocker, and being fixed in the same pass does not lower it. It counts as a found release-blocker and an applied one, and the verdict reads `remaining`, so it does not hold the ship.
+- A `dark-i18n-untested` finding on an internal admin surface bumps down to backlog. Four of those do not make a `READY_WITH_FOLLOW_UP`, because that threshold counts remaining fix-this-sprint findings, not backlog ones.
 
-Bumped down and left alone. Counts as a found and remaining backlog item, which no verdict tier reacts to.
-
-```json
-{
-  "rule": "interaction-fittss-law",
-  "surface": "MarketingHero",
-  "defaultTier": "fix-this-sprint",
-  "assignedTier": "backlog",
-  "tierReason": "Surface is marketing landing; sub-44 px CTA hurts mobile conversion but not data integrity.",
-  "applied": false
-}
-```
-
-Bumped up and out of scope. Still a release-blocker, still remaining, so the verdict is ❌ NOT READY even though the audit fixed everything else.
-
-```json
-{
-  "rule": "focus-not-restored",
-  "surface": "CheckoutModal",
-  "defaultTier": "fix-this-sprint",
-  "assignedTier": "release-blocker",
-  "tierReason": "Surface is checkout; keyboard users are locked out of the payment step.",
-  "applied": false,
-  "outOfScope": true,
-  "outOfScopeReason": "Root cause is src/components/Dialog.tsx, outside the audited files; 14 other surfaces consume it."
-}
-```
+The emitted object's shape, including every field these two would show, is owned by `references/output-adapters.md`. It is not repeated here: two files describing one JSON shape is how the two drift apart.

@@ -289,59 +289,7 @@ Default tier comes from the rule's frontmatter (`defaultTier`); the rule's `surf
 
 If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 
-### Finding, applied
-
-```json
-{
-  "rule": "forms-lost-data-on-error",
-  "category": "forms",
-  "feature": "checkout",
-  "surface": "PaymentStep",
-  "file": "src/checkout/PaymentStep.tsx",
-  "line": 42,
-  "result": "fail",
-  "defaultTier": "fix-this-sprint",
-  "assignedTier": "release-blocker",
-  "tierReason": "Surface is checkout; payment-data loss is money-flow blocker.",
-  "severity": "HIGH",
-  "observed": "Card number cleared on shipping-address 422 response. Form re-renders without `state.fields`.",
-  "evidence": [
-    "src/checkout/PaymentStep.tsx:42, useState reset on every render",
-    "src/checkout/PaymentStep.tsx:88, onSubmit re-throws without preserving values"
-  ],
-  "fix": "Use `useActionState` with field-level errors; hoist `state.fields` across error responses.",
-  "fixSnippet": "const [state, formAction] = useActionState(updateOrder, { fields: { card: '', expiry: '', cvc: '' }, errors: {} });",
-  "applied": true,
-  "appliedChange": "src/checkout/PaymentStep.tsx:42-58, replaced the four useState calls with useActionState; error branch now merges field errors instead of remounting.",
-  "docsLink": "https://react.dev/reference/react/useActionState",
-  "reactApis": ["useActionState"],
-  "suppressed": false
-}
-```
-
-### Finding, out of scope
-
-```json
-{
-  "rule": "focus-not-restored",
-  "category": "a11y",
-  "feature": "modal",
-  "surface": "ConfirmStep",
-  "file": "src/checkout/ConfirmStep.tsx",
-  "line": 34,
-  "result": "fail",
-  "defaultTier": "fix-this-sprint",
-  "assignedTier": "fix-this-sprint",
-  "severity": "HIGH",
-  "observed": "Modal closes; focus returns to <body> rather than the trigger button.",
-  "fix": "Pass the trigger ref to onCloseAutoFocus and restore focus explicitly.",
-  "applied": false,
-  "outOfScope": true,
-  "outOfScopeReason": "Root cause is src/components/Dialog.tsx, outside the audited files; 14 other surfaces consume it.",
-  "proposedDiff": "--- a/src/components/Dialog.tsx\n+++ b/src/components/Dialog.tsx\n@@\n-  <DialogPrimitive.Content>\n+  <DialogPrimitive.Content onCloseAutoFocus={restoreToTrigger}>",
-  "suppressed": false
-}
-```
+Only two finding examples follow, because only two carry a shape the Field reference below cannot express. Everything an applied, out-of-scope, or unknown finding needs is a field in that table with its own **Required when** condition; a worked object for those would narrow the shape without adding anything.
 
 ### Finding, laws rule
 
@@ -382,22 +330,6 @@ If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
   "applied": false
 }
 ```
-
-### Finding (unknown)
-
-```json
-{
-  "rule": "async-out-of-order-responses",
-  "category": "async",
-  "feature": "search",
-  "surface": "SearchBar",
-  "file": "src/search/SearchBar.tsx",
-  "result": "unknown",
-  "reason": "Search request handler not visible in scope; need to inspect onChange handler or fetch utility."
-}
-```
-
-An `unknown` never gets a tier, never gets a fix, and never counts toward `applied` or `remaining`. It is the honest record of a rule that could not be evaluated, and `reason` says what would make it evaluable.
 
 ## Field reference
 

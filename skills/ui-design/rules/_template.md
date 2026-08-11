@@ -65,26 +65,25 @@ One pair per rule. Never restate the same fix in a second pair.
 
 For rules where finding the defect is the hard part and the fix is obvious.
 
+One framing sentence, one command, one paragraph naming the legitimate pattern that also matches:
+
 ```markdown
 ## Detection
 
-**Static signals:**
-1. Concrete grep or Read step, naming the exact element, attribute, or property.
-2. Each step yields evidence: a file path, a line number, a boolean, a count.
-3. The last step compares that evidence to the threshold.
+Search for <what>, in <where>; a hit is confirmed when <the deciding fact>.
 
-**Concrete commands:**
 ```bash
-rg 'isLoading|isPending' --type=ts src/
+rg -nP '<pattern>' -g '*.tsx' -g '*.jsx' src/
 ```
 
-**False-positive guards:**
-- Skip files that already use the right escape hatch.
-- Skip files with an ignore comment for this rule id nearby.
-- Skip fixtures and stories.
+<The correct code this also matches, and how to tell them apart.>
 ```
 
-Do not add a `## Detection` section to a rule that does not have one. A section that restates the failure paragraph in imperative voice is not detection guidance.
+Every rule carries this section. The false-positive paragraph is the part that cannot be derived: a pattern without it is a grep anyone could write, and the rule exists because someone already learned which correct code it fires on.
+
+**Put every condition inside one pattern, not in a pipeline.** A `-U` multiline match piped through `rg` or `rg -v` filters output *lines*, so an element whose attributes or class string Prettier wrapped loses the deciding line: the filter either drops a correct element's exemption and reports it, or drops the token that would have confirmed it and reports nothing. Use lookaheads within the element instead. Piping is fine when each output line is already one self-contained value, as after `rg -oP`.
+
+Where a defect genuinely needs the rendered page (a measured width, a computed style, a spatial relationship), say so in this section and set `detect: rendered` rather than writing a grep that cannot decide it.
 
 ### Form C: a threshold table
 

@@ -88,7 +88,6 @@ A model picks a value that looks right in isolation and has no reason to check w
 | Marketing landing page | backlog |
 | Prototype or spike branch | ignore |
 
-Never a release blocker.
 
 ## Suppression
 

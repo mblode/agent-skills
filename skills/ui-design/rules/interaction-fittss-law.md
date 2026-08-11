@@ -3,49 +3,46 @@ title: Fitts's Law
 id: interaction-fittss-law
 category: interaction
 defaultTier: fix-this-sprint
-detect: static
+detect: rendered
 related: interaction-doherty-threshold, perception-proximity, decision-hicks-law
 ---
 
 ## Fitts's Law
 
-Time to acquire a pointer target scales with distance and inversely with size: small, far targets are slow and error-prone. Practical floor: 44×44 px on touch (Apple HIG, WCAG 2.5.5 Target Size AAA) or 48 dp on Material; dense desktop UI tolerates 24×24 px. Source: Fitts (1954); WCAG 2.1 SC 2.5.5.
+Time to acquire a pointer target scales with distance and falls with size, so a control can be perfectly sized and still be slow or dangerous because of where it sits. Size is `interaction-target-size`'s half of the law; placement is this one's. Source: Fitts (1954).
 
-Screen edges and corners are effectively infinite targets: the cursor can't overshoot the viewport boundary. Anchor frequent actions to edges; never put a critical action behind a 24 px icon on touch.
+Two consequences carry most of the weight. Screen edges and corners are effectively infinite targets, because the cursor cannot overshoot the viewport boundary, so anchoring a frequent action to one costs nothing and removes a whole axis of precision. And the same maths that makes a near target fast makes it easy to hit by accident: a destructive control placed beside a frequent one is not a sizing problem, and enlarging either one makes it worse.
 
 ## Detection
 
-**Surfaces:** primary-nav, modal, form
+`interaction-target-size` owns every finding about how big a target is. This rule owns the other two terms in the law: **how far** the pointer must travel, and **whether the edge is doing any work**. Never report both for one control.
 
-**Procedure:**
-1. Find interactive elements: `<button>`, `<a>`, `role="button"`, icon buttons, checkboxes, links in dense rows.
-2. Parse Tailwind sizing classes: `h-N w-N` (default Tailwind px: `h-11` = 44, `h-10` = 40, `h-8` = 32, `h-6` = 24). Add `p-N` padding to compute the **effective hit target**, not just the glyph.
-3. Determine surface type: touch (mobile-first, `<md:` viewports, mobile UA targets) requires ≥44 px; dense desktop UI tolerates ≥24 px.
-4. Flag any interactive element below the threshold for its surface.
+Distance is a relationship between elements, so it is not a property of any one line. Find the candidates statically, then decide at the rendered size.
 
-**Concrete commands:**
 ```bash
-# Find sub-44px elements (h-1 through h-10)
-rg -n 'h-(1|2|3|4|5|6|7|8|9|10) ' src/
-# Find icon buttons by aria-label without explicit sizing
-rg -n '<button[^>]*aria-label' src/
+rg -nUP '(?s)<(?:button|a)\b[^>]*?>(?:(?!</(?:button|a)>).)*?\b(Delete|Remove|Discard|Revoke|Cancel subscription)\b' \
+   -g '*.tsx' -g '*.jsx' src/
 ```
+
+That finds destructive actions; the finding is whether one sits within a thumb's slip of the action people take fifty times a day. Three shapes to judge on the rendered page:
+
+- A destructive control adjacent to the primary control in the same cluster, with no separation, so the cost of a slip is unrecoverable.
+- A frequent action stranded in the middle of a large viewport when an edge or corner would make it effectively infinite in one axis.
+- A dense row where the whole cluster is reachable but the intended item is not distinguishable by position.
 
 ## Threshold
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | All interactive elements ≥44 px on touch AND ≥24 px on dense desktop | none |
-| warn | Touch target between 32-43 px (e.g. `h-8` to `h-10`) | MEDIUM |
-| fail | Touch target <32 px OR desktop target <24 px | HIGH |
+| pass | Destructive actions are separated from frequent ones, and frequent actions sit at an edge, corner, or the pointer's resting position | none |
+| warn | A frequent action is centre-stranded where an edge was available | MEDIUM |
+| fail | A destructive action is immediately adjacent to a frequent one with no separation or undo | HIGH |
 
 ## Fix
 
-**If fail:** Raise the target to the size `interaction-target-size` requires for the surface; for new UI use the build default in `guidelines/buttons.md`. Keep the visual glyph small by using padding for the hit area rather than resizing it. Anchor to edges or corners when possible.
+**If fail:** Separate the destructive control from the frequent one, or make the action recoverable. Proximity plus irreversibility is the combination that hurts; breaking either one is enough.
 
-**If warn:** Same fix, or add invisible padding (`p-2`) to extend the hit target without resizing the glyph.
-
-`interaction-target-size` owns every finding about target **size**. This rule fires only for **distance** and **edge anchoring**: a target that is large enough but placed far from the pointer's likely origin. Do not report both for one control.
+**If warn:** Anchor the frequent action to an edge or corner, where the cursor cannot overshoot, rather than enlarging it.
 
 ## Examples
 
@@ -72,6 +69,6 @@ rg -n '<button[^>]*aria-label' src/
 </button>
 ```
 
-The glyph stays 16 px; the 44×44 hit area extends through padding. Corner anchoring makes the button effectively unmissable on desktop.
+`fixed top-0 right-0` is what this rule is about: pinned to a corner, the button is unmissable on desktop no matter how fast the cursor travels, because it cannot be overshot in either axis. The sizing shown is `interaction-target-size`'s concern, not a finding here.
 
 Reference: https://lawsofux.com/fittss-law/
