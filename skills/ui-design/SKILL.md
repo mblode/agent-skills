@@ -26,7 +26,7 @@ Owns everything that touches the built artifact: pick the visual direction, impl
 
 ## Contents
 
-- [product-design or ui-design?](#product-design-or-ui-design)
+- [product-design, ui-design, or ui-animation?](#product-design-ui-design-or-ui-animation)
 - [Modes](#modes)
 - [Direction mode](#direction-mode)
 - [Build mode](#build-mode)
@@ -37,13 +37,25 @@ Owns everything that touches the built artifact: pick the visual direction, impl
 - [Gotchas](#gotchas)
 - [Related skills](#related-skills)
 
-## product-design or ui-design?
+## product-design, ui-design, or ui-animation?
 
-**Primary:** code, a diff, or a running UI in hand, use this skill. A brief, spec, mockup, or intent with no code, use `product-design`.
+An interface is a set of states and the passages between them. That decomposition assigns the work.
 
-**Tiebreak when code exists:** would the change alter what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all? That is a capability, so `product-design` decides and this skill implements. If it only changes how the same capability looks, reads, or behaves, this skill owns it end to end.
+| The question is about | Use |
+|---|---|
+| Which states exist, what an action affects, whether it is reversible | `product-design` |
+| What a state looks like once built: markup, type, colour, layout, hierarchy | this skill |
+| The passage between two states: timing, easing, springs, gesture physics | `ui-animation` |
 
-**Both fire:** `product-design` first, then this skill. "The button should say Delete project" is a decision; "the button has no focus ring" is code.
+**Subject beats artifact.** When motion is what the request is about, it is `ui-animation` whether or not code exists yet. Otherwise code, a diff, or a running UI in hand is this skill, and a brief, spec, mockup, or intent with no code is `product-design`.
+
+**Capability beats presentation.** With code in hand, ask whether the change alters what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all. That is a capability, so `product-design` decides and this skill implements. If it only changes how the same capability looks, reads, or behaves, this skill owns it end to end.
+
+**A gesture that replaces a control is a capability decision.** Swipe-to-delete, hold-to-confirm, and drag-to-reorder change what the user can do and how recoverable it is, so `product-design` settles the interaction and `ui-animation` builds its physics.
+
+**Motion incidental to a build stays here.** A hover transition or a fade added while building a component is a property of that component. It becomes `ui-animation`'s when motion is the subject or its craft is in question.
+
+Worked: "Delete should be undoable" is `product-design`. "The undo toast is ugly" is this skill. "The undo toast should slide, not pop" is `ui-animation`.
 
 ## Modes
 
@@ -216,7 +228,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `pr-reviewer`: correctness and code quality in the same diff; this skill covers only user-facing quality.
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
 - `typography-audit`: deep typography (pairing, OpenType systems, display type); the `type-` rules here are the shallower check.
-- `ui-animation`: motion timing, easing, gestures, and review; `motion-` findings route there for the fix.
+- `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill's `motion-` rules are the shallow presence check; the craft and the fix belong there.
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `optimise-seo`: meta descriptions and page titles.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

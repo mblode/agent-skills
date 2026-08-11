@@ -7,8 +7,11 @@ description: >-
   mockup, intent, or existing UI. Use when asked "is this the right
   interaction", "design the flow", "what control should this use", "what should
   this action affect", "which states should this have", "make this resilient",
-  or "what breaks here". For building or styling use ui-design; for built-code
-  audits use ui-design Audit mode; for copy wording use copywriting.
+  or "what breaks here". Decides which states exist; also owns a gesture that
+  replaces a control, such as swipe-to-delete or hold-to-confirm, because it
+  changes what a user can do. For what a state looks like once built use
+  ui-design; for built-code audits use ui-design Audit mode; for the passage
+  between states use ui-animation; for copy wording use copywriting.
 ---
 
 # Product Design
@@ -22,15 +25,23 @@ Decide what the interface should do, then route who builds and verifies it: pick
   - copy wording, persuasion, or AI-ism removal: use `copywriting`.
   - deep typography or motion: use `typography-audit` or `ui-animation`.
 
-## product-design or ui-design?
+## product-design, ui-design, or ui-animation?
 
-Both care about states and interaction; they act at different moments.
+An interface is a set of states and the passages between them. That decomposition assigns the work.
 
-- **Primary:** code, a diff, or a running UI in hand, use `ui-design`. A brief, spec, mockup, or intent with no code, use `product-design`.
-- **Tiebreak when code exists:** would the change alter what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all? That is a capability, so `product-design` decides and `ui-design` implements. If it only changes how the same capability looks, reads, or behaves, `ui-design` owns it end to end.
-- **Both fire:** `product-design` first, then `ui-design`.
+| The question is about | Use |
+|---|---|
+| Which states exist, what an action affects, whether it is reversible | this skill |
+| What a state looks like once built: markup, type, colour, layout, hierarchy | `ui-design` |
+| The passage between two states: timing, easing, springs, gesture physics | `ui-animation` |
 
-One artifact often needs both in sequence: `product-design` decides the states that must exist, `ui-design` Audit mode verifies the built code and rendered result implement them. This skill reviews the *decision* and stops at decision altitude; it never writes line-level code fixes.
+- **Subject beats artifact.** When motion is what the request is about, it is `ui-animation` whether or not code exists yet. Otherwise code, a diff, or a running UI in hand is `ui-design`, and a brief, spec, mockup, or intent with no code is this skill.
+- **Capability beats presentation.** With code in hand, ask whether the change alters what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all. That is a capability, so this skill decides and `ui-design` implements. If it only changes how the same capability looks, reads, or behaves, `ui-design` owns it end to end.
+- **A gesture that replaces a control is a capability decision.** Swipe-to-delete, hold-to-confirm, and drag-to-reorder change what the user can do and how recoverable it is, so this skill settles the interaction and `ui-animation` builds its physics.
+
+Worked: "Delete should be undoable" is this skill. "The undo toast is ugly" is `ui-design`. "The undo toast should slide, not pop" is `ui-animation`.
+
+One artifact often needs both in sequence: this skill decides the states that must exist, `ui-design` Audit mode verifies the built code and rendered result implement them. This skill reviews the *decision* and stops at decision altitude; it never writes line-level code fixes.
 
 ## Operating contract
 
@@ -121,5 +132,6 @@ Deterministic, structural, single-file checks (control selection by option count
 
 - `ui-design`: visual direction and building the decided interaction in code; its Audit mode covers the built result, both rendered quality and accessibility-markup audit and React or Next diff-level UX bug hunt with a ship verdict.
 - `copywriting`: exact wording for names, errors, and empty and loading copy; defines shared copy rule IDs in its `references/ui-states.md`.
-- `typography-audit`, `ui-animation`: type and motion.
+- `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill settles whether a gesture replaces a control and whether the action it triggers is reversible; that skill builds its physics.
+- `typography-audit`: deep type.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

@@ -7,14 +7,32 @@ description: >-
   "add animations", "make this feel smooth", "review my animations", "add a
   swipe gesture", "match this easing", "reverse engineer this animation",
   "extract the animation curve", or "what's it called when..." to name a motion
-  effect from a vague description. For visual direction use ui-design Direction
-  mode; for page-level UI audit use ui-design Audit mode.
+  effect from a vague description. Owns the passage between two states. For
+  what a state looks like once built use ui-design; for which states exist and
+  whether an action is reversible use product-design, including when a gesture
+  replaces a control.
 ---
 
 # UI Animation
 
 - **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
 - **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design` Direction mode), auditing a whole page's UI quality (use `ui-design` Audit mode), or named text-effect specs (use the external `animate-text` skill where installed).
+
+## product-design, ui-design, or ui-animation?
+
+An interface is a set of states and the passages between them. That decomposition assigns the work.
+
+| The question is about | Use |
+|---|---|
+| Which states exist, what an action affects, whether it is reversible | `product-design` |
+| What a state looks like once built: markup, type, colour, layout, hierarchy | `ui-design` |
+| The passage between two states: timing, easing, springs, gesture physics | this skill |
+
+- **Subject beats artifact.** When motion is what the request is about, it is this skill whether or not code exists yet. Otherwise code, a diff, or a running UI in hand is `ui-design`, and a brief, spec, mockup, or intent with no code is `product-design`.
+- **A gesture that replaces a control is a capability decision.** Swipe-to-delete, hold-to-confirm, and drag-to-reorder change what the user can do and how recoverable it is, so `product-design` settles the interaction and this skill builds its physics.
+- **Motion incidental to a build stays in `ui-design`.** A hover transition or a fade added while building a component is a property of that component. It arrives here when motion is the subject or its craft is in question.
+
+Worked: "Delete should be undoable" is `product-design`. "The undo toast is ugly" is `ui-design`. "The undo toast should slide, not pop" is this skill.
 
 Canonical home for reverse-engineering motion from a recording: route "reverse engineer this animation" and "match this easing" here, not to a separate skill. If the input is a screen recording or video, you are MEASURING motion: follow the Reverse-engineer workflow. Otherwise (designing, implementing, reviewing) use the rules and Workflow below.
 
@@ -208,7 +226,8 @@ Reverse-engineer progress:
 
 ## Related skills
 
+- `product-design`: which states exist, what an action affects, and whether it is reversible. Route here first when a gesture replaces a control, since swipe-to-delete and hold-to-confirm change what the user can do before they change how it moves.
 - `ui-design` Direction mode: visual direction, palettes, typography; settle the visual system before tuning motion.
-- `ui-design` Audit mode: page/feature-level UI quality audit; its motion findings route back here for fixes.
+- `ui-design` Audit mode: page/feature-level UI quality audit. Its `motion-` rules are the shallow presence check (animated layout properties, missing reduced-motion); the craft and the fix belong here.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
