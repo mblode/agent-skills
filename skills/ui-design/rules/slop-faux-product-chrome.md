@@ -15,24 +15,28 @@ The failure is the frame with nothing inside it. A browser frame around a genuin
 
 ## Detection
 
-Four signals. Each one alone is worth a look; the finding is confirmed when the chrome demonstrably wraps no real content.
+Three opening signals, and one that only ever corroborates. The finding is confirmed when the chrome demonstrably wraps no real content.
 
 ```bash
 # 1. Traffic-light dot clusters
 rg -nP 'rounded-full[^"`]*\bbg-(red|rose|yellow|amber|green|emerald)-[45]00' -g '*.tsx' src/
 
-# 2. A URL rendered as text rather than as a destination
-rg -nP '>\s*(https?://|www\.)[^<{]+<' -g '*.tsx' src/
-rg -nP '["`](https?://[^"`]+)["`]' -g '*.tsx' src/ | rg -v 'href|src=|import|from|fetch|url\('
-
-# 3. Empty styled panels with a fixed height
+# 2. Empty styled panels with a fixed height
 rg -nUP '(?s)<div[^>]*className="[^"]*\b(h-\d+|h-\[\d+px\]|aspect-)[^"]*"[^>]*/>' -g '*.tsx' src/
 
-# 4. Device and browser frame components
+# 3. Device and browser frame components
 rg -nP '<(Browser|Safari|Chrome|Mac|Window|Device|Phone|iPhone|Laptop|Tablet)\w*(Frame|Mockup|Window|Chrome|Shell)?\b' -g '*.tsx' src/
 ```
 
-For signal 1, confirm before reporting: the three dots must be **adjacent siblings** (within about three lines of each other, no element between them) and carry **no adjacent text label**. For signals 3 and 4, open the element and confirm it has no `<img>`, `<video>`, `<Image>`, `children`, or real markup inside.
+For signal 1, confirm before reporting: the three dots must be **adjacent siblings** (within about three lines of each other, no element between them) and carry **no adjacent text label**. For signals 2 and 3, open the element and confirm it has no `<img>`, `<video>`, `<Image>`, `children`, or real markup inside.
+
+### Corroborating signal: a URL rendered as text
+
+```bash
+rg -nP '>\s*(https?://|www\.)[^<{]+<' -g '*.tsx' src/
+```
+
+**This cannot open a finding.** Run it only inside a file one of the three signals above already matched, and only to raise confidence that the frame is a browser rather than a device. A URL printed as text is correct in link previews, copy-to-clipboard fields, CLI output, docs examples, and `<code>` samples, and a repository's own base URLs and config constants are string literals everywhere. Nothing greppable separates those from an address bar; only the surrounding frame does, which is why this signal reports through the others and never on its own.
 
 ## False positives
 
@@ -41,7 +45,7 @@ Each of these is a legitimate pattern that the raw greps will hit. Confirm again
 - **A status legend is a real red/amber/green cluster.** Uptime pages, build dashboards, and severity keys all render coloured dots. The discriminator is the label: a legend dot sits beside text ("Operational", "Degraded", "P1"). Traffic-light chrome sits beside nothing. Require adjacency **and** the absence of a label before firing.
 - **Skeleton loaders are legitimately empty fixed-height panels.** Skip anything with `animate-pulse`, and skip components named `Skeleton`, `Placeholder`, `Shimmer`, `Loading*`, or rendered inside a `Suspense` fallback. An empty grey box that will be filled in 200ms is doing its job.
 - **Some products are browser chrome.** A browser extension, a devtool, a design-system documentation site, a screenshot tool, or a tutorial about the address bar all render window furniture as their subject matter. Only fire when the chrome wraps no real content: if the frame contains a live iframe, a product screenshot, a video, or rendered app markup, it is a presentation device and is fine.
-- **A URL as text is often correct.** Displayed link previews, copy-to-clipboard fields, CLI output, docs examples, and `<code>` samples all show URLs as text on purpose. Fire only when the URL sits inside something styled as an address bar.
+- **A URL as text is often correct.** Displayed link previews, copy-to-clipboard fields, CLI output, docs examples, and `<code>` samples all show URLs as text on purpose, and so do a project's own base URLs and config constants. This is why the URL signal corroborates and never opens a finding.
 
 ## Fix
 
