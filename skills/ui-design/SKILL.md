@@ -58,6 +58,11 @@ An interface is a set of states and the passages between them. That decompositio
 
 **Motion incidental to a build stays here.** A hover transition or a fade added while building a component is a property of that component. It becomes `ui-animation`'s when motion is the subject or its craft is in question.
 
+Two edges the tiebreak does not settle on its own:
+
+- **Choosing between control patterns with different reachability is a capability**, so `product-design`. Modal against inline, drawer against full page, and dialog against toast each change what stays visible, how the task is dismissed, and where focus lands. Styling whichever is chosen is this skill's.
+- **A missing state nobody would debate is this skill's to detect and build.** An empty list, a failed fetch, and a pending submit all obviously need a state, so the `states-` rules find and fix them. `product-design` decides which states must exist only where that is genuinely open, such as whether a partial or an expired state should exist at all.
+
 Worked: "Delete should be undoable" is `product-design`. "The undo toast is ugly" is this skill. "The undo toast should slide, not pop" is `ui-animation`.
 
 ## Modes
@@ -129,22 +134,26 @@ Rules:
 
 A review skill. It does ONE thing: find user-facing defects in built UI and fix the ones it can reach. Its posture is the inverse of Build's: **default to flagging; approval is earned.**
 
-**Load contract: `references/` and `rules/` only. Never `guidelines/` or `direction/`.** An audit that loads the design guidance stops being an audit and becomes a redesign, which is the failure this contract exists to prevent. A finding that genuinely needs a new palette or type scale is emitted as a finding naming the mode to run next, not acted on.
+**Load contract: `references/` and `rules/` only, plus `direction/aesthetic-direction.md` in the Deslop scope and nothing else from `direction/` or `guidelines/`.** An audit that loads the design guidance stops being an audit and becomes a redesign, which is the failure this contract exists to prevent. A finding that genuinely needs a new palette or type scale is emitted as a finding naming the mode to run next, not acted on.
+
+The one carve-out is narrow on purpose. `aesthetic-direction.md` is a list of tells, so it lets Deslop recognise slop; it prescribes no palette, scale, or component, so it cannot supply a redesign. Where a rule's false-positive guard cites a `guidelines/` file, that is provenance for a value already inlined in the rule, not an instruction to open it.
 
 ```text
 Audit progress:
-- [ ] Step 1: Scope (git diff --name-only main, or the named files)
+- [ ] Step 1: Scope (`git diff --name-only main -- '*.tsx' '*.jsx' '*.ts' '*.js' '*.css' '*.module.css'`, or the named files)
 - [ ] Step 2: Detect features in scope (references/feature-playbooks.md)
 - [ ] Step 3: Run each feature's playbook checks in order
 - [ ] Step 4: Load only the rules/ files the playbook names; confirm each finding at its file:line
 - [ ] Step 5: Tier each finding (references/ship-readiness.md); surface context can bump it
-- [ ] Step 6: Apply the fixes that stay inside the audited files
+- [ ] Step 6: Apply the fixes that stay inside the audited files, unless the request was report-only (below). After each fix, re-run the rule that produced it against the edited file; a fix that does not clear its own finding is reverted and reported as `remaining`
 - [ ] Step 7: Build the JSON document, then render (references/output-adapters.md)
 - [ ] Step 8: Run the self-check; report INCOMPLETE if it fails
-- [ ] Step 9: List every file loaded. Any `guidelines/` or `direction/` file in that list means the load contract broke and the pass is a redesign, not an audit
+- [ ] Step 9: List every file loaded. Any `guidelines/` file, or any `direction/` file other than `aesthetic-direction.md` in the Deslop scope, means the load contract broke and the pass is a redesign, not an audit
 ```
 
 Scope is diff-aware by default; a full sweep needs an explicit request, because a default full sweep buries the three findings that matter under sixty that do not.
+
+**Report-only when the user asked a question, not for a change.** "Is this ready to ship", "is this accessible", "design QA this page", and "review this PR for UX bugs" ask for a verdict; nobody says them expecting their working tree to change. Report those, name the fixes, and stop. Apply when the wording asks for one ("fix", "clean up", "remove the slop", "audit and fix"), or when the user confirms after a report. When it is genuinely ambiguous, report first: an unwanted report costs a scroll, an unwanted edit costs a revert.
 
 **Fixes stay inside the audited files.** A fix that would change a shared component outside the scope is emitted as a finding with a proposed diff, not applied: it would ship unrendered and unreviewed, and one caller's bug becomes every caller's regression.
 
@@ -222,6 +231,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - Skipping `colors.md` in Build mode produces the stock Tailwind look: indigo accents and `gray-*` neutrals, both banned as defaults.
 - Assigning `release-blocker` liberally stops the verdict gating merges. Reserve it for data loss, broken critical paths, and dark patterns. No `slop-` rule is ever a release-blocker.
 - Reporting one issue from several rules inflates the count and splits the fix. Keep the most concrete framing: "missing error state" beats "high cognitive load".
+- The perception, cognitive, decision, and memory rules cite lawsofux.com, which is CC BY-NC-SA. Every one of them paraphrases, and a new one must too: pasting its wording into a rule file puts that licence on the audit output, which ships into users' repositories.
 - The suppression comment is `ui-audit-ignore:` even though this skill is named `ui-design`. It is spelled that way in users' repositories, and renaming it would silently un-suppress every suppression anyone has written.
 
 ## Related skills

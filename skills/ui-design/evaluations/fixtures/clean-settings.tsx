@@ -1,7 +1,3 @@
-// Null control. This screen is fine. A deslop pass should find little or
-// nothing and say so, rather than manufacturing findings to look useful.
-// Values trace to the Tailwind scale, one accent, states covered, semantic
-// roles distinct, no decorative layers, no invented proof.
 export function ApiKeySettings({
   keys,
   onRevoke,

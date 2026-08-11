@@ -23,14 +23,12 @@ A **decorative layer** is an element that satisfies all four:
 4. carries a gradient, `blur`, `backdrop-blur`, `mix-blend`, or `opacity` utility.
 
 ```bash
-rg -nUP '(?s)<(div|span)\b[^>]*?/>' -g '*.tsx' -g '*.jsx' \
-   -g '!*.stories.tsx' -g '!*.test.tsx' src/ \
-| rg 'absolute|fixed' \
-| rg 'pointer-events-none|aria-hidden' \
-| rg 'gradient|bg-linear|bg-radial|\bblur|backdrop-blur|mix-blend|opacity-' \
-| rg -v 'size-\[max\(100%|pointer-fine:hidden|bg-clip-text|\bmask-|inset-0 bg-black/|inset-0 bg-gray-900/' \
-| awk -F: '{print $1}' | sort | uniq -c | sort -rn
+rg -cUP '(?s)<(?:div|span)\b(?=[^>]*?(?:\babsolute\b|\bfixed\b))(?=[^>]*?(?:pointer-events-none|aria-hidden))(?=[^>]*?(?:gradient|bg-linear|bg-radial|\bblur|backdrop-blur|mix-blend|opacity-))(?![^>]*?(?:size-\[max\(100%|pointer-fine:hidden|bg-clip-text|\bmask-))[^>]*?/>' \
+   -g '*.tsx' -g '*.jsx' -g '!*.stories.tsx' -g '!*.test.tsx' src/ \
+| sort -t: -k2 -rn
 ```
+
+Every condition is a lookahead **inside one element match**, not a stage in a pipeline. That is load-bearing: `prettier-plugin-tailwindcss` wraps long class strings across lines, and these layers have the longest class strings on the page. A chain of line-based filters silently returns zero on a wrapped element, because `absolute` and `blur` end up on different output lines. A threshold rule that undercounts is worse than no rule: it reports "2, warn" on a section with five layers.
 
 **Thresholds:** 3 or more in one component fails. Exactly 2 warns. **One never fires.**
 

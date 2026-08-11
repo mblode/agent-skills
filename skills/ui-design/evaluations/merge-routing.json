@@ -1,8 +1,12 @@
 [
   {
-    "skills": ["ui-design"],
+    "skills": [
+      "ui-design"
+    ],
     "query": "Is this invite form ready to ship? Tell me what's broken.",
-    "files": ["fixtures/invite-member-form.tsx"],
+    "files": [
+      "fixtures/invite-member-form.tsx"
+    ],
     "expected_behavior": [
       "Selects Audit mode, not Build or Direction: reports defects in the code as written instead of restyling or regenerating the form",
       "Reports file:line findings for the data loss (email and role cleared before the request resolves), the unguarded submit (no pending state, so the button double-fires), the unchecked res.ok with no rendered error state, and the icon-only close button with no accessible name",
@@ -12,9 +16,14 @@
     ]
   },
   {
-    "skills": ["ui-design", "product-design"],
+    "skills": [
+      "ui-design",
+      "product-design"
+    ],
     "query": "Two things on this modal. First, Delete should remove the whole project, not just the one version, and people should be able to undo it for 30 days. Second, the destructive button sits at the same visual weight as Cancel.",
-    "files": ["fixtures/delete-version-modal.tsx"],
+    "files": [
+      "fixtures/delete-version-modal.tsx"
+    ],
     "expected_behavior": [
       "Splits the request instead of treating code-in-hand as a blanket route to ui-design",
       "Routes the first ask to product-design: it changes which object the action affects (version to project) and whether it is reversible, so it is a capability decision, not a visual one",
@@ -25,13 +34,18 @@
     ]
   },
   {
-    "skills": ["ui-design", "typography-audit"],
+    "skills": [
+      "ui-design",
+      "typography-audit"
+    ],
     "query": "Audit this pricing page before launch.",
-    "files": ["fixtures/pricing-page.tsx"],
+    "files": [
+      "fixtures/pricing-page.tsx"
+    ],
     "expected_behavior": [
       "ui-design Audit mode owns the pass: a broad pre-launch audit is not handed wholesale to typography-audit",
       "Reports the non-type defects itself: the clickable div that is not a button and cannot be reached by keyboard, and the missing empty state when plans is empty",
-      "Flags the type defects it owns (faux bold at weight 900 on a family with no 900 face, straight quotes, letter-spaced lowercase body copy at 13px with a 1.2 line-height) without opening a full 78-rule type pass",
+      "Flags the type defects its own type- rules own (13px body copy below the readable floor, 1.2 line-height against that measure) and routes punctuation and faux bold to typography-audit, which owns them, rather than opening a full type pass itself",
       "Routes the deep type work (the scale, the pairing, the measure) to typography-audit rather than duplicating its rule set",
       "Keeps a single ship verdict for the page instead of emitting two competing verdicts"
     ]

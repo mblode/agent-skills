@@ -40,6 +40,12 @@ An interface is a set of states and the passages between them. That decompositio
 - **Artifact is the opening presumption, not the verdict.** A brief, spec, mockup, or intent with no code is this skill. Code, a diff, or a running UI in hand presumes `ui-design`, and the next test can overturn that: this skill reads existing UI whenever the question is what it should do.
 - **Capability beats presentation.** With code in hand, ask whether the change alters what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all. That is a capability, so this skill decides and `ui-design` implements. If it only changes how the same capability looks, reads, or behaves, `ui-design` owns it end to end.
 - **A gesture that replaces a control is a capability decision.** Swipe-to-delete, hold-to-confirm, and drag-to-reorder change what the user can do and how recoverable it is, so this skill settles the interaction and `ui-animation` builds its physics.
+- **Motion incidental to a build stays in `ui-design`.** A hover transition or a fade added while building a component is a property of that component. It becomes `ui-animation`'s when motion is the subject or its craft is in question.
+
+Two edges the tiebreak does not settle on its own:
+
+- **Choosing between control patterns with different reachability is a capability**, so this skill. Modal against inline, drawer against full page, and dialog against toast each change what stays visible, how the task is dismissed, and where focus lands (`rule/inline-before-modal`). Styling whichever is chosen is `ui-design`'s.
+- **A missing state nobody would debate is `ui-design`'s to detect and build.** An empty list, a failed fetch, and a pending submit all obviously need a state, and its `states-` audit rules find and fix them. This skill decides which states must exist only where that is genuinely open, such as whether a partial or an expired state should exist at all.
 
 Worked: "Delete should be undoable" is this skill. "The undo toast is ugly" is `ui-design`. "The undo toast should slide, not pop" is `ui-animation`.
 
