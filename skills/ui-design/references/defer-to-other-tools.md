@@ -1,12 +1,12 @@
 # Defer to Other Tools
 
-ui-audit's value is the gap between "lint passes and axe is clean" and "the product still feels broken." It does not duplicate what other tools handle well. When a finding falls into another tool's territory, link out.
+ui-design's value is the gap between "lint passes and axe is clean" and "the product still feels broken." It does not duplicate what other tools handle well. When a finding falls into another tool's territory, link out.
 
 ## Coverage map
 
 | Concern | Defer to | Why |
 |---|---|---|
-| LCP, CLS, INP, FCP, TTFB measurement | **Lighthouse** + **web-vitals** library + **Vercel Agent** | Field + lab measurement; ui-audit is static-only |
+| LCP, CLS, INP, FCP, TTFB measurement | **Lighthouse** + **web-vitals** library + **Vercel Agent** | Field + lab measurement; ui-design is static-only |
 | WCAG 2.x rule violations | **axe-core** (runtime) + **eslint-plugin-jsx-a11y** (lint) | Authoritative WCAG rule list with structured violations |
 | `alt` text, `aria-*` attribute presence | **eslint-plugin-jsx-a11y** | Catches at write time |
 | Color contrast ratios | **axe-core** + **Storybook a11y addon** | Computed contrast per element |
@@ -19,11 +19,11 @@ ui-audit's value is the gap between "lint passes and axe is clean" and "the prod
 | End-to-end flow correctness | **Playwright** / **Cypress** | Runtime browser execution |
 | Real-user RUM data | **Vercel Speed Insights** / **Sentry** / **Datadog RUM** | Field measurement |
 
-## What ui-audit catches that none of the above catch
+## What ui-design catches that none of the above catch
 
-The high-leverage gaps; ui-audit's reason to exist:
+The high-leverage gaps; ui-design's reason to exist:
 
-| Gap | Tools that miss it | ui-audit rule |
+| Gap | Tools that miss it | ui-design rule |
 |---|---|---|
 | Component has loading branch but no skeleton | All | `states-no-skeleton` |
 | Component has empty state but no CTA | All | `states-no-empty-state` (action-required variant) |
@@ -47,7 +47,7 @@ When a finding overlaps another tool, the rule's `Fix` section links out:
 
 ```markdown
 **Fix:** Add a skeleton with `min-height` matching loaded state to prevent CLS.
-**Also run:** `lighthouse --only-categories=performance` to confirm CLS budget; Lighthouse measures the metric, ui-audit catches the static cause.
+**Also run:** `lighthouse --only-categories=performance` to confirm CLS budget; Lighthouse measures the metric, ui-design catches the static cause.
 ```
 
 The audit summary always lists deferred categories explicitly:
@@ -60,4 +60,4 @@ Defer-to (not audited here):
   Visual regression:     Run Chromatic
 ```
 
-This sets expectations and prevents the "why didn't ui-audit catch X" complaint when X is another tool's job.
+This sets expectations and prevents the "why didn't ui-design catch X" complaint when X is another tool's job.

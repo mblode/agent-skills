@@ -1,6 +1,6 @@
 # Modern Conversion Techniques
 
-Personalisation and mobile-first conversion. Load alongside `cro.md` when building or auditing marketing pages. Page speed, accessible copy, and microcopy are covered here only as pointers to their owning skills (`optimise-seo`, `copywriting`, `ui-audit`/`typography-audit`).
+Personalisation and mobile-first conversion. Load alongside `cro.md` when building or auditing marketing pages. Page speed, accessible copy, and microcopy are covered here only as pointers to their owning skills (`optimise-seo`, `copywriting`, `ui-design`/`typography-audit`).
 
 ## Table of contents
 
@@ -78,5 +78,5 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 Three conversion levers belong to sibling skills; name the lever, then route the work.
 
 - **Page speed.** Pages under 1 second convert roughly 3x better than 5+ seconds, so mobile speed is a conversion decision. Core Web Vitals (LCP/INP/CLS), `font-display`, WebP/AVIF, and third-party script budgets: route to `optimise-seo`.
-- **Accessible copy.** Descriptive link and CTA text and plain-language reading level: route to `copywriting`. The a11y checks (WCAG link purpose, heading hierarchy, contrast): route to `ui-audit` or `typography-audit`.
+- **Accessible copy.** Descriptive link and CTA text and plain-language reading level: route to `copywriting`. The a11y checks (WCAG link purpose, heading hierarchy, contrast): route to `ui-design` or `typography-audit`.
 - **Microcopy.** Button labels, form help text, privacy reassurance, error messages: route to `copywriting`.

@@ -203,10 +203,10 @@ CI usage:
 
 ```bash
 # Block the merge on release-blockers the audit could not fix.
-ui-audit --format json | jq -e '.summary.remaining.releaseBlockers == 0'
+ui-design --format json | jq -e '.summary.remaining.releaseBlockers == 0'
 
 # Reconciliation guard: catches a run that lost findings between the two counts.
-ui-audit --format json | jq -e '.summary.found.total ==
+ui-design --format json | jq -e '.summary.found.total ==
   (.summary.applied.total + .summary.remaining.total)'
 ```
 
