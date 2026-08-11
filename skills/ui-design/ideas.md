@@ -62,7 +62,7 @@ Use when the user wants the ui.sh picker to compare and pick between multiple UI
 
 4. Let the user preview variants in-browser with the picker toolbar.
 5. If the toolbar can't load (for example CSP/offline), skip preview and ask for selection in chat using labels and descriptions.
-6. Ask for selection in the agent using the `question` tool:
+6. Ask for selection in the agent using `AskUserQuestion`:
    - Use explicit option labels matching the UI picker labels.
    - For existing-design variation requests, keep the current implementation as the first choice and preserve its `(current)` suffix.
    - Keep custom input enabled (so `Type your own answer` stays available).

@@ -32,7 +32,7 @@ rg 'defaultValue=|Intl\.DateTimeFormat|navigator\.language' src/forms/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | 0 fields ask for system-derivable values manually |: |
+| pass | 0 fields ask for system-derivable values manually | none |
 | warn | 1 such field is unfilled | MEDIUM |
 | fail | ≥ 2 such fields are unfilled | HIGH |
 

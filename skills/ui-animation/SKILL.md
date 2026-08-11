@@ -28,7 +28,8 @@ An interface is a set of states and the passages between them. That decompositio
 | What a state looks like once built: markup, type, colour, layout, hierarchy | `ui-design` |
 | The passage between two states: timing, easing, springs, gesture physics | this skill |
 
-- **Subject beats artifact.** When motion is what the request is about, it is this skill whether or not code exists yet. Otherwise code, a diff, or a running UI in hand is `ui-design`, and a brief, spec, mockup, or intent with no code is `product-design`.
+- **Subject beats artifact.** When motion is what the request is about, it is this skill whether or not code exists yet.
+- **Artifact is the opening presumption, not the verdict.** Code, a diff, or a running UI in hand presumes `ui-design`; a brief, spec, mockup, or intent with no code presumes `product-design`. Either can be overturned by the two tests below.
 - **A gesture that replaces a control is a capability decision.** Swipe-to-delete, hold-to-confirm, and drag-to-reorder change what the user can do and how recoverable it is, so `product-design` settles the interaction and this skill builds its physics.
 - **Motion incidental to a build stays in `ui-design`.** A hover transition or a fade added while building a component is a property of that component. It arrives here when motion is the subject or its craft is in question.
 

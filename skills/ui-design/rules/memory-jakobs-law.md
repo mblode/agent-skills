@@ -32,7 +32,7 @@ rg -n 'ShoppingCart|Search|Menu|User|Account' src/components
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | ≥6 of 7 conventions honoured |: |
+| pass | ≥6 of 7 conventions honoured | none |
 | warn | 4-5 of 7 conventions honoured | MEDIUM |
 | fail | <4 of 7 conventions honoured (deeply non-conventional) | HIGH |
 

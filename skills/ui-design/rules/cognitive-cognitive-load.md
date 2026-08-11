@@ -34,7 +34,7 @@ rg -c 'variant="(primary|default)"|className=".*bg-(primary|brand)' src/Componen
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | ≤7 interactive elements AND ≤1 primary CTA AND ≤3 distinct content blocks |: |
+| pass | ≤7 interactive elements AND ≤1 primary CTA AND ≤3 distinct content blocks | none |
 | warn | 8-10 interactive elements OR 2 primary CTAs | MEDIUM |
 | fail | >10 interactive elements OR ≥3 primary CTAs OR walls of body copy without breaks | HIGH |
 

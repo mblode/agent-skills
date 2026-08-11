@@ -32,7 +32,7 @@ rg 'space-y-|gap-|className.*space' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | inter/intra ratio ≥2× consistently across the surface |: |
+| pass | inter/intra ratio ≥2× consistently across the surface | none |
 | warn | ratio between 1.5× and 2× | MEDIUM |
 | fail | ratio <1.5× (groups visually indistinguishable) | HIGH |
 

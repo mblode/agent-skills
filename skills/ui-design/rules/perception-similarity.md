@@ -31,7 +31,7 @@ rg 'className=' src/ | rg 'button|Card|li|nav'
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | ≥80% of same-role items share styling |: |
+| pass | ≥80% of same-role items share styling | none |
 | warn | 50-80% share styling | MEDIUM |
 | fail | <50% share styling (visual chaos; role unreadable) | HIGH |
 

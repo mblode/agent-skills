@@ -2,16 +2,17 @@
 name: ui-design
 description: >-
   Designs, builds, and audits UI in React, Next, and Tailwind: visual
-  direction, Tailwind implementation, screenshot-to-markup scaffolds,
-  dark-mode and responsive retrofits, component extraction, and a rule-based
+  direction, Tailwind implementation, screenshot scaffolds,
+  dark-mode and responsive retrofits, and a rule-based
   audit of built frontends covering state gaps, data loss, focus and keyboard
   failures, accessibility markup, layout resilience, and AI-slop tells, with
   file:line findings, applied fixes, and a ship verdict. Use when asked to
   "build a landing page", "create a dashboard", "make this look premium",
   "show me 3 options", "create a brand kit", "turn this screenshot into
   markup", "add dark mode", "make this responsive", "clean up the Tailwind",
-  "remove AI slop", "this looks vibe coded", "audit this component", "is this
-  accessible", "design QA this page", or "is this ready to ship". For what an
+  "remove AI slop", "this looks vibe coded", "audit this component", "review
+  this PR for UX bugs", "is this accessible", "design QA this page", or "is
+  this ready to ship". For what an
   interface should do before it exists use product-design; for non-UI code
   review use pr-reviewer; for agentic apps use ax-audit; for deep type or
   motion use typography-audit or ui-animation; for copy use copywriting.
@@ -47,7 +48,9 @@ An interface is a set of states and the passages between them. That decompositio
 | What a state looks like once built: markup, type, colour, layout, hierarchy | this skill |
 | The passage between two states: timing, easing, springs, gesture physics | `ui-animation` |
 
-**Subject beats artifact.** When motion is what the request is about, it is `ui-animation` whether or not code exists yet. Otherwise code, a diff, or a running UI in hand is this skill, and a brief, spec, mockup, or intent with no code is `product-design`.
+**Subject beats artifact.** When motion is what the request is about, it is `ui-animation` whether or not code exists yet.
+
+**Artifact is the opening presumption, not the verdict.** Code, a diff, or a running UI in hand presumes this skill; a brief, spec, mockup, or intent with no code is `product-design`. The next test can overturn it, because `product-design` also reads existing UI when the question is what it should do.
 
 **Capability beats presentation.** With code in hand, ask whether the change alters what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all. That is a capability, so `product-design` decides and this skill implements. If it only changes how the same capability looks, reads, or behaves, this skill owns it end to end.
 
@@ -79,7 +82,7 @@ Direction and Build chain: for a new surface with no direction, run Direction fi
 
 A decision skill. It does ONE thing: choose the visual system. It writes no markup; the build is Build mode's job.
 
-Output a decision set: a one-sentence visual thesis (mood, material, energy), palette as CSS variables, type pairing and scale, spacing grid, radius and depth strategy, the layout pattern for the primary surface, and for conversion pages the section sequence, CTA plan, and proof placement. Confirm that type, colour, radius, and interface language express one personality for the stated audience. Close with the track's litmus checks, then hand off to Build.
+Output a decision set: a one-sentence visual thesis (mood, material, energy), palette as CSS variables, type pairing and scale, spacing grid, radius and depth strategy, the layout pattern for the primary surface, and for conversion pages the section sequence, CTA plan, and proof placement. Close against the Quality Bar, then hand off to Build.
 
 ### Pick a track
 
@@ -114,7 +117,7 @@ A construction skill. It does ONE thing: implement one design in code. Its postu
 1. Inspect the request, target files, existing design conventions, and available components.
 2. Load `aesthetic-direction.md`, then `design-guidelines.md` and only the applicable files from its index.
 3. Implement using the project's existing framework, component patterns, assets, and conventions.
-4. Render at representative desktop and mobile widths, then check interaction states.
+4. Verify (below), which renders the result and exercises its states.
 
 Rules:
 
@@ -138,11 +141,12 @@ Audit progress:
 - [ ] Step 6: Apply the fixes that stay inside the audited files
 - [ ] Step 7: Build the JSON document, then render (references/output-adapters.md)
 - [ ] Step 8: Run the self-check; report INCOMPLETE if it fails
+- [ ] Step 9: List every file loaded. Any `guidelines/` or `direction/` file in that list means the load contract broke and the pass is a redesign, not an audit
 ```
 
 Scope is diff-aware by default; a full sweep needs an explicit request, because a default full sweep buries the three findings that matter under sixty that do not.
 
-**Fixes stay inside the audited files.** A fix that would change a shared component outside the scope is emitted as a finding with a proposed diff, not applied: it would ship unrendered and unreviewed. Verdict counts are `found`, `applied`, and `remaining`, and the verdict computes over `remaining` so it describes the tree as it now stands.
+**Fixes stay inside the audited files.** A fix that would change a shared component outside the scope is emitted as a finding with a proposed diff, not applied: it would ship unrendered and unreviewed, and one caller's bug becomes every caller's regression.
 
 **Report what you rejected.** Every audit names 2-5 things it looked at and deliberately did not flag, each with the guard that killed it. This is what keeps the taste rules honest. An audit that finds nothing is a good result, reported plainly and never padded.
 
@@ -169,10 +173,8 @@ Preserve decisions that already serve the product. Swapping purple for cyan, Int
 | [references/ship-readiness.md](./references/ship-readiness.md) | Step 5: tier definitions, surface bump table, verdict logic |
 | [references/output-adapters.md](./references/output-adapters.md) | Step 7: terminal and CI JSON templates, and the strict schema |
 | [references/states-coverage.md](./references/states-coverage.md) | Validating loading/empty/error/disabled coverage |
-| [references/observational-rubrics.md](./references/observational-rubrics.md) | Scoring either rubric-kind rule against its 1-5 anchors |
 | [references/defer-to-other-tools.md](./references/defer-to-other-tools.md) | Deciding whether a concern belongs to Lighthouse, axe, or Chromatic |
 | [references/craft-checklist.md](./references/craft-checklist.md) | Optional polish sweep for details no rule encodes, at pre-release sign-off |
-| [references/typography-checklist.md](./references/typography-checklist.md) | Optional typography sweep when typography is named |
 | [rules/_sections.md](./rules/_sections.md) | The category index; load individual `rules/<category>-<slug>.md` files as the playbook names them |
 
 ## Other modes

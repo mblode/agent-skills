@@ -52,7 +52,7 @@ Each component type must implement these states (or mark N/A with a comment). Tr
 
 ## Mandatory state pairings
 
-These pairs always go together; one without the other is the bug that ships to production. (Each pairing maps to a `rules/` or `rules/` rule that carries the detection grep.)
+These pairs always go together; one without the other is the bug that ships to production. (Each pairing maps to a rule in `rules/` that carries the detection grep.)
 
 | Pair | Why they pair | Bug if violated |
 |---|---|---|

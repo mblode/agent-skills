@@ -4,7 +4,7 @@
     "query": "Is this invite form ready to ship? Tell me what's broken.",
     "files": ["fixtures/invite-member-form.tsx"],
     "expected_behavior": [
-      "Selects Audit mode, not Build or Refine: reports defects in the code as written instead of restyling or regenerating the form",
+      "Selects Audit mode, not Build or Direction: reports defects in the code as written instead of restyling or regenerating the form",
       "Reports file:line findings for the data loss (email and role cleared before the request resolves), the unguarded submit (no pending state, so the button double-fires), the unchecked res.ok with no rendered error state, and the icon-only close button with no accessible name",
       "Applies the fixes in the same pass rather than handing back a report alone",
       "Emits a ship verdict",

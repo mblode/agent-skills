@@ -3,7 +3,7 @@ title: Component lacks dark-mode coverage and hardcodes light tokens
 id: dark-i18n-untested
 category: dark-i18n
 defaultTier: backlog
-detect: rendered
+detect: static
 related: dark-i18n-color-only-state, states-layout-shift
 ---
 

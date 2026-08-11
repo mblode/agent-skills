@@ -34,7 +34,7 @@ rg -c '<li' src/ListComponent.tsx            # count list items
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | forms ≥5 fields use ≥1 grouping mechanism per ~5 fields; no unbroken digit runs ≥6 chars; lists ≥10 items have headers |: |
+| pass | forms ≥5 fields use ≥1 grouping mechanism per ~5 fields; no unbroken digit runs ≥6 chars; lists ≥10 items have headers | none |
 | warn | forms with 6-10 fields and only 1 grouping; one unbroken digit run; lists 10-20 items without headers | MEDIUM |
 | fail | forms with >10 fields and no grouping; multiple unbroken digit strings; lists >20 items with no chunking | HIGH |
 

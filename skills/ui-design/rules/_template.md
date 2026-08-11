@@ -25,7 +25,7 @@ related: other-rule-id, other-rule-id
 
 - `static`: readable from source with grep, AST, or file presence.
 - `rendered`: needs the built output, a real viewport, or computed style.
-- `rubric`: scored 1-5 against anchors in `references/observational-rubrics.md`, because the defect does not reduce to a boolean.
+- `rubric`: scored 1-5 against the anchor table in the rule's own file, because the defect does not reduce to a boolean.
 
 Omit `related` entirely when there is nothing to link. Values are bare ids, never paths and never filenames.
 

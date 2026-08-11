@@ -19,11 +19,17 @@ A user reads a paragraph above a list whose loading state is `<Spinner />` (no f
 
 **Surfaces:** every loading state, every image, every web font.
 
-**Static signals:**
+**Static signals (candidates only):**
 1. **Skeletons without fixed height.** Verify a declared height (`h-N`, `min-h-N`, `style={{ minHeight }}`, fixed row count).
 2. **Images without dimensions.** `<img>` and `<Image>` (next/image): fail if neither `width`+`height` nor `fill` with a sized parent.
 3. **Fonts without swap + size-adjust.** In `next/font/google`, `next/font/local`, `@font-face`, verify `display: "swap"` and (ideally) `adjustFontFallback`.
 4. **Conditional content above other content.** `{!data && <Skeleton h={4} />}` then a variable-height `<List />` is a CLS bug if heights differ.
+
+**Rendered check (decisive):**
+
+The greps find missing dimensions; the shift itself is a delta between two rendered boxes, so measure it. A skeleton that declares `h-14` still shifts if the loaded row sets 68px, and a skeleton with no declared height does not shift if its parent already reserves the space.
+
+Load the surface with the network throttled so the loading state is observable. Record the bounding box of each skeleton, spinner, or placeholder, then record the same container once data has arrived, and compare heights. Attribute the movement with a `PerformanceObserver` on `layout-shift` entries over that window: each entry names the sources that moved and how far. Flag any container whose height changes on data arrival, and report the element, both heights, and the viewport.
 
 **Concrete commands:**
 ```bash

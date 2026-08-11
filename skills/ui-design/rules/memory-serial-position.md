@@ -32,7 +32,7 @@ rg -n '<nav|<ul|<ol|role="menu"' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Primary action at index 0 OR last index of the sequence |: |
+| pass | Primary action at index 0 OR last index of the sequence | none |
 | warn | Primary action at index 1 OR second-to-last (one position from edge) | MEDIUM |
 | fail | Primary action in the middle of a sequence with ≥5 items | HIGH |
 

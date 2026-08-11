@@ -31,7 +31,7 @@ rg 'variant="primary"|primary CTA|font-bold' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | exactly one primary emphasis per surface |: |
+| pass | exactly one primary emphasis per surface | none |
 | warn | 2 emphases competing | MEDIUM |
 | fail | >2 emphases (cancellation effect: nothing stands out) | HIGH |
 

@@ -32,7 +32,7 @@ rg -n '<progress|role="progressbar"' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Progress indicator present AND endowed progress shown at start |: |
+| pass | Progress indicator present AND endowed progress shown at start | none |
 | warn | Progress indicator present but no endowed start (begins at 0%) | MEDIUM |
 | fail | No visible progress on a flow with ≥3 steps | HIGH |
 

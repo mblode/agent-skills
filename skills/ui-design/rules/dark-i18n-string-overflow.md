@@ -19,12 +19,17 @@ A `w-24` button holding "Submit" (6 chars) survives "Absenden" (German, 8) and "
 
 **Surfaces:** any UI containing user-visible text, especially buttons, table cells, list rows, navigation, form labels.
 
-**Static signals:**
+**Static signals (candidates only):**
 1. Hardcoded widths on text containers: `w-\d+`, `width: \d+px`, `max-w-\d+` paired with text.
 2. `truncate` / `text-ellipsis`: walk up; if the parent is `flex` or `grid` and lacks `min-w-0`, flag it.
 3. Tight `grid-cols-` in summary tables (e.g. `grid-cols-[1fr_80px_60px]`) where columns hold copy.
 4. Confirm i18n (`next-intl`, `react-i18next`, `lingui`); if absent, flag as `unknown`.
-5. Optional: simulate +30 % length and re-Read for overflow.
+
+**Rendered check (decisive):**
+
+The greps nominate candidates; they do not decide the rule. Whether a translation clips depends on the resolved container width and the font's actual glyph advances, neither of which is in the source, and the `truncate`-inside-flex failure is a relationship between a child and its parent that no single-file pattern confirms.
+
+Render each candidate surface at 390px and at the narrowest supported desktop width, with long-language strings in place: a real German or Finnish locale if the project has one, otherwise pseudo-localized strings padded 30-40 %. Per candidate element, compare `scrollWidth` against `clientWidth`, and separately flag any truncating child that collapses to an ellipsis within the first few characters while its container still has room. Report the element, the viewport width, and the string that broke it.
 
 **Concrete commands:**
 ```bash

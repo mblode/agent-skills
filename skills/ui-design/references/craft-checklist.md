@@ -15,7 +15,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 
 ## Legibility and typography
 
-Run `typography-checklist.md` for the punctuation, sizing, measure, and OpenType sweep; deep type (pairing, brand, display) is the `typography-audit` skill. Not duplicated here.
+Surface type defects are the `type-` rules; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
 - Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Gate hover with `@media (hover: hover)`.
@@ -69,5 +69,5 @@ Timing, easing, springs, gestures, and transform/opacity-only animation belong t
 
 ## Visual direction and SEO → sibling
 
-- Visual-direction polish (matching box-shadows to references, concentric border radius, optical alignment of icons/text, image outlines on light backgrounds, the fundamentals→visual→polish quality pyramid) is the `ui-design` skill's job, not a built-UI defect check.
+- Visual-direction polish (matching box-shadows to references, concentric border radius, optical alignment of icons/text, image outlines on light backgrounds, the fundamentals→visual→polish quality pyramid) belongs to this skill's Direction and Build modes, not to a built-UI defect check.
 - SEO metadata, canonical/OG tags, and dynamic OG images belong to the `optimise-seo` skill.

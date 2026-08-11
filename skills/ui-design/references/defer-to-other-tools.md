@@ -6,7 +6,7 @@ ui-design's value is the gap between "lint passes and axe is clean" and "the pro
 
 | Concern | Defer to | Why |
 |---|---|---|
-| LCP, CLS, INP, FCP, TTFB measurement | **Lighthouse** + **web-vitals** library + **Vercel Agent** | Field + lab measurement; ui-design is static-only |
+| LCP, CLS, INP, FCP, TTFB measurement | **Lighthouse** + **web-vitals** library + **Vercel Agent** | Field + lab measurement; ui-design reads source and inspects a rendered viewport, it does not measure field performance |
 | WCAG 2.x rule violations | **axe-core** (runtime) + **eslint-plugin-jsx-a11y** (lint) | Authoritative WCAG rule list with structured violations |
 | `alt` text, `aria-*` attribute presence | **eslint-plugin-jsx-a11y** | Catches at write time |
 | Color contrast ratios | **axe-core** + **Storybook a11y addon** | Computed contrast per element |

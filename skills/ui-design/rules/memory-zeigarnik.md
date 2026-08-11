@@ -32,7 +32,7 @@ rg -n 'onClose|onDismiss|setOpen\(false\)' src/ # check for unsaved-work guards
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Incomplete tasks are visible AND persist across sessions/refresh |: |
+| pass | Incomplete tasks are visible AND persist across sessions/refresh | none |
 | warn | Incomplete tasks are visible but lost on refresh or navigation | MEDIUM |
 | fail | Incomplete tasks are not visible at all OR destroyed silently on close | HIGH |
 

@@ -35,7 +35,7 @@ rg -n '<button[^>]*aria-label' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | All interactive elements ≥44 px on touch AND ≥24 px on dense desktop |: |
+| pass | All interactive elements ≥44 px on touch AND ≥24 px on dense desktop | none |
 | warn | Touch target between 32-43 px (e.g. `h-8` to `h-10`) | MEDIUM |
 | fail | Touch target <32 px OR desktop target <24 px | HIGH |
 

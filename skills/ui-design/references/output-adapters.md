@@ -199,16 +199,10 @@ Rules:
 
 For pipelines, dashboards, and merge gates. Emit the document exactly as specified below; this adapter adds no fields and drops none.
 
-CI usage:
+There is no binary to invoke: the audit runs as an agent, and this adapter describes the JSON it writes for a consumer to read. Two gates are worth building against that document, whatever pipes it:
 
-```bash
-# Block the merge on release-blockers the audit could not fix.
-ui-design --format json | jq -e '.summary.remaining.releaseBlockers == 0'
-
-# Reconciliation guard: catches a run that lost findings between the two counts.
-ui-design --format json | jq -e '.summary.found.total ==
-  (.summary.applied.total + .summary.remaining.total)'
-```
+- **Merge gate:** fail when `summary.remaining.releaseBlockers` is greater than 0, that is, when the audit found a blocker it could not fix.
+- **Reconciliation guard:** fail when `summary.found.total` does not equal `summary.applied.total + summary.remaining.total`. That catches a run that lost findings between the two counts.
 
 Gate on `remaining`, never on `found`. A gate on `found` fails a run that fixed everything it saw, which trains everyone to skip the audit.
 
@@ -288,9 +282,10 @@ Default tier comes from the rule's frontmatter (`defaultTier`); the rule's `surf
 "applied-not-described"        // An applied finding has no `appliedChange`
 "out-of-scope-applied"         // An edit landed outside audit.scope.files
 "too-few-rejections"           // consideredAndRejected has < 2 entries
-"implausible-timing"           // Median time-per-rule too short to be real
-"uniform-tier"                 // All findings ended in same tier (suspect blanket)
+"uniform-tier"                 // ≥5 findings and every one landed in the same tier
 ```
+
+`uniform-tier` needs the floor. Two backlog nits sharing a tier is what a small clean diff looks like; five or more findings that all land on the same tier is a tiering pass that never ran.
 
 If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 
@@ -433,7 +428,7 @@ An `unknown` never gets a tier, never gets a fix, and never counts toward `appli
 | `outOfScopeReason` | outOfScope=true | the owning file and what else consumes it |
 | `proposedDiff` | outOfScope=true | unified diff a human can apply deliberately |
 | `docsLink` | fail (recommended) | URL to React/Next.js doc for the API in the fix |
-| `reactApis` | layer=modern | array of React 19 / Next.js APIs used in the fix |
+| `reactApis` | when the fix uses a React or Next.js API | array of React 19 / Next.js APIs used in the fix |
 | `suppressed` | always | boolean, true if `// ui-audit-ignore:<slug>` was present |
 | `reason` | unknown | why the rule could not produce a verdict |
 
@@ -447,8 +442,8 @@ The suppression token is literally `ui-audit-ignore:`, matching what already exi
 - `summary.found` = `summary.applied` + `summary.remaining`, per tier and in total.
 - `verdict` is derived from `summary.remaining` only.
 - `consideredAndRejected` has 2 to 5 entries, each with `candidate`, `rule`, and `guard`.
-- Every Layer-2 fail finding has `observed`.
-- Every Layer-4 rubric finding has `score` AND `anchor`.
+- Every `detect: static` or `detect: rendered` fail finding has `observed`.
+- Every `detect: rubric` finding has `score` AND `anchor`.
 - Every `unknown` finding has `reason`, no tier, and no `applied`.
 - Every finding belongs to exactly one `feature` and one `surface`.
 - `pass` findings can be elided from the terminal rendering; keep them in JSON for the self-check.

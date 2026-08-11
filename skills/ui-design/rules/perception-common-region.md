@@ -31,7 +31,7 @@ rg '<section|<fieldset|role="region"|border |rounded.*bg-' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | every logical group on dense surfaces has a visible boundary that matches the group |: |
+| pass | every logical group on dense surfaces has a visible boundary that matches the group | none |
 | warn | groups separated only by spacing (proximity carrying the load on a dense surface) | MEDIUM |
 | fail | boundaries split a logical group across regions, OR no boundaries at all on dense surfaces (dashboard/list with ≥3 group types) | HIGH |
 

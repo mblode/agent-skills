@@ -15,7 +15,7 @@ Prägnanz is the umbrella behind the other Gestalt laws: it is *why* the brain g
 
 ## Detection
 
-No grep. This rule is scored 1-5 against the anchors below, expanded in `references/observational-rubrics.md`. Simplicity of reading is a property of the composed result, not of any string in the source.
+No grep. This rule is scored 1-5 against the anchor table below, which is the only copy of those anchors. Simplicity of reading is a property of the composed result, not of any string in the source.
 
 Score from the rendered surface, looking at: how many dominant shapes each section resolves to, whether one alignment axis holds across the section or competes with a second, whether rotated, skewed, or overlapping elements break the figure-ground reading, and how long it takes to locate the primary action. Report the score, the surface it was scored on, and the verbatim text of the anchor that was matched, so the reader can check the judgement against the same wording the scorer used.
 
@@ -33,13 +33,13 @@ Score from the rendered surface, looking at: how many dominant shapes each secti
 | 2 | Layered, rotated, overlapping shapes without hierarchy; eye bounces. |
 | 1 | Composition is a puzzle; it takes ≥3 seconds to identify the primary action. |
 
-For full anchor examples and common scoring confusions, see `references/observational-rubrics.md`.
+Emit the matched anchor verbatim from this table in the finding's `anchor` field. Do not paraphrase it: the reader checks the judgement against the same wording the scorer used.
 
 ## Threshold
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 |: |
+| pass | score ≥4 | none |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 

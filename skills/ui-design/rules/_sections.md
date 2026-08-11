@@ -12,7 +12,7 @@ These rules came from three earlier sets: source-reasoned behavior rules, render
 
 - `detect: static` reads the source. Grep, AST, file presence.
 - `detect: rendered` needs the built output. Screenshot, computed style, a real viewport.
-- `detect: rubric` is scored 1-5 against anchors in `references/observational-rubrics.md`, because the defect does not reduce to a boolean.
+- `detect: rubric` is scored 1-5 against the anchor table in the rule's own file, because the defect does not reduce to a boolean.
 
 Do not reintroduce a second rules folder. A rule that needs the browser says so in `detect`; splitting the corpus by lineage again is what produced three drifting indexes and three templates.
 

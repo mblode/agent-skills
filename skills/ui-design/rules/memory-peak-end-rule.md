@@ -32,7 +32,7 @@ rg -n 'router\.push|redirect\(|<Toast|toast\(' src/ # find silent endings
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Deliberate completion moment with summary AND a labeled next-step |: |
+| pass | Deliberate completion moment with summary AND a labeled next-step | none |
 | warn | Generic success page (no summary, no next-step) | MEDIUM |
 | fail | Silent redirect OR generic toast as the ONLY end-state | HIGH |
 

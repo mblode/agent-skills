@@ -8,6 +8,7 @@ Cite an ID exactly as written (`rule/destructive-names-action`). Never invent on
 
 - [How to read a rule](#how-to-read-a-rule)
 - [Categories](#categories)
+- [Recording a coverage gap](#recording-a-coverage-gap)
 - [Copy rule IDs (defined in copywriting)](#copy-rule-ids-defined-in-copywriting)
 - [Interaction and control selection](#interaction-and-control-selection)
 - [Action naming and consequence](#action-naming-and-consequence)
@@ -36,6 +37,18 @@ A rule is observable when you can point at the interface and say it passes or fa
 - Hierarchy and structure
 
 Visual-token integrity (design-system overrides, raw shadows, off-grid spacing, modal scroll structure) is not this skill's: it is a rendered or lint concern owned by `ui-design` and the project's visual lint. This skill decides whether a modal should exist or be nested; whether its body scrolls correctly is `ui-design` Audit mode's check.
+
+## Recording a coverage gap
+
+When a decision needs a rule no ID below covers, record a coverage gap inline in the pass output, in the place the citation would have gone. Three parts:
+
+- Proposed slug: `rule/<kebab-case>`, labeled proposed so it never reads as a real citation.
+- Decision it would govern: one line, observable in the sense above.
+- Category: one of the five categories above, or `new category` plus a name.
+
+Example: `coverage gap (proposed) rule/undo-only-when-honest`: an undo affordance appears only when the system can actually reverse the action. Category: Action naming and consequence.
+
+A gap stays in the pass output. Promoting one into this file is a separate, deliberate edit, never something a pass does mid-flight.
 
 ## Copy rule IDs (defined in copywriting)
 
@@ -116,7 +129,7 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Scope: forms, editors, and any input across validation, error, or navigation.
 - Rule: preserve user input through validation failures and recoverable errors. Do not clear fields on a failed submit.
 - Why: discarding entered data on error forces re-entry and loses the user's work and trust.
-- Source: `surfaces.md` > Error state; `ui-design` Audit mode for the React-level check.
+- Source: `surfaces.md` > Validation and error; `ui-design` Audit mode for the React-level check.
 - Enforcement: judgment.
 
 ## State coverage
@@ -137,7 +150,7 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 ### rule/error-states-recovery
 - Scope: error states and failure messages.
 - Why: an error without a recovery path strands the user.
-- Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Error state.
+- Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Validation and error.
 - Enforcement: copy plus judgment.
 
 ### rule/loading-stable-labels
@@ -159,14 +172,14 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Scope: icon-only buttons, icon links, and form controls.
 - Rule: every interactive control has an accessible name (visible label, `aria-label`, or associated `<label>`). Icon-only controls are never nameless.
 - Why: a nameless control is unusable by screen readers and ambiguous for everyone under load.
-- Source: `lint-patterns.md`; `interface-quality.md` > Accessibility.
+- Source: `lint-patterns.md`; `interface-quality.md` > Accessibility as a product concern.
 - Enforcement: lint plus judgment.
 
 ### rule/keyboard-complete-flow
 - Scope: any multi-step or interactive flow.
 - Rule: the primary task is completable by keyboard alone, with visible focus and a sensible focus order. Focus moves to new surfaces and returns on close.
 - Why: keyboard and screen-reader users must finish the job, not just reach the first control.
-- Source: `interface-quality.md` > Accessibility; route rendered checks to `ui-design` Audit mode.
+- Source: `interface-quality.md` > Accessibility as a product concern; route rendered checks to `ui-design` Audit mode.
 - Enforcement: judgment.
 
 ### rule/no-custom-focus-bypass
@@ -182,21 +195,21 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 - Scope: any surface or section.
 - Rule: the primary task and its primary action are unmistakable. At most one primary (emphasized) action per surface; everything else is secondary or tertiary.
 - Why: competing primary actions split attention and slow every decision.
-- Source: `product-judgment.md` > Hierarchy.
+- Source: `product-judgment.md` > Hierarchy and structure.
 - Enforcement: judgment.
 
 ### rule/structure-before-containers
 - Scope: layout.
 - Rule: use hierarchy, spacing, and alignment to group content before adding borders, cards, or boxes.
 - Why: container-first layouts produce nested boxes that add weight without meaning.
-- Source: `product-judgment.md` > Hierarchy; route visual execution to `ui-design`.
+- Source: `product-judgment.md` > Hierarchy and structure; route visual execution to `ui-design`.
 - Enforcement: judgment.
 
 ### rule/preserve-mental-model
 - Scope: navigation and context changes.
 - Rule: preserve the user's current context and mental model unless changing it solves a verified problem. Do not relocate the user or reset their state as a side effect.
 - Why: unexpected context shifts disorient the user and lose their place.
-- Source: `product-judgment.md` > Context.
+- Source: `product-judgment.md` > Hierarchy and structure.
 - Enforcement: judgment.
 
 ### rule/value-before-interruption

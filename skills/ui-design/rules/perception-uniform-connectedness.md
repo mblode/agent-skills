@@ -31,7 +31,7 @@ rg 'role="radiogroup"|type="radio"|<RadioGroup|Tabs|Segmented|ToggleGroup' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | all radio/segmented/step sets share a connector that wraps every option |: |
+| pass | all radio/segmented/step sets share a connector that wraps every option | none |
 | warn | connector incomplete (covers most but not all options, or wraps but with gaps) | MEDIUM |
 | fail | no connector: radios or segments float apart with separate borders/gaps | HIGH |
 

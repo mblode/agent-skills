@@ -3,7 +3,7 @@ title: Layout uses physical (left/right) instead of logical (start/end) properti
 id: dark-i18n-rtl-untested
 category: dark-i18n
 defaultTier: backlog
-detect: rendered
+detect: static
 related: dark-i18n-string-overflow, dark-i18n-untested
 ---
 

@@ -65,7 +65,7 @@ Tier triggers:
 - Touch-vs-pointer affordances slightly misaligned (hover hint visible on touch device but doesn't break function)
 - Container queries not used where they would help
 - 1px / spacing-token nits
-- Score-3 findings on the Layer 4 rubric rules (`cognitive-working-memory`, `perception-pragnanz`)
+- Score-3 findings on the `detect: rubric` rules (`cognitive-working-memory`, `perception-pragnanz`)
 
 ## Tier assignment rules
 

@@ -15,7 +15,7 @@ Design rule: prefer recognition over recall. Show the value, don't make the user
 
 ## Detection
 
-No grep. This rule is scored 1-5 against the anchors below, expanded in `references/observational-rubrics.md`. What matters is what survives across steps, which only the walked flow shows.
+No grep. This rule is scored 1-5 against the anchor table below, which is the only copy of those anchors. What matters is what survives across steps, which only the walked flow shows.
 
 Score by walking the multi-step flow end to end, looking at: whether prior choices stay visible (summary strip, sidebar, echoed step labels) or collapse to a bare "Step 3 of 5", what the back button preserves versus resets, whether the active query and filters are echoed on results pages, and whether correcting an earlier step forces re-entry of values the system already has. Report the score, the flow it was scored on, and the verbatim text of the anchor that was matched, so the reader can check the judgement against the same wording the scorer used.
 
@@ -33,13 +33,13 @@ Score by walking the multi-step flow end to end, looking at: whether prior choic
 | 2 | No persistent summary; back-button resets fields; user re-enters values to correct an earlier step. |
 | 1 | Multi-step flow with no progress, summary, or back-button; user restarts from step 1 on any error. |
 
-For full anchor examples and common scoring confusions, see `references/observational-rubrics.md`.
+Emit the matched anchor verbatim from this table in the finding's `anchor` field. Do not paraphrase it: the reader checks the judgement against the same wording the scorer used.
 
 ## Threshold
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | score ≥4 |: |
+| pass | score ≥4 | none |
 | warn | score = 3 | MEDIUM |
 | fail | score ≤2 | HIGH |
 

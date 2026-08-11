@@ -49,6 +49,7 @@ For full state-copy rules, route to the copywriting skill's `references/ui-state
 - Empty: name the object, offer the first action, no dead ends (`rule/empty-state-action`).
 - Loading: specific over "Loading..." when the target is known (`rule/loading-state-specific`).
 - Permission: user benefit before the ask, in context of first use (`rule/permission-benefit-first`).
+- All of the above must work when heard, not just seen: an error makes sense after its field label, links name the destination, no directional words (`rule/reads-without-seeing`).
 
 ## When to route to copywriting
 

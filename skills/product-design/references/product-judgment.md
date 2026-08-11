@@ -67,6 +67,7 @@ Strong defaults and direct behavior beat configuration the user must learn and m
 - One primary action per surface (`rule/one-primary-action`). Make the primary task and action unmistakable; everything else recedes.
 - Group with hierarchy, spacing, and alignment before reaching for containers (`rule/structure-before-containers`); nested boxes add weight, not meaning.
 - Preserve the user's context and mental model unless changing it solves a verified problem (`rule/preserve-mental-model`).
+- Order a flow so its core value moment lands before any secondary interruption: OS permission prompt, sign-up or paywall, gamification, upsell (`rule/value-before-interruption`). Defer each ask to first use in context; an ask that arrives before the user grasps the value gets declined or abandoned.
 
 ## Semantics
 

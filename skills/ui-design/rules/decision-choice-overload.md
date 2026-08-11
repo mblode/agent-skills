@@ -32,7 +32,7 @@ rg 'recommended|popular|featured|default' src/pricing/ src/plans/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | ≤ 5 peers OR a recommended flag is present |: |
+| pass | ≤ 5 peers OR a recommended flag is present | none |
 | warn | 6-10 peers without a recommended flag | MEDIUM |
 | fail | > 10 peers without a recommended flag | HIGH |
 

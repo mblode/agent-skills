@@ -34,7 +34,7 @@ rg '<ApplePayButton|<PayPalButton|<ShopPayButton|AddressAutocomplete' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | visible progress indicator AND ≥1 smart-fill mechanism |: |
+| pass | visible progress indicator AND ≥1 smart-fill mechanism | none |
 | warn | progress shown but no smart-fill (or vice versa) | MEDIUM |
 | fail | no progress AND no smart-fill in flows ≥3 steps | HIGH |
 

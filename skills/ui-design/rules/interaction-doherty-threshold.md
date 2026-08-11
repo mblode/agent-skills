@@ -32,7 +32,7 @@ rg -n 'isLoading|isPending|<Skeleton|<Spinner|optimistic' src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | Every async path has a skeleton, spinner, or optimistic UI on the same component |: |
+| pass | Every async path has a skeleton, spinner, or optimistic UI on the same component | none |
 | warn | ≥1 async path lacks immediate feedback but other paths have it | MEDIUM |
 | fail | Blocking `await` in a handler with no feedback UI anywhere on the surface | HIGH |
 

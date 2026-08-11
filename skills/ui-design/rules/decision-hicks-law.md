@@ -33,7 +33,7 @@ rg '<Plan |<PricingTier' --files-with-matches src/
 
 | Tier | Condition | Severity |
 |---|---|---|
-| pass | count ≤ 7 |: |
+| pass | count ≤ 7 | none |
 | warn | count 8-10 | MEDIUM |
 | fail | count > 10 | HIGH |
 
