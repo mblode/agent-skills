@@ -39,20 +39,16 @@ Examples per playbook:
 Degrade UX but don't block shipping. Fix in the pass where the change is mechanical and in scope. Whatever remains gets a tracking issue before merge, resolved within the sprint.
 
 Tier triggers:
-- Sub-44 px tap target on touch surface (Fitts's violation, not data-loss)
-- Missing skeleton on async state (causes CLS)
+- Sub-44 px tap target on touch surface
+- Loading placeholder that does not reserve height (causes CLS)
 - Vague error message ("Invalid", "Error occurred")
 - Missing empty-state CTA (stalls the user)
-- Generic loading copy ("Loading...") instead of context-specific
-- Sub-7 plan/option count violations on pricing pages without recommended flag
-- Single primary CTA per surface violated (Von Restorff cancellation)
-- Toast disappears too quickly to read (< 5 s for ≥ 1 sentence)
 - 422 response shown as a generic error toast instead of inline field errors
 
 Examples:
 - Form submit shows "Error" toast instead of "Email already in use: sign in or reset password"
 - Empty inbox shows "No messages" with no compose CTA
-- Loading the dashboard shows a centered spinner; no skeleton matching the dashboard layout
+- Loading the dashboard shows a centered spinner with no reserved height, so widgets jump in
 
 ### 📋 backlog: track, ship
 
@@ -61,11 +57,9 @@ Real but low-stakes. Ship, log a backlog issue, prioritize by frequency or impac
 Tier triggers:
 - Dark mode untested (works but may have contrast issues)
 - RTL not verified
-- Microcopy nits ("Submit" instead of "Save changes": both work)
 - Touch-vs-pointer affordances slightly misaligned (hover hint visible on touch device but doesn't break function)
 - Container queries not used where they would help
 - 1px / spacing-token nits
-- Score-3 findings on the `detect: rubric` rules (`cognitive-working-memory`, `perception-pragnanz`)
 
 ## Tier assignment rules
 

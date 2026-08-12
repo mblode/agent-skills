@@ -45,7 +45,7 @@
     "expected_behavior": [
       "ui-design Audit mode owns the pass: a broad pre-launch audit is not handed wholesale to typography-audit",
       "Reports the non-type defects itself: the clickable div that is not a button and cannot be reached by keyboard, and the missing empty state when plans is empty",
-      "Flags the type defects its own type- rules own (13px body copy below the readable floor, 1.2 line-height against that measure) and routes punctuation and faux bold to typography-audit, which owns them, rather than opening a full type pass itself",
+      "Flags the type defects its own type- rule owns (13px body copy below the readable floor) and routes measure, leading, punctuation, and faux bold to typography-audit, which owns them, rather than opening a full type pass itself",
       "Routes the deep type work (the scale, the pairing, the measure) to typography-audit rather than duplicating its rule set",
       "Keeps a single ship verdict for the page instead of emitting two competing verdicts"
     ]

@@ -4,7 +4,7 @@ id: microcopy-vague-error
 category: microcopy
 defaultTier: fix-this-sprint
 detect: static
-related: microcopy-leaked-error-message, states-no-empty-state, states-no-error-state, forms-no-normalize
+related: microcopy-leaked-error-message, states-no-empty-state, states-no-error-state
 ---
 
 ## Vague error message, no cause, no recovery

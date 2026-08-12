@@ -25,21 +25,18 @@ The high-leverage gaps; ui-design's reason to exist:
 
 | Gap | Tools that miss it | ui-design rule |
 |---|---|---|
-| Component has loading branch but no skeleton | All | `states-no-skeleton` |
 | Component has empty state but no CTA | All | `states-no-empty-state` (action-required variant) |
 | Form clears values on validation error | All | `forms-lost-data-on-error` |
 | `useFormStatus` called in same component as `<form>` | None: runtime bug | `forms-use-form-status-misuse` |
 | Modal closes without restoring focus | axe checks landmarks, not focus return | `focus-not-restored` |
 | Optimistic UI doesn't roll back on failure | All | `async-optimistic-without-rollback` |
-| Skeleton has different height than loaded content (CLS) | Lighthouse measures CLS but not the cause | `states-layout-shift` |
+| Loading placeholder has different height than loaded content (CLS) | Lighthouse measures CLS but not the cause | `states-layout-shift` |
 | Error message says "invalid" / "error occurred" / "please try again" | All | `microcopy-vague-error` / `microcopy-leaked-error-message` |
-| Loading text is "Loading..." instead of context | All | `microcopy-generic-loading` |
 | `useOptimistic` not wrapped in `startTransition` | None: silent runtime bug | `async-optimistic-without-rollback` |
 | Out-of-order async responses overwrite newer data | None | `async-out-of-order-responses` |
 | Submit button doesn't disable while pending | All | `forms-no-disable-while-submitting` |
 | Hover-only affordance on touch device | jsx-a11y catches some patterns | `mobile-hover-only-affordance` |
-| Color-only state (red/green without icon) | Partial via axe | `dark-i18n-color-only-state` |
-| String overflow in i18n long-translation | All | `dark-i18n-string-overflow` |
+| Color-only state (red/green without icon) | Partial via axe | `a11y-color-only-meaning` |
 
 ## Linking out
 

@@ -130,7 +130,7 @@ A construction skill. It does ONE thing: implement one design in code. Its postu
 Rules:
 
 - The guideline files are the source of truth for new UI work; `design-guidelines.md` owns the load contract, so do not maintain a second index here.
-- **Build to the guideline, and know what will audit it.** A guideline that has a corresponding rule in `rules/` names it. Where a guideline sets a stricter build default than a rule's floor (touch targets: 48 build, 44 audit), build to the guideline. Where a rule's range is tighter than a guideline's ceiling (body measure), the rule wins and the guideline's ceiling needs a documented reason.
+- **Build to the guideline, and know what will audit it.** A guideline that has a corresponding rule in `rules/` names it. Where a guideline sets a stricter build default than a rule's floor (touch targets: 48 build, 44 audit), build to the guideline.
 - Preserve user constraints unless a guideline requires asking about a design conflict.
 
 ## Audit mode
@@ -234,7 +234,6 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - Skipping `colors.md` in Build mode produces the stock Tailwind look: indigo accents and `gray-*` neutrals, both banned as defaults.
 - Assigning `release-blocker` liberally stops the verdict gating merges. Reserve it for data loss, broken critical paths, and dark patterns. No `slop-` rule is ever a release-blocker.
 - Reporting one issue from several rules inflates the count and splits the fix. Keep the most concrete framing: "missing error state" beats "high cognitive load".
-- The perception, cognitive, decision, and memory rules cite lawsofux.com, which is CC BY-NC-SA. Every one of them paraphrases, and a new one must too: pasting its wording into a rule file puts that licence on the audit output, which ships into users' repositories.
 - The suppression comment is `ui-audit-ignore:` even though this skill is named `ui-design`. It is spelled that way in users' repositories, and renaming it would silently un-suppress every suppression anyone has written.
 
 ## Related skills
@@ -242,8 +241,8 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `product-design`: what the interface should do, decided before this skill builds or verifies it.
 - `pr-reviewer`: correctness and code quality in the same diff; this skill covers only user-facing quality.
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
-- `typography-audit`: deep typography (pairing, OpenType systems, display type); the `type-` rules here are the shallower check.
-- `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill's `motion-` rules are the shallow presence check; the craft and the fix belong there.
+- `typography-audit`: deep typography (pairing, OpenType systems, measure, leading, display type); the `type-` rule here is the readable-floor check.
+- `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill's `motion-` rule is the reduced-motion presence check; the craft and the fix belong there.
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `optimise-seo`: meta descriptions and page titles.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

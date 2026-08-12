@@ -4,7 +4,7 @@ id: states-no-empty-state
 category: states
 defaultTier: fix-this-sprint
 detect: static
-related: states-no-skeleton, states-no-error-state
+related: states-no-error-state
 ---
 
 ## Empty state has no call to action

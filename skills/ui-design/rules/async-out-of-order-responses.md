@@ -4,7 +4,7 @@ id: async-out-of-order-responses
 category: async
 defaultTier: release-blocker
 detect: static
-related: states-no-skeleton, async-no-suspense-boundary
+related: async-no-suspense-boundary
 ---
 
 ## Out-of-order async responses (stale results)

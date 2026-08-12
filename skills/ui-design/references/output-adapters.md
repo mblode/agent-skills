@@ -64,7 +64,7 @@ Each entry is one candidate, the rule it was tested against, and the specific fa
 
 - "Logo strip under the hero, tested against `slop-unverifiable-proof`: six real named customers with live links, not filler."
 - "Hero gradient, tested against `slop-decoration-no-role`: one layer, threshold is 3."
-- "`Submit` on the coupon field, tested against `microcopy-specific-action-labels`: the adjacent label already names the object."
+- "Close control on the dialog, tested against `interaction-target-size`: 44px on both axes."
 
 Vague entries ("checked the spacing, seemed fine") do not count. If the audit cannot name the guard, it did not really consider the candidate.
 
@@ -90,13 +90,13 @@ APPLIED IN THIS PASS (3)
        field-level errors, so unrelated fields survive a 422.
 
 ✔ src/checkout/PaymentStep.tsx
-  L88  was fix-this-sprint  states-no-skeleton
-       <CardElement> rendered during stripe load with no fallback (CLS risk).
+  L88  was fix-this-sprint  states-layout-shift
+       <CardElement> rendered during stripe load with no reserved height (CLS risk).
        Applied L88: wrapped in <Suspense fallback={<CardSkeleton h="44px" />}>.
 
 ✔ src/checkout/ConfirmStep.tsx
-  L51  was fix-this-sprint  microcopy-generic-loading
-       Applied L51: "Loading..." → "Confirming order, this takes 2-3 seconds".
+  L51  was fix-this-sprint  forms-no-disable-while-submitting
+       Applied L51: Place order stays enabled through the request; now disabled while pending.
 
 REMAINING (5)
 
@@ -131,8 +131,7 @@ CONSIDERED AND REJECTED (3)
   · Logo strip under the hero, vs slop-unverifiable-proof: six real named
     customers with live links, not filler proof.
   · Hero gradient, vs slop-decoration-no-role: one layer, threshold is 3.
-  · "Submit" on the coupon field, vs microcopy-specific-action-labels: the adjacent
-    label already names the object ("Apply coupon code").
+  · Close control on the dialog, vs interaction-target-size: 44px on both axes.
 
 ═══════════════════════════════════════════════════════════
 Defer to:
@@ -172,8 +171,8 @@ SHIP VERDICT: ✅ READY
 11 rules ran. No findings.
 
 CONSIDERED AND REJECTED (2)
-  · Skeleton on the settings list, vs states-no-skeleton: present at L22.
-  · Two CTAs in the header, vs decision-hicks-law: threshold is 3.
+  · Loading placeholder on the settings list, vs states-layout-shift: min-height at L22.
+  · Close control on the dialog, vs interaction-target-size: 44px on both axes.
 ═══════════════════════════════════════════════════════════
 ```
 
@@ -252,9 +251,9 @@ Findings emit as JSON matching this schema; render the terminal table only after
       "guard": "One gradient layer; threshold is 3."
     },
     {
-      "candidate": "\"Submit\" on the coupon field",
-      "rule": "microcopy-specific-action-labels",
-      "guard": "The adjacent label already names the object (\"Apply coupon code\")."
+      "candidate": "Close control on the dialog",
+      "rule": "interaction-target-size",
+      "guard": "44px on both axes."
     }
   ],
   "deferredTo": [
@@ -289,13 +288,13 @@ Default tier comes from the rule's frontmatter (`defaultTier`); the rule's `surf
 
 If `failures[]` is non-empty, set `verdict: "INCOMPLETE"`.
 
-Only two finding examples follow, because only two carry a shape the Field reference below cannot express. Everything an applied, out-of-scope, or unknown finding needs is a field in that table with its own **Required when** condition; a worked object for those would narrow the shape without adding anything.
+One finding example follows, for the `observed` / `expected` threshold shape. Everything an applied, out-of-scope, or unknown finding needs is a field in the table below with its own **Required when** condition; a worked object for those would narrow the shape without adding anything.
 
-### Finding, laws rule
+### Finding, threshold rule
 
 ```json
 {
-  "rule": "decision-hicks-law",
+  "rule": "interaction-target-size",
   "feature": "modal",
   "surface": "ConfirmDialog",
   "file": "src/checkout/ConfirmDialog.tsx",
@@ -304,29 +303,9 @@ Only two finding examples follow, because only two carry a shape the Field refer
   "defaultTier": "fix-this-sprint",
   "assignedTier": "fix-this-sprint",
   "severity": "HIGH",
-  "observed": { "count": 5 },
-  "expected": { "max": 3 },
-  "fix": "Modal footers should expose ≤3 actions; consolidate or move secondary actions to a meta-menu.",
-  "applied": false
-}
-```
-
-### Finding, rubric rule
-
-```json
-{
-  "rule": "perception-pragnanz",
-  "feature": "marketing-hero",
-  "surface": "Hero",
-  "file": "src/Hero.tsx",
-  "line": 12,
-  "result": "warn",
-  "defaultTier": "backlog",
-  "assignedTier": "backlog",
-  "severity": "MEDIUM",
-  "score": 3,
-  "anchor": "Multiple visual centers of gravity; user must decide where to look first.",
-  "fix": "Establish one dominant focal shape per section; align the hero CTA to a single grid; remove the competing tilted card.",
+  "observed": { "width": 28, "height": 28 },
+  "expected": { "min": 44 },
+  "fix": "Close control is 28px; enlarge to 44px on both axes.",
   "applied": false
 }
 ```
@@ -336,7 +315,7 @@ Only two finding examples follow, because only two carry a shape the Field refer
 | Field | Required when | Description |
 |---|---|---|
 | `rule` | always | the rule's `id`, which matches its filename in `rules/` |
-| `category` | always | the rule's `category`, one of the 19 in `rules/_sections.md` |
+| `category` | always | the rule's `category`, one of the 15 in `rules/_sections.md` |
 | `detect` | always | `static \| rendered \| rubric`, copied from the rule's frontmatter |
 | `feature` | always | feature playbook this finding came from (`checkout`, `sign-in`, etc.) |
 | `surface` | always | component or page name (PascalCase, no extension) |

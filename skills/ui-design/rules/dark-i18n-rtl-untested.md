@@ -4,7 +4,7 @@ id: dark-i18n-rtl-untested
 category: dark-i18n
 defaultTier: backlog
 detect: static
-related: dark-i18n-string-overflow, dark-i18n-untested
+related: dark-i18n-untested
 ---
 
 ## Layout uses physical (left/right) instead of logical (start/end) properties
