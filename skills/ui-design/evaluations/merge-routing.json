@@ -60,10 +60,10 @@
       "fixtures/clean-settings.tsx"
     ],
     "expected_behavior": [
-      "Selects Audit mode and runs mobile-tap-highlight and mobile-overscroll, not Retrofit/make-responsive and not Build",
-      "Routes hover gating and :active press / touch-action: manipulation to ui-animation rather than inventing a hover-stuck rule",
-      "Does not add a theme-color rule or a new skill",
-      "Applies the chrome fixes inside the audited files, or reports them with file:line if the shell lives outside the fixture"
+      "Selects Audit mode, not Retrofit/make-responsive and not Build",
+      "Runs existing mobile-* rules (viewport, hover-only actions) and routes hover gating and :active press / touch-action: manipulation to ui-animation",
+      "Does not add new mobile rule files or a new skill",
+      "Applies press and overscroll fixes inside the audited files, or reports them with file:line if the shell lives outside the fixture"
     ]
   }
 ]

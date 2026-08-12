@@ -82,7 +82,7 @@ Resolve one mode before acting, and load only that mode's files.
 
 **No mode named?** Build if the target does not exist. Audit if it does and no change was requested. Resolving "look at this page" or "can you improve this checkout" to Build silently skips the rule run, which is the most expensive mistake this table prevents.
 
-**Named chrome fixes still audit.** "Feel native on mobile", tap highlight, and pull-to-refresh run `mobile-*` (press and hover gating are `ui-animation`). They do not go to Retrofit or Build. Retrofit's "fix this on mobile" is layout.
+**Named chrome fixes still audit.** "Feel native on mobile" runs existing `mobile-*` rules (viewport, hover-only actions) and `ui-animation` for press and hover gating. It does not go to Retrofit or Build. Retrofit's "fix this on mobile" is layout.
 
 Direction and Build chain: for a new surface with no direction, run Direction first (or propose one inline for small surfaces), then Build. If a direction already exists in the project, go straight to Build.
 

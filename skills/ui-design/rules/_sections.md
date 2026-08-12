@@ -78,8 +78,8 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 
 **Impact:** HIGH
 **Default tier:** mostly fix-this-sprint
-**Rules:** 4
-**Description:** Patterns that work on desktop but fail on touch: hover-only affordances, tap highlight, pull-to-refresh on app shells, missing viewport meta, `100vh` on mobile, and no safe-area insets. Hover gating and press feedback are `ui-animation`. Lighthouse catches some tap-target failures; these rules add the affordance and chrome patterns.
+**Rules:** 2
+**Description:** Patterns that work on desktop but fail on touch: hover-only affordances, missing viewport meta, `100vh` on mobile, no safe-area insets. Hover gating and press feedback are `ui-animation`. Lighthouse catches some tap-target failures; these rules add the affordance and viewport patterns.
 
 ## 10. Dark Mode and i18n (dark-i18n)
 
@@ -170,4 +170,4 @@ These pairings often co-fire. Emit both findings with the same `surface` to make
 
 ---
 
-Total: 90 rules across 19 categories.
+Total: 88 rules across 19 categories.
