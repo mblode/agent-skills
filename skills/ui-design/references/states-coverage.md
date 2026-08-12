@@ -52,7 +52,7 @@ Each component type must implement these states (or mark N/A with a comment). Tr
 
 ## Mandatory state pairings
 
-These pairs always go together; one without the other is the bug that ships to production. (Each pairing maps to a rule in `rules/` that carries the detection grep.)
+These pairs always go together; one without the other is the bug that ships to production. Pairings a rule owns are checked there (`states-no-empty-state`, `states-no-error-state`, `states-layout-shift`, `forms-lost-data-on-error`, `forms-no-disable-while-submitting`, `async-optimistic-without-rollback`, `a11y-color-only-meaning`, `nav-live-region-feedback`, `focus-broken-focus-trap`, `focus-not-restored`). The rest are coverage, not extra findings.
 
 | Pair | Why they pair | Bug if violated |
 |---|---|---|

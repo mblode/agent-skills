@@ -233,7 +233,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - Quoting the references' conversion stats as promises ("this will lift conversions 34%") misrepresents them; they are directional priors for prioritising tests.
 - Skipping `colors.md` in Build mode produces the stock Tailwind look: indigo accents and `gray-*` neutrals, both banned as defaults.
 - Assigning `release-blocker` liberally stops the verdict gating merges. Reserve it for data loss, broken critical paths, and dark patterns. No `slop-` rule is ever a release-blocker.
-- Reporting one issue from several rules inflates the count and splits the fix. Keep the most concrete framing: "missing error state" beats "high cognitive load".
+- Reporting one issue from several rules inflates the count and splits the fix. Keep the most concrete framing: "missing error state" beats "the page is hard to use".
 - The suppression comment is `ui-audit-ignore:` even though this skill is named `ui-design`. It is spelled that way in users' repositories, and renaming it would silently un-suppress every suppression anyone has written.
 
 ## Related skills
@@ -247,4 +247,4 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `optimise-seo`: meta descriptions and page titles.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
 
-Maintenance only: when changing anti-slop behavior, run the scenarios in `evaluations/` as a regression rubric.
+Maintenance only: when changing audit routing or anti-slop behavior, run the scenarios in `evaluations/` as a regression rubric.

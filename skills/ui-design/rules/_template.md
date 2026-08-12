@@ -35,7 +35,7 @@ The first body heading is an H2 whose text is identical to `title`.
 
 ## REQUIRED: the failure paragraph
 
-One paragraph immediately under the H2 naming the user-facing failure, not the best practice. What does the user see, and why does it diverge from what the code intended? Put any threshold and its source inline, for example "44x44px per WCAG 2.5.5" or "roughly 45-75 characters per line".
+One paragraph immediately under the H2 naming the user-facing failure, not the best practice. What does the user see, and why does it diverge from what the code intended? Put any threshold and its source inline, for example "44x44px per WCAG 2.5.5".
 
 An optional second paragraph carries nuance only: common misreadings, scope limits, or what the rule does not claim.
 

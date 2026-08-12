@@ -18,7 +18,7 @@ Detect each feature from element + filename + route, then run its checks in orde
 - [Toast / Notification / Banner](#toast--notification--banner)
 - [Empty state](#empty-state)
 - [Error / 404 / 500 state](#error--404--500-state)
-- [Loading state / skeleton](#loading-state--skeleton)
+- [Loading state](#loading-state)
 
 ## Feature detection
 
@@ -165,7 +165,7 @@ Checks:
 4. **`focus-on-dynamic-content`**: focus moves to the error heading; screen reader announces. **fix-this-sprint.**
 5. **`async-no-error-boundary`**: root layout wraps in an error boundary. **release-blocker.**
 
-## Loading state / skeleton
+## Loading state
 
 User need: see progress, not blank, not jumping.
 

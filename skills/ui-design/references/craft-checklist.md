@@ -15,7 +15,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 
 ## Legibility and typography
 
-Surface type defects are the `type-` rules; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
+Surface type defects are the `type-` rule; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
 - Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Set `-webkit-tap-highlight-color` on controls.

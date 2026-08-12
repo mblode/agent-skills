@@ -6,7 +6,7 @@ Pure design-decision scoring (choice architecture, information hierarchy, mental
 
 ---
 
-## One folder, three lineages
+## One folder, detect key
 
 These rules came from earlier sets: source-reasoned behavior rules and rendered-quality rules. That distinction is now recorded per rule in the `detect` key, not in a folder name:
 
@@ -30,7 +30,7 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 **Impact:** CRITICAL
 **Default tier:** release-blocker on critical paths, fix-this-sprint elsewhere
 **Rules:** 3
-**Description:** Missing or broken states is the single highest-impact production UX bug. Every data-fetching component needs loading, empty, error, success, and, if paginated, partial. The most common bug is happy path only. This category owns empty, loading, and error states wherever they appear; the layout rules cover the container, not the state.
+**Description:** Missing or broken states is the single highest-impact production UX bug. Every data-fetching component needs empty, error, and a loading placeholder that does not shift layout. The most common bug is happy path only. This category owns those states wherever they appear; the layout rules cover the container, not the state.
 
 ## 3. Async (async)
 
