@@ -15,7 +15,7 @@
 
 ## Buttons
 
-Add `transform: scale(0.97)` on `:active` for instant press feedback. Press is 0ms; release may ease. `touch-action: manipulation` on the control drops the double-tap-zoom delay. Do not put it on `html`, a map, or a pinch-zoom lightbox. The iOS gray overlay is `ui-design`'s `mobile-tap-highlight`.
+Add `transform: scale(0.97)` on `:active` for instant press feedback. Press is 0ms; release may ease. `touch-action: manipulation` on the control drops the double-tap-zoom delay. Do not put it on `html`, a map, or a pinch-zoom lightbox.
 
 ```css
 .button {

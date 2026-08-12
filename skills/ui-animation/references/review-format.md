@@ -51,7 +51,6 @@ Required first part of every review. Markdown table, one row per issue; never a 
 | `transform: scale(0)` | `transform: scale(0.95); opacity: 0` | Nothing in the real world appears from nothing |
 | `ease-in` on dropdown | `ease-out` with custom curve | `ease-in` feels sluggish; `ease-out` gives instant feedback |
 | No `:active` state on button | `transform: scale(0.97)` on `:active` with `transition-duration: 0s` | Buttons must feel responsive to press |
-| Missing `touch-action: manipulation` on a tap target | Add it on the control, not `html` | Drops the double-tap-zoom delay; pinch-zoom lightboxes are the exception |
 | `transform-origin: center` on popover | `transform-origin: var(--radix-popover-content-transform-origin)` | Popovers scale from trigger (modals stay centered) |
 
 ## Review checklist

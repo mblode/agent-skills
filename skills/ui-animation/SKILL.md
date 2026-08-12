@@ -66,7 +66,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 - Prefer CSS transitions for interruptible UI: keyframes restart from zero on interruption, transitions retarget. Use keyframes only for predetermined sequences.
 - Implementation priority: CSS transitions > WAAPI > CSS keyframes > JS (`requestAnimationFrame`); under load CSS stays smooth while JS drops frames.
 - Asymmetric timing: occasional interactions can enter slightly slower, exit fast. High-frequency ephemeral UI (hover highlights, popovers, panel toggles) inverts this: enter instantly (0ms), exit with a brief fade (100-150ms) so the action feels immediate.
-- Tappable controls press on `:active` at 0ms and set `touch-action: manipulation`. The iOS gray overlay is `ui-design`'s `mobile-tap-highlight`.
+- Tappable controls press on `:active` at 0ms and set `touch-action: manipulation`.
 - Use `@starting-style` for DOM entry; fall back to a `data-mounted` attribute where unsupported.
 - A small `filter: blur(2px)` hides rough crossfades between swapped content.
 
@@ -233,6 +233,6 @@ Reverse-engineer progress:
 
 - `product-design`: which states exist, what an action affects, and whether it is reversible. Route here first when a gesture replaces a control, since swipe-to-delete and hold-to-confirm change what the user can do before they change how it moves.
 - `ui-design` Direction mode: visual direction, palettes, typography; settle the visual system before tuning motion.
-- `ui-design` Audit mode: page/feature-level UI quality audit. Its `motion-` rules are the shallow presence check (animated layout properties, missing reduced-motion); the craft and the fix belong here. Its `mobile-` rules own tap overlay, overscroll, safe-area, and `theme-color`.
+- `ui-design` Audit mode: page/feature-level UI quality audit. Its `motion-` rules are the shallow presence check (animated layout properties, missing reduced-motion); the craft and the fix belong here.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
