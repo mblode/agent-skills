@@ -4,7 +4,7 @@ id: mobile-hover-only-affordance
 category: mobile
 defaultTier: fix-this-sprint
 detect: static
-related: interaction-target-size, focus-on-dynamic-content
+related: interaction-target-size, focus-on-dynamic-content, mobile-hover-stuck-after-tap
 ---
 
 ## Critical actions hidden behind hover-only affordances

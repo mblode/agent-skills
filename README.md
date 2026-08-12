@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-24 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+23 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -41,7 +41,6 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
-- **[native-mobile](./skills/native-mobile/SKILL.md)**: CSS and HTML chrome that makes a web app feel native on a phone.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a QA pass, as markdown or a web app.
 
 ### Writing

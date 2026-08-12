@@ -241,7 +241,6 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
 - `typography-audit`: deep typography (pairing, OpenType systems, display type); the `type-` rules here are the shallower check.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill's `motion-` rules are the shallow presence check; the craft and the fix belong there.
-- `native-mobile`: CSS/HTML chrome that makes a web app feel native on a phone. Layout breakpoints stay in Retrofit.
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `optimise-seo`: meta descriptions and page titles.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

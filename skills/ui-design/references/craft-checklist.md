@@ -18,8 +18,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 Surface type defects are the `type-` rules; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
-- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Gate hover with `@media (hover: hover)`.
-- `touch-action: manipulation` on tap targets (no double-tap zoom); set `-webkit-tap-highlight-color` intentionally.
+- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Cosmetic hover gating is `mobile-hover-stuck-after-tap`; tap highlight and `touch-action: manipulation` are `mobile-tap-highlight`.
 - `scroll-margin-top` on heading anchors for in-page links.
 - `autoFocus` sparingly: desktop only, single primary input.
 - Decorative layers (glows, gradients) get `pointer-events: none`.
@@ -47,8 +46,7 @@ Surface type defects are the `type-` rules; punctuation, OpenType, pairing, bran
 - Tooltips delay on first hover, but neighbouring tooltips in the same group switch instantly once the first tooltip is open.
 
 ## Resilience and layout
-- Respect safe areas (`env(safe-area-inset-*)`) on full-bleed surfaces.
-- `overscroll-behavior: contain` in modals/drawers.
+- Safe-area insets are `mobile-viewport-scaling`. App-shell overscroll is `mobile-overscroll`.
 - Stress test with long labels, one-word values, dense rows, empty lists, and one-item lists. The UI should not only survive the populated demo state.
 - Added or removed list rows preserve subjective position: content around the changed row should not jump unless the action is explicitly a reorder or navigation.
 - If the same object appears across two views, preserve object permanence through the transition when practical: keep position, thumbnail, title, or shape continuous instead of replacing it with an unrelated hard cut.
@@ -60,7 +58,7 @@ Surface type defects are the `type-` rules; punctuation, OpenType, pairing, bran
 ## Accessibility and theming
 - No tooltips on disabled controls; hover-tooltips hold no interactive content.
 - HTML illustrations (inline SVG, CSS art) need an accessible name, same as `<img>`.
-- No animation during theme switches; set `color-scheme` and `<meta name="theme-color">`. Native `<select>`: explicit `background-color` and `color` (Windows dark mode fix).
+- No animation during theme switches; set `color-scheme`. `theme-color` is `mobile-theme-color`. Native `<select>`: explicit `background-color` and `color` (Windows dark mode fix).
 - Guard hydration for date/time; `value` inputs require `onChange`; `suppressHydrationWarning` only where needed (dates, theme).
 
 ## Motion → sibling

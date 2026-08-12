@@ -8,7 +8,7 @@ detect: static
 
 ## Keep Mobile Input Text at Readable Size
 
-Set input text to at least 16px on mobile and avoid autofocus on touch-first flows. iOS zooms the viewport in on any field below 16px and does not zoom back out, leaving the user panned into a form they now have to scroll sideways.
+Set input text to at least 16px on mobile and avoid autofocus on touch-first flows. iOS zooms the viewport in on any field below 16px and does not zoom back out, leaving the user panned into a form they now have to scroll sideways. Do not stop that zoom with `maximum-scale=1` or `user-scalable=no`: that fails WCAG 1.4.4. The field size is the fix.
 
 ## Detection
 
