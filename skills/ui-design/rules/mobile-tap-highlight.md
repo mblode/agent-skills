@@ -8,7 +8,7 @@ detect: static
 
 ## Gray tap flash on controls
 
-iOS paints a gray overlay on tap. Set `-webkit-tap-highlight-color: transparent` on controls. The press state that replaces it (`:active` / pointer-down, `touch-action: manipulation`) is `ui-animation`.
+A tap flashes gray (or blue) over the control. That highlight is the browser's, not the product's press state, so the tap feels like a web page. Clear `-webkit-tap-highlight-color` on controls. The press that replaces it is `ui-animation`.
 
 ## Detection
 
@@ -18,7 +18,7 @@ Search for the highlight property. A hit is confirmed when buttons or links have
 rg -n 'tap-highlight' -g '*.css' -g '*.tsx' -g '*.jsx' src/
 ```
 
-Skip `// ui-audit-ignore:mobile-tap-highlight` near the match.
+A global reset on `button, a, [role="button"]` matches and is the pass. A `*` or `body` reset without a press style is still a fail.
 
 **Incorrect (default iOS overlay):**
 

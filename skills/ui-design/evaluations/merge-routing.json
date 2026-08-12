@@ -49,5 +49,21 @@
       "Routes the deep type work (the scale, the pairing, the measure) to typography-audit rather than duplicating its rule set",
       "Keeps a single ship verdict for the page instead of emitting two competing verdicts"
     ]
+  },
+  {
+    "skills": [
+      "ui-design",
+      "ui-animation"
+    ],
+    "query": "Make this settings page feel native on mobile. Hover sticks after tap and pull-to-refresh reloads the page.",
+    "files": [
+      "fixtures/clean-settings.tsx"
+    ],
+    "expected_behavior": [
+      "Selects Audit mode and runs mobile-tap-highlight and mobile-overscroll, not Retrofit/make-responsive and not Build",
+      "Routes hover gating and :active press / touch-action: manipulation to ui-animation rather than inventing a hover-stuck rule",
+      "Does not add a theme-color rule or a new skill",
+      "Applies the chrome fixes inside the audited files, or reports them with file:line if the shell lives outside the fixture"
+    ]
   }
 ]

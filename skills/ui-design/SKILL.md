@@ -2,14 +2,15 @@
 name: ui-design
 description: >-
   Designs, builds, and audits UI in React, Next, and Tailwind: visual
-  direction, Tailwind implementation, screenshot scaffolds,
+  direction, Tailwind implementation,
   dark-mode and responsive retrofits, and a rule-based
   audit of built frontends covering state gaps, data loss, focus and keyboard
   failures, accessibility markup, layout resilience, and AI-slop tells, with
   file:line findings, applied fixes, and a ship verdict. Use when asked to
   "build a landing page", "create a dashboard", "make this look premium",
   "show me 3 options", "create a brand kit", "turn this screenshot into
-  markup", "add dark mode", "make this responsive", "clean up the Tailwind",
+  markup", "add dark mode", "make this responsive", "feel native on mobile",
+  "clean up the Tailwind",
   "remove AI slop", "this looks vibe coded", "audit this component", "review
   this PR for UX bugs", "is this accessible", "design QA this page", or "is
   this ready to ship". For what an
@@ -80,6 +81,8 @@ Resolve one mode before acting, and load only that mode's files.
 | **Componentize** | extracting components or cleaning up classes: "componentize this page", "clean up the Tailwind" | [componentize.md](./componentize.md); for cleanup also [canonicalize-tailwind.md](./canonicalize-tailwind.md) |
 
 **No mode named?** Build if the target does not exist. Audit if it does and no change was requested. Resolving "look at this page" or "can you improve this checkout" to Build silently skips the rule run, which is the most expensive mistake this table prevents.
+
+**Named chrome fixes still audit.** "Feel native on mobile", tap highlight, and pull-to-refresh run `mobile-*` (press and hover gating are `ui-animation`). They do not go to Retrofit or Build. Retrofit's "fix this on mobile" is layout.
 
 Direction and Build chain: for a new surface with no direction, run Direction first (or propose one inline for small surfaces), then Build. If a direction already exists in the project, go straight to Build.
 

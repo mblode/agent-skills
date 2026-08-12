@@ -20,7 +20,7 @@ Search for `overscroll-behavior` on `html` / `body` and on overflow panes. A hit
 rg -n 'overscroll-behavior|overscroll-none|overscroll-contain' -g '*.css' -g '*.tsx' -g '*.jsx' src/
 ```
 
-A document site with no `overscroll-behavior` is correct. Skip `// ui-audit-ignore:mobile-overscroll` near the match.
+A document site with no `overscroll-behavior` is correct.
 
 **Incorrect (browser owns the first pull):**
 
