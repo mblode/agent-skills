@@ -18,7 +18,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 Surface type defects are the `type-` rules; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
-- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Cosmetic hover gating is `mobile-hover-stuck-after-tap`; tap highlight and `touch-action: manipulation` are `mobile-tap-highlight`.
+- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Hover gating and press feedback are `ui-animation`. The iOS tap overlay is `mobile-tap-highlight`.
 - `scroll-margin-top` on heading anchors for in-page links.
 - `autoFocus` sparingly: desktop only, single primary input.
 - Decorative layers (glows, gradients) get `pointer-events: none`.
