@@ -4,7 +4,7 @@ description: >-
   Designs, builds, and audits UI in React, Next, and Tailwind: visual
   direction, Tailwind implementation, screenshot scaffolds,
   dark-mode and responsive retrofits, and a rule-based
-  audit of built frontends covering state gaps, data loss, focus and keyboard
+  audit of frontends covering state gaps, data loss, focus and keyboard
   failures, accessibility markup, layout resilience, and AI-slop tells, with
   file:line findings, applied fixes, and a ship verdict. Use when asked to
   "build a landing page", "create a dashboard", "make this look premium",
@@ -12,10 +12,10 @@ description: >-
   markup", "add dark mode", "make this responsive", "clean up the Tailwind",
   "remove AI slop", "this looks vibe coded", "audit this component", "review
   this PR for UX bugs", "is this accessible", "design QA this page", or "is
-  this ready to ship". For what an
-  interface should do before it exists use product-design; for non-UI code
-  review use pr-reviewer; for agentic apps use ax-audit; for deep type or
-  motion use typography-audit or ui-animation; for copy use copywriting.
+  this ready to ship". For capability decisions use product-design; for
+  non-UI review use pr-reviewer; for agentic apps use ax-audit; for type or
+  motion use typography-audit or ui-animation; for copy use copywriting;
+  for native-feel chrome use native-mobile.
 ---
 
 # UI Design
@@ -76,10 +76,12 @@ Resolve one mode before acting, and load only that mode's files.
 | **Audit** | the target exists and no change was named: "audit this component", "check my UI", "is this accessible", "design QA this page", "is this ready to ship". **Deslop scope** on "remove AI slop", "looks vibe coded", "simplify this UI" | [references/feature-playbooks.md](./references/feature-playbooks.md) and `rules/` only |
 | **Options** | variants to compare in the browser: "show me 3 hero layouts" | [ideas.md](./ideas.md) plus the guidelines per variant |
 | **Scaffold** | semantic, unstyled markup from a screenshot, Figma export, mockup, or wireframe | [markup-from-image.md](./markup-from-image.md) only; the scaffold stays unstyled |
-| **Retrofit** | one dimension added to existing UI: "add dark mode", "make this responsive", "fix this on mobile" | [add-dark-mode.md](./add-dark-mode.md), [make-responsive.md](./make-responsive.md); for raster images also [dark-mode-image.md](./dark-mode-image.md) (requires the `imagegen` skill, Codex) |
+| **Retrofit** | one dimension added to existing UI: "add dark mode", "make this responsive", "fix this on mobile" (layout: breakpoints, collapsing nav, overflow) | [add-dark-mode.md](./add-dark-mode.md), [make-responsive.md](./make-responsive.md); for raster images also [dark-mode-image.md](./dark-mode-image.md) (requires the `imagegen` skill, Codex) |
 | **Componentize** | extracting components or cleaning up classes: "componentize this page", "clean up the Tailwind" | [componentize.md](./componentize.md); for cleanup also [canonicalize-tailwind.md](./canonicalize-tailwind.md) |
 
 **No mode named?** Build if the target does not exist. Audit if it does and no change was requested. Resolving "look at this page" or "can you improve this checkout" to Build silently skips the rule run, which is the most expensive mistake this table prevents.
+
+**Native-feel chrome is not Retrofit.** "Make this feel native on mobile", stuck hover, tap highlight, input zoom, overscroll, safe-area chrome, and `theme-color` belong to `native-mobile`. Retrofit's "fix this on mobile" is layout.
 
 Direction and Build chain: for a new surface with no direction, run Direction first (or propose one inline for small surfaces), then Build. If a direction already exists in the project, go straight to Build.
 
@@ -241,6 +243,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
 - `typography-audit`: deep typography (pairing, OpenType systems, display type); the `type-` rules here are the shallower check.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill's `motion-` rules are the shallow presence check; the craft and the fix belong there.
+- `native-mobile`: CSS/HTML chrome that makes a web app feel native on a phone (tap highlight, stuck hover, input zoom, overscroll, safe-area, theme-color). Layout breakpoints stay in Retrofit; this skill's `mobile-` audit rules still catch missing viewport meta and hover-only actions.
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `optimise-seo`: meta descriptions and page titles.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
