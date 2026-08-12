@@ -4,7 +4,6 @@ id: states-layout-shift
 category: states
 defaultTier: fix-this-sprint
 detect: rendered
-related: states-no-skeleton
 ---
 
 ## Loading state causes layout shift on data arrival

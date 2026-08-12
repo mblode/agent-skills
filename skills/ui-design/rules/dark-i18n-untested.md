@@ -4,7 +4,7 @@ id: dark-i18n-untested
 category: dark-i18n
 defaultTier: backlog
 detect: static
-related: dark-i18n-color-only-state, states-layout-shift
+related: states-layout-shift
 ---
 
 ## Component lacks dark-mode coverage and hardcodes light tokens

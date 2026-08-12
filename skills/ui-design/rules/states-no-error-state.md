@@ -4,7 +4,7 @@ id: states-no-error-state
 category: states
 defaultTier: release-blocker
 detect: static
-related: states-no-skeleton, states-no-empty-state, async-no-error-boundary
+related: states-no-empty-state, async-no-error-boundary
 ---
 
 ## Async fetch has no inline error state

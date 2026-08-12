@@ -15,14 +15,16 @@
 
 ## Buttons
 
-Add `transform: scale(0.97)` on `:active` for instant press feedback.
+Add `transform: scale(0.97)` on `:active` for instant press feedback. Press is 0ms; release may ease. `touch-action: manipulation` on the control drops the double-tap-zoom delay. Do not put it on `html`, a map, or a pinch-zoom lightbox.
 
 ```css
 .button {
+  touch-action: manipulation;
   transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .button:active {
   transform: scale(0.97);
+  transition-duration: 0s;
 }
 ```
 
@@ -219,7 +221,7 @@ When removing items, use `AnimatePresence mode="popLayout"` so the exiting eleme
 
 ## Hover effects
 
-Gate hover animations behind a media query to avoid false positives on touch.
+Gate hover animations behind a media query to avoid false positives on touch. Tailwind `hover:` is not gated unless the project set `hoverOnlyWhenSupported` or a custom variant.
 
 ```css
 @media (hover: hover) and (pointer: fine) {

@@ -13,6 +13,7 @@ Drag, swipe, and gesture patterns where the user directly manipulates elements.
 - [Rotary drag](#rotary-drag)
 - [Detents and snapping](#detents-and-snapping)
 - [Swipe-to-dismiss pattern](#swipe-to-dismiss-pattern)
+- [Carousel axis](#carousel-axis)
 
 ## Momentum-based dismissal
 
@@ -215,3 +216,20 @@ function handleSwipeEnd(direction: "left" | "right", distance: number, velocity:
 ```
 
 The exit should continue in the swipe direction with momentum; snapping elsewhere feels wrong. Feed `velocity` into the exit spring's `velocity` option so drag and animation share no seam.
+
+## Carousel axis
+
+A horizontal scroller that also moves the page is an axis fight.
+
+**CSS `overflow-x` / scroll-snap:** let the browser pan horizontally, and stop horizontal overscroll from triggering Back:
+
+```css
+.carousel {
+  overflow-x: auto;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+}
+```
+
+**JS-driven** (Embla, Swiper, Keen): those libraries set `touch-action: pan-y` so the page still scrolls vertically while they handle the horizontal drag. Do not override to `pan-x`.
+

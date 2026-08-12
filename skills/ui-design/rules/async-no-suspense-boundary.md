@@ -4,7 +4,7 @@ id: async-no-suspense-boundary
 category: async
 defaultTier: fix-this-sprint
 detect: static
-related: states-no-skeleton, states-layout-shift, async-no-error-boundary
+related: states-layout-shift, async-no-error-boundary
 ---
 
 ## Async server component without Suspense boundary

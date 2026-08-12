@@ -15,11 +15,10 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 
 ## Legibility and typography
 
-Surface type defects are the `type-` rules; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
+Surface type defects are the `type-` rule; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
-- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Gate hover with `@media (hover: hover)`.
-- `touch-action: manipulation` on tap targets (no double-tap zoom); set `-webkit-tap-highlight-color` intentionally.
+- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Set `-webkit-tap-highlight-color` on controls.
 - `scroll-margin-top` on heading anchors for in-page links.
 - `autoFocus` sparingly: desktop only, single primary input.
 - Decorative layers (glows, gradients) get `pointer-events: none`.
@@ -47,8 +46,7 @@ Surface type defects are the `type-` rules; punctuation, OpenType, pairing, bran
 - Tooltips delay on first hover, but neighbouring tooltips in the same group switch instantly once the first tooltip is open.
 
 ## Resilience and layout
-- Respect safe areas (`env(safe-area-inset-*)`) on full-bleed surfaces.
-- `overscroll-behavior: contain` in modals/drawers.
+- `overscroll-behavior: none` on `html` for app shells; `contain` in modals and drawers. Document sites keep pull-to-refresh.
 - Stress test with long labels, one-word values, dense rows, empty lists, and one-item lists. The UI should not only survive the populated demo state.
 - Added or removed list rows preserve subjective position: content around the changed row should not jump unless the action is explicitly a reorder or navigation.
 - If the same object appears across two views, preserve object permanence through the transition when practical: keep position, thumbnail, title, or shape continuous instead of replacing it with an unrelated hard cut.

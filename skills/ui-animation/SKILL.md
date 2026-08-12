@@ -48,7 +48,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params, Apple damping/response values, asymmetric open/close character, interruption mechanics |
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
-| [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents |
+| [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents, carousel `touch-action` |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, peripheral de-emphasis, fixed-offset exits |
@@ -66,6 +66,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 - Prefer CSS transitions for interruptible UI: keyframes restart from zero on interruption, transitions retarget. Use keyframes only for predetermined sequences.
 - Implementation priority: CSS transitions > WAAPI > CSS keyframes > JS (`requestAnimationFrame`); under load CSS stays smooth while JS drops frames.
 - Asymmetric timing: occasional interactions can enter slightly slower, exit fast. High-frequency ephemeral UI (hover highlights, popovers, panel toggles) inverts this: enter instantly (0ms), exit with a brief fade (100-150ms) so the action feels immediate.
+- Tappable controls press on `:active` at 0ms and set `touch-action: manipulation`.
 - Use `@starting-style` for DOM entry; fall back to a `data-mounted` attribute where unsupported.
 - A small `filter: blur(2px)` hides rough crossfades between swapped content.
 
@@ -145,7 +146,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 ## Accessibility
 
 - Every animation needs a `prefers-reduced-motion: reduce` path: disable transform/keyframe motion, keep instant state changes or opacity-only fades. All recipes include the guard.
-- Gate hover animations behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind v4 `hover:` utilities apply this automatically; skip the manual query there.
+- Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind `hover:` is not gated unless the project set `hoverOnlyWhenSupported` or a custom variant.
 - During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
 
 ## Performance

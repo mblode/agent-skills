@@ -4,7 +4,7 @@ id: forms-lost-data-on-error
 category: forms
 defaultTier: fix-this-sprint
 detect: static
-related: forms-no-disable-while-submitting, forms-use-form-status-misuse, forms-no-normalize
+related: forms-no-disable-while-submitting, forms-use-form-status-misuse
 ---
 
 ## Form data lost on validation error

@@ -2,7 +2,7 @@
 
 Detect each feature from element + filename + route, then run its checks in order. All checks name a file in `rules/`; the category index is `rules/_sections.md`.
 
-**Also run the matching rendered-quality checks.** Beyond the checks below, run the `rules/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, error association, contrast); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any animated surface runs `motion-*`. Category map: `rules/_sections.md`.
+**Also run the matching rendered-quality checks.** Beyond the checks below, run the `rules/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, error association, contrast); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any animated surface runs `motion-*`; any user-facing surface runs `mobile-*`. Category map: `rules/_sections.md`.
 
 ## Table of contents
 
@@ -18,7 +18,7 @@ Detect each feature from element + filename + route, then run its checks in orde
 - [Toast / Notification / Banner](#toast--notification--banner)
 - [Empty state](#empty-state)
 - [Error / 404 / 500 state](#error--404--500-state)
-- [Loading state / skeleton](#loading-state--skeleton)
+- [Loading state](#loading-state)
 
 ## Feature detection
 
@@ -49,11 +49,9 @@ Checks:
 
 1. **`forms-no-disable-while-submitting`**: submit `disabled` while pending, else double-submits create duplicate accounts. Bumps to **release-blocker** for sign-up.
 2. **`forms-lost-data-on-error`**: wrong password must not clear the email field; password manager must still autofill. **release-blocker.**
-3. **`forms-no-normalize`**: accept emails with whitespace or mixed case; trim and lowercase server-side. Postel's Law.
-4. **`microcopy-vague-error`**: "Wrong email or password" is fine for security; "Error 401" / "Invalid" is not. **fix-this-sprint.**
-5. **`focus-not-restored`**: if "Forgot password?" opens a modal/route, focus returns on close. **fix-this-sprint.**
-6. **`states-no-error-state`**: server-down shows a recoverable message with retry, not a blank page. **release-blocker.**
-7. **`memory-jakobs-law`**: conventional layout: email then password, primary action below, "Forgot password?" near password.
+3. **`microcopy-vague-error`**: "Wrong email or password" is fine for security; "Error 401" / "Invalid" is not. **fix-this-sprint.**
+4. **`focus-not-restored`**: if "Forgot password?" opens a modal/route, focus returns on close. **fix-this-sprint.**
+5. **`states-no-error-state`**: server-down shows a recoverable message with retry, not a blank page. **release-blocker.**
 
 ## Checkout
 
@@ -67,8 +65,6 @@ Checks:
 4. **`states-no-error-state`**: payment failures show specific cause + retry, not a generic toast. **release-blocker.**
 5. **`microcopy-leaked-error-message`**: never surface raw `error.message` from a payment provider. **release-blocker.**
 6. **`states-layout-shift`**: card form, address autocomplete, and order summary must not jump as fields validate. **fix-this-sprint.**
-7. **`memory-peak-end-rule`**: order-confirmation page is a deliberate moment, not a generic toast.
-8. **`cognitive-cognitive-load`**: fields chunked (shipping vs payment vs review), one primary CTA per step.
 
 ## Onboarding
 
@@ -77,12 +73,8 @@ User need: feel oriented and make progress; not give up.
 Checks:
 
 1. **`states-no-empty-state`**: first-run dashboard shows next-step guidance, not "no data." **release-blocker.**
-2. **`memory-goal-gradient`**: show progress (X of N steps); use endowed progress (start with 1 done). **fix-this-sprint.**
-3. **`memory-zeigarnik`**: incomplete onboarding stays visible across sessions ("Resume setup"). **fix-this-sprint.**
-4. **`forms-lost-data-on-error`**: back button preserves entered values. **release-blocker.**
-5. **`microcopy-generic-loading`**: "Setting up your workspace…" beats "Loading…". **backlog.**
-6. **`focus-on-dynamic-content`**: when the next step renders, focus moves to its heading. **fix-this-sprint.**
-7. **`memory-peak-end-rule`**: final screen has a deliberate "you're set" moment with a clear next action.
+2. **`forms-lost-data-on-error`**: back button preserves entered values. **release-blocker.**
+3. **`focus-on-dynamic-content`**: when the next step renders, focus moves to its heading. **fix-this-sprint.**
 
 ## Search
 
@@ -92,11 +84,9 @@ Checks:
 
 1. **`async-out-of-order-responses`**: fast typing must not show stale results from earlier queries. Use `useDeferredValue` or AbortController. **release-blocker.**
 2. **`states-no-empty-state`**: zero results offer "did you mean" or "broaden filters" CTA. **fix-this-sprint.**
-3. **`states-no-skeleton`**: typing pause shows a skeleton list, not flash empty/collapse. **fix-this-sprint.**
+3. **`states-layout-shift`**: typing pause must not flash empty or collapse the list. **fix-this-sprint.**
 4. **`microcopy-vague-error`**: search service down → "Search is temporarily unavailable, here's [recent items]" not "Error". **fix-this-sprint.**
 5. **`focus-on-dynamic-content`**: `aria-live="polite"` on result count for screen readers. **fix-this-sprint.**
-6. **`decision-hicks-law`**: limit visible results-per-page or use facets when count > 50.
-7. **`perception-von-restorff`**: exactly one highlighted result (e.g. exact match) per page.
 
 ## Form (multi-step or long single page)
 
@@ -107,10 +97,8 @@ Checks:
 1. **`forms-lost-data-on-error`**: `useActionState` with `state.fields` preserved across validation. **release-blocker.**
 2. **`forms-no-disable-while-submitting`**: submit disabled during `pending`. **release-blocker.**
 3. **`forms-use-form-status-misuse`**: `useFormStatus` must be in a child of `<form>`, not the same component. **release-blocker** (silent runtime bug).
-4. **`forms-no-normalize`**: emails, phones, URLs, currencies, dates trimmed/lowercased server-side; Postel's Law. **fix-this-sprint.**
-5. **`microcopy-vague-error`**: "Email already in use, sign in instead" beats "Invalid". **fix-this-sprint.**
-6. **`states-no-skeleton`**: async-loaded form (e.g. user profile) needs a skeleton matching field layout. **fix-this-sprint.**
-7. **`cognitive-chunking`**: group fields into fieldsets/sections.
+4. **`microcopy-vague-error`**: "Email already in use, sign in instead" beats "Invalid". **fix-this-sprint.**
+5. **`states-layout-shift`**: async-loaded form (e.g. user profile) reserves field layout while loading. **fix-this-sprint.**
 
 ## List / Feed / Inbox
 
@@ -118,13 +106,11 @@ User need: scan, find, navigate.
 
 Checks:
 
-1. **`states-no-skeleton`**: N skeleton rows matching item layout (CLS-safe). **fix-this-sprint.**
+1. **`states-layout-shift`**: loading rows reserve item height (CLS-safe). **fix-this-sprint.**
 2. **`states-no-empty-state`**: empty list has CTA to populate it. **fix-this-sprint.**
 3. **`states-no-error-state`**: fetch failure has retry + cause. **fix-this-sprint.**
 4. **`focus-on-dynamic-content`**: keyboard arrow navigation works; focus visible on row. **fix-this-sprint.**
-5. **`memory-serial-position`**: primary actions (e.g. "Compose") at edge.
-6. **`perception-similarity`** + **`perception-common-region`**: same-role rows share styling; rows have clear boundaries.
-7. **`interaction-target-size`**: row tap targets ≥44 px on mobile. **fix-this-sprint.**
+5. **`interaction-target-size`**: row tap targets ≥44 px on mobile. **fix-this-sprint.**
 
 ## Dashboard
 
@@ -132,12 +118,9 @@ User need: at-a-glance status, drill into details.
 
 Checks:
 
-1. **`states-no-skeleton`**: each widget has its own skeleton; layout doesn't shift as widgets load. **fix-this-sprint.**
+1. **`states-layout-shift`**: widgets reserve their space; no CLS. **fix-this-sprint.**
 2. **`states-no-error-state`**: per-widget error fallback with retry; one widget failing doesn't break the dashboard. **release-blocker.**
-3. **`states-layout-shift`**: widgets reserve their space; no CLS. **fix-this-sprint.**
-4. **`async-no-error-boundary`**: wrap each widget in an error boundary. **release-blocker.**
-5. **`cognitive-cognitive-load`**: ≤7 focal areas above the fold.
-6. **`perception-proximity`** + **`perception-similarity`**: group related widgets, similar widgets styled alike.
+3. **`async-no-error-boundary`**: wrap each widget in an error boundary. **release-blocker.**
 
 ## Modal / Dialog / Sheet
 
@@ -148,10 +131,8 @@ Checks:
 1. **`focus-broken-focus-trap`**: Tab cycles inside modal; Esc closes. **release-blocker.**
 2. **`focus-not-restored`**: focus returns to trigger button on close. **release-blocker.**
 3. **`states-no-error-state`**: async actions inside modal (save, delete) show success/error before closing. **fix-this-sprint.**
-4. **`memory-zeigarnik`**: closing without saving shows a confirm if dirty. **release-blocker** for forms, **fix-this-sprint** otherwise.
-5. **`interaction-target-size`**: close button ≥44 px on mobile. **fix-this-sprint.**
-6. **`states-layout-shift`**: modal content height stable across loading/loaded states. **backlog.**
-7. **`decision-hicks-law`**: ≤3 actions in modal footer.
+4. **`interaction-target-size`**: close button ≥44 px on mobile. **fix-this-sprint.**
+5. **`states-layout-shift`**: modal content height stable across loading/loaded states. **backlog.**
 
 ## Toast / Notification / Banner
 
@@ -160,10 +141,8 @@ User need: see the message before it disappears, recover from errors.
 Checks:
 
 1. **`microcopy-vague-error`** + **`microcopy-leaked-error-message`**: actionable + non-leaky. **fix-this-sprint.**
-2. **`nav-loading-state-timing`**: toast duration ≥5 s for ≥1 sentence; ≥8 s with action button; never disappears mid-action.
-3. **`nav-live-region-feedback`**: `role="alert"` for urgent (errors), `role="status"`/`aria-live="polite"` for info. **fix-this-sprint.**
-4. **`interaction-target-size`**: dismiss button + action button ≥44 px. **backlog.**
-5. **`memory-peak-end-rule`**: success toasts on critical paths should be more deliberate than a 2 s bounce.
+2. **`nav-live-region-feedback`**: `role="alert"` for urgent (errors), `role="status"`/`aria-live="polite"` for info. **fix-this-sprint.**
+3. **`interaction-target-size`**: dismiss button + action button ≥44 px. **backlog.**
 
 ## Empty state
 
@@ -172,9 +151,7 @@ User need: understand why nothing is here, what to do next.
 Checks:
 
 1. **`states-no-empty-state`** action variant: has a CTA, not just "no items." **fix-this-sprint** (or **release-blocker** on a critical onboarding path).
-2. **`microcopy-generic-loading`** + **`microcopy-vague-error`**: empty copy is context-specific, not "No data." **fix-this-sprint.**
-3. **`memory-zeigarnik`**: if it's a not-yet-set-up surface, suggest setup with progress.
-4. **`memory-goal-gradient`**: empty inbox after first user action shows "1 of 5 setup steps complete."
+2. **`microcopy-vague-error`**: empty copy is context-specific, not "No data." **fix-this-sprint.**
 
 ## Error / 404 / 500 state
 
@@ -186,18 +163,13 @@ Checks:
 2. **`states-no-error-state`**: error page has retry + alternative path (home, contact support). **fix-this-sprint.**
 3. **`microcopy-vague-error`** + **`microcopy-leaked-error-message`**: explains what went wrong without leaking stack traces. **release-blocker** for leaks.
 4. **`focus-on-dynamic-content`**: focus moves to the error heading; screen reader announces. **fix-this-sprint.**
-5. **`memory-peak-end-rule`**: error pages are emotional peaks; turn them into recoveries.
-6. **`async-no-error-boundary`**: root layout wraps in an error boundary. **release-blocker.**
+5. **`async-no-error-boundary`**: root layout wraps in an error boundary. **release-blocker.**
 
-## Loading state / skeleton
+## Loading state
 
 User need: see progress, not blank, not jumping.
 
 Checks:
 
-1. **`states-no-skeleton`**: async data has a skeleton, not a centered spinner. **fix-this-sprint.**
-2. **`states-layout-shift`**: skeleton has `min-height` matching loaded content. **fix-this-sprint.**
-3. **`microcopy-generic-loading`**: context-specific text ("Confirming your order, 2 to 3 seconds") beats "Loading…" **backlog.**
-4. **`async-no-suspense-boundary`**: server components / async streaming wrapped in `<Suspense fallback={...}>`. **fix-this-sprint.**
-5. **`interaction-doherty-threshold`**: perceived feedback ≤100 ms via optimistic UI when applicable.
-6. **`nav-loading-state-timing`**: operations >10 s show progress or staged feedback, not just an indefinite spinner.
+1. **`states-layout-shift`**: loading placeholder has `min-height` matching loaded content. **fix-this-sprint.**
+2. **`async-no-suspense-boundary`**: server components / async streaming wrapped in `<Suspense fallback={...}>`. **fix-this-sprint.**

@@ -50,7 +50,7 @@ Required first part of every review. Markdown table, one row per issue; never a 
 | `transition: all 300ms` | `transition: transform 200ms ease-out` | Specify exact properties; `all` animates unintended properties off-GPU |
 | `transform: scale(0)` | `transform: scale(0.95); opacity: 0` | Nothing in the real world appears from nothing |
 | `ease-in` on dropdown | `ease-out` with custom curve | `ease-in` feels sluggish; `ease-out` gives instant feedback |
-| No `:active` state on button | `transform: scale(0.97)` on `:active` | Buttons must feel responsive to press |
+| No `:active` state on button | `transform: scale(0.97)` on `:active` with `transition-duration: 0s` | Buttons must feel responsive to press |
 | `transform-origin: center` on popover | `transform-origin: var(--radix-popover-content-transform-origin)` | Popovers scale from trigger (modals stay centered) |
 
 ## Review checklist
@@ -73,6 +73,7 @@ Rows add recipe-specific signal beyond the ten standards; for the standard viola
 | Animating container instead of inner pieces | Apply transitions to child elements, not the wrapper |
 | Same bouncy spring on open and close | Bounce the open only; damp the close and roughly halve its duration |
 | Value snapped to its detent during the drag | Follow the pointer continuously; snap the projected landing point on release |
+| CSS carousel scrolls the page | `touch-action: pan-x` and `overscroll-behavior-x: contain`; leave JS libraries on `pan-y` |
 | Hardcoded `stroke-dasharray` on SVG success path | Use `path.getTotalLength()` to measure the path |
 | `.is-error` and `.is-shaking` merged into one class | Keep them separate: `.is-shaking` controls animation only, `.is-error` controls visual state |
 
