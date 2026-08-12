@@ -1,8 +1,6 @@
 # Craft Checklist (Detailed)
 
-Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; it carries only the built-UI details no rule file encodes. Anything already owned by a rule (`rules/interaction-*`, `forms-*`, `a11y-*`, `nav-*`, `layout-*`, `perf-*`, `rules/states-*`, `dark-i18n-*`) is not repeated here, so a craft finding never duplicates a rule finding. Visual direction, motion, SEO, deep typography, and native-feel chrome belong to sibling skills and are pointed to, not restated.
-
-Native-feel chrome (hover gated to fine pointers, tap highlight, `dvh`/`svh`, 16px inputs, pointer-down press, overscroll, safe-area, `select-none` on controls, carousel `touch-action`, `theme-color`) is the `native-mobile` skill. Flag absence here; load that skill to apply the recipes.
+Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/HIGH passes; it carries only the built-UI details no rule file encodes. Anything already owned by a rule (`rules/interaction-*`, `forms-*`, `a11y-*`, `nav-*`, `layout-*`, `perf-*`, `rules/states-*`, `dark-i18n-*`) is not repeated here, so a craft finding never duplicates a rule finding. Visual direction, motion, SEO, and deep typography belong to sibling skills and are pointed to, not restated.
 
 ## Contents
 - Legibility and typography → sibling
@@ -20,7 +18,8 @@ Native-feel chrome (hover gated to fine pointers, tap highlight, `dvh`/`svh`, 16
 Surface type defects are the `type-` rules; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
-- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Cosmetic hover gating, tap highlight, and `touch-action: manipulation` are `native-mobile`.
+- Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Gate hover with `@media (hover: hover)`.
+- `touch-action: manipulation` on tap targets (no double-tap zoom); set `-webkit-tap-highlight-color` intentionally.
 - `scroll-margin-top` on heading anchors for in-page links.
 - `autoFocus` sparingly: desktop only, single primary input.
 - Decorative layers (glows, gradients) get `pointer-events: none`.
@@ -48,7 +47,8 @@ Surface type defects are the `type-` rules; punctuation, OpenType, pairing, bran
 - Tooltips delay on first hover, but neighbouring tooltips in the same group switch instantly once the first tooltip is open.
 
 ## Resilience and layout
-- Safe-area insets and overscroll on app shells and inner panes are `native-mobile`.
+- Respect safe areas (`env(safe-area-inset-*)`) on full-bleed surfaces.
+- `overscroll-behavior: contain` in modals/drawers.
 - Stress test with long labels, one-word values, dense rows, empty lists, and one-item lists. The UI should not only survive the populated demo state.
 - Added or removed list rows preserve subjective position: content around the changed row should not jump unless the action is explicitly a reorder or navigation.
 - If the same object appears across two views, preserve object permanence through the transition when practical: keep position, thumbnail, title, or shape continuous instead of replacing it with an unrelated hard cut.
@@ -60,7 +60,7 @@ Surface type defects are the `type-` rules; punctuation, OpenType, pairing, bran
 ## Accessibility and theming
 - No tooltips on disabled controls; hover-tooltips hold no interactive content.
 - HTML illustrations (inline SVG, CSS art) need an accessible name, same as `<img>`.
-- No animation during theme switches; set `color-scheme`. `theme-color` is `native-mobile`. Native `<select>`: explicit `background-color` and `color` (Windows dark mode fix).
+- No animation during theme switches; set `color-scheme` and `<meta name="theme-color">`. Native `<select>`: explicit `background-color` and `color` (Windows dark mode fix).
 - Guard hydration for date/time; `value` inputs require `onChange`; `suppressHydrationWarning` only where needed (dates, theme).
 
 ## Motion → sibling
