@@ -35,6 +35,7 @@ rg 'escalat|handoff|transfer.*human|transfer.*agent' --type=ts src/
 
 **Judgment signals:**
 - An escalation tool never referenced in the system prompt is effectively invisible.
+- Escalation is a handoff to a human. Refusal is declining a request the agent cannot safely complete. Improvising the nearest write to real state is not a success, and is not fixed by adding an escalate button.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:trust-no-escalation-path`, test, and Storybook files.

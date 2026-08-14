@@ -32,6 +32,10 @@ rg 'role:\s*["\x27]system["\x27]' --type=ts -A 10 src/ | rg -v '\$\{|concat|join
 rg '(availableResources|recentActivity|capabilities|context\.md)' --type=ts src/
 ```
 
+**Judgment signals:**
+- Missing any of the three sections is the usual fail (too little).
+- A prompt that injects every tool and every procedure on every run also fails: the run should carry what this task needs, not the whole product. A small agent with a short resident toolset is not this.
+
 **False-positive guards:**
 - Skip files with `// ax-audit-ignore:context-starvation`.
 - Skip test files and fixtures.

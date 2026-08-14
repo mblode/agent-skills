@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-23 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+24 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -20,10 +20,10 @@
 ## Install
 
 ```bash
-npx skills add mblode/agent-skills -g --agent claude-code,codex -y
+npx skills add mblode/agent-skills -g --agent cursor,claude-code,codex -y
 ```
 
-Cursor and OpenCode work too: swap the `--agent` list. The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
+This repo is also a Cursor plugin (`.cursor-plugin/plugin.json`): symlink it into `~/.cursor/plugins/local/agent-skills` to see the bundle grouped in Customize, or submit the GitHub URL at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) for the public marketplace. OpenCode works too: swap the `--agent` list. The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
 Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
 
@@ -71,6 +71,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 
 - **[agents-md](./skills/agents-md/SKILL.md)**: Audits and refactors AGENTS.md and CLAUDE.md, with grades.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and improves skills to the open format spec.
+- **[save-md](./skills/save-md/SKILL.md)**: Writes a named source as a markdown file the next turn can reread.
 
 ## License
 

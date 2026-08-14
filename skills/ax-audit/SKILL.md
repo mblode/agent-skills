@@ -7,8 +7,8 @@ description: >-
   adaptive canvases. Produces a ship-readiness verdict plus an AX Relationship
   Summary. Use when reviewing agentic feature PRs or asking "is this
   agent-native", "AX review", "critique this AI feature", "does this earn user
-  trust", or "audit this for AX". For traditional frontend UX use ui-design
-  Audit mode.
+  trust", "does this feel like AI", "Ask AI button", or "audit this for AX".
+  For traditional frontend UX use ui-design Audit mode.
 ---
 
 # AX Audit
@@ -95,6 +95,7 @@ Rendered after findings when any agentic feature was detected. Findings serve en
 | `references/output-format.md` | Step 6: findings JSON schema, summary schema, terminal rendering |
 | `references/agent-native-principles.md` | A Layer 1 finding needs grounding: parity, granularity, CRUD completeness, context patterns, approval matrices, checkpoint/resume |
 | `references/ax-evolution-curve.md` | Writing the evolution-stage field of the AX summary |
+| `references/costume-vs-intelligence.md` | Writing the AX Relationship Summary |
 | `rules-arch/_sections.md` | Layer 1 categories and default tiers |
 | `rules-ax/_sections.md` | Layer 2 categories, default tiers, co-firing rule pairs |
 
@@ -108,6 +109,7 @@ Rendered after findings when any agentic feature was detected. Findings serve en
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the count in the verdict block; a suppression with no reason is itself worth a `warn`.
 - **Don't duplicate `ui-design` Audit mode findings.** "Missing loading state" and "form clears on error" are its territory; duplicating them trains engineers to dismiss the whole AX report.
 - **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. Promoting cosmetic findings to blocker trains the team to ignore ❌ verdicts.
+- **A Personally Intelligent agent that only ever suggests has plateaued.** Memory stage is not trust. Name the highest action rung in `evolutionStage.behavior` or the summary flatters a polite chatbot.
 
 ## Audit self-check
 

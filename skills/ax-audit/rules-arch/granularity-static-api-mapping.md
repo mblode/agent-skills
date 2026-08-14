@@ -22,8 +22,8 @@ CMS has 30 content types, 90 tools total. An editor adds "Press Release" in the 
 **Surfaces:** agent-tool-execution
 
 **Static signals:**
-1. Count tool definitions. High counts (>20) with repetitive patterns suggest static mapping.
-2. Check whether the data source supports dynamic type discovery.
+1. Count tool definitions. High counts (>20) with the *same* parameter shape (read_X, read_Y, read_Z over one API) suggest static mapping.
+2. Check whether the data source is an evolving type system (CMS, CRM custom objects) that supports dynamic type discovery.
 
 **Concrete commands:**
 ```bash
@@ -31,8 +31,12 @@ rg 'name:\s*["\x27]' --type=ts src/tools/ -c | awk -F: '{sum+=$2} END {print "To
 rg 'name:\s*["\x27](read|get|list|create|update|delete)_' --type=ts -o --no-filename src/tools/ | awk -F'_' '{print $1}' | sort | uniq -c | sort -rn
 ```
 
+**Judgment signals:**
+- A product agent whose tools are the product nouns (`create_issue`, `update_document`, `list_requests`) passes even above 20 tools: the params differ, and the nouns are the product.
+- Fail when the tools are mechanical wrappers over one shape and a new type in the source system would need a new tool and a redeploy.
+
 **False-positive guards:**
-- Skip small stable APIs (<10 types), tools with genuinely different params, and `// ax-audit-ignore:granularity-static-api-mapping`.
+- Skip tools with genuinely different params, small stable APIs (<10 types), and `// ax-audit-ignore:granularity-static-api-mapping`.
 
 ## Fix
 
