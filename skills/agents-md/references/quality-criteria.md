@@ -31,7 +31,7 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 8. Commands match the package manager and scripts
 9. Required env bootstrap steps (incl. secondary runtimes like Python venvs)
 10. Where to run commands (root/workspace)
-11. A command for targeted test/debug iteration
+11. A command for targeted test/debug iteration, quiet flags included so a full passing suite does not linger in later turns
 12. No duplicate or conflicting command variants
 
 ## B. Gotchas and repeated mistakes (10)

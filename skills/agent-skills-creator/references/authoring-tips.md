@@ -44,10 +44,11 @@ Current models verify their own work, catch and fix their own mistakes, and dele
 
 An external check is not this. "Run the test suite and quote the output" and "watch the check fail, then pass" produce evidence the model cannot generate by reasoning, so they stay.
 
-Two related levers skew long by default and are worth setting deliberately:
+Three related levers skew long by default and are worth setting deliberately:
 
 - **Calibrate the length of artifacts the skill writes to disk.** Reports, plans, briefs, and docs run long, and a fixed output template invites filling every section instead of dropping the ones the task does not need. Say that length follows the work, not the template. This is a real opinion, unlike "write concisely", which the model already believes it is doing.
-- **Cap delegation where the skill fans out.** Genuinely independent, sizeable tracks justify subagents; small tasks do not, and verification never does. A deterministic cap beats a judgement call, which is why `tidy` fixes the number at four launched in one message rather than leaving it open.
+- **Write the quiet form of commands the skill tells Claude to run.** `npm test`, `git log`, and a full build dump hundreds of lines that get re-sent every remaining turn. Prefer `--reporter=dot`, `--quiet`, or `tail`.
+- **Cap delegation where the skill fans out.** Genuinely independent, sizeable tracks justify subagents; small tasks do not, and verification never does. A deterministic cap beats a judgement call, which is why `tidy` fixes the number at four launched in one message rather than leaving it open. The other case that earns a subagent is output isolation: a noisy log or full suite whose result you do not want in the main window. For a job you hand off over and over, ship it in `agents/` with a cheaper `model:` (haiku or sonnet).
 
 **Test:** would the model do this unprompted? If yes, the instruction is at best inert and at worst additive. Same test as "Cut Constraints, Keep Opinions" below, pointed at the model's behavior rather than at its knowledge.
 

@@ -28,6 +28,7 @@ One-line description.
 ## Commands
 - `<dev command>`
 - `<test command>`
+- `<targeted test command, quiet flags included>`
 - `<build command>`
 - `<lint/typecheck command>`
 
@@ -99,5 +100,6 @@ Each workspace has its own `AGENTS.md`:
 - Keep root within 60-150 lines for typical active repos
 - 3-8 gotchas from real failures beats 20 hypothetical ones
 - Each line must save debugging time or prevent a known mistake
+- Daily commands include the quiet, targeted form (`npx vitest run <file> --reporter=dot`), not only the full-suite script
 - State the outcome and let the surrounding code pick the path; reserve absolutes for safety, data loss, format contracts, and failures already observed here
 - Point at an exemplar file path where one exists, instead of paraphrasing what it already shows

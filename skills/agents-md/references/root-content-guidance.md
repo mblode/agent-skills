@@ -4,7 +4,7 @@ Use when deciding what stays in a root instruction file vs moves out.
 
 ## Keep in root
 
-- Copy-paste commands (`dev`, `test`, `build`, `lint`/`typecheck`, deploy/migrate when relevant)
+- Copy-paste commands (`dev`, `test`, `build`, `lint`/`typecheck`, deploy/migrate when relevant), with the targeted quiet form of the ones you run all day (`npx vitest run <file> --reporter=dot`)
 - High-frequency failure modes with fixes
 - Non-obvious conventions that change implementation choices
 - Required environment/setup facts to execute tasks

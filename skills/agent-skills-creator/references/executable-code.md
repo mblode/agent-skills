@@ -55,7 +55,7 @@ Skills run in a filesystem with bash and code execution. The execution model sha
 
 - Only the frontmatter (`name`, `description`) is pre-loaded at session start
 - SKILL.md is read when a trigger matches; reference files are read on demand
-- Scripts can be **executed** via bash without their source entering the context window; only output counts
+- Scripts can be **executed** via bash without their source entering the context window; only output counts, and that output is re-sent every later turn, so prefer quiet flags (`--reporter=dot`, `--quiet`, `tail`)
 - Large reference files and datasets are free until accessed
 - Name files descriptively (`form-validation-rules.md`, not `doc2.md`) so Claude can guess content from the path
 
