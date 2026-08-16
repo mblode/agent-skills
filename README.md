@@ -20,10 +20,10 @@
 ## Install
 
 ```bash
-npx skills add mblode/agent-skills -g --agent cursor,claude-code,codex -y
+npx skills add mblode/agent-skills -g --agent claude-code,codex -y
 ```
 
-This repo is also a Cursor plugin (`.cursor-plugin/plugin.json`): symlink it into `~/.cursor/plugins/local/agent-skills` to see the bundle grouped in Customize, or submit the GitHub URL at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) for the public marketplace. OpenCode works too: swap the `--agent` list. The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
+The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
 Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
 

@@ -28,7 +28,7 @@ Write with the Write tool, not `echo` or `cat >`:
 - Canvas, artifact, or download only when this harness has no Write tool. If none of those exist, stop.
 - If Write is blocked (Ask/Plan, read-only), stop and say switch to Agent (or Work / Cowork). Do not dump the article in chat as a substitute.
 
-Do not write into `/tmp`, a subagent scratch dir, or a gitignored / `.cursorignore` path. Do not overwrite `README.md`, `SKILL.md`, `LICENSE.md`, or other project files; pick another name. Do not `git add` or commit the file unless they asked.
+Do not write into `/tmp`, a subagent scratch dir, or a gitignored path. Do not overwrite `README.md`, `SKILL.md`, `LICENSE.md`, or other project files; pick another name. Do not `git add` or commit the file unless they asked.
 
 If they also asked a question, write the file first, then answer from it. One source, one file. Do not merge URLs into a brief until those files exist.
 

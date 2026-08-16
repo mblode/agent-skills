@@ -21,7 +21,7 @@ The plan is an audit trail: triage proceeds without waiting for approval. If the
 **Head:** {sha}
 **Threads:** {open} open, {awaiting} awaiting my reply, {resolved} resolved ({with_reply} replied after resolve), {outdated} outdated, {collapsed} collapsed
 **Reviews:** {review_count} ({changes_requested} requesting changes, {stale} stale)
-**Reviewers:** @{human} (3 findings, 1 question), cursor[bot] (1 critical), unlisted: @{login}
+**Reviewers:** @{human} (3 findings, 1 question), @{reviewer-bot} (1 critical), unlisted: @{login}
 **Merge gates:** {gate}: {verdict}
 **Generated:** {date}
 
@@ -42,7 +42,7 @@ Reviewer questions get a reply, not a code change. Listed first so they are not 
 ### Q1. @{author} on `{path}:{line}`
 
 - **Thread:** {thread_node_id}
-- **Anchor:** {path}:{line} (source: {line | startLine | bot metadata | originalLine | diffHunk | path-only})
+- **Anchor:** {path}:{line} (source: {line | startLine | originalLine | diffHunk | path-only})
 - **Question:** {verbatim quote}
 - **Answer to post:** {the actual answer, not an acknowledgement}
 - **Code change needed:** {no | yes, see Fix #N}

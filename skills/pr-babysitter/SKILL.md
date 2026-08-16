@@ -188,7 +188,7 @@ On stop, report a final summary: total polls, fixes applied, conflicts resolved,
 ## Gotchas
 
 - Skipping a reviewer because it is not in the bot table: unlisted reviewers are the ones posting High-severity bugs. Absent means unknown, not noise.
-- Triaging a bot's review body instead of its inline comments: the body is a count, the findings are inline. Cursor and Codex both put every finding in threads.
+- Triaging a bot's review body instead of its inline comments: the body is a count, the findings are inline. Codex puts every finding in threads.
 - Filtering threads on `isResolved == false`: a resolved thread with a reply after the resolve is the comment most likely to be missed, and GitHub collapses it out of sight.
 - Treating a null `line` as no location: null means outdated or multi-line. Recover the anchor before deciding anything.
 - Reading only the first page of a thread's comments: thread comments come oldest first, so the reply you owe is the one you cannot see.

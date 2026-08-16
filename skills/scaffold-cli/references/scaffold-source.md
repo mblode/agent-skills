@@ -151,7 +151,7 @@ Add the skill to your AI coding assistant:
 npx skills add {{repo}}
 \`\`\`
 
-This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, OpenCode, and Windsurf.
+This works with Claude Code, Codex, Gemini CLI, GitHub Copilot, Goose, OpenCode, and Windsurf.
 
 ## Requirements
 

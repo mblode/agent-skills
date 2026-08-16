@@ -14,7 +14,7 @@
 npx skills add mblode/agent-skills
 ```
 
-Installs all skills into `~/.claude/skills/` via the `skills` CLI. Works with Claude Code, OpenCode, Codex, and Cursor.
+Installs all skills into `~/.claude/skills/` via the `skills` CLI. Works with Claude Code, OpenCode, and Codex.
 
 Install a single skill:
 

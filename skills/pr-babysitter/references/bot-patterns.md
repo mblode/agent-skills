@@ -98,31 +98,6 @@ An empty-body `APPROVED` that **does** have inline comments is not this pattern.
 
 For every bot here, findings live in the **inline review comments**, not in the review body. The body is a count or a summary. Never triage a bot on its review body alone, and never conclude a bot found nothing because its body reads like a header.
 
-### Cursor Bugbot (`cursor[bot]`)
-
-Detection:
-- review body contains `<!-- BUGBOT_REVIEW -->`, or the sentence "Cursor Bugbot has reviewed your changes"
-- inline comments carry `<!-- BUGBOT_BUG_ID: <uuid> -->`
-- footer `<sup>Reviewed by [Cursor Bugbot](...) for commit <sha></sup>`
-
-Review-level body is a **count only** ("found 2 potential issues"). Use it as an expected-findings count and reconcile it against the inline threads you fetched. Fewer threads than the count means the fetch lost something.
-
-Inline shape: `### <Title>`, then a bold severity line, then the finding between `<!-- DESCRIPTION START -->` and `<!-- DESCRIPTION END -->`.
-
-| Pattern | Severity |
-|---------|----------|
-| `**High Severity**` | Critical |
-| `**Medium Severity**` | Major |
-| `**Low Severity**` | Minor |
-
-Anchors: the `<!-- LOCATIONS START ... LOCATIONS END -->` block lists one `path#Lstart-Lend` per site, and `<details><summary>Additional Locations (N)</summary>` holds the rest. When the thread's `line` is null, this block is the anchor. **Multiple locations are one finding with several sites, not several findings.**
-
-Strip: the `<!-- BUGBOT_FIX_ALL -->` block, the `<!-- BUGBOT_AUTOFIX_REVIEW_FOOTNOTE_BEGIN -->` wrapper, the "Fix in Cursor" and "Fix in Web" link images, the `<sup>Reviewed by ...</sup>` footer, and the bug-id marker. The fetch script already removes the "Bugbot Autofix is OFF", "Want higher recall?", and `@cursor review` invitation lines, so strip those by hand only when working without it.
-
-No findings (noise): the body reports zero issues **and** there are no inline comments.
-
-Re-reviews on each commit. The `for commit <sha>` footer names the commit a finding was written against, which feeds the staleness rule in the GitHub API reference.
-
 ### Codex (`chatgpt-codex-connector[bot]`)
 
 Detection:
@@ -249,7 +224,7 @@ Always ignore, on a positive marker match only; no actionable findings:
 
 Match the **content marker**, not the login: the Linear bot's login has already drifted once (from `linear[bot]`) while `<!-- linear-linkback -->` survived.
 
-Removed from this table on purpose: `cursor[bot]` and `chatgpt-codex-connector[bot]` are active reviewers above. Only their zero-finding and rate-limit bodies are noise.
+Removed from this table on purpose: `chatgpt-codex-connector[bot]` is an active reviewer above. Only its zero-finding and rate-limit bodies are noise.
 
 ## Check-only bots
 
@@ -264,7 +239,7 @@ Check-only means "has posted no comments on this PR", which is an observation ab
 
 **An empty review body is the normal case, not an absence of content.** A human `COMMENTED` review with an empty body means all of the content is in inline thread comments. Several empty-body reviews from the same person in a row are **one review pass**, not several: group them by author. Never report that a reviewer left no comments on the strength of an empty body.
 
-**Replies nested in bot threads are human comments.** A thread's author is its first comment's author, so a human reply inside a `cursor[bot]` or `devin-ai-integration[bot]` thread sits under a bot's name. It carries full human weight: never deduplicated, never auto-resolved, never skipped because the thread's author is a bot. Classify per comment, not per thread.
+**Replies nested in bot threads are human comments.** A thread's author is its first comment's author, so a human reply inside a `devin-ai-integration[bot]` thread sits under a bot's name. It carries full human weight: never deduplicated, never auto-resolved, never skipped because the thread's author is a bot. Classify per comment, not per thread.
 
 **Intent decides what handling means.** Severity says how urgent; intent says what the reviewer wants back.
 
@@ -297,7 +272,6 @@ Unified four-level scale:
 
 | Source | Critical | Major | Minor | Nitpick |
 |--------|----------|-------|-------|---------|
-| Cursor Bugbot | `High Severity` | `Medium Severity` | `Low Severity` | n/a |
 | Codex | `P1` badge | `P2` badge | `P3` badge | n/a |
 | CodeRabbit | 🔴 | 🟠 | 🟡 | n/a |
 | Gemini | high-priority | medium-priority | low-priority | n/a |

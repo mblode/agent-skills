@@ -108,7 +108,6 @@ logs
 .vercel
 
 .claude/
-.cursor/
 .vscode/
 ```
 

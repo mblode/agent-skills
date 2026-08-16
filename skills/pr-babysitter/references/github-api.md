@@ -165,11 +165,10 @@ Threads: {open} open, {resolved} resolved ({with_reply} with a reply after the r
 
 1. `line`, with `startLine` when the thread spans a range. Anchors on the current diff.
 2. `startLine` alone, when `line` is null but `startLine` is set.
-3. **Bot-embedded metadata**, written against the commit the bot reviewed and the most precise source available for an outdated thread: Devin's `<!-- devin-review-comment {...} -->` JSON (`file_path`, `start_line`, `end_line`, `side`); Cursor's `<!-- LOCATIONS START ... LOCATIONS END -->` entries in `path#Lstart-Lend` form.
-4. `subjectType == FILE`: there is no line to find. Anchor at the path and stop, ahead of the translation rungs below.
-5. `originalLine` / `originalStartLine` with the comment's `originalCommit.oid`: the line number as of the commit the comment was written against. Translate with `git diff <original_commit>..HEAD -- <path>`.
-6. `diffHunk`: its last line is the commented line. Grep that text in the current file to get today's line number. This is the rung that survives a rebase renumbering the whole file.
-7. Nothing left: anchor at `path`, mark the item `anchor: path-only`, and say so in the plan.
+3. `subjectType == FILE`: there is no line to find. Anchor at the path and stop, ahead of the translation rungs below.
+4. `originalLine` / `originalStartLine` with the comment's `originalCommit.oid`: the line number as of the commit the comment was written against. Translate with `git diff <original_commit>..HEAD -- <path>`.
+5. `diffHunk`: its last line is the commented line. Grep that text in the current file to get today's line number. This is the rung that survives a rebase renumbering the whole file.
+6. Nothing left: anchor at `path`, mark the item `anchor: path-only`, and say so in the plan.
 
 **A null `line` is not a PR-level comment. Only a null `path` is.** Never drop a finding for want of a line number, and never guess one: an unanchored finding is reported with `anchor: path-only`, not ignored.
 

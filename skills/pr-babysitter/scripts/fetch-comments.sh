@@ -123,11 +123,10 @@ jq -n \
   --argjson threads "$threads" --argjson reviews "$reviews" \
   --argjson issue_comments "$issue_comments" '
 
-# REST and GraphQL disagree on bot logins: "cursor[bot]" vs "cursor".
+# Normalize bot login suffixes across REST and GraphQL responses.
 def canon: sub("\\[bot\\]$"; "");
 
-# Generic markup, plus the vendor footers common enough to be worth hard-coding.
-# Anything narrower than that belongs in bot-patterns.md.
+# Generic markup. Anything narrower belongs in bot-patterns.md.
 def strip_markup:
   gsub("<!--(?:.|\n)*?-->"; "")
   | gsub("<details[^>]*>(?:.|\n)*?</details>"; "")
@@ -178,13 +177,7 @@ def embedded_anchors:
       | try (fromjson
              | {kind:"devin", path:.file_path, line:.start_line,
                 endLine:.end_line, side:(.side // "RIGHT")}) catch empty ]
-    + ( if ($b | test("LOCATIONS START")) then
-          ( $b | capture("LOCATIONS START(?<l>(?:.|\n)*?)LOCATIONS END") | .l
-            | [ scan("([^\\s#]+)#L([0-9]+)(?:-L([0-9]+))?") ]
-            | map({kind:"cursor", path:.[0], line:(.[1]|tonumber),
-                   endLine:(if .[2] then (.[2]|tonumber) else (.[1]|tonumber) end),
-                   side:"RIGHT"}) )
-        else [] end );
+;
 
 def norm_comment($me):
   (.body // "") as $b
@@ -296,9 +289,8 @@ def anchor($t; $first):
       staleReviews: ([$r[] | select(.isStale)] | length),
       issueComments: ($ic | length)
     },
-    # Every login that spoke, canonicalized. REST returns "cursor[bot]" while
-    # GraphQL returns "cursor" for the same identity, so an uncanonicalized index
-    # splits every bot in two and makes reviewer reconciliation cry wolf.
+    # Every login that spoke, canonicalized. An uncanonicalized index splits
+    # bot identities in two and makes reviewer reconciliation cry wolf.
     # A reviewer here with no findings and no verdict is a fetch that lost
     # something, not a reviewer with nothing to say.
     reviewers: (
