@@ -145,6 +145,12 @@ Check each line of every option: leads with Why, names a concrete outcome, no ba
 
 ## Mode B: Editing existing copy
 
+Set the edit posture before running the workflow:
+
+- **Point edit:** The user named one line, word, or section. Read enough surrounding copy to preserve context, change only the target plus the minimum connective tissue, and return the final wording. Do not turn a point edit into a page audit.
+- **Restoration:** The copy already has a clear voice, angle, or opinion. Preserve its vocabulary level, relative emphasis, deliberate omissions, sentence shape, and positioning. Run the workflow to fix specific failures without rebalancing the argument or replacing its lead with a cleverer one.
+- **Rebuild:** The copy is generic, contradictory, or has no discernible perspective. Run the full workflow with latitude to reconstruct it from the brief, but never invent proof.
+
 ```
 Editing progress:
 - [ ] Step 1: Read all copy-bearing files
@@ -248,7 +254,7 @@ Flag the 3-7 weakest elements, prioritised by impact on conversion or comprehens
 - Confidence: [high / medium; note if copy context was limited]
 ```
 
-Verify each "After" line before handing back: leads with Why, names a concrete outcome, no banned word, no em dash or stand-in, and every fact, number, and link from the "Before" still present. A rewrite that reintroduces an AI tell, or quietly drops a specific, is a regression.
+Verify each "After" line before handing back: leads with Why, names a concrete outcome, no banned word, no em dash or stand-in, and every fact, number, and link from the "Before" still present. A rewrite that reintroduces an AI tell, or quietly drops a specific, is a regression. Then apply the leave-it-alone test: every change must fix a named failure from the audit. If it is merely different, restore the original.
 
 ---
 
