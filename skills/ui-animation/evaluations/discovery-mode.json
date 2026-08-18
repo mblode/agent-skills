@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "ui-animation"
+    ],
+    "query": "Where should this animate? Nothing moves right now and it feels dead.",
+    "files": [
+      "fixtures/settings-panel.tsx"
+    ],
+    "expected_behavior": [
+      "Selects the Discovery workflow, not the main build workflow: reports opportunities with file:line evidence instead of editing the fixture",
+      "Flags the Advanced toggle as a feedback gap: onClick with no :active or transition",
+      "Flags the {expanded && ...} conditional as teleporting state, and proposes an opacity plus transform entrance rather than an animated height",
+      "Flags the saved confirmation as a rare high-emotion moment where the delight budget applies",
+      "REJECTS CommandMenu explicitly: keyboard-initiated and opened 100+ times a day, so it never animates",
+      "REJECTS the requests table: functional data the user is reading, where motion hinders",
+      "Includes the rejected-candidates section, each naming the gate question that killed it",
+      "Names a purpose (feedback, orientation, continuity, delight) for every surviving suggestion, and gives exact property, duration, and curve values drawn from the easing defaults table",
+      "Caps the list at seven suggestions and does not implement any of them"
+    ]
+  },
+  {
+    "skills": [
+      "ui-animation"
+    ],
+    "query": "The Advanced panel should slide open instead of popping.",
+    "files": [
+      "fixtures/settings-panel.tsx"
+    ],
+    "expected_behavior": [
+      "Selects the main workflow, not Discovery: the user named the interaction, so there is nothing to sweep for",
+      "Implements the transition rather than returning a report with a rejected-candidates section",
+      "Animates transform and opacity, never height, and includes a prefers-reduced-motion path"
+    ]
+  }
+]

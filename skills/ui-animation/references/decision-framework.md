@@ -5,6 +5,7 @@
 - [2. What is the purpose?](#2-what-is-the-purpose)
 - [3. What easing should it use?](#3-what-easing-should-it-use)
 - [4. How fast should it be?](#4-how-fast-should-it-be)
+- [Finding opportunities: where motion is missing](#finding-opportunities-where-motion-is-missing)
 
 Answer these four questions in order before writing animation code. SKILL.md carries the duration table, the named curves, and the pattern-to-recipe map; this file is the reasoning that picks between them.
 
@@ -52,3 +53,22 @@ Duration changes perceived performance independently of actual speed:
 - A fast-spinning spinner makes loading feel faster (same elapsed time, different perception)
 - `ease-out` at 200ms _feels_ faster than `ease-in` at 200ms: the user sees immediate movement
 - Instant tooltips after the first opens (skip delay and animation) make the whole toolbar feel faster
+
+## Finding opportunities: where motion is missing
+
+Questions 1 and 2 above judge a candidate someone already proposed. This section is the sweep that produces candidates in the first place: given an interface, where would motion genuinely help? Run every hit back through questions 1 and 2, and expect to reject most of them. A short list of high-conviction opportunities beats a long wishlist, and an opportunity finder that suggests motion everywhere produces exactly the sluggish, over-animated interfaces the rest of this skill exists to prevent.
+
+Sweep these seam classes. The skill is done sweeping when each has either yielded candidates with `file:line` evidence or been explicitly cleared.
+
+| Seam | What it looks like | Where to grep |
+|---|---|---|
+| Feedback gap | A pressable control with no press state | `onClick` / `onPress` on elements with no `:active`, `active:`, or transition |
+| Teleporting state | Content that swaps, appears, or vanishes with no bridge | `{isOpen &&`, `{show`, `display: none` toggles, accordions and collapses with no height or opacity transition |
+| Missing spatial story | A surface with no connection to what opened it | Popovers, menus, and panels with no `transform-origin` at the trigger; dismissable surfaces that exit by a different path than they entered |
+| Group entrance | An occasionally-viewed grid or list that pops in whole | `.map(` renders on first-load surfaces, where a 30-80ms stagger would help |
+| Gesture seam | Draggable or swipeable elements that snap with no physics | Drag and pointer handlers with no spring, no velocity-based dismissal, no rubber-banding at boundaries |
+| Flat delight moment | Rare, high-emotion states rendered without any motion | First-run, empty, success, and completion components |
+
+The last row is where the delight budget lives, and it is the only tier where bounce, generous stagger, or a longer beat are welcome.
+
+**Report both halves.** A discovery pass caps at five to seven suggestions ordered by leverage, and it must also list two to five places deliberately *not* suggested, each naming the question that killed it ("command palette open/close: keyboard-initiated, 100+/day, never animate"). The rejected list is what separates a discovery pass from an animation wishlist. Where the interface is already close to right, saying so is the correct result, not a failure.

@@ -72,6 +72,19 @@ Two-step: replace physical with logical properties, and add a `dir="rtl"` Storyb
 </div>
 ```
 
+### Which icons flip
+
+Logical properties move an icon to the correct side; they do not decide whether the glyph itself should mirror. That is a per-icon judgement, and flipping everything is as wrong as flipping nothing.
+
+| Flip under `dir="rtl"` | Leave alone |
+| --- | --- |
+| Back and forward arrows, navigation chevrons | Logos and brand marks |
+| Text-block glyphs: alignment, lists, indent | Checkmarks |
+| Send-style directional glyphs | Physical objects: clocks, cups, pencils |
+| Speaker and volume waves, which emanate in reading direction | Media playback, where play and rewind follow tape-direction convention and stay LTR |
+
+Judge composite icons part by part: a badge, slash, or count overlay can hold its corner while the base glyph mirrors. Apply the flip with `rtl:-scale-x-100` or `rtl:rotate-180` on the icon itself, not on its container.
+
 For raw CSS, prefer the logical names:
 
 ```css

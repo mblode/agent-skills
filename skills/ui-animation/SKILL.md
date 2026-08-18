@@ -1,21 +1,23 @@
 ---
 name: ui-animation
 description: >-
-  Designs, implements, reviews, debugs, and reverse-engineers UI motion: CSS
-  transitions, keyframes, springs, gestures, drag, easing, timing,
-  framer-motion, and animation curves from screen recordings. Use when asked to
-  "add animations", "make this feel smooth", "review my animations", "add a
-  swipe gesture", "match this easing", "reverse engineer this animation",
-  "extract the animation curve", or "what's it called when..." to name a motion
-  effect from a vague description. Owns the passage between two states. For
-  what a state looks like once built use ui-design; for which states exist and
-  whether an action is reversible use product-design, including when a gesture
-  replaces a control.
+  Designs, implements, reviews, debugs, and reverse-engineers UI motion, and
+  finds where an interface is missing it: CSS transitions, keyframes,
+  springs, gestures, drag, easing, timing, framer-motion, and animation
+  curves from screen recordings. Use when asked to "add animations", "make
+  this feel smooth", "review my animations", "add a swipe gesture", "match
+  this easing", "reverse engineer this animation", "extract the animation
+  curve", "where should this animate", "find animation opportunities", or
+  "what's it called when..." to name a motion effect from a vague
+  description. Owns the passage between two states. For what a state looks
+  like once built use ui-design; for which states exist and whether an
+  action is reversible use product-design, including when a gesture replaces
+  a control.
 ---
 
 # UI Animation
 
-- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
+- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), sweeping an interface for the moments that would genuinely benefit from motion, measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
 - **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design` Direction mode), auditing a whole page's UI quality (use `ui-design` Audit mode), or named text-effect specs (use the external `animate-text` skill where installed).
 
 ## product-design, ui-design, or ui-animation?
@@ -44,7 +46,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 
 | File | Read when |
 | --- | --- |
-| [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character |
+| [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character; also the seam list for a Discovery sweep |
 | [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params, Apple damping/response values, asymmetric open/close character, interruption mechanics |
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
@@ -197,6 +199,25 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
 - Review again with fresh eyes the next day; imperfections missed during development stand out.
 
+## Discovery workflow
+
+Use this branch when the request is "where should this animate", not "animate this". Every other mode starts from motion that exists; this one starts from its absence. It reports and never implements: hand a surviving suggestion back to the main workflow above to build it.
+
+```text
+Discovery progress:
+- [ ] Step 1: Recon the stack, existing motion tokens, and product personality
+- [ ] Step 2: Sweep every seam class
+- [ ] Step 3: Gate each candidate
+- [ ] Step 4: Report survivors and rejections
+```
+
+1. **Recon.** Identify the motion library (if any), the easing and duration tokens already in use, and how often each surface is visited. Suggestions extend the existing vocabulary rather than introducing a parallel one, and a dense dashboard earns fewer and subtler suggestions than a playful consumer app.
+2. **Sweep.** Walk the seam table in [references/decision-framework.md](references/decision-framework.md), which carries the grep signature for each. Clear a seam explicitly rather than skipping it silently.
+3. **Gate.** Run each candidate through questions 1 and 2 of the same file: frequency, then purpose. "It looks cool" is not a purpose. Most candidates die here, which is the point.
+4. **Report.** Cap at five to seven suggestions ordered by leverage, each with `file:line`, what happens today, the named purpose, the frequency tier, and exact values (property, duration, curve) drawn from the tables above. Then list two to five rejected candidates, each naming the question that killed it. Close with which single suggestion has the highest leverage.
+
+Where the interface already carries the right amount of motion, say so. That is the correct result for a well-built UI, not an empty report.
+
 ## Reverse-engineer workflow
 
 Use this branch to measure an existing animation from a screen recording, then emit code and a handoff spec that reproduce it. The scripts under `scripts/` are the canonical, deterministic path; run them rather than reconstructing their logic.
@@ -228,6 +249,8 @@ Reverse-engineer progress:
 - Sampling above the source rate duplicates frames: a 24 fps GIF extracted at 60 inflates fit error with plateaued runs in `metrics.json`. Probe and match the source rate.
 - Screen recordings drop frames and iOS/QuickTime captures are variable-frame-rate; consecutive identical rows are duplicated frames, not a pause. Re-record at a steadier rate if plateaus dominate.
 - Measure open and close as separate clips and report two curves; never fit one and reuse it reversed (see `references/choreography.md`). Treat a fit `error` above 0.08 as suspect.
+
+Maintenance only: when changing Discovery routing or the gate, run the scenarios in `evaluations/` as a regression rubric. They never load during a user task.
 
 ## Related skills
 
