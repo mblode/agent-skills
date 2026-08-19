@@ -20,8 +20,10 @@
 ## Install
 
 ```bash
-npx skills add mblode/agent-skills -g --agent claude-code,codex,cursor -y
+npx skills add mblode/agent-skills
 ```
+
+Pick your tools when prompted. To skip the prompt, give each one its own flag: `-g -a claude-code -a codex -a cursor -y`. The flag takes one agent per flag and does not split a comma-separated list.
 
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
