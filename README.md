@@ -69,7 +69,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 
 ### Authoring
 
-- **[agents-md](./skills/agents-md/SKILL.md)**: Audits and refactors AGENTS.md and CLAUDE.md, with grades.
+- **[agents-md](./skills/agents-md/SKILL.md)**: Sets a repo up for Claude Code, Codex and Cursor, then audits and refactors AGENTS.md and CLAUDE.md, with grades.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and improves skills to the open format spec.
 - **[save-md](./skills/save-md/SKILL.md)**: Writes a named source as a markdown file the next turn can reread.
 

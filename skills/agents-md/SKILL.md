@@ -1,21 +1,24 @@
 ---
 name: agents-md
 description: >-
-  Audits, scores, and refactors AGENTS.md and CLAUDE.md agent instruction
-  files using execution-first standards: working commands, real-failure
-  gotchas, signal-to-noise, and @import progressive disclosure. Runs a
-  12-check quick triage or a 49-check full audit with letter grades, then
-  proposes minimal diffs. Use when asked to audit, review, score, refactor, or
-  improve agent instruction files, fix stale commands, reduce bloat, write a
-  new AGENTS.md, or when asking "my AGENTS.md is bad", "help me write a
+  Sets up a repo so Claude Code, Codex, and Cursor all work in it, then
+  audits, scores, and refactors the AGENTS.md and CLAUDE.md files agents load
+  at session start. Execution-first standards: working commands, real-failure
+  gotchas, signal-to-noise, portable imports, and enforcement that survives
+  tool choice. Runs a 12-check quick triage or a 49-check full audit with
+  letter grades, then proposes minimal diffs. Use when asked to set up a
+  project for agents, make a repo agent-friendly, wire a repo for Cursor or
+  Codex, add AGENTS.md to a new project, or to audit, review, score, refactor,
+  or improve agent instruction files, fix stale commands, reduce bloat, write
+  a new AGENTS.md, or when asking "my AGENTS.md is bad", "help me write a
   CLAUDE.md", or "improve my agent instructions". For SKILL.md skill files use
   agent-skills-creator; for general docs use docs-writing; for mining session
   history into instruction suggestions use the external cadence-advise skill where installed.
 ---
 
-# AGENTS.md Audit
+# AGENTS.md Setup and Audit
 
-- **IS:** auditing, scoring, refactoring, and writing AGENTS.md / CLAUDE.md / CLAUDE.local.md files agents load at session start.
+- **IS:** wiring a repo so every agent tool in use reads the same rules, then auditing, scoring, refactoring, and writing the AGENTS.md / CLAUDE.md / CLAUDE.local.md files agents load at session start.
 - **IS NOT:** authoring SKILL.md files (use `agent-skills-creator`), project docs or READMEs (use `docs-writing` or `readme-creator`), or mining session history (use the external `cadence-advise` skill where installed; this skill audits the file as-is).
 
 AGENTS.md files are execution contracts, not knowledge bases. Two tests catch the two ways a line fails.
@@ -27,10 +30,17 @@ Absolutes still earn their place for safety, data loss, format contracts, and ru
 
 AGENTS.md is the tool-agnostic source of truth. Claude Code loads `AGENTS.md`, `CLAUDE.md`, and `CLAUDE.local.md` natively at any directory level, so Claude Code alone needs no symlink. A `CLAUDE.md -> AGENTS.md` symlink is still correct when the repo also targets tools that read only `CLAUDE.md`; it keeps one source of truth instead of two files to drift. If only a `CLAUDE.md` exists, recommend `mv CLAUDE.md AGENTS.md`.
 
+## Choose a Mode
+
+- Repo has no agent instructions, or targets a tool it is not wired for -> **Setup**, `references/project-setup.md`, then audit the file it produces.
+- A file exists and the question is quality -> **Audit**, below.
+- A file exists and is bloated, stale, or scored badly -> **Refactor**, `references/refactor-workflow.md`.
+
 ## Reference Files
 
 | File | Read when |
 |------|-----------|
+| `references/project-setup.md` | Setting a repo up for Claude Code, Codex, and Cursor; deciding which agent files exist |
 | `references/quick-checklist.md` | Every audit; default 12-check triage |
 | `references/quality-criteria.md` | Quick audit fails, file is high-risk, or full scoring requested |
 | `references/refactor-workflow.md` | File is bloated (root over ~150 lines), stale, or below target |
@@ -114,6 +124,7 @@ Apply approved edits, re-score with the same checklist, report before/after scor
 
 - `@import` lines don't evaluate inside code spans or fenced blocks: a real import wrapped in backticks silently never loads, while example imports inside fences are safe to show.
 - `@import` chains stop resolving at 5 hops; deeper content silently disappears from context.
+- `@import` reaches Claude Code only. Codex and Cursor ignore import lines without warning, so in a multi-tool repo an imported safety or format rule is absent from most sessions while the file still looks correct.
 - Child-directory AGENTS.md files load on demand when the agent works in that subtree, not at session start, so a universal rule placed only in a child is invisible to most tasks. Promote it to root.
 - Don't put project-specific commands in `~/.claude/CLAUDE.md`; it loads every session, so one project's `npm run dev` becomes noise (or a wrong command) everywhere else.
 - Don't audit `CLAUDE.local.md` as strictly as AGENTS.md; it's gitignored personal config, so flag only broken commands and contradictions with the shared file.
