@@ -33,7 +33,7 @@ ln -s /path/to/agent-skills/skills/<name> ~/.claude/skills/<name>
 
 Changes to the repo files take effect immediately, with no re-install needed. Unlink with `unlink ~/.claude/skills/<name>` when done.
 
-The deploy chain: `skills add` writes to `~/.agents/skills/<name>/` and symlinks it into each agent directory you install to (`~/.claude/skills/`, `~/.codex/skills/`, `~/.cursor/skills/`). One copy on disk, one symlink per selected tool. Editing this repo changes none of them until you reinstall or symlink the folder directly.
+The deploy chain: `skills add` writes the content once to `~/.agents/skills/<name>/`, then links it into the skills directory of each agent it installs to. Claude Code's `~/.claude/skills/<name>` is a relative symlink back to that one copy. Other agents (`~/.codex/skills/`, `~/.cursor/skills/`) are selected at install time; confirm the link actually appeared rather than assuming it, because a named target is reported even when the directory stays empty. Editing this repo changes none of them until you reinstall or symlink the folder directly.
 
 ### Smoke-test
 

@@ -23,8 +23,6 @@
 npx skills add mblode/agent-skills
 ```
 
-To install to specific tools without prompts, give each one its own flag: `-g -a claude-code -a codex -a cursor -y`. The flag takes one agent per flag and does not split a comma-separated list.
-
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
 Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.

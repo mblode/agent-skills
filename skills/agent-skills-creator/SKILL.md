@@ -125,7 +125,7 @@ ln -s /path/to/agent-skills/skills/<name> ~/.claude/skills/<name>
 - `no-reference-chains` fires on the words "load" or "read" appearing near another reference's filename. Naming a sibling reference for context passes; telling Claude to go read it does not. Rephrase rather than deleting the pointer.
 - `toc-over-100-lines` wants `## Contents` inside the first 20 lines of any reference over 100 lines. A TOC further down does not count, and the file fails while looking fine.
 - `readme-skill-count` compares the README's stated count against `find skills -maxdepth 2 -name SKILL.md`. Adding a reference file to an existing skill does not change it; only adding or removing a skill does.
-- `--agent` on `skills add` takes one agent per flag and does not split a comma-separated list: `--agent a,b` is rejected whole as a single invalid name. Worse, running the installer from inside an agent session logs "Agent detected" and installs to that agent regardless of the flag, so Step 7 cannot verify multi-tool targeting. Check that from a plain terminal.
+- `--agent` on `skills add` is validated element-wise against the agent list, so `--agent a,b` is rejected whole as one invalid name rather than split. Naming a single agent is accepted and reported as a target, but did not populate that agent's skills directory in testing; content landed in `~/.agents/skills/` and the per-tool link never appeared. Document the plain `skills add` form until you have confirmed the flag on the machine you are documenting for.
 - A description that omits "Use when" fails `description-triggers` outright, but a description that has the phrase and the wrong trigger words fails nothing and simply never routes. The validator cannot see this; only an eval can.
 
 ## Anti-patterns
