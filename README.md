@@ -20,8 +20,10 @@
 ## Install
 
 ```bash
-npx skills add mblode/agent-skills
+npx skills add mblode/agent-skills -g --agent claude-code codex cursor -y
 ```
+
+`--agent` takes a space-separated list. A comma-separated one is rejected whole as a single invalid name.
 
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
