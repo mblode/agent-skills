@@ -20,7 +20,7 @@
 ## Install
 
 ```bash
-npx skills add mblode/agent-skills -g --agent claude-code,codex -y
+npx skills add mblode/agent-skills -g --agent claude-code,codex,cursor -y
 ```
 
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
