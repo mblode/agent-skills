@@ -1,6 +1,6 @@
 ---
 name: agent-skills-creator
-description: Guides creation and improvement of best-practice agent skills following the open format specification. Covers frontmatter, progressive disclosure, reference files, rules folders, degrees of freedom, constraint calibration, executable scripts, MCP tool references, evaluations, constraint ablation, and an eleven-dimension audit protocol for existing skills. Use when creating a new skill, authoring SKILL.md, setting up a rules-based audit skill, structuring a skill bundle, writing scripts inside a skill, evaluating a skill, improving or rewriting an existing skill, or asking "how to write a skill", "improve this skill", "audit my skill", "review this SKILL.md", "simplify this skill", "is this skill over-constrained", or "rightsize this skill".
+description: Guides creation and improvement of best-practice agent skills following the open format specification. Covers frontmatter, progressive disclosure, reference files, rules folders, degrees of freedom, constraint calibration, executable scripts, MCP tool references, evaluations, constraint ablation, whether to adopt or author a skill someone else already wrote, and an eleven-dimension audit protocol for existing skills. Use when creating a new skill, authoring SKILL.md, setting up a rules-based audit skill, structuring a skill bundle, writing scripts inside a skill, evaluating a skill, improving or rewriting an existing skill, or asking "how to write a skill", "improve this skill", "audit my skill", "review this SKILL.md", "simplify this skill", "is this skill over-constrained", "rightsize this skill", or "should I install this skill or write my own".
 ---
 
 # Agent Skills Creator
@@ -27,6 +27,7 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 | `references/improving-existing-skills.md` | Auditing, scoring, simplifying, or rewriting an existing skill |
 | `references/executable-code.md` | Skill includes scripts, depends on packages, or invokes MCP tools |
 | `references/evaluation-and-iteration.md` | Designing evaluations, ablating constraints, testing across models |
+| `references/adopt-adapt-author.md` | A public skill already covers this ground, or deciding whether to vendor, adapt, or replace a third-party skill |
 
 Mechanical rules are not in any of these. `scripts/validate.sh` is their single statement:
 
