@@ -210,7 +210,7 @@ Some skills need user-specific context first. Store it in a `config.json` in the
 
 Auto-memory now owns facts about the user, their feedback, and ongoing project context, so a skill should not instruct anyone to hand-write memories into CLAUDE.md.
 
-Reserve `${CLAUDE_PLUGIN_DATA}` for artifacts the skill itself writes and reads back: regression baselines, append-only run logs, a previous-findings file an audit compares against. Store there rather than in the skill directory, which may be wiped on upgrade. To measure adoption, log invocations with a PreToolUse hook and compare actual usage against expected trigger rates; undertriggering usually means the description needs better trigger phrases.
+Reserve `${CLAUDE_PLUGIN_DATA}` for artifacts the skill itself writes and reads back: regression baselines, append-only run logs, a previous-findings file an audit compares against. Store there rather than in the skill directory, which may be wiped on upgrade.
 
 ## Store Scripts and Generate Code
 

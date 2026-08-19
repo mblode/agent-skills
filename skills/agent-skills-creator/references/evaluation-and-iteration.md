@@ -89,4 +89,4 @@ After improving a skill (see `improving-existing-skills.md`), rerun evals before
 
 ## Measuring Adoption
 
-See "Measuring Skills" in `authoring-tips.md` for hook-based invocation logging across an org; find undertriggering skills and promotion candidates for a shared library.
+Log invocations with a PreToolUse hook and compare actual usage against the trigger rate you expected. Undertriggering is a description problem, not a body problem: fix the "Use when" phrases before touching content. Across an org the same log finds promotion candidates for a shared library.
