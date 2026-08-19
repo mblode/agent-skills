@@ -8,7 +8,7 @@ Use when deciding what stays in a root instruction file vs moves out.
 - High-frequency failure modes with fixes
 - Non-obvious conventions that change implementation choices
 - Required environment/setup facts to execute tasks
-- Pointers to deeper docs (`.claude/*.md`, workspace-level instruction files)
+- Pointers to deeper docs (`docs/*.md`, `.agents/*.md`, workspace-level instruction files); keep shared knowledge on a committed, tool-neutral path
 
 ## Move out of root
 
@@ -29,7 +29,7 @@ Link detail files from root with `@import`:
 - Personal overrides: @~/.claude/my-project-instructions.md
 ```
 
-`@import` is Claude Code only. Codex and Cursor read `AGENTS.md` but do not expand import lines, and Codex does not warn, so an imported rule is silently absent from those sessions. In a repo targeting more than one tool, keep anything every tool must obey inline and reserve imports for Claude-only depth. `references/project-setup.md` has the portability table.
+`@import` is Claude Code only. In a repo targeting more than one tool, keep anything every tool must obey inline and reserve imports for Claude-only depth; `references/project-setup.md` carries the portability table.
 
 A repeated multi-step procedure (release flow, verification sequence, migration runbook) belongs in a skill the agent invokes on demand, not inlined and not `@import`ed; root keeps one pointer line naming the skill. An `@import` loads every session, so it costs context on every task that never touches the procedure.
 

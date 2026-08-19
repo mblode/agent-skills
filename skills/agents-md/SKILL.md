@@ -32,7 +32,7 @@ AGENTS.md is the tool-agnostic source of truth. Claude Code loads `AGENTS.md`, `
 
 ## Choose a Mode
 
-- Repo has no agent instructions, or targets a tool it is not wired for -> **Setup**, `references/project-setup.md`, then audit the file it produces.
+- Repo has no agent instructions, or targets a tool it is not wired for -> **Setup**: `references/project-setup.md` decides which files exist and which tool reads each one, then Writing From Scratch below fills the root file, then Audit scores it.
 - A file exists and the question is quality -> **Audit**, below.
 - A file exists and is bloated, stale, or scored badly -> **Refactor**, `references/refactor-workflow.md`.
 
@@ -49,7 +49,7 @@ AGENTS.md is the tool-agnostic source of truth. Claude Code loads `AGENTS.md`, `
 
 ## Writing From Scratch
 
-No file exists? Skip the audit. Gather real commands from the manifest (`package.json`, `Makefile`, CI config), pick a skeleton from `references/templates.md`, fill it with verified commands and known gotchas, then validate against `references/quick-checklist.md` before delivering.
+The content step of Setup, and the whole job when the repo is already wired and only the file is missing. Skip the audit. Gather real commands from the manifest (`package.json`, `Makefile`, CI config), pick a skeleton from `references/templates.md`, fill it with verified commands and known gotchas, then validate against `references/quick-checklist.md` before delivering.
 
 ## Audit Workflow
 

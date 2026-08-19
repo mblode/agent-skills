@@ -45,7 +45,7 @@ A rejection is worth more later than an adoption. The next agent, or you in six 
 
 Two forms, both fine:
 
-- **Machine-readable, for vendored files.** `blode-co/apps/web/skills-lock.json` pins ten skills from `every-app/open-seo` with their source and content hashes, so drift is detectable rather than assumed.
+- **Machine-readable, for vendored files.** A `skills-lock.json` beside the bundle, pinning each vendored skill's upstream source and a content hash, so drift is detectable rather than assumed.
 - **Prose, for derivations.** A short `## Sources` section in the skill that names what it drew on, what it took, and what it left. Put it in the file, not only in the commit message: the next repo is cloned from a copy, not from the history, so anything that lives only in a commit message does not travel.
 
 Record the reason, not just the verdict. "Rejected: teaches craft the model already has" and "Rejected: depends on six siblings we did not take" lead to different decisions next time.
