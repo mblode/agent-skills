@@ -1,12 +1,17 @@
-# Word lists
+# No AI prose
 
-Copied from the copywriting skill so `eli5` runs standalone. Same tiers. For assistant replies this skill's voice wins: a brand or personal voice file does not keep a listed word.
+Copied from the copywriting skill, then cut to what applies to assistant replies. Marketing-only tells (significance inflation, false ranges, "the brand", publishable P0/P1) stay with `copywriting`.
 
-## Table of contents
+## Contents
 
 - [Tier 1: always replace](#tier-1-always-replace)
 - [Tier 2: flag when 2+ appear in the same paragraph](#tier-2-flag-when-2-appear-in-the-same-paragraph)
 - [Tier 3: flag only at high density](#tier-3-flag-only-at-high-density)
+- [Patterns](#patterns)
+
+The never-write set and the em dash rule live in SKILL.md. This file is the longer lists plus the tells a word pass misses. For assistant replies this skill's voice wins: a brand or personal voice file does not keep a listed word.
+
+Numbered steps the reader will run are not a chatbot "Step 1:" leak. A five-item action list is list-like content, not a bullet-prose tell.
 
 ---
 
@@ -16,7 +21,7 @@ Copied from the copywriting skill so `eli5` runs standalone. Same tiers. For ass
 
 | Word / phrase | Replace with |
 |---------------|--------------|
-| delve / delve into | explore, dig into, look at |
+| delve / delve into | look at, dig into |
 | landscape (metaphor) | field, space, industry, world |
 | tapestry | (describe the actual complexity) |
 | realm | area, field, domain |
@@ -31,12 +36,12 @@ Copied from the copywriting skill so `eli5` runs standalone. Same tiers. For ass
 | pivotal | important, key, critical |
 | underscores | highlights, shows |
 | meticulous / meticulously | careful, detailed, precise |
-| seamless / seamlessly | smooth, easy, without friction |
+| seamless / seamlessly | smooth, without friction |
 | game-changer / game-changing | describe what changed and why |
 | utilise | use |
 | nestled | is located, sits, is in |
 | vibrant | (describe what makes it active, or cut) |
-| deep dive / dive into | look at, examine, explore |
+| deep dive / dive into | look at, examine |
 | unpack / unpacking | explain, break down, walk through |
 | showcase | show, demonstrate (or name what it shows) |
 | unlock | enable, give access to, let (or name what becomes possible) |
@@ -58,7 +63,7 @@ Copied from the copywriting skill so `eli5` runs standalone. Same tiers. For ass
 
 ## Tier 2: flag when 2+ appear in the same paragraph
 
-One is fine; two or more signals a pattern. Flag and suggest replacements.
+One is fine; two or more signals a pattern.
 
 | Word / phrase | Replace with |
 |---------------|--------------|
@@ -67,7 +72,7 @@ One is fine; two or more signals a pattern. Flag and suggest replacements.
 | foster | encourage, support, build |
 | elevate | improve, raise, strengthen |
 | unleash | release, enable, open up |
-| streamline | simplify, speed up |
+| streamline | speed up |
 | empower | enable, let, allow |
 | bolster | support, strengthen |
 | spearhead | lead, drive, run |
@@ -92,7 +97,7 @@ One is fine; two or more signals a pattern. Flag and suggest replacements.
 
 ## Tier 3: flag only at high density
 
-Fine in moderation. Flag only at roughly 3%+ density: that signals AI filler, not genuine description.
+Fine in moderation. Flag only at roughly 3%+ density.
 
 | Word | Fix |
 |------|-----|
@@ -106,3 +111,57 @@ Fine in moderation. Flag only at roughly 3%+ density: that signals AI filler, no
 | remarkable / remarkably | say what's worth remarking on |
 | sophisticated | describe the sophistication |
 | world-class / state-of-the-art | cite a benchmark or comparison |
+
+---
+
+## Patterns
+
+### Formatting
+
+Strip bold from most phrases. Max one bolded phrase per major section, ideally none. If something is important enough to bold, lead with it instead.
+
+A bold label takes a colon, not a period: `**Cause:**`, never `**Cause.**`.
+
+### Sentence tells
+
+Cut hollow intensifiers: genuinely, truly, quite frankly, to be honest, let's be clear, it's worth noting that, real (as in "a real improvement").
+
+Cut hedges that add no uncertainty: perhaps, could potentially, it's important to note that, to be clear. Keep a hedge that is real.
+
+Cut announced honesty ("honestly", "I'll be straight with you") and emotional flatline ("what struck me was", "it's fascinating that"). State the thing.
+
+Default to "is" or "has". Skip "serves as," "features," "boasts," "presents," "represents" unless the verb adds meaning.
+
+Repeat the clearest noun. Do not rotate "developers… engineers… practitioners… builders" in one paragraph.
+
+### Template phrases and transitions
+
+Rewrite or cut:
+
+- "Whether you're [X] or [Y]"
+- "In today's [X]" / "In an era where" / "When it comes to"
+- "Moreover" / "Furthermore" / "Additionally"
+- "Here's what's interesting" / "Here's the thing" / "The kicker?"
+- "In conclusion" / "In summary" / "At the end of the day" / "That said"
+
+Open with the point, not a tee-up or a rhetorical question the reader did not ask.
+
+### Chatbot artefacts
+
+Remove entirely:
+
+- "I hope this helps!", "Certainly!", "Absolutely!", "Great question!", "Feel free to reach out", "Let me know if you need anything else"
+- "Let's dive in!", "Let's explore," "Let's take a look," "Let's break this down"
+- "Let me think step by step," "Breaking this down," "To approach this systematically"
+- "You're asking about," "To answer your question," "That's a great question. The..."
+- "Excellent point!", "You're absolutely right!"
+
+### Drafting tells
+
+These survive a word-level pass.
+
+**Prompt echo.** The reply hands the user's own phrasing back as the explanation. Asked "why the session cookie is ignored", it opens "The session cookie is ignored because...". Take the facts, throw away the wording.
+
+**Generic default over the supplied specific.** The user named `src/auth.ts:42` or `jsonwebtoken`; the reply says "the auth file" or "a library". Every specific they supplied appears, or it was cut for a stated reason.
+
+**Uniform confidence.** Every line lands at the same pitch, usually mid-enthusiasm. Real talk has a flat line next to a strong one.

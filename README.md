@@ -47,7 +47,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 ### Writing
 
-- **[eli5](./skills/eli5/SKILL.md)**: Plain-language explanations and recaps: one gist, one analogy, next action first, no AI prose.
+- **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: one gist, one analogy, next action first, no AI prose.
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README as a public-facing shop window.

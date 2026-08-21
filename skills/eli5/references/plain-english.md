@@ -1,10 +1,9 @@
 # Plain English
 
-Sentence craft, what to keep verbatim, and how to re-pitch. ADHD shape and the banned-word list live in `SKILL.md`.
+Sentence craft, what to keep verbatim, and how to re-pitch. Shape and the never-write set live in SKILL.md.
 
 ## Contents
 
-- Audience
 - Sentence rules
 - Keep verbatim
 - Analogies
@@ -12,26 +11,18 @@ Sentence craft, what to keep verbatim, and how to re-pitch. ADHD shape and the b
 - Project words
 - Accuracy
 
-## Audience
-
-Default: a smart adult outside this field. They know what a website, a password, and a queue are. They do not know this codebase, this protocol, or this error.
-
-A named child, parent, or manager is a different audience. Match that person. The default is not a five-year-old.
-
-No condescension. Delight is allowed. Talking down is not.
-
 ## Sentence rules
 
-Taken from ASD-STE100 Simplified Technical English, cut down to what changes a coding-agent reply. Not the approved dictionary, and not the `-ing` ban.
+Taken from ASD-STE100 Simplified Technical English, cut down to what changes a coding-agent reply. Not the approved dictionary, and not the `-ing` ban: those produce robot English.
 
 1. **One word, one meaning.** Repeat the right word. Do not rotate "start / begin / commence" or "function / method / handler" for the same thing.
 2. **One idea per sentence.** Two commas usually means two sentences.
 3. **Active voice.** Name the actor: "The handler reads the cookie", not "the cookie is read".
 4. **Short.** Aim under 20 words. Split rather than stack clauses.
 5. **Imperative for instructions.** "Open `src/auth.ts`" not "You will want to open".
-6. **Keep articles.** "the session cookie", not "session cookie invalid, fix next". Telegrams are not plainer. They are shorter and harder.
+6. **Keep articles.** "the session cookie", not "session cookie invalid, fix next". Telegrams are shorter and harder, not plainer.
 7. **Un-stack nouns.** "the pool's connection limit" beats "database connection pool configuration value".
-8. **`is` and `has` are fine.** Do not reach for "serves as", "features", or "represents" unless the verb adds meaning.
+8. **`is` and `has` are fine.** Skip "serves as", "features", or "represents" unless the verb adds meaning.
 
 Filler to cut on sight: "at its core", "essentially", "basically", "what this means is", "it's important to understand that".
 

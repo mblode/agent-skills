@@ -8,14 +8,14 @@ description: >-
   from first principles", "remove AI-isms", "clean up AI writing", "flag AI
   patterns", "define our tone of voice", or "write a voice guide". For blog
   posts use the external ghostwriter skill with platform blog; for slide copy
-  use presentation-creator; for docs use docs-writing; for product behavior
-  decisions use product-design.
+  use presentation-creator; for docs use docs-writing; for in-session
+  assistant talk use eli5; for product behavior decisions use product-design.
 ---
 
 # Copywriting
 
 - **IS:** short conversion copy (landing pages, hero, subheads, CTAs, product descriptions, onboarding strings, email subjects); product-state strings (destructive CTAs, error, success, empty, loading, permission copy); stripping AI writing tells from any copy.
-- **IS NOT:** long-form articles, posts, or anything written as a person rather than a brand (use the external `ghostwriter` skill; `blog` for long-form), slide or deck copy (use `presentation-creator`), API/product/reference docs (use `docs-writing`), or deciding which action exists, its scope, consequence, reversibility, or reachable states (use `product-design`; this skill writes final wording once those are decided).
+- **IS NOT:** long-form articles, posts, or anything written as a person rather than a brand (use the external `ghostwriter` skill; `blog` for long-form), slide or deck copy (use `presentation-creator`), API/product/reference docs (use `docs-writing`), in-session assistant talk (use `eli5`), or deciding which action exists, its scope, consequence, reversibility, or reachable states (use `product-design`; this skill writes final wording once those are decided).
 
 Two modes, auto-detected (do not ask):
 
@@ -291,5 +291,6 @@ A voice file that names one of these as a signature word is the only thing that 
 | To review the full UI including copy in context | `ui-design` (Audit mode) |
 | Landing page visual design, CRO strategy, conversion benchmarks | `ui-design` (Direction mode, marketing track) |
 | The product decision of which action exists and its scope and consequence | `product-design` |
+| In-session assistant talk, recaps, or ELI5 | `eli5` |
 
 Taste Training (blode.co/taste-training) trains the eye these rules encode, across type, copy, craft, interaction, and motion.
