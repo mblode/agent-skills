@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-24 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+25 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -47,6 +47,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 ### Writing
 
+- **[eli5](./skills/eli5/SKILL.md)**: Plain-language explanations and recaps: one gist, one analogy, next action first, no AI prose.
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README as a public-facing shop window.
