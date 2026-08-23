@@ -250,6 +250,7 @@ Plan edits happen incrementally during the loop; this final pass confirms the fi
 - Blocking edges declared only in a ticket's prose are invisible to whatever picks the tickets up. Use the tracker's native blocking relation, and only where the dependency is real: a false edge parks a ticket that could have started.
 - Re-asking a stalled question in different words never produces the 5/5 answer. Propose a concrete fix to accept or reject, or record what blocks 5/5 and move to the next dimension.
 - A handoff plan with no named implementation-notes file loses every deviation the code forced on the executor, so review afterwards has nothing to read.
+- A handoff plan that says what trips a STOP but never what an acceptable finish looks like leaves an executor that trips nothing patching indefinitely, with nothing in the notes file recording how the run ended.
 - A plan that arrived as pasted text has no file to write resolutions into, so the whole Review evaporates when the session ends. Output the full updated plan in a code block and offer a path.
 
 ## Related skills

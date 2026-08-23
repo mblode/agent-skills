@@ -32,6 +32,7 @@ Introduces:
 - a constrained edge-case regression
 - a clearly missing but non-blocking regression or validation test
 - a non-blocking instruction-file violation with clear scope
+- an artifact whose consumer is absent or unreachable: a test, generated surface, check, or fixture nothing reaches
 - a bespoke helper where a canonical utility already exists (structural rubric loaded)
 - an unnecessary abstraction layer that adds indirection without clarity (structural rubric loaded)
 
