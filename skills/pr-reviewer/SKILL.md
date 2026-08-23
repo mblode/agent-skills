@@ -83,7 +83,7 @@ Report only when certain:
 - Measurable performance regression.
 - Missing necessary tests: render-only checks for interactive behavior, or bug fixes without a failing repro test at the seam that failed (route, API, integration point, not a helper invented during the fix).
 - Test setup that requires helper tracing to understand assertions.
-- Scaffolding whose consumer is absent or unreachable: tests for a module that does not exist, a generated surface nothing imports, a CI check on a contract nothing emits.
+- Scaffolding whose consumer is absent or unreachable: a test for a module that does not exist, a generated surface nothing imports, a CI check on a contract nothing emits. Cite the artifact's line and the search that found no consumer, and mark it plausible where the consumer could be generated at build time, reached by framework convention, or live outside this repo.
 - New lint, type-check, or test failures versus baseline.
 - Scoped instruction-file violation, with the rule quoted.
 - Retried or at-least-once write with no idempotency key or dedupe barrier, so a duplicate delivery applies twice.

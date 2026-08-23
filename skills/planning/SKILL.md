@@ -126,13 +126,7 @@ Keep plans scannable yet executable without re-reading the conversation. Record 
 
 Name an implementation-notes file next to the plan and instruct the executor to keep it: every deviation the code forced on the plan gets logged under a `## Deviations` heading as what the plan said, what the code required, and which option was taken. A deviation that is not a STOP condition never pauses the work; take the conservative option, log it, keep going. The notes file is what review reads afterwards, so a handoff without one loses every decision made during execution.
 
-The plan also states how the run is allowed to end. A handoff with STOP conditions but no definition of an acceptable finish leaves an executor that never trips a STOP grinding indefinitely, patching around a problem the plan did not anticipate. Require the run to close in exactly one of three states, with the state and its evidence written as the last entry in the implementation-notes file:
-
-- **Success:** the capability works on the real path, and the case that motivated the plan measurably improves.
-- **Meaningful progression:** incomplete, but one genuine blocker is removed and the next is isolated with evidence.
-- **Honest stop:** finishing would need scope the plan does not cover, or brittle patching that leaves the code worse. Stop and report the reason.
-
-Once the work stops converging, further patching is what the notes file records as an honest stop.
+A handoff plan also says what an acceptable finish looks like, not only what trips a STOP. STOP conditions name assumptions checkable in advance; an executor that never trips one and has no finish line keeps patching past the point the work stopped converging. The last entry in the implementation-notes file states how the run ended and the evidence for it: the capability works on the real path and the case that motivated the plan improved, or a genuine blocker was removed and the next one isolated, or the run stopped because finishing would need scope the plan does not cover.
 
 ### Step 4: Validate
 

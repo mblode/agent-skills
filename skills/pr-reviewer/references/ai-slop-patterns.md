@@ -78,7 +78,7 @@ Abstractions created before a shared invariant, owner, lifecycle, or failure mod
 
 ## Scaffolding without a consumer
 
-Support structure built out in full while the thing it supports is absent or unreachable. Distinct from premature abstraction: the abstraction at least has a caller.
+Support structure built out in full while the thing it supports is absent or unreachable. Distinct from premature abstraction: the abstraction at least has a caller. Distinct from test padding: that covers tests for code that exists but assert nothing actionable. If the module under test does not exist, report it here only, once.
 
 **Flag:**
 - Test files for a module, route, or export that does not exist, or that nothing reaches
@@ -86,9 +86,8 @@ Support structure built out in full while the thing it supports is absent or unr
 - A CI job or check enforcing a contract nothing currently emits
 - Fixtures, mocks, or seed data for an unbuilt API
 - Docs or a README section describing a command the binary does not implement
-- A migration with no code path that reads the new column
 
-**Fix:** Delete the artifact, or build its consumer in the same diff. Never merge the artifact alone: it is complete, it passes review, and it delivers nothing while implying the work is done.
+**Fix:** Delete the artifact, or build its consumer in the same diff. Shipped alone it is complete, it passes review, and it delivers nothing while implying the work is done. A search returning nothing is not proof of no consumer: dynamic imports, framework file-name conventions, generated code, and other repos all reach code no static search finds.
 
 ## Verbose naming
 
