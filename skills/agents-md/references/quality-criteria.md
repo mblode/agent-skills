@@ -52,7 +52,7 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 23. States conventions that materially change implementation choices
 24. States naming/path conventions when CI/tooling depends on them
 25. States test strategy conventions (unit/e2e boundaries) when relevant
-26. Uses `@import` or links for non-universal detail instead of inlining in root
+26. Links out non-universal detail, and keeps every must-obey rule inline rather than behind an `@import` that not every tool resolves
 27. Marks scope boundaries: monorepo root vs workspace files
 28. Avoids restating what the agent or harness already does (tool-use conventions, read before edit, todo tracking, run tests after a change)
 29. Rules name the condition that triggers them, so precision lands on *when* a rule applies rather than on forbidding a whole class of action

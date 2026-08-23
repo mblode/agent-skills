@@ -10,6 +10,7 @@ Focus on distinctively AI-generated patterns, not general code quality (that bel
 - Unnecessary error handling
 - Type bypasses
 - Premature abstraction
+- Scaffolding without a consumer
 - Verbose naming
 - Structural bloat
 - Defensive excess
@@ -74,6 +75,20 @@ Abstractions created before a shared invariant, owner, lifecycle, or failure mod
 - Constants extracted for a value used once
 
 **Fix:** Inline the abstraction unless it protects shared knowledge: an invariant, protocol, lifecycle, owner, or business rule. Do not extract coincidental shape.
+
+## Scaffolding without a consumer
+
+Support structure built out in full while the thing it supports is absent or unreachable. Distinct from premature abstraction: the abstraction at least has a caller.
+
+**Flag:**
+- Test files for a module, route, or export that does not exist, or that nothing reaches
+- A generated registry, schema, or type surface no source file imports
+- A CI job or check enforcing a contract nothing currently emits
+- Fixtures, mocks, or seed data for an unbuilt API
+- Docs or a README section describing a command the binary does not implement
+- A migration with no code path that reads the new column
+
+**Fix:** Delete the artifact, or build its consumer in the same diff. Never merge the artifact alone: it is complete, it passes review, and it delivers nothing while implying the work is done.
 
 ## Verbose naming
 

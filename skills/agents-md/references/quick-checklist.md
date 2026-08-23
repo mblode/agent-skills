@@ -13,7 +13,7 @@ Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 10/1
 7. Every line passes the litmus test: removing it would cause the agent to make mistakes
 8. Root file avoids framework doc dumps/templates
 9. Linked paths and commands are current (not stale/dead)
-10. Non-universal detail is linked out (via `@import` or child files), not inlined
+10. Non-universal detail is linked out (via `@import` or child files), and anything every tool must obey stays inline
 11. Rules are phrased as the outcome wanted, with absolutes reserved for safety, data loss, format contracts, and observed failures
 12. Nothing restates harness or model default behavior, and no rule conflicts with a parent file or an installed skill
 
