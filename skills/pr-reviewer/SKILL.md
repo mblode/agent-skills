@@ -78,7 +78,7 @@ Review progress:
 
 ## High-signal criteria
 
-Report only when certain:
+These are the classes worth surfacing. Raise anything that matches one and let the verdict step decide confirmed, plausible, or refuted; do not pre-filter on confidence here, or the filter runs twice and the second pass never sees what the first one dropped.
 
 - Compile, type, import, or syntax failure.
 - Clear runtime bug, state error, or data-handling regression.
