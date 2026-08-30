@@ -158,6 +158,8 @@ Design mode produces this brief. Deepen mode's ranked-opportunity template is in
 ## Open risks and follow-ups
 ```
 
+**Size the brief to the decisions, not to the template.** Drop any heading the project does not face rather than filling it: a single-tenant internal service with no frontend does not owe you a Frontend boundaries section. Each section carries the decision and the constraint that forced it, not a restatement of the conventions in the references. A brief that pads to nine sections costs the review attention that the two contested decisions needed.
+
 ## Excuses
 
 Each rebuttal redirects to the step being skipped; none of them repeat a gotcha below.
