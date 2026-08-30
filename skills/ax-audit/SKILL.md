@@ -11,7 +11,9 @@ description: >-
   this AI feature", "does this earn user trust", "does this feel like AI",
   "Ask AI button", "can an agent use our product", "what can the agent
   access", or "audit this for AX". For traditional frontend UX use ui-design
-  Audit mode.
+  Audit mode. This skill judges a tool surface by whether an agent acting for
+  a user can operate it safely; for whether a human developer finds the same
+  API, CLI, error strings, or types pleasant to adopt, use dx-audit.
 ---
 
 # AX Audit
@@ -133,3 +135,4 @@ Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evid
 - `ui-design` Audit mode: traditional frontend UX quality around agentic surfaces; run both on agentic feature PRs, with ax-audit covering the agent layer
 - `agents-md`: audit CLAUDE.md / AGENTS.md agent instruction files
 - `codebase-architecture`: repo structure and module boundaries
+- `dx-audit`: the developer-facing half of the same surface. `parity-unstructured-tool-output` and `parity-not-externally-reachable` judge a tool surface by whether an agent can operate and recover on it; `dx-audit` judges whether a human adopting the same API, CLI, or types finds it ergonomic. Same files, different reader.
