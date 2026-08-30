@@ -9,6 +9,10 @@ Copy this checklist and check off each item as completed.
 - [ ] Canonical URL set and consistent on every page
 - [ ] Every indexable page has an internal-link crawl path (no orphans)
 - [ ] Sitemap `lastModified` derives from latest content, not a hardcoded date
+- [ ] Preview/staging/QA URLs are `noindex` with a canonical pointing at production
+- [ ] Thin hubs (empty author, tag, category, pagination) are `noindex` until they carry unique content
+- [ ] No placeholder or lorem pages published as indexable URLs
+- [ ] Syndicated copies of the same story all point at one canonical URL
 
 ## Meta Tags
 - [ ] Unique title (50-60 chars) per page
@@ -20,7 +24,8 @@ Copy this checklist and check off each item as completed.
 ## Structured Data
 - [ ] Organization + WebSite schemas on homepage
 - [ ] BreadcrumbList on all non-homepage pages
-- [ ] Article/Product/FAQ schemas where applicable
+- [ ] Article/Product schemas where the page type earns them, and no decorative extras
+- [ ] `FAQPage` only where the questions render as visible text (no Google rich result since 7 May 2026; still parsed, still weighted by ChatGPT)
 - [ ] Entities share stable `@id`s and interlink via a `@graph` (no duplicated entities)
 - [ ] Articles use an `Organization` publisher with a `logo`; `Person` is the author
 - [ ] `ProfilePage` on identity pages (about/now), linked to the Person
@@ -28,10 +33,24 @@ Copy this checklist and check off each item as completed.
 
 ## Content & Semantics
 - [ ] Single h1 per page with logical h2-h6 hierarchy
+- [ ] Title and H1 lead with the non-brand primary keyword and match in intent
+- [ ] Page opens with a short extractable answer to its main question
+- [ ] h2s shaped as the questions people actually ask, evaluator questions first
 - [ ] Descriptive alt text on all images
 - [ ] Internal links between related pages
 
+## Answer Engines
+- [ ] Access: core content in the initial HTML response, no JS-only render
+- [ ] Access: CDN/WAF does not challenge the retrieval crawlers (OAI-SearchBot, Claude-SearchBot, PerplexityBot) or the user-triggered agents (ChatGPT-User, Claude-User, Perplexity-User)
+- [ ] Discovery: crawler policy decided per class, not per vibe. Retrieval and user-triggered allowed unless there is a stated reason; training (GPTBot, ClaudeBot, CCBot, Bytespider) is a separate, deliberate call
+- [ ] Discovery: `Google-Extended` / `Applebot-Extended` understood as usage-control tokens, not crawlers to block for traffic reasons
+- [ ] Discovery: `llms.txt` served if cheap, and not counted as a citation win
+- [ ] Parseability: key pages open with an extractable answer and carry real specifics (numbers, dates, named comparisons), not prose alone
+- [ ] Parseability: Markdown representation available via `Accept: text/markdown` + `Vary`, or a `Link` alternate header
+- [ ] No content written separately "for AI" (scaled-content-abuse risk)
+
 ## Core Web Vitals
+- [ ] Field data (CrUX p75), not just a Lighthouse lab run
 - [ ] LCP < 2.5s (hero image uses `priority`)
 - [ ] INP < 200ms
 - [ ] CLS < 0.1 (images have width/height)

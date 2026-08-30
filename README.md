@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-25 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+26 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -51,6 +51,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README as a public-facing shop window.
+- **[seo-program](./skills/seo-program/SKILL.md)**: Keyword and prompt-volume research, writer briefs, AEO question maps, Search Console monitoring.
 
 Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://github.com/mblode/ghostwriter).
 
@@ -59,7 +60,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 23 rules, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, and SDKs: root-cause findings, agent-friendly checks.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
-- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js SEO: sitemaps, metadata, structured data, hreflang, CWV.
+- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js SEO and AEO: sitemaps, metadata, structured data, llms.txt, hreflang, CWV.
 
 ### Shipping
 

@@ -6,6 +6,7 @@ Patterns for Next.js App Router.
 - Metadata (static and dynamic)
 - Sitemap and robots
 - Redirects, headers, and indexing
+- Answer-engine readability (llms.txt, AI crawlers)
 - Internationalisation (hreflang)
 - Security headers
 - Manifest
@@ -97,6 +98,8 @@ const latestBlog = latestDate(posts.map(p => p.updatedAt ?? p.publishedAt), buil
 // across every content type (e.g. Math.max of latestBlog and latestStudy).
 ```
 
+Sitemaps are cached by default. On a site that publishes often, add `export const revalidate = 3600` to `app/sitemap.ts` so `lastModified` tracks new content instead of the last deploy.
+
 ## Redirects, headers, and indexing
 
 ```ts
@@ -136,6 +139,106 @@ async headers() {
   }]
 }
 ```
+
+## Answer-engine readability
+
+```ts
+// app/llms.txt/route.ts: derive the list from real content so it cannot go stale.
+import { getDocs, getPosts } from '@/lib/content'
+
+export const dynamic = 'force-static'
+
+export async function GET() {
+  const [docs, posts] = await Promise.all([getDocs(), getPosts()])
+  const body = [
+    '# Brand',
+    '',
+    '> One sentence on what the product does and who it is for.',
+    '',
+    '## Docs',
+    ...docs.map(d => `- [${d.title}](https://example.com/docs/${d.slug}): ${d.summary}`),
+    '',
+    '## Writing',
+    ...posts.map(p => `- [${p.title}](https://example.com/blog/${p.slug}): ${p.summary}`),
+  ].join('\n')
+
+  return new Response(body, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  })
+}
+```
+
+A route, not a file in `/public`: the list is generated from the same content source as the sitemap, so a new doc appears in both or neither.
+
+```ts
+// app/robots.ts: one explicit rule per AI agent, alongside the search crawlers.
+import type { MetadataRoute } from 'next'
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
+      { userAgent: '*', allow: '/', disallow: ['/api/', '/admin/'] },
+      // Answer engines that cite and link back.
+      { userAgent: ['GPTBot', 'ClaudeBot', 'PerplexityBot'], allow: '/' },
+      // Training-only crawlers: allow or deny deliberately.
+      { userAgent: ['Google-Extended', 'CCBot'], disallow: '/' },
+    ],
+    sitemap: 'https://example.com/sitemap.xml',
+    host: 'https://example.com',
+  }
+}
+```
+
+`Google-Extended` is not a search crawler. Disallowing it keeps the site in Google Search and removes it from AI Overviews grounding and Gemini training; that trade is the site owner's call, so surface it rather than picking silently.
+
+On-page, the parts an answer engine can actually lift:
+
+```tsx
+// The first paragraph answers the question the page exists to answer.
+// No throat-clearing above it, no marketing preamble, no "In this article we will".
+<article>
+  <h1>Set canonical URLs in Next.js App Router</h1>
+  <p>
+    Set <code>alternates.canonical</code> in the route's <code>metadata</code> export
+    to an absolute URL. Next.js renders it as a <code>&lt;link rel="canonical"&gt;</code>
+    in the served HTML, so crawlers see it without running JavaScript.
+  </p>
+  <h2>When do you need a canonical URL?</h2>
+  ...
+</article>
+```
+
+FAQ schema goes in only when those questions render as visible text; the markup describes the page, it does not extend it.
+
+`llms-full.txt` is the same route with the bodies inlined instead of linked, for agents that would rather take one request than crawl. Generate it from the same source; skip it once the corpus is too large to serve in one response.
+
+```ts
+// middleware.ts: same canonical URL, Markdown when the agent asks for it.
+// Vary keeps the HTML and Markdown cache entries separate.
+import { NextResponse, type NextRequest } from 'next/server'
+
+export function middleware(req: NextRequest) {
+  const wantsMarkdown = req.headers.get('accept')?.includes('text/markdown')
+
+  let res: NextResponse
+  if (wantsMarkdown) {
+    const url = req.nextUrl.clone()
+    url.pathname = `/md${url.pathname}`        // a parallel route that renders Markdown
+    res = NextResponse.rewrite(url)
+  } else {
+    res = NextResponse.next()
+  }
+
+  // Both branches, not just the Markdown one: a response cached without this
+  // header has no Accept cache key, so it gets served to the other audience.
+  res.headers.set('Vary', 'Accept')
+  return res
+}
+
+export const config = { matcher: ['/((?!api|_next|.*\\.).*)'] }
+```
+
+The header has to be on the HTML response too. Set it only on the Markdown branch and a shared cache stores the HTML with no `Accept` key, then hands that HTML to the next agent that asks for Markdown. If content negotiation is more than you want, advertise the Markdown version instead with a `Link: <https://example.com/page.md>; rel="alternate"; type="text/markdown"` header on the HTML response.
 
 ## Internationalisation (hreflang)
 
