@@ -23,6 +23,12 @@ Cause user harm, unsafe autonomous behavior, or unrecoverable agent actions in p
 - **Heuristic completion**: completion detected by idle time, not an explicit signal; downstream steps race (fire too early or too late).
 - **Broken tool parity**: user can do something the agent cannot, or vice versa; breaks the mental model of what the agent can do.
 - **Missing CRUD**: entity has create but no delete, or read but no update; agent gets stuck mid-workflow with no way to correct or clean up.
+The next four are blockers on the agent tool execution surface and one tier lower elsewhere, because each is a property of code that acts rather than code that reports:
+
+- **Unconsented proactive execution**: a scheduled, webhook, or queued run reaches the executor with no standing boundary and no notice; the interactive gates do not cover it, because nobody was there to prompt.
+- **Undisclosed reach**: the agent acts through accounts and scopes the user cannot see or individually revoke; the one thing watching the agent work will never reveal.
+- **Approval with nothing to decide on**: a gate that fires correctly and renders only the tool's name, so the user approves a category rather than an act.
+- **Tool output that misreports its own state**: failures returned as prose with a success status; every capability above the tool is guessing, silently.
 
 ### ⚠️ fix-this-sprint: merge but log issue
 
@@ -42,6 +48,8 @@ Real but low-stakes. Ship the PR, log a backlog issue, prioritize by frequency o
 - No generative momentum on blank-canvas surfaces (missed proactive-suggestion opportunity)
 - Static API mapping instead of dynamic discovery (less flexible when tools change)
 - No checkpoint/resume for long-running tasks (risky on interruption but rare in practice)
+- Show-your-work rendered as a raw trace with no summary layer (transparency that costs trust instead of earning it)
+- No machine-operable path into the product's capabilities (a strategic gap, never a merge gate; raise it in `keyGap` when it is the most important thing about the product)
 
 ## Tier assignment rules
 

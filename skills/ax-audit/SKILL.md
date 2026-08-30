@@ -2,13 +2,16 @@
 name: ax-audit
 description: >-
   Audits agentic applications for architecture and trust: tool parity, tool
-  granularity, context injection, completion signals, approval gates,
-  confidence cues, escape hatches, intent handshakes, memory visibility, and
-  adaptive canvases. Produces a ship-readiness verdict plus an AX Relationship
-  Summary. Use when reviewing agentic feature PRs or asking "is this
-  agent-native", "AX review", "critique this AI feature", "does this earn user
-  trust", "does this feel like AI", "Ask AI button", or "audit this for AX".
-  For traditional frontend UX use ui-design Audit mode.
+  granularity, structured tool output, external reachability, context
+  injection, completion signals, approval gates and what they show, access
+  scope disclosure, unprompted action, confidence cues, escape hatches, intent
+  handshakes, memory visibility, and adaptive canvases. Produces a
+  ship-readiness verdict plus an AX Relationship Summary. Use when reviewing
+  agentic feature PRs or asking "is this agent-native", "AX review", "critique
+  this AI feature", "does this earn user trust", "does this feel like AI",
+  "Ask AI button", "can an agent use our product", "what can the agent
+  access", or "audit this for AX". For traditional frontend UX use ui-design
+  Audit mode.
 ---
 
 # AX Audit
@@ -60,8 +63,8 @@ Step notes:
 
 | Layer | Folder | Rules | Question it answers | Category index |
 |---|---|---|---|---|
-| 1: Agent-native architecture | `rules-arch/` | 11 | Can the agent do what the user can do? Are tools atomic? Does the agent know what exists? Is completion explicit? | `rules-arch/_sections.md` |
-| 2: Agentic experience | `rules-ax/` | 12 | Does the agent earn trust? Can the user interrupt, undo, push back? Is memory visible? | `rules-ax/_sections.md` |
+| 1: Agent-native architecture | `rules-arch/` | 13 | Can the agent do what the user can do? Are tools atomic? Does the agent know what exists? Is completion explicit? Are results structured, and can anyone else's agent reach the product at all? | `rules-arch/_sections.md` |
+| 2: Agentic experience | `rules-ax/` | 16 | Does the agent earn trust? Can the user interrupt, undo, push back? Is memory visible? Does the user know what it can reach, and does the approval moment carry enough to decide? | `rules-ax/_sections.md` |
 
 Load `rules-arch/<category>-<slug>.md` or `rules-ax/<category>-<slug>.md` when a playbook check names it. Categories: arch = parity, granularity, context, comm; ax = trust, control, context, comm. Both layers share the `comm` and `context` prefixes, but the rules differ: `rules-arch/comm-no-approval-gate.md` (orchestrator code has no gate logic) is not `rules-ax/control-no-approval-gate.md` (approval UI doesn't match the stakes).
 
@@ -69,9 +72,9 @@ Load `rules-arch/<category>-<slug>.md` or `rules-ax/<category>-<slug>.md` when a
 
 Every finding gets exactly one tier (full trigger lists in `references/ship-readiness.md`):
 
-- `release-blocker`, fix before merge: no escape hatch, silent execution, heuristic completion, broken parity, ungated high-stakes actions
+- `release-blocker`, fix before merge: no escape hatch, silent execution, heuristic completion, broken parity, ungated high-stakes actions, and on the execution surface: unconsented proactive runs, undisclosed access scope, approvals showing only a tool name, tool output that misreports its own state
 - `fix-this-sprint`, merge with a tracked issue: no confidence cues, no intent handshake, opaque memory, bundled config tools
-- `backlog`, ship and track: static canvas, no generative momentum, static API mapping, no checkpoint/resume
+- `backlog`, ship and track: static canvas, no generative momentum, static API mapping, no checkpoint/resume, raw-trace transparency, no machine-operable path into the product
 
 Tier precedence: a rule's own surface-override table > the generic surface bump in `references/ship-readiness.md` > the rule's `defaultTier`. Apply at most one adjustment; never stack the generic bump on a rule's explicit override.
 
@@ -96,16 +99,20 @@ Rendered after findings when any agentic feature was detected. Findings serve en
 | `references/agent-native-principles.md` | A Layer 1 finding needs grounding: parity, granularity, CRUD completeness, context patterns, approval matrices, checkpoint/resume |
 | `references/ax-evolution-curve.md` | Writing the evolution-stage field of the AX summary |
 | `references/costume-vs-intelligence.md` | Writing the AX Relationship Summary |
+| `references/invisible-interface.md` | Grounding for the six rules about being operated by an agent: structured tool output, external reachability, approval payload, access scope, unprompted action, transparency as noise |
 | `rules-arch/_sections.md` | Layer 1 categories and default tiers |
 | `rules-ax/_sections.md` | Layer 2 categories, default tiers, co-firing rule pairs |
 
 ## Gotchas
 
-- **Scope before rules.** Running all 23 rules repo-wide on a 3-file PR buries a new release-blocker under pre-existing backlog noise; the verdict stops meaning "can this PR merge."
+- **Scope before rules.** Running all 29 rules repo-wide on a 3-file PR buries a new release-blocker under pre-existing backlog noise; the verdict stops meaning "can this PR merge." `parity-not-externally-reachable` is the sharpest case: it is true of the whole product on every PR, so it belongs in a full sweep unless the diff touches the tool, API, or auth surface.
 - **The rule's override table is authoritative.** `comm-no-intent-handshake` defaults to `fix-this-sprint` but its table says `release-blocker` on tool execution. Stacking the generic "+1 tier on tool execution" bump on an explicit override double-upgrades backlog findings into blockers.
 - **A stop button not wired to `AbortController.abort()` is a false affordance.** `control-no-escape-hatch` still fails: verify the `abort()` call, not the button label, or the audit passes a UI that lies to users.
 - **Absence checks need a recorded file list.** "Find components lacking X" greps return nothing both when everything passes and when nothing was scanned. List candidate files first (`rg -l <feature-pattern>`), check each for the counter-pattern, and cite the file list as evidence.
-- **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`.
+- **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, `comm-no-generative-momentum`, and `trust-transparency-as-noise` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`.
+- **Transparency has two failure directions.** Every other rule here penalises showing too little. `trust-transparency-as-noise` penalises showing too much, so it can never co-fire with `comm-no-progress-signal` on one surface. If both look like they fire, the usual truth is a raw dump during the run and nothing at the end, which is the progress-signal finding alone.
+- **Gates fail in three separate places.** A gate can be absent from the execution path (`comm-no-approval-gate`), present but mismatched to the stakes (`control-no-approval-gate`), or correct and unreadable (`control-thin-approval-payload`). Report the first that holds and fix in that order; filing all three on one dialog reads as three defects and gets dismissed as one.
+- **Interactive gates do not cover unattended runs.** Cron, webhook, and queue entry points reach the same executor with nobody to prompt, so a product can pass every approval rule and still act unsupervised. `comm-unrequested-action-no-consent` audits that path, and its evidence must name the entry point, not the executor.
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the count in the verdict block; a suppression with no reason is itself worth a `warn`.
 - **Don't duplicate `ui-design` Audit mode findings.** "Missing loading state" and "form clears on error" are its territory; duplicating them trains engineers to dismiss the whole AX report.
 - **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. Promoting cosmetic findings to blocker trains the team to ignore ❌ verdicts.

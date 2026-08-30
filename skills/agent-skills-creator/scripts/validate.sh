@@ -15,7 +15,9 @@
 
 set -uo pipefail
 
-RESULTS="$(mktemp -t skillvalidate)"
+# Bare mktemp, not `-t skillvalidate`: GNU mktemp rejects a -t template with no
+# X's, so the named form ran on macOS and died on every Linux checkout.
+RESULTS="$(mktemp)"
 trap 'rm -f "$RESULTS"' EXIT
 
 # record <PASS|FAIL|SKIP> <format|house> <check-name> <detail>
@@ -38,7 +40,7 @@ validate_skill() {
   fi
 
   # --- frontmatter: ruby owns YAML parsing and emits its own result lines ---
-  ruby -ryaml -e '
+  ruby -E UTF-8 -ryaml -e '
     path, folder = ARGV
     src = File.read(path)
     m = src.match(/\A---\n(.*?)\n---\n/m)
@@ -213,7 +215,7 @@ validate_skill() {
   fi
 
   if [ "$found_rules" -eq 1 ]; then
-    stated=$(ruby -ryaml -e '
+    stated=$(ruby -E UTF-8 -ryaml -e '
       src = File.read(ARGV[0])
       m = src.match(/\A---\n(.*?)\n---\n/m)
       d = m ? (YAML.safe_load(m[1])["description"].to_s rescue "") : ""
