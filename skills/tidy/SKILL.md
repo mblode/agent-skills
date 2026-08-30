@@ -76,7 +76,7 @@ The return format for each angle: one finding per bullet as `file:line`, issue, 
 Take each block of new code down this ladder and stop at the first rung that holds. The rung it stops on is the finding: everything below it is code that did not need to be written.
 
 1. **Does it need to exist at all?** Nothing calls it, nothing needs it yet, or the requirement it serves is speculative. Delete it.
-2. **Is it already in this codebase?** Search utility directories, shared modules, and the files adjacent to the changed ones. Name the existing function to use instead. Near-duplicate blocks inside the diff count too: two copies of the same logic with one value changed want one function with a parameter.
+2. **Is it already in this codebase?** Search utility directories, shared modules, and the files adjacent to the changed ones. Name the existing function to use instead, with its path and one live call site: a helper that exists but nothing calls is a dead path, and swapping onto it trades new code for a worse kind of new code. Near-duplicate blocks inside the diff count too: two copies of the same logic with one value changed want one function with a parameter.
 3. **Does the stdlib do it?** Hand-rolled string manipulation, date maths, path handling, ad-hoc type guards. Name the stdlib function.
 4. **Does a native platform feature cover it?** `<input type="date">` over a picker lib, CSS over JS, `Intl` over a formatting lib, a DB constraint over an app-level check.
 5. **Does an already-installed dependency solve it?** Check `package.json` before accepting anything new. Flag any dependency this diff adds for something the rungs above already cover.
@@ -120,14 +120,15 @@ Lint already catches unused imports, unreachable code, and hooks called conditio
 
 ### Angle 4: Altitude
 
-One question: is each change made at the right depth, or bolted on above it? The signal is a special case layered onto shared infrastructure. When a fix reads as "except for this case", the mechanism underneath is usually the thing that should have changed.
+One question: is each change made at the right place, or bolted on above the mechanism (items 1 to 4) or outside the system that owns it (item 5)? The signal for the first four is a special case layered onto shared infrastructure. When a fix reads as "except for this case", the mechanism underneath is usually the thing that should have changed.
 
 1. **Special case on a shared path**: a branch keyed to one caller, route, tenant, feature flag, or file type added inside code that serves all of them. Name the general rule the branch is an instance of, and whether the shared mechanism can express it
 2. **Fix at the call site instead of the source**: the same guard, coercion, or normalisation added at one caller when the function it calls could return the right shape for every caller. Grep every caller of the function the diff touches. One guard inside the shared function is a smaller diff than one per caller, and fixing only the path the ticket named leaves the sibling callers broken
 3. **Symptom fix**: a value corrected after the fact (clamping, re-sorting, patching a field back in) rather than produced correctly. Trace back to where it was built wrong
 4. **Fix that only holds for the reported input**: a condition tuned to the example in the ticket. Ask what the neighbouring input does
+5. **Wrong home**: the change works and landed outside the system that owns this class of behaviour. Validation in a route handler where a validator layer exists, a permission check inline where a policy module exists, a formatting rule in a component where a shared formatter exists. Find where the last two or three changes of the same class landed (`git log -S` on a distinctive symbol, or grep the sibling cases) and name the sibling. Two siblings living somewhere else make the third one's location the finding; one is a coincidence
 
-Altitude findings are the ones most worth raising and least worth forcing. Where lifting the fix means redesigning the shared mechanism, that is a summary note for the user, not an edit this pass makes. Apply it only when the deeper fix is smaller than the special case it replaces.
+Altitude findings are the ones most worth raising and least worth forcing. Where lifting the fix means redesigning the shared mechanism, that is a summary note for the user, not an edit this pass makes. Apply it only when the deeper fix is smaller than the special case it replaces. A wrong-home finding follows the same rule: move the change when the owning system already has the entry point for it, and note it for the user when it needs a new one.
 
 ### Angle 5: Test discipline
 
@@ -153,6 +154,7 @@ Scope rules:
 
 - Only edit files inside the diff. Reading an adjacent file to understand a pattern is fine; rewriting it is not.
 - No new abstractions, no architecture refactors, no fixes to pre-existing issues outside the diff. An altitude finding that needs the shared mechanism redesigned goes in the summary, not the working tree.
+- Deleting a guard is the one simplification that can introduce a bug, so it carries a higher bar than the rest. Remove a check, fallback, retry, or lock only after naming why this system never reaches the state it covers: every writer of the value, the consumer's real staleness tolerance, the supervisor that already restarts on failure, the single writer on the path. Where the reason cannot be named, the guard stays and the finding goes under "For you to decide" with the state spelled out. This is the inverse of every other angle, where the smaller diff wins ties.
 - Tests are never silently written: proposed missing tests are surfaced in the summary with the one-sentence failure each prevents, for the user to decide on. Useless tests added in this diff (Angle 5, category 4) get deleted like any other quality fix. Stale assertions in existing tests covering changed code do get fixed.
 
 ## Phase 4: Verify and report
@@ -191,6 +193,8 @@ Scope rules:
 - Rewriting a shared mechanism because Angle 4 found a special case: the altitude finding was right and the fix is a separate PR. This pass reports it and moves on.
 - Narrowing the sweep because a review already ran. The two look for different things, so a skipped angle is a real loss and the saving is imaginary. Run all five; dedupe at Phase 3.
 - Repeating a report's finding back in different words as if it were new. That is a dedupe failure, not a coverage win. Where an angle rediscovers something the report confirmed, it is one finding.
+- Deleting a guard because it looked paranoid, without grepping the writers first. Excess defence and necessary defence are the same code; only the system tells them apart, and this pass edits the working tree, so a wrong call here ships a bug rather than a noisy report.
+- A fix that draws a new finding in the lines the previous round just changed. Two rounds bouncing off each other converge on more code, not less, because a pass built to find defects never proposes deleting one. When the same spot keeps producing findings, stop editing it and put the simpler shape in "For you to decide" with the risk named.
 - Quietly not applying a confirmed review finding because you disagree with it. The user read that report and is expecting those lines to change. Apply it, or say plainly that you did not and why.
 
 ## Related skills

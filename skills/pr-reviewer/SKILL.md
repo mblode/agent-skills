@@ -5,7 +5,8 @@ description: >-
   findings report. Modes cover standard bugs, structural quality, AI slop, and
   security audit. Use when asked to run /pr-reviewer, "review my changes",
   "code review", "thermo-nuclear review", "structural review", "deslop this",
-  "clean up AI code", "security audit", "find vulnerabilities", or before
+  "clean up AI code", "security audit", "find vulnerabilities", "did this land
+  in the right place", or before
   commit, push, or handoff. For fixes use tidy; for PR creation use
   pr-creator; for CI or review comments use pr-babysitter; for frontend UX,
   accessibility, layout, state coverage, or rendered quality use ui-design
@@ -41,6 +42,7 @@ Pick one mode from the user's wording; load only its references:
 
 Conditional loads:
 
+- `references/context-errors.md` when the diff was agent-written, or when it adds a module, a system boundary, a guard, or a fallback. Covers the two mistakes that are invisible inside the diff: code that duplicates or bypasses something already in the repo, and code guarding a state this system never produces.
 - `references/security-checklist.md` for auth, input handling, external APIs, uploads, or environment config.
 - `references/performance-checklist.md` for fetching, rendering, images, dependencies, or bundle-affecting imports.
 - `agents/openai.yaml` only when a different-model CLI is installed and you are running the optional second-opinion pass below.
@@ -52,17 +54,18 @@ Review progress:
 - [ ] Dispatch mode and load references
 - [ ] Discover target
 - [ ] Gather context and baseline checks
-- [ ] Review: added lines, removed lines, call sites, shard if needed
+- [ ] Review: added lines, removed lines, call sites, outside the diff, shard if needed
 - [ ] Verdict each candidate: confirmed, plausible, or refuted
 - [ ] Report
 ```
 
 1. **Discover target.** Review staged/unstaged changes first; if clean, review the branch diff. For a PR, use the same criteria and the PR handoff format.
 2. **Gather context.** Capture intent. Load scoped `AGENTS.md` / `CLAUDE.md`; conventions there override this skill's defaults when they conflict, so a pattern they mandate is not a finding. Run documented lint, type-check, and tests where they exist; record baseline failures.
-3. **Review.** Apply the loaded rubric and high-signal criteria; shard large diffs. Three passes over the diff, because each finds what the others structurally cannot:
+3. **Review.** Apply the loaded rubric and high-signal criteria; shard large diffs. Four passes, because each finds what the others structurally cannot:
    - **Added lines.** Read every hunk, then the enclosing function. A bug on an unchanged line of a touched function is in scope: this diff re-exposed it.
    - **Removed lines.** For every line the diff deletes or replaces, name the invariant it enforced, then find where the new code re-establishes it. If you cannot, that is the finding: a removed guard, a dropped error path, a narrowed validation, a deleted test that covered a real case. Deletions read as progress and get skimmed, which is exactly why this pass earns its cost.
    - **Call sites.** For each changed function, grep its callers and check for a new precondition, a changed return shape, a new exception, or an ordering dependency. Then check its callees: does another change in the same diff make one of its own calls unsafe?
+   - **Outside the diff.** The three passes above judge the diff against itself, so a change that is wrong only relative to the codebase leaves no trace in any of them. For each new module, guard, or fallback, open what the diff did not: the directory's existing exports, the sibling implementations of the same class of behavior, and every writer of the value being guarded. A reimplementation of an existing helper, a change filed in the wrong system, and a fallback for a state nothing produces all read as clean code until you look at the file the diff never opened. `references/context-errors.md` carries the searches and the evidence each finding needs.
 
    Optional and skippable: where a different-model CLI is already installed (`codex exec`, `droid exec`, or equivalent), run it read-only with `agents/openai.yaml`'s `default_prompt` for a second opinion, then verdict its findings like your own. No such CLI is not a blocker; the review is complete without it.
 4. **Verdict.** Re-check exact lines and give every candidate one of three verdicts. Report confirmed and plausible; drop refuted.
@@ -84,6 +87,7 @@ Report only when certain:
 - Missing necessary tests: render-only checks for interactive behavior, or bug fixes without a failing repro test at the seam that failed (route, API, integration point, not a helper invented during the fix).
 - Test setup that requires helper tracing to understand assertions.
 - Scaffolding whose consumer is absent or unreachable: a test for a module that does not exist, a generated surface nothing imports, a CI check on a contract nothing emits. Cite the artifact's line and the search that found no consumer, and mark it plausible where the consumer could be generated at build time, reached by framework convention, or live outside this repo.
+- Guard, fallback, retry, or freshness mechanism covering a state the deployment does not produce: a value re-validated at every use that nothing writes after boot, invalidation for a consumer that tolerates the staleness anyway, degradation in a process a supervisor already restarts. Report it only with the writer set, the consumer's tolerance, or the restart policy named; without that the guard stays, because acting on this one deletes it. Distinct from a check the type system already rules out, which is a slop pattern rather than a finding here.
 - New lint, type-check, or test failures versus baseline.
 - Scoped instruction-file violation, with the rule quoted.
 - Retried or at-least-once write with no idempotency key or dedupe barrier, so a duplicate delivery applies twice.
@@ -108,7 +112,7 @@ Do not report style preferences, unrelated pre-existing issues, risks without a 
 
 ## Output
 
-Every finding carries `file:line`, a one-line impact, and a committable fix. A plausible finding adds one more line, `Plausible: <what would confirm it>`; a confirmed one omits it. Keep `Fix:` genuinely committable: it is what `tidy` applies, and a fix phrased as "consider refactoring this" cannot be applied by anyone.
+Every finding carries `file:line`, a one-line impact, and a committable fix. A plausible finding adds one more line, `Plausible: <what would confirm it>`; a confirmed one omits it. A finding that rests on something outside the diff (an existing module, a sibling change, the writers of a guarded value) adds a `Context:` line naming that artifact, so the reader can check the claim without re-running the search. Keep `Fix:` genuinely committable: it is what `tidy` applies, and a fix phrased as "consider refactoring this" cannot be applied by anyone.
 
 Default local report:
 
@@ -162,6 +166,8 @@ PR handoff format:
 - Line numbers counted off `git diff` hunk headers land in the report off by the hunk offset, and a reviewer who cannot find the cited line discards the rest of it too.
 - One broken helper reported once per call site reads as three problems and gets three separate patches, while the helper itself stays broken.
 - External-engine output is advisory. Re-validate everything against the actual diff.
+- Treating a second engine's agreement as corroboration. Both instances reviewed the same diff with the same missing context, so both approve the helper that already exists elsewhere and both accept the same unnecessary guard. Two agents agreeing proves they read the same lines; only the artifact outside the diff settles it.
+- A round that produces a new finding in the lines the previous round just changed. That is the loop generating work, not converging on a defect. Judge it across rounds: guards accumulating while severity falls, and each pass leaving the diff longer, means the next useful move is putting the simpler shape to the person who owns the system rather than reviewing again.
 - Skipping the baseline makes pre-existing failures look like regressions.
 - Refuting a real bug for being "speculative" costs more than a wrong finding does. The reader can dismiss a plausible finding in a sentence; nobody can dismiss the one you deleted.
 - Reading only the added lines. A diff that removes a guard shows up as green in the review and red in production.
