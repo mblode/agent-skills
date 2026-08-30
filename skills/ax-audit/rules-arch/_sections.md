@@ -7,7 +7,7 @@ The 4 categories of agent-native architecture (Layer 1) audit rules. Each rule f
 ## 1. Parity (parity)
 
 **Default tier:** mostly release-blocker
-**Why critical:** If the agent can't do what the user can do, it's a second-class citizen. Gaps surface as "why can't the agent do X?" with no workaround. Missing CRUD operations strand agents mid-workflow. Parity also runs outward: a tool that answers failure with a sentence gives the caller above it nothing to act on, and a capability no external agent can reach is a capability the layer in front of the product routes around.
+**Why critical:** If the agent can't do what the user can do, it's a second-class citizen. Gaps surface as "why can't the agent do X?" with no workaround. Missing CRUD operations strand agents mid-workflow. Parity also runs outward: a tool that answers failure with a sentence gives the caller above it nothing to act on, so the caller guesses.
 
 ## 2. Granularity (granularity)
 
@@ -30,13 +30,13 @@ The 4 categories of agent-native architecture (Layer 1) audit rules. Each rule f
 
 ```
 parity-no-tool-parity             parity-crud-incomplete            parity-orphan-ui-action
-parity-unstructured-tool-output    parity-not-externally-reachable
+parity-unstructured-tool-output
 granularity-workflow-shaped-tool   granularity-static-api-mapping
 context-starvation                 context-no-injection              context-no-checkpoint-resume
 comm-no-completion-signal          comm-no-progress-visibility       comm-no-approval-gate
 ```
 
-Total: 13 rules.
+Total: 12 rules.
 
 ---
 
@@ -50,8 +50,6 @@ Within this layer, these pairs sit close enough to double-report. Pick one:
 - **context-starvation + context-no-injection**: one static prompt trips both greps. Report `context-starvation` for the missing what-exists block, and `context-no-injection` only when cross-session state is separately absent.
 - **no-completion-signal + no-progress-visibility**: both audit the orchestrator's event contract, at the end of the run and during it. A loop that emits nothing fails both; fix the emission once and re-run.
 - **unstructured-tool-output + no-completion-signal**: a tool that reports failure as prose with a success status defeats an honest terminal reason downstream. Fix the tool's return shape first; the orchestrator rule is unfixable while its inputs lie.
-- **not-externally-reachable + no-tool-parity**: inward versus outward. `parity-no-tool-parity` asks whether the product's own agent can do what its UI can do; `parity-not-externally-reachable` asks whether anyone else's agent can reach it at all. A product with no tool layer at all is the parity finding only; adding the reachability finding on top restates it.
-- **not-externally-reachable + static-api-mapping**: both concern the shape of the external surface. Report the reachability finding when there is no external surface, the mapping finding when there is one and it is one wrapper per endpoint. Never both.
 
 Across layers, `rules-arch` owns the code path and `rules-ax` owns what the user sees on it:
 

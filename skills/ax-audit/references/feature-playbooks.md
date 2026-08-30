@@ -45,7 +45,6 @@ User need: get help from the agent, trust its output, control what it does. Chec
 8. **`control-over-conversational`** (fix-this-sprint): parallel direct-manipulation controls exist for common actions; users not forced into chat.
 9. **`context-memory-not-visible`** (fix-this-sprint): the user can see and edit what the agent remembers across sessions.
 10. **`comm-no-generative-momentum`** (backlog): blank-canvas entry points offer an agent-generated draft when the agent has the context.
-11. **`trust-transparency-as-noise`** (backlog, observational): the thinking or tool-call panel summarises before it details; a raw dump nobody reads earns no trust. Never fires alongside check 1.
 
 ## Agent Tool Execution / Action Panel
 
@@ -75,7 +74,6 @@ User need: customize agent behavior without breaking it, understand what changed
 4. **`trust-undisclosed-access-scope`** (fix-this-sprint): connected accounts, their scopes, and what is retained are all nameable in the user's terms, with a revoke per connector rather than one global disconnect.
 5. **`context-memory-not-visible`** (fix-this-sprint): the user can see the full context the agent receives, including injected system prompts.
 6. **`context-no-adaptive-canvas`** (backlog): the UI surfaces downstream effects when config changes alter agent behavior.
-7. **`parity-not-externally-reachable`** (rules-arch, backlog): the capabilities have a machine-operable path in (a connectable server, a published manifest, or third-party auth), not just the first-party UI. Full-sweep check; in PR mode run it only when the diff touches the tool, API, or auth surface.
 
 ## Agent Dashboard / Status
 
@@ -87,9 +85,8 @@ User need: see what the agent has done, what it's doing now, and what went wrong
 4. **`trust-no-confidence-cues`** (fix-this-sprint): completed results include reasoning or a summary of what was done and why.
 5. **`comm-unrequested-action-no-consent`** (fix-this-sprint on this surface): unattended runs appear here with what they touched and a way back; the dashboard is where a scheduled action becomes visible at all, so a missing notice is the defect rather than a report of one.
 6. **`context-memory-not-visible`** (backlog on this surface): the agent's accumulated context is viewable and editable.
-7. **`trust-transparency-as-noise`** (backlog, observational): run history summarises each step before exposing its payload; a raw event dump is not transparency.
-8. **`context-no-checkpoint-resume`** (rules-arch, backlog): interrupted or failed tasks resume from the last checkpoint, not from scratch.
+7. **`context-no-checkpoint-resume`** (rules-arch, backlog): interrupted or failed tasks resume from the last checkpoint, not from scratch.
 
 ## Coverage
 
-All 29 rules are reachable: 11 via chat, 13 via tool execution, 7 via config, 8 via dashboard, 1 diff-wide (rules repeat across playbooks; unique total = 29). To add a rule, copy `rules-<layer>/_template.md` as the starting structure, then add the rule to at least one playbook or it will never run.
+All 27 rules are reachable: 10 via chat, 13 via tool execution, 6 via config, 7 via dashboard, 1 diff-wide (rules repeat across playbooks; unique total = 27). To add a rule, copy `rules-<layer>/_template.md` as the starting structure, then add the rule to at least one playbook or it will never run.

@@ -20,5 +20,5 @@ Strip the interface and the costume has nothing to hang on, which does not make 
 
 Two of the summary fields already have room for it:
 
-- `keyGap` when the service behaves like a different product in each place it appears, or when the layer above it cannot reach it at all (see `parity-not-externally-reachable`, whose tier is deliberately lower than its stake).
+- `keyGap` when the service behaves like a different product in each place it appears, or when the layer above it cannot reach it at all.
 - `trustQuestion` when only prototyping or research can settle whether the character holds. "Does the agent sound like the same product in a push notification as it does in the chat panel?" is a better question than any rule.

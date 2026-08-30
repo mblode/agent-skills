@@ -48,8 +48,6 @@ Real but low-stakes. Ship the PR, log a backlog issue, prioritize by frequency o
 - No generative momentum on blank-canvas surfaces (missed proactive-suggestion opportunity)
 - Static API mapping instead of dynamic discovery (less flexible when tools change)
 - No checkpoint/resume for long-running tasks (risky on interruption but rare in practice)
-- Show-your-work rendered as a raw trace with no summary layer (transparency that costs trust instead of earning it)
-- No machine-operable path into the product's capabilities (a strategic gap, never a merge gate; raise it in `keyGap` when it is the most important thing about the product)
 
 ## Tier assignment rules
 

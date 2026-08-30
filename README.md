@@ -57,7 +57,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 
 ### Quality
 
-- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 29 rules, ship verdict.
+- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 27 rules, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, and SDKs: root-cause findings, agent-friendly checks.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
 - **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js SEO and AEO: sitemaps, metadata, structured data, llms.txt, hreflang, CWV.

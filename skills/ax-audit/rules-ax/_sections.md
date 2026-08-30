@@ -7,7 +7,7 @@ This file defines the 4 categories of agentic experience audit rules. Each rule 
 ## 1. Trust & Transparency (trust)
 
 **Default tier:** mostly fix-this-sprint; release-blocker for missing escalation paths
-**Why critical:** Users won't trust an agent, even when it's right, unless they can see why it decided what it did. Confident wrong answers without uncertainty markers or escalation paths cause permanent trust damage that future accuracy can't recover. Trust runs in two directions here: too little disclosure (the user cannot see what the agent can reach) and too much (a raw trace nobody reads), and the audit fails a product for either.
+**Why critical:** Users won't trust an agent, even when it's right, unless they can see why it decided what it did. Confident wrong answers without uncertainty markers or escalation paths cause permanent trust damage that future accuracy can't recover. Disclosure is part of trust, not just explanation: a user who cannot see what the agent can reach has no way to judge whether to keep it connected.
 
 ## 2. Control & Recovery (control)
 
@@ -30,7 +30,7 @@ This file defines the 4 categories of agentic experience audit rules. Each rule 
 
 ```
 trust-no-confidence-cues          trust-no-uncertainty-markers      trust-no-escalation-path
-trust-undisclosed-access-scope    trust-transparency-as-noise
+trust-undisclosed-access-scope
 control-no-escape-hatch           control-no-approval-gate          control-over-conversational
 control-thin-approval-payload
 context-memory-not-visible        context-no-adaptive-canvas        context-under-contextual
@@ -38,7 +38,7 @@ comm-no-intent-handshake          comm-no-progress-signal           comm-no-gene
 comm-unrequested-action-no-consent
 ```
 
-Total: 16 rules.
+Total: 15 rules.
 
 ---
 
@@ -52,6 +52,5 @@ These pairings often co-fire on the same surface:
 - **memory-not-visible + under-contextual**: complementary. One says the agent knows things the user can't see; the other says it doesn't know things it should.
 - **over-conversational + no-generative-momentum**: paradoxical pairing. Forcing chat where buttons would do, while failing to offer drafts where blanks would benefit.
 - **no-approval-gate + thin-approval-payload**: sequential, not simultaneous. The first asks whether the treatment matches the stakes, the second whether the prompt carries enough to decide. A surface with no gate at all is the first finding only; the second has nothing to inspect until a gate exists.
-- **transparency-as-noise + no-progress-signal**: opposite ends of one axis, over-exposure and under-exposure. They cannot both be true of one surface. If both appear to fire, re-read it: the usual cause is a raw dump during the run and nothing at the end, which is the progress-signal finding.
 - **undisclosed-access-scope + memory-not-visible**: what the agent can reach versus what it has kept. Different disclosures, so file both when both fail, each with its own evidence. Merging them hides whichever the team did not think of.
 - **unrequested-action-no-consent + no-escape-hatch**: an unattended run's notice is the only place an escape hatch can appear after the fact. If the notice is missing, report the consent finding; the escape-hatch fix has nowhere to attach until the user is told the action happened.
