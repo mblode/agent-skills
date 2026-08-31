@@ -25,7 +25,7 @@ Cause user harm, unsafe autonomous behavior, or unrecoverable agent actions in p
 - **Missing CRUD**: entity has create but no delete, or read but no update; agent gets stuck mid-workflow with no way to correct or clean up.
 The next four are blockers on the agent tool execution surface and one tier lower elsewhere, because each is a property of code that acts rather than code that reports:
 
-- **Unconsented proactive execution**: a scheduled, webhook, or queued run reaches the executor with no standing boundary and no notice; the interactive gates do not cover it, because nobody was there to prompt.
+- **Unconsented proactive execution**: a scheduled, webhook, or queued run reaches the executor missing a standing boundary, a notice the user can act on, or both; the interactive gates do not cover it, because nobody was there to prompt.
 - **Undisclosed reach**: the agent acts through accounts and scopes the user cannot see or individually revoke; the one thing watching the agent work will never reveal.
 - **Approval with nothing to decide on**: a gate that fires correctly and renders only the tool's name, so the user approves a category rather than an act.
 - **Tool output that misreports its own state**: failures returned as prose with a success status; every capability above the tool is guessing, silently.

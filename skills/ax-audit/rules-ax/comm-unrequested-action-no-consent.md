@@ -30,7 +30,7 @@ A weekly cleanup job is scheduled to "tidy stale drafts". The definition of stal
 2. Trace each to the tool executor or agent runner. Entry points that never reach it are out of scope.
 3. On each path that does reach it, look for a standing consent check: a policy object, an allowlist of tools valid without a user present, a budget or blast-radius limit.
 4. Look for a notification emitted on the same path, addressed to the user, carrying what was done.
-5. Fail when a path reaches the executor with neither a boundary check nor a notification.
+5. Fail when a path reaches the executor missing either control. The boundary and the notice are not alternatives: a policy with no notice leaves the user unable to find out, and a notice with no policy tells them only after the blast radius was already unbounded. One present and one absent is still a finding, named for the missing half.
 
 **Concrete commands:**
 ```bash
