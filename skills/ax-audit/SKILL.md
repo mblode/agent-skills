@@ -107,6 +107,7 @@ Render after findings when any agentic feature was detected. Findings serve engi
 - **Gates fail in three separate places.** Absent from the path (`comm-no-approval-gate`), present but mismatched to the stakes (`control-no-approval-gate`), or correct and unreadable (`control-thin-approval-payload`). Report the first that holds and fix in that order.
 - **Interactive gates do not cover unattended runs.** Cron, webhook, and queue entry points reach the same executor with nobody to prompt. `comm-unrequested-action-no-consent` audits that path; evidence names the entry point, not the executor.
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the count in the verdict block; a suppression with no reason is itself a `warn`.
+- **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. One finding promoted to `release-blocker` flips the whole PR to ❌ NOT READY, so promoting cosmetic ones trains the team to ignore the verdict entirely.
 - **Don't duplicate `ui-design` Audit mode findings.** "Missing loading state" and "form clears on error" are its territory; duplicating them trains engineers to dismiss the whole AX report.
 - **A Personally Intelligent agent that only ever suggests has plateaued.** Memory stage is not trust. Name the highest action rung in `evolutionStage.behavior` or the summary flatters a polite chatbot.
 

@@ -75,3 +75,12 @@ Aggregate the per-finding tiers into a top-level verdict (shown in the summary b
 | 🚫 INCOMPLETE | Audit-self-check failed; re-run |
 
 Justify every assigned tier in `tierReason` ("release-blocker because agent action panel"). Bare tiers without that sentence are incomplete.
+
+Tier per finding, not per rule: a rule's `defaultTier` is where the assignment starts, and the surface decides where it lands.
+
+Two ways to get this wrong, both of which cost the verdict its meaning:
+
+- **Inflation.** Everything becomes `release-blocker`. One inflated finding flips the whole PR to ❌ NOT READY, so a report that does this twice teaches the team to read the verdict as noise and merge anyway.
+- **Deflation.** Everything slides to `backlog` for a greener verdict. That reads well once and catches up at the next production incident.
+
+The test for either: if a finding could not honestly block a merge, it is not a blocker; if it would cause user harm, it is not backlog.
