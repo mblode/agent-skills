@@ -3,7 +3,7 @@ title: Agent session starts without knowing what data exists
 slug: context-no-injection
 category: context
 defaultTier: fix-this-sprint
-surfaces: agent-chat, agent-tool-execution
+surfaces: agent-chat
 agent-native-principle: Improvement Over Time
 detection: code-auditable
 related: context-starvation, context-no-checkpoint-resume
@@ -19,7 +19,7 @@ User opens a design review agent for the third time today. It has no memory of e
 
 ## Detection
 
-**Surfaces:** agent-chat, agent-tool-execution
+**Surfaces:** agent-chat
 
 **Static signals:**
 1. Find session initialization: agent constructors, chat init, session start handlers.

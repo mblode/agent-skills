@@ -3,7 +3,7 @@ title: Multi-step agent task shows no progress
 slug: comm-no-progress-signal
 category: comm
 defaultTier: release-blocker
-surfaces: agent-chat, agent-tool-execution, agent-dashboard
+surfaces: agent-chat
 ax-pattern: Confidence Cues (progress dimension)
 detection: code-auditable
 related: comm-no-intent-handshake, context-no-adaptive-canvas, comm-no-progress-visibility
@@ -21,7 +21,7 @@ User asks the agent to analyze a dataset. Three tool calls, API waits, synthesis
 
 ## Detection
 
-**Surfaces:** agent-chat, agent-tool-execution, agent-dashboard
+**Surfaces:** agent-chat
 
 **Auditability:** code-auditable
 

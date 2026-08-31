@@ -3,7 +3,7 @@ title: Blank-canvas surface with no agent-generated starting content
 slug: comm-no-generative-momentum
 category: comm
 defaultTier: backlog
-surfaces: agent-chat, agent-config
+surfaces: agent-chat
 ax-pattern: Generative Momentum
 detection: observational
 related: control-over-conversational, context-under-contextual
@@ -19,7 +19,7 @@ User clicks "New marketing email" in a tool that has their brand voice and audie
 
 ## Detection
 
-**Surfaces:** agent-chat, agent-config
+**Surfaces:** agent-chat
 
 **Auditability:** observational
 

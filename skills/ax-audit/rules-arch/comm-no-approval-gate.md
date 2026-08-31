@@ -3,10 +3,10 @@ title: Orchestrator executes high-stakes tools with no gate on the code path
 slug: comm-no-approval-gate
 category: comm
 defaultTier: release-blocker
-surfaces: agent-tool-execution, agent-chat
+surfaces: agent-tool-execution
 agent-native-principle: Parity (agent-UI communication)
 detection: hybrid
-related: comm-no-progress-visibility, control-no-approval-gate
+related: comm-no-progress-visibility, control-no-approval-gate, control-thin-approval-payload, comm-unrequested-action-no-consent
 ---
 
 ## Orchestrator executes high-stakes tools with no gate on the code path
@@ -21,7 +21,7 @@ A chat surface ships a confirmation modal for the three delete tools it knows ab
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-chat
+**Surfaces:** agent-tool-execution
 
 **Static signals:**
 1. Find the tool-use loop and every call site that reaches `.execute(`. More than one path to execution means there is no single gate.

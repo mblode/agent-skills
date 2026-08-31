@@ -7,9 +7,6 @@ Every finding gets one of three tiers, deciding whether the PR ships, waits, or 
 - [The three tiers](#the-three-tiers)
 - [Tier assignment rules](#tier-assignment-rules)
 - [Verdict logic](#verdict-logic)
-- [Anti-patterns](#anti-patterns)
-- [Examples](#examples)
-- [Cross-reference](#cross-reference)
 
 ## The three tiers
 
@@ -23,6 +20,12 @@ Cause user harm, unsafe autonomous behavior, or unrecoverable agent actions in p
 - **Heuristic completion**: completion detected by idle time, not an explicit signal; downstream steps race (fire too early or too late).
 - **Broken tool parity**: user can do something the agent cannot, or vice versa; breaks the mental model of what the agent can do.
 - **Missing CRUD**: entity has create but no delete, or read but no update; agent gets stuck mid-workflow with no way to correct or clean up.
+The next four are blockers on the agent tool execution surface and one tier lower elsewhere, because each is a property of code that acts rather than code that reports:
+
+- **Unconsented proactive execution**: a scheduled, webhook, or queued run reaches the executor missing a standing boundary, a notice the user can act on, or both; the interactive gates do not cover it, because nobody was there to prompt.
+- **Undisclosed reach**: the agent acts through accounts and scopes the user cannot see or individually revoke; the one thing watching the agent work will never reveal.
+- **Approval with nothing to decide on**: a gate that fires correctly and renders only the tool's name, so the user approves a category rather than an act.
+- **Tool output that misreports its own state**: failures returned as prose with a success status; every capability above the tool is guessing, silently.
 
 ### ⚠️ fix-this-sprint: merge but log issue
 
@@ -71,35 +74,13 @@ Aggregate the per-finding tiers into a top-level verdict (shown in the summary b
 | ❌ NOT READY | ≥1 release-blocker |
 | 🚫 INCOMPLETE | Audit-self-check failed; re-run |
 
-## Anti-patterns
+Justify every assigned tier in `tierReason` ("release-blocker because agent action panel"). Bare tiers without that sentence are incomplete.
 
-- ❌ **Tier inflation**: every finding `release-blocker`. Kills signal. Reserve the tier for genuine ship-blockers.
-- ❌ **Tier deflation**: moving everything to `backlog` for a greener verdict. Catches up at the next production incident.
-- ❌ **Tier per rule, not per finding**: a rule's default tier is a starting point; surface context can bump it up or down.
-- ❌ **Skipping the override step**: justify every tier in the output ("release-blocker because agent action panel"). Never render bare tiers without context.
+Tier per finding, not per rule: a rule's `defaultTier` is where the assignment starts, and the surface decides where it lands.
 
-## Examples
+Two ways to get this wrong, both of which cost the verdict its meaning:
 
-```json
-{
-  "rule": "control-no-approval-gate",
-  "surface": "AgentActionPanel",
-  "defaultTier": "release-blocker",
-  "assignedTier": "release-blocker",
-  "tierReason": "Rule's own override table: release-blocker on agent tool execution. Agent deletes user records without a confirmation dialog, a high-stakes action with no approval gate."
-}
-```
+- **Inflation.** Everything becomes `release-blocker`. One inflated finding flips the whole PR to ❌ NOT READY, so a report that does this twice teaches the team to read the verdict as noise and merge anyway.
+- **Deflation.** Everything slides to `backlog` for a greener verdict. That reads well once and catches up at the next production incident.
 
-```json
-{
-  "rule": "context-memory-not-visible",
-  "surface": "AgentStatusDashboard",
-  "defaultTier": "fix-this-sprint",
-  "assignedTier": "backlog",
-  "tierReason": "Rule's own override table: backlog on agent dashboard. Opaque memory is less critical on a read-only monitoring surface."
-}
-```
-
-## Cross-reference
-
-For traditional UX findings on agentic surfaces (form data loss, focus management, loading states), run `ui-design` Audit mode alongside `ax-audit`. They are complementary: `ax-audit` covers agent-specific safety and interaction; `ui-design` Audit mode covers general frontend quality.
+The test for either: if a finding could not honestly block a merge, it is not a blocker; if it would cause user harm, it is not backlog.

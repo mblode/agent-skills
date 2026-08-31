@@ -3,7 +3,7 @@ title: Entity with incomplete CRUD tool coverage
 slug: parity-crud-incomplete
 category: parity
 defaultTier: release-blocker
-surfaces: agent-tool-execution, agent-config, agent-dashboard
+surfaces: agent-dashboard
 agent-native-principle: Parity
 detection: code-auditable
 related: parity-no-tool-parity
@@ -19,7 +19,7 @@ Agent creates a note. User spots a typo. No `update_note` tool exists. Agent say
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-config, agent-dashboard
+**Surfaces:** agent-dashboard
 
 **Static signals:**
 1. List all entity types from tool definitions.

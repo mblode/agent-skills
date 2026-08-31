@@ -3,7 +3,7 @@ title: Interface static during agent task progression
 slug: context-no-adaptive-canvas
 category: context
 defaultTier: backlog
-surfaces: agent-tool-execution, agent-dashboard, agent-config
+surfaces: agent-config
 ax-pattern: Adaptive Canvas
 detection: code-auditable
 related: context-memory-not-visible, comm-no-progress-signal
@@ -19,7 +19,7 @@ Agent starts a research task. User sees "Searching..." then nothing changes for 
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-dashboard, agent-config
+**Surfaces:** agent-config
 
 **Auditability:** code-auditable
 
