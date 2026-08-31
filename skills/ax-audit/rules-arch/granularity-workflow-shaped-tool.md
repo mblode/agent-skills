@@ -3,7 +3,7 @@ title: Tool bundles decision logic instead of being atomic
 slug: granularity-workflow-shaped-tool
 category: granularity
 defaultTier: fix-this-sprint
-surfaces: agent-tool-execution, agent-config
+surfaces: agent-config
 agent-native-principle: Granularity
 detection: hybrid
 related: granularity-static-api-mapping
@@ -19,7 +19,7 @@ A tool like `analyze_and_organize(folder)` bundles judgment into code. Changing 
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-config
+**Surfaces:** agent-config
 
 **Static signals:**
 1. Grep tool definitions for compound names (`_and_`, `_then_`, `_with_`).

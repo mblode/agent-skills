@@ -3,7 +3,7 @@ title: System prompt missing resource injection
 slug: context-starvation
 category: context
 defaultTier: fix-this-sprint
-surfaces: agent-chat, agent-tool-execution, agent-config
+surfaces: agent-config
 agent-native-principle: Improvement Over Time
 detection: code-auditable
 related: context-no-injection
@@ -19,7 +19,7 @@ User opens a project management agent. System prompt has role instructions but n
 
 ## Detection
 
-**Surfaces:** agent-chat, agent-tool-execution, agent-config
+**Surfaces:** agent-config
 
 **Static signals:**
 1. Find system prompt assembly: string templates, prompt builders, message arrays.
@@ -61,10 +61,7 @@ const messages = [
 
 | Surface | Tier |
 |---|---|
-| Agent chat | release-blocker |
-| Agent tool execution | fix-this-sprint |
 | Agent config | fix-this-sprint |
-| Agent dashboard | backlog |
 
 ## Examples
 

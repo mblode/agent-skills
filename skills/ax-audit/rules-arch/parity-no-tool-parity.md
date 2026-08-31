@@ -3,7 +3,7 @@ title: UI action with no agent tool equivalent
 slug: parity-no-tool-parity
 category: parity
 defaultTier: release-blocker
-surfaces: agent-config, agent-tool-execution
+surfaces: agent-config
 agent-native-principle: Parity
 detection: code-auditable
 related: parity-crud-incomplete, parity-orphan-ui-action
@@ -21,7 +21,7 @@ UI has an "Archive" button calling `POST /api/projects/:id/archive`, but no tool
 
 ## Detection
 
-**Surfaces:** agent-config, agent-tool-execution
+**Surfaces:** agent-config
 
 **Static signals:**
 1. Enumerate every mutating handler in the tree, not only changed files: `POST`/`PUT`/`PATCH`/`DELETE` route exports, server actions, form actions.

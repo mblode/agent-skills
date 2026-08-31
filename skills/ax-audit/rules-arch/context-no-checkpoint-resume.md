@@ -3,7 +3,7 @@ title: Long-running agent with no checkpoint/resume
 slug: context-no-checkpoint-resume
 category: context
 defaultTier: backlog
-surfaces: agent-tool-execution, agent-dashboard
+surfaces: agent-dashboard
 agent-native-principle: Improvement Over Time
 detection: hybrid
 related: comm-no-completion-signal
@@ -19,7 +19,7 @@ User asks the agent to refactor 15 files. Agent completes 12 over 4 minutes. Lap
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-dashboard
+**Surfaces:** agent-dashboard
 
 **Static signals:**
 1. Find execution loops or multi-step task handlers.

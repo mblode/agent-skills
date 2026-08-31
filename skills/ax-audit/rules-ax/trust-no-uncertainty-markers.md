@@ -3,7 +3,7 @@ title: Agent presents everything with equal certainty
 slug: trust-no-uncertainty-markers
 category: trust
 defaultTier: fix-this-sprint
-surfaces: agent-chat, agent-dashboard
+surfaces: agent-chat
 ax-pattern: Confidence Cues
 detection: observational
 related: trust-no-confidence-cues, trust-no-escalation-path, parity-unstructured-tool-output
@@ -19,7 +19,7 @@ Two recommendations in one response: one well-supported, one a guess. Same font,
 
 ## Detection
 
-**Surfaces:** agent-chat, agent-dashboard
+**Surfaces:** agent-chat
 
 **Auditability:** observational
 

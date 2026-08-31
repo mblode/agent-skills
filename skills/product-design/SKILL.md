@@ -12,7 +12,8 @@ description: >-
   replaces a control, such as swipe-to-delete or hold-to-confirm, because it
   changes what a user can do. For what a state looks like once built use
   ui-design; for built-code audits use ui-design Audit mode; for the passage
-  between states use ui-animation; for copy wording use copywriting.
+  between states use ui-animation; for copy wording use copywriting; for
+  whether a built agentic feature earns trust, use ax-audit.
 ---
 
 # Product Design

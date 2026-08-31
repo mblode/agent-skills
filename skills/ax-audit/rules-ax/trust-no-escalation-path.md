@@ -3,7 +3,7 @@ title: High-stakes agent action with no human escalation
 slug: trust-no-escalation-path
 category: trust
 defaultTier: release-blocker
-surfaces: agent-tool-execution, agent-chat
+surfaces: agent-tool-execution
 ax-pattern: Escape Hatch (escalation dimension)
 detection: code-auditable
 related: control-no-approval-gate, control-no-escape-hatch
@@ -19,7 +19,7 @@ User asks about a billing dispute. Agent applies a partial credit that doesn't m
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-chat
+**Surfaces:** agent-tool-execution
 
 **Auditability:** code-auditable
 

@@ -2,7 +2,7 @@
 
 Detect each agentic feature from element + filename + route signals, then run its checks in order. Every check names a rule file in `rules-ax/` (Layer 2, agentic experience) or `rules-arch/` (Layer 1, architecture, marked explicitly).
 
-The tier in parentheses is the rule's override for that surface, copied here for scanning. **The rule file's override table is authoritative**: if they disagree, the rule file wins.
+The tier in parentheses is a scan copy of the rule's override for that surface. The rule file's override table wins if they disagree.
 
 ## Table of contents
 

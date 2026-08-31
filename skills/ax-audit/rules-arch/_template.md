@@ -3,7 +3,7 @@ title: <Rule title, short, descriptive>
 slug: <category>-<kebab-slug>
 category: parity | granularity | context | comm
 defaultTier: release-blocker | fix-this-sprint | backlog
-surfaces: <comma-separated agentic feature playbooks this rule fires in>
+surfaces: <playbooks that name this rule: agent-chat, agent-tool-execution, agent-config, agent-dashboard>
 agent-native-principle: <which agent-native principle this enforces>
 detection: code-auditable | hybrid | observational
 related: <comma-separated other rule slugs (arch or ax); cross-layer pairs list each other in both files>

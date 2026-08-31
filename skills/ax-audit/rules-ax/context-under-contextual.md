@@ -3,7 +3,7 @@ title: Agent ignores available context it should use
 slug: context-under-contextual
 category: context
 defaultTier: backlog
-surfaces: agent-chat, agent-tool-execution
+surfaces: agent-tool-execution
 ax-pattern: Under-contextual (anti-pattern)
 detection: hybrid
 related: context-memory-not-visible, context-starvation
@@ -19,7 +19,7 @@ User opens a project page and asks "help me write a status update." Agent respon
 
 ## Detection
 
-**Surfaces:** agent-chat, agent-tool-execution
+**Surfaces:** agent-tool-execution
 
 **Auditability:** hybrid
 

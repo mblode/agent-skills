@@ -3,7 +3,7 @@ title: Orchestrator emits no progress events during execution
 slug: comm-no-progress-visibility
 category: comm
 defaultTier: release-blocker
-surfaces: agent-chat, agent-tool-execution, agent-dashboard
+surfaces: agent-tool-execution, agent-dashboard
 agent-native-principle: Parity (agent-UI communication)
 detection: code-auditable
 related: comm-no-completion-signal, comm-no-approval-gate, comm-no-progress-signal
@@ -21,7 +21,7 @@ The agent makes 12 tool calls over 45s analyzing a codebase. The route handler i
 
 ## Detection
 
-**Surfaces:** agent-chat, agent-tool-execution, agent-dashboard
+**Surfaces:** agent-tool-execution, agent-dashboard
 
 **Static signals:**
 1. Find the server-side run loop: the route handler or worker that iterates tool calls.

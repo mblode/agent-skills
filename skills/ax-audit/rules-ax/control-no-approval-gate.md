@@ -3,7 +3,7 @@ title: Autonomous agent action without stakes-appropriate approval
 slug: control-no-approval-gate
 category: control
 defaultTier: release-blocker
-surfaces: agent-tool-execution, agent-chat
+surfaces: agent-tool-execution
 ax-pattern: Escape Hatch (pre-execution dimension)
 detection: hybrid
 related: control-no-escape-hatch, trust-no-escalation-path, comm-no-approval-gate, control-thin-approval-payload
@@ -19,7 +19,7 @@ Scenario A: User says "clean up my calendar." Agent deletes meetings including o
 
 ## Detection
 
-**Surfaces:** agent-tool-execution, agent-chat
+**Surfaces:** agent-tool-execution
 
 **Auditability:** hybrid
 

@@ -7,9 +7,6 @@ Every finding gets one of three tiers, deciding whether the PR ships, waits, or 
 - [The three tiers](#the-three-tiers)
 - [Tier assignment rules](#tier-assignment-rules)
 - [Verdict logic](#verdict-logic)
-- [Anti-patterns](#anti-patterns)
-- [Examples](#examples)
-- [Cross-reference](#cross-reference)
 
 ## The three tiers
 
@@ -77,35 +74,4 @@ Aggregate the per-finding tiers into a top-level verdict (shown in the summary b
 | ❌ NOT READY | ≥1 release-blocker |
 | 🚫 INCOMPLETE | Audit-self-check failed; re-run |
 
-## Anti-patterns
-
-- ❌ **Tier inflation**: every finding `release-blocker`. Kills signal. Reserve the tier for genuine ship-blockers.
-- ❌ **Tier deflation**: moving everything to `backlog` for a greener verdict. Catches up at the next production incident.
-- ❌ **Tier per rule, not per finding**: a rule's default tier is a starting point; surface context can bump it up or down.
-- ❌ **Skipping the override step**: justify every tier in the output ("release-blocker because agent action panel"). Never render bare tiers without context.
-
-## Examples
-
-```json
-{
-  "rule": "control-no-approval-gate",
-  "surface": "AgentActionPanel",
-  "defaultTier": "release-blocker",
-  "assignedTier": "release-blocker",
-  "tierReason": "Rule's own override table: release-blocker on agent tool execution. Agent deletes user records without a confirmation dialog, a high-stakes action with no approval gate."
-}
-```
-
-```json
-{
-  "rule": "context-memory-not-visible",
-  "surface": "AgentStatusDashboard",
-  "defaultTier": "fix-this-sprint",
-  "assignedTier": "backlog",
-  "tierReason": "Rule's own override table: backlog on agent dashboard. Opaque memory is less critical on a read-only monitoring surface."
-}
-```
-
-## Cross-reference
-
-For traditional UX findings on agentic surfaces (form data loss, focus management, loading states), run `ui-design` Audit mode alongside `ax-audit`. They are complementary: `ax-audit` covers agent-specific safety and interaction; `ui-design` Audit mode covers general frontend quality.
+Justify every assigned tier in `tierReason` ("release-blocker because agent action panel"). Bare tiers without that sentence are incomplete.
