@@ -6,7 +6,7 @@ defaultTier: fix-this-sprint
 surfaces: agent-chat, agent-config, agent-dashboard
 ax-pattern: Memory in Motion
 detection: code-auditable
-related: context-under-contextual, context-no-adaptive-canvas
+related: context-under-contextual, context-no-adaptive-canvas, trust-undisclosed-access-scope
 ---
 
 ## Agent uses context the user can't see or edit

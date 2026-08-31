@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-chat
 agent-native-principle: Parity (agent-UI communication)
 detection: hybrid
-related: comm-no-progress-visibility, control-no-approval-gate
+related: comm-no-progress-visibility, control-no-approval-gate, control-thin-approval-payload, comm-unrequested-action-no-consent
 ---
 
 ## Orchestrator executes high-stakes tools with no gate on the code path

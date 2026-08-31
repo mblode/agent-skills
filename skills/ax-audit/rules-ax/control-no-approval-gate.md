@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-tool-execution, agent-chat
 ax-pattern: Escape Hatch (pre-execution dimension)
 detection: hybrid
-related: control-no-escape-hatch, trust-no-escalation-path, comm-no-approval-gate
+related: control-no-escape-hatch, trust-no-escalation-path, comm-no-approval-gate, control-thin-approval-payload
 ---
 
 ## Autonomous agent action without stakes-appropriate approval

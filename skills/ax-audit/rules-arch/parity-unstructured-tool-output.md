@@ -6,7 +6,7 @@ defaultTier: fix-this-sprint
 surfaces: agent-tool-execution
 agent-native-principle: The tool surface is a protocol, legible and honest about its state
 detection: code-auditable
-related: comm-no-completion-signal, parity-no-tool-parity
+related: comm-no-completion-signal, parity-no-tool-parity, trust-no-uncertainty-markers
 ---
 
 ## Tool returns prose instead of a structured, honest result

@@ -6,7 +6,7 @@ defaultTier: fix-this-sprint
 surfaces: agent-tool-execution, agent-dashboard
 ax-pattern: Proactive action needs a different consent shape than requested action
 detection: code-auditable
-related: control-no-approval-gate, trust-no-escalation-path, comm-no-intent-handshake
+related: control-no-approval-gate, comm-no-approval-gate, trust-no-escalation-path, comm-no-intent-handshake
 ---
 
 ## Agent acts unprompted with no standing consent and no notice

@@ -54,7 +54,7 @@ rg -n -i 'revoke|disconnect' --type=ts src/ -A 3
 - A provider-hosted consent screen counts for the initial grant but not for ongoing visibility: the question is whether the user can check later, not whether they clicked once.
 - Skip files with `// ax-audit-ignore:trust-undisclosed-access-scope` near the match.
 - Skip test fixtures and seed data.
-- Do not report this together with `context-memory-not-visible`. What the agent can reach and what the agent remembers are different disclosures; if both fail, file both, each with its own evidence.
+- Do not merge this with `context-memory-not-visible`. What the agent can reach and what it has kept are different disclosures; if both fail, file both, each with its own evidence.
 
 ## Fix
 

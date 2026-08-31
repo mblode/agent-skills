@@ -6,7 +6,7 @@ defaultTier: release-blocker
 surfaces: agent-chat, agent-tool-execution
 ax-pattern: Escape Hatch
 detection: hybrid
-related: control-no-approval-gate, trust-no-escalation-path, comm-no-intent-handshake
+related: control-no-approval-gate, trust-no-escalation-path, comm-no-intent-handshake, comm-unrequested-action-no-consent
 ---
 
 ## No way to interrupt, redirect, or undo agent action
