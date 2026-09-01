@@ -109,14 +109,7 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 **Rules:** 3
 **Description:** Prevent layout shift from images, lazy-load offscreen work, and virtualize long lists. Lighthouse measures CWV; these rules catch the static cause.
 
-## 14. Motion (motion)
-
-**Impact:** HIGH
-**Default tier:** fix-this-sprint
-**Rules:** 1
-**Description:** Respect `prefers-reduced-motion`. Unreduced motion can cause vestibular distress. Timing, easing, and transform-only animation belong to `ui-animation`.
-
-## 15. Generated-UI Slop (slop)
+## 14. Generated-UI Slop (slop)
 
 **Impact:** MEDIUM
 **Default tier:** backlog
@@ -133,4 +126,4 @@ These pairings often co-fire. Emit both findings with the same `surface` to make
 
 ---
 
-Total: 49 rules across 15 categories.
+Total: 48 rules across 14 categories.

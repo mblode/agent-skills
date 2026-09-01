@@ -157,16 +157,9 @@ Use it for hover previews in a dense grid of chips or thumbnails, and for a pick
   }
   .chip:hover { scale: 1.04; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .chip { transition-property: opacity; }
-  .chip:hover { scale: 1; }
-}
 ```
 
 Keep the blur at 2-3px. Past about 4px the neighbours stop reading as content and the grid looks broken rather than defocused. Fade to roughly 0.5 opacity, never to invisible: the point is that the set is still there.
-
-The reduced-motion path keeps the opacity change and drops the blur and scale. The de-emphasis is the information; the softening is the decoration.
 
 ---
 

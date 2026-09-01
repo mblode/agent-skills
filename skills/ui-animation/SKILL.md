@@ -3,11 +3,12 @@ name: ui-animation
 description: >-
   Designs, implements, reviews, debugs, and reverse-engineers UI motion, and
   finds where an interface is missing it: CSS transitions, keyframes,
-  springs, gestures, drag, easing, timing, framer-motion, and animation
-  curves from screen recordings. Use when asked to "add animations", "make
-  this feel smooth", "review my animations", "add a swipe gesture", "match
-  this easing", "reverse engineer this animation", "extract the animation
-  curve", "where should this animate", "find animation opportunities", or
+  springs, gestures, drag, easing, timing, framer-motion, scroll-driven
+  animation, and animation curves from screen recordings. Use when asked to
+  "add animations", "make this feel smooth", "review my animations", "add a
+  swipe gesture", "match this easing", "reverse engineer this animation",
+  "extract the animation curve", "fade in on scroll", "add a parallax
+  effect", "where should this animate", "find animation opportunities", or
   "what's it called when..." to name a motion effect from a vague
   description. Owns the passage between two states. For what a state looks
   like once built use ui-design; for which states exist and whether an
@@ -51,7 +52,10 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
 | [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents, carousel `touch-action` |
+| [references/scroll-animations.md](references/scroll-animations.md) | Scroll-triggered reveals, scrubbed/scroll-driven animation (`animation-timeline`, `useScroll`), parallax, sticky scrollytelling, and when a scroll animation shouldn't exist |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
+| [references/debugging-symptoms.md](references/debugging-symptoms.md) | An animation feels off and the cause isn't named: symptom-indexed tables for sluggish, robotic, cheap, jumpy, and misfiring motion |
+| [references/svg-animation.md](references/svg-animation.md) | Animating vector art: line drawing (`stroke-dashoffset`), SVG transform-origin traps, path morphing, shakes, ambient life |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, peripheral de-emphasis, fixed-offset exits |
 | [references/transition-recipes.md](references/transition-recipes.md) | Installing a CSS transition: container morph, card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, odometer roll, text swap, success, avatar hover, error shake |
@@ -89,7 +93,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 - Never animate layout properties (`width`, `height`, `top`, `left`); they trigger layout recalc every frame. (Exception: a deliberate container tween, see the card-resize and container-morph recipes.)
 - Never use `transition: all`; it animates unintended properties and silently adopts future ones. List them explicitly.
 - Avoid `filter` animation for core interactions; if unavoidable keep blur ≤ 20px (heavy blur is expensive, especially in Safari).
-- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it they rotate/scale around the canvas origin.
+- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it they rotate/scale around the canvas origin. Line drawing, path morphing, and the Motion SVG origin override live in [references/svg-animation.md](references/svg-animation.md).
 - `transform: scale()` also scales children (icons, text, borders scale proportionally), unlike `width`/`height`: a feature for press feedback, but account for it when an inner element must stay fixed-size.
 - Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`), or every themed property animates at once.
 
@@ -113,7 +117,10 @@ Keep routine UI under 300ms; scale duration with distance (a full-screen slide c
 
 - **Enter:** `cubic-bezier(0.22, 1, 0.36, 1)` for entrances and transform-based hover
 - **Move:** `cubic-bezier(0.25, 1, 0.5, 1)` for slides, drawers, panels
-- **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)`
+- **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)` (extremely steep start; the reason its 500ms doesn't read as slow)
+- **Expo out:** `cubic-bezier(0.19, 1, 0.22, 1)` for dramatic reveals, card hovers, text reveals
+- **Press:** `cubic-bezier(0.25, 0.46, 0.45, 0.94)` for button press feedback
+- **On-screen move:** `cubic-bezier(0.645, 0.045, 0.355, 1)` for back-and-forth movement that stays on screen
 
 Avoid `ease-in` for UI: it starts slow, so the element lags the user's action and feels sluggish. Prefer custom curves from [easing.dev](https://easing.dev/) over built-in `ease`/`ease-out`, whose gentle acceleration reads soft, not decisive.
 
@@ -147,7 +154,6 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Accessibility
 
-- Every animation needs a `prefers-reduced-motion: reduce` path: disable transform/keyframe motion, keep instant state changes or opacity-only fades. All recipes include the guard.
 - Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind `hover:` is not gated unless the project set `hoverOnlyWhenSupported` or a custom variant.
 - During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
 
@@ -156,7 +162,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 - Pause looping animations off-screen with `IntersectionObserver`; they burn GPU even when invisible.
 - Toggle `will-change` only during heavy motion and only for `transform`/`opacity`; remove it after. Each promotion costs compositor memory; permanent promotion across many elements is worse than none.
 - Do not animate drag via CSS variables on a container; every update recalculates styles for all children. Set `transform` directly on the moving element.
-- Motion `x`/`y` values are the default for axis movement and drag (they bypass React re-renders). Use a full `transform` string only when one owner must combine multiple transform functions or interop with non-Motion code.
+- Motion `x`/`y` values are the default for axis movement and drag (they bypass React re-renders). Use a full `transform` string when one owner must combine multiple transform functions, interop with non-Motion code, or survive a busy main thread: the shorthands run on `requestAnimationFrame` and drop frames when motion coincides with navigation, data loading, or hydration; CSS/WAAPI stay smooth there.
 - See [references/performance-deep-dive.md](references/performance-deep-dive.md) for WAAPI, compositing layers, and the CSS vs JS comparison table.
 
 ## Anti-patterns
@@ -167,6 +173,8 @@ High-signal failures not covered above:
 - Hard stops on drag boundaries feel broken; apply friction/damping so movement diminishes past it (see gesture-drag reference).
 - Animating both a container and staggering its children: pick one entrance per container. If the panel slides in, its content should already be visible on arrival.
 - Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.
+- Scroll-revealing product UI, above-the-fold content, or every section of a page: scroll reveals belong to a few chosen moments on marketing surfaces, run once, and never re-animate on scroll-up (see [references/scroll-animations.md](references/scroll-animations.md)).
+- Easing or duration on scrubbed (scroll-driven) motion: scroll position is the clock, so any curve or duration makes it lag the scrollbar. `linear` and no duration is correct there, and only there.
 
 ## Workflow
 
@@ -194,7 +202,6 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Grep the diff for layout property transitions (`width`, `height`, `top`, `left`) and `transition: all`.
 - Retoggle components rapidly; confirm transitions retarget instead of restarting from zero.
 - Slow to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
-- Emulate `prefers-reduced-motion: reduce` (DevTools Rendering panel) and confirm every animation has a reduced path.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
 - Review again with fresh eyes the next day; imperfections missed during development stand out.
@@ -256,6 +263,6 @@ Maintenance only: when changing Discovery routing or the gate, run the scenarios
 
 - `product-design`: which states exist, what an action affects, and whether it is reversible. Route here first when a gesture replaces a control, since swipe-to-delete and hold-to-confirm change what the user can do before they change how it moves.
 - `ui-design` Direction mode: visual direction, palettes, typography; settle the visual system before tuning motion.
-- `ui-design` Audit mode: page/feature-level UI quality audit. Its `motion-` rules are the shallow presence check (animated layout properties, missing reduced-motion); the craft and the fix belong here.
+- `ui-design` Audit mode: page/feature-level UI quality audit. Motion craft and fixes belong here.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

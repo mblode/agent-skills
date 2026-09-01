@@ -1,6 +1,6 @@
 # CSS Transition Recipes
 
-14 CSS transition patterns. Each includes CSS, HTML hooks, JS orchestration where needed, and a `prefers-reduced-motion` guard. All read from a shared `:root` custom properties block.
+14 CSS transition patterns. Each includes CSS, HTML hooks, and JS orchestration where needed. All read from a shared `:root` custom properties block.
 
 ## Contents
 
@@ -195,11 +195,6 @@ Measure the target box before animating: a plain `width: auto` has nothing to in
 .t-morph[data-open="false"] [data-face="closed"] {
   transition-delay: var(--morph-content-dur);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-morph,
-  .t-morph-face { transition: none; }
-}
 ```
 
 **JS, measure then toggle:**
@@ -240,10 +235,6 @@ Tween a container's width or height when its layout state changes (compact/expan
   will-change: width, height;
   overflow: hidden;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-resize { transition: none; }
-}
 ```
 
 Toggle dimensions with a state class or inline style; the transition handles the tween.
@@ -276,10 +267,6 @@ See also: `component-patterns.md` § Drawers and panels for percentage-based dra
 }
 .t-panel[data-open="false"] {
   transition-duration: var(--panel-close-dur);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .t-panel { transition: none; }
 }
 ```
 
@@ -325,10 +312,6 @@ Slide a small badge onto a trigger (button, icon) and pop the dot; the trigger s
   transform: scale(1);
   transition-delay: calc(var(--badge-slide-dur) * 0.5);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-badge, .t-badge-dot { transition: none; animation: none; }
-}
 ```
 
 ---
@@ -364,10 +347,6 @@ See also: `contextual-animations.md` § Contextual icon swaps for the Motion/Ani
   opacity: 1;
   transform: scale(1);
   filter: blur(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .t-icon { transition: none; }
 }
 ```
 
@@ -408,10 +387,6 @@ See also: `component-patterns.md` § Popovers and dropdowns for Radix UI transfo
 .t-dropdown[data-origin="bottom-left"]  { transform-origin: bottom left; }
 .t-dropdown[data-origin="bottom-center"]{ transform-origin: bottom center; }
 .t-dropdown[data-origin="bottom-right"] { transform-origin: bottom right; }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-dropdown { transition: none; }
-}
 ```
 
 **JS, close with cleanup:**
@@ -454,10 +429,6 @@ See also: `component-patterns.md` § Modals and dialogs for `@starting-style` en
   transform: scale(var(--modal-scale));
   transition-duration: var(--modal-close-dur);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-modal { transition: none; }
-}
 ```
 
 **JS, close with cleanup:**
@@ -497,10 +468,6 @@ Swap text in place with a blurred vertical transition ("Processing..." → "Done
   opacity: 0;
   transform: translateY(var(--text-swap-y));
   filter: blur(var(--text-swap-blur));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .t-text-swap { transition: none; }
 }
 ```
 
@@ -566,10 +533,6 @@ See also: `component-patterns.md` § Step form navigation for the Motion/Animate
   transform: translateX(calc(-1 * var(--page-dist)));
   filter: blur(var(--page-blur));
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-page-slide > * { transition: none; }
-}
 ```
 
 **JS, switch page:**
@@ -617,10 +580,6 @@ Re-enter digits with directional blur on number update (counters, prices, balanc
 }
 .t-digit[data-stagger="1"] { animation-delay: var(--digit-stagger); }
 .t-digit[data-stagger="2"] { animation-delay: calc(var(--digit-stagger) * 2); }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-digit { animation: none; }
-}
 ```
 
 **JS, replay on update:**
@@ -678,10 +637,6 @@ Two rules keep it readable. Only re-render the digits that actually changed, or 
   display: block;
   animation: odo-roll var(--odo-dur) var(--odo-ease) both;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-odo-digit[data-rolling] { animation: none; }
-}
 ```
 
 **JS, roll only what changed:**
@@ -723,10 +678,6 @@ Distance-falloff lift on a horizontal stack. Hovered item lifts and scales; neig
 }
 .t-avatar {
   transition: transform var(--avatar-dur) var(--avatar-ease-in);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .t-avatar { transition: none; }
 }
 ```
 
@@ -810,11 +761,6 @@ Multi-layered success: fade, rotation, blur reduction, Y-bob with overshoot, opt
 .t-success[data-state="in"] .t-success-path {
   stroke-dashoffset: 0;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-success { animation: none; opacity: 1; transform: none; filter: none; }
-  .t-success-path { transition: none; stroke-dashoffset: 0; }
-}
 ```
 
 **JS, set path length and replay:**
@@ -876,11 +822,6 @@ Per-segment shake with auto-reverting error border. Three classes: `.is-error` o
 .t-error-wrap.is-error .t-error-msg {
   opacity: 1;
   transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .t-error-input { animation: none; }
-  .t-error-msg { transition: none; }
 }
 ```
 

@@ -195,7 +195,7 @@ function onRelease(value: number, velocity: number) {
 
 Snapping the *projected* landing point rather than the release position is what makes a flick feel like it threw the control several notches, instead of dropping it at the nearest tick.
 
-The tick marks themselves carry the feedback during the drag. Scale or darken the tick under the indicator as it passes, on `transform` and `color` only. This is the visual stand-in for the haptic click a physical detent would give, and without it a continuous drag over a ruler reads as a smooth slider that happens to be drawn with lines. On a device that supports it, pair the passing tick with `navigator.vibrate(1)`, gated behind `prefers-reduced-motion` like any other feedback.
+The tick marks themselves carry the feedback during the drag. Scale or darken the tick under the indicator as it passes, on `transform` and `color` only. This is the visual stand-in for the haptic click a physical detent would give, and without it a continuous drag over a ruler reads as a smooth slider that happens to be drawn with lines. On a device that supports it, pair the passing tick with `navigator.vibrate(1)`.
 
 ## Swipe-to-dismiss pattern
 

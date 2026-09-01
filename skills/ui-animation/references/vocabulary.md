@@ -157,4 +157,3 @@ Answer: **Rubber-banding**: Resistance and snap-back when you drag past a bounda
 - **Frequency of use**: The more often a user sees an animation, the shorter and subtler it should be.
 - **Spatial consistency**: Animating so an element keeps its identity and position across states, so users never lose track of where things went.
 - **Hardware acceleration**: Animating transform and opacity lets the GPU keep motion smooth.
-- **Reduced motion**: Respecting the user's prefers-reduced-motion setting by toning down or removing motion.
