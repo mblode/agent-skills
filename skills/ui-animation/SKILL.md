@@ -53,7 +53,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
 | [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents, carousel `touch-action` |
 | [references/scroll-animations.md](references/scroll-animations.md) | Scroll-triggered reveals, scrubbed/scroll-driven animation (`animation-timeline`, `useScroll`), parallax, sticky scrollytelling, and when a scroll animation shouldn't exist |
-| [references/reduced-motion.md](references/reduced-motion.md) | Implementing the reduced path: useReducedMotion variant sets, MotionConfig, autoplaying media fallbacks, hero-frame pause for loops, SSR-safe hook |
+| [references/reduced-motion.md](references/reduced-motion.md) | Only when the project opts into reduced-motion support: useReducedMotion variant sets, MotionConfig, autoplaying media fallbacks, hero-frame pause for loops, SSR-safe hook |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, peripheral de-emphasis, fixed-offset exits |
@@ -150,10 +150,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Accessibility
 
-- Every animation needs a `prefers-reduced-motion: reduce` path: disable transform/keyframe motion, keep instant state changes or opacity-only fades. All recipes include the guard. Implementation recipes (Motion variant sets, media fallbacks, the hooks) in [references/reduced-motion.md](references/reduced-motion.md).
-- In Motion, `<MotionConfig reducedMotion="user">` is the app-wide safety net, but its default is `never`: it does nothing until set. `useReducedMotion()` must also gate `layout` and animated `height`, which the CSS media query cannot reach.
-- Autoplaying GIFs/videos need a reduced path too: a `<picture>` static fallback or a paused video with controls. Pause infinite loops on a representative frame (negative `animation-delay`), not frame 0.
-- Verify the reduced variant by emulating it in DevTools, not by reasoning: the common failure is one leftover `transform` in a shared class that keeps the "reduced" variant moving.
+- Reduced-motion support is opt-in, not a requirement of this skill: add `prefers-reduced-motion` handling only when the project already supports it or the user asks for it. When it is wanted, the implementation recipes (Motion variant sets, media fallbacks, hero-frame pause, the hooks) live in [references/reduced-motion.md](references/reduced-motion.md); the recipes' guard blocks are likewise optional and can be dropped.
 - Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind `hover:` is not gated unless the project set `hoverOnlyWhenSupported` or a custom variant.
 - During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
 
@@ -202,7 +199,7 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Grep the diff for layout property transitions (`width`, `height`, `top`, `left`) and `transition: all`.
 - Retoggle components rapidly; confirm transitions retarget instead of restarting from zero.
 - Slow to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
-- Emulate `prefers-reduced-motion: reduce` (DevTools Rendering panel) and confirm every animation has a reduced path.
+- Only in projects that support reduced motion: emulate `prefers-reduced-motion: reduce` (DevTools Rendering panel) and confirm the reduced variants still work.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
 - Review again with fresh eyes the next day; imperfections missed during development stand out.

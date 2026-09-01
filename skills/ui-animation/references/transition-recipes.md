@@ -1,6 +1,6 @@
 # CSS Transition Recipes
 
-14 CSS transition patterns. Each includes CSS, HTML hooks, JS orchestration where needed, and a `prefers-reduced-motion` guard. All read from a shared `:root` custom properties block.
+14 CSS transition patterns. Each includes CSS, HTML hooks, and JS orchestration where needed. The `prefers-reduced-motion` guard blocks are optional: keep them only in projects that support reduced motion, drop them otherwise. All read from a shared `:root` custom properties block.
 
 ## Contents
 

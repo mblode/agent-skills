@@ -30,7 +30,7 @@
     "expected_behavior": [
       "Selects the main workflow, not Discovery: the user named the interaction, so there is nothing to sweep for",
       "Implements the transition rather than returning a report with a rejected-candidates section",
-      "Animates transform and opacity, never height, and includes a prefers-reduced-motion path"
+      "Animates transform and opacity, never height"
     ]
   }
 ]

@@ -1,8 +1,6 @@
 # Reduced Motion
 
-Implementation recipes for `prefers-reduced-motion`. SKILL.md states the requirement (every animation needs a reduced path); this file is how to build that path in CSS, Tailwind, Motion, and for media, plus the mechanisms people miss.
-
-Motion can make people feel sick (vestibular disorders are real and common) or simply pull attention from the task. Because the preference is set at the OS level, a user who set it once expects every site to honor it; there is no per-site opt-in to wait for.
+Implementation recipes for `prefers-reduced-motion`. Supporting the preference is opt-in in this skill: load this file only when the project already handles reduced motion or the user asks for it, and build without it otherwise. When a project does opt in, this is how to build the reduced path in CSS, Tailwind, Motion, and for media, plus the mechanisms people miss.
 
 ## Contents
 - [Gentler, not zero: the transformation](#gentler-not-zero-the-transformation)
