@@ -9,6 +9,10 @@ Map severities into the local review report:
 
 Severity answers "how bad if real". It is independent of the verdict, which answers "how sure". A plausible finding keeps the severity its impact earns and carries a `plausible` marker so the reader knows a repro comes first. Do not downgrade a critical to minor because you are unsure; that hides the impact instead of the uncertainty.
 
+A root `REVIEW.md` that redefines what blocks in this repo outranks the tiers below. Apply its definition and say so once in the readiness summary.
+
+Where the same PR also gets Claude Code Review or `/code-review`, the tiers line up so the author is not reconciling two scales: `critical` and `major` are its Important (fix before merge), `minor` is its Nit. It also posts a Pre-existing tier for bugs the PR did not introduce; this skill reports those only when they sit in a function the diff touched, and drops the rest.
+
 ## Critical
 
 Introduces:

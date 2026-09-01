@@ -2,7 +2,7 @@
 
 Use when a public skill already covers the ground you were about to write, or when deciding whether to vendor, fork, or replace a third-party skill you installed earlier.
 
-The default answer changed. On Opus 5 and Sol 5.6 the model already carries general craft: WCAG thresholds, React hygiene, REST conventions, the standard library. A fetched skill that teaches those buys tokens and reconciliation, not capability. What no model carries is what *this* project decided. Weight the sort accordingly: adopt less than you would have in 2024, author more.
+The default answer keeps moving toward "author". A current frontier model already carries general craft: WCAG thresholds, React hygiene, REST conventions, the standard library. A fetched skill that teaches those buys tokens and reconciliation, not capability. What no model carries is what *this* project decided. Weight the sort accordingly: adopt less than the skill's star count suggests, author more.
 
 ## The Sort
 

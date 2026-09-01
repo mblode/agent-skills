@@ -33,8 +33,11 @@ The agent makes 12 tool calls over 45s analyzing a codebase. The route handler i
 ```bash
 rg -l '(agent|orchestrator)\.(run|invoke|execute)\(' --type=ts src/app/api/ src/server/
 rg -n 'return (NextResponse|Response)\.json' --type=ts -B 15 src/app/api/ | rg '(toolCall|tool_use|for await|while)'
-rg -n '(ReadableStream|text/event-stream|createDataStreamResponse|async function\*|yield |emit\()' --type=ts src/app/api/ src/server/
+rg -n '(ReadableStream|text/event-stream|createUIMessageStream|toUIMessageStream|RUN_STARTED|STEP_STARTED|TOOL_CALL_START|async function\*|yield |emit\()' --type=ts src/app/api/ src/server/
 ```
+
+**Judgment signals:**
+- A route that streams text deltas while tool calls run silently between them is a partial pass: the user sees typing, then an unexplained pause. Report `warn` and name the missing step events.
 
 **False-positive guards:**
 - Skip files with `// ax-audit-ignore:comm-no-progress-visibility`.
@@ -68,7 +71,7 @@ export async function POST(req: Request) {
 }
 ```
 
-Event names are a contract: `rules-ax/comm-no-progress-signal` audits the client against the same set, so renaming them mid-stack breaks the surface that displays them.
+Event names are a contract: `rules-ax/comm-no-progress-signal` audits the client against the same set, so renaming them mid-stack breaks the surface that displays them. In AI SDK 7 the equivalent is `createUIMessageStream` with `writer.write({ type: "data-step", ... })` per tool call; in AG-UI it is `STEP_STARTED` and `TOOL_CALL_START`.
 
 ## Default tier and overrides
 

@@ -8,7 +8,6 @@ One JSON document, two formats. Build the JSON first, then render to what the us
 - [Fix blast radius](#fix-blast-radius)
 - [Considered and rejected](#considered-and-rejected)
 - [Adapter 1: Terminal table](#adapter-1-terminal-table)
-- [Closing line](#closing-line)
 - [Adapter 2: CI JSON](#adapter-2-ci-json)
 - [JSON schema](#json-schema)
 - [Field reference](#field-reference)
@@ -294,7 +293,7 @@ One finding example follows, for the `observed` / `expected` threshold shape. Ev
 | Field | Required when | Description |
 |---|---|---|
 | `rule` | always | the rule's `id`, which matches its filename in `rules/` |
-| `category` | always | the rule's `category`, one of the 15 in `rules/_sections.md` |
+| `category` | always | the rule's `category`, one of the 14 in `rules/_sections.md` |
 | `detect` | always | `static \| rendered \| rubric`, copied from the rule's frontmatter |
 | `feature` | always | feature playbook this finding came from (`checkout`, `sign-in`, etc.) |
 | `surface` | always | component or page name (PascalCase, no extension) |
@@ -357,4 +356,4 @@ The suppression token is literally `ui-audit-ignore:`, matching what already exi
 - **One finding = one observable bug.** Don't bundle bugs under one rule; two issues firing the same rule are two findings.
 - **Applied and remaining never mix.** A reader scanning the report should be able to answer "what do I still owe" from one block.
 - **Tier-first, surface-second sort** inside each block: ⛔ first, ⚠️ next, 📋 last; within tier, group by surface.
-- **Closing line last, and only when something was found.** The terminal adapter ends with the closing line, after the footers; the JSON adapter never carries it. An audit that found nothing ends at the rejections.
+- **The report ends at its footers.** Defer-to, suppression, and self-check close a run with findings; a clean run ends at the rejections. No sign-off, promotion, or summary paragraph follows either.

@@ -24,13 +24,14 @@ Agent researches a complex question. Makes 3 tool calls, then pauses 8 seconds c
 **Static signals:**
 1. Find the orchestrator control loop that decides continue/stop.
 2. Check for idle-counting, timeout-based completion, or file-existence as termination.
-3. Flag any heuristic used as the primary completion signal.
+3. Check which terminal reasons the loop handles. `end_turn` alone is not enough: `pause_turn` means resend and continue, `max_tokens` means truncated, so a loop that returns on "anything but `tool_use`" presents a cut-off answer as complete. The full list is in `references/framework-signals.md`.
+4. Flag any heuristic used as the primary completion signal.
 
 **Concrete commands:**
 ```bash
 rg '(consecutiveIdle|noToolCall|idleCount|maxIdle)' --type=ts src/
 rg '(setTimeout|setInterval)' --type=ts -A 5 src/ | rg '(done|complete|finish|terminate)'
-rg '(stop_reason|end_turn|shouldContinue)' --type=ts src/
+rg '(stop_reason|stopReason|finishReason|end_turn|pause_turn|RUN_FINISHED|shouldContinue)' --type=ts src/
 ```
 
 **False-positive guards:**
@@ -50,13 +51,20 @@ while (idle < 3) {
   await executeTools(res.toolCalls, messages);
 }
 
-// after: explicit signal via stop_reason or completion tool
+// after: every terminal reason handled explicitly, none inferred
 while (true) {
   const res = await llm.chat(messages);
-  if (res.stopReason === "end_turn") return { status: "complete", content: res.content };
-  for (const tc of res.toolCalls) {
-    if (tc.name === "task_complete") return { status: "complete", summary: tc.args.summary };
-    messages.push({ role: "tool", content: await executeTool(tc) });
+  switch (res.stopReason) {
+    case "tool_use":
+      for (const tc of res.toolCalls) {
+        if (tc.name === "task_complete") return { status: "complete", summary: tc.args.summary };
+        messages.push({ role: "tool", content: await executeTool(tc) });
+      }
+      continue;
+    case "pause_turn":  continue;                                        // server tools mid-run: resend, not done
+    case "end_turn":    return { status: "complete", content: res.content };
+    case "max_tokens":  return { status: "truncated", content: res.content };
+    default:            return { status: "failed", reason: res.stopReason }; // refusal, context window
   }
 }
 ```

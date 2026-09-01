@@ -1,16 +1,17 @@
 ---
 name: multi-tenant-architecture
-description: Provides architecture guidance for multi-tenant SaaS platforms on Cloudflare or Vercel. Covers platform choice, domain strategy, tenant identification and isolation, subdomain routing, custom domains and SSL, white-label setup, tenant context propagation, PSL submission, and mapping platform limits to pricing plans. Use when building a multi-tenant application or asking "how do I support multiple tenants", "build a white-label platform", "add custom domains", "route tenants by subdomain", or "map limits to plans". For general app folder structure use codebase-architecture; for scaffolding a new Next.js repo use scaffold-nextjs.
+description: Designs multi-tenant SaaS architecture on Cloudflare (Workers for Platforms, Cloudflare for SaaS) or Vercel (Next.js proxy.ts, wildcard and custom domains). Covers platform choice, tenant domain strategy and Public Suffix List submission, tenant identification by subdomain, custom domain, or path, compute and data isolation (Postgres RLS, schema-per-tenant, database-per-tenant), hostname routing, tenant context propagation, custom domain onboarding and SSL, per-tenant robots.txt and sitemap.xml, and mapping platform limits to pricing plans. Use when building a multi-tenant or white-label platform or asking "how do I support multiple tenants", "let customers bring their own domain", "route tenants by subdomain", "isolate tenant data", "should I submit to the PSL", or "which limits go in each plan". For general app structure use codebase-architecture; for scaffolding a new Next.js repo use scaffold-nextjs; for the content of per-tenant SEO files use optimise-seo.
 ---
 
 # Multi-Tenant Platform Architecture (Cloudflare or Vercel)
 
-- **IS:** domain strategy, tenant identification and isolation, subdomain routing, custom domains, white-label setup, and plan/limit mapping on Cloudflare or Vercel.
-- **IS NOT:** general app folder structure or module boundaries (use `codebase-architecture`), scaffolding a new repo (use `scaffold-nextjs`), or the content of per-tenant SEO artifacts once routing serves them dynamically: sitemap entries, canonical URLs, structured data, indexing policy (use `optimise-seo`).
+- **IS:** platform choice, domain strategy and PSL, tenant identification, compute and data isolation, hostname routing, tenant context propagation, custom domains and SSL, per-tenant static files, and mapping platform limits to plans.
+- **IS NOT:** general folder structure or module contracts (use `codebase-architecture`), scaffolding a new repo (use `scaffold-nextjs`), or the content of per-tenant SEO files once routing serves them dynamically: sitemap entries, canonical URLs, structured data, indexing policy (use `optimise-seo`).
 
 ## Contents
 
 - Platform dispatch (decide first)
+- Reference files
 - Workflow (order matters)
 - Gotchas
 - Output schema
@@ -19,16 +20,25 @@ description: Provides architecture guidance for multi-tenant SaaS platforms on C
 
 ## Platform dispatch (decide first)
 
-| Signals | Platform | Load |
-|---------|----------|------|
-| Tenants run untrusted or per-tenant code; need code-level isolation; edge-first compute on D1/KV/Durable Objects | Cloudflare (Workers for Platforms, dispatch namespaces) | [cloudflare-platform.md](references/cloudflare-platform.md) |
-| All tenants share one Next.js codebase; need ISR, React Server Components, managed deploys | Vercel (App Router + Middleware) | [vercel-platform.md](references/vercel-platform.md), then [vercel-domains.md](references/vercel-domains.md) for domains |
+| Signals | Platform | Model |
+|---------|----------|-------|
+| Tenants upload or generate their own code; code-level isolation; edge compute on KV, D1, Durable Objects, R2 | Cloudflare | Dispatch Worker in front of a dispatch namespace of per-tenant Workers; Cloudflare for SaaS for custom hostnames |
+| Every tenant runs the same Next.js codebase and differs by content, branding, and plan; ISR, Server Components, Vercel deploys | Vercel | One deployment; `proxy.ts` resolves the tenant from the hostname; wildcard plus custom domains on the project |
 
-- Pick one platform and commit; never mix hosting (hybrid routing complexity compounds).
-- Load only the chosen platform's references unless explicitly comparing.
-- Load [psl.md](references/psl.md) when deciding domain strategy (step 1).
-- Load [limits-and-quotas.md](references/limits-and-quotas.md) before mapping limits to pricing (step 8).
-- `agents/openai.yaml` is launcher metadata for external runners only; do not load it in normal use.
+- Pick one platform per product. Fronting a Vercel app with a Cloudflare proxy doubles the TLS and redirect layers and is the usual cause of redirect loops and failed certificate issuance.
+- Tenants shipping their own code on Vercel is the multi-project model (one Vercel project per tenant, created with the SDK). It follows the Cloudflare row's isolation reasoning; this skill's Vercel references cover the single-deployment model only.
+
+## Reference files
+
+| File | Read when |
+|------|-----------|
+| [cloudflare-platform.md](references/cloudflare-platform.md) | Cloudflare chosen: dispatch namespaces, routing, Cloudflare for SaaS custom hostnames, isolation modes, KV and D1 (steps 3 to 7) |
+| [vercel-platform.md](references/vercel-platform.md) | Vercel chosen: `proxy.ts` resolution, App Router layout, Global Config lookups, per-tenant static files, custom subpaths, local dev (steps 4 to 7) |
+| [vercel-domains.md](references/vercel-domains.md) | Vercel chosen: SDK domain lifecycle, DNS targets, verification, wildcard nameservers, SSL, troubleshooting (step 7) |
+| [data-isolation.md](references/data-isolation.md) | Step 3 on either platform: shared schema with RLS, schema-per-tenant, database-per-tenant, and the Postgres/Supabase/Drizzle policy pattern |
+| [psl.md](references/psl.md) | Step 1 when tenants publish content or run code on sibling subdomains: eligibility, submission, interim cookie controls |
+| [limits-and-quotas.md](references/limits-and-quotas.md) | Step 8: dated snapshot of Cloudflare, Vercel, and Neon limits to map onto plans |
+| `agents/openai.yaml` | Never during a task: launcher metadata for external runners |
 
 ## Workflow (order matters)
 
@@ -38,72 +48,75 @@ Copy this checklist to track progress:
 Multi-tenant progress:
 - [ ] Step 1: Domain strategy and PSL decision
 - [ ] Step 2: Tenant identification strategy
-- [ ] Step 3: Isolation model
+- [ ] Step 3: Isolation model (compute and data)
 - [ ] Step 4: Deterministic routing
 - [ ] Step 5: Tenant context propagation
-- [ ] Step 6: Least-privilege bindings and tenant config
+- [ ] Step 6: Tenant config and least-privilege bindings
 - [ ] Step 7: Custom domains and per-tenant static files
-- [ ] Step 8: Limits mapped to plans
-- [ ] Step 9: API parity with the UI
-- [ ] Step 10: Extension modes
+- [ ] Step 8: Limits mapped to plans, evidence captured
 ```
 
-1. Choose domain strategy
-- Dedicated tenant domain, separate from the brand domain, for all subdomains and custom hostnames. Reputation does not isolate: a phishing site on `random.acme.com` damages the whole domain.
-- Register a separate TLD for tenant workloads (e.g. `acme.app` for tenants, `acme.com` for brand).
-- Untrusted content on sibling subdomains: choose PSL submission, record owner plus timeline. Otherwise record `No PSL` with the cookie-isolation reason. See [psl.md](references/psl.md).
-- Start PSL early; review takes weeks.
+1. Choose the domain strategy
+- Put tenant workloads on a dedicated registrable domain (`acme.app` for tenants, `acme.com` for brand). One phishing tenant on `x.acme.com` puts the whole domain on blocklists, and a tenant cookie with `Domain=acme.com` reaches your dashboard.
+- Keep the dashboard and auth on a different apex from tenant subdomains (`app.acme.com` for the console, `*.acme.app` for tenants).
+- If tenants publish content or run code on sibling subdomains, submit the label directly above the tenant name (`acme.app`, or `sites.acme.app` for `<tenant>.sites.acme.app`) to the PSL and start now: there is no SLA. Tenant-owned custom domains need no PSL entry. Otherwise record `No PSL` with the reason.
 
-2. Choose tenant identification strategy (pick one primary; offer custom domain as upgrade path)
-- **Subdomain-based**: `tenant.yourdomain.com`. Requires wildcard DNS. Simplest at scale.
-- **Custom domain**: tenant CNAMEs their own domain to your platform. Best for serious/paying tenants.
-- **Path-based**: `yourdomain.com/tenant-slug`. No per-tenant DNS/SSL, but limits branding and complicates cookie isolation.
+2. Choose tenant identification (one primary; custom domain as the upgrade path)
+- **Subdomain** `tenant.acme.app`: wildcard DNS plus wildcard certificate. The default.
+- **Custom domain** `tenant.com`: the tenant CNAMEs to you. Paying tenants; reputation shifts to them; needs the onboarding lifecycle in step 7.
+- **Path** `acme.app/tenant`: no per-tenant DNS or certificates, but no cookie isolation and no branding. Choose it only when tenants will never get a hostname.
 
-3. Define isolation model
-- **Cloudflare**: per-tenant Workers via dispatch namespaces for untrusted code. Avoid shared-tenant branching unless you fully control code and data.
-- **Vercel**: shared Next.js app with `tenant_id` scoping. Middleware resolves tenant from hostname; every query includes tenant context. Postgres RLS for defence-in-depth.
+3. Define the isolation model
+- **Compute, Cloudflare:** one dispatch namespace in untrusted mode; per-invocation `cpuMs` and `subRequests` limits per plan; an outbound Worker if tenant code may call the internet.
+- **Compute, Vercel:** one deployment, tenant code never executes. If tenants must ship code, move to Vercel multi-project or Cloudflare rather than sandboxing inside the app.
+- **Data:** shared schema with `tenant_id` on every tenant-aware table plus RLS is the default; database-per-tenant for regulated or noisy tenants, selectable per plan. See [data-isolation.md](references/data-isolation.md).
 
-4. Route traffic deterministically (tenants never control routing or see each other)
-- **Cloudflare**: platform Worker owns routing: hostname -> tenant id -> dispatch namespace -> tenant Worker. 404 when no mapping.
-- **Vercel**: Middleware extracts hostname, rewrites to a `/domains/[domain]` segment; Edge Config for sub-millisecond lookups. 404 when no mapping.
+4. Route deterministically (tenants never influence routing or see each other)
+- **Cloudflare:** a single `*/*` route on the SaaS zone to the dispatch Worker; hostname -> tenant record (KV, D1 on miss) -> `env.DISPATCHER.get(script)`; `Worker not found` -> 404.
+- **Vercel:** `proxy.ts` (Next.js 16; `middleware.ts` with `runtime: 'nodejs'` on 15) reads `host`, looks the tenant up in Global Config or the database, rewrites into the tenant segment; unknown hostname -> 404, never the brand site.
+- Let `/.well-known` through before any tenant rewrite. Route `robots.txt`, `sitemap.xml`, and `llms.txt` into the tenant segment so they vary per tenant.
 
-5. Pass tenant context through the stack (single authority: Middleware or platform Worker; never trust client-supplied identity)
-- **Cloudflare**: platform Worker resolves the tenant, injects headers/bindings before dispatching to the tenant Worker.
-- **Vercel**: Middleware sets `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` on forwarded request headers (not the response). Server Components read via `headers()`; API routes read from request headers. Implementation in [vercel-platform.md](references/vercel-platform.md).
+5. Propagate tenant context from one authority
+- Delete every inbound `x-tenant-*` header, set `x-tenant-id`, `x-tenant-slug`, `x-tenant-plan` from the resolved tenant, and forward them on the request (`NextResponse.next({ request: { headers } })`). Server Components read `await headers()`; route handlers read `request.headers`. Cloudflare: the dispatch Worker sets headers or passes parameters before `fetch`.
+- The proxy is routing, not authorization. Server Functions, route handlers, and jobs re-derive the tenant from the session and the data layer enforces it (RLS or `tenant_id` predicates).
 
-6. Bind only what is needed
-- **Cloudflare**: least-privilege bindings per tenant (DB/storage/limited platform API), no shared global state. New bindings are explicit changes; redeploy to grant access.
-- **Vercel**: Edge Config for tenant config (domain mappings, feature flags, plan info). `@vercel/sdk` for domain management. DB connections scoped by `tenant_id`, or database-per-tenant (Neon).
+6. Bind only what the tenant needs
+- **Cloudflare:** each user Worker gets its own bindings (KV namespace, D1 database, R2 prefix); adding a binding is an explicit redeploy. No shared globals.
+- **Vercel:** Global Config holds only `hostname -> { id, slug, plan }`; the database is the source of truth and write-through happens when a domain verifies. Feature flags and branding come from the database keyed by tenant id.
 
 7. Support custom domains and per-tenant static files
-- Provide a DNS target, verify ownership, store the mapping, route by hostname.
-- **Cloudflare**: Cloudflare for SaaS custom hostnames with managed certs. See [cloudflare-platform.md](references/cloudflare-platform.md).
-- **Vercel**: `@vercel/sdk` for domain CRUD plus automatic Let's Encrypt SSL; wildcard subdomains require Vercel nameservers. See [vercel-domains.md](references/vercel-domains.md).
-- Custom domains shift reputation to the tenant and create natural user segments (casual on platform domain, serious on their own).
-- `robots.txt`, `sitemap.xml`, `llms.txt` must vary by tenant; never serve from `/public`. Cloudflare: generate in the tenant Worker. Vercel: route handlers under the domain segment (see [vercel-platform.md](references/vercel-platform.md)).
+- Lifecycle to design and record: add domain -> show DNS target -> verify ownership -> certificate issued -> mapping activated -> removal or failure path.
+- **Cloudflare:** Cloudflare for SaaS custom hostname on the SaaS zone, proxied fallback origin, `customers.<you>.com` CNAME target, `http` or `txt` validation, pre-validate before DNS cutover. See [cloudflare-platform.md](references/cloudflare-platform.md).
+- **Vercel:** `projectsAddProjectDomain` -> DNS values from the project's domain card -> `_vercel` TXT only if the domain is already on Vercel -> `projectsVerifyProjectDomain` -> Let's Encrypt HTTP-01. See [vercel-domains.md](references/vercel-domains.md).
+- `robots.txt`, `sitemap.xml`, `llms.txt` are route handlers inside the tenant segment with explicit `Content-Type`; nothing tenant-specific lives in `/public`. Their content is `optimise-seo` territory.
 
-8. Surface limits as plans
-- Map platform limits to pricing tiers; expose in API and UI.
-- No long jobs in requests; use queues or workflows.
-- See [limits-and-quotas.md](references/limits-and-quotas.md); re-check official docs before final architecture or pricing decisions.
-
-9. Make the API the product
-- Everything works over HTTP; the UI is for ops, incidents, billing.
-- Platform logic stays in the routing layer (dispatch Worker or Middleware); tenant content serves requests.
-- If it only works in the UI, the platform is leaking.
-
-10. Extend without breaking boundaries
-- Add queues, workflows, or containers as optional modes. Keep routing explicit and isolation intact.
+8. Surface limits as plans and capture evidence
+- Fill the limits-to-plan table from [limits-and-quotas.md](references/limits-and-quotas.md), re-checking each source URL and dating it; enforce at the routing layer (Cloudflare `limits`, Vercel plan header plus server checks).
+- Nothing long-running in the request path: Cloudflare Queues or Workflows, Vercel background functions or cron.
+- Every tenant operation (create tenant, add domain, verify, remove) works over HTTP with the same authority as the UI; if it only works in the dashboard, the platform leaks into the UI.
+- Run the evidence commands in the pre-commit checklist and paste results into the output.
 
 ## Gotchas
 
-- Tenant headers go on the Middleware request, not the response: `headers()` in Server Components reads forwarded request headers, so use `NextResponse.next({ request: { headers } })` or the tenant id never arrives.
-- Don't start path-based if custom domains are on the roadmap: migrating later means URL rewrites, cookie changes, and DNS migration.
-- Never share DB connections across tenants without RLS or `tenant_id` scoping: one missing WHERE clause leaks another tenant's data.
-- Never block `/.well-known/acme-challenge/*` with Middleware or redirects: Let's Encrypt HTTP-01 validation fails and custom-domain SSL never issues.
-- Edge Config writes are not instant: propagation takes up to 10 seconds, so a "domain connected" UI reading Edge Config immediately shows stale state.
+- Tenant headers set on the response instead of the request: `NextResponse.next({ headers })` sends `x-tenant-id` to the browser and `headers()` in Server Components reads nothing. Use `NextResponse.next({ request: { headers: requestHeaders } })`.
+- Forwarding inbound tenant headers: `curl -H "x-tenant-id: <other>"` then serves another tenant's data. Delete or overwrite `x-tenant-*` on every path through the proxy, including paths that skip resolution.
+- The starter kit matcher `'/((?!api|_next|[\\w-]+\\.\\w+).*)'` excludes every root file with an extension, so `robots.txt` and `sitemap.xml` skip the proxy and every tenant gets the platform's `/public` copy. Match them, and rewrite them into the tenant segment.
+- Next.js 16 renamed `middleware.ts` to `proxy.ts` (export `proxy`, Node.js runtime, a `runtime` config option throws). `npx @next/codemod@canary middleware-to-proxy .` migrates. A matcher that excludes a path also skips Server Function POSTs on it, so tenant checks live in the data layer too.
+- Global Config (formerly Edge Config) key names must match `^[\w-]+$`; `tenant_acme.com` is rejected. Encode hostnames (`domain_acme_com`). Writes propagate in up to 10 s, so a "domain connected" screen that reads Global Config right after the write shows stale state; read the database there. The legacy `@vercel/edge-config` SDK cannot read stores connected after the rename (they create `GLOBAL_CONFIG`, not `EDGE_CONFIG`).
+- RLS never binds table owners, superusers, or `BYPASSRLS` roles. An app connecting as the migration role sees every tenant with policies "on". Connect as a separate role, add `ALTER TABLE ... FORCE ROW LEVEL SECURITY`, and test with `SET ROLE app_user`.
+- `SET app.tenant_id = ...` outside a transaction on a pooled connection persists into the next request. Use `set_config('app.tenant_id', $1, true)` inside the transaction; with PgBouncer in transaction mode it is the only safe form.
+- Wildcard `*.acme.app` on Vercel without Vercel nameservers never gets a certificate: DNS-01 needs Vercel to write `_acme-challenge`. Point `ns1.vercel-dns.com` and `ns2.vercel-dns.com` first and re-add MX records.
+- `/.well-known` is reserved on Vercel and cannot be rewritten or redirected; a proxy that rewrites every path into `/s/[slug]` breaks HTTP-01 and custom-domain certificates never issue. Pass it through first.
+- Cloudflare for SaaS: the fallback origin must be a proxied record in the SaaS zone; a custom hostname equal to the zone name is unsupported; `_cf-custom-hostname` pre-validation does not work when the customer's zone is also on Cloudflare (O2O, marked by `cf-connecting-o2o: 1`).
+- Untrusted dispatch namespaces (default) have no `request.cf` and no `caches.default`, so tenant code reading `request.cf.country` throws. Trusted mode restores them but shares one cache across every tenant Worker in the namespace.
+- KV is eventually consistent (up to 60 s, negative lookups cached): a hostname added after the dispatch Worker's first lookup 404s for a minute. Fall back to D1 on miss during onboarding.
+- PSL rejects domains with under two years of registration left; the `_psl.<suffix>` TXT stays in place after merge; browsers ship the list on their own release cycles. Listing also kills `Domain=acme.app` cookies, including your own cross-subdomain SSO if it lives there.
+- Starting path-based with custom domains on the roadmap means URL rewrites, cookie changes, and DNS migration later.
+- Cloudflare for SaaS includes 100 custom hostnames then bills $0.10 per hostname per month; Vercel Hobby caps 50 domains per project. Both belong in the plan table before pricing is set.
 
 ## Output schema
+
+Length follows the decisions: drop any section the project does not face rather than filling it.
 
 ```markdown
 # Multi-tenant architecture
@@ -118,22 +131,21 @@ Multi-tenant progress:
 - Tenant domain:
 - Tenant subdomains:
 - Custom domains:
-- PSL decision: Submit | No PSL
-- PSL owner/timeline or No PSL reason:
+- PSL decision: Submit (suffix, owner, PR link, _psl TXT date) | No PSL (reason)
 
 ## Routing matrix
 | Host pattern | Resolver | Destination | Unknown tenant behavior |
 |---|---|---|---|
 
 ## Tenant context flow
-- Authority: Middleware | platform Worker
-- Propagation:
+- Authority: proxy.ts | dispatch Worker
+- Headers set and stripped:
 - Server read path:
-- Database/API scoping:
+- Data-layer enforcement:
 
 ## Isolation model
 - Compute isolation:
-- Data isolation:
+- Data isolation (and per-plan variant):
 - Config/binding isolation:
 
 ## Custom-domain lifecycle
@@ -144,39 +156,39 @@ Multi-tenant progress:
 5. Removal/failure path:
 
 ## Limits-to-plan table
-| Limit | Source URL/date | Free | Pro | Enterprise | Enforcement point |
+| Limit | Source URL / access date | Free | Pro | Enterprise | Enforcement point |
 |---|---|---:|---:|---:|---|
 
 ## Validation evidence
-| Check | Command/source | Expected result | Result |
+| Check | Command | Expected | Result |
 |---|---|---|---|
 ```
 
 ## Pre-commit checklist
 
-- [ ] Platform chosen with documented rationale
-- [ ] Tenant workloads off the brand domain; PSL decision and timeline set
-- [ ] Tenant identification strategy chosen; custom-domain upgrade path defined
-- [ ] Isolation model defined: per-tenant Workers (Cloudflare) or shared-app plus RLS (Vercel)
-- [ ] Routing authoritative and tenant-blind; dispatch or Middleware handles all traffic
-- [ ] Tenant context flows through Middleware/platform Worker only; no client-supplied identity trusted
-- [ ] Custom-domain onboarding defined: DNS target, verification, cert provisioning
-- [ ] Per-tenant static files (robots.txt, sitemap.xml, llms.txt) served dynamically
-- [ ] Limits tied to billing; API parity with UI
-- [ ] Limits snapshot refreshed from official docs and dated in planning notes
+- [ ] Platform chosen with rationale; multi-project or Cloudflare chosen if tenants ship code
+- [ ] Tenant workloads off the brand domain; dashboard on a separate apex; PSL decision recorded
+- [ ] Identification strategy chosen; custom-domain upgrade path defined
+- [ ] Isolation model defined for compute and data, including the per-plan variant
+- [ ] Routing tenant-blind: unknown host -> 404; `/.well-known` passes through; static files vary per tenant
+- [ ] Inbound `x-tenant-*` stripped; context set by the proxy or dispatch Worker only; data layer enforces tenant
+- [ ] Custom-domain lifecycle defined end to end, including removal
+- [ ] Limits table dated from official URLs; enforcement points named; long work off the request path
 
-Evidence commands (run or mark N/A):
+Evidence commands (run against local or preview; mark N/A with a reason):
 
-| Check | Evidence |
-|---|---|
-| Tenant context exists at the boundary | `rg "x-tenant-id|tenant_id|tenantId|CREATE POLICY|USING \\(" .` |
-| Tenant routing works | `curl -sI -H "Host: tenant.example.com" <local-or-preview-url>` |
-| Per-tenant static files are dynamic | `curl -s -H "Host: tenant.example.com" <url>/robots.txt` and `curl -s -H "Host: tenant.example.com" <url>/sitemap.xml` |
-| Custom-domain verification path exists | API route, SDK call, or platform config path in the plan |
-| Platform limits are up to date | official Cloudflare/Vercel URLs with access date in the Limits-to-plan table |
+| Check | Command | Expected |
+|---|---|---|
+| Tenant boundary exists in code | `rg -n "x-tenant-id\|CREATE POLICY\|FORCE ROW LEVEL SECURITY\|DISPATCHER.get" .` | Hits in proxy or dispatch Worker and in the schema |
+| Unknown host is 404 | `curl -sI -H "Host: nope.acme.app" <url>` | `404` |
+| Forged header ignored | `curl -s -H "Host: a.acme.app" -H "x-tenant-id: tenant-b" <url>/api/whoami` | Tenant A |
+| Static files vary | `curl -s -H "Host: a.acme.app" <url>/robots.txt` vs `-H "Host: b.acme.app"` | Different bodies, `Content-Type: text/plain` |
+| RLS holds for the app role | `psql -c "BEGIN; SET LOCAL ROLE app_user; SELECT set_config('app.tenant_id','<t1>',true); SELECT count(*) FROM posts; ROLLBACK;"` | Only tenant t1's rows |
+| ACME path reachable | `curl -sI -H "Host: tenant.com" <url>/.well-known/acme-challenge/test` | Not a redirect into the tenant segment |
+| Limits current | Access date next to each URL in the limits table | Dated within the planning window |
 
 ## Related skills
 
-- `codebase-architecture`: folder structure, module contracts, and middleware pipelines for the application itself.
+- `codebase-architecture`: folder structure, module contracts, and the request-context pipeline for the application itself.
 - `scaffold-nextjs`: bootstrap the Next.js turborepo before applying these tenancy patterns.
-- `optimise-seo`: per-tenant sitemaps, canonical URLs, and structured data once routing works.
+- `optimise-seo`: content of per-tenant `robots.txt`, `sitemap.xml`, `llms.txt`, canonical URLs, and structured data once routing serves them.

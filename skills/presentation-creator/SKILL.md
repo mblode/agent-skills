@@ -1,14 +1,14 @@
 ---
 name: presentation-creator
-description: Creates bold, minimal presentations built on a story spine, with punchy slide copy, high-contrast visual design (full-bleed palettes or dark with section accents), and conversational speaker notes. Covers live talks, async/recorded decks, 10-slide investor pitch decks, and decks built as a web app with a route per slide and live demos. Use when creating a presentation, structuring a deck, writing slides, building a pitch deck for investors, fixing a deck that has no narrative, or asking "outline a presentation about...", "write slides for...", "design a deck for...", "turn this doc into a deck", "my talk has no story", or "build this deck as a website". For long-form articles use the external ghostwriter skill with platform blog; for marketing copy outside slides use copywriting; for product UI design systems use ui-design.
+description: Creates presentations and slide decks with a story spine, punchy slide copy, high-contrast dark-first visual design, and conversational speaker notes, output as Marp markdown by default, or as a web app with a route per slide and live demos. Covers conference and internal talks, recorded or async decks, and 10-slide investor pitch decks. Use when creating a presentation, structuring a deck, writing slides or speaker notes, building a pitch deck for investors, fixing a deck that has no narrative, or asking "outline a presentation about...", "write slides for...", "design a deck for...", "turn this doc into a deck", "my talk has no story", "write my speaker notes", or "build this deck as a website". When the user names a .pptx or .potx file, use the external pptx skill for the file and this skill for the story, outline, and copy. For long-form articles use the external ghostwriter skill with platform blog; for marketing copy outside slides use copywriting; for product UI use ui-design.
 ---
 
 # Presentation Creator
 
 Bold, minimal slide decks with a story underneath: spine to final QA.
 
-- **IS:** slide decks end to end: story spine, narrative structure, slide copy, visual design, speaker notes, investor pitch decks, and decks built as a web app.
-- **IS NOT:** long-form prose (use the external `ghostwriter` skill with platform `blog`), marketing copy outside slides (use `copywriting`), or general visual systems for product UI (use `ui-design`).
+- **IS:** slide decks end to end: story spine, slide sequence, slide copy, visual system, speaker notes, investor pitch decks, and decks built as a web app; output as Marp markdown (default), Slidev or reveal.js markdown, or a Next.js deck app.
+- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (external `pptx` skill where installed; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose (external `ghostwriter` with platform `blog`), marketing copy outside slides (`copywriting`), or product UI (`ui-design`).
 
 ## Workflow
 
@@ -16,58 +16,64 @@ Track this checklist:
 
 ```text
 Presentation progress:
-- [ ] Step 1: Gather context (audience, setting, format, output)
+- [ ] Step 1: Gather context (audience, setting, venue, three messages, output format)
 - [ ] Step 2: Write the story spine and the ending (references/story-structure.md)
 - [ ] Step 3: Outline the slide sequence (references/outline-structure.md)
 - [ ] Step 4: Write slide copy (references/writing-slides.md; pitch decks: references/pitch-decks.md instead)
-- [ ] Step 5: Design visual layout and composition (references/visual-design.md)
-- [ ] Step 6: Write speaker notes (references/speaker-notes.md); skip for pitch decks
-- [ ] Step 7: QA pass, output the slide-by-slide review table
+- [ ] Step 5: Design colour, type, and layout (references/visual-design.md)
+- [ ] Step 6: Write speaker notes (references/speaker-notes.md); skip for a deck sent without a presenter
+- [ ] Step 7: Emit the deck in the chosen format (references/output-formats.md or references/web-deck.md)
+- [ ] Step 8: QA pass, output the slide-by-slide review table
 ```
 
 ### Step 1: Gather context
 
-Establish four things (ask if not provided):
+Establish these, asking only for what the brief does not answer:
 
-- **Audience:** internal (shared context, be direct) vs. external (build credibility, define terms)
-- **Setting:** live talk, recorded/async, or standalone investor pitch
-- **The three messages:** what the audience must remember after the deck
-- **The output:** a markdown outline to hand to a deck tool, a deck built as a web app, or slides in an existing template. Ask before Step 5, because the visual step is where it starts to matter
+- **Audience:** internal (shared context, be direct) vs. external (build credibility, define terms).
+- **Setting:** live talk, recorded/async, or a pitch deck sent to investors and read without you.
+- **Venue:** a dark room or a large hall takes the dark system; a bright meeting room, daylight, or a deck that doubles as a handout takes a light palette. Ask when unknown, because it decides Step 5.
+- **The three messages:** what the audience must remember after the deck.
+- **Output format:** Marp markdown unless there is a reason otherwise. A web app when the deck should run a live demo or live at a URL. A `.pptx` when the user names the file or a house template, produced by the external `pptx` skill from this skill's outline, copy, and notes. Decide now, not at Step 7: the format sets the type and notes mechanics in Steps 5 and 6.
 
-Route by format:
+Route by setting:
 
-- **Live talk or internal/recorded deck** → Steps 2-7 in order.
-- **Investor pitch deck** (read without a presenter) → read [references/pitch-decks.md](references/pitch-decks.md) first. Its 10-slide framework replaces Step 3's outline, and its async copy rules (denser, standalone headlines, 2-3 bullets per section) replace `writing-slides.md` for Step 4: do not load `writing-slides.md` on this path, its presented-deck copy limits contradict it. Step 2 still applies, in a compressed form: an investor is an audience too, and the spine is what stops a pitch reading as a feature list. Skip Step 6 (no presenter); Steps 5 and 7 still apply.
+- **Live talk, internal, or recorded deck** → Steps 2-8 in order.
+- **Investor pitch deck sent to be read** → [references/pitch-decks.md](references/pitch-decks.md) first. Its 10-slide framework replaces Step 3's outline, and its async copy rules replace `writing-slides.md` at Step 4 (do not load both: their density rules contradict). Step 2 still applies in compressed form; the spine is what stops a pitch reading as a feature list. Skip Step 6. The same company pitching live on a demo-day stage is a presented deck: use the standard path with the pitch framework as its outline.
 
-### Steps 2-6: Build the deck
+### Steps 2-7: Build the deck
 
 Read each step's reference when you reach it:
 
 | Step | Reference | Covers |
 |------|-----------|--------|
 | 2. Story | [references/story-structure.md](references/story-structure.md) | The spine template, writing the ending first, taking a position, stakes, the unstick move |
-| 3. Outline | [references/outline-structure.md](references/outline-structure.md) | Narrative flow, 12 slide types, section colors, outline output format |
-| 4. Write | [references/writing-slides.md](references/writing-slides.md), replaced by [references/pitch-decks.md](references/pitch-decks.md) on the pitch path | Headline patterns, body text rules, copy per slide type, before/after examples |
-| 5. Design | [references/visual-design.md](references/visual-design.md) | Two colour systems, fluid type scale, layout patterns, slide-type → layout mapping |
+| 3. Outline | [references/outline-structure.md](references/outline-structure.md) | Narrative flow, 12 slide types, section colours, outline output format |
+| 4. Write | [references/writing-slides.md](references/writing-slides.md), replaced by [references/pitch-decks.md](references/pitch-decks.md) on the pitch path | Headline patterns, body rules, copy per slide type, before/after examples |
+| 5. Design | [references/visual-design.md](references/visual-design.md) | Two colour systems, contrast thresholds, fluid and fixed type scales, layout patterns, slide type to layout mapping |
 | 6. Notes | [references/speaker-notes.md](references/speaker-notes.md) | Per-slide note structure, delivery cues, notes by slide type |
+| 7. Emit | [references/output-formats.md](references/output-formats.md) | Marp syntax and export, Slidev and reveal.js equivalents, the `pptx` handoff, where notes live in each |
+| 7. Emit (web) | [references/web-deck.md](references/web-deck.md) | Route-per-slide structure, navigation, layout primitives, motion, live demos |
+| Changing this skill | `evals/evals.json` | Behavioural scenarios with assertions, plus should-trigger and near-miss routing prompts. Never loads during a user task |
 
-Building the deck as a web app rather than exporting from a deck tool: [references/web-deck.md](references/web-deck.md) covers the route-per-slide structure, navigation, layout primitives, motion, and live demos. Read it at Step 5, after the copy exists, never before Step 3.
+Read `web-deck.md` only after the copy exists. Primitives designed before the outline get shaped around slide 3 and fight every slide after it.
 
-### Step 7: QA pass (produces evidence)
+### Step 8: QA pass (produces evidence)
 
 Review every slide and output a table. This is the deliverable that proves the deck is done, not a "looks good" sign-off:
 
 ```markdown
-| # | Slide | 3-sec test | One message | Spine beat | Layout | Color |
-|---|-------|-----------|-------------|------------|--------|-------|
-| 1 | Title | pass | pass | once upon a time | full statement | teal |
+| # | Slide | 3-sec test | One message | Spine beat | Layout | Colour | Contrast |
+|---|-------|-----------|-------------|------------|--------|--------|----------|
+| 1 | Title | pass | pass | once upon a time | full statement | teal | 12.6:1 |
 ```
 
-- **3-sec test:** parseable in 3 seconds at arm's length? Cut copy on any failure until it passes.
+- **3-sec test:** parseable in three seconds at arm's length (Duarte's glance test). Cut copy on any failure until it passes. Pitch decks are read, not glanced: substitute "makes sense forwarded with no context".
 - **One message:** exactly one idea per slide; split slides carrying two.
 - **Spine beat:** which beat of the Step 2 spine this slide serves. A slide serving none is a fact you found interesting; cut it.
-- **Layout:** no more than 2 consecutive slides with the same layout.
-- **Color:** the section accent, or the full-bleed palette, matching what Step 5 assigned.
+- **Layout:** the layout should change when the slide's job changes. Flag a run of three or more identical layouts and keep it only when the section is deliberately a list.
+- **Colour:** the section accent, or the full-bleed palette, matching what Step 5 assigned.
+- **Contrast:** the smallest text on the slide against its background. 4.5:1 for body and captions, 3:1 only for text at 24px (18pt) or larger. Record the ratio, not "ok".
 
 Deck-level checks below the table:
 
@@ -75,41 +81,38 @@ Deck-level checks below the table:
 - The deck states a position a reasonable person could disagree with
 - One colour system throughout: accents per section, or full-bleed palettes, never both
 - Recap slide has exactly one line per core section
-- Pitch decks only: ≤15 slides, explicit ask slide (amount + use of funds), headlines pass the forwardable test (make sense with zero context)
+- Speaker notes sit where the output format reads them (Marp and Slidev: an HTML comment at the end of the slide; reveal.js: a `Note:` line; `.pptx`: the notes pane)
+- Pitch decks only: 10 slides plus an appendix at most, explicit ask slide (amount and use of funds), headlines pass the forwardable test
 
 Fix every flagged row and re-output the table before handing over.
 
 ## Core principles
 
-- **Story before slides:** the spine decides which slides exist. Write the ending first
-- **Take a position:** a deck nobody could disagree with has not said anything
-- **Headlines do the work:** bold statements, not topic labels:
-  ```
-  Before: "An Overview of Our Q3 Performance Metrics and Results"
-  After:  "Q3: Revenue Up 40%. Here's How."
-  ```
-- **Impact through scale, not weight:** large light type beats small bold type
-- **One colour system, held for the whole deck:** full-bleed palettes where a palette owns the entire slide, or dark with one accent per section. Either creates the rhythm the audience tracks position by
-- **Demo it live where you can:** a working demo, not a screenshot of one
+- **Story before slides:** the spine decides which slides exist. Write the ending first.
+- **Take a position:** a deck nobody could disagree with has not said anything.
+- **Headlines do the work:** the complete claim, not a topic label. "Q3: revenue up 40%. Here's how." beats "Q3 performance overview".
+- **Impact through scale, not weight:** large light type beats small bold type.
+- **One colour system, held for the whole deck:** full-bleed palettes where a palette owns the entire slide, or dark with one accent per section. Either is the rhythm the audience tracks position by.
+- **Demo it live where you can:** a working demo on a web deck, not a screenshot of one; a recording where the demo cannot run offline.
 
 ## Gotchas
 
-- **A deck with no opinion:** surveying the landscape feels safe to write and gives the room nothing to hold. If nobody could disagree, there is no talk yet.
-- **Paragraphs on slides:** the audience reads instead of listening and the speaker becomes redundant. Fail the 3-second arm's-length test, cut copy until it passes.
-- **Accents outside the section system:** section colors are wayfinding; a random mid-section accent reads as a topic change that never happened. One color per major section, teal reused for opening and closing.
-- **Accent thinking on a full-bleed deck:** adding a highlight colour to a slide whose palette already owns the screen. On that system the slide is the accent; the colour changes at the slide boundary, not inside it.
-- **Fixed pixel type:** a deck sized for the presenter's laptop is a different deck on the projector and unreadable on the phone it gets forwarded to. Size in `clamp()`.
-- **A screenshot where a live demo would land:** if the deck is a web app and the thing runs, run it. A screenshot of a working demo is the weaker version of both.
-- **Speaker notes as a script:** a verbatim script gets read aloud and sounds flat. Notes are scannable prompts: key point, talk-track bullets, transition line.
-- **Same layout on every slide:** uniform layouts flatten rhythm; the audience stops registering new slides. Alternate full-statement, split, and data layouts per visual-design.md.
-- **Skipping the spine:** jumping straight to slides produces a list of facts with no arc, then a rewrite once the missing narrative shows. Spine and ending first, then the outline.
-- **Building the deck app before the story exists:** the primitives get designed around slide 3 and fight every slide after it.
-- **Sparse headlines on pitch decks:** "Traction" tells a skimming investor nothing. Write the complete claim: "1,000+ Customers, $10M ARR". Pitch decks are read, not presented.
-- **Presented-deck density on a pitch deck:** a 3-words-per-slide deck forwarded with no presenter is unreadable. Route to pitch-decks.md in Step 1, not after the deck is built.
+- **Dark deck in a bright room:** the default dark system relies on the room. Under daylight or a weak projector the black background goes grey and white body text washes out. Ask about the venue in Step 1; take the light "paper" palette or a white background when the answer is bright, and test on the projector, not the laptop.
+- **Contrast checked at headline size only:** a saturated full-bleed pair that reads at 100px fails at 20px caption size. Check the smallest text on the slide: 4.5:1 for body and captions, 3:1 for 24px-plus text, from the actual hex values. Record the ratio in the QA table.
+- **Export "PPTX" from Marp or Slidev and call it done:** both rasterise each slide into an image inside the `.pptx`. Text is not selectable or editable, so the deck the client wanted to edit is a stack of pictures. When editable PowerPoint is the deliverable, route to the `pptx` skill.
+- **Notes and directives both live in HTML comments in Marp:** `<!-- _class: lead -->` is a directive, `<!-- Open with the outage story -->` is a presenter note. A note that starts with a `key: value` line silently becomes a directive.
+- **Fixed pixel type on a web deck:** a deck sized for the presenter's laptop is a different deck on the projector and unreadable on the phone it gets forwarded to. Size in `clamp()`; Marp and `.pptx` decks are fixed canvases and take pt sizes instead.
+- **Presented-deck density on a pitch deck sent by email:** a 3-words-per-slide deck forwarded with no presenter is unreadable. Route to `pitch-decks.md` at Step 1, not after the deck is built. The inverse also fails: a 60-word slide on a demo-day stage.
+- **Sparse headlines on pitch decks:** "Traction" tells a skimming investor nothing. Write the claim: "1,000+ customers, $10M ARR".
+- **Skipping the spine:** jumping straight to slides produces a list of facts with no arc, then a rewrite once the missing narrative shows. Spine and ending first.
+- **Speaker notes as a script:** a verbatim script gets read aloud and sounds flat. Notes are prompts: key point, talk-track bullets, transition line.
+- **Accents outside the section system:** section colours are wayfinding; a random mid-section accent reads as a topic change that never happened. On a full-bleed deck the slide is the accent; the colour changes at the slide boundary, not inside it.
+- **Paragraphs on slides:** the audience reads instead of listening and the speaker becomes redundant. Cut until the 3-second test passes.
 
 ## Related skills
 
-- Optional external `ghostwriter` where installed: long-form articles and tutorials from the `blog` platform profile; use when the output is prose, not slides
-- `copywriting`: landing pages, CTAs, marketing copy outside a deck
-- `ui-design`: visual systems for product UI and landing pages; presentation visual rules live in references/visual-design.md instead
-- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion
+- External `pptx` skill (anthropics/skills) where installed: creating, editing, and QA of the `.pptx` file. This skill owns story, outline, copy, and notes; on a visual conflict inside a `.pptx`, this skill's colour system and type hierarchy set direction and the `pptx` skill's font, margin, and notes mechanics win.
+- External `dataviz` skill where installed: any chart or metric tile on a slide.
+- `copywriting`: landing pages, CTAs, marketing copy outside a deck.
+- `ui-design`: visual systems for product UI and landing pages; presentation visual rules live in `references/visual-design.md` instead.
+- External `ghostwriter` where installed: long-form articles from the `blog` platform profile, when the output is prose, not slides.

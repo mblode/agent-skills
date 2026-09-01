@@ -25,14 +25,16 @@ blockquote {
 **Correct (hanging punctuation on blockquotes):**
 
 ```css
-/* CSS hanging-punctuation (Safari support) */
+/* hanging-punctuation is not Baseline: Safari ships it, Chrome and
+   Firefox do not, so the fallback has to be scoped or it double-shifts. */
 blockquote p {
   hanging-punctuation: first last;
 }
 
-/* Fallback: negative text-indent */
-blockquote p {
-  text-indent: -0.4em;
+@supports not (hanging-punctuation: first) {
+  blockquote p {
+    text-indent: -0.4em;
+  }
 }
 ```
 

@@ -1,95 +1,77 @@
 # SEO Checklist
 
-Copy this checklist and check off each item as completed.
+Copy this into the report during step 5 and mark each line pass, fail, or n/a with the evidence beside it. Drop sections that do not apply (single-locale sites skip Internationalisation); do not pad them.
 
-## Crawl & Index
-- [ ] `app/sitemap.ts` lists all public URLs
-- [ ] `app/robots.ts` allows crawlers, links to sitemap
-- [ ] No unintended `noindex` on public pages
-- [ ] Canonical URL set and consistent on every page
+## Crawl and index
+
+- [ ] `app/sitemap.ts` lists every indexable URL, absolute, with `lastModified` derived from content
+- [ ] `app/robots.ts` allows search crawlers and names the sitemap (every generated file when `generateSitemaps` is used)
+- [ ] No unintended `noindex` or `X-Robots-Tag` on public pages; staging and custom-domain previews carry one
+- [ ] Canonical set on every page; one host, one casing, one trailing-slash policy; duplicates consolidate via canonical, not `noindex`
 - [ ] Every indexable page has an internal-link crawl path (no orphans)
-- [ ] Sitemap `lastModified` derives from latest content, not a hardcoded date
-- [ ] Preview/staging/QA URLs are `noindex` with a canonical pointing at production
-- [ ] Thin hubs (empty author, tag, category, pagination) are `noindex` until they carry unique content
-- [ ] No placeholder or lorem pages published as indexable URLs
-- [ ] Syndicated copies of the same story all point at one canonical URL
+- [ ] Thin hubs (empty author, tag, category, pagination) and placeholder pages are `noindex` and out of the sitemap
+- [ ] Syndicated copies point at one canonical URL
 
-## Meta Tags
-- [ ] Unique title (50-60 chars) per page
-- [ ] Unique description (150-160 chars) per page
-- [ ] OpenGraph: type, url, title, description, image (1200x630)
-- [ ] Twitter: card, title, description, image
-- [ ] Favicons: favicon.ico, icon.svg, apple-touch-icon.png
+## Redirects and status codes
 
-## Structured Data
-- [ ] Organization + WebSite schemas on homepage
-- [ ] BreadcrumbList on all non-homepage pages
-- [ ] Article/Product schemas where the page type earns them, and no decorative extras
-- [ ] `FAQPage` only where the questions render as visible text (no Google rich result since 7 May 2026; still parsed, still weighted by ChatGPT)
-- [ ] Entities share stable `@id`s and interlink via a `@graph` (no duplicated entities)
-- [ ] Articles use an `Organization` publisher with a `logo`; `Person` is the author
-- [ ] `ProfilePage` on identity pages (about/now), linked to the Person
-- [ ] Recommended fields filled: Rich Results Test warnings cleared, not just errors
+- [ ] Moved URLs return 308 (or 301) with no chains; temporary moves 307
+- [ ] Missing pages return a real 404: `notFound()` runs before streaming starts, or `proxy.ts` handles the miss
+- [ ] Maintenance returns 503 plus `Retry-After`
 
-## Content & Semantics
-- [ ] Single h1 per page with logical h2-h6 hierarchy
-- [ ] Title and H1 lead with the non-brand primary keyword and match in intent
-- [ ] Page opens with a short extractable answer to its main question
-- [ ] h2s shaped as the questions people actually ask, evaluator questions first
-- [ ] Descriptive alt text on all images
-- [ ] Internal links between related pages
+## Metadata
 
-## Answer Engines
-- [ ] Access: core content in the initial HTML response, no JS-only render
-- [ ] Access: CDN/WAF does not challenge the retrieval crawlers (OAI-SearchBot, Claude-SearchBot, PerplexityBot) or the user-triggered agents (ChatGPT-User, Claude-User, Perplexity-User)
-- [ ] Discovery: crawler policy decided per class, not per vibe. Retrieval and user-triggered allowed unless there is a stated reason; training (GPTBot, ClaudeBot, CCBot, Bytespider) is a separate, deliberate call
-- [ ] Discovery: `Google-Extended` / `Applebot-Extended` understood as usage-control tokens, not crawlers to block for traffic reasons
-- [ ] Discovery: `llms.txt` served if cheap, and not counted as a citation win
-- [ ] Parseability: key pages open with an extractable answer and carry real specifics (numbers, dates, named comparisons), not prose alone
-- [ ] Parseability: Markdown representation available via `Accept: text/markdown` + `Vary`, or a `Link` alternate header
-- [ ] No content written separately "for AI" (scaled-content-abuse risk)
+- [ ] `metadataBase` set once; unique title and description per page
+- [ ] Title and H1 lead with the non-brand primary keyword and agree in intent
+- [ ] Open Graph type, url, title, description, image (1200x630, with alt); Twitter card
+- [ ] Favicons: `icon.svg`, `apple-icon.png`, `favicon.ico`
 
-## Core Web Vitals
-- [ ] Field data (CrUX p75), not just a Lighthouse lab run
-- [ ] LCP < 2.5s (hero image uses `priority`)
-- [ ] INP < 200ms
-- [ ] CLS < 0.1 (images have width/height)
-- [ ] TTFB < 600ms
-- [ ] No oversized `public/` images (audit and recompress in place)
+## Structured data
 
-## Redirects & Status
-- [ ] Moved URLs return 301/308 (permanent), not 302/307; no redirect chains
-- [ ] Missing pages return real 404 (no soft 404s returning 200)
-- [ ] Staging/admin/thin pages have explicit `noindex` / `X-Robots-Tag`
+- [ ] Organization and WebSite in a root `@graph` with stable `@id`s; BreadcrumbList on inner pages
+- [ ] Article, Product, ProfilePage, or LocalBusiness only where the page type earns them; nothing decorative
+- [ ] `FAQPage` only where the questions render as visible text (no Google rich result since May 2026)
+- [ ] Recommended fields filled; Rich Results Test warnings cleared, not only errors
+
+## Content and semantics
+
+- [ ] One h1; logical h2-h6; h2s shaped as the questions people ask
+- [ ] Page opens with a short extractable answer to its main question, then specifics (numbers, dates, comparisons)
+- [ ] Descriptive alt text; internal links between related pages
+- [ ] Core content in the initial HTML response, not behind a client-only fetch
+
+## AI crawlers
+
+- [ ] CDN or WAF does not challenge `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`, or the user-triggered agents (`curl -A` per agent returns the page, not an interstitial)
+- [ ] `robots.ts` has one explicit rule per class; training access (`GPTBot`, `ClaudeBot`, `CCBot`) is a recorded decision
+- [ ] `Content-Signal` line present or knowingly omitted; `llms.txt` served if cheap and not counted as a result
+
+## Core Web Vitals (field data, p75)
+
+- [ ] LCP under 2.5 s (hero image uses `priority`, correct `sizes`)
+- [ ] INP under 200 ms
+- [ ] CLS under 0.1 (every image and embed has dimensions; fonts use `next/font`)
+- [ ] TTFB under 800 ms
+- [ ] No oversized `public/` images
 
 ## Internationalisation (multi-locale only)
-- [ ] One URL pattern for all locales (subdir / subdomain / ccTLD)
-- [ ] `hreflang` reciprocal across all alternates, with self-ref + `x-default`
-- [ ] Metadata translated (title, description, OG, JSON-LD, alt), not just body
-- [ ] No automatic IP/Accept-Language locale redirects
 
-## Security headers
-- [ ] HTTPS enforced; HTTP→HTTPS redirect; HSTS set
-- [ ] `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `frame-ancestors`
-- [ ] `Referrer-Policy` and `Permissions-Policy` set
-- [ ] Third-party scripts use Subresource Integrity; cookies `Secure`/`HttpOnly`/`SameSite`
-- [ ] `/.well-known/security.txt` published
+- [ ] One URL pattern for all locales
+- [ ] `hreflang` reciprocal with self-reference and `x-default`, in one location only
+- [ ] Canonical of each localised page is itself, not the source language
+- [ ] Title, description, OG, JSON-LD, and alt translated
+- [ ] No IP or `Accept-Language` redirects
 
-## Privacy
-- [ ] Privacy policy present and accurate
-- [ ] Non-essential cookies gated behind opt-in consent (EU/UK)
-- [ ] Global Privacy Control signal honoured
-- [ ] Analytics is cookieless/aggregate where possible; data minimised
+## Security and privacy
 
-## Resilience
-- [ ] Custom 404/500 return correct status codes, no leaked stack traces
-- [ ] Maintenance returns 503 + `Retry-After`
-- [ ] Web app manifest present
-- [ ] Uptime monitored from outside own infra
+- [ ] HTTPS enforced; HSTS set (preload only after the ramp)
+- [ ] CSP, `nosniff`, `frame-ancestors`, `Referrer-Policy`, `Permissions-Policy` present
+- [ ] Third-party scripts carry SRI; cookies `Secure`, `HttpOnly`, `SameSite`
+- [ ] `/.well-known/security.txt` published and unexpired
+- [ ] Non-essential cookies gated behind opt-in consent (EU/UK); Consent Mode v2 signals set where Google tags run; GPC honoured
 
-## Final Validation
-- [ ] Lighthouse SEO score >= 90
-- [ ] Lighthouse Performance score >= 90
-- [ ] Social sharing previews render correctly
-- [ ] Structured data validated per URL
-- [ ] Post-deploy: Search Console Pages/Coverage clean and rich-result enhancement reports warning-free
+## Final validation
+
+- [ ] Lighthouse SEO and Performance at or above 90, or blockers named
+- [ ] CrUX p75 in target, or the failing metric named
+- [ ] Social previews render; structured data validated per URL
+- [ ] Post-deploy: Search Console Pages report and enhancement reports show no new warnings

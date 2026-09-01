@@ -1,5 +1,7 @@
 # Agent-Native Principles (Condensed)
 
+Condensed from the Every agent-native guide (<https://every.to/guides/agent-native>), with Anthropic's tool-writing and context-engineering guidance folded in where it sharpens a rule.
+
 <!-- TOC -->
 - [Core Principles](#core-principles)
 - [Tool Design](#tool-design)
@@ -25,6 +27,10 @@
 
 **Domain tools.** Add deliberately for vocabulary anchoring, guardrails (validation not left to judgment), or bundling a multi-step operation.
 
+**Consolidate mechanics, not judgment.** Anthropic's guidance for agent tools runs the other way from "one tool per endpoint": a few tools aimed at whole workflows beat many thin wrappers, and bloated, overlapping tool sets are the first failure mode it names. The two agree once the axis is clear. Chaining mechanical steps into one user action (`schedule_event` finds availability and books) is consolidation the agent loses nothing to; folding a decision into code (which role, what counts as stale) moves judgment out of the prompt and is what `granularity-workflow-shaped-tool` catches.
+
+**Tool results are a contract.** MCP gives the shape a name: `structuredContent` under an `outputSchema` on success, `isError: true` on failure (assumed false when unset), and `annotations` that describe stakes (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`) which clients treat as hints, not authority. `parity-unstructured-tool-output` and `comm-no-approval-gate` audit against that shape whatever the stack.
+
 **Dynamic capability discovery.** For evolving type systems (CMS, CRM custom objects), expose `list_available_types()` + `read_data(type)` over one wrapper per type. A product agent whose tools *are* the product nouns (`create_issue`, `update_document`) does not need to discover them at runtime.
 
 MCP standardizes discover and access for external services. Prefer those servers over hand-coded wrappers.
@@ -48,7 +54,7 @@ Context is a budget with two ends. Too little and the agent asks redundant quest
 
 ## Agent-UI Communication
 
-**Completion signals.** Every model API returns a terminal reason for a turn. The audit question is whether the orchestrator reads that field, or infers "done" from idle time, an empty delta, or a timeout. Orchestrators that add their own states (`pause`, `escalate`, `retry`) must emit them as explicitly as completion, or the UI guesses again.
+**Completion signals.** Every model API returns a terminal reason for a turn (`stop_reason` in the Messages API, `finishReason` in AI SDK). The audit question is whether the orchestrator reads that field, or infers "done" from idle time, an empty delta, or a timeout. Reading it is not enough on its own: `pause_turn` means continue and `max_tokens` means truncated, so a loop that treats every non-tool reason as completion has smuggled the heuristic back in. Orchestrators that add their own states (`pause`, `escalate`, `retry`) must emit them as explicitly as completion, or the UI guesses again.
 
 **Partial completion tracking.** Per-task status (pending, in_progress, completed, failed, skipped); show `3/5 tasks complete (60%)` with error notes.
 

@@ -2,16 +2,17 @@
 name: ax-audit
 description: >-
   Audits agentic applications against 27 rules for architecture and trust:
-  tool parity, honest tool output, approval gates and what they show, access
-  scope, unprompted action, escape hatches, and memory visibility. Produces a
+  tool parity, honest tool output, human-in-the-loop approval gates and what
+  they show, access scope, unprompted action, escape hatches, and memory
+  visibility, in AI SDK, MCP, and Claude Agent SDK code. Produces a
   ship-readiness verdict plus an AX Relationship Summary. Use when reviewing
   agentic feature PRs or asking "is this agent-native", "AX review", "critique
   this AI feature", "does this earn user trust", "does this feel like AI",
-  "Ask AI button", "can an agent use our product", "what can the agent
-  access", or "audit this for AX". For traditional frontend UX use ui-design
-  Audit mode. For whether a human developer finds the same API, CLI, or types
-  pleasant to adopt, use dx-audit. For what the product should do before it
-  exists, use product-design.
+  "Ask AI button", "review our tool approval flow", "can an agent use our
+  product", "what can the agent access", or "audit this for AX". For
+  traditional frontend UX use ui-design Audit mode. For whether a human
+  developer finds the same API, CLI, or types pleasant to adopt, use dx-audit.
+  For what the product should do before it exists, use product-design.
 ---
 
 # AX Audit
@@ -48,6 +49,8 @@ AX Audit progress:
 ```
 
 PR-mode scope is the diff plus the tool definitions and orchestrator it touches. Findings in untouched files belong in a full sweep, not this verdict. Playbook annotations are a scan copy; the rule file is authoritative. `parity-orphan-ui-action` runs on every PR-mode audit and never in a full sweep, where there is no diff for it to read.
+
+Rule greps name the most common identifiers, not every framework's spelling. When a grep misses in code that plainly does the thing (a gate, a stream, a tool result), check `references/framework-signals.md` for the stack's name for it before recording `unknown`.
 
 ## Two rule layers
 
@@ -90,6 +93,7 @@ Render after findings when any agentic feature was detected. Findings serve engi
 | File | Read when |
 |---|---|
 | `references/feature-playbooks.md` | Steps 2-3: detection heuristics, per-feature ordered checks, diff-wide checks |
+| `references/framework-signals.md` | Step 4, when the code uses AI SDK, MCP, the Claude Agent SDK, or AG-UI: where the gate, the stream, the completion signal, and the structured result live in each, with the spec defaults the rules lean on |
 | `references/ship-readiness.md` | Step 5: tier triggers, precedence, verdict logic |
 | `references/output-format.md` | Step 6: findings JSON schema, summary schema, terminal rendering |
 | `references/agent-native-principles.md` | A Layer 1 finding needs grounding the rule file does not carry |
@@ -102,8 +106,11 @@ Render after findings when any agentic feature was detected. Findings serve engi
 ## Gotchas
 
 - **Scope before rules.** Running all 27 rules repo-wide on a 3-file PR buries a new release-blocker under pre-existing backlog noise; the verdict stops meaning "can this PR merge."
-- **The rule's override table is authoritative.** `comm-no-intent-handshake` defaults to `fix-this-sprint` but its table says `release-blocker` on tool execution. Stacking the generic "+1 tier on tool execution" bump on an explicit override double-upgrades backlog findings into blockers. The same failure mode is promoting `comm-no-generative-momentum` or `granularity-static-api-mapping` (both default `backlog`) to blocker.
+- **The rule's override table is authoritative.** `comm-no-intent-handshake` defaults to `fix-this-sprint` but its table says `release-blocker` on tool execution. Stacking the generic "+1 tier on tool execution" bump on an explicit override double-upgrades backlog findings into blockers.
 - **A stop button not wired to `AbortController.abort()` is a false affordance.** `control-no-escape-hatch` still fails: verify the `abort()` call, not the button label, or the audit passes a UI that lies to users.
+- **A client `stop()` that only closes the stream leaves the executor running.** `useChat().stop()` aborts the fetch. Unless the route passes `req.signal` into `streamText({ abortSignal })` and tool `execute` reads it, the server finishes every remaining tool call after the user pressed Stop. Trace the signal to the loop, not to the button.
+- **Tool annotations are hints, not stakes.** MCP tells clients to treat `annotations` from untrusted servers as untrusted; a gate that auto-approves on a third-party server's `readOnlyHint: true` has handed the gate to that server. `comm-no-approval-gate` fails it. The spec defaults (`destructiveHint: true`, `readOnlyHint: false`) are the fail-closed baseline.
+- **A framework approval flag is the gate's input, not the gate.** AI SDK `toolApproval: "user-approval"` emits a `tool-approval-request` part and waits. A UI that never renders `state === "approval-requested"`, or answers it with `addToolApprovalResponse({ approved: true })` on arrival, has a gate in the type system and none for the user. Check the renderer and the response call, not the option.
 - **Absence checks need a recorded file list.** "Find components lacking X" greps return nothing both when everything passes and when nothing was scanned. List candidate files first (`rg -l <feature-pattern>`), check each for the counter-pattern, and cite the file list as evidence.
 - **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`.
 - **Gates fail in three separate places.** Absent from the path (`comm-no-approval-gate`), present but mismatched to the stakes (`control-no-approval-gate`), or correct and unreadable (`control-thin-approval-payload`). Report the first that holds and fix in that order.

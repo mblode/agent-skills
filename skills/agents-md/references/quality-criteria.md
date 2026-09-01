@@ -52,7 +52,7 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 23. States conventions that materially change implementation choices
 24. States naming/path conventions when CI/tooling depends on them
 25. States test strategy conventions (unit/e2e boundaries) when relevant
-26. Links out non-universal detail, and keeps every must-obey rule inline rather than behind an `@import` that not every tool resolves
+26. Every rule the whole repo must obey is inline in root; nothing must-obey lives only behind an `@import`, a `.claude/rules/` file, or a `.cursor/rules/` file that a single tool resolves
 27. Marks scope boundaries: monorepo root vs workspace files
 28. Avoids restating what the agent or harness already does (tool-use conventions, read before edit, todo tracking, run tests after a change)
 29. Rules name the condition that triggers them, so precision lands on *when* a rule applies rather than on forbidding a whole class of action
@@ -63,12 +63,12 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 
 ## D. Signal-to-noise and bloat control (9)
 
-34. Root file concise for repo complexity (60-150 lines for active app repos)
+34. Root file concise for repo complexity (60-150 lines for active app repos; 200 is Claude Code's stated ceiling, and Codex stops reading at 32 KiB across all instruction files)
 35. No full framework documentation pasted inline
 36. No copy-pasted full templates
 37. No exhaustive file tree or "every file" inventory
 38. No long architecture deep dives in root file
-39. Links to detail files for non-universal guidance
+39. Non-universal guidance lives where it loads on demand (nested file, path-scoped rule, skill, or plain link), not in root and not behind an `@import` that loads at launch anyway
 40. No duplicate guidance across sections
 41. No content auto-memory owns (user preferences, personal feedback, evolving project status)
 42. Each section passes the litmus test: removing it would cause mistakes
@@ -102,3 +102,4 @@ Mark grade `F` regardless of score if any hold:
 - Commands are mostly broken/stale
 - Instructions are primarily generic advice, or restatements of default agent behavior
 - File is dominated by copied docs/templates rather than executable guidance
+- The repo uses Claude Code and no `CLAUDE.md` (pointer or symlink) exists, so the file is never loaded there

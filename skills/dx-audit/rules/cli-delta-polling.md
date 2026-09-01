@@ -1,29 +1,26 @@
 ---
-title: Poll State Deltas, Not Full Workflows
-impact: HIGH
-impactDescription: avoids spending agent context and work when monitored state has not changed
-tags: cli, agents, polling, tokens, structured-output
+title: Expose Compact State Snapshots for Polling
+impact: MEDIUM
+impactDescription: keeps a monitoring loop from re-reading unchanged state every tick and spending the caller's context on it
+tags: cli, agents, polling, status, structured-output
 ---
 
-## Poll State Deltas, Not Full Workflows
+## Expose Compact State Snapshots for Polling
 
-An agent monitoring a long-running operation needs a compact snapshot with a stable fingerprint.
-Polling should compare that fingerprint and resume the expensive workflow only when state changes.
-Do not reinject the original brief, full object graph, or complete instruction set on every timer
-tick; unchanged polling context compounds across the entire run.
+A script or agent watching a long-running operation calls `status` on a timer. When the only status output is the full object with logs, every tick costs as much as the first and the caller has to diff prose to learn whether anything moved. Give `status` a compact structured snapshot with a stable fingerprint (`stateHash`, `etag`, or `updatedAt`), and where the operation supports it a `wait` that returns only on change or timeout. Full detail stays behind `--verbose` or a `logs` command.
 
-**Incorrect (every tick restarts the full workflow context):**
+**Incorrect (every poll returns the whole object; change is invisible without a diff):**
 
-```ts
-setInterval(() => runAgent(`${originalBrief}\nCheck whether job ${id} changed.`), 60_000);
+```text
+$ mytool job status 42
+# 400 lines: full config, every log line so far, timestamps, identical to the previous tick
 ```
 
-**Correct (poll a compact snapshot and wake only on a delta):**
+**Correct (compact snapshot with a fingerprint; wait blocks until the fingerprint changes):**
 
-```ts
-const snapshot = await getJobSnapshot(id); // { id, state, stateHash, blocker }
-if (snapshot.stateHash !== previousStateHash) {
-  await resumeAgent({ id, snapshot });
-  previousStateHash = snapshot.stateHash;
-}
+```text
+$ mytool job status 42 --json
+{"id":"42","state":"running","stateHash":"9f3a","blocker":null}
+$ mytool job wait 42 --since 9f3a --timeout 300 --json
+{"id":"42","state":"blocked","stateHash":"b71c","blocker":"approval"}
 ```

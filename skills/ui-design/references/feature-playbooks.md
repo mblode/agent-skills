@@ -2,7 +2,7 @@
 
 Detect each feature from element + filename + route, then run its checks in order. All checks name a file in `rules/`; the category index is `rules/_sections.md`.
 
-**Also run the matching rendered-quality checks.** Beyond the checks below, run the `rules/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, error association, contrast); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any animated surface runs `motion-*`; any user-facing surface runs `mobile-*`. Category map: `rules/_sections.md`.
+**Also run the matching category checks.** Beyond the checks below, run the `rules/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, accessible names, error association; contrast ratios stay with axe); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any user-facing surface runs `mobile-*`. Motion has no rules here: an animated surface with a timing, easing, or gesture problem is a finding that names `ui-animation`. Category map: `rules/_sections.md`.
 
 ## Table of contents
 

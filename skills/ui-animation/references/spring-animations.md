@@ -116,7 +116,7 @@ Three rules make interruption feel seamless:
 Tying values directly to mouse position feels artificial. Use `useSpring` to interpolate instead of updating immediately.
 
 ```tsx
-import { useSpring } from "framer-motion";
+import { useSpring } from "motion/react";
 
 // Without spring: instant, feels artificial
 const rotation = mouseX * 0.1;

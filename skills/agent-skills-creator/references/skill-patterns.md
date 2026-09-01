@@ -38,7 +38,7 @@ The problem a skill solves suggests its pattern. These are recommendations, not 
 
 ## Simple/Hub
 
-Dispatch to focused files by track. SKILL.md stays 20-35 lines: a tracks table and nothing else of substance.
+Dispatch to focused files by track. SKILL.md is the tracks table plus whatever every track shares (boundary, output contract, gotchas); the substance lives in the track files, and a hub that starts teaching a track inline has stopped being a hub.
 
 ```
 skills/<name>/
@@ -53,7 +53,7 @@ Root-level track files are exclusive to this pattern; every other pattern keeps 
 
 ## Workflow
 
-A sequential process, 80-130 lines of SKILL.md, with references loaded per step.
+A sequential process with references loaded per step. SKILL.md holds the steps and what every step needs; anything a single step needs goes in that step's reference.
 
 ```
 skills/<name>/
@@ -65,7 +65,7 @@ Load-bearing parts, in the order they matter: a "Read when" table mapping each r
 
 ## Rules-Based
 
-An audit or lint against categorized rules, 75-90 lines of SKILL.md.
+An audit or lint against categorized rules. SKILL.md is the dispatch and the output contract; the rules folder is the content.
 
 ```
 skills/<name>/

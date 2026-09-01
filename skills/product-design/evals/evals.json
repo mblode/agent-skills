@@ -1,0 +1,43 @@
+{
+  "skill_name": "product-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We're adding a 'Delete workspace' button to the settings page. It should be a red button with a confirm dialog that says 'Are you sure?' with OK and Cancel. Spec the right interaction.",
+      "expected_output": "A spec that names object, scope, and consequence; treats the action as irreversible and wide-scope; replaces OK/Cancel with a typed or named confirmation; enumerates in-progress and failure states; routes the build to ui-design and final wording to copywriting.",
+      "files": [],
+      "assertions": [
+        "Cites rule/irreversible-action-safeguard or rule/destructive-proportional for the safeguard choice",
+        "Cites rule/destructive-names-action or rule/no-confirm-ok-labels and rejects OK as the confirm label",
+        "States the scope (everything in the workspace, every member) before the user commits",
+        "Does not emit a code patch, className, or prop change",
+        "Every cited rule ID appears verbatim in references/rules.md"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Design the flow for reordering items in our mobile task list. Product wants drag-to-reorder like Things 3.",
+      "expected_output": "Drag-to-reorder accepted as the primary interaction, with a single-pointer alternative (move up/down or a Move-to menu) required, the states enumerated (sparse list, drag in progress, save failure with rollback), and the gesture physics routed to ui-animation.",
+      "files": [],
+      "assertions": [
+        "Cites rule/gesture-has-control-alternative and names a concrete non-drag alternative",
+        "Cites rule/cover-reachable-states and lists a failure state for the reorder save",
+        "Routes the gesture implementation to ui-animation, not to itself",
+        "Includes an internal brief with job, desired outcome, and consequence filled"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What breaks here? Our checkout collects shipping address on step 2, then asks for the billing address on step 4 with no prefill. Session times out after 10 minutes and dumps you back to the cart. Unsaved fields are lost.",
+      "expected_output": "A harden-mode findings list ordered P0 to P3: redundant entry (billing not prefilled from shipping), silent session expiry that discards input, lost user input, each with rule ID, user consequence, and the smallest fix and owning skill.",
+      "files": [],
+      "assertions": [
+        "Cites rule/no-redundant-entry for the billing address re-entry",
+        "Cites rule/time-limit-adjustable for the session timeout and proposes a warning plus extension or draft persistence",
+        "Cites rule/preserve-user-input for the lost fields",
+        "Findings carry a P0-P3 level and a user consequence, not only a code observation",
+        "Records a coverage gap instead of inventing a rule ID for anything uncovered"
+      ]
+    }
+  ]
+}

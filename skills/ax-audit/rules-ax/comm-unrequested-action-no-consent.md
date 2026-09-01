@@ -41,7 +41,7 @@ rg -n -i 'cron|schedule\(|CronJob|@Cron|queue\.(process|consume)|webhook|onEvent
 rg -n -i 'runAgent|executeTool|orchestrator|invokeTools' --type=ts src/ -l
 
 # a boundary on the unattended path
-rg -n -i 'autonomousPolicy|allowUnattended|standingConsent|withoutUser|maxActions|budget' --type=ts src/
+rg -n -i 'autonomousPolicy|allowUnattended|standingConsent|withoutUser|maxActions|budget|dontAsk|allowedTools' --type=ts src/
 
 # a notice the user can act on
 rg -n -i 'notify|sendNotification|createActivity|digest' --type=ts src/ -A 2
@@ -50,6 +50,7 @@ rg -n -i 'notify|sendNotification|createActivity|digest' --type=ts src/ -A 2
 **Judgment signals:**
 - A notification that only records success is a partial pass. The user needs to be able to reverse what they read about, so check that the notice links to an undo or a review surface.
 - A boundary expressed only as "the prompt tells it not to" is not a boundary. Look for a check in code on the execution path.
+- A headless Claude Agent SDK run with `permissionMode: "dontAsk"` and an explicit `allowedTools` list is a standing boundary: anything unlisted is denied rather than prompted. That satisfies the boundary half only; the notice still has to exist.
 
 **False-positive guards:**
 - Skip read-only background work: a nightly index or summary that writes nothing the user owns.

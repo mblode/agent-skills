@@ -1,0 +1,84 @@
+{
+  "skill_name": "presentation-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm giving a 25-minute talk at a frontend conference on why design systems fail at scale. Here are my notes (pasted). Turn them into a deck.",
+      "expected_output": "A filled story spine with the ending written first, a sectioned outline with a colour per section, per-slide copy, speaker notes, a Marp markdown file, and the slide-by-slide QA table",
+      "files": [],
+      "assertions": [
+        "The spine appears before any slide and names a position a reasonable person could disagree with",
+        "Output is Marp markdown with marp: true front matter, --- separators, and notes as HTML comments at the end of each slide, unless the user asked for another format",
+        "Headlines are claims, not topic labels (no slide headed 'Overview', 'Background', or 'Metrics')",
+        "One colour system throughout: section accents or full-bleed palettes, never both",
+        "The QA table has a Contrast column with a numeric ratio per slide, and every body-text pair is at least 4.5:1",
+        "Speaker notes are prompts (key point, talk track, transition), not a verbatim script"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Build me a seed pitch deck for Ledgerline, a bookkeeping tool for freelance designers. 4,200 paying users, $38k MRR, raising $1.5M. I'll email it to investors.",
+      "expected_output": "The 10-slide frame with complete-claim headlines, denser standalone copy, an explicit ask slide, no speaker notes, and the QA table using the forwardable test",
+      "files": [],
+      "assertions": [
+        "The traction headline contains the numbers (4,200 users, $38k MRR), not the word 'Traction' alone",
+        "There is a Why now slide and an ask slide with amount, use of funds, and next step",
+        "No speaker notes are produced, and writing-slides.md copy limits are not applied",
+        "The deck is 10 slides plus a separated appendix at most",
+        "The QA table substitutes the forwardable test for the 3-second test"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Here's my deck outline for the all-hands (pasted). It's fine but it has no story, it's just a list of updates. Fix it.",
+      "expected_output": "A story spine derived from the existing content, the slides re-sequenced or cut against the spine, with cuts named",
+      "files": [],
+      "assertions": [
+        "A filled spine is produced before any slide is edited",
+        "At least one existing slide is cut or merged with the reason 'serves no spine beat'",
+        "The ending is written before the middle is reordered"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Presenting tomorrow in a glass-walled meeting room at 2pm with a cheap projector. Design the slides for my deck (copy attached).",
+      "expected_output": "A light-palette design pass: paper or white background with near-black text and the section accents, with the reason stated",
+      "files": [],
+      "assertions": [
+        "The dark system is not chosen by default; the venue is cited as the reason for a light palette",
+        "Body text contrast is stated numerically and is at least 4.5:1",
+        "Type sizes are given in pt or Marp px, not clamp(), because the output is a fixed canvas"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Turn this deck into a PowerPoint file my client can edit. It's currently Marp markdown.",
+      "expected_output": "A handoff to the external pptx skill with the outline, copy, notes, and colour and type spec, not a marp-cli --pptx export",
+      "files": [],
+      "assertions": [
+        "The response does not present marp --pptx or slidev export --format pptx as the deliverable, and explains that those produce image slides",
+        "The pptx skill is invoked or named, with notes routed to the notes pane",
+        "This skill's colour system and type hierarchy are passed along, translated to pt"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Outline a presentation about our migration from monolith to services for the engineering all-hands.",
+      "Write slides for a 10-minute lightning talk on CSS container queries.",
+      "Design a deck for our Q3 board update, dark theme, something with more personality than the template.",
+      "Turn this product spec into a deck I can walk the sales team through.",
+      "Build a pitch deck for investors; we're raising a $2M seed.",
+      "My talk has no story, it's just a list of features. Help.",
+      "Write my speaker notes for these 18 slides.",
+      "Build this deck as a website with a live demo on slide 6."
+    ],
+    "near_miss": [
+      { "prompt": "Write the hero copy and CTA for the landing page we're launching alongside the talk.", "expected": "copywriting" },
+      { "prompt": "Build a landing page for the conference with a dark theme and a speaker grid.", "expected": "ui-design" },
+      { "prompt": "Open quarterly-review.pptx and pull the text out of every slide into a summary.", "expected": "pptx (external)" },
+      { "prompt": "Write a 2,000-word blog post version of my conference talk.", "expected": "ghostwriter (external, platform blog)" },
+      { "prompt": "Make a bar chart of our monthly revenue for the traction slide.", "expected": "dataviz (external)" }
+    ]
+  }
+}

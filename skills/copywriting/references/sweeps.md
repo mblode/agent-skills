@@ -57,7 +57,7 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 
 **Action:** Identify the dominant voice, standardise to it. Don't average; pick one and commit.
 
-**Voice, not tone.** Tone is meant to shift with the reader's state: brisk on a routine save, careful before a deletion. That is not drift. Flag the line where the copy reads as a different brand, not the line where the same brand meets a different moment. The tone table in `SKILL.md` Step 3 sets the expected shifts.
+**Voice, not tone.** Tone is meant to shift with the reader's state: brisk on a routine save, careful before a deletion. That is not drift. Flag the line where the copy reads as a different brand, not the line where the same brand meets a different moment. The tone-by-reader-state table in `voice-chart.md` sets the expected shifts.
 
 **Flag:** `[VOICE-DRIFT]` on the line that breaks from the dominant voice, not on the voice you decided to keep.
 
@@ -190,6 +190,8 @@ Cut these words on sight; they rarely add meaning:
 
 **Test:** Remove the word. If the sentence still means the same, cut it.
 
+**Sentence length:** GOV.UK's editorial rule is the usable one: check any sentence over 25 words to see if it splits. Length itself is not the failure; a 25-word sentence with two claims is.
+
 **Paragraph length:** 2 to 4 sentences is the web-copy norm, but vary it deliberately and use 1-sentence paragraphs for emphasis. Uniform paragraph length is itself an AI tell; see `ai-patterns.md` section 5.
 
 ---
@@ -225,6 +227,6 @@ Mechanical, high-frequency, and invisible to a persuasion pass. The rule turns o
 | `a {{count}}-digit code` | `a {{count}} digit code` |
 | `Expiring in {{numOfDays}} days` | `Expiring in {{numOfDays}}-days` |
 
-**Decision:** is a noun coming next, and does the modifier describe it? Hyphenate. Otherwise leave it open. Never hyphenate an adverb ending in `-ly`: "a fully managed service", not "a fully-managed service".
+**Decision:** is a noun coming next, and does the modifier describe it? Hyphenate. Otherwise leave it open. An adverb ending in `-ly` takes no hyphen in either position ("a fully managed service", not "a fully-managed service"): the `-ly` already tells the reader the next word is not a noun, which is the only ambiguity the hyphen exists to remove (Chicago Manual of Style 7.86).
 
 Fix these silently in a rewrite. They don't earn a flag of their own unless the same error repeats across a surface, which makes it a style decision worth naming.

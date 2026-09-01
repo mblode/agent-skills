@@ -60,7 +60,7 @@ Replace the drawing with the thing, or remove the frame.
     <span className="size-3 rounded-full bg-green-500" />
     <div className="ml-4 rounded bg-gray-100 px-3 text-xs">app.example.com</div>
   </div>
-  <div className="h-96 bg-gradient-to-br from-indigo-50 to-white" />
+  <div className="h-96 bg-linear-to-br from-indigo-50 to-white" />
 </div>
 
 // after: the frame earns its place by holding a real screenshot

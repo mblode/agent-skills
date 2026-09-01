@@ -1,10 +1,12 @@
 # Executable Code in Skills
 
-For skills that include scripts, depend on packages, or invoke MCP tools. Patterns that keep scripts reliable and cheap to execute.
+For skills that include scripts, depend on packages, inject live context, or invoke MCP tools. Patterns that keep scripts reliable and cheap to execute.
 
 ## Contents
 
 - Execute vs. Read as Reference
+- Paths and Permissions
+- Dynamic Context Injection
 - Solve, Don't Punt
 - No Voodoo Constants
 - Plan-Validate-Execute
@@ -21,6 +23,31 @@ State execution intent in SKILL.md. Otherwise Claude reconstructs the script's l
 - **Reference:** "See `scripts/analyze_form.py` for the field-extraction algorithm"
 
 Execute deterministic work; read-as-reference only when Claude must adapt the algorithm to novel input.
+
+## Paths and Permissions
+
+The session shell's working directory moves whenever Claude runs `cd`, so a bare `scripts/x.sh` resolves against wherever the shell happens to be. Write `${CLAUDE_SKILL_DIR}/scripts/x.sh` and it resolves the same way every time. This skill's own `validate.sh` predates the variable and is run from the repo root by convention; new scripts should not rely on that.
+
+Pair the path with an `allowed-tools` rule when the script should run without a permission prompt. The variable is substituted in both places, so the rule matches the exact command the body issues:
+
+```yaml
+allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/render.sh *)
+```
+
+The grant lasts the invoking turn and clears on the next user message. Keep it narrow: a skill checked into a repo can grant itself broad access, and it applies even in an untrusted folder.
+
+## Dynamic Context Injection
+
+`` !`command` `` at the start of a line (or after whitespace) runs before Claude sees the skill and is replaced by the command's output, stdout and stderr merged. A ```` ```! ```` fenced block does the same for several lines. Use it for data the skill always needs on invocation: `git diff HEAD`, `gh pr view --comments`, a version check. Claude then starts with the facts inlined instead of spending a turn fetching them.
+
+Failure rules that catch people:
+
+- A non-zero exit aborts the whole invocation; Claude never sees the skill. Search commands get a pass on exit 1, nothing else does. Append `|| true` to any check that exits non-zero on findings.
+- Injected commands never prompt. A permission check that would ask, or deny, aborts the invocation. Pre-approve with `allowed-tools`; a matching deny rule still wins.
+- Each command runs under the Bash tool's 2-minute timeout, and large output arrives as a file path plus preview.
+- It runs only in Claude Code on the local machine. Skills synced from claude.ai, Cowork, the Skills API, and claude.ai chat replace or skip it. A skill that must travel fetches the data in its body instead.
+
+Substitution runs once; command output is not rescanned for more placeholders.
 
 ## Solve, Don't Punt
 

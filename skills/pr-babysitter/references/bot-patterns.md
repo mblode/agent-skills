@@ -182,9 +182,27 @@ Scan for `gstatic.com/codereviewagent/` in image URLs.
 
 Uses native ` ```suggestion ` blocks with the proposed fix. Summary comment starts with "Hello @author, I'm Gemini Code Assist!"; skip it.
 
+### Cursor Bugbot (`cursor[bot]`)
+
+Inline comments only, no summary body and no review verdict, so a PR with zero Bugbot comments means Bugbot found nothing (or has not run: the `Cursor Bugbot` check shows which). Severity is a bold line in the body:
+
+| Marker | Severity |
+|--------|----------|
+| `**High Severity**` | Critical |
+| `**Medium Severity**` | Major |
+| `**Low Severity**` | Minor |
+
+Strip: the `<sub>` wrappers around the severity line, the "Fix in Cursor" / "Fix in Web" link line (`cursor.com/agents`), and the `Bugbot Autofix is OFF` / `ON` footer. A comment posted by the Autofix agent reporting a pushed fix is status, not a finding. Re-request a review by commenting `bugbot run`.
+
+### GitHub Copilot (`copilot-pull-request-reviewer[bot]`)
+
+Always a `COMMENTED` review, never `APPROVED` or `CHANGES_REQUESTED`, so its verdict is never a blocker. The review body is a summary of the PR; findings are inline, usually with a native ` ```suggestion ` block. Copilot marks no severity: default Major, downgrade to Minor when the text is advisory ("Consider...", "Optionally..."). Re-request with `gh pr edit --add-reviewer @copilot`.
+
 ## Merge-gate bots
 
 A comment that states a verdict about whether the PR **may merge** (auto-approval, merge freeze, release window, CODEOWNERS coverage) is a readiness-check input, not a finding. Record the verdict, never open a fix item from it, never reply to it, never resolve it.
+
+The entries below are one organization's gates, kept as worked examples of the shape. A repo with its own gate bot gets a new entry here with the same fields: detection marker, verdict table, and what would flip the verdict.
 
 ### Auto-approval assessment (`linktree-stamp[bot]`)
 
@@ -275,6 +293,8 @@ Unified four-level scale:
 | Codex | `P1` badge | `P2` badge | `P3` badge | n/a |
 | CodeRabbit | 🔴 | 🟠 | 🟡 | n/a |
 | Gemini | high-priority | medium-priority | low-priority | n/a |
+| Bugbot | High Severity | Medium Severity | Low Severity | n/a |
+| Copilot | n/a | Default | advisory language | n/a |
 | DangerJS | n/a | failure count > 0 | warning count > 0 | n/a |
 | Schema checker | n/a | 🔴 Error | 🟡 Warning | n/a |
 | Devin | 🔴 | 🟠, or `BUG_` with no emoji | 🟡, or `ANALYSIS_` prefix | n/a |

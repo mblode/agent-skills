@@ -27,8 +27,6 @@ npx skills add mblode/agent-skills -g --agent claude-code codex cursor -y
 
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
-Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
-
 ## Skills
 
 ### Architecture
@@ -43,38 +41,38 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
-- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a QA pass, as markdown or a web app.
+- **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a contrast-checked QA pass, as Marp markdown, a web app, or a handoff to pptx.
 
 ### Writing
 
 - **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: one gist, one analogy, next action first, no AI prose.
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
-- **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 48 rules, audit and writing modes.
-- **[readme-creator](./skills/readme-creator/SKILL.md)**: Writes or rewrites a README as a public-facing shop window.
+- **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 51 rules, audit and writing modes, agent-readable docs.
+- **[readme-creator](./skills/readme-creator/SKILL.md)**: Type-aware README from the manifests: one install, a runnable quickstart, badges only where published.
 - **[seo-program](./skills/seo-program/SKILL.md)**: Keyword and prompt-volume research, writer briefs, AEO question maps, Search Console monitoring.
 
 Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://github.com/mblode/ghostwriter).
 
 ### Quality
 
-- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 27 rules for apps an agent uses or operates, ship verdict.
-- **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, and SDKs: root-cause findings, agent-friendly checks.
+- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 27 rules for tool parity, approval gates, and escape hatches, ship verdict.
+- **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
-- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js SEO and AEO: sitemaps, metadata, structured data, llms.txt, hreflang, CWV.
+- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js App Router SEO: sitemaps, metadata, structured data, redirects, hreflang, AI-crawler policy, Core Web Vitals.
 
 ### Shipping
 
-- **[planning](./skills/planning/SKILL.md)**: Builds the plan, then scores it to 5/5 before any code.
+- **[planning](./skills/planning/SKILL.md)**: Interrogates intent, writes the plan file plan mode presents, then scores it to 5/5 before any code.
 - **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only diff review: bugs, structure, AI slop, security.
 - **[tidy](./skills/tidy/SKILL.md)**: Hunts complexity across five angles and applies the simplifications.
-- **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, tidied commits.
+- **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
-- **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, publish verify.
+- **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
 
 ### Authoring
 
-- **[agents-md](./skills/agents-md/SKILL.md)**: Sets a repo up for Claude Code, Codex and Cursor, then audits and refactors AGENTS.md and CLAUDE.md, with grades.
-- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and improves skills to the open format spec.
+- **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, then audits and refactors AGENTS.md and CLAUDE.md, with grades.
+- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates, audits, and rightsizes skills to the open format spec, with a validator and eval workflow.
 - **[save-md](./skills/save-md/SKILL.md)**: Writes a named source as a markdown file the next turn can reread.
 
 ## License

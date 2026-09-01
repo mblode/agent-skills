@@ -8,6 +8,7 @@ Focus on distinctively AI-generated patterns, not general code quality (that bel
 
 - Over-commenting
 - Stale comments
+- Invented API
 - Unnecessary error handling
 - Type bypasses
 - Premature abstraction
@@ -44,6 +45,19 @@ Comments describing code the diff has since changed. Distinct from over-commenti
 - A "why" comment justifying a constraint the diff removed
 
 **Fix:** Correct the comment, or delete it where the code now says the same thing. Quote both the comment and the line that refutes it; a stale-comment finding citing only the comment cannot be checked. Only comments this diff falsified are in scope; a repo-wide hunt produces noise rather than findings.
+
+## Invented API
+
+A call that reads as real and is not: a method, option, or import that exists in a similar library, an older or newer major version, or nowhere. The tell is fluency; the name is exactly what the API should have been called. It survives lint, survives type-check in JavaScript or behind `any`, and fails at the first runtime call, or worse, is an option the library silently ignores.
+
+**Flag:**
+- An import from a package whose installed version (per the lockfile) does not export that name
+- A method on a library object that the package's `.d.ts` or docs do not list
+- An option key in a config object the library never reads (no error, no effect)
+- A CLI flag or environment variable the tool does not recognise
+- A test that mocks the invented method, so the suite passes without ever calling the real library
+
+**Fix:** Name the real API from `node_modules/<pkg>` at the installed version, or the closest one and what differs. Cite the export list or docs you checked; a "this does not exist" finding without the source you searched is itself unverifiable. A symbol absent from the installed package's `.d.ts` is confirmed, not plausible: the types are the export list. A symbol TypeScript accepts does exist, so look instead at the calls the checker never saw: JavaScript files, `any`-typed values, and string-keyed option bags.
 
 ## Unnecessary error handling
 

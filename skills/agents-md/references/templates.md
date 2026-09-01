@@ -8,7 +8,8 @@ Structure starters only. Fill with project-specific commands, gotchas, and conve
 - Root file skeleton (single project)
 - Root file skeleton (monorepo)
 - Root file skeleton (multi-language monorepo)
-- Authoring rules
+- The Claude Code pointer file
+- Filling a skeleton
 
 ## Before/After Example
 
@@ -40,8 +41,8 @@ One-line description.
 - `<project-specific convention that changes implementation choices>`
 
 ## References
-- @docs/architecture.md
-- @.claude/testing.md
+- Architecture: docs/architecture.md
+- Release flow: run the `release` skill
 ```
 
 ## Root file skeleton (monorepo)
@@ -55,9 +56,9 @@ One-line description.
 - `<root install/build/test/lint commands>`
 
 ## Workspace map
-Each workspace has its own `AGENTS.md`:
-@apps/<app>/AGENTS.md
-@packages/<pkg>/AGENTS.md
+Each workspace has its own `AGENTS.md`, loaded when an agent works there:
+- apps/<app>/AGENTS.md
+- packages/<pkg>/AGENTS.md
 
 ## Rules
 - `<cross-workspace rule that affects all workspaces>`
@@ -65,6 +66,8 @@ Each workspace has its own `AGENTS.md`:
 ## Do not commit
 <Files/dirs that are runtime inputs or build outputs, not source>
 ```
+
+List workspace files as plain paths, not `@import`s. An import would load every workspace file into every Claude Code session, which defeats the split, and Codex and Cursor would see only the literal text.
 
 ## Root file skeleton (multi-language monorepo)
 
@@ -80,9 +83,9 @@ One-line description. <Language A> + <Language B> monorepo using <tooling>.
 - `<language-B setup command>`
 
 ## Workspace map
-Each workspace has its own `AGENTS.md`:
-@apps/<app>/AGENTS.md
-@packages/<pkg>/AGENTS.md
+Each workspace has its own `AGENTS.md`, loaded when an agent works there:
+- apps/<app>/AGENTS.md
+- packages/<pkg>/AGENTS.md
 
 (`packages/<lang-b-pkg>` is <Language B>-only; see its README for entry points.)
 
@@ -94,12 +97,21 @@ Each workspace has its own `AGENTS.md`:
 <Runtime inputs, build outputs, venvs, node_modules, caches>
 ```
 
-## Authoring rules
+## The Claude Code pointer file
 
-- Prefer bullets over paragraphs
-- Keep root within 60-150 lines for typical active repos
+Claude Code does not read `AGENTS.md`. Every skeleton above needs this `CLAUDE.md` beside it, or a `CLAUDE.md -> AGENTS.md` symlink when the Claude-only section would be empty:
+
+```markdown
+@AGENTS.md
+
+## Claude Code
+<Claude-only additions, or delete this section>
+```
+
+## Filling a skeleton
+
 - 3-8 gotchas from real failures beats 20 hypothetical ones
-- Each line must save debugging time or prevent a known mistake
 - Daily commands include the quiet, targeted form (`npx vitest run <file> --reporter=dot`), not only the full-suite script
-- State the outcome and let the surrounding code pick the path; reserve absolutes for safety, data loss, format contracts, and failures already observed here
 - Point at an exemplar file path where one exists, instead of paraphrasing what it already shows
+- Keep the root within 60-150 lines; anything a single directory owns goes in that directory's `AGENTS.md`
+- State the outcome and let the surrounding code pick the path; reserve absolutes for safety, data loss, format contracts, and failures already observed here

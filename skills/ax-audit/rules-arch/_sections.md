@@ -12,7 +12,7 @@ The 4 categories of agent-native architecture (Layer 1) audit rules. Each rule f
 ## 2. Granularity (granularity)
 
 **Default tier:** mostly fix-this-sprint
-**Why critical:** Tools that bundle decision logic force the agent to accept or reject a whole workflow; atomic primitives let it apply judgment at each step. If behavior changes need code refactoring instead of prompt edits, granularity is too low.
+**Why critical:** Tools that bundle decision logic force the agent to accept or reject a whole workflow; atomic primitives let it apply judgment at each step. If behavior changes need code refactoring instead of prompt edits, granularity is too low. The axis is judgment, not step count: a tool that chains mechanical steps into one user action is fine, and fewer of those beats many thin wrappers.
 
 ## 3. Context (context)
 

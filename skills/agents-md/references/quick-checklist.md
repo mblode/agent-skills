@@ -13,7 +13,7 @@ Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 10/1
 7. Every line passes the litmus test: removing it would cause the agent to make mistakes
 8. Root file avoids framework doc dumps/templates
 9. Linked paths and commands are current (not stale/dead)
-10. Non-universal detail is linked out (via `@import` or child files), and anything every tool must obey stays inline
+10. Non-universal detail lives where it loads on demand (nested file, path-scoped rule, skill, or a plain link), and anything every tool must obey stays inline in root rather than behind an `@import`
 11. Rules are phrased as the outcome wanted, with absolutes reserved for safety, data loss, format contracts, and observed failures
 12. Nothing restates harness or model default behavior, and no rule conflicts with a parent file or an installed skill
 
@@ -27,3 +27,4 @@ Automatic fail regardless of score:
 
 - Commands are mostly broken/stale
 - Content is mostly generic advice, template text, or restatements of default agent behavior
+- The repo uses Claude Code and has no `CLAUDE.md` pointing at `AGENTS.md`: the file under audit is not loaded there at all

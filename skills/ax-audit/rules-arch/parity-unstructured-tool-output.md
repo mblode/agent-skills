@@ -31,6 +31,7 @@ The same failure in the other direction: a handler returns a rendered HTML table
 3. Flag `catch` blocks that return a value at all rather than rethrowing or returning a typed failure.
 4. Flag responses that carry an error message with a 2xx status.
 5. Compare the success return against a declared output type. No type or schema on the tool definition is itself the finding.
+6. For MCP handlers, check the failure branch sets `isError: true`. The schema assumes false when unset, so a `catch` that returns `{ content: [{ type: "text", text: "Something went wrong" }] }` is a success to every client. On the success side, `structuredContent` under an `outputSchema` is the typed half; text-only `content` for a data-returning tool is the finding.
 
 **Concrete commands:**
 ```bash
@@ -42,11 +43,15 @@ rg -n 'status:\s*200' -A 3 --type=ts src/ | rg -i 'error|failed|could not'
 
 # tool definitions with no output schema alongside the input schema
 rg -n 'inputSchema|parameters:' --type=ts src/ -A 6 | rg -v 'outputSchema|returns'
+
+# MCP handlers: list the catch blocks that build a result, then check each for isError
+rg -n -U 'catch\s*\([^)]*\)\s*\{[^}]*content:\s*\[' --type=ts src/
+rg -c 'isError:\s*true' --type=ts src/
 ```
 
 **False-positive guards:**
 - Skip handlers whose return type is a discriminated union (`{ ok: false, code, message }` counts as structured, message included).
-- A prose `message` field alongside a machine-readable `code` passes. The finding is prose *instead of*, not prose *in addition to*.
+- A prose `message` field alongside a machine-readable `code` passes. The finding is prose *instead of*, not prose *in addition to*. An MCP result with `isError: true` and prose `content` passes the same way: the flag is the machine-readable half, and the text is meant to be feedback the model can retry on.
 - Skip files with `// ax-audit-ignore:parity-unstructured-tool-output` near the match.
 - Skip test fixtures, mocks, and Storybook files.
 - Skip tools whose whole job is text generation (a `draft_reply` returning a draft string is the payload, not a status).

@@ -1,75 +1,70 @@
 # Technical Hardening: Security, Privacy, Resilience
 
-The non-content layer: transport/header security, privacy/consent obligations, graceful failure. These complement SEO: a site that leaks data, ignores consent law, or returns 200 for an error page loses trust and rankings. No visual redesigns; headers, policies, and error/status behaviour only.
+The non-content layer: transport and header security, consent obligations, graceful failure. Headers, policies, and status behaviour only; no visual work.
 
 ## Contents
+
 - [Security headers](#security-headers)
 - [Cookies](#cookies)
 - [security.txt and DNS](#securitytxt-and-dns)
-- [Privacy](#privacy)
+- [Privacy and consent](#privacy-and-consent)
 - [Resilience](#resilience)
 
 ## Security headers
 
-Set on every HTML response (see `nextjs-implementation.md` for the `next.config` `headers()` form). Test at securityheaders.com or Mozilla Observatory.
+The `next.config.ts` `headers()` form is in `nextjs-implementation.md`. Test at securityheaders.com or Mozilla Observatory.
 
-| Header | Recommended value | Why |
+| Header | Value | Notes |
 |---|---|---|
-| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | Forces HTTPS. **Effectively irreversible:** only add `preload`/`includeSubDomains` once every subdomain is HTTPS. |
-| `Content-Security-Policy` | start with `default-src 'self'`, allow-list real origins; prefer nonces/hashes over `'unsafe-inline'` | Stops most XSS and data exfiltration. Roll out in `Content-Security-Policy-Report-Only` first. |
-| `X-Content-Type-Options` | `nosniff` | Stops MIME-sniffing a benign file into script/style. |
-| `Content-Security-Policy: frame-ancestors` | `'self'` (or trusted embedders) | Clickjacking protection. `X-Frame-Options: SAMEORIGIN` is the legacy fallback. |
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | The preload list wants `max-age` of at least 31536000, `includeSubDomains`, and `preload`. Removal takes months to reach browsers, so ramp first: `max-age=300`, then `604800`, then `2592000`, waiting out each stage, and add `preload` only once every subdomain (including `www` if it has a DNS record) serves HTTPS. |
+| `Content-Security-Policy` | start at `default-src 'self'`, allow-list real origins, `frame-ancestors 'none'` or `'self'`, `object-src 'none'`, `base-uri 'self'` | Roll out as `Content-Security-Policy-Report-Only` first. Nonces force dynamic rendering in Next.js; see the CSP section of `nextjs-implementation.md` before choosing them. |
+| `X-Content-Type-Options` | `nosniff` | Stops a benign upload being sniffed into script. |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Limits URL leakage to other origins. |
-| `Permissions-Policy` | disable unused features, e.g. `camera=(), microphone=(), geolocation=()` | Turns off powerful APIs for your pages and embedded iframes. |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` plus anything else unused | Applies to your pages and embedded iframes. |
 
-**Prerequisites, not headers:** serve everything over HTTPS with TLS 1.2/1.3 (redirect HTTP→HTTPS, disable SSL/early TLS).
+`frame-ancestors` in the CSP supersedes `X-Frame-Options`; ship the legacy header only for a known old client.
 
-**Subresource Integrity (SRI):** for any third-party `<script>`/`<link>` you don't control, add `integrity="sha384-…"` + `crossorigin="anonymous"` so the browser refuses a tampered file.
-
-```html
-<script src="https://cdn.example.com/lib.js"
-        integrity="sha384-…" crossorigin="anonymous"></script>
-```
+**Subresource Integrity.** Any third-party `<script>` or stylesheet you do not control gets `integrity="sha384-..."` and `crossorigin="anonymous"`, so a tampered file is refused. Next.js can hash its own bundles at build time with `experimental.sri`.
 
 ## Cookies
 
-Every cookie: `Secure`, `HttpOnly` where JS doesn't need it, and an explicit `SameSite`. Use the `__Host-` prefix for session cookies (forces Secure + path=/ + no Domain).
+Every cookie: `Secure`, `HttpOnly` unless JavaScript needs it, and an explicit `SameSite`. Session cookies use the `__Host-` prefix, which forces `Secure`, `Path=/`, and no `Domain`, so a subdomain cannot overwrite it.
 
 ```
-Set-Cookie: __Host-session=…; Secure; HttpOnly; SameSite=Lax; Path=/
+Set-Cookie: __Host-session=...; Secure; HttpOnly; SameSite=Lax; Path=/
 ```
 
 ## security.txt and DNS
 
-- Publish `/.well-known/security.txt` with a `Contact:` and `Expires:` so researchers can report vulnerabilities.
-- Add a DNS **CAA** record to restrict which CAs may issue certs for the domain. DNSSEC is optional defence-in-depth (needs full registrar + registry support).
+- `/.well-known/security.txt` with `Contact:` and `Expires:`; an expired file is treated as absent by researchers' tooling.
+- A DNS CAA record restricting which CAs may issue for the domain. DNSSEC is optional and needs registrar plus registry support.
 
 ```
-# /.well-known/security.txt
+# public/.well-known/security.txt
 Contact: mailto:security@example.com
-Expires: 2027-01-01T00:00:00.000Z
+Expires: 2027-09-01T00:00:00.000Z
 ```
 
-## Privacy
+## Privacy and consent
 
-- **Privacy policy:** state what personal data is collected, why, legal basis, sharing, retention, and user rights.
-- **Cookie consent:** in the EU/UK, non-essential cookies/storage need freely-given, specific, **opt-in** consent *before* they're set. No pre-ticked boxes; reject as easy as accept.
-- **Global Privacy Control (GPC):** honour the `Sec-GPC: 1` request signal as an opt-out of sale/sharing (legally required in California and Colorado).
-- **Privacy-respecting analytics:** prefer aggregate, cookieless, EU-hostable analytics (e.g. Plausible, Fathom, server-side) to avoid consent and data-transfer problems.
-- **Data minimisation:** collect only what a purpose needs, keep it only as long as needed, redact it from logs/URLs where it leaks.
-- **Audit third-party scripts:** any cross-origin script can read cookies and the URL and exfiltrate page data. Justify each one; lock down with CSP + SRI.
+- **Privacy policy** states what is collected, why, the legal basis, sharing, retention, and user rights. Keep it accurate to the scripts actually loaded.
+- **Opt-in consent (EU/UK).** Non-essential cookies and storage are set only after freely given, specific consent. Reject is as easy as accept; no pre-ticked boxes; the analytics script does not fire before the choice.
+- **Google Consent Mode v2.** Any Google Ads or GA4 tag serving EEA/UK traffic has needed all four consent signals since March 2024: `ad_storage`, `analytics_storage`, `ad_user_data`, `ad_personalization`. Without the last two, conversion measurement and remarketing degrade for those users regardless of what the banner says. Set defaults to `denied` before the tag loads, update on choice, and use a Google-certified CMP when behavioural modelling matters. When CSP nonces are in play, pass the nonce to `<GoogleTagManager nonce={nonce} />` from `@next/third-parties/google`.
+- **Global Privacy Control.** Honour `Sec-GPC: 1` as an opt-out of sale and sharing. Twelve US states treat it as legally binding as of 2026 (California, Colorado, Connecticut, Delaware, Maryland, Minnesota, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Texas), and California has fined for ignoring it.
+- **Privacy-respecting analytics** (aggregate, cookieless, EU-hostable, or server-side) sidesteps most of the consent surface for sites that only need traffic counts.
+- **Third-party scripts.** Any cross-origin script can read cookies, the URL, and page data. Justify each, lock down with CSP and SRI, and delete the ones nobody can name an owner for.
 
 ## Resilience
 
-- **Custom 404 / 500:** return the **correct** status code (a "not found" page must be `404`, not `200`; see soft-404 in `SKILL.md`). Explain the problem plainly and offer a way forward; never leak stack traces.
-- **Maintenance:** return `503` with a `Retry-After` header so crawlers don't deindex; show when the site will return.
-- **Web app manifest:** ship `app/manifest.ts` (name, icons, `start_url`, `theme_color`, `display`) so the site installs cleanly.
-- **Monitoring:** monitor from outside your own infra (synthetic + real-user); host the status page on a separate provider so it stays up when the site doesn't.
+- **404 and 500.** The status code has to match the page: a not-found page at 200 is a soft 404 and a broken page at 200 is indexed as content. The streaming rules that make this hard in Next.js are in `nextjs-implementation.md`. Never leak stack traces; production `error.tsx` receives a digest, not the message.
+- **Maintenance.** Return 503 with `Retry-After` so crawlers pause instead of deindexing, and say when the site returns.
 
 ```ts
-// Maintenance response
 return new Response(maintenanceHtml, {
   status: 503,
-  headers: { "Content-Type": "text/html", "Retry-After": "3600" },
-});
+  headers: { 'Content-Type': 'text/html', 'Retry-After': '3600' },
+})
 ```
+
+- **Web app manifest** (`app/manifest.ts`) so the site installs cleanly; the Next.js form is in `nextjs-implementation.md`.
+- **Monitoring** from outside your own infrastructure (synthetic plus real-user), with the status page hosted on a separate provider so it stays up when the site does not.

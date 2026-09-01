@@ -27,14 +27,14 @@ User asks the agent to analyze a dataset. Three tool calls, API waits, synthesis
 
 **Static signals:**
 1. Find the components that call the agent (chat submit handlers, action panel triggers).
-2. Check whether they subscribe to progress (`onChunk`, `onToken`, `onProgress`, `onStatus`, `useChat`) and render what arrives, not just the final value.
-3. Flag components that receive events but only render on completion: a handler that sets state no JSX reads is the same silence to the user.
+2. Check whether they subscribe to progress (`onChunk`, `onToken`, `onProgress`, `onStatus`, `onData`, `useChat`) and render what arrives, not just the final value.
+3. Flag components that receive events but only render on completion: a handler that sets state no JSX reads is the same silence to the user. In AI SDK 7, a component that reads `status` only to disable the send button and renders `message.parts` only once `status === "ready"` is this finding; so is one that reads `message.parts` while the server writes status as `transient` parts, which arrive only through `onData`.
 
 **Concrete commands:**
 ```bash
 rg '(useChat|useCompletion|agent\.chat|agent\.run|streamText|generateText)' --type=ts -l src/components/ src/app/
 rg '(onChunk|onToken|onProgress|onStatus|stream:\s*true)' --type=ts src/components/ src/app/
-rg -n 'isStreaming|isLoading|status ===' --type=ts src/components/ | rg -v '(Spinner|Skeleton)'
+rg -n "status === ['\"]streaming|isStreaming|isLoading|onData" --type=ts src/components/ src/app/
 ```
 
 **False-positive guards:**

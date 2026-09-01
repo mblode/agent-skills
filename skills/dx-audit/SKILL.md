@@ -1,138 +1,113 @@
 ---
 name: dx-audit
-description: Audits the smallest relevant developer-facing surface of a library, CLI, SDK, or npm package across API contracts, errors, CLI behavior, public types, onboarding, and config. Uses candidate-first rule loading, bounded local evidence, and compact root-cause findings. Use when asked to "audit my CLI", "make this CLI agent-friendly", "is this API ergonomic", "review the developer experience", "improve these errors", "simplify first run", or "review my SDK". For end-user UI use ui-design Audit mode, for agentic-app trust use ax-audit, for docs prose use docs-writing, for README work use readme-creator, and for repo architecture use codebase-architecture. Inside a product that also ships a UI, this is the skill for the developer-facing half, so pick it when the complaint is about an import, command, error string, exported type, or config rather than a screen.
+description: >-
+  Audits the developer-facing surface of a library, CLI, SDK, or npm package:
+  public API contracts, error messages, CLI behavior for humans and agents,
+  exported types, install and first run, and config. 38 rules in six
+  prefix-dispatched categories, loaded candidate-first against a locked scope;
+  reports root-cause findings with impact tiers and concrete fixes. Use when
+  asked to "audit my CLI", "make this CLI agent-friendly", "is this API
+  ergonomic", "review the developer experience", "improve these error messages",
+  "is this package easy to install", "are my types wrong", or "review my SDK".
+  For end-user UI use ui-design Audit mode, for agentic-app trust use ax-audit,
+  for docs prose use docs-writing, for a README use readme-creator, for repo
+  architecture use codebase-architecture, for scaffolding a new CLI use
+  scaffold-cli, and for general diff bugs use pr-reviewer.
 ---
 
 # DX Audit
 
 Audit or improve what developers import, run, configure, or read when something fails.
 
-- **IS:** a bounded review of public APIs, developer-facing errors, CLI commands, exported types,
-  install and first-run behavior, and config.
-- **IS NOT:** a repo-wide quality sweep, end-user UI audit (`ui-design` Audit mode), agent trust review
-  (`ax-audit`), prose rewrite (`docs-writing`), README rewrite (`readme-creator`), or repository
-  architecture review (`codebase-architecture`).
+- **IS:** a bounded review of public APIs, developer-facing errors, CLI commands, exported types, install and first-run behavior, and config, with fixes only when asked.
+- **IS NOT:** a repo-wide quality sweep (`pr-reviewer`), end-user UI (`ui-design` Audit mode), agent trust review (`ax-audit`), docs prose (`docs-writing`), README (`readme-creator`), repository architecture (`codebase-architecture`), or building a new CLI (`scaffold-cli`).
 
-## Modes and scope lock
+## Modes
 
-Choose the narrowest mode supported by the request:
+Pick the narrowest mode the request supports, and write a one-line scope receipt before reading code:
 
-1. **Targeted audit (default):** inspect the named surface or changed public surface and report.
-2. **Fix:** only when the user asks to fix, improve, simplify, or implement; make localized fixes
-   inside the locked scope, then verify them.
-3. **Exhaustive:** only when the user explicitly asks for the whole package or every public surface.
-
-Before exploration, write a one-line scope receipt:
+| Mode | When | Output |
+|------|------|--------|
+| Targeted (default) | a named or changed public surface | findings report, read-only |
+| Fix | the user says fix, improve, simplify, or implement | localized edits inside the receipt, then verification |
+| Exhaustive | the user explicitly asks for the whole package or every public surface | every material finding, partitioned by surface |
 
 ```text
-Scope: <mode>; surfaces: <commands/exports/config>; prefixes: <err-, cli->; excludes: <UI/docs/architecture/private internals>
+Scope: <mode>; surfaces: <commands/exports/config>; prefixes: <err-, cli->; excludes: <UI, docs, architecture, private internals>
 ```
 
-If several skills are invoked, keep only the developer-facing surfaces above. Let sibling skills
-own their areas without duplicating their search or findings. "DX", "gold standard", and "review
-holistically" do not by themselves authorize a multi-repo or whole-package sweep.
+"DX", "gold standard", and "review holistically" do not by themselves widen a targeted audit into exhaustive. When several skills are invoked together, this one owns only the surfaces above.
 
 ## Audit progress
 
 ```text
 DX audit progress:
-- [ ] 1. Lock intent, public surfaces, and exclusions
-- [ ] 2. Trace the minimum local evidence path
-- [ ] 3. Select prefixes and candidate rule files
-- [ ] 4. Confirm and rank material findings
-- [ ] 5. Report, or fix only when requested
-- [ ] 6. Re-run the same checks and record evidence
+- [ ] 1. Lock the public surface and write the scope receipt
+- [ ] 2. Gather local evidence and run the safe probes
+- [ ] 3. Select prefixes, then open candidate rules
+- [ ] 4. Rank root causes
+- [ ] 5. Report, or fix when asked
+- [ ] 6. Verify on the same scope
 ```
 
 ### 1. Lock the public surface
 
-Default to `git diff` against the repository's normal base, then keep only changed files reachable
-through a public entry point. With no useful diff, use the command, export, package, error, or config
-named by the user.
+Start from `git diff` against the normal base and keep only changed files reachable from a public entry point: `package.json` `exports` or `bin`, a command registry, an exported type, a documented config loader, or an observed error path. With no useful diff, use the command, export, error, or config the user named. A private helper enters scope only through a public caller.
 
-Public reachability comes from evidence such as `package.json` `exports`/`bin`, a command registry,
-an exported type, a documented config loader, or an observed error path. Do not audit a private
-helper unless a public caller exposes its behavior.
+### 2. Gather evidence, then stop
 
-### 2. Follow the evidence ladder, then stop
+1. Local instructions, the manifest, and the diff or named entry point.
+2. Direct public dependencies and the nearest tests that pin behavior.
+3. Safe probes against the local build:
+   - CLI: `--help`, `--version`, one success path, one invalid-input path, and the same command with stdout piped (`| cat`) to see non-TTY behavior. Never trigger a real mutation to test DX; use `--dry-run` where it exists.
+   - Package: `npx publint` and `npx @arethetypeswrong/cli --pack .` after a build. Both are read-only and replace eyeballing the `exports` map.
+4. The prior release contract, only when the diff changes a public export, signature, or return shape.
 
-Take these rungs in order:
-
-1. Read local instructions, the relevant manifest, and the diff or named entry point.
-2. Trace only direct public dependencies and the nearest tests that establish behavior.
-3. For a CLI, use a small safe probe set when useful: `--help`, `--version`, one success path, and
-   one invalid-input path. Do not trigger a real mutation merely to test DX.
-4. Check a prior release contract only when the diff changes a public export, signature, or return
-   shape.
-
-Stop when the behavior is proven, disproven, private, or outside scope. Do not browse general best
-practice articles, inventory unrelated apps, build static repo maps, or spawn overlapping scouts.
-External research is for an explicit comparison request or a named uncertainty local evidence
-cannot resolve. In an explicit exhaustive audit, parallel work may partition disjoint public
-surfaces; it must not run several generic whole-repo reviews.
+Stop when the behavior is proven, disproven, private, or out of scope. External research is for an explicit comparison request or a named uncertainty local evidence cannot resolve; `references/standards-map.md` carries the standards this skill already leans on.
 
 ### 3. Dispatch rules candidate-first
 
-Read `rules/_sections.md`, then select only prefixes applicable to the locked surface:
+Read `rules/_sections.md`, then select prefixes by surface:
 
 | Priority | Prefix | Category | Default impact | Rules |
 |----------|--------|----------|----------------|-------|
 | 1 | `api-` | Public API and SDK | CRITICAL | 7 |
 | 2 | `err-` | Developer-facing errors | CRITICAL | 5 |
-| 3 | `cli-` | CLI UX | HIGH | 13 |
+| 3 | `cli-` | CLI UX for humans and agents | HIGH | 13 |
 | 4 | `types-` | Exported type ergonomics | HIGH | 5 |
-| 5 | `onboard-` | Install and first run | HIGH | 4 |
+| 5 | `onboard-` | Install and first run | HIGH | 5 |
 | 6 | `config-` | Config ergonomics | MEDIUM | 3 |
 
-Map surfaces to prefixes: a public API entry point uses `api-`, `types-`, and reached `err-`
-paths; a CLI uses `cli-` and reached `err-` paths; exported declarations use `types-`, plus
-`api-` only when behavior changes; install and first run use `onboard-`; config loaders use
-`config-` and reached `err-` paths.
+| Surface | Prefixes |
+|---------|----------|
+| Public API entry point | `api-`, `types-`, reached `err-` paths |
+| CLI command | `cli-`, reached `err-` paths |
+| Exported declarations | `types-`, plus `api-` when behavior changed |
+| Install, `package.json`, first run | `onboard-` |
+| Config loader | `config-`, reached `err-` paths |
 
-Applicability outranks global priority. A CLI-only audit runs applicable `err-` rules before
-`cli-`; it does not load `api-` merely because API rules have higher impact.
+Applicability outranks priority: a CLI-only audit never loads `api-` because API rules rank higher.
 
-For a targeted audit:
+Targeted mode: list the filenames for the selected prefixes (the names are the checklist), look for concrete evidence, then open only the rule files a finding needs. Exhaustive mode: read every rule in the selected prefixes.
 
-1. List filenames for the selected prefixes; their names form the candidate checklist.
-2. Inspect the scoped behavior for concrete candidate evidence.
-3. Open only the exact candidate rule files needed to confirm or reject a finding.
-4. Cite a rule id only after reading that file. Never invent one from memory.
+Capability gates, applied inside a selected prefix:
 
-For an explicit exhaustive audit, read every rule in the selected prefixes. Read
-`references/dx-principles.md` only when the user asks for rationale or a borderline finding needs a
-tie-breaker. Read `rules/_template.md` only when adding or editing a rule.
-
-Capability-gate candidate rules even inside a selected prefix:
-
-- Structured JSON input and schema introspection apply when automation or agent use is promised,
-  requested, or already supported.
-- Dry-run and confirmation apply to destructive, expensive, or difficult-to-reverse mutations.
-- Progress, delta polling, and resume apply to operations that can block, outlive one command, or
-  be retried after ambiguous output.
+- Structured JSON input, schema introspection, and compact polling snapshots apply when automation or agent use is promised, requested, or already supported.
+- Dry-run and confirmation apply to destructive, expensive, or hard-to-reverse mutations.
+- Progress and resume apply to operations that can block, outlive one command, or be retried after ambiguous output.
 - `stdin` applies when the command semantically accepts file or stream data.
 - Stable-contract comparison applies only when a public contract changed.
 
 ### 4. Rank root causes, not instances
 
-- CRITICAL findings first, then HIGH, then MEDIUM using each rule's frontmatter impact.
-- Copy the rule's frontmatter impact exactly. Impact is the rule's declared consequence, not a
-  confidence score; never downgrade it because the local instance feels minor.
-- Merge repeated instances of one root cause into one finding with up to three representative
-  locations.
-- Do not flag a hypothetical missing feature with no current consumer path. YAGNI is not a defect.
-- Do not turn absence of JSDoc, error codes, or a flag into one finding per symbol or command.
-- In targeted mode, report all CRITICAL findings, then the highest-value remaining findings up to
-  five total. Summarize any remainder by category rather than expanding the audit.
-- Before reporting, compare every cited rule id with the rule files actually opened. Open any
-  missing file and use its frontmatter impact, or remove the citation.
+- Order CRITICAL, HIGH, MEDIUM by each cited rule's frontmatter `impact`, copied exactly. Impact is the rule's declared consequence, not a confidence score.
+- Merge repeated instances of one root cause into one finding with up to three representative locations. Missing JSDoc, error codes, or `--json` across a surface is one finding, not one per symbol.
+- A missing feature with no current consumer path is not a defect.
+- Targeted mode: every CRITICAL finding, then the highest-value remainder up to five total; summarize the rest by category.
 
 ### 5. Report or fix
 
-Audit-only requests are read-only. A request to improve or fix authorizes localized changes inside
-the scope receipt, not a redesign of adjacent docs, UI, or architecture.
-
-Use this compact output:
+Audit requests are read-only. A fix request authorizes localized changes inside the receipt, not a redesign of adjacent docs, UI, or architecture.
 
 ```markdown
 ## DX Audit
@@ -147,51 +122,38 @@ Scope: `tool status` CLI; `err-`, `cli-`; 4 files inspected.
 - 2 lower-impact config candidates were outside the locked CLI scope.
 ```
 
-Only list files with findings. If none are material, return one pass line naming the surfaces and
-rule files checked. Do not emit a `✓ pass` entry for every clean file or repeat a DX principle under
-every finding. In exhaustive mode, include every material finding; list clean files only when the
-user requests compliance-style evidence.
-
-For fix mode, replace `Deferred` with `Changed` and `Verification`, including the exact commands or
-runtime probes that passed.
-
-Before sending the report, check:
-
-```text
-Report preflight:
-- every cited rule file was opened
-- every [IMPACT] exactly matches that file's frontmatter
-- the inspected-file count matches the unique files named
-- no out-of-scope or per-clean-file filler entered the report
-```
+List only files with findings; a clean surface gets one pass line naming the surfaces and rule files checked. In fix mode, replace `Deferred` with `Changed` and `Verification` (the exact commands or probes that passed). Length follows findings, not the template.
 
 ### 6. Verify on the same scope
 
-Re-open every touched or cited location, rerun the same safe probes and focused project checks, and
-reapply the same candidate rules. A clean build alone does not prove CLI behavior; a runtime probe
-alone does not prove exported types. Verification evidence must match the finding.
+Re-open every touched or cited location, rerun the same probes and focused project checks, and reapply the same candidate rules. Match the evidence to the claim: a clean build does not prove CLI behavior, a runtime probe does not prove exported types, and only `attw` or a consumer-style `tsc` import proves a types resolution.
 
 ## Reference files
 
 | File | Read when |
 |------|-----------|
 | `rules/_sections.md` | Every audit, for prefix applicability and priority |
-| `rules/<prefix>-*.md` | A targeted candidate exists, or the user requests exhaustive coverage |
-| `references/dx-principles.md` | Rationale is requested or a finding is borderline |
-| `references/evaluation-scenarios.md` | Evaluating or changing this skill's workflow |
+| `rules/<prefix>-*.md` | A candidate has evidence, or exhaustive mode |
+| `references/standards-map.md` | A finding needs an external citation, the user asks why something is a rule, or a borderline call needs a tie-break |
+| `references/evaluation-scenarios.md` | Changing this skill; never during a user task |
 | `rules/_template.md` | Adding or editing a rule |
 
 ## Gotchas
 
-- **Probe the local build, not the published binary.** `npx <pkg>` and an existing global install
-  both resolve the registry copy, so `--help`, exit codes, and error strings describe a release the
-  working tree has not changed. Build, then invoke the local entry point (`node ./dist/cli.js`).
+- **`npx <pkg>` and a global install probe the registry copy, not the working tree.** `--help`, exit codes, and error strings then describe a released version. Build, then invoke the local entry point (`node ./dist/cli.js`).
+- **`process.stdout.isTTY` is `undefined` under a pipe, not `false`.** A guard written as `isTTY === false` never disables color or spinners when piped, so ANSI codes reach the redirected file. Probe with `| cat` rather than trusting the guard.
+- **`process.exit(1)` right after `console.log` can truncate the output it was meant to explain.** stdout writes are asynchronous when piped, so a CLI that prints usage and calls `exit()` can emit nothing under `| cat`. The fix is `process.exitCode = 1` and a natural return (`cli-exit-codes`).
+- **An `exports` map that reads correctly can still resolve wrong.** `"require"` pointing at a `.js` file under `"type": "module"` masquerades as CJS, and a `types` condition listed after `import` is never reached. `publint` and `attw` catch both; reading the map does not (`onboard-exports-resolve-typed`).
+- **A rule id cited from memory drifts from the file.** The frontmatter title and impact are the contract. Open the file before citing it, and drop the citation if no such file exists.
+- **Downgrading an impact because the instance feels small hides a class of defect.** Exit 0 on failure in one subcommand is still HIGH; the CI gate it defeats is the same. Copy the frontmatter value.
 
 ## Related skills
 
 - `ui-design` Audit mode: rendered end-user frontend quality and accessibility
-- `ax-audit`: agentic application architecture and trust
+- `ax-audit`: same files, different reader; asks whether an agent can operate and recover, where this skill asks whether a developer finds the surface ergonomic
+- `scaffold-cli`: builds a new CLI with these patterns already in place; this skill audits what exists
+- `pr-reviewer`: general correctness and structure of a diff
 - `docs-writing`: documentation prose and information quality
 - `readme-creator`: README structure and first-reader narrative
 - `agents-md`: AGENTS.md and CLAUDE.md instruction files
-- `codebase-architecture`: repository structure, module contracts, and the guardrails inside the repo, rather than the surface a package ships outward
+- `codebase-architecture`: repository structure and module contracts inside the repo, rather than the surface a package ships outward

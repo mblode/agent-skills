@@ -42,7 +42,7 @@ One error shape across all endpoints: `{ error: { code: string; message: string;
 
 ### Validate at boundaries only
 
-Validate at API route handlers, form submissions, external service response parsing, and environment variable loading. Do NOT validate between internal functions with established type contracts.
+Validate at API route handlers, form submissions, external service response parsing, and environment variable loading. Between internal functions the type contract is the validation; re-checking there adds a second failure surface without adding a trust boundary.
 
 ### Prefer addition over modification
 

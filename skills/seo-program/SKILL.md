@@ -1,12 +1,12 @@
 ---
 name: seo-program
-description: Runs the demand side of an SEO and AEO program in two modes. Topic pipeline pulls live keyword and prompt volumes with real numbers, builds an answer-engine question map, and writes a writer content brief. Monitoring watches Search Console and prompt visibility and reports only state changes. Binds each job to whatever research and chat tools the team already has instead of requiring a named vendor. Use when asked to "what's the search volume", "check prompt volume", "write a content brief", "brief this article for a writer", "build a question map", "what questions should this page answer", "review Search Console", "why did our clicks drop", or "set up SEO monitoring". Writes briefs and research, never the article itself. For choosing which topics to cover and building content pillars use content-strategy. For AI-search content tactics and citation strategy use ai-seo. For implementing the page in code use optimise-seo, and for the article use the external ghostwriter skill with platform blog.
+description: Runs the demand side of an SEO and AEO program in two modes. Topic pipeline pulls live keyword and prompt volumes with real numbers, builds an answer-engine question map, and writes a writer content brief. Monitoring watches Search Console and prompt visibility and reports only state changes. Binds each job to whatever research and chat tools the team already has instead of requiring a named vendor. Use when asked to "what's the search volume", "check prompt volume", "write a content brief", "brief this article for a writer", "build a question map", "what questions should this page answer", "review Search Console", "why did our clicks drop", or "set up SEO monitoring". Writes briefs and research, never the article itself. For implementing the page in code use optimise-seo, and for the article use the external ghostwriter skill with platform blog.
 ---
 
 # SEO Program
 
 - **IS:** demand research with live numbers, answer-engine question maps, writer content briefs, and the monitoring cadence that reports whether any of it worked.
-- **IS NOT:** choosing which topics to cover or building content pillars and an editorial calendar (`content-strategy`), AI-search content tactics and citation strategy (`ai-seo`), implementing the page in code (`optimise-seo` owns metadata, schema, canonicals, `llms.txt`), writing the article (external `ghostwriter` with the blog profile), or short-form product copy (`copywriting`). This skill starts once a topic is chosen and ends when the brief is handed over.
+- **IS NOT:** implementing the page in code (`optimise-seo` owns metadata, schema, canonicals, `llms.txt`), writing the article (external `ghostwriter` with the blog profile), or short-form product copy (`copywriting`). This skill starts once a topic is chosen and ends when the brief is handed over.
 
 ## Mode dispatch
 
@@ -55,7 +55,7 @@ Full per-tool procedure, match types, and the no-data path: [references/research
 - For prompt volume, Exact match (terms in the given order) is the number. Phrase and any-order match are unreliable on multi-word terms and never go in the number column.
 - Record scope (global unless the user asked for a country) and the date window next to every figure.
 - When a tool returns nothing, write "No data". A fabricated volume routes real writing effort at a topic nobody searches.
-- Pull brand search volume alongside the topic terms. It is the strongest published predictor of getting cited by an answer engine, ahead of backlinks, and it is the one number on the brief that content alone will not move.
+- Pull brand search volume alongside the topic terms. In Ahrefs' 75,000-brand study it correlates with AI-search visibility at 0.392 against 0.218 for backlinks, so it beats links but trails branded web mentions (0.664) and YouTube mentions (0.737). Record it because it is the one number on the brief that content alone will not move, and say which of the three you measured rather than calling any of them the predictor.
 - A keyword tool's related-keyword database is often empty for niche or product-shaped seeds. Search Console's own query report is the related-query universe for a site that has any traffic at all.
 
 ### Step 2: Question map
@@ -115,8 +115,6 @@ Findings go in chat. Write a file only when the user asked for one, and never le
 
 ## Related skills
 
-- `content-strategy`: picks the topics and builds the pillars this skill then researches
-- `ai-seo`: AI-search content tactics and citation strategy
 - `optimise-seo`: builds the page this skill specifies (metadata, schema, canonicals, `llms.txt`, AI-crawler policy, Core Web Vitals)
 - `copywriting`: short-form product and marketing copy, CTAs, UI strings
 - External `ghostwriter` with the blog profile: writes the article from the brief

@@ -223,6 +223,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - Scroll the first and last content past sticky or fixed headers, footers, and action bars at both widths. Content must not disappear beneath them, and overlapping chrome needs a visible edge or scroll cue.
 - Confirm text does not overflow or overlap in buttons, cards, sidebars, and compact panels.
 - List the mode, guideline, track, and rule files loaded. In Audit mode this is also the check that the load contract held.
+- **Fresh-eyes pass, Direction and Build only, when a subagent tool exists.** Hand the desktop and mobile captures to a separate context that has not seen the code or the brief, with the Quality Bar and the reference calibration list, and ask for a 1-10 score against studio quality plus the three largest gaps. The author's context has already rationalised every choice on screen; a reader with only the pixels has not. Treat the gaps as findings to act on or reject with a reason, never as a score to report.
 
 ## Gotchas
 
@@ -245,6 +246,5 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics).
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `optimise-seo`: meta descriptions and page titles.
-- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
 
 Maintenance only: when changing audit routing or anti-slop behavior, run the scenarios in `evaluations/` as a regression rubric.

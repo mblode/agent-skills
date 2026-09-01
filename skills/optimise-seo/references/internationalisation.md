@@ -1,62 +1,81 @@
 # Internationalisation (SEO layer)
 
-How multilingual/multi-regional sites tell search engines which version to serve. Covers URL strategy, `hreflang`, and localised metadata. For runtime formatting (dates/numbers/plurals) and the language switcher UI, use the `ui-design` skill in Audit mode.
+How multilingual and multi-regional sites tell search engines which version to serve: URL strategy, `hreflang`, and localised metadata. Runtime formatting (dates, numbers, plurals, RTL) and the language switcher UI belong to `ui-design`.
 
 ## Contents
+
 - [URL strategy](#url-strategy)
 - [hreflang](#hreflang)
 - [Localised metadata](#localised-metadata)
-- [Avoid IP-based redirects](#avoid-ip-based-redirects)
+- [No IP or Accept-Language redirects](#no-ip-or-accept-language-redirects)
 
 ## URL strategy
 
-Pick **one** pattern for all locales and keep it:
+Pick one pattern for all locales and keep it:
 
 | Pattern | Example | Notes |
 |---|---|---|
-| Subdirectory | `example.com/de/`, `example.com/fr/` | Simplest; inherits domain authority. Usually the default. |
-| Subdomain | `de.example.com` | More setup; separate signals. |
+| Subdirectory | `example.com/de/`, `example.com/fr/` | Simplest; inherits domain authority. The default. |
+| Subdomain | `de.example.com` | More setup; signals split per host. |
 | ccTLD | `example.de` | Strongest geo signal; most expensive to run. |
 
-Optionally localise the slugs too (`/de/produkte` not `/de/products`).
+Localising the slugs (`/de/produkte`, not `/de/products`) is optional and a mild win for click-through.
 
 ## hreflang
 
-Declare each language/regional alternate with **BCP 47** codes (`en`, `en-GB`, `de`, `pt-BR`). Rules:
-- **Reciprocal:** every alternate must list every other alternate, including itself.
-- Include a self-reference.
-- Add `x-default` for the unmatched-locale fallback.
-- Place in **one** location only (HTML `<head>`, HTTP `Link` headers, **or** the XML sitemap, see below), not duplicated.
+Declare each alternate with a BCP 47 code (`en`, `en-GB`, `de`, `pt-BR`). Google's rules, all of which are ignore-the-whole-set failures when broken:
 
-```html
-<link rel="alternate" hreflang="en" href="https://example.com/en/page" />
-<link rel="alternate" hreflang="de" href="https://example.com/de/page" />
-<link rel="alternate" hreflang="x-default" href="https://example.com/en/page" />
+- Reciprocal: every alternate lists every other alternate, and itself.
+- `x-default` names the fallback for unmatched locales.
+- One location only: HTML `<head>`, HTTP `Link` headers, or the XML sitemap. Duplicating across two is a source of drift.
+- The canonical of a localised page is that page (or the same-language substitute), never the English original. A canonical pointing across languages silently drops the localised page from results.
+
+In the head, via `generateMetadata`:
+
+```tsx
+export async function generateMetadata(
+  { params }: { params: Promise<{ locale: string; slug: string }> }
+): Promise<Metadata> {
+  const { locale, slug } = await params
+  const post = await getPost(slug, locale)
+  return {
+    title: post.title,            // translated per locale
+    description: post.excerpt,    // translated per locale
+    alternates: {
+      canonical: `/${locale}/blog/${slug}`,
+      languages: {
+        en: `/en/blog/${slug}`,
+        de: `/de/blog/${slug}`,
+        'x-default': `/en/blog/${slug}`,
+      },
+    },
+    openGraph: { locale: locale === 'de' ? 'de_DE' : 'en_US' },
+  }
+}
 ```
 
-In the sitemap (scales well; keeps localisation metadata out of the head):
+In the sitemap, which scales better and keeps the head small (Next.js 14.2+):
 
-```xml
-<url>
-  <loc>https://example.com/en/page</loc>
-  <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/page"/>
-  <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/page"/>
-</url>
+```ts
+// app/sitemap.ts rows
+{
+  url: `${origin}/en/blog/${slug}`,
+  lastModified,
+  alternates: { languages: { en: `${origin}/en/blog/${slug}`, de: `${origin}/de/blog/${slug}` } },
+}
 ```
+
+Emit one row per locale, each carrying the full alternates set including itself; a row that lists only the other locales is a non-reciprocal set.
 
 ## Localised metadata
 
-Translate **everything in the head and structured data**, not just the body (an English `<title>` over a localised body is a half-translation):
+Translate the head and the structured data, not only the body. An English `<title>` over a German page is a half-translation that ranks for neither:
+
 - `<title>`, `<meta name="description">`
-- Open Graph `og:title` / `og:description` (and `og:locale`)
-- JSON-LD `name` / `description` fields
+- `og:title`, `og:description`, `og:locale`
+- JSON-LD `name`, `description`, `headline`, and `inLanguage`
 - image `alt` text
 
-See `nextjs-implementation.md` for the `generateMetadata` + `alternates.languages` pattern.
+## No IP or Accept-Language redirects
 
-## Avoid IP-based redirects
-
-Do **not** auto-redirect to a locale by IP geolocation or `Accept-Language`. It traps users in the wrong language, breaks crawlers (which crawl from one region), and breaks shared links. Instead:
-- Serve the requested URL's locale as-is.
-- Optionally show a dismissible banner suggesting another locale ("View this page in Deutsch?"), never a hard redirect.
-- Let the user choose via the language switcher.
+Do not auto-redirect to a locale by geolocation or `Accept-Language`. Googlebot crawls mostly from US IPs, so a redirect hides every non-US locale from it, and a shared link lands the recipient in the wrong language with no way back. Serve the requested URL as-is, offer a dismissible banner ("View this page in Deutsch?"), and let the switcher do the rest.

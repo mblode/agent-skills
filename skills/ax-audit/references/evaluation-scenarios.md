@@ -4,6 +4,13 @@ Rubric for changing this skill. Never loaded during a user audit. No runner: tre
 
 Ablate one rule at a time. Keep a rule only if a scenario below regresses without it. House opinions (evolution curve, costume vs intelligence, verdict thresholds) are not ablatable this way.
 
+## Contents
+
+- Scenarios 1-3: thin approval payload, unattended cron, prose tool result
+- Scenarios 4-6: no agentic surface, weak detection signals, generic `Action` toolbar
+- Scenarios 7-8: executor code outside the detection table, out-of-scope layers
+- Scenarios 9-11: MCP `isError`, gate only in `canUseTool`, client-only Stop
+
 ## Scenario 1: thin approval on an execution surface
 
 **Query:** "AX review this PR. The agent can send email."
@@ -95,3 +102,36 @@ Ablate one rule at a time. Keep a rule only if a scenario below regresses withou
 - The self-check's 30% threshold counts only `unknown`, so the audit is not flagged INCOMPLETE
 - With a release-blocker present, the verdict is ❌ NOT READY, not 🚫 INCOMPLETE
 - Regression guard: two models both returned 🚫 INCOMPLETE here while holding two to six real blockers
+
+## Scenario 9: MCP handler that reports failure without `isError`
+
+**Query:** "Audit our MCP server for AX."
+
+**Fixture:** `server.tool("send_invoice", ...)` whose `catch` returns `{ content: [{ type: "text", text: "Could not send the invoice." }] }` with no `isError`. A sibling tool returns `isError: true` with the same prose.
+
+**Expected behavior:**
+- `parity-unstructured-tool-output` fails on `send_invoice` with `file:line`, citing the missing `isError`
+- The sibling is `pass`: the flag is the machine-readable half
+- Does not report the prose text itself as the defect
+
+## Scenario 10: gate that lives only in `canUseTool`
+
+**Query:** "AX review this PR. Every tool goes through our approval callback."
+
+**Fixture:** a Claude Agent SDK query with `canUseTool` prompting the user, and `allowedTools: ["Bash", "Write"]` bare in the same options.
+
+**Expected behavior:**
+- `comm-no-approval-gate` fails: allow rules resolve those tools before the callback runs, so the gate is off the path for them
+- Fix names a `PreToolUse` hook or scoped rules, not a change to the callback body
+- Does not also file `control-no-approval-gate` on the callback, which is well-shaped for the tools that do reach it
+
+## Scenario 11: Stop button that stops the stream, not the run
+
+**Query:** "Critique this AI feature."
+
+**Fixture:** a chat panel whose Stop button calls `useChat().stop()`, and a route handler that calls `streamText` without `abortSignal` and whose tool `execute` functions ignore the signal.
+
+**Expected behavior:**
+- `control-no-escape-hatch` fails, evidence at the route handler and a tool `execute`, not at the button
+- Tier is `release-blocker` on the chat surface per the rule's table
+- A fixture where `req.signal` is threaded through both passes

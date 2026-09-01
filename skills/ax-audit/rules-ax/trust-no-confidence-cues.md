@@ -25,18 +25,20 @@ Agent responds with a confident directive and nothing else. User can't tell if i
 
 **Static signals:**
 1. Find agent output components (`role="assistant"`, `<AssistantMessage>`, `<AiResponse>`).
-2. Check for citation, source, reasoning, or thinking child components.
+2. Check for citation, source, reasoning, or thinking child components, and for the stream parts that feed them (`reasoning`, `source-url`, `source-document`).
 3. Flag output containers with zero rationale children.
 
 **Concrete commands:**
 ```bash
 rg -l 'role.*assistant|AssistantMessage|AiResponse|completion' --type=ts src/
 rg -A 15 'role.*assistant|<AssistantMessage|<AiResponse' --type=ts src/ | rg -v 'Citation|Source|Reasoning|Thinking'
+rg -n "type === ['\"](reasoning|source-url|source-document)|filter\(.*type === ['\"]text" --type=ts src/
 ```
 
 **Judgment signals:**
 - Even if `<Sources>` exists, check whether it's populated vs. always empty.
 - A rationale section for some response types but not others is a partial pass.
+- A `reasoning` or `source-url` part received and filtered out (`parts.filter((p) => p.type === "text")`) is the finding: the rationale arrived and the UI dropped it.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:trust-no-confidence-cues`, test, and Storybook files.

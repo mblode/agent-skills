@@ -76,10 +76,12 @@ Add confidence indicators: numeric score, visual badge (high/medium/low), hedgin
 
 | Surface | Tier |
 |---|---|
-| Agent tool execution | release-blocker |
+| Agent tool execution | fix-this-sprint |
 | Agent chat | fix-this-sprint |
 | Agent config | backlog |
 | Agent dashboard | fix-this-sprint |
+
+No tool-execution bump. Hedging in prose changes nothing about what a tool did, and an observational rule that can only return `unknown` on static evidence should not be the single finding that flips a verdict. The blockers on that surface are the gate, its payload, and the escape hatch.
 
 ## Suppression
 

@@ -29,11 +29,14 @@ User asks the agent to refactor 15 files. Agent completes 12 over 4 minutes. Lap
 
 **Runtime signals:** Agent runs >60s with no state persistence. Reconnect restarts from scratch.
 
+**Judgment signals:**
+- A client `resumeStream` (AI SDK 7) resumes only if the server kept the run; a Claude Agent SDK `PreToolUse` hook returning `defer` persists the session across an approval wait. Either is a pass only when the server side is there; a reconnect helper over a run that died with the request is not.
+
 **Concrete commands:**
 ```bash
 rg '(for\s*\(|while\s*\(|for await)' --type=ts -A 5 src/ | rg -B 1 '(toolCall|executeStep|runTool)'
 rg '(checkpoint|saveState|persistSession|saveProgress)' --type=ts src/
-rg '(resume|recover|restoreSession|loadCheckpoint)' --type=ts src/
+rg '(resume|recover|restoreSession|loadCheckpoint|resumeStream|defer)' --type=ts src/
 ```
 
 **False-positive guards:**

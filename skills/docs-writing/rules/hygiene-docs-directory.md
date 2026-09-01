@@ -6,7 +6,7 @@ tags: location, organization, directory
 
 ## All documentation lives in the docs/ directory
 
-Scattered docs are undiscoverable. Keep all docs in `docs/` (or the project's equivalent). Subdirectory READMEs are the exception: they describe that specific directory.
+A reader who can't find a page assumes it doesn't exist and asks, or guesses. Keep docs in `docs/` (or the project's established equivalent), with subdirectories by Diataxis type so the folder tells a reader which kind of page they are opening. Subdirectory READMEs are the exception: they describe that specific directory. Docs living next to the code they describe is also what lets a docs change ride in the same PR (`review-docs-with-code`).
 
 **Incorrect (docs scattered across the repo):**
 
@@ -17,14 +17,15 @@ guides/deployment.md
 src/utils/HOWTO.md
 ```
 
-**Correct (all docs in one directory with subdirectories by type):**
+**Correct (one directory, subdirectories by type):**
 
 ```markdown
 docs/tutorials/getting-started.md
+docs/how-to/deploy-to-production.md
 docs/reference/api.md
-docs/howto/deploy-to-production.md
+docs/explanation/architecture.md
 README.md
 src/utils/README.md
 ```
 
-Reference: [Diataxis: Documentation system](https://diataxis.fr/)
+Reference: [Write the Docs: Docs as code](https://www.writethedocs.org/guide/docs-as-code/)

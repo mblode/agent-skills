@@ -1,14 +1,14 @@
 ---
-title: Establish page location with an opening link or breadcrumb
+title: Open with context where the site renders no breadcrumb
 impact: MEDIUM-HIGH
-tags: navigation, breadcrumbs, wayfinding
+tags: navigation, breadcrumbs, wayfinding, prerequisites
 ---
 
-## Establish page location with an opening link or breadcrumb
+## Open with context where the site renders no breadcrumb
 
-Readers arrive from search, deep links, and bookmarks, not always from the top. Each page must show where it sits in the hierarchy without making readers navigate there manually.
+Readers arrive from search and deep links, not from the top. A docs site shows them where they are through its sidebar and breadcrumb, so repeating "this guide is part of the X series" on every page is noise. Plain Markdown in a repository has no such chrome, and any page that depends on an earlier one has a prerequisite the reader may not have met. In those two cases the opening lines name the parent or the prerequisite and link to it.
 
-**Incorrect (no indication of section or hierarchy):**
+**Incorrect (repo Markdown page with no indication of what came before):**
 
 ```markdown
 # Token rotation
@@ -17,16 +17,16 @@ Rotate tokens every 90 days to reduce the impact of leaked
 credentials...
 ```
 
-**Correct (opening sentence establishes context):**
+**Correct (opening sentence names the prerequisite):**
 
 ```markdown
 # Token rotation
 
-This guide is part of the [Authentication](index.md) series.
+This guide assumes you have created API tokens; see
+[Create API tokens](create-tokens.md) if not.
 
 Rotate tokens every 90 days to reduce the impact of leaked
-credentials. For initial token setup, see
-[Create API tokens](create-tokens.md).
+credentials...
 ```
 
 Reference: [Nielsen Norman Group: Breadcrumbs](https://www.nngroup.com/articles/breadcrumbs/)

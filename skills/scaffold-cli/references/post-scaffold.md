@@ -104,7 +104,7 @@ Validation:
 ## Troubleshooting
 
 - `ultracite init` fails or hangs: re-run without `--quiet` to see the blocking prompt, answer interactively, then continue.
-- `ln -s` fails on Windows: copy instead (`cp AGENTS.md CLAUDE.md`).
+- `ln -s` fails on Windows: write a one-line `CLAUDE.md` containing `@AGENTS.md` instead. A copy drifts the moment either file is edited.
 - `npm install` fails: verify Node >= 24.11 with `node --version`; the engines field rejects older versions.
 - `npm install` prints a peer warning for `typescript` against `tsdown`: expected and harmless. `tsdown@0.22.x` still lists its optional `typescript` peer as `^5 || ^6`, but its `.d.ts` engine (`rolldown-plugin-dts`) supports `^7`, so `dist/index.d.ts` still generates. Do not downgrade TypeScript.
 - `npm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).

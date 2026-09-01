@@ -27,11 +27,14 @@ Scenario A: User says "clean up my calendar." Agent deletes meetings including o
 1. Find agent-initiated side effects (send, delete, create, publish).
 2. Classify by stakes and reversibility. Check whether approval precedes high-stakes actions.
 3. Flag mismatches in both directions.
+4. Where a framework holds the policy, read it. AI SDK 7 `toolApproval` maps each tool to `'not-applicable'`, `'approved'`, `'denied'`, or `'user-approval'`, or runs a function: a catch-all returning `'approved'` is Scenario A, `'user-approval'` on read-only tools is Scenario B. In Claude Agent SDK code, `permissionMode: "bypassPermissions"` in a user-facing product is Scenario A.
+5. Where MCP elicitation carries the confirmation, check that three answers mean three outcomes: `decline` and `cancel` both mean do not proceed; only `accept` does.
 
 **Concrete commands:**
 ```bash
 rg -l 'sendEmail|sendMessage|deleteAccount|publishPost|processPayment' --type=ts src/
 rg -B 10 'sendEmail|delete|publish' --type=ts src/ | rg 'confirm|approval|modal'
+rg -n "toolApproval|'user-approval'|needsApproval|permissionMode|elicitation/create" --type=ts src/
 ```
 
 **Judgment signals:**
@@ -45,6 +48,30 @@ rg -B 10 'sendEmail|delete|publish' --type=ts src/ | rg 'confirm|approval|modal'
 ## Fix
 
 Implement the stakes x reversibility matrix. Low/easy: auto-apply. Low/hard: quick confirm. High/easy: show diff. High/hard: explicit modal approval.
+
+```ts
+// before: one policy for everything
+toolApproval: () => "approved",
+
+// after: the treatment follows stakes, reversibility, and provenance
+toolApproval: ({ toolCall }) => {
+  const t = tools[toolCall.toolName];
+  if (t.readOnly) return "not-applicable";
+  if (t.reversible && !leavesWorkspace(toolCall.input)) return "approved"; // receipt with undo
+  return "user-approval";                                                   // diff or modal
+},
+```
+
+## Default tier and overrides
+
+**Defaults to:** `release-blocker`
+
+| Surface | Tier |
+|---|---|
+| Agent tool execution | release-blocker |
+| Agent chat | release-blocker |
+| Agent config | fix-this-sprint |
+| Agent dashboard | fix-this-sprint |
 
 ## Examples
 
@@ -71,17 +98,6 @@ async function handleSendEmail(draft: EmailDraft, ctx: AgentContext) {
   return { status: "sent" };
 }
 ```
-
-## Default tier and overrides
-
-**Defaults to:** `release-blocker`
-
-| Surface | Tier |
-|---|---|
-| Agent tool execution | release-blocker |
-| Agent chat | release-blocker |
-| Agent config | fix-this-sprint |
-| Agent dashboard | fix-this-sprint |
 
 ## Suppression
 

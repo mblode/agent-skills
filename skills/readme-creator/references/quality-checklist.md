@@ -1,12 +1,12 @@
 # README Quality Checklist
 
-Run before finalizing a README. Score each applicable item: Yes = 1, No = 0, N/A = exclude from denominator. Target: all applicable items pass.
+Run before finalizing a README. Score each applicable item: Yes = 1, No = 0, N/A = exclude from denominator. Report the pass count with the render-check output from Phase 5 of SKILL.md.
 
 ## Audience (5 checks)
 
-1. No section that only helps someone changing the code (no Development, Tech Stack, Architecture, Release, Workspaces, Scripts, Contributing)
+1. No section that only helps someone changing the code (Development, Tech Stack, Architecture, Release, Workspaces, Scripts, Contributing, Project structure)
 2. Install is what a stranger runs, not `git clone` (unless cloning genuinely is the product)
-3. The install command uses the published package name from the manifest, not the repo or private root name
+3. The install command uses the published package name from the manifest, not the repo or private root name, and the package exists on the registry under that name
 4. A first-time reader gets something running, or sees the thing working, within 60 seconds
 5. Content moved out landed in `AGENTS.md` or `CONTRIBUTING.md` rather than being deleted
 
@@ -16,8 +16,8 @@ Run before finalizing a README. Score each applicable item: Yes = 1, No = 0, N/A
 7. Tagline directly below the title with no heading, and it does not open with the project's own name
 8. A plain second line saying what you do with it
 9. Section order follows the spine: header, Demo, Install, Quickstart, capability sections, License
-10. Two to four capability sections, no more
-11. Headings use the canonical names: `Install`, `Quickstart`, `Demo`, `License` (not `Installation`, `Getting Started`, `Quick start`, `Licence`)
+10. Two to four capability sections, or a stated reason for a fifth
+11. Headings use the canonical names: `Install`, `Quickstart`, `Demo`, `License`
 12. Headings are sentence case, and nothing goes deeper than `###`
 
 ## Content (6 checks)
@@ -29,28 +29,35 @@ Run before finalizing a README. Score each applicable item: Yes = 1, No = 0, N/A
 17. Capability bullets use `- **Name:** what it does.` with a colon
 18. Images are committed under `.github/assets/`, not hotlinked to an external host
 
+## Rendering (4 checks)
+
+19. Markdown inside `<div align="center">` and around `<p align="center">` is separated by blank lines
+20. For a published package, every image `src` is an absolute `raw.githubusercontent.com` URL; for a GitHub-only repo, relative paths are fine
+21. At most one `> [!NOTE]`-style alert, and none if the package publishes to PyPI
+22. A dark/light logo uses `<picture>` with an `<img>` fallback, not `#gh-dark-mode-only` fragments
+
 ## Writing (6 checks)
 
-19. Active voice ("Install the package" not "The package can be installed")
-20. No "This project is..." or "This is a..." openers
-21. No em dashes, and table cells meaning "not applicable" are empty rather than a dash
-22. Consistent terminology (one term per concept, same casing)
-23. No orphaned sections (every heading has content below it)
-24. No hedged capability claims ("should work", "aims to", "tries to")
+23. Active voice ("Install the package" not "The package can be installed")
+24. No "This project is..." or "This is a..." openers
+25. No em dashes, and table cells meaning "not applicable" are empty rather than a dash
+26. Consistent terminology (one term per concept, same casing)
+27. No orphaned sections (every heading has content below it)
+28. No hedged capability claims ("should work", "aims to", "tries to")
 
 ## Badges and footer (4 checks)
 
-25. Badges present only if the project publishes to a registry
-26. At most two badges (version, license), in one style and one colour scheme
-27. No CI, stars, downloads, runtime-version, or "maintained" badge
-28. License section present, with the footer credit line if the house style has one
+29. Badges present only if the project is listed on a registry (npm, crates.io, PyPI, VS Code Marketplace, skills.sh)
+30. Two badges (version or installs, plus license) in one style and one colour scheme, or a third that names a distribution channel
+31. No CI, stars, downloads, runtime-version, or "maintained" badge, and no license badge without a `LICENSE` file
+32. License section present, with the footer credit line if the house style has one
 
 ## Freshness (4 checks)
 
-29. Badge package name matches the published package (or badges are absent)
-30. Spot-check 2-3 links are not broken
-31. No references to deprecated APIs, removed features, or old package names
-32. Total length between 40 and 130 lines
+33. Badge package name matches the published package (or badges are absent)
+34. Spot-check 2-3 links are not broken
+35. No references to deprecated APIs, removed features, or old package names
+36. Length fits the type: most READMEs 40 to 90 lines, a CLI with flag tables up to 120, and anything past about 130 has its overflow linked out rather than inlined
 
 ## Project-Type Specific
 
@@ -69,6 +76,10 @@ Run before finalizing a README. Score each applicable item: Yes = 1, No = 0, N/A
 ### Monorepos
 - The README is written for what a stranger installs, not for the repo layout
 - No workspaces table as the lede
+
+### Skill bundles
+- Install is the one `npx skills add` command, with the compatible agents named
+- Every skill row links to its `SKILL.md`, and the count in the header matches the rows
 
 ## Automatic Fail
 

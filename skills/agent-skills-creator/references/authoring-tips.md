@@ -21,6 +21,7 @@ What to put in a skill and how hard to say it. The mechanical rules live in `scr
 - The Description Field Is For the Model
 - Think Through the Setup
 - Memory and Storing Data
+- Standing Instructions, Not One-Time Steps
 - Store Scripts and Generate Code
 - On-Demand Hooks
 - Composing Skills
@@ -48,7 +49,7 @@ Three related levers skew long by default and are worth setting deliberately:
 
 - **Calibrate the length of artifacts the skill writes to disk.** Reports, plans, briefs, and docs run long, and a fixed output template invites filling every section instead of dropping the ones the task does not need. Say that length follows the work, not the template. This is a real opinion, unlike "write concisely", which the model already believes it is doing.
 - **Write the quiet form of commands the skill tells Claude to run.** `npm test`, `git log`, and a full build dump hundreds of lines that get re-sent every remaining turn. Prefer `--reporter=dot`, `--quiet`, or `tail`.
-- **Cap delegation where the skill fans out.** Genuinely independent, sizeable tracks justify subagents; small tasks do not, and verification never does. A deterministic cap beats a judgement call, which is why `tidy` fixes the number at four launched in one message rather than leaving it open. The other case that earns a subagent is output isolation: a noisy log or full suite whose result you do not want in the main window. For a job you hand off over and over, ship it in `agents/` with a cheaper `model:` (haiku or sonnet).
+- **Cap delegation where the skill fans out.** Genuinely independent, sizeable tracks justify subagents; small tasks do not, and verification never does. A deterministic cap beats a judgement call, which is why `tidy` fixes the number at five launched in one message, one per review angle, rather than leaving it open. The other case that earns a subagent is output isolation: a noisy log or full suite whose result you do not want in the main window. For a job you hand off over and over, ship it in `agents/` with a cheaper `model:` (haiku or sonnet).
 
 **Test:** would the model do this unprompted? If yes, the instruction is at best inert and at worst additive. Same test as "Cut Constraints, Keep Opinions" below, pointed at the model's behavior rather than at its knowledge.
 
@@ -197,36 +198,44 @@ At session start, Claude scans every description to decide relevance. It is a tr
 
 - Optimize for the words users say when they need the skill: action verbs and domain nouns the model routes on
 - Add quoted user phrases: `"how do I..."`, `"build a..."`, `"fix my..."`
-- Structure: `[Does what] for/using [domain]. [Covers what]. Use when [specific trigger phrases].`
+- Structure: `[Does what] for/using [domain]. [Covers what]. Use when [specific trigger phrases]. For [adjacent job] use [sibling].`
+- Front-load. The listing that holds every description has a budget (about 1% of the context window in Claude Code) and trims from the tail of the least-used skills first. The 1024-character spec limit is a ceiling, not a target; a description that states its key use case in the first sentence survives trimming, one that saves the triggers for the end does not.
+- Undertriggering is the common failure, so lean pushy: name the contexts where the skill applies even when the user did not ask for it by name. Overtriggering is fixed by a tighter "For X use Y" clause or `disable-model-invocation`, not by hedging.
 
 **Weak:** "Provides architecture guidance for multi-tenant platforms"
 **Strong:** "Provides architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, or asking 'how do I support multiple tenants' or 'build a white-label platform'."
 
 ## Think Through the Setup
 
-Some skills need user-specific context first. Store it in a `config.json` in the skill directory rather than re-asking every session: Step 1 checks for the config, gathers missing values via AskUserQuestion, and later steps consume it.
+Some skills need user-specific context first. Store it in a `config.json` in the skill directory rather than re-asking every session: Step 1 checks for the config, gathers missing values via AskUserQuestion, and later steps consume it. A reinstall overwrites the folder, so this is for values cheap to re-ask, not for state the skill accumulates.
 
 ## Memory and Storing Data
 
 Auto-memory now owns facts about the user, their feedback, and ongoing project context, so a skill should not instruct anyone to hand-write memories into CLAUDE.md.
 
-Reserve `${CLAUDE_PLUGIN_DATA}` for artifacts the skill itself writes and reads back: regression baselines, append-only run logs, a previous-findings file an audit compares against. Store there rather than in the skill directory, which may be wiped on upgrade.
+Artifacts the skill itself writes and reads back (regression baselines, append-only run logs, a previous-findings file an audit compares against) live outside the skill directory, which a reinstall wipes. Plugin skills get `${CLAUDE_PLUGIN_DATA}`, which survives updates. Personal and project skills do not: that variable is substituted in plugin skills only and stays literal everywhere else, so anchor the path on `${CLAUDE_PROJECT_DIR}` (a `.claude/<skill>/` folder in the project) or a location the user chooses in `config.json`.
+
+## Standing Instructions, Not One-Time Steps
+
+The body enters the conversation once and is never re-read on later turns. An instruction phrased as a moment ("now check the lockfile") is obeyed once and then sits in context as history; one phrased as a standing rule ("every edit to a manifest is followed by a lockfile check") keeps applying. After compaction only the first 5,000 tokens of the body come back, so the rules that must survive a long session go at the top, and the reference table goes above the workflow it serves.
 
 ## Store Scripts and Generate Code
 
-Scripts let Claude spend turns on composition, not reconstructing boilerplate. Ship executables (`.sh`, `.py`, `.ts`) as helper functions to compose, and let Claude generate the wrappers. A data skill shipping `fetch_events()`, `fetch_users()`, and `run_query()` turns each analysis into a few lines of glue.
+Scripts let Claude spend turns on composition, not reconstructing boilerplate. Ship executables (`.sh`, `.py`, `.ts`) as helper functions to compose, and let Claude generate the wrappers. A data skill shipping `fetch_events()`, `fetch_users()`, and `run_query()` turns each analysis into a few lines of glue. Address them as `${CLAUDE_SKILL_DIR}/scripts/<name>` so they resolve wherever the session shell has wandered.
 
-For error handling, constants, plan-validate-execute, runtime, and package dependencies, see the executable-code reference listed in SKILL.md.
+For paths and permissions, `!` context injection, error handling, constants, plan-validate-execute, runtime, and package dependencies, see the executable-code reference listed in SKILL.md.
 
 ## On-Demand Hooks
 
-Hooks can activate only when the skill is called, lasting the session. Use for opinionated safety or observation that should not always run.
+The `hooks` frontmatter field registers hooks when the skill is invoked and keeps them for the rest of the session (or until the first successful run, with `once: true`). Use it for opinionated safety or observation that should not always run.
 
 - PreToolUse: validate or block tool calls (e.g. block `rm -rf` in a prod skill)
 - PostToolUse: observe and log tool results
 
-**Examples:** `/careful` blocks destructive commands via a PreToolUse matcher on Bash; `/freeze` blocks Edit and Write outside one directory during debugging; `/observe` logs every Bash command to an audit trail.
+**Shapes this fits:** a `/careful` skill that blocks destructive commands via a PreToolUse matcher on Bash; a `/freeze` skill that blocks Edit and Write outside one directory during debugging; an `/observe` skill that logs every Bash command to an audit trail. The field is Claude Code-only; see the format reference before adding it to a skill that travels.
 
 ## Composing Skills
 
 Composition is name-based; no built-in dependency management. Reference another skill by name and the model invokes it if installed. Document it in a "Related skills" section ("After this workflow, run `skill-name`") and keep each skill on one concern, not duplicating another's.
+
+For a self-contained task the skill hands off every time, `context: fork` with an `agent:` runs the body itself as the subagent prompt with no conversation history; the body must then be a task, not conventions. For a job several skills share, an `agents/` prompt with a cheaper `model:` is the reusable form.

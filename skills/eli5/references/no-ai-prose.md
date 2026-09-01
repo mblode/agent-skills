@@ -1,23 +1,24 @@
 # No AI prose
 
-Copied from the copywriting skill, then cut to what applies to assistant replies. Marketing-only tells (significance inflation, false ranges, "the brand", publishable P0/P1) stay with `copywriting`.
+Copied from `copywriting` (`references/word-lists.md` and `references/ai-patterns.md`), which owns the canonical lists: change a word there first, then mirror it here. This copy is cut to what applies to assistant replies. Marketing-only tells (significance inflation, false ranges, "the brand", P0/P1 triage) stay with `copywriting`. Tier 3 density words are dropped: a six-line reply has no density to measure.
 
 ## Contents
 
 - [Tier 1: always replace](#tier-1-always-replace)
 - [Tier 2: flag when 2+ appear in the same paragraph](#tier-2-flag-when-2-appear-in-the-same-paragraph)
-- [Tier 3: flag only at high density](#tier-3-flag-only-at-high-density)
 - [Patterns](#patterns)
 
 The never-write set and the em dash rule live in SKILL.md. This file is the longer lists plus the tells a word pass misses. For assistant replies this skill's voice wins: a brand or personal voice file does not keep a listed word.
 
 Numbered steps the reader will run are not a chatbot "Step 1:" leak. A five-item action list is list-like content, not a bullet-prose tell.
 
+The vocabulary moves. "Delve" and "tapestry" marked 2023 text and have faded; by 2025 the survivors are "emphasizing", "enhance", "highlighting", and "showcasing". Keep the old words listed (they still appear) and watch the tails in Patterns below, which outlast any word.
+
 ---
 
 ## Tier 1: always replace
 
-5-20x more common in AI text than human writing. Replace on sight.
+Measured at several times to tens of times their human baseline in generated text (a 2024 study of 15 million PubMed abstracts put "delves" at 28x its expected frequency). Replace on sight, and rewrite the sentence rather than swap in a synonym: the suggested replacement is a direction, not a drop-in. `copywriting` owns the canonical list; this copy exists because references do not load across skills.
 
 | Word / phrase | Replace with |
 |---------------|--------------|
@@ -53,6 +54,12 @@ Numbered steps the reader will run are not a chatbot "Step 1:" leak. A five-item
 | thought leadership | expertise (or describe the contribution) |
 | best practices | what works, proven methods |
 | synergy / synergies | (describe the combined effect) |
+| enhance | improve (or say what got better, by how much) |
+| garner | get, win, collect |
+| boasts | has |
+| align with / alignment | match, fit, agree with |
+| valuable insights | (name the insight) |
+| interplay | (name the relation: A changes B) |
 | in order to | to |
 | due to the fact that | because |
 | serve as | is |
@@ -82,6 +89,7 @@ One is fine; two or more signals a pattern.
 | underpin | support, form the basis of |
 | nuanced | specific, subtle, detailed (or name the actual nuance) |
 | crucial | important, key, necessary |
+| key (adjective: "a key part") | main, important (or name why it matters) |
 | ecosystem (metaphor) | system, community, network, market |
 | myriad | many, numerous (or give a number) |
 | plethora | many, a lot of (or give a number) |
@@ -92,25 +100,10 @@ One is fine; two or more signals a pattern.
 | burgeoning | growing, emerging |
 | nascent | new, early-stage, emerging |
 | overarching | main, central, broad |
-
----
-
-## Tier 3: flag only at high density
-
-Fine in moderation. Flag only at roughly 3%+ density.
-
-| Word | Fix |
-|------|-----|
-| significant / significantly | use specifics: numbers, comparisons, examples |
-| innovative / innovation | describe what's new |
-| effective / effectively | say how, or cite a metric |
-| dynamic / dynamics | name the forces or changes |
-| compelling | say why it compels |
-| unprecedented | name the precedent it breaks (or cut) |
-| exceptional / exceptionally | cite what makes it an exception |
-| remarkable / remarkably | say what's worth remarking on |
-| sophisticated | describe the sophistication |
-| world-class / state-of-the-art | cite a benchmark or comparison |
+| enduring | lasting, long-running |
+| tackle (metaphor) | fix, deal with, solve |
+| drive (metaphor: "drive adoption") | cause, create, increase |
+| deliver (metaphor: "deliver value") | make, provide, give |
 
 ---
 
@@ -121,6 +114,8 @@ Fine in moderation. Flag only at roughly 3%+ density.
 Strip bold from most phrases. Max one bolded phrase per major section, ideally none. If something is important enough to bold, lead with it instead.
 
 A bold label takes a colon, not a period: `**Cause:**`, never `**Cause.**`.
+
+No emoji. No horizontal rules between three-line sections.
 
 ### Sentence tells
 
@@ -133,6 +128,12 @@ Cut announced honesty ("honestly", "I'll be straight with you") and emotional fl
 Default to "is" or "has". Skip "serves as," "features," "boasts," "presents," "represents" unless the verb adds meaning.
 
 Repeat the clearest noun. Do not rotate "developers… engineers… practitioners… builders" in one paragraph.
+
+**Negative parallelism.** "It's not X, it's Y", "not only X but also Y", "no X, no Y, just Z". State Y. The reader did not propose X.
+
+**Reflex triads.** Three adjectives or three list items by habit ("fast, reliable, and secure"). Use the real count: two, four, or one sentence.
+
+**"-ing" tails.** A sentence that ends ", ensuring ...", ", highlighting ...", ", reflecting ...", ", making it ..." bolts a claim of significance onto a fact. Cut the tail, or give it its own sentence with evidence.
 
 ### Template phrases and transitions
 
@@ -151,10 +152,12 @@ Open with the point, not a tee-up or a rhetorical question the reader did not as
 Remove entirely:
 
 - "I hope this helps!", "Certainly!", "Absolutely!", "Great question!", "Feel free to reach out", "Let me know if you need anything else"
+- "Would you like me to...?", "Want me to...?", "Shall I...?" as a closer. The Next line states the next action; an offer is a question the reader now has to answer.
 - "Let's dive in!", "Let's explore," "Let's take a look," "Let's break this down"
 - "Let me think step by step," "Breaking this down," "To approach this systematically"
 - "You're asking about," "To answer your question," "That's a great question. The..."
 - "Excellent point!", "You're absolutely right!"
+- Knowledge-cutoff disclaimers: "As of my last update", "I don't have access to real-time data". Say what you checked, or check it.
 
 ### Drafting tells
 

@@ -18,10 +18,12 @@
 Run non-interactively with all flags:
 
 ```bash
-npx create-next-app@latest {{name}} --typescript --tailwind --biome --react-compiler --app --no-src-dir --import-alias "@/*" --use-npm
+npx create-next-app@latest {{name}} --typescript --tailwind --no-linter --no-agents-md --react-compiler --app --no-src-dir --import-alias "@/*" --use-npm
 ```
 
-Sets up: TypeScript, Tailwind CSS v4, Biome (placeholder, replaced by Oxlint + Oxfmt via Ultracite in Phase 5), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm.
+Sets up: TypeScript, Tailwind CSS v4, no linter (Ultracite installs Oxlint and Oxfmt in Phase 5), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm.
+
+`--no-linter` and `--no-agents-md` matter: taking the `--biome` or `--eslint` default means uninstalling it again in Phase 5, and `--agents-md` (on by default) writes an AGENTS.md and CLAUDE.md that Ultracite then overwrites in Phase 5.
 
 If prompted interactively, select "No, customize settings" and match the flag values above.
 
@@ -76,6 +78,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   experimental: {
     // Runs the React Compiler inside Turbopack instead of Babel.
+    // Experimental in 16.3 and flagged "not recommended for production"
+    // in the Next.js docs; see the note below before keeping it past dev.
     turbopackRustReactCompiler: true,
   },
 };
@@ -85,6 +89,12 @@ export default nextConfig;
 
 `partialPrefetching` only works with `cacheComponents`, so the two ship together
 or not at all.
+
+`turbopackRustReactCompiler` is the one flag here Next.js still marks experimental
+and not recommended for production (16.3 docs). It cut cold `next dev` startup by a
+third on Vercel's own large apps, which is why the scaffold turns it on, but tell
+the user it is on. The exit is one line: drop the flag and `npm install -D
+babel-plugin-react-compiler`, and `reactCompiler: true` keeps working through Babel.
 
 With the Rust compiler on, `babel-plugin-react-compiler` is not needed. Leave it
 out, and add no other Babel transform: any Babel step in the pipeline gives back
@@ -175,14 +185,7 @@ Replace `"G-XYZ"` with your GA4 measurement ID.
 
 ## Phase 5: Install Ultracite
 
-1. Delete the Biome config and dependency from create-next-app:
-
-```bash
-rm biome.json
-npm uninstall @biomejs/biome
-```
-
-2. Run Ultracite init non-interactively (Oxlint + Oxfmt + Lefthook):
+1. Run Ultracite init non-interactively (Oxlint + Oxfmt + Lefthook). Scaffolding with `--no-linter` means there is no Biome or ESLint config to remove first; if you inherited one from an older scaffold, delete it and uninstall the dependency before this step, or two linters fight over the same files.
 
 ```bash
 npx ultracite@latest init \
@@ -205,7 +208,7 @@ Sets up:
 - `lefthook.yml`: pre-commit hook running `npx ultracite fix` on staged JS/TS/JSON/CSS with `stage_fixed: true`
 - Adds `oxlint`, `oxfmt`, `lefthook` to devDependencies and `prepare: lefthook install` to scripts
 
-3. Install and verify:
+2. Install and verify:
 
 ```bash
 npm install
@@ -213,7 +216,7 @@ npx ultracite fix     # oxfmt --write + oxlint --fix
 npx ultracite check   # oxfmt --check + oxlint
 ```
 
-Both pass with zero errors; the generated `oxlint.config.ts` needs no tuning. AGENTS.md is generated automatically with the Ultracite code-standards reference; create `CLAUDE.md` as a symlink or one-line `@AGENTS.md` reference.
+Both pass with zero errors; the generated `oxlint.config.ts` needs no tuning. Ultracite generates AGENTS.md with its code-standards reference; create `CLAUDE.md` as a one-line `@AGENTS.md` import (a symlink works on macOS and Linux but not Windows, and a copy drifts as soon as either file is edited).
 
 ## Phase 6 prep: Move into apps/web/
 

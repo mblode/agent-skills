@@ -14,7 +14,7 @@ Exactly these keys, in this order. No others. `related` is the only omissible on
 ---
 title: Rule title, short and descriptive
 id: <category>-<kebab-slug>, identical to the filename without .md
-category: a11y | async | dark-i18n | focus | forms | interaction | layout | microcopy | mobile | motion | nav | perf | slop | states | type
+category: a11y | async | dark-i18n | focus | forms | interaction | layout | microcopy | mobile | nav | perf | slop | states | type
 defaultTier: release-blocker | fix-this-sprint | backlog
 detect: static | rendered | rubric
 related: other-rule-id, other-rule-id

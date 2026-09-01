@@ -1,12 +1,14 @@
 ---
-title: Every heading needs an intro paragraph
+title: Follow every heading with an orienting sentence
 impact: CRITICAL
 tags: structure, headings, introductions
 ---
 
-## Every heading needs an intro paragraph
+## Follow every heading with an orienting sentence
 
-Never follow a heading directly with a subheading, list, or code block. Add at least one sentence on what the section covers and why it matters; one sentence is enough to orient the reader.
+A heading followed directly by a subheading, list, or code block leaves the reader to infer what the section is for and why it matters. One sentence orients them: what this covers and when they need it. Google's guide puts it as "don't use empty headings."
+
+The allowance is reference pages: an entry heading (`### POST /auth/token`, `### --timeout`) followed by its signature or parameter table is the standard pattern Diataxis asks reference to adopt, and a sentence there would be padding. Everywhere else, write the sentence.
 
 **Incorrect (heading jumps straight to a list):**
 
@@ -33,4 +35,4 @@ variables in your `.env` file.
 
 This applies to a heading followed by a subheading too: add a sentence between them.
 
-Reference: [Google developer documentation style guide: Headings](https://developers.google.com/style/headings)
+Reference: [Google developer documentation style guide: Headings](https://developers.google.com/style/headings), [Diataxis: Reference](https://diataxis.fr/reference/)

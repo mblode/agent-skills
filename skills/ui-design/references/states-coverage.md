@@ -63,7 +63,7 @@ These pairs always go together; one without the other is the bug that ships to p
 | `disabled` ↔ explanation | Mystery disabled buttons confuse | No `aria-disabled` or tooltip; user can't unblock self |
 | `pending` ↔ disabled submit | Otherwise double-submit | User clicks twice; backend gets a duplicate record |
 | `optimistic` ↔ rollback | Otherwise inconsistent state | Server returns 422; UI keeps the optimistic value until a reload reveals the truth |
-| `destructive` ↔ confirm | Mistakes are unrecoverable | Data loss with no undo |
+| `destructive` ↔ confirm or undo | Mistakes are unrecoverable; a reversible action earns undo instead of a dialog | Data loss with no undo |
 | `color-state` ↔ icon/text | Color blindness | Red border without icon or `aria-invalid`; ~8% of users miss the signal |
 | `toast` ↔ `aria-live` | SR users miss async alerts | No `aria-live`; screen-reader and slow readers miss a 3 s toast |
 | `dialog open` ↔ focus moves in | Keyboard users lose context | Tab key escapes the modal |

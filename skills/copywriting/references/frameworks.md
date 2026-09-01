@@ -4,6 +4,7 @@ Apply each framework to the copy under review.
 
 ## Table of contents
 
+- [Awareness stage (Eugene Schwartz)](#awareness-stage-eugene-schwartz)
 - [Why/How/What (Simon Sinek)](#whyhowwhat-simon-sinek)
 - [PAS (Problem → Agitate → Solution)](#pas-problem--agitate--solution)
 - [AIDA (Attention → Interest → Desire → Action)](#aida-attention--interest--desire--action)
@@ -16,9 +17,27 @@ Apply each framework to the copy under review.
 
 ---
 
+## Awareness stage (Eugene Schwartz)
+
+Not a framework to write with, but the selector for the ones below. *Breakthrough Advertising* (1966) sorts readers by how much they already know, and the stage decides what the headline can do: copy cannot create desire, only channel the desire the reader arrived with.
+
+| Stage | The reader knows | Open with | Lead framework |
+|-------|------------------|-----------|----------------|
+| Unaware | Nothing yet; no felt problem | The reader's world, a sharp observation about it | Why/How/What, AIDA for cold ads |
+| Problem-aware | The pain, not that solutions exist | The pain in their words | PAS |
+| Solution-aware | Solutions exist, not that yours is one | The mechanism and how it differs | Benefit Not Feature, BAB |
+| Product-aware | Your product, not whether it works | Proof: numbers, names, demos | Show Don't Tell, StoryBrand |
+| Most-aware | Everything; they need the deal and the next step | The offer and a specific CTA | CTA Clarity |
+
+Traffic source is the shortcut to the stage: cold ad or first organic visit is unaware or problem-aware; a retargeting ad or a pricing-page visit is product-aware or most-aware. Writing most-aware copy (offer, CTA, urgency) at a problem-aware reader is the most common mismatch in hero sections.
+
+**Flag:** No flag. Route the mismatch to `[WHAT-NOT-WHY]` (product-first copy at an unaware reader) or `[PAIN-NOT-NAMED]`.
+
+---
+
 ## Why/How/What (Simon Sinek)
 
-Most product copy starts with **What** (the product) or **How** (the mechanism). Start with **Why** (the user's motivation or felt problem).
+Most product copy starts with **What** (the product) or **How** (the mechanism). Start with **Why** (the user's motivation or felt problem). Sinek's neuroscience framing has been widely disputed; the copy rule stands on its own because it puts the reader's situation before the product, which every other framework here also asks for.
 
 **Test:** Does the first hero/README sentence explain what the product is, or why someone would want it?
 
@@ -220,17 +239,17 @@ CTAs fail when they describe the action, not the outcome. A CTA answers: what do
 
 | Weak CTA | Why it fails | Strong CTA |
 |----------|-------------|------------|
-| "Get started" | Vague; started on what? | "Start syncing free" |
-| "Learn more" | Passive, no commitment signal | "See how it works" |
+| "Get started" | Vague; started on what? NN/g watched readers who wanted pricing or basic information click it, land in a signup flow, and leave | "Start syncing free" |
+| "Learn more" | Names neither the destination nor the payoff | "See how it works" |
 | "Sign up" | Describes the form, not the value | "Create your workspace" |
 | "Try it now" | No qualifier, implies risk | "Try it free, no card required" |
 | "Submit" | Bureaucratic | "Send my request" |
-| "Click here" | Never acceptable | "Download the guide" |
+| "Click here" | Says nothing when read aloud or scanned out of context | "Download the guide" |
 
 **Rules:**
-- Use a verb that names the outcome: Start, Create, See, Download, Get, Book, Claim.
+- Use a verb that names the outcome: Start, Create, See, Download, Get, Book, Claim. 2 to 5 words; the reader should know what happens on click from the label alone.
 - Add a qualifier when space allows: "free", "in 5 minutes", "no card", "no install".
-- Never use two CTAs with the same verb on the same screen.
-- Primary CTA is high-commitment (Start, Create, Buy); secondary is low-commitment (See, Watch, Learn).
+- Two CTAs with the same verb on one screen read as one decision offered twice; differentiate the verb or cut one.
+- Primary CTA is high-commitment (Start, Create, Buy); secondary is low-commitment (See, Watch, Compare).
 
 **Flag as:** `[WEAK-CTA]`

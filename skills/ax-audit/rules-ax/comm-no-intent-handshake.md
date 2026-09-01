@@ -34,11 +34,13 @@ rg '(executeTool|runAction|performAction|handleToolCall)' --type=ts -l src/
 rg '(delete|remove|move|rename|reorganize|migrate|deploy|publish)' --type=ts src/tools/ src/actions/
 rg '(confirm|approval|preview|playback|requireApproval)' --type=ts src/
 rg '(autoExecute|skipConfirm|auto_approve)' --type=ts src/
+rg '(AskUserQuestion|elicitation/create|permissionMode.*plan)' --type=ts src/
 ```
 
 **Judgment signals:**
 - Trivial, unambiguous requests ("what time is it?") don't need a handshake.
 - Targets multi-step, destructive, ambiguous, or high-stakes requests.
+- Framework primitives count when the agent can actually reach them: Claude Agent SDK `AskUserQuestion` or `plan` mode, MCP `elicitation/create`, an AI SDK approval carrying a `reason`. A system prompt that says "confirm before destructive actions" with no such primitive wired is a hope, not a handshake.
 
 **False-positive guards:**
 - Skip files with `// ax-audit-ignore:comm-no-intent-handshake`.

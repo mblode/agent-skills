@@ -8,6 +8,7 @@ Verify claims with local evidence, not at face value. Load during plan review wh
 - Workflow (hypothesis, evidence surface, artifacts, verdict)
 - Verifying against documentation
 - Output format
+- Worked example: the Verify move in a review
 - Integration with plan review
 
 ## When to use
@@ -107,6 +108,34 @@ If no authoritative doc exists, say so and fall back to code/runtime evidence. N
 **Confidence:** High | Medium | Low
 **Note:** <one line of context if needed>
 ```
+
+## Worked example: the Verify move in a review
+
+The plan claims something checkable; verify before asking, show the raw evidence, then let the verdict pick the next move.
+
+**Plan excerpt:**
+```
+## Cleanup
+Delete the `legacyExport` module. Nothing calls it anymore.
+```
+
+**Verify (no question yet):** "The plan claims nothing calls `legacyExport`. That's checkable, so verifying before asking."
+
+```
+Claim: "Nothing calls legacyExport anymore"
+Evidence: grep -rn "legacyExport" src/ -> 2 call sites:
+         src/reports/quarterly.ts:88
+         src/admin/export.ts:14
+Verdict: NOT VERIFIED: 2 active call sites outside the module
+```
+
+"NOT VERIFIED: `legacyExport` has two live call sites, `src/reports/quarterly.ts:88` and `src/admin/export.ts:14`. The deletion step needs a migration for those callers or the claim corrected. Which is it?"
+
+**User:** "quarterly.ts is behind a feature flag we killed last month, so that path is dead. admin/export is real though. I'll add a step to move admin export onto the new exporter before the deletion."
+
+**Accept and record:** "Recorded: migrate `src/admin/export.ts` to the new exporter before deleting `legacyExport`; the dead-flag path in quarterly.ts deletes with the module. Writing the migration step into Cleanup."
+
+Tone throughout: reference the specific section and claim, no preamble praise, follow-ups sharper than first questions, acceptance brief and written into the file before moving on.
 
 ## Integration with plan review
 
