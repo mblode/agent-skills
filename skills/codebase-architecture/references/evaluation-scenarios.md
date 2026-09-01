@@ -12,6 +12,7 @@ Evaluate the observable workflow, not whether the answer repeats the skill's wor
 - 4. A check the repo already fails
 - 5. Modes compose
 - 6. Sibling boundary
+- 7. A gate that is already green
 - Ablation notes
 
 ## 1. Greenfield structure (Design)
@@ -46,7 +47,7 @@ Evaluate the observable workflow, not whether the answer repeats the skill's wor
 **Expected behavior:**
 
 - Enters Harden mode and reaches `contagion-markers.md`.
-- Proposes a greppable marker **in the frozen files themselves**, plus the doc entry naming the replacement, plus a lint `warn` on the deprecated import.
+- Proposes a greppable marker **in the frozen files themselves**, plus the doc entry naming the replacement, plus a lint rule on the deprecated import at the rung the ladder picks (fix-and-block when the importer list is short, `warn` only when it is not).
 - Does not answer with a docs entry or an AGENTS.md line alone; an agent that arrived by grep never reads either.
 - Does not open a dead-code or duplication tool, which addresses a different failure.
 - Opens no Design reference.
@@ -82,11 +83,24 @@ Evaluate the observable workflow, not whether the answer repeats the skill's wor
 - Applies this skill only to what is outside the diff, or asks which is wanted.
 - Does not launch a repo-wide deepening scan in response to a diff-shaped request.
 
+## 7. A gate that is already green
+
+**Prompt:** "CI already runs jscpd and knip, but duplicated code keeps merging. Why?"
+
+**Expected behavior:**
+
+- Runs Harden step 1 (survey) before proposing any new tool, and reads the actual CI step and config.
+- Identifies that `jscpd` without `--threshold` exits 0 regardless of findings, and checks whether knip's step gates the merge or only prints.
+- Fixes the wiring (a threshold, a blocking step) and proves each bites with pass, break, revert, rather than adding a third tool.
+- Does not propose madge or any tool with no release in the last two years; for cycles it reaches for `import/no-cycle` or dependency-cruiser.
+
 ## Ablation notes
 
 Rules whose absence has been observed to regress a scenario, so they should not be cut in a future density pass:
 
 - The `git log` hot-spot step in Deepen (scenario 2). Without it the opportunity list fills with modules nobody touches.
 - The explicit "never hand-roll a baseline" wording in `enforcement-ladder.md` (scenario 4). The baseline design is intuitively appealing and is what the model reaches for unprompted, which is why the prohibition is stated as an absolute here rather than as an outcome.
+
+- The "exits 0 without `--threshold`" fact in `guardrail-tooling.md` (scenario 7). Without it the model adds a bare `jscpd` step and reports the gate as wired.
 
 Everything else in the bundle is unablated and should be treated as a guess until a scenario proves otherwise.

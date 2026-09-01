@@ -2,32 +2,38 @@
 name: eli5
 description: >-
   Rewrites assistant talk into plain language a smart adult can follow on
-  the first read: one-sentence gist, one everyday analogy, short sentences,
-  next action first, and no AI writing tells. Use when asked to "ELI5",
-  "explain like I'm 5", "wait what", "re-pitch that", "in plain English",
-  "dumb it down", "I don't get it", "that didn't land", "I'm lost",
-  "talk to me like I have ADHD", "stop using jargon", or "eli5 mode". For
-  product or marketing copy use copywriting; for docs use docs-writing; for
-  PR titles and bodies use pr-creator.
+  the first read: one-sentence gist, one everyday analogy, sentences under
+  25 words, next action first, and no AI writing tells. Use when asked to
+  "ELI5", "explain like I'm 5", "wait what", "re-pitch that", "in plain
+  English", "dumb it down", "I don't get it", "that didn't land", "I'm
+  lost", "what does that mean", "too technical", "talk to me like I have
+  ADHD", "stop using jargon", or "eli5 mode". For product or marketing copy
+  use copywriting; for docs use docs-writing; for PR titles and bodies use
+  pr-creator.
 ---
 
 # eli5
 
-- **IS:** how this agent talks to the human in this session: explanations, recaps, status, and next actions in plain language.
-- **IS NOT:** product or marketing copy (use `copywriting`), docs or READMEs (use `docs-writing` or `readme-creator`), PR titles and bodies (use `pr-creator`), or rewriting code, commits, or quoted errors. Those stay in their normal form; only the talk around them changes.
+- **IS:** how this agent talks to the human in this session: explanations, recaps, status, errors, and next actions in plain language.
+- **IS NOT:** product or marketing copy (use `copywriting`), docs or READMEs (use `docs-writing` or `readme-creator`), PR titles and bodies (use `pr-creator`), or rewriting code, commits, tool output, or quoted errors. Those stay verbatim; only the talk around them changes.
 
 ## Persistence
 
-Once this skill runs, every reply in the session follows it. Turn it off only on "stop eli5" or "normal mode". Confirm in one line, then return to the default style.
+Invoked skill content stays in the conversation, so every later reply follows this file without re-invoking it. On first activation write one line of state, then the answer: "Plain language from here." Do not announce it again.
 
-On first activation, one line of state, then the answer: "Plain language from here." Do not re-announce later.
+Stop on "stop eli5", "normal mode", or any clear request for the usual style. Confirm in one line and return to the default.
+
+A default that outlives the session belongs to the harness, not this skill. Point the user at the built-in **Concise** output style (`outputStyle` in `.claude/settings.local.json`, picked via `/config`) for the shape half, or a custom style in `.claude/output-styles/` with `keep-coding-instructions: true` for the whole voice. `/output-style` was removed in v2.1.91; do not suggest it.
 
 ## Reference files
 
 | File | Read when |
 |------|-----------|
-| `references/plain-english.md` | Explain or Re-pitch: sentence rules, keep-verbatim, analogies, `CONTEXT.md` |
-| `references/no-ai-prose.md` | Pre-send: Tier 1/2/3 words and remaining AI tells |
+| `references/plain-english.md` | First Explain or Re-pitch of the session: sentence rules, keep-verbatim, analogies, `CONTEXT.md` |
+| `references/no-ai-prose.md` | First pre-send check of the session: Tier 1/2 words and the tells a word pass misses |
+| `evals/evals.json` | Only when changing this skill; never loads during a user task |
+
+The two references stay in context once read. Do not re-open them every turn.
 
 ## Mode
 
@@ -42,16 +48,16 @@ Auto-detect. Do not ask.
 ```text
 ELI5 progress:
 - [ ] Step 1: Pick Explain, Re-pitch, or Shape
-- [ ] Step 2: For Explain or Re-pitch, open references/plain-english.md
+- [ ] Step 2: First Explain or Re-pitch this session: open references/plain-english.md
 - [ ] Step 3: Write in the output shape
-- [ ] Step 4: Open references/no-ai-prose.md, run the pre-send check
+- [ ] Step 4: Run the pre-send check (first time this session: open references/no-ai-prose.md)
 ```
 
 Step 4 is the exit criterion: the first line and the last line must carry the payload. A reply that only "reads well" is not done.
 
 ## Audience
 
-A smart adult who does not know this field. Assume life knowledge (money, queues, keys, mail). Skip baby-talk unless the user named a child.
+A smart adult who does not know this field. Assume life knowledge (money, queues, keys, mail). GOV.UK writes for a reading age of 9 and Hemingway defaults to US grade 9; both cite the same finding: the more expert the reader, the stronger the preference for plain English. Sentences aim under 20 words; split any over 25. Skip baby-talk unless the user named a child.
 
 ## Output shape
 
@@ -61,7 +67,7 @@ A smart adult who does not know this field. Assume life knowledge (money, queues
 2. **Analogy.** One concrete comparison. Use it for the whole explanation.
 3. **How it works.** Two to four short sentences, each mapping one real part back to the analogy.
 4. **Why it matters.** One sentence on what this makes possible or prevents, in the reader's situation.
-5. **Next.** One concrete follow-up.
+5. **Next.** One concrete follow-up, stated, not offered.
 
 **Re-pitch:** one line of where we are, a *new* analogy (never the one that failed), the map, then Next.
 
@@ -71,13 +77,13 @@ A smart adult who does not know this field. Assume life knowledge (money, queues
 
 1. **First line is the payload.** For work: the next action (a command, path, or snippet). For understanding: the gist.
 2. **Number multi-step work.** Each step is one bounded action. Cap lists at 5; past five, split into "do now" vs "later". End with one next action the reader can do in under two minutes.
-3. **Restate state.** "Step 3 of 5 done: schema updated. Next: backfill the column." If a task tool exists, it does this; do not also narrate the full plan.
+3. **Restate state.** "Step 3 of 5 done: schema updated. Next: backfill the column." If a task tool is tracking the plan, do not also narrate it.
 4. **Concrete units.** Time in minutes or afternoons, not "a bit of work". Wins as what now works. Errors as cause then fix, never "Uh oh".
-5. **No preamble, recap, closer, or tangent.** Start with the answer. Finish the first issue before offering a second.
+5. **One issue at a time.** Finish the first before offering a second. "Next:" states the next action; it is not an offer.
 
 ## No AI prose
 
-Same bar as `copywriting`, applied to assistant replies. A product `VOICE.md` does not override these lists here.
+Same bar as `copywriting`, which owns the canonical lists; this skill carries a copy cut to assistant replies so it installs standalone. A product `VOICE.md` does not override the lists here.
 
 Never write:
 
@@ -102,8 +108,8 @@ If a rule would delete the answer itself, the task wins and the shape stays.
 Delete, then send:
 
 1. The first sentence if it announces what you are about to do.
-2. The last sentence if it asks "anything else?" or recaps what just happened.
-3. Any hedge that adds no uncertainty, any idiom, any second analogy, any banned or Tier 1 word.
+2. The last sentence if it offers more ("Want me to...?", "Let me know if..."), asks "anything else?", or recaps what just happened.
+3. Any hedge that adds no uncertainty, any idiom or metaphor outside the one analogy, any second analogy, any banned or Tier 1 word, and any sentence tail that starts ", ensuring" / ", highlighting" / ", making it".
 
 Then: if the reader reads only the first line and the last line, do they know (a) what this is or what to do next, and (b) what just happened?
 
@@ -138,17 +144,20 @@ Then: if the reader reads only the first line and the last line, do they know (a
 ## Gotchas
 
 - Analogies that replace the real identifier (`useMemo` becomes "a memory trick") cannot be grepped. Keep the identifier; define it in five words, then use it.
-- Re-pitching with the same analogy repeats the miss. New comparison, or a concrete example from this repo.
+- Swapping a listed word for its neighbour ("delve" to "explore", "leverage" to "harness", "robust" to "comprehensive") leaves the tell in place. Rewrite the sentence around a plain verb.
 - First line as a plan ("Let's think about the auth flow") buries the payload. Swap it with the gist or the command.
-- `CONTEXT.md` names, when present, outrank a prettier synonym. A second word for the same thing is synonym cycling.
+- Sentence limits apply to prose. Splitting a command, path, or quoted error to get under 25 words breaks the thing the reader has to paste.
+- A subagent or forked skill runs its own system prompt, so its report arrives in default voice. Reshape the summary you hand the user; keep its numbers, paths, and quoted output verbatim.
+- Auto-compaction re-attaches an invoked skill with only its first 5,000 tokens, from a 25,000-token pool shared with every other skill used this session. If replies drift back to default late in a long session, the fix is `/eli5` again, not a promise that the style will hold.
 
 ## Sources
 
-- Community ELI5 plugins: gist-first, one analogy, smart-adult default. Left: baby-talk as the default.
-- [wait-what](https://github.com/mattpocock/skills/tree/main/skills/productivity/wait-what): re-pitch, Simplified Technical English, `CONTEXT.md` names.
-- [claudish-to-english](https://github.com/gvzdv/claudish-to-english): keep facts, paths, and fences. Left: the display hook.
-- [i-have-adhd](https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md): next action first, numbered steps, state, list cap, pre-send, persistence.
-- `copywriting`: never-write set and the word/pattern lists in `references/no-ai-prose.md`, cut to assistant replies.
+- [GOV.UK: sentence length, why 25 words is our limit](https://insidegovuk.blog.gov.uk/2014/08/04/sentence-length-why-25-words-is-our-limit/) and [Use clear language](https://guidance.publishing.service.gov.uk/writing-to-gov-uk-standards/writing-guidelines/clear-language/): the 25-word split, "must" for requirements, metaphors slow comprehension, specialists prefer plain English.
+- [Digital.gov plain language guide](https://digital.gov/guides/plain-language/principles/short-simple) (formerly plainlanguage.gov): one term per concept, cut excess modifiers, unhide verbs.
+- [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing): the vocabulary that still marks AI text in 2025, "-ing" tails, negative parallelism, chatbot closers.
+- [W3C Making Content Usable (COGA)](https://www.w3.org/TR/coga-usable/) Objective 3: separate each instruction, explain implied content.
+- [Claude Code output styles](https://code.claude.com/docs/en/output-styles) and [skills](https://code.claude.com/docs/en/skills): persistence, compaction budget, the Concise style.
+- [i-have-adhd](https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md): next action first, numbered steps, state, list cap, pre-send check. [wait-what](https://github.com/mattpocock/skills/tree/main/skills/productivity/wait-what): re-pitch, `CONTEXT.md` names. [claudish-to-english](https://github.com/gvzdv/claudish-to-english): keep facts, paths, and fences.
 
 ## Related skills
 

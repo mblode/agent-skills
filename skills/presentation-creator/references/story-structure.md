@@ -2,7 +2,7 @@
 
 An outline sequences slides. A story makes the audience want the next one. Do this before the outline: the spine decides which slides exist.
 
-Adapted from Pixar's 22 rules of storytelling, written by Emma Coats. They were written for films, and they transfer to talks because a talk has the same problem: a room that can leave at any moment.
+Adapted from the 22 rules of storytelling that Pixar storyboard artist Emma Coats posted in 2011. The spine itself (rule 4 on her list) is older: improviser Kenn Adams wrote it in 1991 as a teaching tool, and it reached Pixar through its improv classes. Both were written for stories on a stage or a screen, and they transfer to talks because a talk has the same problem: a room that can leave at any moment.
 
 ## Contents
 
@@ -78,9 +78,7 @@ If a slide does not serve a beat, it is a fact you found interesting. Cut it.
 
 ## Knowing when to stop
 
-Story is testing, not refining. You learn what the deck is about by running it end to end, not by polishing slide four for the ninth time. Get a rough version complete, run it out loud against a clock, then rewrite from what you learned. Trying for a theme is worth doing, and you will not see what the deck is actually about until you reach the end of it. Then rewrite.
-
-Finish and let go, even imperfect. In an ideal world you have both finished and perfect. Move on. Do better next time.
+Story is testing, not refining. You learn what the deck is about by running it end to end against a clock, not by polishing slide four for the ninth time. Get a rough version complete, run it out loud, then rewrite from what you learned: the theme you were trying for only becomes visible at the end of the first full run.
 
 ## Output
 

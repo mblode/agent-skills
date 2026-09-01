@@ -52,14 +52,14 @@ Keep the one layer that has a reason, delete the rest.
   <div className="absolute -left-40 top-0 size-96 rounded-full bg-purple-500/30 blur-3xl pointer-events-none" />
   <div className="absolute -right-40 bottom-0 size-96 rounded-full bg-cyan-400/30 blur-3xl pointer-events-none" />
   <div className="absolute inset-0 bg-[url(/grid.svg)] opacity-20 pointer-events-none" />
-  <div className="absolute inset-0 bg-gradient-to-b from-white/0 to-white pointer-events-none" />
+  <div className="absolute inset-0 bg-linear-to-b from-white/0 to-white pointer-events-none" />
   <div className="absolute inset-0 mix-blend-overlay opacity-40 bg-noise pointer-events-none" />
   <h1>...</h1>
 </section>
 
 // after: one wash, placed where the eye should land
 <section className="relative">
-  <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-indigo-50 to-transparent pointer-events-none" aria-hidden="true" />
+  <div className="absolute inset-x-0 top-0 h-64 bg-linear-to-b from-stone-100 to-transparent pointer-events-none" aria-hidden="true" />
   <h1>...</h1>
 </section>
 ```

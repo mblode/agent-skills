@@ -1,5 +1,16 @@
 # Interrogation protocol
 
+How to spend the 5-10 questions in Create Step 2. Every question goes through `AskUserQuestion`: the recommended answer is the first option, its label marked recommended, the evidence in its description, and the user can still type their own answer through Other.
+
+## Contents
+
+- Question decision tree
+- Blindspot pass
+- Recommended answer format
+- Batching independent questions
+- Fuzzy term patterns
+- Anti-rationalization table
+
 ## Question decision tree
 
 Start at the root. Branch on what the codebase scan already told you.
@@ -33,7 +44,7 @@ Don't walk the tree mechanically; skip branches the codebase scan already answer
 
 Always voice the simplicity node, even when the change looks simple: the whole-change view only exists once every other decision is settled, so the step-back catches scope no earlier question could. This is the mandatory simplicity challenge from SKILL.md Step 2.
 
-**Budget:** 5-10 questions. At 10 without convergence, the scope is too large: say so and suggest splitting into separate plans.
+**Budget:** 5-10 questions. At 10 without convergence the scope exceeds one plan: say so and propose the split (`splitting.md`) instead of an eleventh question.
 
 ## Blindspot pass
 
@@ -66,6 +77,10 @@ Every question carries a concrete recommendation so the user reacts to something
 
 **Rule:** name the file, the function, the approach. If you can't be specific, you haven't explored enough: read more code before asking.
 
+## Batching independent questions
+
+One `AskUserQuestion` call can carry several questions. Batch only when no answer changes which question comes next: a greenfield spec with independent decisions (storage, auth provider, out-of-scope list), or a user who asked for a questionnaire. Keep one question per turn whenever answers branch, which is the normal case; a batch cannot follow up on the answer that reshapes the plan. Each batched question still carries its recommended option.
+
 ## Fuzzy term patterns
 
 When you hear these, sharpen them:
@@ -95,4 +110,4 @@ Users will try to skip the interrogation. Push back with these:
 | "It's simple, just do it" | "Simple" things that don't need a plan don't need this skill | "If it's truly simple, should we skip the plan entirely and just implement?" |
 | "I'll figure it out as I go" | Exploration without a plan leads to backtracking | "Let me at least confirm scope so you don't build something you'll throw away." |
 
-**Escape hatch:** If the user insists a second time, respect it: synthesize what you have and move on. Never block the user.
+**Escape hatch:** one push-back from this table, then respect the call: synthesize what you have and move on. A user who insists twice is not blocked a third time.

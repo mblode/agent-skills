@@ -9,11 +9,11 @@ related: states-no-error-state, microcopy-leaked-error-message
 
 ## Optimistic update without rollback on server reject
 
-`useOptimistic` shows the post-action state immediately (liked post, cart item added, renamed file). Contract: on server reject (422, 500, network error) the UI must roll back to real server state, or it lies and a reload reveals the truth, costing trust. Second half of the contract: optimistic updates **must** run inside `startTransition` (or a transitioning action), or React throws.
+`useOptimistic` shows the post-action state immediately (liked post, cart item added, renamed file). Contract: on server reject (422, 500, network error) the UI must roll back to real server state, or it lies and a reload reveals the truth, costing trust. Second half of the contract: optimistic updates **must** run inside `startTransition` (or an action, which React wraps in one), or React warns and the optimistic value renders for one frame and reverts, so the feature looks like a flicker rather than an update.
 
 ## What goes wrong
 
-Click "Like," UI flips to liked, server rejects (rate-limited), the handler swallows the error so the optimistic state never reverts. Reload: the like is gone and the user thinks the product is broken. Worse: calling `useOptimistic` outside `startTransition` makes React 19 throw "An optimistic state update occurred outside a transition or action," blowing up the feature at runtime.
+Click "Like," UI flips to liked, server rejects (rate-limited), the handler swallows the error so the optimistic state never reverts. Reload: the like is gone and the user thinks the product is broken. Worse: calling the setter outside `startTransition` logs "An optimistic state update occurred outside a Transition or Action. To fix, move the update to an Action, or wrap with startTransition" and the optimistic value never sticks, so the UI flickers and the update looks broken in every environment except the one where someone reads the console.
 
 ## Detection
 

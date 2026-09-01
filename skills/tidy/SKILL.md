@@ -25,6 +25,8 @@ It hunts complexity, not correctness. A concurrency race or a missing idempotenc
 
 Self-contained by design: every phase runs on any harness that loads a skill, with or without a subagent tool, and never depends on a host's built-in review command.
 
+**Against a bundled `/simplify`.** Where the harness ships one (Claude Code does: reuse, simplification, efficiency, and altitude cleanups, applied to the working tree), a typed slash command runs that command, and this skill runs when it is named or when a trigger phrase matches. What this adds over it: the test-discipline angle, the instruction-file precedence pass in Phase 1, and the path that accepts a `pr-reviewer` report as input. Where a bundled run already happened this session, its applied changes are part of the baseline diff, not findings to re-derive.
+
 **When to run:** after the feature works and the tests pass, before opening the PR. Not mid-implementation, where it polishes code the next commit deletes. It reads the whole diff, so cost scales with diff size; on a large one, narrow it to a path.
 
 **After a review.** `pr-reviewer` then `tidy` is the common pair. A report that already exists is extra input, never a smaller sweep: run all five angles regardless, and apply the report's confirmed findings alongside your own. Two passes looking for different things is the point of running both, and the correctness fixes a review confirmed would otherwise be left for the user to hand-apply.

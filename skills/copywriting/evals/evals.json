@@ -1,0 +1,115 @@
+{
+  "skill_name": "copywriting",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write the hero copy for our landing page. Product is Ledgerline, a bookkeeping tool for freelance designers. Traffic is a cold Instagram ad. We have 4,200 paying users and it connects to Stripe and Xero.",
+      "expected_output": "A brief with inferred fields marked, then Options A, B, and C, each with headline, subhead, and CTA, and a one-sentence recommendation",
+      "files": [],
+      "assertions": [
+        "Brief names the awareness stage as unaware or problem-aware",
+        "At least one option opens with the reader's problem rather than the product name",
+        "The supplied specifics (4,200, Stripe, Xero) appear in at least one option and none are replaced by 'thousands' or 'your favourite tools'",
+        "No headline reuses the phrase 'bookkeeping tool for freelance designers' verbatim",
+        "No banned word and no em dash, double hyphen, or spaced hyphen in any option",
+        "Exactly three options for a hero, each structurally different"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our pricing page button says 'Get started'. Improve the CTA.",
+      "expected_output": "Two labelled options for a single string, one recommended, with a one-line reason",
+      "files": [],
+      "assertions": [
+        "Exactly two options, not three",
+        "Each option names the outcome or destination (e.g. trial length, 'See plans'), not a bare 'Get started' or 'Learn more'",
+        "Each label is 2 to 5 words",
+        "The response does not expand into a full page audit"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write the error message for when a CSV import fails because the file has more than 10,000 rows. Also give me the button label for the dialog that deletes an imported dataset.",
+      "expected_output": "One error string stating what happened, why, and the recovery, plus a verb-plus-object destructive label with Cancel as the safe action",
+      "files": [],
+      "assertions": [
+        "Error message names the 10,000-row limit and a recovery action (split the file, remove rows)",
+        "Error message avoids 'invalid', 'illegal', 'Something went wrong', and raw exception text",
+        "Error message is 18 words or fewer",
+        "Destructive button is Verb plus Noun naming the object (e.g. 'Delete dataset'), not 'Confirm', 'OK', 'Yes', or bare 'Delete'",
+        "No persuasion framework or marketing framing is applied to the state copy"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Remove the AI-isms from this: 'In today's fast-paced landscape, Relay seamlessly integrates with your favourite tools, ensuring your team stays aligned. It's not just a deployment tool - it's a paradigm shift. Whether you're a solo founder or an enterprise, Relay empowers you to ship with confidence.'",
+      "expected_output": "A before/after diff with [AI-ISM] flags naming the pattern type, and a rewrite that carries the facts without the tells",
+      "files": [],
+      "assertions": [
+        "Flags include a Tier 1 word (seamlessly, landscape, or paradigm), the participle tail 'ensuring...', the negative parallelism 'not just X, it's Y', the false-breadth 'Whether you're X or Y', and the spaced hyphen standing in for an em dash",
+        "The rewrite does not replace a flagged word with a table neighbour (no 'leverage', 'harness', 'robust', 'streamline', 'elevate')",
+        "The rewrite names a specific integration or asks for one via a [PLACEHOLDER] rather than keeping 'your favourite tools'",
+        "Output follows the Copy Audit before/after template with a Summary block"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Fix the copy in this hero. The repo's VOICE.md says: 'Signature words: unlock. Locale: en-AU.' Hero copy: 'Unlock your team's best work. Organise every project, colour-code priorities, and ship on time. Trusted by thousands of teams. Get started.'",
+      "expected_output": "A point-edit or restoration pass that keeps 'unlock', keeps en-AU spelling, and flags only the 3 to 7 weakest lines",
+      "files": [],
+      "assertions": [
+        "'unlock' is not flagged as a banned word or [AI-ISM]",
+        "No en-AU spelling is changed to en-US",
+        "Between 3 and 7 flags total",
+        "Every fact, number, and link in the Before appears in the After"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Can you tighten the copy on our homepage hero? It reads like every other SaaS site.",
+      "Write three subject lines for the onboarding email that goes out after signup.",
+      "What should the empty state say when a user has no invoices yet?",
+      "Name the button that permanently removes a workspace and all its members.",
+      "This product description sounds like ChatGPT wrote it. Clean it up.",
+      "Make this shorter: 'Our seamless, robust platform leverages cutting-edge AI to unlock insights.'",
+      "Draft a VOICE.md for our brand so the team stops arguing about tone.",
+      "Rewrite the pricing page from first principles. Plans are Solo, Team, Company.",
+      "Flag any AI patterns in this landing page draft before we ship it."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Write a 1,500-word blog post about why we switched from Redux to Zustand.",
+        "expected": "ghostwriter (external, platform blog)"
+      },
+      {
+        "prompt": "Turn this product brief into a 10-slide investor deck with punchy slide titles.",
+        "expected": "presentation-creator"
+      },
+      {
+        "prompt": "Write the API reference page for the /v2/exports endpoint.",
+        "expected": "docs-writing"
+      },
+      {
+        "prompt": "Should deleting a project be a modal confirmation or an undo toast? What states does the flow need?",
+        "expected": "product-design"
+      },
+      {
+        "prompt": "Explain what you just did with the migration like I'm five.",
+        "expected": "eli5"
+      },
+      {
+        "prompt": "Write a README for this CLI from scratch.",
+        "expected": "readme-creator"
+      },
+      {
+        "prompt": "Our headings are in Title Case and the body is sentence case; audit the type system.",
+        "expected": "typography-audit"
+      },
+      {
+        "prompt": "Build the landing page in Tailwind, dark mode, make it look premium.",
+        "expected": "ui-design"
+      }
+    ]
+  }
+}

@@ -27,12 +27,14 @@ Agent starts a research task. User sees "Searching..." then nothing changes for 
 1. Find agent workflow state: phase, status, or stage enums/state machines.
 2. Check whether rendering differs across phases (conditional rendering, different components per phase).
 3. Flag workflows where UI is identical regardless of agent phase.
+4. In chat surfaces, look for per-phase rendering of stream parts: a component chosen on `part.type` for `data-*` and tool parts, or MCP Apps `ui://` resources per tool. A chat that renders only `text` parts while `part.type` carries tool and step states has the phase information and drops it.
 
 **Concrete commands:**
 ```bash
 rg '(phase|stage|status|workflow).*(enum|type|const)' --type=ts src/
 rg '(stateMachine|createMachine|useReducer|switch.*phase)' --type=ts src/
 rg '(Stepper|ProgressBar|PhaseIndicator|StageIndicator)' --type=ts -l src/
+rg -n "part\.type|case ['\"]data-|ui://" --type=ts src/components/
 ```
 
 **False-positive guards:**

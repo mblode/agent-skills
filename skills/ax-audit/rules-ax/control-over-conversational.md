@@ -36,6 +36,7 @@ rg -l 'Toggle|Switch|Select|Dropdown' --type=ts src/components/
 
 **Judgment signals:**
 - The anti-pattern is chat-only for deterministic actions. Some conversational interface is expected.
+- Controls rendered inside the chat stream count: an MCP Apps `ui://` resource or an AI SDK `data-*` part that renders a real toggle, table, or picker is direct manipulation. The fail is a text box as the only path.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:control-over-conversational`, test, and Storybook files.

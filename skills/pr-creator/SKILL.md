@@ -1,78 +1,74 @@
 ---
 name: pr-creator
 description: >
-  Creates GitHub pull requests with short, human-sounding descriptions. Adds a
-  Linear issue ID prefix when available, keeps titles under 60 chars, and
-  defaults to one short paragraph instead of generated summaries or test-plan
-  sections. Restructures noisy commit history into reviewable order and adds
-  reviewer guidance for large diffs. Also updates an existing open PR's title
-  and description in place with gh pr edit instead of erroring. Use when
-  "create a PR", "make a PR", "open a pull request", "PR this", "ship it",
-  "update the PR description", "update the PR title", "make this PR easy to
-  review", "polish this PR", "tidy the PR", "clean up commits", "restructure
-  commits", or "split this PR". This skill edits the PR, not the code; to apply
-  fixes to the diff itself use tidy. For reviewing a diff for bugs, use
-  pr-reviewer. For monitoring a PR after creation, use pr-babysitter. For npm
-  releases, use autoship.
+  Creates or updates a GitHub pull request with a short, human-sounding
+  description: Linear issue ID in the title when one exists, title under 60
+  chars, one paragraph instead of generated summaries or test-plan sections,
+  and a Risk line only when the risk is real. Handles PR templates, draft and
+  ready state, reviewers, and gh pr edit when the branch already has a PR.
+  Restructures noisy commit history and adds a review path for large diffs.
+  Use when asked to "create a PR", "make a PR", "open a pull request", "PR
+  this", "ship it", "open as draft", "mark the PR ready", "update the PR
+  description", "rewrite the PR title", "make this PR easy to review",
+  "polish this PR", "clean up the commits", "squash the fixups", or "split
+  this PR". For fixing the code in the diff use tidy; for a read-only bug
+  review use pr-reviewer; for CI, conflicts, and review comments after the
+  PR exists use pr-babysitter; for npm releases use autoship.
 ---
 
 # pr-creator
 
 Write PR descriptions like a developer posting in Slack, not an AI summarizing a diff.
 
-- **IS:** creating or updating a GitHub PR title and body: short human-sounding description, Linear ID prefix, commit restructuring, reviewer guidance for large diffs.
-- **IS NOT:** reviewing the diff for bugs (use `pr-reviewer`), watching CI and review comments (use `pr-babysitter`), or cutting npm releases (use `autoship`).
+- **IS:** creating or updating a GitHub PR's title, body, draft state, and reviewers, plus the commit restructuring and review path that make a large diff readable.
+- **IS NOT:** changing the code in the diff (use `tidy`), reviewing it for bugs (use `pr-reviewer`), watching CI and review comments after the PR exists (use `pr-babysitter`), or cutting npm releases (use `autoship`).
 
 ## Reference Files
 
 | File | Read When |
 |------|-----------|
-| `references/pr-polish.md` | Commits are noisy (fixup, WIP, "address review"), diff exceeds 500 lines, or user asks to polish, tidy, restructure, or split the PR |
+| `references/pr-polish.md` | Commits contain fixup, WIP, or "address review" noise, the diff exceeds 500 lines, or the user asks to polish, restructure, squash, or split the PR |
 
 ## Workflow
 
-Work through this checklist:
+Copy this checklist to track progress:
 
 ```text
 PR creation progress:
-- [ ] Inspect: git status, git log origin/main..HEAD, git diff origin/main...HEAD
-- [ ] Existing PR? gh pr view --json url,number,state (edit, not create, if one exists)
-- [ ] Find the Linear ID (branch, commits, prompt, PR context); skip prefix if none
-- [ ] Noisy commits or >500-line diff? Read references/pr-polish.md and restructure first
-- [ ] Push with upstream: git push -u origin HEAD
-- [ ] Draft title and body against the rules and anti-patterns below
-- [ ] Check .github/PULL_REQUEST_TEMPLATE.md; fill its sections briefly if present
-- [ ] New PR: gh pr create. Existing open PR: gh pr edit. Verify with gh pr view; return the URL
+- [ ] Inspect: git branch --show-current, git log --oneline origin/main..HEAD, git diff --stat origin/main...HEAD
+- [ ] Existing PR? gh pr view --json url,state,isDraft (state OPEN means edit, not create)
+- [ ] Linear ID from branch, commits, prompt, or issue link; no ID means no prefix
+- [ ] Noisy commits or a >500-line diff? references/pr-polish.md, before pushing
+- [ ] PR template present? Read it (paths under Templates)
+- [ ] Draft title and body against Rules and Anti-patterns
+- [ ] git push -u origin HEAD
+- [ ] gh pr create (or gh pr edit); then gh pr view --json url,title and return the URL
 ```
 
-Do not ask the user to confirm the description before creating or updating; the point is speed.
+Do not ask the user to approve the description first; the point is speed. They can ask for a rewrite and you run `gh pr edit`.
 
 ## Rules
 
-1. **Title.** With a Linear ID: `ABC-123: Add auth flow`. Without one: `Add auth flow`. Under 60 chars, no trailing period.
-2. **Body.** One short paragraph: what changed and why it matters.
-3. **No fake why.** If the reason is not in the prompt, Linear issue, branch, commits, or diff, leave it out.
-4. **Risk only when real.** One short `Risk:` line only for migrations, billing/auth/permission changes, irreversible writes, wide blast radius, or subtle behavior changes.
-5. **Testing only if real.** Mention it only when actually run. Never a `Test plan` section.
-6. **No file-by-file changelogs.** The diff already shows the files.
-7. **End after the useful content.** No generated-by footer, no co-author line.
+1. **Title.** With a Linear ID: `ABC-123: Add auth flow`. Without one: `Add auth flow`. Under 60 characters, no trailing period. If the repo lints PR titles (a `semantic-pull-request` or commitlint workflow under `.github/workflows/`), use its shape and put the ID at the end: `feat: add auth flow (ABC-123)`. Linear links on the ID wherever it sits in the title.
+2. **Body.** One short paragraph: what changed and why it matters. Length follows the change; a one-line body is fine for a one-line fix.
+3. **No fake why.** If the reason is not in the prompt, the Linear issue, the branch, the commits, or the diff, leave it out rather than inventing one.
+4. **Risk only when real.** One `Risk:` line for migrations, billing, auth, permissions, irreversible writes, wide blast radius, or a subtle behavior change. Otherwise nothing.
+5. **Testing only if real.** Say what you ran only if you ran it. Never a `Test plan` section, never checkboxes.
+6. **Partial work.** If this PR does not finish the Linear issue, keep the ID out of the title and write `Part of ABC-123` in the body. Linear's default automation moves a linked issue to Done when the PR merges; the non-closing magic word links without closing.
+7. **Draft and reviewers only when asked.** `--draft` for "draft" or "WIP"; `gh pr ready` promotes it later, `gh pr ready --undo` demotes. `--reviewer alice,org/team` only for people the user named; CODEOWNERS already requests owners.
+8. **Stop after the useful content.** The harness's `attribution` setting owns the PR footer (`Generated with Claude Code`, session link). Never hand-write one, and never strip one the harness or a repo policy appends. Everything above the footer is this skill's; its one-paragraph body replaces the harness's default `Summary` and `Test plan` sections.
 
 ## Anti-patterns: never write these
 
-- "This PR implements..."
-- "This change ensures..."
-- "This commit introduces..."
-- "Refactored X to improve Y"
-- "Updated the Z component to handle..."
-- "Added comprehensive test coverage for..."
-- "Ensured backwards compatibility with..."
-- Lines that start with a filename or path
-- A "Test plan" section with checkboxes
-- A long list of bullets that restates the diff
+- Openers that narrate the artifact: "This PR implements...", "This change ensures...", "This commit introduces..."
+- Changelog verbs with no reason attached: "Refactored X to improve Y", "Updated Z to handle...", "Added comprehensive test coverage for..."
+- Lines that start with a filename or path; the diff already lists the files
+- A `Test plan` section with checkboxes
+- A bullet list that restates the diff
 
 ## Examples
 
-### Feature (assume `ABC-123` is the real Linear ID)
+### Feature (`ABC-123` is the real Linear ID)
 
 ```text
 Title: ABC-123: Add auth flow with session management
@@ -90,11 +86,21 @@ Stripe retries webhooks on timeout and our handler wasn't idempotent, so retried
 Risk: touches the billing write path.
 ```
 
-Both carry the real why from the commits and then stop. `Risk:` earns its line in the second because the diff touches billing writes; the testing sentence is there only because a replay actually ran.
+### Chore (no Linear ID, no why beyond the diff)
+
+```text
+Title: Bump eslint to 9 and fix the new no-unused-vars hits
+
+Bumps eslint to 9. The only code change is removing three unused imports it now flags.
+```
+
+The first two carry the real why from the commits and stop. `Risk:` earns its line in the second because the diff touches billing writes; the testing sentence is there only because a replay actually ran. The third has no deeper why, so it does not pretend to.
+
+## Templates
+
+GitHub reads the first match of `pull_request_template.md` (case-insensitive) in `.github/`, the repo root, or `docs/`, or a `PULL_REQUEST_TEMPLATE/` directory in any of those for multiple templates. `gh pr create --body` skips the template entirely, so when one exists, read it and write the body in its shape: keep its headings, answer each in a sentence or two, and put the one-paragraph description under the first heading. Add nothing the template does not ask for.
 
 ## Creating the PR
-
-Probe for an existing PR first (`gh pr view --json url,number,state`; `state == OPEN` means edit, not create). The heredoc must be quoted (`<<'EOF'`) and the branch needs an upstream: see Gotchas.
 
 ### No PR yet: create
 
@@ -108,6 +114,8 @@ EOF
 
 gh pr view --json url,title   # evidence the PR exists; return the url
 ```
+
+Add `--draft` or `--reviewer` here when Rule 7 applies. `--base` only when the target is not the default branch.
 
 ### PR already open: update title and body
 
@@ -126,16 +134,18 @@ gh pr view --json url,title   # confirm the update; return the url
 
 ## Gotchas
 
-- `gh pr create` on a branch with no upstream hangs forever on an interactive "Where should we push?" prompt. Run `git push -u origin HEAD` first.
+- `gh pr create` on a branch with no upstream: in a TTY it blocks on a "Where should we push?" prompt; from a non-interactive harness it aborts with `you must first push the current branch to a remote, or use the --head flag`. Either way, `git push -u origin HEAD` first.
+- Non-interactive `gh pr create` needs both `--title` and `--body` (or `--fill`); without them it exits with `must provide --title and --body (or --fill) when not running interactively`. `--fill` copies commit messages verbatim, which is exactly the changelog body this skill exists to avoid.
 - Quote the heredoc delimiter (`<<'EOF'`). Unquoted `<<EOF` lets the shell expand backticks and `$vars` in the body, corrupting the description or running commands.
-- `--body` silently discards `.github/PULL_REQUEST_TEMPLATE.md`. If the template exists, fill its sections with short answers, and do not add sections it does not ask for.
-- Derive the Linear ID from the branch (`mblode/abc-123-add-auth` gives `ABC-123`, uppercased). Never guess: Linear's GitHub integration links the PR to whatever ID the title contains.
-- `gh pr create` from the default branch fails with "no commits between main and main". Check `git branch --show-current` first.
-- `gh pr create` on a branch with an open PR fails with "a pull request for branch ... already exists". Check `gh pr view` first, then switch to `gh pr edit`.
-- Plain `git diff` shows only uncommitted changes, so on a committed branch it is empty and the description is written blind. Diff against the merge base: `git diff origin/main...HEAD`.
+- Two different failures look alike: on the default branch, `gh pr create` aborts with `must be on a branch named differently than "main"`; on a branch with nothing new against the base it fails with `No commits between main and <branch>`. The first needs a branch, the second a commit.
+- A branch with an open PR fails `gh pr create` with `a pull request for branch ... into branch main already exists`. `gh pr view --json state` first; `OPEN` means `gh pr edit`. A `MERGED` or `CLOSED` result is a stale PR, so create a new one.
+- Derive the Linear ID from the branch, uppercased: Linear's default branch format is `username/abc-123-title-slug`, so `mblode/abc-123-add-auth` gives `ABC-123`. Never guess an ID: Linear links the PR to whatever ID the title contains, and a wrong one moves someone else's issue.
+- Plain `git diff` shows only uncommitted changes, so on a committed branch it is empty and the description gets written blind. Diff against the merge base: `git diff origin/main...HEAD` (three dots).
+- Restructure commits before the first push. Force-pushing a rewritten branch under an open PR marks existing inline comments "outdated" and the reviewer loses their thread.
 
 ## Related skills
 
 - `pr-reviewer`: run before creating to check the diff for bugs.
+- `tidy`: applies fixes to the code in the diff; this skill edits only the PR and its commits.
 - `pr-babysitter`: hand off after creation to watch CI, conflicts, and review comments.
-- `autoship`: npm release pipeline (changesets, version PR, publish); not this skill's job.
+- `autoship`: npm release pipeline (changesets, version PR, publish); "ship it" without release context routes here instead.

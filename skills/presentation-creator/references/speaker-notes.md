@@ -55,6 +55,10 @@ Include when relevant:
 - **(emphasize)**: vocal stress on key word
 - **(scan room)**: make eye contact before transitioning
 
+## Where the notes go
+
+The output format reads notes from one place each: Marp and Slidev take an HTML comment at the end of the slide, reveal.js a `Note:` line, a `.pptx` the notes pane (never a text box on the slide). `output-formats.md` has the syntax. Keep the structure above inside that slot; the headings become plain lines in a Marp comment, and a first line shaped like `Key point: X` parses as a Marp directive, so write it as a sentence.
+
 ## Context adjustments
 
 - **Internal**: informal, reference shared history, challenge directly, be candid about what's hard

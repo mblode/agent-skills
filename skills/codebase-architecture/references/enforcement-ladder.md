@@ -7,10 +7,10 @@ How to introduce a check into a codebase that already violates it. Load when add
 Take the first rung that holds.
 
 1. **Fix the violations and block.** Correct whenever the count is small enough to fix in the same change. The cleanest outcome and more often reachable than it looks: run the tool before assuming otherwise.
-2. **Scope with the tool's own config.** Every tool in this category ships one: `knip.json` ignore and `ignoreDependencies`, jscpd ignore globs, madge exclusions. The exclusion sits next to the rule, so anyone reading the config sees what is exempt.
+2. **Scope with the tool's own config.** Every tool in this category ships one: `knip.json` `ignore` and `ignoreDependencies`, jscpd `ignore` globs, dependency-cruiser `pathNot`. The exclusion sits next to the rule, so anyone reading the config sees what is exempt.
 
-   **Not eslint `ignorePatterns`.** It removes those files from *every* rule, not the one you are adding, so trading 400 long files for 400 unlinted files leaves the repo worse while looking like you followed the ladder. Rung 2 holds for eslint only when the violations sit in directories that should be unlinted anyway (generated output, vendored code); carve those out first and they come off the count before you pick a rung for the rest.
-3. **Allowlist or downgrade in the linter.** ESLint `overrides` naming the current offenders, or start the rule at `warn` and promote to `error` once burned down. Use this when the violations are a known finite list you intend to shrink. Prefer `error` plus an allowlist over a blanket `warn`: `warn` fails to block the next new violation, which is the whole point of adding the rule.
+   **Not the linter's `ignorePatterns`** (ESLint and Oxlint both have one). It removes those files from *every* rule, not the one you are adding, so trading 400 long files for 400 unlinted files leaves the repo worse while looking like you followed the ladder. Rung 2 holds for the linter only when the violations sit in directories that should be unlinted anyway (generated output, vendored code); carve those out first and they come off the count before you pick a rung for the rest.
+3. **Allowlist or downgrade in the linter.** An `overrides` entry (Oxlint's `.oxlintrc.json`, or an ESLint flat-config object scoped with `files`) naming the current offenders, or start the rule at `warn` and promote to `error` once burned down. Use this when the violations are a known finite list you intend to shrink. Prefer `error` plus an allowlist over a blanket `warn`: `warn` fails to block the next new violation, which is the whole point of adding the rule.
 
    List explicit paths, never globs, so the exemption cannot silently cover a file written tomorrow, and so growing it shows up as added lines in a diff a reviewer reads. That review is the only thing holding the list down. An allowlist has the same pull as the baseline file below (under deadline, the cheapest green is appending your path), and it does not even fail when it grows; what it has instead is that every addition is visible, attributable, and in the same file as the rule it defeats.
 4. **Report-only, non-blocking CI.** The rule runs and prints, nothing fails. Lowest value, but it beats not running: the number is visible and the wiring is done for the day someone burns the list down.
@@ -23,7 +23,7 @@ Do not write a custom guard script plus a committed baseline file (`*-ratchet.mj
 
 It is an appealing design and it does not survive contact. It was built and deleted for two reasons:
 
-- **Every tool in the category already ships the mechanism.** Rungs 2 and 3 are native features of knip, eslint, madge, and jscpd. The custom layer reimplements them and adds a file that must be regenerated, reviewed, and merged.
+- **Every tool in the category already ships the mechanism.** Rungs 2 and 3 are native features of knip, the linter, dependency-cruiser, and jscpd. The custom layer reimplements them and adds a file that must be regenerated, reviewed, and merged.
 - **The baseline becomes the thing people edit.** Under deadline the cheapest green is a bigger number, and a baseline that only shrinks by convention does not only shrink.
 
 The exception is narrow: a genuinely bespoke invariant no tool expresses (a naming rule derived from file paths, a ban on a specific cast shape, registry completeness). Write that as a check, and even then use rung 1 or 3 for the existing violations rather than a count file. Structural specs that walk the filesystem cover most of this ground and ride the existing test command.
@@ -56,7 +56,7 @@ refactored without breaking other modules. Import from ~modules/billing instead.
 
 An agent that gets this self-corrects on the spot. An agent that gets `no-restricted-imports` and a path guesses, or asks, or reverts something unrelated. Boundary-lint messages should also name the rule and link the convention doc, so the failure teaches the convention it enforces.
 
-Some rules cannot carry a custom message: eslint core rules like `max-lines` emit a fixed string with no why and no fix, and take no `message` option. Where that is the case, put the explanation in a comment above the rule in the config, which is where anyone debugging the failure looks next, and do not let the gap talk you out of the rule.
+Some rules cannot carry a custom message: `max-lines` in both Oxlint and ESLint emits a fixed string with no why and no fix, and takes no `message` option. Where that is the case, put the explanation in a comment above the rule in the config, which is where anyone debugging the failure looks next, and do not let the gap talk you out of the rule.
 
 ## Graduated enforcement
 

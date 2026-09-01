@@ -19,9 +19,9 @@ The tier in parentheses is a scan copy of the rule's override for that surface. 
 | Feature | Detect by |
 |---|---|
 | agent chat / copilot | `<Chat>`, `<Assistant>`, `<Copilot>`, `role="assistant"`, `aiResponse`, `useChat`, `useCompletion`, `chatCompletion`, route `/chat`, `/assistant`, `/copilot` |
-| agent tool execution / action panel | `<ToolCall>`, `tool_use`, `function_call`, `executeAction`, `agentAction`, `server.tool(`, `registerTool(`, `runAgent(`, component `*ToolPanel*`, `*ActionLog*` |
-| agent configuration / system prompt editor | `<SystemPrompt>`, `<AgentConfig>`, `<PromptEditor>`, route `/agent/settings`, `/configure`, `systemPrompt` |
-| agent dashboard / status | `<AgentStatus>`, `<TaskList>`, `<RunHistory>`, `<RunLog>`, component `*AgentDashboard*`, route `/agent`, `/runs` |
+| agent tool execution / action panel | `<ToolCall>`, `tool_use`, `function_call`, `executeAction`, `agentAction`, `server.tool(`, `registerTool(`, `runAgent(`, `toolApproval`, `needsApproval`, `addToolApprovalResponse`, `canUseTool`, `PreToolUse`, `ToolLoopAgent`, `destructiveHint`, `ui/resourceUri`, component `*ToolPanel*`, `*ActionLog*` |
+| agent configuration / system prompt editor | `<SystemPrompt>`, `<AgentConfig>`, `<PromptEditor>`, route `/agent/settings`, `/configure`, `systemPrompt`, `permissionMode`, `allowedTools` |
+| agent dashboard / status | `<AgentStatus>`, `<TaskList>`, `<RunHistory>`, `<RunLog>`, `RUN_FINISHED`, component `*AgentDashboard*`, route `/agent`, `/runs` |
 
 **The table is illustrative, not exhaustive.** It lists the signals seen most often, not every form agent code takes. A handler registered as `server.tool("send_invoice", ...)`, or an executor reached only as `runAgent(...)` from a scheduler, is an agentic surface whether or not it matches a listed string. Detect on what the code does; the table is a starting sweep, not a checklist that licenses "no agentic features detected" over obvious executor code.
 

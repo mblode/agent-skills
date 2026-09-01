@@ -21,7 +21,7 @@ Read the project's task runner; run only checks that exist. Do not assume fixed 
 
 ```bash
 # npm/yarn/pnpm projects: read the scripts block
-cat package.json | jq -r '.scripts | keys[]' 2>/dev/null
+jq -r '.scripts | keys[]' package.json 2>/dev/null
 ```
 
 Map common names (a project may use any subset):
@@ -41,8 +41,8 @@ Run in increasing cost order; stop and fix on the first failure.
 
 1. **type-check**: fastest signal on a fix. Scope to changed files where the tooling supports it, else run the project script.
 2. **lint**: scope to changed files (`eslint <files>`, `oxlint <files>`) when possible.
-3. **test**: run the project test script. Scope to affected tests where a watch/affected mode exists, else run the full suite.
-4. **knip**: run last (project-wide by design). See the `knip` entry in `ci-platforms.md`.
+3. **test**: run the project test script. Scope to affected tests where an affected mode exists, else run the full suite. Use the quiet reporter (`--reporter=dot`, `--silent`) or pipe through `tail -40`: the full output is re-sent on every later turn of the monitor.
+4. **knip**: run last (project-wide by design). Handling is the `knip` item of the failure classification in `ci-platforms.md`.
 
 **All present checks must pass before committing.** A type-check failure may be a stale-dependency issue, not a code bug; check the stale-dependency branch in `ci-platforms.md` first.
 
@@ -66,7 +66,7 @@ git restore <stray-tracked-file>     # revert an unintended modification
 rm <stray-untracked-file>            # remove an unintended new file (e.g. root schema.gql)
 ```
 
-Stage only the fix's files: prefer `git add <paths>` over `git add -A` so stray files are never committed.
+Stage only the fix's files: `git add <paths>`, never `git add -A`, so stray files are never committed. The skill's own state and plan files under `.claude/pr-babysitter/` are always stray: they never go in the PR.
 
 ## Pre-commit hooks that emit artifacts
 

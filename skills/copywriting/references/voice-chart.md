@@ -70,6 +70,20 @@ The don't side is the useful half. A don't that no reasonable writer would produ
 - Name what the voice is not. "Confident, not boastful" settles more edits than three more adjectives.
 - Revisit it when a rewrite feels wrong but no rule explains why. That gap is a missing concept.
 
+## Tone by reader state
+
+Voice is the brand's personality and does not change between screens. Tone is how that voice meets the reader's state, and it is expected to shift. A tone shift is not voice drift; drift is when the copy reads as a different brand, not the same brand in a different moment.
+
+| Reader state | Tone | Example |
+|--------------|------|---------|
+| Frustrated (error, failure, block) | Empathetic, solution-first, never blaming | "Payment failed. Your card was declined. Try a different card." |
+| Confused (first use, complex feature) | Patient, one step at a time | "Connect your bank to see spending insights. We'll walk you through it." |
+| Confident (routine task, return visit) | Efficient, minimal | "Saved" |
+| Cautious (high stakes, data loss) | Serious, transparent, no nudging | "Delete account? You'll lose all data and this can't be undone." |
+| Successful (completion) | Positive, proportional, brief | "Your changes are live." |
+
+Record the shifts the brand permits in `VOICE.md` next to the concepts, so a reviewer flagging a brisk "Saved" next to a careful deletion warning can see both were intended.
+
 ## Common characteristics
 
 Pick from these when naming a concept, then make them concrete with pairs:

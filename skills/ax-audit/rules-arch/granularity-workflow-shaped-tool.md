@@ -35,6 +35,9 @@ rg -l 'tool\(|defineTool' --type=ts src/tools/ | while read f; do
 done | awk -F: '$2>3'
 ```
 
+**Judgment signals:**
+- Consolidation that removes mechanical chaining passes. A `schedule_event` that finds availability and books is one user action with no step the user would want to veto, and fewer tools of that kind is the guidance Anthropic gives for tool sets. The fail is a bundled decision (which role to assign, what counts as stale): that is the step the user will disagree with and the agent cannot change. Test: is there an intermediate step a user would want to see or override?
+
 **False-positive guards:**
 - Skip atomic transactions (e.g., `transfer_funds`) and `// ax-audit-ignore:granularity-workflow-shaped-tool`.
 

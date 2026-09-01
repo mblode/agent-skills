@@ -13,7 +13,7 @@ Making the right thing cheap to find. Load when agents cannot locate things, kee
 
 ## Why this pays
 
-Code cleanliness does not change an agent's pass rate; it changes the cost of every task. Across 660 Claude Code trials over repo pairs matched on architecture, dependencies, and behavior but differing on rule violations and cognitive complexity, the clean side used 7 to 8% fewer tokens and revisited already-edited files about a third less often, with pass rate unchanged within noise (Sonar, [arXiv:2605.20049](https://arxiv.org/abs/2605.20049)). Two mechanisms drive it:
+Code cleanliness does not change an agent's pass rate; it changes the cost of every task. Across 660 Claude Code trials over repo pairs matched on architecture, dependencies, and behavior but differing on rule violations and cognitive complexity, the clean side used 7 to 8% fewer tokens and revisited already-edited files 34% less often, with pass rate unchanged within noise (Sonar, [arXiv:2605.20049](https://arxiv.org/abs/2605.20049)). Two mechanisms drive it:
 
 - **Traversal cost.** Agents rebuild context per task by grepping and reading. Predictable names and small files mean the first guess lands; bloated files mean chunked reads and repeated visits.
 - **Convention contagion.** Agents mimic whatever code they read first. A legacy pattern sitting unmarked next to the current one gets copied even when the instruction file says otherwise.
@@ -47,7 +47,7 @@ Two overlapping instruction files (AGENTS.md and CLAUDE.md, or per-tool variants
 - Never create a second one when the first exists.
 - Update it in the same change that changes the convention, not in a later docs pass.
 - Keep it hand-curated. Hand-written context files measurably beat LLM-generated ones (p=0.038), while generating one raises cost 20 to 23% for no significant accuracy change either way. Generated files mostly parrot documentation the repo already has: they only beat having no file at all once the README and docs are deleted ([arXiv:2602.11988](https://arxiv.org/abs/2602.11988)).
-- Write the requirements the agent cannot discover, not an overview of what it can. Directory enumerations and codebase tours appeared in every generated file in that study and did not reduce the steps taken to reach the relevant code. A specific instruction does land: agents told to use a particular tool reached for it around 160 times more often than when it went unmentioned, so instruction-following is literal enough that a wrong line is as load-bearing as a right one.
+- Write the requirements the agent cannot discover, not an overview of what it can. Directory enumerations and codebase tours appeared in every generated file in that study and did not reduce the steps taken to reach the relevant code. A specific instruction does land: agents told to use a particular tool used it 1.6 times per task on average, against fewer than 0.01 times when it went unmentioned, so instruction-following is literal enough that a wrong line is as load-bearing as a right one.
 
 ## The docs index and trust labels
 

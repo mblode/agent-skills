@@ -7,7 +7,7 @@ tags: api, defaults, ergonomics
 
 ## Ship Sensible Defaults So the Common Case Is One Call
 
-The most common usage should need the fewest arguments. If every caller passes the same boilerplate options, those defaults are wrong. Default to what 80% of users want; let the rest override. Keep those defaults for the human happy path, but make them observable for agents: list every default in the schema and echo the resolved values back in `--output json`, and still require an explicit value for identity-bearing or destructive-scoping params so nothing important is chosen silently.
+The most common usage should need the fewest arguments. If every caller passes the same boilerplate options, those defaults are wrong. Default to what 80% of users want and let the rest override. Keep the defaults observable (documented on the type, echoed in any structured output) and still require an explicit value for identity-bearing or destructive-scoping parameters, so nothing important is chosen silently.
 
 **Incorrect (forces boilerplate every call for the common case):**
 

@@ -33,6 +33,7 @@ The reverse also happens: the dialog is so thin the user denies everything, and 
 3. Flag components whose only action-describing input is a name or type (`toolName`, `action`, `actionType`, `title`) with no channel for the call arguments.
 4. Flag call sites that have the arguments in scope and pass only the name.
 5. For destructive actions, check that the target is named specifically (which record, how many rows), not by category.
+6. In AI SDK 7 renderers, find the branch on `part.state === "approval-requested"`: `part.input` is in scope there, and a branch that prints the tool name without it is the finding. In Claude Agent SDK `canUseTool(toolName, input)` handlers, check that `input` reaches the prompt, not only `toolName`. MCP asks clients to show tool inputs before calling the server; a host that shows the tool title is not doing that.
 
 **Concrete commands:**
 ```bash
@@ -51,6 +52,9 @@ rg -n -A 8 'interface .*(Approval|Confirm).*Props' --type=ts src/
 
 # gates that stringify the tool and stop there
 rg -n 'confirm\(|window\.confirm' -A 2 --type=ts src/
+
+# framework approval branches: read each for input/args rendering
+rg -n 'approval-requested|canUseTool' -A 8 --type=ts src/
 ```
 
 **Judgment signals:**
@@ -60,6 +64,7 @@ rg -n 'confirm\(|window\.confirm' -A 2 --type=ts src/
 **False-positive guards:**
 - Skip gates for low-stakes reversible actions where a receipt with undo is the right pattern instead. That is `control-no-approval-gate` territory, and this rule should not push toward more friction than the stakes need.
 - A component that accepts a `children` or `preview` slot passes if the call sites populate it. Check the call sites, not just the type.
+- Approve-with-changes passes: a gate whose fields are editable and flow back as `updatedInput` (Agent SDK) or an approval `reason` (AI SDK) carries more than the payload this rule asks for.
 - Skip files with `// ax-audit-ignore:control-thin-approval-payload` near the match.
 - Skip test and Storybook fixtures.
 

@@ -10,14 +10,27 @@
 
 A discovered voice file outranks every tier below. When a brand or personal voice file names a word as a signature, keep it and do not flag it; the lists describe generic AI vocabulary, not a house style that deliberately uses one of these words.
 
+These lists date. Vocabulary tells turn over with each model generation (`ai-patterns.md` section 9 has the timeline), so a word that stops showing up in generated copy should move down a tier or out, and the structural checks in `ai-patterns.md` carry more weight than any row here.
+
 ---
 
 ## Tier 1: always replace
 
-5-20x more common in AI text than human writing. Replace on sight.
+Measured at several times to tens of times their human baseline in generated text (a 2024 study of 15 million PubMed abstracts put "delves" at 28x its expected frequency). Replace on sight. The table is ordered roughly by how current each tell is; the top rows are what models write now, the bottom rows are still worth catching in older copy.
 
 | Word / phrase | Replace with |
 |---------------|--------------|
+| enhance / enhanced | improve, or name the change ("loads in 200ms") |
+| highlighting / emphasizing (as a participle tail) | cut the tail; the preceding clause already said it |
+| showcase / showcasing | show, demonstrate (or name what it shows) |
+| align with / aligned with | match, fit, follow |
+| ensuring (as a participle tail) | cut, or make it a sentence with a subject |
+| fostering / foster | build, encourage, support |
+| Additionally (sentence opener) | and, also, or nothing |
+| multifaceted | name the facets, or cut |
+| interplay | how X and Y interact (or name it) |
+| enduring | lasting, or give the timeframe |
+| garner | get, win, earn |
 | delve / delve into | explore, dig into, look at |
 | landscape (metaphor) | field, space, industry, world |
 | tapestry | (describe the actual complexity) |
@@ -40,7 +53,6 @@ A discovered voice file outranks every tier below. When a brand or personal voic
 | vibrant | (describe what makes it active, or cut) |
 | deep dive / dive into | look at, examine, explore |
 | unpack / unpacking | explain, break down, walk through |
-| showcase | show, demonstrate (or name what it shows) |
 | unlock | enable, give access to, let (or name what becomes possible) |
 | intricate / intricacies | complex, detailed (or name the specific complexity) |
 | holistic / holistically | complete, full, whole |
@@ -66,7 +78,6 @@ One is fine; two or more signals a pattern. Flag and suggest replacements.
 |---------------|--------------|
 | harness | use, take advantage of |
 | navigate / navigating | work through, handle, deal with |
-| foster | encourage, support, build |
 | elevate | improve, raise, strengthen |
 | unleash | release, enable, open up |
 | streamline | simplify, speed up |

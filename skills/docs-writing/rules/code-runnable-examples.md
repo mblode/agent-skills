@@ -6,7 +6,7 @@ tags: examples, runnable, copy-paste
 
 ## Every concept needs a copy-paste-ready example
 
-Readers learn by doing. Every concept, function, or endpoint needs a complete, runnable example with imports and expected output in a comment. Comments should explain WHY (reasoning, constraints, non-obvious decisions), not WHAT the code already shows.
+Prose that describes a function's behavior makes the reader write the first call themselves, and that first call is where they get it wrong. Every concept, function, or endpoint gets a complete example: imports included, expected output in a comment, and a language tag on the fence so the site highlights it and agents can tell shell from JSON. Comments explain why (a constraint, a non-obvious choice), not what the code already shows.
 
 **Incorrect (describes behavior without showing it):**
 

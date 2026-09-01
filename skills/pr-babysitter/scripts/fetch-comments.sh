@@ -6,11 +6,44 @@
 # job of references/bot-patterns.md. No intent, no dedupe, no ignore reasons, no
 # verdict interpretation.
 #
-# usage: fetch-comments.sh <pr-number> [--repo owner/name]
+# usage: fetch-comments.sh [<pr-number>] [--repo owner/name]
 # stdout: one JSON document. stderr: one sentence, on failure only.
+# exit:   0 on success; 1 on any failure (missing tool, auth, bad args, API error).
 set -euo pipefail
 
 die() { printf '%s\n' "$1" >&2; exit 1; }
+
+usage() {
+  cat <<'USAGE'
+usage: fetch-comments.sh [<pr-number>] [--repo owner/name]
+
+  <pr-number>   defaults to the PR of the current branch (gh pr view)
+  --repo        defaults to the repo of the current checkout (gh repo view)
+
+Needs gh (authenticated) and jq. Prints one JSON document:
+
+  { me, repo, pr, headRefOid,
+    counts: { threads, open, resolvedWithUnansweredReply, resolvedQuiet,
+              prLevel, outdated, collapsed, awaitingReply, anchorsNeedingWork,
+              reviews, staleReviews, issueComments },
+    reviewers[]:     { login, isBot, isMe, reviews, inlineComments,
+                       issueComments, emptyBodyReviews },
+    reviews[]:       { id, author, isMe, state, submittedAt, commitId, isStale,
+                       bodyEmpty, body, bodyStripped, severityHints[] },
+    threads[]:       { id, path, subjectType, isResolved, isOutdated, isCollapsed,
+                       resolvedBy, anchor{line,startLine,endLine,side,source},
+                       threadAuthor, lastComment, owedReply, bucket,
+                       commentCount, comments[] },
+    issueComments[]: { id, author, isMe, createdAt, updatedAt, wasEdited, url,
+                       body, bodyStripped, severityHints[] } }
+
+bucket is one of open | resolved-with-unanswered-reply | resolved-quiet | pr-level.
+anchor.source is one of line | startLine | embedded-<bot> | file | needs-translation | path-only.
+severityHints are raw tokens, not a severity; bot-patterns.md maps them.
+
+exit 0 on success, 1 on any failure with one sentence on stderr.
+USAGE
+}
 
 # One temp file so gh's own stderr can be folded into our single sentence
 # rather than leaking alongside it.
@@ -22,8 +55,8 @@ PR=""; REPO=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --repo) REPO="${2:-}"; shift 2 ;;
-    -h|--help) printf 'usage: fetch-comments.sh <pr-number> [--repo owner/name]\n'; exit 0 ;;
-    -*) die "unknown flag '$1'. usage: fetch-comments.sh <pr-number> [--repo owner/name]" ;;
+    -h|--help) usage; exit 0 ;;
+    -*) die "unknown flag '$1'. usage: fetch-comments.sh [<pr-number>] [--repo owner/name]" ;;
     *) PR="$1"; shift ;;
   esac
 done
@@ -48,6 +81,10 @@ case "$PR" in ''|*[!0-9]*) die "bad PR number '$PR': expected digits" ;; esac
 
 ME=$(gh api user --jq .login 2>/dev/null) || die "could not resolve your login: check gh auth status"
 
+# first:100 on both connections is the GraphQL page maximum. Thread comments
+# arrive oldest first, so anything smaller hides the newest comment, which is
+# the one that decides whether a reply is owed; the loops below page past 100.
+# shellcheck disable=SC2016  # the $ names are GraphQL variables, not shell
 THREAD_Q='query($o:String!,$r:String!,$n:Int!,$c:String){
   repository(owner:$o,name:$r){ pullRequest(number:$n){
     headRefOid
@@ -64,6 +101,7 @@ THREAD_Q='query($o:String!,$r:String!,$n:Int!,$c:String){
             createdAt url replyTo{databaseId} commit{oid} originalCommit{oid}
           } } } } } } }'
 
+# shellcheck disable=SC2016  # GraphQL variables again
 COMMENT_Q='query($t:ID!,$c:String){ node(id:$t){ ... on PullRequestReviewThread {
   comments(first:100, after:$c){ pageInfo{ hasNextPage endCursor }
     nodes{ databaseId author{login __typename} body line startLine originalLine
@@ -113,8 +151,10 @@ for tid in $(jq -r '.[] | select(.comments.pageInfo.hasNextPage) | .id' <<<"$thr
     'map(if .id == $t then .comments.nodes += $extra else . end)' <<<"$threads")
 done
 
-reviews=$(gh api --paginate "repos/$REPO/pulls/$PR/reviews" 2>"$ERRF" | jq -c -s 'flatten(1)') \
-  || die "could not fetch reviews for $REPO#$PR: $(ghwhy)"
+# per_page=100 is the REST maximum; --paginate follows the Link header and
+# emits one array per page, which jq -s 'flatten(1)' joins into one list.
+reviews=$(gh api --paginate "repos/$REPO/pulls/$PR/reviews?per_page=100" 2>"$ERRF" \
+  | jq -c -s 'flatten(1)') || die "could not fetch reviews for $REPO#$PR: $(ghwhy)"
 issue_comments=$(gh api --paginate "repos/$REPO/issues/$PR/comments?per_page=100" 2>"$ERRF" \
   | jq -c -s 'flatten(1)') || die "could not fetch issue comments for $REPO#$PR: $(ghwhy)"
 
@@ -250,8 +290,10 @@ def anchor($t; $first):
     }
 )) as $t
 | ($reviews | map({
-    id, author: .user.login,
-    isMe: (.user.login == $me),
+    # user is null for a deleted account; "ghost" keeps canon (a string sub)
+    # from failing on it and matches what GitHub shows in the UI.
+    id, author: (.user.login // "ghost"),
+    isMe: ((.user.login // "") == $me),
     state, submittedAt,
     commitId: .commit_id,
     isStale: ((.commit_id // "") != $head),
@@ -261,8 +303,10 @@ def anchor($t; $first):
     severityHints: ((.body // "") | severity_hints)
   })) as $r
 | ($issue_comments | map({
-    id, author: .user.login,
-    isMe: (.user.login == $me),
+    # user is null for a deleted account; "ghost" keeps canon (a string sub)
+    # from failing on it and matches what GitHub shows in the UI.
+    id, author: (.user.login // "ghost"),
+    isMe: ((.user.login // "") == $me),
     createdAt, updatedAt: .updated_at,
     wasEdited: (.updated_at != .created_at),
     url: .html_url,

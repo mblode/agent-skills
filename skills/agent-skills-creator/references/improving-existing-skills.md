@@ -23,7 +23,7 @@ Skill improvement progress:
 - [ ] Phase B: Score the eleven audit dimensions (before)
 - [ ] Phase C: Rewrite in the ordered procedure
 - [ ] Phase D: Validate (scripts/validate.sh + re-score)
-- [ ] Phase E: Re-score dimensions (after), update README one-liner, commit
+- [ ] Phase E: Re-score dimensions (after), update README one-liner, ship
 ```
 
 ### Phase A: Read everything first
@@ -46,7 +46,7 @@ Score each 1-5 before editing; the lowest scores dictate rewrite effort. Report 
 | 3 | Structure conformity | Pattern matches content; files in pattern-correct folders |
 | 4 | Signal density | Every line passes "would removing this cause Claude to make a mistake?"; one term per concept |
 | 5 | Gotchas quality | Each gotcha names a concrete command/value and consequence; from observed failures |
-| 6 | Freshness | No stale commands, paths, or version pins |
+| 6 | Freshness | No stale commands, paths, version pins, or model names; frontmatter fields valid for every place the skill is meant to run |
 | 7 | Progressive disclosure | Every reference earns its load condition and adds value SKILL.md does not already carry |
 | 8 | Workflow integrity | Copyable checklist; terminal step produces evidence, never "seems right" |
 | 9 | Cross-skill coherence | Related Skills accurate; no trigger overlap with sibling descriptions |
@@ -57,8 +57,8 @@ Score each 1-5 before editing; the lowest scores dictate rewrite effort. Report 
 
 Execute in order: correctness, then triggers, then structure, then deletion, then polish. Reordering causes rework, for example density-cutting a section you later move.
 
-1. **Stale fixes.** Anything contradicting repo AGENTS.md or reality (install commands, paths, rule counts, CLI flags). Bugs; fix before stylistic work.
-2. **Description.** Third-person opener of what it does, capability summary, "Use when..." triggers with quoted user phrases. Disambiguate from siblings: if two descriptions could route the same prompt, both need an edge ("For X, use `other-skill`").
+1. **Stale fixes.** Anything contradicting repo AGENTS.md or reality (install commands, paths, rule counts, CLI flags, frontmatter fields the target runtime rejects). Bugs; fix before stylistic work.
+2. **Description.** Third-person opener of what it does, capability summary, "Use when..." triggers with quoted user phrases, key use case first. Disambiguate from siblings: if two descriptions could route the same prompt, both need an edge ("For X, use `other-skill`"). Check with a should-trigger and near-miss prompt set, not by rereading.
 3. **Boundary opener.** Add or repair the IS/IS-NOT pair after the H1.
 4. **Structure.** Apply the decision table below. After a move, update every link and grep all SKILL.md repo-wide for the old path.
 5. **Signal-density cut.** Delete lines Claude would do anyway; dedupe SKILL.md/reference overlap; merge near-duplicate sections.
@@ -75,11 +75,11 @@ Execute in order: correctness, then triggers, then structure, then deletion, the
 |-----------|--------|
 | Supporting .md files at skill root, skill is simple/hub with a tracks table | Keep: sanctioned hub track files |
 | Supporting .md files at skill root, any other pattern | Move to `references/`, update all links |
-| Multiple rules folders (e.g. `rules/` + `rules-modern/`), SKILL.md dispatches to each layer explicitly | Keep: sanctioned layered design |
+| Multiple rules folders (`rules-arch/` + `rules-ax/` in `ax-audit`), SKILL.md dispatches to each layer explicitly | Keep: sanctioned layered design |
 | Multiple rules folders, no explicit dispatch | Consolidate into one `rules/` folder |
 | `agents/` folder with subagent prompts dispatched from SKILL.md | Keep: sanctioned |
 | A bundle file whose stated load condition is "do not load in normal use" (launcher metadata for external runners, e.g. `agents/openai.yaml`) | Keep: the condition is the point. State it in the reference table so nobody re-litigates it per skill |
-| A reference whose only load condition is "when changing this skill" (eval fixtures, scenario files) | Keep, but say so explicitly: it never loads during a user task, so it is not dead weight and not progressive disclosure either |
+| A folder whose only load condition is "when changing this skill" (`evals/evals.json`, fixtures) | Keep, but say so explicitly: it never loads during a user task, so it is not dead weight and not progressive disclosure either |
 | File in the folder but never linked from SKILL.md | Link it with a read-when condition, or delete it |
 
 After any rename or move: `grep -rn "<old-path>" <repo>/skills/*/SKILL.md` must return nothing.

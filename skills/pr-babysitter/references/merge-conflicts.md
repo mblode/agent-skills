@@ -8,7 +8,7 @@ Detection, resolution, and safety guardrails for keeping a PR branch current.
 - [Resolution Strategy](#resolution-strategy)
 - [Rebase Workflow](#rebase-workflow)
 - [Auto-Resolvable Conflicts](#auto-resolvable-conflicts)
-- [Do NOT Auto-Resolve](#do-not-auto-resolve)
+- [Do Not Auto-Resolve](#do-not-auto-resolve)
 - [Safety Guardrails](#safety-guardrails)
 
 ## Conflict Detection
@@ -19,94 +19,79 @@ gh pr view --json mergeable,mergeStateStatus
 
 | `mergeStateStatus` | Meaning | Action |
 |--------------------|---------|--------|
-| `CLEAN` | No conflicts, up to date | Skip |
-| `BEHIND` | Base has advanced, no conflicts yet | Rebase to update |
-| `DIRTY` | Actual conflicts exist | Resolve |
-| `UNSTABLE` | Mergeable but failing checks | Skip (Phase 3 handles checks) |
-| `BLOCKED` | Branch protection prevents merge | Skip (review/checks needed) |
-| `HAS_HOOKS` | Merge hooks pending | Skip |
-| `UNKNOWN` | GitHub is computing | Wait, recheck next cycle |
+| `CLEAN` | Mergeable, checks passing | Skip |
+| `BEHIND` | Base has advanced, no conflict yet | Rebase to update (required when branch protection demands an up-to-date branch) |
+| `DIRTY` | The merge commit cannot be created: real conflicts | Resolve |
+| `UNSTABLE` | Mergeable, a check is failing | Skip (Phase 3 owns checks) |
+| `BLOCKED` | Branch protection blocks the merge (review, checks) | Skip |
+| `DRAFT` | Draft PR | Skip unless the user asked for drafts |
+| `HAS_HOOKS` | Mergeable, pre-receive hooks pending | Skip |
+| `UNKNOWN` | GitHub is computing | Recheck next tick |
+
+`mergeable` is `UNKNOWN` (REST: `null`) while GitHub runs the mergeability job in the background. Requesting the PR is what starts that job, so a second `gh pr view` a few seconds later usually has the answer.
 
 ## Resolution Strategy
 
-**Default to rebase.** Use merge only when the branch is shared (rebase rewrites commits other contributors based work on).
-
-Detect a shared branch (no need to ask the user):
+**Default to rebase.** Merge only when the branch is shared, because a rebase rewrites commits other people based work on:
 
 ```bash
 git log origin/{base_branch}..HEAD --format='%ae' | sort -u
 ```
 
-More than one author email means the branch is shared: merge `origin/{base_branch}` instead of rebasing. An explicit user preference for merge overrides the default.
+More than one author email means shared: `git merge origin/{base_branch}` instead. An explicit user preference for merge also overrides the default.
 
 ## Rebase Workflow
 
 ```bash
-# 1. Stash any uncommitted work
-git stash
-
-# 2. Fetch latest base
+git stash push --include-untracked      # only if the tree is dirty
 git fetch origin {base_branch}
-
-# 3. Attempt rebase
 git rebase origin/{base_branch}
-
-# 4a. If clean: push
-git push --force-with-lease
-
-# 4b. If conflicts: evaluate (see below)
-# On abort:
+# clean:
+git push --force-with-lease --force-if-includes
+# conflicts: resolve per the sections below, then per conflicted commit:
+git add {resolved files} && GIT_EDITOR=true git rebase --continue
+# unsafe to resolve:
 git rebase --abort
-git stash pop
+git stash pop                            # if you stashed
 ```
+
+`--force-if-includes` is a no-op without `--force-with-lease`; together they refuse the push when the remote tip was fetched but never integrated locally, which is exactly the state a monitor loop can drift into between a fetch and a rebase.
+
+During a rebase, `--ours` is the base branch and `--theirs` is the commit being replayed. Name sides by branch in notifications, not by ours/theirs.
 
 ## Auto-Resolvable Conflicts
 
-Resolve these automatically:
+**Lockfiles** (`package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`): generated output, so never hand-edit the markers. Each package manager resolves a conflicted lockfile itself:
 
-**Lockfiles** (`package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`):
-1. Abort the rebase
-2. Merge base branch instead: `git merge origin/{base_branch}`
-3. Accept the incoming lockfile
-4. Re-run the package manager: `npm install` / `yarn` / `pnpm install`
-5. Commit the regenerated lockfile
-6. Push with `--force-with-lease`
+```bash
+npm install --package-lock-only     # npm >= 5.7 merges both sides' resolutions
+yarn install                        # Yarn 1 and Berry rewrite the conflicted file
+pnpm install                        # pnpm merges; its docs ask you to review the result
+```
 
-**Generated files** (`.generated`, `schema.graphql`, GraphQL types):
-1. Accept either side
-2. Re-run the generation command
-3. Commit the regenerated output
+If `package.json` also conflicts, resolve it first (both sides' additions), then run the install. Prove the result with a frozen install (`npm ci`, `yarn install --immutable`, `pnpm install --frozen-lockfile`) before `git add` and `git rebase --continue`.
 
-**Changelogs** (`CHANGELOG.md`, `CHANGES.md`):
-1. Accept both sides
-2. Reorder entries by date (newest first)
-3. Commit
+**Generated files** (`*.generated.*`, `schema.graphql`, codegen output): take either side, re-run the project's generation command, stage the output.
 
-**Config files with additive changes** (both sides added different keys):
-1. Accept both additions
-2. Verify no semantic conflicts
-3. Commit
+**Changelogs** (`CHANGELOG.md`, `CHANGES.md`): keep both sides, newest entry first.
 
-## Do NOT Auto-Resolve
+**Config files with additive changes** (both sides added different keys): keep both additions, check the result still parses.
 
-Notify the user with details for these:
+## Do Not Auto-Resolve
 
-- **Source code with logic conflicts**: both sides modified the same function body
-- **Database migrations**: ordering matters; bad resolution breaks the migration chain
-- **API contracts / OpenAPI specs**: semantic changes need human judgment
-- **Both sides deleted and added on overlapping lines**: intent is ambiguous
-- **Test files with conflicting assertions**: correct assertion depends on intent
+Abort and notify, with the conflicting files, the conflicting lines, and what each side changed:
 
-When aborting, provide:
-- Conflicting files
-- Which lines conflict in each
-- What each side changed (ours vs theirs)
+- Source code where both sides modified the same function body
+- Database migrations: ordering matters, a bad resolution breaks the chain
+- API contracts and OpenAPI specs: semantic changes need a human
+- Both sides deleted and added on overlapping lines: intent is ambiguous
+- Test files with conflicting assertions: the right assertion depends on intent
 
 ## Safety Guardrails
 
-1. **Always `--force-with-lease`, never `--force`**: the lease check ensures no one else pushed since your last fetch. If the lease fails, someone else pushed; abort and notify
-2. **Stash before rebase**: `git stash` saves uncommitted work. Pop after resolution
-3. **Abort on failure**: if auto-resolution fails or produces unexpected results, `git rebase --abort` to restore the branch
-4. **Never rebase a shared branch**: multiple author emails (detection command above) means other contributors pushed; rebase rewrites their history, so merge instead
-5. **Verify after resolution**: after pushing, check `gh pr view --json mergeable` returns `MERGEABLE`
-6. **One resolution per cycle**: if a conflict reappears on the next poll (base advanced again), resolve again. Do not batch multiple base updates
+1. `--force-with-lease --force-if-includes`, never bare `--force`. A refused lease means someone else pushed since your fetch: abort and notify, do not overwrite their commits
+2. Stash before rebasing a dirty tree; pop after
+3. Any resolution that fails or looks wrong: `git rebase --abort` restores the branch
+4. Never rebase a shared branch (detection above); merge instead
+5. After pushing, confirm `gh pr view --json mergeable` reports `MERGEABLE`
+6. One resolution per cycle: if the base advances again, resolve again on the next tick rather than batching

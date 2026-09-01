@@ -1,39 +1,55 @@
 ---
-title: Use three-column layout for API reference docs
+title: Keep request and response examples beside each API reference entry
 impact: MEDIUM
-tags: api-docs, layout, three-column
+tags: api-docs, layout, reference, examples
 ---
 
-## Use three-column layout for API reference docs
+## Keep request and response examples beside each API reference entry
 
-API reference docs work best in three columns: navigation (left), description (center), code examples (right). Readers see explanation and code at once without scrolling.
+Stripe's API reference puts parameters in one column and a request plus its response in the other, so the reader never scrolls between "what does this take" and "what does the call look like." Docs frameworks (Mintlify, Fern, Redocly, Docusaurus OpenAPI) render that two-pane layout from the source; what the author controls is that every endpoint entry carries its own request example and response example, in that order, immediately after its parameters. A reference page that describes ten endpoints and then dumps all the examples at the bottom has the same content and none of the usefulness.
 
-**Incorrect (code blocks inline below each description):**
+**Incorrect (examples gathered at the end, away from the parameters they show):**
 
 ```markdown
 ## Create a user
 
-Creates a new user account with the specified parameters.
+Creates a user. Parameters: `name` (required), `email` (required).
 
-### Request
+## Retrieve a user
 
-POST /api/users
+Retrieves a user by ID.
 
-### Example
+## Examples
 
-    curl -X POST https://api.example.com/users \
-      -d '{"name": "Ada"}'
+    curl -X POST https://api.acme.com/users -d '{"name": "Ada"}'
+    curl https://api.acme.com/users/usr_abc123
 ```
 
-**Correct (description and code columns visually adjacent):**
+**Correct (each entry: parameters, then request, then response):**
 
-```markdown
-<!-- Three-column layout: nav | description | code -->
-| Description                          | Example                              |
-|--------------------------------------|--------------------------------------|
-| **POST /api/users**                  | `curl -X POST .../users -d '{...}'` |
-| Creates a new user with the          |                                      |
-| specified parameters.                | Response: `201 Created`              |
+````markdown
+## Create a user
+
+`POST /v1/users`
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | string | yes | Full name shown in the dashboard |
+| `email` | string | yes | Must be unique per account |
+
+Request:
+
+```bash
+curl -X POST https://api.acme.com/v1/users \
+  -u sk_test_YOUR_TEST_KEY: \
+  -d name="Ada Lovelace" -d email="ada@example.com"
 ```
 
-Reference: [Stripe API docs: Layout pattern](https://docs.stripe.com/api)
+Response:
+
+```json
+{ "id": "usr_abc123", "name": "Ada Lovelace", "email": "ada@example.com" }
+```
+````
+
+Reference: [Stripe API reference](https://docs.stripe.com/api), [Diataxis: Reference](https://diataxis.fr/reference/)

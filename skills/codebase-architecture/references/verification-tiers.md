@@ -36,6 +36,7 @@ The sharpest thing to write down, and the one nobody thinks to. Enumerate this r
 Recurring shapes worth checking for:
 
 - **A flag that hides findings.** `--quiet` suppressing lint warnings, a reporter that swallows a category, a threshold set so high nothing trips it.
+- **A tool that reports but never fails.** `jscpd` without `--threshold` exits 0 on any amount of duplication; a boundary tool run without `--validate` or with every rule at `info`. The step is present, green, and gating nothing.
 - **A filter matching zero files.** A test path pattern, a workspace filter, or a glob that silently matches nothing and exits 0. This is the most common one and the most convincing.
 - **A stale incremental cache.** `tsc --incremental` or a build cache returning a result computed against code that has since changed.
 - **A step skipped by condition.** A CI job gated on a path filter or a branch condition that no longer matches, so the gate is nominally present and never runs.

@@ -48,6 +48,7 @@ rg -n -i 'revoke|disconnect' --type=ts src/ -A 3
 **Judgment signals:**
 - A list of connected services with no scopes is a partial pass: the user knows what is attached but not what it can do. Report `warn`.
 - Scope strings rendered raw (`https://www.googleapis.com/auth/gmail.modify`) are a partial pass; legible only to developers.
+- Grants made through MCP URL-mode elicitation (`mode: "url"`) happen on the server's own page and never transit the client, so the product has no record of them unless the server exposes one. A connections list that names the MCP server but not the third-party accounts it now holds tokens for is a partial pass; report `warn`.
 
 **False-positive guards:**
 - Skip products whose agent touches only first-party data the user is already looking at. There is no external reach to disclose.

@@ -245,6 +245,5 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics).
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `optimise-seo`: meta descriptions and page titles.
-- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
 
 Maintenance only: when changing audit routing or anti-slop behavior, run the scenarios in `evaluations/` as a regression rubric.

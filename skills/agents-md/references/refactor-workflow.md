@@ -6,7 +6,7 @@ Use when an AGENTS.md is bloated, stale, or low-signal.
 
 Refactor when any are true:
 
-- Root file over ~150 lines and hard to scan
+- Root file over ~150 lines and hard to scan (Claude Code's own ceiling is 200; Codex stops reading at 32 KiB across all files)
 - Commands missing, stale, or contradictory
 - Contains framework docs or copy-pasted templates
 - Generic guidance that doesn't prevent real mistakes
@@ -20,11 +20,11 @@ Record current line count, then extract only what every task needs:
 - High-frequency gotchas
 - Project conventions that change implementation choices
 
-Everything else: link to a reference or delete.
+Everything else: move to a location that loads on demand, or delete.
 
 ## Step 2: Remove bloat fast
 
-Delete first, add back only what earns its place. For every line, record one reason: `generic`, `duplicate`, `stale`, `moved` (to a reference), or `reworded`. This log makes the final report traceable, and `reworded` keeps the Step 5 safety re-check from treating a rewritten rule as lost content.
+Delete first, add back only what earns its place. For every line, record one reason: `generic`, `duplicate`, `stale`, `moved` (with the destination), or `reworded`. This log makes the final report traceable, and `reworded` keeps the Step 5 safety re-check from treating a rewritten rule as lost content.
 
 Remove:
 
@@ -44,37 +44,39 @@ Reword rather than remove: a blanket prohibition that some plausible task would 
 2. Commands
 3. Gotchas (failure mode -> fix)
 4. Conventions and boundaries
-5. Links to deeper references
+5. Pointers to deeper material
 
-## Step 4: Move detail out with progressive disclosure
+## Step 4: Move detail out so it still loads
 
-Create or update supporting files for non-universal detail (`.claude/testing.md`, `.claude/architecture.md`, workspace-level `AGENTS.md` in monorepos), then link from root with `@import`:
+Pick the destination by who needs it and when. Guidance needed in fewer than ~30% of tasks leaves root.
 
-```markdown
-- Testing details: @.claude/testing.md
-- Architecture: @docs/architecture.md
-```
+- Owned by one directory -> that directory's `AGENTS.md` (every tool; Claude Code loads it on demand, Codex only when launched there)
+- A repeated multi-step procedure -> a skill; root keeps one line naming it
+- Reference material -> `docs/*.md`, linked by plain relative path
+- Claude-only or Cursor-only detail tied to file types -> `.claude/rules/*.md` with `paths:` or `.cursor/rules/*.mdc` with `globs:`
 
-Rule of thumb: guidance needed in fewer than ~30% of tasks moves out of root.
+Do not reach for `@import` to shrink the file. Imported content is expanded at launch, so the context cost is unchanged, and Codex and Cursor never see it. The one import that belongs in a multi-tool repo is `@AGENTS.md` at the top of `CLAUDE.md`.
 
 ## Step 5: Validate before finalizing
 
 - Core commands run from the documented location (or are marked not runnable here)
-- Linked and `@import`ed files exist
+- Linked files, nested files, and `@import`ed files exist; in Claude Code, `/context` confirms which ones loaded
 - No contradictory rules remain
 - Removed guidance had no rare-but-critical constraints (security, migration, release, incident flows); re-check the Step 2 log for anything tagged `generic` that was actually a safety rule
+- Nothing tagged `moved` landed in a single-tool location if every tool must obey it
 
 ## Step 6: Publish an audit summary
 
 ```markdown
 | File | Before | After | Score | Key wins |
 |------|--------|-------|-------|----------|
-| ./AGENTS.md | 240 lines | 96 lines | 26/45 -> 42/45 | Added commands, removed doc dump, fixed stale paths |
+| ./AGENTS.md | 240 lines | 96 lines | 28/49 -> 45/49 | Added commands, removed doc dump, moved API rules to packages/api/AGENTS.md |
 ```
 
 ## Pitfalls
 
 - Preserving large sections "just in case"; they re-bloat the file and bury commands
 - Replacing one template dump with another
+- Splitting into `@import`s and reporting the root line count as the win; the loaded context did not change
 - Keeping contradictory rules to avoid conflict with file history
 - Adding style advice linters already enforce; agents see lint output anyway

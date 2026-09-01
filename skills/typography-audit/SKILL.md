@@ -96,7 +96,6 @@ Report findings as:
 - Include clean files as `✓ pass` so coverage is visible.
 - End with a summary: counts per impact level.
 
-
 ## Gotchas
 
 - Don't preload all 78 rule files. Load only the prefixes the signal table selects.
@@ -112,4 +111,3 @@ Report findings as:
 - `ui-design` Audit mode: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower.
 - `ui-design` Direction mode: choosing typefaces, scales, and visual direction from scratch; run when a finding becomes a redesign request.
 - `copywriting`: heading and label wording. This skill governs only the casing of that copy (`punct-case-rules`).
-- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

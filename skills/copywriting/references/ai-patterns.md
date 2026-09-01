@@ -10,6 +10,7 @@
 6. [Chatbot artefacts](#6-chatbot-artefacts)
 7. [Drafting tells](#7-drafting-tells)
 8. [Severity tiers](#8-severity-tiers)
+9. [Sources and drift](#9-sources-and-drift)
 
 ---
 
@@ -17,7 +18,15 @@
 
 ### Em dashes
 
-Zero, in headings and body copy alike. Replace with a comma, colon, full stop, parentheses, or two sentences; a colon is the usual fix when the dash introduced an elaboration. Catch `U+2014`, the double-hyphen substitute (`--`), and a spaced hyphen standing in for one (` - `). Copy is short enough that any allowance is meaningless, so treat a single occurrence as a failure rather than a frequency to manage.
+Zero, in headings and body copy alike. Replace with a comma, colon, full stop, parentheses, or two sentences; a colon is the usual fix when the dash introduced an elaboration. Catch `U+2014`, the double-hyphen substitute (`--`), and a spaced hyphen standing in for one (` - `). A spaced em dash (U+2014 with a space on each side) is the strongest single formatting tell: no major style guide spaces it, and models do. Copy is short enough that any allowance is meaningless, so treat a single occurrence as a failure rather than a frequency to manage.
+
+### Title Case headings
+
+Every main word capitalised in a heading or button ("Impact Of Technology And Digitalisation", "Get Started Today") where the surrounding product uses sentence case. Apple, Material, Polaris, Atlassian, and GOV.UK all specify sentence case for UI text, so Title Case reads as pasted in. Match the surface; where the casing convention itself is in question, `typography-audit` owns it.
+
+### Mixed quotation marks
+
+Curly quotes (“ ” ‘ ’) in one line and straight quotes (" ') in the next. Models mix them within one response; humans set one and keep it. Pick the convention the codebase or CMS uses and apply it throughout.
 
 ### Bold labels
 
@@ -59,9 +68,13 @@ Cut: "honestly", "to be honest", "one honest note", "I'll be straight with you".
 
 Cut: "what struck me was", "I couldn't help but notice", "it's fascinating that". These narrate a reaction instead of giving the reader the thing that caused it. State the thing.
 
-### "It's not X, it's Y"
+### Negative parallelisms
 
-Max one per piece, only if it serves the argument. Rewrite as a direct positive statement.
+"It's not X, it's Y", "not just X but Y", "not only X but also Y", and the quieter "X rather than Y". Each sets up a misconception nobody held so the sentence can knock it down. Max one per piece, and only where the reader actually arrived believing X. Otherwise state Y.
+
+### Participle tails
+
+An "-ing" phrase bolted onto a finished sentence to add an unearned conclusion: "...connects to Slack and Linear, ensuring your team stays aligned", "...ships in one click, highlighting our commitment to speed", "...reflecting a broader shift toward". The first clause did the work; the tail narrates significance. Cut at the comma. This is the most common current-era tell and the one word lists miss entirely, because the words in the tail ("ensuring", "highlighting", "reflecting") are ordinary on their own.
 
 ### Compulsive rule of three
 
@@ -108,6 +121,10 @@ If every paragraph is roughly the same size, vary deliberately: some one sentenc
 ### Formulaic openings
 
 If it opens with broad context before the point ("In the rapidly evolving world of..."), lead with the news or insight instead. Context comes second.
+
+### Section summaries
+
+A closing line that restates the section: "In summary", "Overall", "Ultimately, ...", or a final sentence that repeats the headline in different words. Marketing copy has no room for a recap; end on the proof or the CTA.
 
 ### Rhetorical-question openers
 
@@ -190,6 +207,8 @@ Prioritise fixes when time is limited.
 - "Let's" transition openers
 - Formulaic openings ("In the rapidly evolving world of...")
 - Engagement hooks and rhetorical-question openers
+- Participle tails ("...ensuring", "...highlighting", "...reflecting")
+- Negative parallelisms beyond one per piece
 - Bold overuse
 - Any em dash, `--`, or spaced hyphen standing in for one
 
@@ -200,8 +219,21 @@ Prioritise fixes when time is limited.
 - Uniform paragraph length and uniform confidence
 - Announced honesty and emotional flatline
 - Bold labels closed with a period instead of a colon
+- Title Case headings and mixed quotation marks on a sentence-case surface
+- Section summaries
 - Copula avoidance (serves as, features, boasts)
 - Overused transition phrases (Moreover, Furthermore, Additionally)
 - Tier 2 word clusters in the same paragraph
 
 **Quick triage rule:** For a fast pass, fix P0 and P1 only. A clean P0+P1 pass is publishable. P2 is polish.
+
+---
+
+## 9. Sources and drift
+
+The structural catalogue above tracks Wikipedia's *Signs of AI writing* (https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), which is maintained against live examples and revised as models change. Two things it records that matter here:
+
+- **Vocabulary drifts by model generation.** "delve", "tapestry", and "testament" peaked in 2023 to mid-2024 and fell away; "align with", "fostering", "enhance", "highlighting", and "showcasing" carried mid-2024 to mid-2025; from mid-2025 the reliable words narrowed to "emphasizing", "enhance", "highlighting", and "showcasing". Structural tells (participle tails, negative parallelisms, copula avoidance, significance inflation) have stayed stable across generations, which is why this file weights them above the word tables.
+- **Some old tells no longer work.** Knowledge-cutoff disclaimers and outright prompt refusals rarely survive to publication now, and lexical-diversity heuristics do not separate edited AI text from human text. Treat them as P0 when they do appear, but a clean pass on them proves nothing.
+
+When a word in `word-lists.md` stops appearing in generated copy, drop it from Tier 1 rather than keeping a fossil list that flags human writing.

@@ -6,7 +6,7 @@ tags: maintenance, outdated, deletion
 
 ## Delete outdated docs, don't leave them to rot
 
-Outdated docs are worse than none: they actively mislead. Delete docs for removed features; update docs when behavior changes. If historical context is needed, use a collapsed `<details>` section, not stale inline content.
+Outdated docs are worse than none: they mislead with authority. Delete docs for removed features; update docs when behavior changes. Where a migration needs the old behavior for context, put it in a collapsed `<details>` block (Markdown has no equivalent, so raw HTML is right here) rather than leaving stale prose inline.
 
 **Incorrect (doc for a removed feature still in navigation):**
 
@@ -29,4 +29,4 @@ Use the `/export/json` endpoint. XML export was removed in v3.0.
 For migration details, see [v3.0 changelog](changelog.md#v30).
 ```
 
-Reference: [Google developer documentation: Maintaining documentation](https://developers.google.com/style/timeless-documentation)
+Reference: [Google developer documentation style guide: Timeless documentation](https://developers.google.com/style/timeless-documentation)

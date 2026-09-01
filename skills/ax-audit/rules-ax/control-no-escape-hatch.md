@@ -25,24 +25,27 @@ User asks the agent to refactor a module. It begins a 12-step migration; at step
 
 **Static signals:**
 1. Find agent execution UI (chat panels, action panels, tool execution views).
-2. Check for cancel/stop during execution (`onCancel`, `AbortController`).
-3. Check for undo/revert after completion. Flag flows with neither.
+2. Check for cancel/stop during execution (`onCancel`, `AbortController`, `useChat().stop`, `query.interrupt`).
+3. Trace the signal to the server. `stop()` aborts the client fetch; the route has to pass `req.signal` as `abortSignal` into `streamText` (or the loop), and each tool's `execute` has to read it, or the executor finishes every remaining call after Stop.
+4. Check for undo/revert after completion. Flag flows with neither.
 
 **Concrete commands:**
 ```bash
 rg -l 'AbortController|onCancel|stopGenerat' --type=ts src/
 rg -A 10 'isGenerating|isStreaming|isPending' --type=ts src/ | rg -v 'cancel|stop|abort'
+rg -n 'abortSignal|req\.signal|request\.signal' --type=ts src/app/api/ src/server/
 ```
 
 **Judgment signals:**
 - A cancel button not wired to `AbortController.abort()` is a false affordance, worse than nothing.
+- A `stop()` that closes the stream while the server loop keeps executing tools is the same false affordance one layer down: the UI goes quiet and the emails still go out.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:control-no-escape-hatch`, test, and Storybook files.
 
 ## Fix
 
-During execution: stop button wired to `AbortController`. After completion: undo/revert for reversible actions. For irreversible actions, the approval gate (`control-no-approval-gate`) is the pre-execution escape hatch.
+During execution: stop button wired to `AbortController`, and the signal threaded through the route into the loop and each tool. After completion: undo/revert for reversible actions. For irreversible actions, the approval gate (`control-no-approval-gate`) is the pre-execution escape hatch.
 
 ## Examples
 

@@ -1,8 +1,10 @@
 # Fix Plan Template
 
-Write the fix plan to `.claude/scratchpad/pr-{N}-review-plan.md` (create the `.claude/scratchpad/` directory if missing).
+Write the fix plan to `.claude/pr-babysitter/pr-{N}-review-plan.md` (create the folder if missing; it is never staged).
 
 The plan is an audit trail: triage proceeds without waiting for approval. If the user edits the file mid-run, re-read it before the Fix step and respect their edits.
+
+Length follows the comments, not the template: drop any section with nothing in it (a PR with no questions has no Questions section), and keep each item to the fields that carry information for that item.
 
 ## Contents
 

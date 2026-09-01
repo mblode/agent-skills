@@ -40,7 +40,7 @@ Anything derivable from a schema (API clients, GraphQL types, protobuf messages,
 - **Banner every generated file, from the generator itself**, not by hand:
 
   ```ts
-  // GENERATED FILE. DO NOT EDIT. Run `yarn codegen` to regenerate.
+  // GENERATED FILE. DO NOT EDIT. Run `npm run codegen` to regenerate.
   ```
 
   Emit it from the generator's config (`prepend`, `afterOneFileWrite`, or the equivalent) so it cannot be lost on the next regeneration. Naming the regeneration command matters as much as the warning: it puts the agent's next action in the message rather than sending it to look one up.

@@ -6,7 +6,7 @@ tags: errors, troubleshooting, status-codes
 
 ## Document errors with codes, meanings, and fixes
 
-Don't just list error codes. Show the message, explain the cause, and give the fix. Readers reach for error docs when stuck.
+Readers reach for error docs when stuck, so a bare code-to-label table sends them away with nothing to do. For each error, show the message as the reader sees it, state the cause, and give the fix, with a link to where the fix happens. Google's error-message guidance names the two questions to answer: what went wrong, and how does the reader fix it.
 
 **Incorrect (error code with no actionable guidance):**
 
@@ -33,4 +33,4 @@ to your retry logic or request a rate limit increase in the
 [API dashboard](https://dashboard.acme.com/limits).
 ```
 
-Reference: [Microsoft REST API Guidelines: Error handling](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md)
+Reference: [Google Technical Writing: Error messages](https://developers.google.com/tech-writing/error-messages), [Stripe: Error codes](https://docs.stripe.com/error-codes)

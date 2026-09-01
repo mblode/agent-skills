@@ -39,7 +39,7 @@ find . -name '*.stories.tsx' -type f -exec rg -l 'dark|theme: ["\']dark' {} + 2>
 ```
 
 **False-positive guards:**
-- Skip marketing-only directories (`app/(marketing)`) where the brand forbids dark mode; verify via `tailwind.config.*` or the design-tokens file.
+- Skip marketing-only directories (`app/(marketing)`) where the brand forbids dark mode; verify via the CSS entry file's `@theme` and `@custom-variant dark` lines, or a legacy `tailwind.config.*`.
 - Skip illustrations, brand SVGs, and logos where fixed color is intentional.
 - Skip `// ui-audit-ignore:dark-i18n-untested` near the match.
 

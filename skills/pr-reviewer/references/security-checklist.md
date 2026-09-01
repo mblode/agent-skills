@@ -57,17 +57,21 @@ Automatic `critical` severity if found in the diff:
 
 ## OWASP Quick Reference
 
-Diff-mode shortcut: the highest-yield categories to eyeball on a changed line. In audit mode skip this and run the fuller Vulnerability-class sweep below (a superset).
+Diff-mode shortcut: the highest-yield categories to eyeball on a changed line, named per OWASP Top 10:2025. In audit mode skip this and run the fuller Vulnerability-class sweep below (a superset).
 
-| OWASP Category | What to look for in the diff |
+| OWASP 2025 category | What to look for in the diff |
 |---|---|
-| Injection (SQL, NoSQL, OS) | String concatenation with user input in queries or shell commands |
-| Broken Authentication | Weak session config, missing token rotation, insecure password storage |
-| Sensitive Data Exposure | Unencrypted PII, verbose error responses, missing TLS |
-| Broken Access Control | Missing ownership checks, direct object references without auth |
-| Security Misconfiguration | Debug mode in production, default credentials, permissive CORS |
-| XSS | Unescaped user content in HTML, `dangerouslySetInnerHTML`, `innerHTML` |
-| Insecure Dependencies | Known CVEs in `package-lock.json` changes |
+| A01 Broken Access Control | Missing ownership checks, direct object references without auth, a role check on the client only |
+| A02 Security Misconfiguration | Debug mode in production, default credentials, permissive CORS, a security header removed |
+| A03 Software Supply Chain Failures | New dependency for a one-liner, unpinned or `latest` version, a package with a `postinstall` script, lockfile churn the diff does not explain, a CI workflow granting write permissions |
+| A04 Cryptographic Failures | Unencrypted PII, `Math.random` for tokens, MD5 or SHA for passwords, missing TLS |
+| A05 Injection | String concatenation with user input in queries or shell commands; XSS via unescaped content, `dangerouslySetInnerHTML`, `innerHTML` |
+| A07 Authentication Failures | Weak session config, missing token rotation, insecure password storage, `===` on secrets instead of a constant-time compare |
+| A08 Software or Data Integrity Failures | Webhook or callback accepted without signature verification over the raw bytes; deserializing untrusted input |
+| A09 Security Logging and Alerting Failures | A sensitive mutation (funds, permissions, config) with no record of who changed what; secrets or PII written to logs |
+| A10 Mishandling of Exceptional Conditions | A `catch` on an auth, authz, or validation path that falls through to the allow branch (fail-open); a default value standing in for a failed permission lookup |
+
+Low-yield classes that cost the reader more than they return unless the exploit path is concrete: a race you cannot name the interleaving for, ReDoS on input an attacker cannot control, resource exhaustion with no amplification, an outdated library whose vulnerable function the code never calls, and log spoofing. Anthropic's open-source `/security-review` prompt excludes the same set for the same reason. Report them only as `plausible` with the missing piece named, or drop them.
 
 ## Threat-model lens (audit mode)
 

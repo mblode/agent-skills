@@ -3,7 +3,8 @@ name: ui-animation
 description: >-
   Designs, implements, reviews, debugs, and reverse-engineers UI motion, and
   finds where an interface is missing it: CSS transitions, keyframes,
-  springs, gestures, drag, easing, timing, framer-motion, scroll-driven
+  springs, gestures, drag, easing, timing, Motion (framer-motion),
+  scroll-driven
   animation, and animation curves from screen recordings. Use when asked to
   "add animations", "make this feel smooth", "review my animations", "add a
   swipe gesture", "match this easing", "reverse engineer this animation",
@@ -18,7 +19,7 @@ description: >-
 
 # UI Animation
 
-- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, framer-motion), sweeping an interface for the moments that would genuinely benefit from motion, measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
+- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, Motion), sweeping an interface for the moments that would genuinely benefit from motion, measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
 - **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design` Direction mode), auditing a whole page's UI quality (use `ui-design` Audit mode), or named text-effect specs (use the external `animate-text` skill where installed).
 
 ## product-design, ui-design, or ui-animation?
@@ -48,7 +49,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | File | Read when |
 | --- | --- |
 | [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character; also the seam list for a Discovery sweep |
-| [references/spring-animations.md](references/spring-animations.md) | Spring physics, framer-motion useSpring, configuring spring params, Apple damping/response values, asymmetric open/close character, interruption mechanics |
+| [references/spring-animations.md](references/spring-animations.md) | Spring physics, Motion `useSpring`, configuring spring params, Apple damping/response values, asymmetric open/close character, interruption mechanics |
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
 | [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents, carousel `touch-action` |
@@ -175,6 +176,7 @@ High-signal failures not covered above:
 - Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.
 - Scroll-revealing product UI, above-the-fold content, or every section of a page: scroll reveals belong to a few chosen moments on marketing surfaces, run once, and never re-animate on scroll-up (see [references/scroll-animations.md](references/scroll-animations.md)).
 - Easing or duration on scrubbed (scroll-driven) motion: scroll position is the clock, so any curve or duration makes it lag the scrollbar. `linear` and no duration is correct there, and only there.
+- Installing `framer-motion` for new work: the package is now `motion` and React imports come from `motion/react`. The old package still resolves, so a mixed codebase compiles while shipping two copies of the library.
 
 ## Workflow
 
@@ -265,4 +267,3 @@ Maintenance only: when changing Discovery routing or the gate, run the scenarios
 - `ui-design` Direction mode: visual direction, palettes, typography; settle the visual system before tuning motion.
 - `ui-design` Audit mode: page/feature-level UI quality audit. Motion craft and fixes belong here.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
-- Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

@@ -40,6 +40,7 @@ rg '(availableResources|recentActivity|capabilities|context\.md)' --type=ts src/
 - Skip files with `// ax-audit-ignore:context-starvation`.
 - Skip test files and fixtures.
 - Skip prompts that delegate context loading to a separate init step.
+- Just-in-time retrieval counts. A prompt that names what exists and hands the agent a `read_context` or `list_*` tool to fetch the rest passes the resources section; the fail is data that is neither present nor discoverable.
 
 ## Fix
 

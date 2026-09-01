@@ -1,0 +1,39 @@
+{
+  "skill_name": "pr-babysitter",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "CI is red on my branch again, can you figure out why and fix it?",
+      "expected_output": "One-shot Phase 3 loop: gh pr checks with the bucket/link fields, failed-step logs fetched for each failing check, the failure classified before any edit, the verification gate run before the push, and gh pr checks --watch --fail-fast after it.",
+      "assertions": [
+        "Runs gh pr checks with --json name,state,bucket,link (not conclusion or detailsUrl)",
+        "Fetches logs with gh run view --log-failed or the platform equivalent before editing source",
+        "Does not push a second fix for the same check failing with the same error",
+        "Does not start a monitor watch or cron job"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Address the review comments on PR 418 and reply to each reviewer.",
+      "expected_output": "Comment Triage Workflow: fetch-comments.sh run first, every reviewer in reviewers[] accounted for, questions answered without code changes and left unresolved, fixes grouped into commits behind the verification gate, reply before resolve, and a re-fetch as the closing report.",
+      "assertions": [
+        "Runs scripts/fetch-comments.sh 418 before classifying anything",
+        "Every login in reviewers[] appears in the plan with findings, a verdict, or an explicit no-content note",
+        "A reviewer question receives a reply and its thread is not resolved by the agent",
+        "No thread is resolved without a reply posted first",
+        "The final report comes from a second run of the script, not from memory"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Babysit this PR until it is ready to merge.",
+      "expected_output": "Monitor mode: PR auto-detected, the watch ladder walked from harness subscription to Monitor to cron, state file written under .claude/pr-babysitter/, and output only on transitions; ready is reported, never merged, without an explicit opt-in.",
+      "assertions": [
+        "Detects the PR with gh pr view and asks no setup questions",
+        "Checks for a PR-subscription tool before starting a Monitor watch, and for Monitor before CronCreate",
+        "Writes .claude/pr-babysitter/babysit-pr-{N}.md and never stages it",
+        "Reports 'ready to merge' without calling gh pr merge"
+      ]
+    }
+  ]
+}

@@ -30,7 +30,7 @@ Also use `&nbsp;` for:
 - Brand names: `New&nbsp;York`
 - Short phrases on homepage hero text
 
-CSS `text-wrap` also helps. Use `balance` for headings and short UI copy (distributes text evenly across lines). Use `pretty` for body paragraphs (avoids orphaned last words by adjusting only the final lines).
+CSS `text-wrap` also helps, and it is Baseline since October 2024. Use `balance` for headings and short UI copy (distributes text evenly across lines) and `pretty` for body paragraphs (avoids orphaned last words by adjusting only the final lines). `balance` silently stops applying past 6 lines in Chromium and 10 in Firefox, so it is a heading tool, not a paragraph one; `pretty` costs layout performance, so keep it off short strings where it buys nothing.
 
 ```css
 h1, h2, h3 {

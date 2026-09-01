@@ -2,12 +2,12 @@
 title: Ship Tree-Shakeable ESM with an Accurate sideEffects Flag
 impact: HIGH
 impactDescription: lets bundlers drop unused code so consumers ship kilobytes, not the whole package
-tags: onboarding, bundle, esm, tree-shaking, exports
+tags: onboarding, bundle, esm, tree-shaking, side-effects
 ---
 
 ## Ship Tree-Shakeable ESM with an Accurate sideEffects Flag
 
-A `main`-only CommonJS package with no `exports` map and no `sideEffects` flag forces every consumer to bundle the whole library even when they import one function. Publish dual ESM/CJS through an `exports` map, set `"sideEffects": false` (or an accurate file list) so bundlers drop unused modules, and put heavy optional features behind subpath exports.
+A CommonJS-only bundle, or a package with `sideEffects` unset (bundlers then assume `true`), makes every consumer ship the whole library for one import. Ship ESM, set `"sideEffects": false` or the exact list of files that do run code on import (a polyfill, a CSS import), and put heavy optional features behind subpath exports so `import "pkg/charts"` costs nothing to the consumer who never uses it. Whether each entry then resolves and is typed is `onboard-exports-resolve-typed`.
 
 **Incorrect (CJS-only, no exports map, sideEffects unset so it defaults to true):**
 
@@ -19,15 +19,15 @@ A `main`-only CommonJS package with no `exports` map and no `sideEffects` flag f
 }
 ```
 
-**Correct (dual entry, tree-shaking enabled, heavy feature behind a subpath):**
+**Correct (ESM, tree-shaking enabled, heavy feature behind a subpath):**
 
 ```jsonc
 {
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": { "import": "./dist/index.js", "require": "./dist/index.cjs" },
-    "./charts": { "import": "./dist/charts.js", "require": "./dist/charts.cjs" }
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+    "./charts": { "types": "./dist/charts.d.ts", "default": "./dist/charts.js" }
   }
 }
 ```

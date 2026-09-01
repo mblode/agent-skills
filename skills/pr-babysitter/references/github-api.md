@@ -19,7 +19,7 @@ Fetch, reply to, and resolve PR review threads, comments, and reviews. Every com
 
 ## Script output contract
 
-`scripts/fetch-comments.sh <pr> [--repo owner/name]` does everything in this reference up to and including the awaiting-reply computation, then prints one JSON document. Prefer it; the sections below are the manual fallback when `bash`, `jq`, or `gh` is missing or it exits non-zero.
+`${CLAUDE_SKILL_DIR}/scripts/fetch-comments.sh [<pr>] [--repo owner/name]` does everything in this reference up to and including the awaiting-reply computation, then prints one JSON document (`--help` prints the shape). Prefer it; the sections below are the manual fallback when `jq` or `gh` cannot be installed. A non-zero exit carries one sentence on stderr naming the cause; fix that cause (usually `gh auth login`) rather than falling back.
 
 ```
 { me, repo, pr, headRefOid, counts, reviewers, reviews[], threads[], issueComments[] }
@@ -220,11 +220,11 @@ A thread whose newest comment is not yours is unanswered whether or not it is re
 Reviews carry the overall verdict plus possibly actionable body text (especially `CHANGES_REQUESTED`).
 
 ```bash
-gh api --paginate "repos/{owner}/{repo}/pulls/{pr}/reviews"
+gh api --paginate "repos/{owner}/{repo}/pulls/{pr}/reviews?per_page=100"
 ```
 
 Each review has:
-- `state`: `APPROVED`, `CHANGES_REQUESTED`, `COMMENTED`, `DISMISSED`
+- `state`: `APPROVED`, `CHANGES_REQUESTED`, `COMMENTED`, `DISMISSED` (`PENDING` is a draft only its author can see)
 - `body`: review-level comment (often empty, because the content went into inline comments instead)
 - `user.login`: reviewer username
 - `commit_id`: the commit the review was submitted against
@@ -335,28 +335,19 @@ Issue-level comments and review bodies have no thread mechanism: reply to acknow
 
 ## Pagination pattern
 
-Max 100 threads per page. Paginate until `hasNextPage` is false:
+100 threads per page is the GraphQL maximum. `gh api graphql --paginate` walks the cursor itself when the query declares a variable named exactly `$endCursor` and selects `pageInfo { hasNextPage endCursor }`; `--slurp` wraps the pages in one array:
 
 ```bash
-cursor=""
-all_threads="[]"
-
-while true; do
-  if [ -z "$cursor" ]; then
-    result=$(gh api graphql -f query='...' -f owner="$OWNER" -f repo="$REPO" -F pr="$PR")
-  else
-    result=$(gh api graphql -f query='...' -f owner="$OWNER" -f repo="$REPO" -F pr="$PR" -f cursor="$cursor")
-  fi
-
-  page=$(echo "$result" | jq '.data.repository.pullRequest.reviewThreads.nodes')
-  all_threads=$(echo "$all_threads $page" | jq -s 'add')
-
-  has_next=$(echo "$result" | jq -r '.data.repository.pullRequest.reviewThreads.pageInfo.hasNextPage')
-  [ "$has_next" = "true" ] || break
-  cursor=$(echo "$result" | jq -r '.data.repository.pullRequest.reviewThreads.pageInfo.endCursor')
-done
+gh api graphql --paginate --slurp \
+  -f query='query($owner:String!,$repo:String!,$pr:Int!,$endCursor:String){
+    repository(owner:$owner,name:$repo){ pullRequest(number:$pr){
+      reviewThreads(first:100, after:$endCursor){
+        pageInfo{ hasNextPage endCursor }
+        nodes{ id isResolved path comments(first:100){ pageInfo{ hasNextPage endCursor } nodes{ databaseId author{login} createdAt } } } } } } }' \
+  -f owner="$OWNER" -f repo="$REPO" -F pr="$PR" \
+  --jq '[.[].data.repository.pullRequest.reviewThreads.nodes[]]'
 ```
 
-Most PRs fit in one page; always check `hasNextPage` regardless.
+Most PRs fit in one page; the cursor walk costs nothing when they do.
 
-Two loops, not one: the outer loop pages **threads**, and any node whose `comments.pageInfo.hasNextPage` is true needs the per-thread query above. The awaiting-reply computation runs only after both loops finish, because it depends on having each thread's true last comment.
+Two loops, not one: `--paginate` follows only the outer `reviewThreads` cursor. Any node whose `comments.pageInfo.hasNextPage` is true still needs the per-thread query above, run by hand. The awaiting-reply computation runs only after both loops finish, because it depends on having each thread's true last comment.

@@ -34,6 +34,8 @@ rg 'name:\s*["\x27](read|get|list|create|update|delete)_' --type=ts -o --no-file
 **Judgment signals:**
 - A product agent whose tools are the product nouns (`create_issue`, `update_document`, `list_requests`) passes even above 20 tools: the params differ, and the nouns are the product.
 - Fail when the tools are mechanical wrappers over one shape and a new type in the source system would need a new tool and a redeploy.
+- Overlap is a `warn` even under the threshold: two wrappers a human could not choose between are a coin flip for the agent too, and bloated, ambiguous tool sets are the failure Anthropic's context-engineering guidance names first.
+- An MCP client that hardcodes its tool list and ignores `notifications/tools/list_changed` is static mapping over a source that already offers discovery.
 
 **False-positive guards:**
 - Skip tools with genuinely different params, small stable APIs (<10 types), and `// ax-audit-ignore:granularity-static-api-mapping`.

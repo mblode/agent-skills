@@ -74,4 +74,4 @@ At 30+ rules, maintenance shifts from writing rules to keeping the set consisten
 
 ## Multi-layer variant
 
-A skill may carry more than one rules folder (e.g. a stable `rules/` plus a newer `rules-modern/`) **only when** SKILL.md dispatches to each layer with its own loading condition. Otherwise consolidate into a single `rules/` folder.
+A skill may carry more than one rules folder (`ax-audit` runs `rules-arch/` for architecture and `rules-ax/` for trust) **only when** SKILL.md dispatches to each layer with its own loading condition and its own count. Otherwise consolidate into a single `rules/` folder.

@@ -68,7 +68,7 @@ Statically generate all of them. A slide that compiles on demand is a black scre
 
 ## Navigation
 
-Arrow keys, plus a visible control for touch. Route with `scroll: false` so the browser does not jump on transition.
+Arrow keys, plus a visible control for touch. Route with `scroll: false` so the browser does not jump on transition. `useHotkeys` below is from `react-hotkeys-hook`; a `keydown` listener does the same job.
 
 ```tsx
 useHotkeys("right", goNext, { preventDefault: true }, [goNext]);
@@ -109,11 +109,11 @@ Use `min-h-dvh` rather than `h-screen`. Mobile browser chrome makes `100vh` wron
 
 ## Motion
 
-Three effects, no more. Enter animations only, since there is no exit worth watching.
+Two effects earn their place. Enter animations only, since there is no exit worth watching.
 
 - **Headline settle**: on a variable typeface, animate weight and tracking from light and loose to heavy and tight over the first few hundred milliseconds. The one motion effect that reads as craft.
 - **Staggered rise**: list items fade up on a per-index delay, `calc(var(--stagger-i) * 50ms + 80ms)`. Set the index as a CSS variable rather than an inline delay so the stagger is data, not markup.
-- **Nothing else.** No slide transitions, no parallax.
+- **Nothing else by default.** A slide transition or parallax has to justify itself against the headline settle; it almost never does.
 
 ## Live demos
 
@@ -134,7 +134,7 @@ Every slide gets an OG image so any single slide is forwardable. Generate them f
 
 Keep the deck one indexable document: canonical every slide route to the deck root and set `robots: { index: false, follow: true }` on the slides. Individual slides are thin and near-duplicate, and indexing 20 of them competes with the deck itself for the same query.
 
-Ship the speaker notes as a markdown file in the repo. They are the searchable version of the talk, and they are what someone who missed it actually reads.
+Ship the speaker notes as a markdown file in the repo, and generate a Marp version of the deck from the same `SLIDES` array when a PDF is needed: a web deck has no export button, and `output-formats.md` covers the Marp side.
 
 ## Gotchas
 

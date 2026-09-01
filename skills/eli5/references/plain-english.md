@@ -4,6 +4,7 @@ Sentence craft, what to keep verbatim, and how to re-pitch. Shape and the never-
 
 ## Contents
 
+- Where the numbers come from
 - Sentence rules
 - Keep verbatim
 - Analogies
@@ -11,20 +12,31 @@ Sentence craft, what to keep verbatim, and how to re-pitch. Shape and the never-
 - Project words
 - Accuracy
 
+## Where the numbers come from
+
+- GOV.UK splits any sentence over 25 words. The research it cites: readers take in over 90% of a 14-word sentence and under 10% of a 43-word one.
+- Hemingway targets US grade 9 because that is the average adult reading level.
+- GOV.UK's user research: 80% preferred the plain version of a sentence, and the preference grew with the reader's expertise and the complexity of the topic. "Smart adult" and "plain" are not in tension.
+
 ## Sentence rules
 
-Taken from ASD-STE100 Simplified Technical English, cut down to what changes a coding-agent reply. Not the approved dictionary, and not the `-ing` ban: those produce robot English.
+Taken from ASD-STE100 Simplified Technical English and the US federal plain-language guidelines, cut down to what changes a coding-agent reply. Not STE's approved dictionary, and not its `-ing` ban: those produce robot English.
 
-1. **One word, one meaning.** Repeat the right word. Do not rotate "start / begin / commence" or "function / method / handler" for the same thing.
+1. **One word, one meaning.** Repeat the right word. Do not rotate "start / begin / commence" or "function / method / handler" for the same thing; the reader wonders if it is a different thing.
 2. **One idea per sentence.** Two commas usually means two sentences.
 3. **Active voice.** Name the actor: "The handler reads the cookie", not "the cookie is read".
-4. **Short.** Aim under 20 words. Split rather than stack clauses.
+4. **Short.** Aim under 20 words. Split anything over 25 rather than stack clauses.
 5. **Imperative for instructions.** "Open `src/auth.ts`" not "You will want to open".
-6. **Keep articles.** "the session cookie", not "session cookie invalid, fix next". Telegrams are shorter and harder, not plainer.
-7. **Un-stack nouns.** "the pool's connection limit" beats "database connection pool configuration value".
-8. **`is` and `has` are fine.** Skip "serves as", "features", or "represents" unless the verb adds meaning.
+6. **Requirements take `must`.** "Should" reads as optional. If the step is optional, say so.
+7. **Keep articles.** "the session cookie", not "session cookie invalid, fix next". Telegrams are shorter and harder, not plainer.
+8. **Un-stack nouns.** "the pool's connection limit" beats "database connection pool configuration value".
+9. **Unhide verbs.** "decide", not "make a decision"; "check", not "perform a check".
+10. **`is` and `has` are fine.** Skip "serves as", "features", or "represents" unless the verb adds meaning.
+11. **Say the implied step.** The step you skipped as obvious is the one the reader stalls on. "Save the file, then rerun" costs four words.
 
-Filler to cut on sight: "at its core", "essentially", "basically", "what this means is", "it's important to understand that".
+Filler to cut on sight: "at its core", "essentially", "basically", "what this means is", "it's important to understand that", and the excess modifiers "absolutely", "really", "quite", "very".
+
+The one analogy is the only figurative language in the reply. Metaphors slow comprehension ("drive adoption", "the hub", "tackle the bug"); say the literal action.
 
 ## Keep verbatim
 
@@ -34,7 +46,7 @@ Simplification is not translation. These stay in their original form:
 - File paths, URLs, commands, flags
 - Identifiers, type names, env vars, error codes
 - Fenced code blocks (reproduce exactly)
-- Quoted logs and stack traces
+- Quoted logs, stack traces, test output, and other tool results
 - YAML frontmatter, if a file rewrite is in scope at all
 
 Define an unavoidable term in five words or fewer on first use, then use the real term. "A JWT is a signed pass. The JWT lives in the cookie."
