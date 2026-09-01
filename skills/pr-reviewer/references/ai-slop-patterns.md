@@ -7,6 +7,7 @@ Focus on distinctively AI-generated patterns, not general code quality (that bel
 ## Contents
 
 - Over-commenting
+- Stale comments
 - Unnecessary error handling
 - Type bypasses
 - Premature abstraction
@@ -31,6 +32,18 @@ Comments that restate what the code already says.
 - `// Destructure the props` above destructuring assignments
 
 **Fix:** Delete it. If removal would confuse a reader, the code needs a better name, not a comment.
+
+## Stale comments
+
+Comments describing code the diff has since changed. Distinct from over-commenting: the problem is not that the comment is redundant, it is that it is now false, and the next reader trusts it over the code.
+
+**Flag:**
+- A comment naming a value, unit, limit, or branch the diff just changed
+- A doc block whose `@param`, `@returns`, or thrown-error list no longer matches the signature
+- A comment describing the approach that was intended rather than the one that shipped
+- A "why" comment justifying a constraint the diff removed
+
+**Fix:** Correct the comment, or delete it where the code now says the same thing. Quote both the comment and the line that refutes it; a stale-comment finding citing only the comment cannot be checked. Only comments this diff falsified are in scope; a repo-wide hunt produces noise rather than findings.
 
 ## Unnecessary error handling
 

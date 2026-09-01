@@ -30,6 +30,7 @@ Common bottlenecks to flag in review. Load when the diff touches data fetching, 
 | Missing indexes | `WHERE`, `ORDER BY`, or `JOIN` on unindexed columns |
 | Redundant queries | Same data fetched multiple times. Use `cache()`, Redis, or `unstable_cache` |
 | No response caching | Missing `Cache-Control` or `stale-while-revalidate` headers on stable data |
+| Blocking the event loop | `readFileSync`, `execSync`, sync crypto or compression inside a request handler or middleware. Use the async API, or do the work once at boot |
 
 ## React and Frontend
 

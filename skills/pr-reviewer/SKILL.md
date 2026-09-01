@@ -82,6 +82,7 @@ These are the classes worth surfacing. Raise anything that matches one and let t
 
 - Compile, type, import, or syntax failure.
 - Clear runtime bug, state error, or data-handling regression.
+- Caught error discarded: an empty `catch`, one that logs and then falls through into the success path, or a `.catch(() => {})` on a promise whose failure changes what the caller should do. Say what the caller now sees instead of the failure. A catch whose fallback is deliberate and correct is not a finding.
 - Concrete exploit path, named vulnerability class, and affected `file:line`.
 - Measurable performance regression.
 - Missing necessary tests: render-only checks for interactive behavior, or bug fixes without a failing repro test at the seam that failed (route, API, integration point, not a helper invented during the fix).
@@ -94,6 +95,7 @@ These are the classes worth surfacing. Raise anything that matches one and let t
 - Database commit plus an external publish (queue, webhook, email) without an outbox or transactional guarantee (dual-write): one side can fail independently.
 - External input (webhook/callback) trusted blindly: signature not verified over the raw bytes, or state overwritten directly from the payload instead of confirming against the source.
 - Floats or other lossy types used for money or precision-sensitive values, or money serialized as a bare JSON number rather than a string or integer minor-units.
+- Timestamps stored or transported as unstructured strings: a locale format, a bare `YYYY-MM-DD HH:MM` with no zone, or a hand-built string where the column or field takes an instant. Name the reader that gets it wrong, an ambiguous day/month or a local time compared against UTC. A string already in ISO 8601 with an offset is not a finding.
 - Multi-step flow with an irreversible external effect and no compensation or resume path if a later step fails.
 - Sensitive mutation (funds, permissions, config) with no audit trail of what changed, who changed it, and why.
 
