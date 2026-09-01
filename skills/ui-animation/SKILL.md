@@ -3,11 +3,12 @@ name: ui-animation
 description: >-
   Designs, implements, reviews, debugs, and reverse-engineers UI motion, and
   finds where an interface is missing it: CSS transitions, keyframes,
-  springs, gestures, drag, easing, timing, framer-motion, and animation
-  curves from screen recordings. Use when asked to "add animations", "make
-  this feel smooth", "review my animations", "add a swipe gesture", "match
-  this easing", "reverse engineer this animation", "extract the animation
-  curve", "where should this animate", "find animation opportunities", or
+  springs, gestures, drag, easing, timing, framer-motion, scroll-driven
+  animation, and animation curves from screen recordings. Use when asked to
+  "add animations", "make this feel smooth", "review my animations", "add a
+  swipe gesture", "match this easing", "reverse engineer this animation",
+  "extract the animation curve", "fade in on scroll", "add a parallax
+  effect", "where should this animate", "find animation opportunities", or
   "what's it called when..." to name a motion effect from a vague
   description. Owns the passage between two states. For what a state looks
   like once built use ui-design; for which states exist and whether an
@@ -51,6 +52,8 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
 | [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents, carousel `touch-action` |
+| [references/scroll-animations.md](references/scroll-animations.md) | Scroll-triggered reveals, scrubbed/scroll-driven animation (`animation-timeline`, `useScroll`), parallax, sticky scrollytelling, and when a scroll animation shouldn't exist |
+| [references/reduced-motion.md](references/reduced-motion.md) | Implementing the reduced path: useReducedMotion variant sets, MotionConfig, autoplaying media fallbacks, hero-frame pause for loops, SSR-safe hook |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, peripheral de-emphasis, fixed-offset exits |
@@ -147,7 +150,10 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Accessibility
 
-- Every animation needs a `prefers-reduced-motion: reduce` path: disable transform/keyframe motion, keep instant state changes or opacity-only fades. All recipes include the guard.
+- Every animation needs a `prefers-reduced-motion: reduce` path: disable transform/keyframe motion, keep instant state changes or opacity-only fades. All recipes include the guard. Implementation recipes (Motion variant sets, media fallbacks, the hooks) in [references/reduced-motion.md](references/reduced-motion.md).
+- In Motion, `<MotionConfig reducedMotion="user">` is the app-wide safety net, but its default is `never`: it does nothing until set. `useReducedMotion()` must also gate `layout` and animated `height`, which the CSS media query cannot reach.
+- Autoplaying GIFs/videos need a reduced path too: a `<picture>` static fallback or a paused video with controls. Pause infinite loops on a representative frame (negative `animation-delay`), not frame 0.
+- Verify the reduced variant by emulating it in DevTools, not by reasoning: the common failure is one leftover `transform` in a shared class that keeps the "reduced" variant moving.
 - Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind `hover:` is not gated unless the project set `hoverOnlyWhenSupported` or a custom variant.
 - During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
 
@@ -156,7 +162,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 - Pause looping animations off-screen with `IntersectionObserver`; they burn GPU even when invisible.
 - Toggle `will-change` only during heavy motion and only for `transform`/`opacity`; remove it after. Each promotion costs compositor memory; permanent promotion across many elements is worse than none.
 - Do not animate drag via CSS variables on a container; every update recalculates styles for all children. Set `transform` directly on the moving element.
-- Motion `x`/`y` values are the default for axis movement and drag (they bypass React re-renders). Use a full `transform` string only when one owner must combine multiple transform functions or interop with non-Motion code.
+- Motion `x`/`y` values are the default for axis movement and drag (they bypass React re-renders). Use a full `transform` string when one owner must combine multiple transform functions, interop with non-Motion code, or survive a busy main thread: the shorthands run on `requestAnimationFrame` and drop frames when motion coincides with navigation, data loading, or hydration; CSS/WAAPI stay smooth there.
 - See [references/performance-deep-dive.md](references/performance-deep-dive.md) for WAAPI, compositing layers, and the CSS vs JS comparison table.
 
 ## Anti-patterns
@@ -167,6 +173,8 @@ High-signal failures not covered above:
 - Hard stops on drag boundaries feel broken; apply friction/damping so movement diminishes past it (see gesture-drag reference).
 - Animating both a container and staggering its children: pick one entrance per container. If the panel slides in, its content should already be visible on arrival.
 - Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.
+- Scroll-revealing product UI, above-the-fold content, or every section of a page: scroll reveals belong to a few chosen moments on marketing surfaces, run once, and never re-animate on scroll-up (see [references/scroll-animations.md](references/scroll-animations.md)).
+- Easing or duration on scrubbed (scroll-driven) motion: scroll position is the clock, so any curve or duration makes it lag the scrollbar. `linear` and no duration is correct there, and only there.
 
 ## Workflow
 

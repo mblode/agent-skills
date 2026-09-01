@@ -3,6 +3,7 @@
 Advanced performance guidance beyond the quick rules in SKILL.md.
 
 ## Contents
+- [Property cost tiers](#property-cost-tiers)
 - [CSS vs JS animations](#css-vs-js-animations)
 - [Web Animations API (WAAPI)](#web-animations-api-waapi)
 - [CSS variables inheritance trap](#css-variables-inheritance-trap)
@@ -10,6 +11,27 @@ Advanced performance guidance beyond the quick rules in SKILL.md.
 - [Pause looping animations off-screen](#pause-looping-animations-off-screen)
 - [Compositing layers and will-change](#compositing-layers-and-will-change)
 - [Fix shaky 1px shifts](#fix-shaky-1px-shifts)
+
+## Property cost tiers
+
+Every animatable property enters the browser's Layout, Paint, Composite pipeline at one of three points, and the cost differs by an order of magnitude:
+
+| Tier | Properties | Cost |
+|---|---|---|
+| Composite only | `transform`, `opacity` (plus `filter`, `clip-path`, `background-color` in current Chrome/Firefox) | Cheapest; the browser promotes these to their own layer |
+| Paint + Composite | `box-shadow`, `border-radius`, `color` | No re-measuring, but an expensive redraw every frame |
+| Layout + Paint + Composite | `width`, `height`, `padding`, `margin`, `top`, `left`, `border-width` | Most expensive; layout recalculates every frame |
+
+The paint tier is the one people miss because it doesn't look like layout. Swap down a tier:
+
+| Instead of animating | Animate |
+|---|---|
+| `width`/`height`/`padding` to grow or shrink | `scale()` |
+| `margin`/`top`/`left` to move | `translate()` (percentages are relative to the element's own size) |
+| `box-shadow` | `filter: drop-shadow(...)` |
+| `border-radius` | `clip-path: inset(0 round 50px)` |
+
+A layout property may not visibly drop frames on an element with `position: absolute` or few children, but the `scale()` version looks identical and cannot regress on a slower device; take the one with no downside.
 
 ## CSS vs JS animations
 
@@ -75,6 +97,8 @@ const x = useMotionValue(0);
 ```
 
 Don't mix Motion `x`/`y` props with a handwritten `transform` string on one element; pick one transform owner.
+
+One more reason to reach for the string form: the individual shorthands (`x`, `y`, `scale`, `rotate`) are implemented with CSS variables and driven from `requestAnimationFrame`, so they are not hardware-accelerated. That's harmless normally, but motion that runs *while* the main thread is busy (page navigation, tab switches during data loading, hydration) drops frames exactly then. Vercel's dashboard hit this with a shared-layout tab highlight that janked during navigation; the fix was moving it to CSS. When an animation must survive a busy main thread, animate the full `transform` string, or move it to CSS/WAAPI.
 
 ## Pause looping animations off-screen
 
