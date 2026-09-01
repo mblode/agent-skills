@@ -27,8 +27,6 @@ npx skills add mblode/agent-skills -g --agent claude-code codex cursor -y
 
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
-Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
-
 ## Skills
 
 ### Architecture
