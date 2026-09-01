@@ -19,11 +19,13 @@ The tier in parentheses is a scan copy of the rule's override for that surface. 
 | Feature | Detect by |
 |---|---|
 | agent chat / copilot | `<Chat>`, `<Assistant>`, `<Copilot>`, `role="assistant"`, `aiResponse`, `useChat`, `useCompletion`, `chatCompletion`, route `/chat`, `/assistant`, `/copilot` |
-| agent tool execution / action panel | `<ToolCall>`, `<Action>`, `tool_use`, `function_call`, `executeAction`, `agentAction`, component `*ToolPanel*`, `*ActionLog*` |
+| agent tool execution / action panel | `<ToolCall>`, `tool_use`, `function_call`, `executeAction`, `agentAction`, `server.tool(`, `registerTool(`, `runAgent(`, component `*ToolPanel*`, `*ActionLog*` |
 | agent configuration / system prompt editor | `<SystemPrompt>`, `<AgentConfig>`, `<PromptEditor>`, route `/agent/settings`, `/configure`, `systemPrompt` |
 | agent dashboard / status | `<AgentStatus>`, `<TaskList>`, `<RunHistory>`, `<RunLog>`, component `*AgentDashboard*`, route `/agent`, `/runs` |
 
-**Weak signals, never on their own.** `completion` and `isStreaming` match ordinary non-agentic code: a progress percentage (`const completion = done / total`) and a video upload flag. Count either only alongside a strong signal from the table. A chat surface detected from a bare `completion` runs the ten chat rules against a settings form, which is exactly the noise the stop condition below exists to prevent.
+**The table is illustrative, not exhaustive.** It lists the signals seen most often, not every form agent code takes. A handler registered as `server.tool("send_invoice", ...)`, or an executor reached only as `runAgent(...)` from a scheduler, is an agentic surface whether or not it matches a listed string. Detect on what the code does; the table is a starting sweep, not a checklist that licenses "no agentic features detected" over obvious executor code.
+
+**Weak signals, never on their own.** `completion`, `isStreaming`, and `<Action>` match ordinary non-agentic code: a progress percentage (`const completion = done / total`), a video upload flag, and a generic icon-button component. Count any of them only alongside a strong signal from the table. A chat surface detected from a bare `completion`, or a tool-execution surface from a toolbar's `<Action>`, runs a full playbook against a form and produces exactly the noise the stop condition below exists to prevent.
 
 No agentic features detected → stop; this skill does not apply. Route to `ui-design` Audit mode.
 

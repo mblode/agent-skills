@@ -40,14 +40,14 @@ No agentic features in scope? Stop. AX rules against forms and lists are noise.
 AX Audit progress:
 - [ ] Step 1: Scope, via `git diff --name-only main` (PR mode) or explicit path (full sweep)
 - [ ] Step 2: Detect agentic features per references/feature-playbooks.md
-- [ ] Step 3: Run each detected feature's playbook in order, plus the diff-wide checks
+- [ ] Step 3: Run each detected feature's playbook in order, plus the diff-wide checks (PR mode only)
 - [ ] Step 4: For each check, load the rule file and follow its detection recipe
 - [ ] Step 5: Tier each finding per references/ship-readiness.md (rule override table wins)
 - [ ] Step 6: Render verdict + findings + AX Relationship Summary per references/output-format.md
 - [ ] Step 7: Run the audit self-check and report its evidence counts
 ```
 
-PR-mode scope is the diff plus the tool definitions and orchestrator it touches. Findings in untouched files belong in a full sweep, not this verdict. Playbook annotations are a scan copy; the rule file is authoritative. `parity-orphan-ui-action` runs on every PR-mode audit.
+PR-mode scope is the diff plus the tool definitions and orchestrator it touches. Findings in untouched files belong in a full sweep, not this verdict. Playbook annotations are a scan copy; the rule file is authoritative. `parity-orphan-ui-action` runs on every PR-mode audit and never in a full sweep, where there is no diff for it to read.
 
 ## Two rule layers
 
@@ -78,6 +78,8 @@ Three tiers. Full trigger lists and the generic surface bump live in `references
 Precedence: the rule's own surface-override table > the generic bump > `defaultTier`. Apply at most one adjustment.
 
 Verdict: ✅ READY (0 blockers, ≤3 sprint) · ⚠️ READY WITH FOLLOW-UP (0 blockers, ≥4 sprint) · ❌ NOT READY (≥1 blocker) · 🚫 INCOMPLETE (self-check failed).
+
+Blockers outrank an incomplete audit. With ≥1 release-blocker and a failed self-check, report ❌ NOT READY and note the self-check failure beneath it: the blockers are established findings and stay actionable, while 🚫 reads as "nothing was learned" and sends the reader away. Reserve 🚫 for an audit with no blockers whose coverage you cannot vouch for.
 
 ## AX Relationship Summary
 
@@ -116,7 +118,7 @@ Render after findings when any agentic feature was detected. Findings serve engi
 Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evidence (planned vs. run rules per playbook, unknown rate, suppressed count):
 
 - Fewer rules ran than the playbooks planned
-- More than 30% of rules returned `unknown`
+- More than 30% of rules returned `unknown`. Count only `unknown` here, never `out-of-scope`: a rule whose layer is absent from the scope you were given was answered correctly, and a narrow diff is the scope Step 1 asks for. Marking a correctly scoped audit INCOMPLETE buries its real blockers under a verdict that reads as "we learned nothing".
 - Any `fail`/`warn` finding lacks `file:line` evidence or a fix snippet
 - Every finding landed in the same tier (suspect blanket assignment)
 - AX Relationship Summary is missing despite detected agentic features

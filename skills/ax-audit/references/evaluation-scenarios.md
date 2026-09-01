@@ -64,3 +64,34 @@ Ablate one rule at a time. Keep a rule only if a scenario below regresses withou
 - Stops. Does not run the chat playbook's rules
 - Routes to `ui-design` Audit mode
 - Regression guard: this scenario failed before the weak-signal rule was added to `feature-playbooks.md`, when bare `completion` and `isStreaming` were listed as chat signals
+
+## Scenario 6: a generic toolbar named Action
+
+**Query:** "AX review this PR."
+
+**Fixture:** `function Action({ icon, onClick })`, a generic icon-button in a toolbar, beside a plain to-do list. No tool call, no executor, no agent context.
+
+**Expected behavior:**
+- Does not detect a tool-execution surface; `<Action>` alone is a weak signal
+- Stops and routes to `ui-design` Audit mode
+- Regression guard: two models independently invented this guard themselves when `<Action>` was listed as a strong signal
+
+## Scenario 7: real executor code that matches no listed string
+
+**Query:** "Can an agent use our product?"
+
+**Fixture:** `server.tool("send_invoice", ...)` handlers, and a `cron.schedule` calling `runAgent(...)`. Neither matches `<ToolCall>`, `tool_use`, or `executeAction`.
+
+**Expected behavior:**
+- Detects a tool-execution surface anyway; the detection table is illustrative, not a checklist
+- Does not report "no agentic features detected" over obvious executor code
+
+## Scenario 8: correctly scoped audit with layers out of scope
+
+**Query:** "AX review this PR." (a UI-only diff: an approval component, no orchestrator, no connectors)
+
+**Expected behavior:**
+- Rules whose layer is absent return `out-of-scope`, not `unknown`
+- The self-check's 30% threshold counts only `unknown`, so the audit is not flagged INCOMPLETE
+- With a release-blocker present, the verdict is ❌ NOT READY, not 🚫 INCOMPLETE
+- Regression guard: two models both returned 🚫 INCOMPLETE here while holding two to six real blockers
