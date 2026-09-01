@@ -53,7 +53,6 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
 | [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents, carousel `touch-action` |
 | [references/scroll-animations.md](references/scroll-animations.md) | Scroll-triggered reveals, scrubbed/scroll-driven animation (`animation-timeline`, `useScroll`), parallax, sticky scrollytelling, and when a scroll animation shouldn't exist |
-| [references/reduced-motion.md](references/reduced-motion.md) | Only when the project opts into reduced-motion support: useReducedMotion variant sets, MotionConfig, autoplaying media fallbacks, hero-frame pause for loops, SSR-safe hook |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
 | [references/debugging-symptoms.md](references/debugging-symptoms.md) | An animation feels off and the cause isn't named: symptom-indexed tables for sluggish, robotic, cheap, jumpy, and misfiring motion |
 | [references/svg-animation.md](references/svg-animation.md) | Animating vector art: line drawing (`stroke-dashoffset`), SVG transform-origin traps, path morphing, shakes, ambient life |
@@ -155,7 +154,6 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Accessibility
 
-- Reduced-motion support is opt-in, not a requirement of this skill: add `prefers-reduced-motion` handling only when the project already supports it or the user asks for it. When it is wanted, the implementation recipes (Motion variant sets, media fallbacks, hero-frame pause, the hooks) live in [references/reduced-motion.md](references/reduced-motion.md); the recipes' guard blocks are likewise optional and can be dropped.
 - Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind `hover:` is not gated unless the project set `hoverOnlyWhenSupported` or a custom variant.
 - During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
 
@@ -204,7 +202,6 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Grep the diff for layout property transitions (`width`, `height`, `top`, `left`) and `transition: all`.
 - Retoggle components rapidly; confirm transitions retarget instead of restarting from zero.
 - Slow to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
-- Only in projects that support reduced motion: emulate `prefers-reduced-motion: reduce` (DevTools Rendering panel) and confirm the reduced variants still work.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
 - Review again with fresh eyes the next day; imperfections missed during development stand out.
@@ -266,6 +263,6 @@ Maintenance only: when changing Discovery routing or the gate, run the scenarios
 
 - `product-design`: which states exist, what an action affects, and whether it is reversible. Route here first when a gesture replaces a control, since swipe-to-delete and hold-to-confirm change what the user can do before they change how it moves.
 - `ui-design` Direction mode: visual direction, palettes, typography; settle the visual system before tuning motion.
-- `ui-design` Audit mode: page/feature-level UI quality audit. Its `motion-` rules are the shallow presence check (animated layout properties, missing reduced-motion); the craft and the fix belong here.
+- `ui-design` Audit mode: page/feature-level UI quality audit. Motion craft and fixes belong here.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.

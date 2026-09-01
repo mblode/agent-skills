@@ -10,7 +10,7 @@ Scroll-triggered reveals and scroll-driven (scrubbed) motion. Scroll is the most
 - [Parallax](#parallax)
 - [Sticky and scrollytelling sections](#sticky-and-scrollytelling-sections)
 - [Never hijack scroll](#never-hijack-scroll)
-- [Performance and reduced motion](#performance-and-reduced-motion)
+- [Performance](#performance)
 
 ## Gate: should this scroll animation exist?
 
@@ -80,7 +80,6 @@ Parallax is depth seasoning, and heavy-handed parallax is the fastest way to mak
 
 - **Keep the differential at or under roughly 15%** of scroll distance between layers. Enough to read as depth; more reads as content swimming.
 - **Transform only**, scrubbed (no duration), decorative elements only: never body text, never anything the user needs to read while it moves.
-- Parallax is the canonical vestibular trigger and it's decorative, so in projects that honor `prefers-reduced-motion` the reduced variant is *none*, not gentler.
 - Skip it on mobile: short viewports and momentum scrolling turn subtle parallax into jitter.
 
 ## Sticky and scrollytelling sections
@@ -89,16 +88,12 @@ A section that pins while scroll drives a sequence is an **explanation** device;
 
 ## Never hijack scroll
 
-No scroll-jacking, no rewriting wheel deltas, no "one wheel tick = one full-screen slide". Smooth-scroll libraries that re-implement scrolling on the main thread trade native responsiveness for a float many users read as lag. If you add `scroll-behavior: smooth` for anchor links, gate it:
+No scroll-jacking, no rewriting wheel deltas, no "one wheel tick = one full-screen slide". Smooth-scroll libraries that re-implement scrolling on the main thread trade native responsiveness for a float many users read as lag. If you add `scroll-behavior: smooth` for anchor links, keep it to that:
 
 ```css
-@media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
-}
+html { scroll-behavior: smooth; }
 ```
 
-## Performance and reduced motion
+## Performance
 
 The golden rule holds: **animate only `transform` and `opacity`**. A scrolling page is the worst place for layout-triggering properties, since Layout and Paint work stacks on top of the scroll itself. Add `will-change: transform` on scrubbed elements only (they animate for the whole scroll, so the dedicated layer pays for itself; on one-shot reveals it's wasted memory). Keep any animated `blur()` at or under 20px.
-
-If the project honors reduced motion (opt-in, not required by this skill): reveals keep the opacity fade and drop the translate; scrubbed decorative motion (parallax, floating shapes) turns off entirely; smooth scrolling turns off. Recipes in `reduced-motion.md`.

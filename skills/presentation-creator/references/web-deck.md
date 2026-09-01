@@ -115,17 +115,6 @@ Three effects, no more. Enter animations only, since there is no exit worth watc
 - **Staggered rise**: list items fade up on a per-index delay, `calc(var(--stagger-i) * 50ms + 80ms)`. Set the index as a CSS variable rather than an inline delay so the stagger is data, not markup.
 - **Nothing else.** No slide transitions, no parallax.
 
-Honour `prefers-reduced-motion` by collapsing durations and delays rather than removing the animation:
-
-```css
-@media (prefers-reduced-motion: reduce) {
-  .honk-display, .honk-stagger > * {
-    animation-duration: 0.01ms !important;
-    animation-delay: 0ms !important;
-  }
-}
-```
-
 ## Live demos
 
 The whole reason for the format. A working sync demo, not a screenshot of one. A typeface playground the audience watches you drag. An inspector that reads styles off the slide it is sitting on.

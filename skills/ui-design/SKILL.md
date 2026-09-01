@@ -242,7 +242,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `pr-reviewer`: correctness and code quality in the same diff; this skill covers only user-facing quality.
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
 - `typography-audit`: deep typography (pairing, OpenType systems, measure, leading, display type); the `type-` rule here is the readable-floor check.
-- `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill's `motion-` rule is the reduced-motion presence check; the craft and the fix belong there.
+- `ui-animation`: the passage between two states (timing, easing, springs, gesture physics).
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `optimise-seo`: meta descriptions and page titles.
 - Taste Training (blode.co/taste-training): trains the eye these rules encode, across type, copy, craft, interaction, and motion.
