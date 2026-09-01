@@ -98,7 +98,7 @@ Report findings as:
 
 ## Gotchas
 
-- Don't preload all 78 rule files. Load only the prefixes the signal table selects.
+- Don't preload every rule file. Load only the prefixes the signal table selects; a full load spends the budget on categories with no signal in scope.
 - Report the rule's frontmatter `impact`, never the category's. Two rules get misreported most: `brand-color` is HIGH (an accessibility floor, not a brand nicety) and `punct-daggers` is LOW-MEDIUM (decoration, despite sitting in a CRITICAL category).
 - Punctuation rules apply to rendered copy only. Flagging straight quotes or `--` inside `<code>`, `<pre>`, or JS/TS string literals is a false positive; "fixing" them breaks the code.
 - Don't flag missing OpenType features without confirming the loaded font ships them. Browsers silently ignore unsupported `font-feature-settings` tags, so the fix does nothing.

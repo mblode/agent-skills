@@ -78,6 +78,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   experimental: {
     // Runs the React Compiler inside Turbopack instead of Babel.
+    // Experimental in 16.3 and flagged "not recommended for production"
+    // in the Next.js docs; see the note below before keeping it past dev.
     turbopackRustReactCompiler: true,
   },
 };
@@ -87,6 +89,12 @@ export default nextConfig;
 
 `partialPrefetching` only works with `cacheComponents`, so the two ship together
 or not at all.
+
+`turbopackRustReactCompiler` is the one flag here Next.js still marks experimental
+and not recommended for production (16.3 docs). It cut cold `next dev` startup by a
+third on Vercel's own large apps, which is why the scaffold turns it on, but tell
+the user it is on. The exit is one line: drop the flag and `npm install -D
+babel-plugin-react-compiler`, and `reactCompiler: true` keeps working through Babel.
 
 With the Rust compiler on, `babel-plugin-react-compiler` is not needed. Leave it
 out, and add no other Babel transform: any Babel step in the pipeline gives back

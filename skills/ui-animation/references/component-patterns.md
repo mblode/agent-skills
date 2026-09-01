@@ -136,7 +136,7 @@ Use `@starting-style` for entry animations without JavaScript:
 }
 ```
 
-Fall back to the `data-mounted` attribute pattern when `@starting-style` browser support is insufficient.
+`@starting-style` has been Baseline since August 2024, so the `data-mounted` attribute pattern is a fallback for browsers older than that, not the default. Ship the CSS above and add the attribute path only when the support matrix actually includes those browsers.
 
 ## Toasts
 

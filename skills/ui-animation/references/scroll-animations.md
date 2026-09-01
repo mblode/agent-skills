@@ -74,6 +74,8 @@ Preference order, and why:
 
 `linear` is correct here and only here: the scrubbed timeline's pacing comes from the user's hand, and any curve would distort the 1:1 mapping.
 
+The `@supports` wrapper is not optional: `animation-timeline` is still not Baseline, so without it the element sits at its keyframe start forever in browsers that ignore the property. The unwrapped rule must leave the element in its final, readable state.
+
 ## Parallax
 
 Parallax is depth seasoning, and heavy-handed parallax is the fastest way to make a page feel dated:
