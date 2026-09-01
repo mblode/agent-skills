@@ -155,7 +155,7 @@ Ceilings for UI strings. Size copy for the tightest surface (usually mobile) fir
 | Error message | 12 to 18 words, including the recovery step |
 | Any sentence the user must act on | Under 25 words (GOV.UK's split threshold); aim nearer 14, the average sentence length at which readers in the American Press Institute newspaper study still understood over 90% |
 
-Leave 30 to 40% width headroom for translation of running text; German and French average that much longer than English. Short strings expand far more: a 1-word English button can become a 3-word German compound, so budget buttons and tab labels for roughly double, or design the container to wrap.
+Leave 30 to 40% width headroom for translation of running text; German and French average that much longer than English. Short strings expand far more, and inversely with length: per the W3C's cited IBM figures, English strings under 10 characters grow 200 to 300% in translation and 11 to 20 characters grow 180 to 200%. A 1-word English button can become a 3-word German compound, so let buttons and tab labels wrap rather than sizing them to the English.
 
 ## Rule IDs
 

@@ -104,6 +104,7 @@ Report in the same order: what blocks indexation first, then on-page and schema 
 - `seo-program`: keyword and prompt-volume research, question maps, writer briefs, Search Console monitoring. It decides what a page should target; this skill builds the page and reports what it shipped.
 - `ui-design`: visual direction and landing-page CRO (Direction mode), building the page (Build mode), and page-level UI quality including rendered i18n behaviour (Audit mode). This skill owns `hreflang` and localised metadata.
 - `multi-tenant-architecture`: per-tenant routing of `robots.txt`, `sitemap.xml`, and `llms.txt`, which must be served dynamically and never from `/public`. This skill owns their content once routing works.
+- `docs-writing`: what a documentation site should list in `llms.txt` and which pages earn a Markdown alternate. This skill owns the route and the crawler policy; that skill owns which docs are worth pointing at.
 - `scaffold-nextjs`: hands off here after the first deploy. Its default enables Cache Components, which changes how the sitemap revalidates (see Gotchas).
 - `copywriting`: meta descriptions and titles as copy, once this skill has set the keyword lead and length.
 - External `ghostwriter` with the blog profile: writes the article.

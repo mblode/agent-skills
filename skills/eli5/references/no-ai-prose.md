@@ -18,7 +18,7 @@ The vocabulary moves. "Delve" and "tapestry" marked 2023 text and have faded; by
 
 ## Tier 1: always replace
 
-5-20x more common in AI text than human writing. Replace on sight, and rewrite the sentence rather than swap in a synonym: the suggested replacement is a direction, not a drop-in.
+Measured at several times to tens of times their human baseline in generated text (a 2024 study of 15 million PubMed abstracts put "delves" at 28x its expected frequency). Replace on sight, and rewrite the sentence rather than swap in a synonym: the suggested replacement is a direction, not a drop-in. `copywriting` owns the canonical list; this copy exists because references do not load across skills.
 
 | Word / phrase | Replace with |
 |---------------|--------------|

@@ -58,7 +58,7 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 | ID | The decision it governs |
 |----|-------------------------|
 | `rule/destructive-names-action` | Destructive and primary CTAs use Verb plus Noun naming the object, never `Confirm`/`OK`/`Yes`. |
-| `rule/no-confirm-ok-labels` | No bare `Confirm`, `OK`, `Yes`, or `Submit` on a consequential action. |
+| `rule/no-confirm-ok-labels` | No bare `Confirm`, `OK`, `Yes`, or `Submit` on a consequential action. `Save`, `Cancel`, and `Close` are exempt: they name their own outcome. |
 | `rule/canonical-verb` | One canonical verb per operation, consistent across the product. |
 | `rule/error-states-recovery` | An error states what happened, why when known, and the recovery action; never raw exception text. |
 | `rule/success-state-specific` | A success message confirms in past tense what happened to which object, proportional to the action. |

@@ -240,8 +240,25 @@ validate_skill() {
   n=$(grep -rhE '^[[:space:]]*cp -R.*\.claude/skills' "$skill_dir" 2>/dev/null | wc -l | tr -d ' ')
   check format install-not-cp-r "install instructions use cp -R into ~/.claude/skills" "$n"
 
+  # Frontmatter is only read when --- is the first byte of the file. A BOM or a
+  # leading blank line loads the body with empty metadata and no error.
+  if head -c 3 "$md" | grep -q -- '---'; then
+    record PASS format frontmatter-first-line ""
+  else
+    record FAIL format frontmatter-first-line "SKILL.md does not open with --- on line 1 (BOM or leading blank line)"
+  fi
+
+  # Claude Code accepts fields the open spec does not. They work locally and are
+  # a hard error when the skill is uploaded to claude.ai or the Skills API.
+  n=$(sed -n '2,/^---$/p' "$md" | grep -cE '^(disable-model-invocation|user-invocable|when_to_use|argument-hint|arguments|allowed-tools|disallowed-tools|model|effort|context|agent|background|hooks|paths|shell):' || true)
+  if [ "$n" -eq 0 ]; then
+    record PASS format frontmatter-portable ""
+  else
+    record SKIP format frontmatter-portable "$n Claude Code-only field(s); this skill will not upload to claude.ai or the Skills API"
+  fi
+
   n=$(grep -rlE '(/Users/|/home/)[a-z]' "$skill_dir" 2>/dev/null | wc -l | tr -d ' ')
-  check format no-absolute-paths "hardcoded home path, use \${CLAUDE_PLUGIN_DATA}" "$n"
+  check format no-absolute-paths "hardcoded home path, use \${CLAUDE_SKILL_DIR} or \${CLAUDE_PROJECT_DIR} (\${CLAUDE_PLUGIN_DATA} is substituted in plugin skills only)" "$n"
 
   n=$(grep -rnE 'MCP' "$skill_dir" 2>/dev/null | grep -E '`[a-z][a-z0-9]*_[a-z0-9_]+`' | grep -vE 'mcp__|[A-Za-z]:[a-z]' | wc -l | tr -d ' ')
   check format mcp-tools-qualified "MCP tool named without a Server:tool prefix" "$n"

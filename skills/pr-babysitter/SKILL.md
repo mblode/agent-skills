@@ -192,6 +192,7 @@ On stop, report: polls or events handled, fixes applied, conflicts resolved, com
 ## Related Skills
 
 - `pr-creator`: opens or edits the PR; babysitting starts after it exists
+- `planning`: writes plans a fresh session executes. The fix plan this skill writes is an audit trail for one PR, not a `planning` deliverable
 - `pr-reviewer`: local diff review for bugs; run it on monitor-authored fixes beyond a trivial patch
 - `tidy`: applies a `pr-reviewer` report to the working tree; this skill applies GitHub review comments
 - `autoship`: npm release pipelines; it watches its own release CI, so never babysit a release PR it drives
