@@ -52,3 +52,15 @@ Ablate one rule at a time. Keep a rule only if a scenario below regresses withou
 - Stops. Does not run the 27 rules
 - Routes to `ui-design` Audit mode
 - Does not file AX findings about the missing spinner
+
+## Scenario 5: non-agentic code that trips a weak detection signal
+
+**Query:** "AX review this PR."
+
+**Fixture:** an onboarding widget computing `const completion = done / total`, and an upload component with an `isStreaming` flag for video. No chat, tools, agent routes, or model calls anywhere.
+
+**Expected behavior:**
+- Feature detection finds nothing; neither token counts as a signal on its own
+- Stops. Does not run the chat playbook's rules
+- Routes to `ui-design` Audit mode
+- Regression guard: this scenario failed before the weak-signal rule was added to `feature-playbooks.md`, when bare `completion` and `isStreaming` were listed as chat signals
