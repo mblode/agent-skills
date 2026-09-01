@@ -55,6 +55,8 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 | [references/scroll-animations.md](references/scroll-animations.md) | Scroll-triggered reveals, scrubbed/scroll-driven animation (`animation-timeline`, `useScroll`), parallax, sticky scrollytelling, and when a scroll animation shouldn't exist |
 | [references/reduced-motion.md](references/reduced-motion.md) | Only when the project opts into reduced-motion support: useReducedMotion variant sets, MotionConfig, autoplaying media fallbacks, hero-frame pause for loops, SSR-safe hook |
 | [references/performance-deep-dive.md](references/performance-deep-dive.md) | Jank, CSS vs JS, WAAPI, CSS variables trap, Framer Motion caveats |
+| [references/debugging-symptoms.md](references/debugging-symptoms.md) | An animation feels off and the cause isn't named: symptom-indexed tables for sluggish, robotic, cheap, jumpy, and misfiring motion |
+| [references/svg-animation.md](references/svg-animation.md) | Animating vector art: line drawing (`stroke-dashoffset`), SVG transform-origin traps, path morphing, shakes, ambient life |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, peripheral de-emphasis, fixed-offset exits |
 | [references/transition-recipes.md](references/transition-recipes.md) | Installing a CSS transition: container morph, card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, odometer roll, text swap, success, avatar hover, error shake |
@@ -92,7 +94,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 - Never animate layout properties (`width`, `height`, `top`, `left`); they trigger layout recalc every frame. (Exception: a deliberate container tween, see the card-resize and container-morph recipes.)
 - Never use `transition: all`; it animates unintended properties and silently adopts future ones. List them explicitly.
 - Avoid `filter` animation for core interactions; if unavoidable keep blur ≤ 20px (heavy blur is expensive, especially in Safari).
-- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it they rotate/scale around the canvas origin.
+- SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it they rotate/scale around the canvas origin. Line drawing, path morphing, and the Motion SVG origin override live in [references/svg-animation.md](references/svg-animation.md).
 - `transform: scale()` also scales children (icons, text, borders scale proportionally), unlike `width`/`height`: a feature for press feedback, but account for it when an inner element must stay fixed-size.
 - Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`), or every themed property animates at once.
 
@@ -116,7 +118,10 @@ Keep routine UI under 300ms; scale duration with distance (a full-screen slide c
 
 - **Enter:** `cubic-bezier(0.22, 1, 0.36, 1)` for entrances and transform-based hover
 - **Move:** `cubic-bezier(0.25, 1, 0.5, 1)` for slides, drawers, panels
-- **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)`
+- **Drawer (iOS-like):** `cubic-bezier(0.32, 0.72, 0, 1)` (extremely steep start; the reason its 500ms doesn't read as slow)
+- **Expo out:** `cubic-bezier(0.19, 1, 0.22, 1)` for dramatic reveals, card hovers, text reveals
+- **Press:** `cubic-bezier(0.25, 0.46, 0.45, 0.94)` for button press feedback
+- **On-screen move:** `cubic-bezier(0.645, 0.045, 0.355, 1)` for back-and-forth movement that stays on screen
 
 Avoid `ease-in` for UI: it starts slow, so the element lags the user's action and feels sluggish. Prefer custom curves from [easing.dev](https://easing.dev/) over built-in `ease`/`ease-out`, whose gentle acceleration reads soft, not decisive.
 
