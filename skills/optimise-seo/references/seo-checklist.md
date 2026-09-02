@@ -21,8 +21,10 @@ Copy this into the report during step 5 and mark each line pass, fail, or n/a wi
 ## Metadata
 
 - [ ] `metadataBase` set once; unique title and description per page
+- [ ] Root `robots` lifts the Google preview caps (`max-snippet: -1`, `max-image-preview: large`, `max-video-preview: -1`); `authors` and `creator` set
 - [ ] Title and H1 lead with the non-brand primary keyword and agree in intent
-- [ ] Open Graph type, url, title, description, image (1200x630, with alt); Twitter card
+- [ ] Open Graph type, title, description, image (1200x630, with alt); Twitter card; no `openGraph.url` in the root layout
+- [ ] Inner routes that declare their own `openGraph` or `twitter` still carry `og:site_name`, `og:image`, and `twitter:creator` (read three sampled routes from built HTML)
 - [ ] Favicons: `icon.svg`, `apple-icon.png`, `favicon.ico`
 
 ## Structured data
@@ -30,6 +32,8 @@ Copy this into the report during step 5 and mark each line pass, fail, or n/a wi
 - [ ] Organization and WebSite in a root `@graph` with stable `@id`s; BreadcrumbList on inner pages
 - [ ] Article, Product, ProfilePage, or LocalBusiness only where the page type earns them; nothing decorative
 - [ ] `FAQPage` only where the questions render as visible text (no Google rich result since May 2026)
+- [ ] Every JSON-LD claim is visible in the served DOM; one `application/ld+json` script per page; breadcrumb list matches the rendered trail
+- [ ] `<` escaped as `\u003c` in the serialiser
 - [ ] Recommended fields filled; Rich Results Test warnings cleared, not only errors
 
 ## Content and semantics
@@ -42,8 +46,10 @@ Copy this into the report during step 5 and mark each line pass, fail, or n/a wi
 ## AI crawlers
 
 - [ ] CDN or WAF does not challenge `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`, or the user-triggered agents (`curl -A` per agent returns the page, not an interstitial)
-- [ ] `robots.ts` has one explicit rule per class; training access (`GPTBot`, `ClaudeBot`, `CCBot`) is a recorded decision
-- [ ] `Content-Signal` line present or knowingly omitted; `llms.txt` served if cheap and not counted as a result
+- [ ] `robots.ts` has one explicit rule per class; training access (`GPTBot`, `ClaudeBot`, `CCBot`) is a recorded decision; no `Host:` line
+- [ ] `Content-Signal` line present only when a value is `no`, otherwise knowingly omitted; `llms.txt` served if cheap and not counted as a result
+- [ ] Markdown twins (`.md` URLs, `Accept: text/markdown`) carry `X-Robots-Tag: noindex` and `Vary: Accept` on the Markdown response itself
+- [ ] IndexNow key served and the submit list derived from the sitemap source, with no redirecting URLs (Bing and Yandex only; optional)
 
 ## Core Web Vitals (field data, p75)
 

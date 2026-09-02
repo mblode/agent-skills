@@ -34,33 +34,41 @@ Sources: https://developers.openai.com/api/docs/bots, https://support.claude.com
 
 ## robots.ts by class
 
-One explicit rule per class. Training access is the site owner's call, so surface the trade rather than picking silently.
+One explicit rule per class, so the policy is legible rather than implied by `*`. Training access is the site owner's call, so surface the trade rather than picking silently. For a personal site or a small product, allowing everything is a defensible default: blocking training crawlers costs citations in the answers that cite training data, buys nothing enforceable at that scale, and blocking the user-triggered fetchers breaks a request a human explicitly made. A publisher whose content is the product usually decides the other way.
 
 ```ts
 // app/robots.ts
 import type { MetadataRoute } from 'next'
 
 const origin = 'https://example.com'
+const crawlRules = { allow: '/', disallow: ['/api/', '/admin/', '/login'] }
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: '*', allow: '/', disallow: ['/api/', '/admin/'] },
+      { userAgent: '*', ...crawlRules },
+      // Already covered by `*`. Named so a Bing Webmaster or Copilot audit does
+      // not misread an AI-only allowlist as a Bing gap.
+      { userAgent: 'Bingbot', ...crawlRules },
       // Search and citation: these put you in an answer. Allow unless there is a stated reason.
-      { userAgent: ['OAI-SearchBot', 'Claude-SearchBot', 'PerplexityBot'], allow: '/' },
-      // Training: a separate, deliberate decision. Denying it does not affect citations.
-      { userAgent: ['GPTBot', 'ClaudeBot', 'CCBot', 'Bytespider'], disallow: '/' },
-      // Usage-control tokens: no crawler is blocked; this limits what Google and Apple may do
-      // with content their normal crawlers already fetched.
-      { userAgent: ['Google-Extended', 'Applebot-Extended'], disallow: '/' },
+      { userAgent: ['OAI-SearchBot', 'Claude-SearchBot', 'PerplexityBot'], ...crawlRules },
+      // User-triggered fetches: a person asked. May ignore robots.txt anyway.
+      { userAgent: ['ChatGPT-User', 'Claude-User', 'Perplexity-User'], ...crawlRules },
+      // Training: a separate, deliberate decision. Denying it does not affect
+      // citations. Swap `...crawlRules` for `disallow: '/'` to withhold it.
+      { userAgent: ['GPTBot', 'ClaudeBot', 'CCBot', 'Bytespider'], ...crawlRules },
+      // Usage-control tokens: no crawler is blocked either way; these limit what
+      // Google and Apple may do with content their normal crawlers already fetched.
+      { userAgent: ['Google-Extended', 'Applebot-Extended'], ...crawlRules },
     ],
+    // One line: if /sitemap.xml is an index, it already enumerates the rest.
     sitemap: `${origin}/sitemap.xml`,
-    host: origin,
+    // No `host`: a dropped Yandex directive that auditors flag as unknown.
   }
 }
 ```
 
-`userAgent` accepts an array and emits one `User-Agent` block per entry. Non-standard directives such as `Content-Signal` go through the `other` field (Next.js 16.3+), passed through verbatim.
+`userAgent` accepts an array and emits one `User-Agent` block per entry. Non-standard directives such as `Content-Signal` go through the `other` field (Next.js 16.3+), passed through verbatim. A `Disallow` on a login URL is a crawl-budget decision, not a privacy one: a crawler that follows one sign-in link per locked page wastes its budget on redirects analytics groups under `/login`.
 
 ## Bot protection and Content Signals
 
@@ -72,7 +80,7 @@ Content Signals Policy syntax, from Cloudflare (September 2025), is a robots.txt
 Content-Signal: search=yes, ai-input=no, ai-train=no
 ```
 
-`search` is indexing, `ai-input` is grounding and RAG at answer time, `ai-train` is training. Not standardised and voluntary; pair it with WAF rules if enforcement matters. Emit it from `robots.ts` via `other: { 'Content-Signal': 'search=yes, ai-train=no' }` on the `*` rule when the platform does not already inject it.
+`search` is indexing, `ai-input` is grounding and RAG at answer time, `ai-train` is training. Not standardised and voluntary; pair it with WAF rules if enforcement matters. Emit it from `robots.ts` via `other: { 'Content-Signal': 'search=yes, ai-train=no' }` on the `*` rule when the platform does not already inject it, and only when at least one value is `no`. Content signals are a reservation mechanism: silence already means no restriction is expressed, so an all-permissive `search=yes, ai-train=yes, ai-input=yes` line changes no crawler's behaviour and costs a standing unknown-directive warning in Search Console and Semrush. Bring it back the day a value is `no` and the directive earns its warning.
 
 Watching, not adopting: the IETF AIPREF drafts define a `Content-Usage` robots.txt rule and HTTP header (`Content-Usage: train-ai=n`). Vocabulary is at `draft-ietf-aipref-vocab-06` on the standards track; the attachment draft lapsed in 2026 pending a new revision. Do not build on it yet.
 
@@ -119,28 +127,52 @@ alternates: {
 }
 ```
 
-**Negotiate on `Accept`** at the same URL. Rewrite in `proxy.ts` and set `Vary: Accept` on both branches; a response cached without it has no `Accept` cache key and is served to the other audience.
+Whichever shape, the Markdown response carries `X-Robots-Tag: noindex`. Agents read it either way, and without the header the plaintext twin competes with the HTML page in Google's index and ranks for scraped junk queries.
+
+**Negotiate on `Accept`** at the same URL. Parse the header properly (`text/markdown` or `text/x-markdown` as a media type, not a substring match on `markdown`), and return the Markdown as a `Response` you construct, with `Content-Type`, `Vary: Accept`, and the `noindex` header on it. Do not rely on setting `Vary` on the HTML branch: Next owns `Vary` on App Router responses and replaces whatever Proxy or `headers()` set with its own RSC list, so the header never reaches the client there. That leaves a shared cache able to hand HTML to an `Accept: text/markdown` request, which is the harmless direction; the Markdown response carries its own `Vary`, so a compliant cache never hands a `noindex` Markdown body to Googlebot.
 
 ```ts
 // proxy.ts
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextFetchEvent, type NextRequest } from 'next/server'
+import { markdownFor } from '@/lib/markdown' // same source as the HTML page
 
-export function proxy(req: NextRequest) {
-  const wantsMarkdown = req.headers.get('accept')?.includes('text/markdown')
-  let res: NextResponse
-  if (wantsMarkdown) {
-    const url = req.nextUrl.clone()
-    url.pathname = `/md${url.pathname}` // a parallel route that renders Markdown
-    res = NextResponse.rewrite(url)
-  } else {
-    res = NextResponse.next()
-  }
-  res.headers.set('Vary', 'Accept') // both branches, not just Markdown
-  return res
+const wantsMarkdown = (accept: string | null) =>
+  (accept ?? '')
+    .split(',')
+    .map(part => part.split(';')[0].trim().toLowerCase())
+    .some(type => type === 'text/markdown' || type === 'text/x-markdown')
+
+const markdownHeaders = {
+  'Content-Type': 'text/markdown; charset=utf-8',
+  'Cache-Control': 'public, max-age=3600',
+  Vary: 'Accept',
+  'X-Robots-Tag': 'noindex',
 }
 
-export const config = { matcher: ['/((?!api|_next|.*\\.).*)'] }
+export function proxy(req: NextRequest, event: NextFetchEvent) {
+  const path = req.nextUrl.pathname.replace(/\/+$/, '') || '/'
+  const asMarkdownUrl = path.endsWith('.md') ? path.slice(0, -3) || '/' : null
+  const target = asMarkdownUrl ?? (wantsMarkdown(req.headers.get('accept')) ? path : null)
+  if (target === null) return NextResponse.next()
+
+  const body = markdownFor(target)
+  if (body === null) {
+    // A real 404 in the format that was asked for, with recovery links.
+    return new NextResponse(`# Page not found\n\nStart at /sitemap.xml or /llms.txt.\n`, { status: 404, headers: markdownHeaders })
+  }
+  // Per-request work belongs here, not in a prerendered handler.
+  event.waitUntil(recordAgentRead(req, target))
+  return new NextResponse(body, { status: 200, headers: markdownHeaders })
+}
+
+export const config = {
+  // Literal paths, plus the `.md` twins. Proxy does not match descendants of a
+  // listed path on its own, so every negotiable route appears here.
+  matcher: ['/', '/about', '/blog', '/blog/:slug', '/:path*.md'],
+}
 ```
+
+Two routing facts that cost a build each to learn: a `/.well-known/<name>.json` path with one dotted segment never reaches `next.config.ts` rewrites (Next prerenders a 404 first), so discovery files with that shape are rewritten here, with the literal path in the matcher, to a handler at a non-dotted route such as `app/well-known/mcp/discovery/route.ts`; and `public/.well-known/` dotfiles are dropped by the static pipeline, so `security.txt` is the only file that belongs there (it has no dot-prefixed directory of its own). When a page moves, add the `.md` twin to `redirects()` beside the HTML rule so an agent never costs a second hop.
 
 ## On-page shape
 

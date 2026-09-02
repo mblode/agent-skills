@@ -21,8 +21,10 @@ The `next.config.ts` `headers()` form is in `nextjs-implementation.md`. Test at 
 | `X-Content-Type-Options` | `nosniff` | Stops a benign upload being sniffed into script. |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Limits URL leakage to other origins. |
 | `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` plus anything else unused | Applies to your pages and embedded iframes. |
+| `Cross-Origin-Opener-Policy` | `same-origin` | Isolates the browsing context from cross-origin popups. |
+| `Cross-Origin-Resource-Policy` | `same-origin`, with `cross-origin` on `/opengraph-image` | The catch-all value blocks every social scraper from fetching the share card; the per-route rule after it wins for that path. |
 
-`frame-ancestors` in the CSP supersedes `X-Frame-Options`; ship the legacy header only for a known old client.
+`frame-ancestors` in the CSP supersedes `X-Frame-Options`; shipping both is harmless and satisfies scanners that still look for the legacy header.
 
 **Subresource Integrity.** Any third-party `<script>` or stylesheet you do not control gets `integrity="sha384-..."` and `crossorigin="anonymous"`, so a tampered file is refused. Next.js can hash its own bundles at build time with `experimental.sri`.
 
