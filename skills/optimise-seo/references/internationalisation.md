@@ -79,3 +79,5 @@ Translate the head and the structured data, not only the body. An English `<titl
 ## No IP or Accept-Language redirects
 
 Do not auto-redirect to a locale by geolocation or `Accept-Language`. Googlebot crawls mostly from US IPs, so a redirect hides every non-US locale from it, and a shared link lands the recipient in the wrong language with no way back. Serve the requested URL as-is, offer a dismissible banner ("View this page in Deutsch?"), and let the switcher do the rest.
+
+The Next.js internationalisation guide shows the opposite: a `proxy.ts` that reads `Accept-Language` and redirects to `/${locale}${pathname}`. That example is about routing, not indexing. If a site keeps it, scope the matcher to the bare root (`/`) as the guide's own comment suggests, so a deep link or a crawler landing on `/de/pricing` is never bounced, and make the redirect a 307 so nothing caches it.
