@@ -15,13 +15,13 @@
 
 ## Root package.json
 
-Create at `{{name}}/package.json`. Copy the `ultracite` version from `apps/web/package.json` so the two cannot drift:
+Create at `{{name}}/package.json`. Copy the `ultracite` version from `apps/web/package.json` so the two cannot drift, and set `packageManager` to the output of `npm --version` (corepack refuses a mismatch):
 
 ```json
 {
   "name": "{{name}}",
   "private": true,
-  "packageManager": "npm@10.9.3",
+  "packageManager": "npm@{{npm_version}}",
   "workspaces": [
     "apps/*"
   ],
@@ -163,10 +163,18 @@ next-env.d.ts
 .turbo
 .vercel
 
+# Agent scratch output stays out; knowledge files are the project's memory
+# and must survive a machine change.
 .claude/
+!/.claude/
+/.claude/*
+!/.claude/knowledge/
+!apps/web/.claude/
 .cursor/
 .vscode/
 ```
+
+`.env.local` lives in `apps/web/`, where Next.js reads it, and `apps/web/.gitignore` already ignores `.env*`; `vercel env pull apps/web/.env.local` is the pull command.
 
 ## knip.json
 
@@ -183,7 +191,7 @@ Run dead-code analysis on demand with `npx knip` from the root (not a devDepende
 
 ## apps/web/package.json scripts
 
-Update the `scripts` block in `apps/web/package.json`, and remove the `prepare` script `ultracite init` added there (the root `prepare` installs the hooks):
+Replace the `scripts` block in `apps/web/package.json`. `ultracite init` left `check` and `fix` there; the root scripts replace them, so drop both. Keep the `"type": "module"` it added:
 
 ```json
 {
@@ -200,7 +208,9 @@ Update the `scripts` block in `apps/web/package.json`, and remove the `prepare` 
 }
 ```
 
-Script names match the tasks in `turbo.json` so turbo can orchestrate them across workspaces. If you add a test runner later, add a matching `test` task to `turbo.json` at the same time.
+Script names match the tasks in `turbo.json` so turbo can orchestrate them across workspaces. If you add a test runner later, add a matching `test` task to `turbo.json` at the same time; with `node --test`, glob the files (`node --test "lib/**/*.test.ts"`) rather than naming one. Optional: `portless <name> next dev` as the `dev` script gives the app a stable `https://<name>.localhost` origin, so several apps run side by side without port juggling.
+
+Two things Vercel's Linux builders can trip on that a Mac never shows: Tailwind's oxide and lightningcss ship platform-specific binaries, and when the lockfile was generated on macOS an `npm ci` on Linux can miss them. Pin the Linux packages in `optionalDependencies` (`@tailwindcss/oxide-linux-x64-gnu`, `lightningcss-linux-x64-gnu`) at the versions the lockfile resolves if that happens. And set an explicit `browserslist` so CSS output does not change when the default query moves.
 
 ## apps/web/next.config.ts
 
@@ -215,7 +225,11 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
   deploymentId: process.env.VERCEL_DEPLOYMENT_ID,
+  poweredByHeader: false,
   experimental: {
+    // blode-icons-react is not on Next's built-in optimizePackageImports list
+    // (lucide-react is), so name it or every icon import pulls the barrel.
+    optimizePackageImports: ["blode-icons-react"],
     turbopackRustReactCompiler: true,
   },
 };
@@ -223,7 +237,7 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 ```
 
-`create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present. The others come from Phase 2.2 and must survive the move into `apps/web/`, since dropping `cacheComponents` silently takes `partialPrefetching` with it. No `turbopack.root` is needed: Turbopack infers the workspace root from the lockfile at `{{name}}/package-lock.json`.
+`create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present. The others come from Phase 2.2 and must survive the move into `apps/web/`, since dropping `cacheComponents` silently takes `partialPrefetching` with it. No `turbopack.root` is needed: Turbopack infers the workspace root from the lockfile at `{{name}}/package-lock.json`. If the config ever imports a project module (a `basePath` constant, a site URL), import it by relative path: Next compiles `next.config.ts` without `tsconfig` path resolution, so an `@/` alias resolves against the wrong directory. `experimental.useOffline: true` is worth turning on once the app has forms; it holds a navigation or Server Action through a connectivity drop and retries on reconnect instead of throwing.
 
 ## Root AGENTS.md and CLAUDE.md
 
@@ -264,4 +278,4 @@ tools on staged files.
   `apps/web/AGENTS.md` before adding a route.
 ````
 
-Then `{{name}}/CLAUDE.md` containing the single line `@AGENTS.md`. After the first `npm run dev`, confirm `apps/web/AGENTS.md` and `apps/web/CLAUDE.md` carry the `<!-- BEGIN:nextjs-agent-rules -->` block and commit them.
+Then `{{name}}/CLAUDE.md` containing the single line `@AGENTS.md`. After the first `npm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; `apps/web/CLAUDE.md` stays the one-line import.

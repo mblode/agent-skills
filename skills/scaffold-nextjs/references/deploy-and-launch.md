@@ -59,11 +59,56 @@ Optional, once a second workspace exists: add `apps/web/vercel.json` so Vercel s
 }
 ```
 
-`turbo-ignore` exits 0 (skip the build) when no file in the workspace or its dependencies changed since the last deploy. Prefix it with a preview guard (`if [ "$VERCEL_ENV" = "preview" ]; then exit 0; fi;`) only if the project deliberately does not build previews.
+`turbo-ignore` exits 0 (skip the build) when no file in the workspace or its dependencies changed since the last deploy. Prefix it with a preview guard (`if [ "$VERCEL_ENV" = "preview" ]; then exit 0; fi;`) only if the project deliberately does not build previews. A root `.vercelignore` listing `.turbo`, `node_modules`, `*.log`, and `.git` trims the upload; excluding `.git` means build-time tools cannot read the commit SHA, so pass `VERCEL_GIT_COMMIT_SHA` to anything that wants a release version.
+
+Never assume `{{name}}.vercel.app` is yours. The namespace is global and first-come, so a name can already point at an unrelated site; use only the alias Vercel confirms for the project.
 
 Verify: `https://{{domain}}` loads the default Next.js page.
 
+### CI
+
+Vercel builds are the only gate otherwise, and a failed production build is found after merge. Add `.github/workflows/check.yml` so every pull request runs the same checks as the hook plus a production build:
+
+```yaml
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          cache: npm
+          node-version: "24"
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+```
+
+Pin `node-version` to what Vercel's project settings use, and cache `apps/web/.next/cache` between runs if build time matters (the Next.js CI caching guide has the per-provider snippets).
+
 ## Phase 8: Pre-launch checklist
+
+### Site URL and metadataBase
+
+Create `apps/web/lib/site.ts` exporting `siteUrl = "https://{{domain}}"` and `siteName`, then set `metadataBase: new URL(siteUrl)` in the root layout's `metadata` export beside `title: { default, template }` and `description`. Every relative `alternates.canonical` and `openGraph.images` value resolves against it, and a relative value with no `metadataBase` is a build error. `optimise-seo` fills in the rest of that object after launch.
+
+### Search Console and Bing verification
+
+Add the property for `https://{{domain}}` in Google Search Console and Bing Webmaster Tools before launch, and carry the tokens in `metadata.verification` (`google`, plus `other: { 'msvalidate.01': '...' }` for Bing) rather than a DNS record. Submit `/sitemap.xml` once the first deploy is live.
+
+### security.txt
+
+Create `apps/web/public/.well-known/security.txt` with `Contact:`, `Expires:` (no more than a year out), `Preferred-Languages:`, and `Canonical: https://{{domain}}/.well-known/security.txt`. This is the one dotfile path that survives the static pipeline.
 
 ### Favicon
 
@@ -90,10 +135,13 @@ After deployment, run these skills in order:
 After all phases, verify:
 
 - [ ] `npm run dev` starts from project root (turbo runs apps/web) and the dev overlay reports no instant-navigation insight on the home route
-- [ ] `npm run build` succeeds with no errors
+- [ ] `npm run build` succeeds with no errors, and `npm run start -w web` serves the production build (kill anything on port 3000 first; `next start` on a taken port fails silently while the old server keeps answering)
 - [ ] `npm run check` passes lint, format, and type checks from the root
 - [ ] `npx lefthook run pre-commit --all-files` passes from the root
-- [ ] `apps/web/AGENTS.md` and `apps/web/CLAUDE.md` carry the Next-managed `nextjs-agent-rules` block and are committed
+- [ ] The CI workflow ran green on the first pull request
+- [ ] `apps/web/AGENTS.md` ends with the Next-managed `nextjs-agent-rules` block (written on the first `next dev` from a coding agent) and is committed; `apps/web/CLAUDE.md` is the one-line `@AGENTS.md` import
+- [ ] `babel-plugin-react-compiler` is not in `apps/web/package.json`; `oxlint`, `oxfmt`, and `lefthook` are pinned, not `latest`
+- [ ] `metadataBase` is set to `https://{{domain}}` and `metadata.verification` carries the Search Console token
 - [ ] `git status` is clean after `npm run dev` (no regenerated files left uncommitted)
 - [ ] GitHub repo has initial commit pushed
 - [ ] Vercel deployment is live at `{{domain}}`

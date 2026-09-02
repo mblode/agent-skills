@@ -46,7 +46,7 @@ The generated `.gitignore` already lists `.next/`, `.env*`, and `next-env.d.ts`.
 npm install -D typescript@^7
 ```
 
-That is the whole step. No config goes with it: since 16.3, `next build` runs the
+That is the whole step. No config goes with it: in 16.3, `next build` runs the
 project-local `tsc` CLI by default rather than loading TypeScript's JavaScript
 compiler API, which is what makes TypeScript 7 work at all (7 does not ship that
 API). `experimental.useTypeScriptCli` exists only to turn the CLI checker back
@@ -103,29 +103,52 @@ tell the user it is experimental. The exit is one line: drop the flag and
 `npm install -D babel-plugin-react-compiler`, and `reactCompiler: true` keeps
 working through Babel.
 
-With the Rust compiler on, `babel-plugin-react-compiler` is not needed. Leave it
-out, and add no other Babel transform: any Babel step in the pipeline gives back
-most of what the Rust path saves.
+With the Rust compiler on, `babel-plugin-react-compiler` is not needed.
+`create-next-app --react-compiler` installed it anyway, so remove it now
+(`npm uninstall babel-plugin-react-compiler`), and add no other Babel
+transform: any Babel step in the pipeline gives back most of what the Rust path
+saves.
 
 What the flags change, and what to write from day one:
 - Nothing is cached unless a function says `'use cache'`. Add it at the data
   access, with `cacheLife` for how long and `cacheTag` for what invalidates it.
-- Route segment configs are gone: `export const dynamic`, `revalidate`, and
-  `fetchCache` are build errors under Cache Components, in pages and route
-  handlers alike. `'use cache'` plus `cacheLife` replaces them.
+  On Vercel that cache is per function instance; anything that must be shared
+  across instances (the data behind a sitemap or a list page) uses
+  `'use cache: remote'`.
+- Four route segment configs are gone: `export const dynamic`, `dynamicParams`,
+  `revalidate`, and `fetchCache` are build errors under Cache Components, in
+  pages and route handlers alike. A `'use cache'` helper plus `cacheLife`
+  replaces them; the directive goes on the helper, never on a `GET` export.
+- `generateStaticParams` must return at least one param, or the build raises
+  `empty-generate-static-params`. Unlisted params get the App Shell on first
+  visit and upgrade in the background.
 - Never `await params` or `searchParams` at the top of a page. Pass the promise
   into a `<Suspense>`-wrapped child and await it there, or the shell is tied to
   one URL. Type the props with the generated `PageProps<'/route'>` helper.
+- Filters on a list page live in path segments (`/projects/tag/[slug]`), not
+  `searchParams`. Reading search params opts the list out of static rendering
+  and streams it twice; a `has: [{ type: 'query' }]` redirect keeps the old
+  query form working.
 - Same for `cookies()` and `headers()`: read them inside a boundary so the rest
   of the page still prerenders.
 - No `new Date()`, `Date.now()`, `Math.random()` or `crypto.randomUUID()` during
-  render, in server or client components. These are hard build errors. Stamp the
-  value at build time in `next.config.ts` via `env` (for example
-  `env: { NEXT_PUBLIC_BUILD_YEAR: String(new Date().getFullYear()) }`; the
-  config runs in Node outside prerender, so reading the clock there is safe), or
-  read it after hydration in a `useEffect`.
+  render, in server or client components. These are hard build errors. The docs
+  give two fixes: `await connection()` inside a `<Suspense>`-wrapped component
+  for a per-request value, or a `'use cache'` function for one value shared
+  across users (a copyright year, a build stamp). Reading the clock in
+  `next.config.ts` and passing it through `env` also works, but that `env`
+  option is marked legacy; prefer the cached function.
 - `useSearchParams` always needs a `<Suspense>` boundary, even in a
   `"use client"` page.
+- The previous route stays mounted as hidden DOM during navigation (React
+  `<Activity>`), so backgrounds and themes belong to the route, never to
+  `body` or `html`, and any theme switch keys off `usePathname()` rather than
+  a class on `body`. Component state survives back navigation too; reset it in
+  an effect or derive it from the URL.
+- Keep filesystem-reading modules apart from the constants client components
+  and `proxy.ts` import. A lazy-loaded footer that imports the project list
+  pulls the whole dataset into the browser bundle, and a `lib/site.ts` that
+  imports `next/headers` cannot be imported by the proxy at all.
 - `generateMetadata` follows the same rules. External data goes behind
   `'use cache'` inside it; runtime data (`cookies()`, `params`) needs a dynamic
   marker in the page, or the build raises
@@ -219,8 +242,26 @@ Replace `"G-XYZ"` with your GA4 measurement ID.
 For any other analytics or error-tracking SDK (PostHog, Sentry), initialise it in
 `instrumentation-client.ts` at the app root rather than in a client component.
 The file runs before the app hydrates, needs no exports, and keeps the SDK out of
-the component tree. Guard it against `localhost` so development sessions do not
-land in production data.
+the component tree. Lessons from a production PostHog setup that apply to any
+SDK:
+
+- Guard `init` against `localhost`, `127.0.0.1`, and `*.localhost` (named dev
+  origins from portless) so development sessions do not land in production data.
+- Point `api_host` at a reverse proxy on your own domain, set from a
+  `NEXT_PUBLIC_` variable, so ad blockers that list the vendor's hosts do not
+  drop the data; set `ui_host` to the vendor's real app so its toolbar and
+  links still work. The proxy origin then belongs in the CSP `script-src`
+  (the SDK lazy-loads chunks), `connect-src`, and `worker-src 'self' blob:`.
+- Filter `before_send` for browser-extension exceptions (`chrome-extension://`,
+  `runtime.sendMessage`, `Extension context invalidated`) and framework noise
+  (`AbortError`, `Script error.`, `Internal Next.js error`) or the error inbox
+  is unusable within a week.
+- Server-side captures go straight to the ingestion host (a server request has
+  no blocker to get past) and reuse the browser cookie's `distinct_id` so
+  conversions attach to the same person; send them with `after()`.
+- A build-time source-map upload wrapper that throws when its credentials are
+  missing must be applied conditionally, or a fresh clone and every Vercel
+  build without the variables fails on `Failed to load next.config.ts`.
 
 ## Phase 5: Install Ultracite
 
@@ -243,13 +284,14 @@ Flag notes:
 - `--skip-install` lets you review the generated `package.json` changes before installing.
 - Omit `--quiet` to confirm the generated file list interactively.
 
-Sets up:
+Sets up (verified against a real `ultracite@7.10.7 init` run with these flags):
 - `oxlint.config.ts`: extends `ultracite/oxlint/{core,next,react}`
 - `oxfmt.config.ts`: extends `ultracite/oxfmt`
 - `lefthook.yml`: a pre-commit hook. This copy is temporary. Phase 6 replaces it with a root-level file scoped to `apps/web/`, because git reads `lefthook.yml` only from the directory that holds `.git`.
-- Adds `oxlint`, `oxfmt`, `lefthook` to devDependencies and `prepare: lefthook install` to scripts
+- `AGENTS.md` with the Ultracite code standards
+- In `package.json`: `check` and `fix` scripts, `"type": "module"`, and `oxlint`, `oxfmt`, `lefthook` at `latest` plus a pinned `ultracite`. No `prepare` script: with `--skip-install` the lefthook install step that would write it is skipped, and the root `package.json` in Phase 6 owns it instead.
 
-2. Install and verify:
+2. Install, pin, and verify:
 
 ```bash
 npm install
@@ -257,7 +299,7 @@ npx ultracite fix     # oxfmt --write + oxlint --fix
 npx ultracite check   # oxfmt --check + oxlint
 ```
 
-Both pass with zero errors; the generated `oxlint.config.ts` needs no tuning. Create `CLAUDE.md` beside `AGENTS.md` as a one-line `@AGENTS.md` import (a symlink works on macOS and Linux but not Windows, and a copy drifts as soon as either file is edited). On the first `next dev` after this, Next 16.3 upserts its managed `nextjs-agent-rules` block into both files, above whatever is already there; content outside the markers is preserved.
+Both pass with zero errors; the generated `oxlint.config.ts` needs no tuning. Replace the three `latest` ranges in `devDependencies` with the versions `npm install` resolved (`npm ls oxlint oxfmt lefthook --depth=0`), so the hook and CI run the same binaries. Create `CLAUDE.md` beside `AGENTS.md` as a one-line `@AGENTS.md` import (a symlink works on macOS and Linux but not Windows, and a copy drifts as soon as either file is edited). On the first `next dev` run from a coding agent's shell, Next 16.3 appends its managed `nextjs-agent-rules` block to `AGENTS.md`; content outside the markers is preserved, `CLAUDE.md` is left alone when it exists, and nothing is written from a plain terminal.
 
 ## Phase 6 prep: Move into apps/web/
 

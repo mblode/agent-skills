@@ -149,13 +149,18 @@ const markdownHeaders = {
   'X-Robots-Tag': 'noindex',
 }
 
+// Machine surfaces keep their own format whatever the Accept header says.
+const isMachinePath = (path: string) =>
+  path.startsWith('/api/') || path.startsWith('/.well-known') || /\.(xml|txt|json)$/.test(path)
+
 export function proxy(req: NextRequest, event: NextFetchEvent) {
   const path = req.nextUrl.pathname.replace(/\/+$/, '') || '/'
   const asMarkdownUrl = path.endsWith('.md') ? path.slice(0, -3) || '/' : null
   const target = asMarkdownUrl ?? (wantsMarkdown(req.headers.get('accept')) ? path : null)
-  if (target === null) return NextResponse.next()
+  if (target === null || isMachinePath(target)) return NextResponse.next()
 
-  const body = markdownFor(target)
+  // The home page negotiates to the index: the home is llms.txt, not a content page.
+  const body = target === '/' ? llmsIndex() : markdownFor(target)
   if (body === null) {
     // A real 404 in the format that was asked for, with recovery links.
     return new NextResponse(`# Page not found\n\nStart at /sitemap.xml or /llms.txt.\n`, { status: 404, headers: markdownHeaders })
@@ -166,13 +171,17 @@ export function proxy(req: NextRequest, event: NextFetchEvent) {
 }
 
 export const config = {
-  // Literal paths, plus the `.md` twins. Proxy does not match descendants of a
-  // listed path on its own, so every negotiable route appears here.
-  matcher: ['/', '/about', '/blog', '/blog/:slug', '/:path*.md'],
+  // A catch-all, so an unknown path asked for as Markdown gets the Markdown
+  // 404 above instead of the HTML app shell. Matchers are anchored at both
+  // ends (a bare `/about` never matches `/about/team`), which is why the
+  // catch-all is needed rather than a list of known pages.
+  matcher: ['/((?!_next/|api/).*)'],
 }
 ```
 
-Two routing facts that cost a build each to learn: a `/.well-known/<name>.json` path with one dotted segment never reaches `next.config.ts` rewrites (Next prerenders a 404 first), so discovery files with that shape are rewritten here, with the literal path in the matcher, to a handler at a non-dotted route such as `app/well-known/mcp/discovery/route.ts`; and `public/.well-known/` dotfiles are dropped by the static pipeline, so `security.txt` is the only file that belongs there (it has no dot-prefixed directory of its own). When a page moves, add the `.md` twin to `redirects()` beside the HTML rule so an agent never costs a second hop.
+Static Markdown files served from `public/` (an `auth.md`, a policy file) do not pass through the proxy, so they need their own `headers()` rule in `next.config.ts` for `X-Robots-Tag: noindex`. When a page moves, add the `.md` twin to `redirects()` beside the HTML rule so an agent never costs a second hop.
+
+Discovery documents (`/.well-known/api-catalog`, `/.well-known/mcp/server-card.json`, an agent-skills index) are plain route handlers under `app/.well-known/<name>/route.ts`, which is the documented form and needs no rewrite; `trailingSlash` leaves everything under `.well-known/` alone. Two things do not work: `public/.well-known/` dotfiles are dropped by the static pipeline (`security.txt` at `public/.well-known/security.txt` is the exception the pipeline keeps), and one 16.x deployment found that a `next.config.ts` rewrite whose source is a single dotted segment such as `/.well-known/mcp.json` never fired, answering with a prerendered 404, while the two-segment `/.well-known/mcp/server-card.json` rewrote fine. If a discovery path must be rewritten rather than served directly, do it in `proxy.ts` with the literal path in the matcher. The `Link` header on `/` that advertises these documents is not `basePath`-prefixed by Next; write the prefix into the values.
 
 ## On-page shape
 

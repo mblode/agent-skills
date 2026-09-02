@@ -23,8 +23,9 @@ The `next.config.ts` `headers()` form is in `nextjs-implementation.md`. Test at 
 | `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` plus anything else unused | Applies to your pages and embedded iframes. |
 | `Cross-Origin-Opener-Policy` | `same-origin` | Isolates the browsing context from cross-origin popups. |
 | `Cross-Origin-Resource-Policy` | `same-origin`, with `cross-origin` on `/opengraph-image` | The catch-all value blocks every social scraper from fetching the share card; the per-route rule after it wins for that path. |
+| `X-Powered-By` | absent | Next.js adds `x-powered-by: Next.js` by default; set `poweredByHeader: false` in `next.config.ts`. |
 
-`frame-ancestors` in the CSP supersedes `X-Frame-Options`; shipping both is harmless and satisfies scanners that still look for the legacy header.
+`frame-ancestors` in the CSP supersedes `X-Frame-Options`; shipping both is harmless and satisfies scanners that still look for the legacy header. Two `Content-Security-Policy` headers on one response are intersected by the browser, not overridden, so a site that proxies another app under a path prefix must exclude that prefix from its own CSP rule and let the proxied app set its own.
 
 **Subresource Integrity.** Any third-party `<script>` or stylesheet you do not control gets `integrity="sha384-..."` and `crossorigin="anonymous"`, so a tampered file is refused. Next.js can hash its own bundles at build time with `experimental.sri`.
 

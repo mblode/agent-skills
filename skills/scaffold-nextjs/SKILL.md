@@ -18,7 +18,7 @@ Low-freedom workflow. The reference files are the single source of truth for com
 |------|-----------|
 | `references/app-setup.md` | Phase 2: create-next-app flags, TypeScript 7 upgrade, Instant Navigations, shadcn + Blode registry, icons, Agentation, Ultracite, move into apps/web/ |
 | `references/turbo-configs.md` | Phase 6: root package.json, turbo.json, root lefthook.yml, .gitignore, knip.json, workspace scripts, next.config.ts, root AGENTS.md |
-| `references/deploy-and-launch.md` | Phase 7: GitHub, Vercel, favicon, OG image, validation checklist |
+| `references/deploy-and-launch.md` | Phase 7 and 8: GitHub, Vercel, CI workflow, metadataBase, verification, security.txt, favicon, OG image, validation checklist |
 
 ## Scaffold Workflow
 
@@ -84,8 +84,8 @@ Move the app into `apps/web/` (commands at the end of `references/app-setup.md`)
 2. Update `apps/web/package.json` scripts to the turbo-compatible block and remove its `prepare` script (the root one installs the hooks).
 3. Verify `apps/web/next.config.ts` still has `reactCompiler: true`, `cacheComponents: true`, and `partialPrefetching: true`.
 4. Write the root `AGENTS.md` and `CLAUDE.md` from the template.
-5. Run `npm install` from the root, then `npm run dev` once. Next 16.3 upserts its managed `nextjs-agent-rules` block into `apps/web/AGENTS.md` and `apps/web/CLAUDE.md` on that first run. Commit it.
-6. Verify `npm run check` and `npx lefthook run pre-commit --all-files` pass from the root.
+5. Run `npm install` from the root, then `npm run dev` once from the coding agent's shell. When Next 16.3 detects a coding agent in the environment it appends its managed `nextjs-agent-rules` block to `apps/web/AGENTS.md` (and creates `apps/web/CLAUDE.md` as `@AGENTS.md` if missing). Commit it. From a plain terminal nothing is written; that is fine, the block arrives on the agent's first run.
+6. Verify `npm run check`, `npm run build`, and `npx lefthook run pre-commit --all-files` pass from the root, then `npm run start -w web` and load the home page from the production build.
 
 ### Phase 7: GitHub and Vercel setup
 
@@ -93,7 +93,7 @@ From `references/deploy-and-launch.md`: create the GitHub repo with `gh`, deploy
 
 ### Phase 8: Pre-launch checklist
 
-Favicon and OG image steps in `references/deploy-and-launch.md`, then run the validation checklist at the end of that file. Done only when every validation item passes; "the site loads" is not sufficient evidence.
+From `references/deploy-and-launch.md`: add the CI workflow, set `metadataBase` to `https://{{domain}}`, register the site with Search Console and Bing, add `security.txt`, the favicon package, and the OG image, then run the validation checklist at the end of that file. Done only when every validation item passes; "the site loads" is not sufficient evidence.
 
 ## Placeholder Reference
 
@@ -103,7 +103,7 @@ Templates use `{{variable}}` syntax. Before Phase 7, sweep for missed placeholde
 grep -rn '{{' --include='*.json' --include='*.ts' --include='*.tsx' --include='*.md' --include='*.yml' .
 ```
 
-A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a `{{domain}}` left in metadata ships broken OG URLs. `{{ultracite_version}}` in the root `package.json` template is not gathered in Phase 1: copy it from the `ultracite` entry that `ultracite init` wrote into `apps/web/package.json`.
+A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a `{{domain}}` left in metadata ships broken OG URLs. Two placeholders in the root `package.json` template are not gathered in Phase 1: `{{ultracite_version}}` is copied from the `ultracite` entry that `ultracite init` wrote into `apps/web/package.json`, and `{{npm_version}}` is the output of `npm --version`.
 
 ## Gotchas
 
@@ -111,12 +111,17 @@ A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a 
 - Never set `experimental.useTypeScriptCli`. Since 16.3 the CLI checker is the default, and the flag exists only to switch it back off with `false`; setting it to `true` is noise that reads like a requirement.
 - Expect raw `tsc` diagnostics from the CLI checker: no Next.js code frames, and the full `tsconfig.json` project is checked (tests and `.next/dev/types` included), so a type error in a file `next build` used to skip now blocks the build. If you add `node --test` files later, either keep them type-clean or add `**/*.test.ts` to `tsconfig.json` `exclude`.
 - A green `next build` does not mean navigation is instant. Instant navigation validation runs in development only (`validationLevel: 'warning'`) and never fails the build, so validate in `next dev` and read the overlay.
-- With `cacheComponents: true`, any route segment that exports `dynamic`, `revalidate`, or `fetchCache` fails the build (`Route segment config "dynamic" is not compatible with nextConfig.cacheComponents`). That includes route handlers such as `robots.txt/route.ts`. Use `'use cache'` plus `cacheLife` instead.
+- With `cacheComponents: true`, any route segment that exports `dynamic`, `dynamicParams`, `revalidate`, or `fetchCache` fails the build; `runtime`, `maxDuration`, `instant`, and `prefetch` remain valid. That includes route handlers such as a hand-written `robots.txt/route.ts`. Put the data access in a separate `'use cache'` function with `cacheLife`, called from the page or the `GET`; the directive cannot sit on the `GET` export itself.
+- `'use cache'` is in-memory per instance on serverless hosts, so on Vercel a cached value computed in one function invocation is not seen by the next. The docs' answer is `'use cache: remote'` for anything that must be shared; use it for the data behind the sitemap and any list page, and keep plain `'use cache'` for values that are cheap to recompute.
+- `generateStaticParams` must return at least one param under Cache Components; an empty array raises `empty-generate-static-params`. Unlisted params get the App Shell on first visit and upgrade in the background.
+- Cache Components keep the previous route's DOM mounted (React `<Activity>`), so a background or theme hung off `body` or `html`, including a `body:has(.marker)` rule, leaks onto the next route. Own backgrounds per route, and key any theme switch off `usePathname()` in React rather than a class on `body`. Dropdowns and form state also survive navigation; clean them up in an effect or derive them from the URL.
 - Never add `output: "standalone"`. It is for self-hosting, and on Vercel it stops `.next/next-server.js.nft.json` being written, so the build compiles every page and then dies in Vercel's onBuildComplete.
 - Never set `runtime = "edge"`; it is deprecated in 16 and Cache Components requires Node.js. For work that must outlive the response (analytics, logging), use `after()` from `next/server` rather than a floating promise, which Node can cut off the moment the response goes out.
 - Add no Turbopack cache config. `turbopackFileSystemCacheForDev`, `turbopackFileSystemCacheForBuild`, and memory eviction (`'auto'`) are on by default in 16.3.
 - `turbopack.root` is not needed here. Turbopack infers the workspace root from the lockfile; set it only when linked packages live outside the repo.
-- `next dev` writes a managed `<!-- BEGIN:nextjs-agent-rules -->` block into the `AGENTS.md` and `CLAUDE.md` next to the `next` package (so `apps/web/`, not the root). Reverting it only recreates the diff on the next run; commit it, and keep project instructions outside the markers.
+- `next dev` appends a managed `<!-- BEGIN:nextjs-agent-rules -->` block to the `AGENTS.md` next to the `next` package (so `apps/web/`, not the root), and writes `CLAUDE.md` as `@AGENTS.md` only when neither file exists. It runs only when a coding agent is detected in the environment (`next/dist/server/lib/generate-agent-files.js`), so a plain terminal never triggers it. Reverting it only recreates the diff on the next agent run; commit it, and keep project instructions outside the markers.
+- `create-next-app --react-compiler` installs `babel-plugin-react-compiler` as a devDependency. With `experimental.turbopackRustReactCompiler` on it is unused; remove it after Phase 2.2 so nobody reads it as a requirement.
+- `ultracite init --skip-install` writes `check` and `fix` scripts, sets `"type": "module"`, and adds `oxlint`, `oxfmt`, and `lefthook` at `latest`. It writes no `prepare` script (that happens in the install step it skipped). Pin the three tools to the versions the first `npm install` resolves before committing, and let the root `prepare` own hook installation.
 - No ESLint or Prettier. Ultracite owns lint and format via Oxlint + Oxfmt; a stray `.eslintrc` makes the editor disagree with the lefthook pre-commit hook.
 - Run lint and format through the workspace scripts: root `npm run check` / `npm run fix` (turbo runs them inside `apps/web`), or `npx ultracite check` from `apps/web`. Running `ultracite`, `oxlint`, or `oxfmt` from the repo root finds no `oxlint.config.ts` there and lints with defaults, which disagrees with the hook.
 - No manual git hooks. Lefthook owns them; husky or another hook manager double-runs or skips fixes.
@@ -127,6 +132,9 @@ A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a 
 - Never import from `lucide-react`; `blode-icons-react` is Blode UI's icon library and mixed imports bundle two icon sets. `shadcn init` writes `"iconLibrary": "lucide"` into `components.json`; change it to `blode-icons-react` before adding components, and replace any generated `lucide-react` import paths.
 - Never create `apps/web/` by hand. Scaffold at the root first, then move it in Phase 6; hand-building skips create-next-app defaults (Tailwind wiring, alias config).
 - `next-env.d.ts` is generated and belongs in `.gitignore` (create-next-app already lists it). Do not commit it or edit it; custom declarations go in a separate `.d.ts` referenced from `tsconfig.json`.
+- Next.js loads `.env.local` from the app directory (`apps/web/`), not the turborepo root. `vercel env pull apps/web/.env.local` is the pull command, and only `NEXT_PUBLIC_` variables reach the browser, inlined at build time.
+- `node --test` runs a test file directly, where the `@/` alias does not resolve; test files and the modules they import use relative paths, and a test script globs `lib/**/*.test.ts` rather than naming one file, or a new test is never executed while the gate reports green.
+- The root `.gitignore` ignores `.claude/` but un-ignores `.claude/knowledge/` (and `apps/web/.claude/`). Knowledge files are the memory these skills mine; experiment output is what the ignore is for.
 - Check the Vercel Root Directory before dashboard deploys. On a 404 or wrong app, set Root Directory to `apps/web` in Settings > General.
 
 ## Skill Handoffs
