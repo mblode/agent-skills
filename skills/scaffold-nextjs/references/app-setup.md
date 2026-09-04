@@ -188,25 +188,13 @@ Order matters: `registry add` must run before any `add @blode/...` call, or the 
 
 Creates:
 - `components.json`: shadcn config, the Blode registry mapping, and the icon library
-- `lib/utils.ts`: `cn()` helper (clsx + tailwind-merge, replaced below)
+- `lib/utils.ts`: `cn()` helper, re-exported from the [`cn`](https://github.com/shadcn-ui/cn) package
 - `components/ui/button.tsx`: button from the Blode registry
 - CSS variable updates in `app/globals.css`
 
 Icons: use `blode-icons-react` for all icon imports. If any generated file still imports `lucide-react`, replace the import paths with `blode-icons-react`. `lucide-react` is not a dependency of this scaffold; if it appears in `package.json`, remove it.
 
-Class merging: `shadcn init` still writes the `twMerge(clsx(...))` wrapper. Swap it for [`cn`](https://github.com/shadcn-ui/cn), which does the conditional joining and the Tailwind conflict resolution in one function and is what the Blode registry's own `utils` item ships:
-
-```bash
-npm install cn
-npm uninstall clsx tailwind-merge
-```
-
-```ts
-// lib/utils.ts
-export { cn } from "cn";
-```
-
-Leave `class-variance-authority` alone; it is a separate concern and still needed for variants.
+Class merging goes through `cn`, which does the conditional joining and the Tailwind conflict resolution in one function. Do not add `clsx` or `tailwind-merge`. `class-variance-authority` is a separate concern and is still what defines variants.
 
 ## Phase 4: Install Agentation
 
