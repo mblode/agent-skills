@@ -48,6 +48,7 @@ The division of labour is the point. A static audit reports what the code will p
 | No audit ran; the user points at a route or a running app | Detect features, run the full battery on the resolved routes |
 | A fix just landed for a previously reproduced finding | Run the clearing re-run only (step 5) |
 | The user asks for captures across themes or widths | `probes/theme-locale-matrix.md` alone |
+| A `design-system.md` claims a scale and someone needs it checked | Read the claimed values off computed styles on a real page; a theme value the build overrides never reaches the browser |
 
 Nothing here assigns a tier or a ship verdict. Hand reproduced findings back with their evidence and let `ui-design`'s `references/ship-readiness.md` tier them; two skills tiering the same finding is how the tiers drift apart.
 

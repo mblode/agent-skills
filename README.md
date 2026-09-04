@@ -70,7 +70,7 @@ That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothin
 ### Design
 
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
-- **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
+- **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, design-system extraction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
 - **[ui-verification](./skills/ui-verification/SKILL.md)**: Boots the app in a headless browser and runs nine probes that turn inferred UI defects into measured ones, then proves the fix cleared.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a contrast-checked QA pass, as Marp markdown, a web app, or a handoff to pptx.
