@@ -5,6 +5,7 @@ Audit-then-rewrite protocol for a shipped skill. Use when asked to improve, audi
 ## Contents
 
 - Relationship to the Creation Workflow
+- Should This Skill Still Exist
 - Audit Dimensions
 - Rewrite Procedure
 - Structure Normalization Decision Table
@@ -19,10 +20,10 @@ Copy this checklist to track progress:
 
 ```text
 Skill improvement progress:
-- [ ] Phase A: Read everything (SKILL.md, every linked file, repo AGENTS.md, README entry)
-- [ ] Phase B: Score the eleven audit dimensions (before)
+- [ ] Phase A: Read everything (SKILL.md, every linked file, repo AGENTS.md, README entry) and run the evals to get a before baseline
+- [ ] Phase B: Score the eleven audit dimensions (before); decide the skill should still exist
 - [ ] Phase C: Rewrite in the ordered procedure
-- [ ] Phase D: Validate (scripts/validate.sh + re-score)
+- [ ] Phase D: Validate (scripts/validate.sh + re-run the same evals + re-score)
 - [ ] Phase E: Re-score dimensions (after), update README one-liner, ship
 ```
 
@@ -32,8 +33,23 @@ Skill improvement progress:
 - Rules-based skills: read `_sections.md`, `_template.md`, and 2+ sample rules per category.
 - Read the repo AGENTS.md and the skill's README entry; source of truth for install commands and conventions.
 - `ls -R` the folder; `validate.sh` reports orphan files, so run it here to seed the audit.
+- Run the skill's evaluations now, before touching anything, and keep the output. This is the only ground truth in the protocol: the dimensions below measure form, and a rewrite that improves form while degrading behavior is a regression you cannot detect without a before. A skill with no evals gets 2-3 written here, against its current behavior, or the rewrite ships on faith.
 
 Do not edit during Phase A; mid-edit findings cause inconsistent half-rewrites.
+
+## Should This Skill Still Exist
+
+Answer this before scoring anything, because the eleven dimensions all assume the answer is yes.
+
+A skill's entire value is the delta between the model with it and the model without it. Only one side of that subtraction is in this repo. The other side moves on its own: every constraint was written against a failure, and failures get fixed upstream, so a skill loses value with no edit, no bug report, and no signal that anything changed. `authoring-tips.md` applies this reasoning line by line under "Don't Instruct Behavior the Model Already Has"; it applies to whole skills too, and nothing else in this protocol asks the question.
+
+So run the without-skill arm of the eval, not just the with-skill arm. Three outcomes:
+
+- **The delta is real.** Proceed to the dimensions.
+- **The delta is small and concentrated.** The skill has become one or two paragraphs wearing a bundle. Cut it to those, or fold them into a sibling that already routes on the same prompts, and delete the folder.
+- **The delta is gone.** Retire it. Removing a skill that no longer changes behavior is a better outcome than rewriting it, and it is the one this protocol otherwise has no path to: every other branch here terminates in a rewrite. Record the reason next to the removal the way `adopt-adapt-author.md` records a rejection, or the same skill gets proposed again next quarter.
+
+Retirement needs the README bullet and count updated, so it reuses Step 6 of the Creation Workflow exactly as a rewrite does.
 
 ## Audit Dimensions
 
@@ -94,5 +110,5 @@ Sample-read roughly 10% of rules per category and deep-rewrite only those that f
 
 1. `scripts/validate.sh skills/<name>` passes clean. Every mechanical constraint is a check there, so a clean run replaces reading a checklist.
 2. Re-score the eleven dimensions; report before/after with files moved and anything deferred.
-3. Rerun the skill's evaluations before shipping. Better dimension scores with worse eval results is a regression: dimensions measure form, evals measure behavior.
+3. Rerun the evaluations from Phase A and diff against that baseline. Better dimension scores with worse eval results is a regression: dimensions measure form, evals measure behavior. Without the Phase A run there is nothing to diff against, and "the evals pass" says only that the rewrite is not catastrophic.
 4. Install smoke-test: `npx skills add <repo-slug> -g --skill <name> -y && ls ~/.claude/skills/<name>/`.

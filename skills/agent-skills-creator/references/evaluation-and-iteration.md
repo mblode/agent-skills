@@ -70,6 +70,10 @@ For a rule you suspect is carrying no weight: delete it, rerun the scenarios, an
 - A rule whose absence regresses a scenario has earned permanent tenure; note the scenario next to it so nobody re-litigates it later
 - Opinions are not ablatable this way: a house style has no failing scenario, it is the preference the skill exists to encode
 
+An opinion still has a dead state, and ablation cannot see it. A constraint dies when the model stops needing it, which shows up as an ablation that does not regress. An opinion dies when the model stops *following* it, which shows up as nothing at all: removing it regresses no scenario, and the model would not have produced it unprompted either, so both of the tests in `improving-existing-skills.md` vote to keep a line that is changing nothing.
+
+The test for an opinion is conformance, not regression: run the scenario with the skill and check whether the output actually took the position the opinion states. An opinion the model overrides, waters down, or silently ignores is dead weight exactly like a dead constraint, and the fix is usually placement or phrasing rather than deletion. A house rule buried at line 300 loses to the model's default; the same rule in the first 5,000 tokens of the body does not.
+
 ## Test Across Models
 
 Skills augment the model, so the same body lands differently on each one. Guidance written for a frontier model may underspecify a small fast model; guidance written for a small one clutters a frontier model and, on the newest frontier models, measurably lowers output quality. Anthropic's own migration guidance says prompts carried forward from prior models are often too prescriptive; that makes the constraint cut a correctness pass, not tidying.
