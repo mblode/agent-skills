@@ -110,13 +110,7 @@ A fix is proved by the probe, not by the diff. Re-run with every condition ident
 }
 ```
 
-Keep the before artifact. Writing the after capture over the before is how a report loses its own argument.
-
-Three outcomes, all reportable:
-
-- Probe passes: the finding is `applied` and cleared.
-- Probe still fails: report `applied` with `clearedBy.result: "reproduced"` and say plainly that the fix did not clear it. `ui-design`'s audit reverts a fix that does not clear its own finding, and this is the evidence that decision runs on.
-- A different probe on the same route now fails: a new finding, not a footnote on the old one.
+Keep the before artifact. Writing the after capture over the before is how a report loses its own argument. A re-run that still reproduces is recorded as `clearedBy.result: "reproduced"` on an `applied` finding, which is the evidence `ui-design`'s revert-on-failed-fix rule runs on.
 
 ## Terminal rendering
 
@@ -124,8 +118,7 @@ Same adapter, two additions:
 
 - Each reproduced finding gains one line under its fix line: `Probe: <probe> · <route> · <width>px <theme> · <observed>`.
 - The footer gains a session line before the defer-to block: driver, build mode, routes, probes run, probes skipped with reasons.
-
-Where this skill runs standalone rather than after an audit, omit `SHIP VERDICT` entirely. A verdict is a property of a tiered audit, and printing one from probe results alone invents tier assignments nobody made.
+- `SHIP VERDICT` is omitted on a standalone run, per SKILL.md.
 
 ## Self-check additions
 

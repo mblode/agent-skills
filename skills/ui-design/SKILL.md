@@ -124,9 +124,7 @@ For "create a brand kit" or a brand direction board, load [direction/brand-kit-p
 
 A recording skill. It does ONE thing: read an existing codebase and write down the design decisions it already contains, as a durable `design-system.md` the other modes consume.
 
-It exists because the guidelines defer to the project constantly and cannot resolve that themselves: `guidelines/colors.md` alone says "use it only if the project already does" three times. Build answers that question with a plausible default, and `slop-token-drift` flags the mismatch afterward as a density heuristic with no scale to compare against. Extract supplies the scale.
-
-Load [references/design-system-extract.md](./references/design-system-extract.md) and nothing else. Five things go in the artifact: which theme source the build actually honours, the scales as used rather than as declared, the component inventory, the conventions in force, and the documented exceptions. Values, not prose.
+The guidelines defer to "what the project already does" constantly and cannot resolve it themselves; this mode is the answer they read. Load [references/design-system-extract.md](./references/design-system-extract.md) and nothing else. Five things go in the artifact: which theme source the build actually honours, the scales as used rather than as declared, the component inventory, the conventions in force, and the documented exceptions. Values, not prose.
 
 Verify before trusting it. A theme value the build overrides is a value Build will use and the browser will discard, so check three scale values against computed styles with `ui-verification` and record any disagreement rather than quietly picking a side.
 

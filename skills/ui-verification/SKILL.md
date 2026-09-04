@@ -148,13 +148,11 @@ Where this skill runs standalone, render the same terminal adapter with `SHIP VE
 
 ## Gotchas
 
+The ones that cut across probes. Each probe file carries its own false positives.
+
 - `page.emulateMedia({ colorScheme: 'dark' })` does nothing for an app that themes with a `class="dark"` or `data-theme` attribute, which is most Tailwind apps. The probe reports a clean dark pass while never having left light mode. Drive the app's own toggle, and assert the attribute landed before capturing.
 - Running perf or layout-shift probes against `next dev` measures on-demand compilation. The first navigation to a route can spend seconds in the bundler, which lands in LCP and dwarfs anything real.
 - Animations that never settle keep a screenshot probe waiting until timeout. Set `prefers-reduced-motion: reduce` for captures, then run motion-sensitive checks in a separate pass with it off, because reduced motion is also a code path that can be broken.
-- Intercepting by URL substring catches more than intended once analytics and telemetry share a host. Match on the specific path, and assert the interception fired at all: a probe whose route never matched injects no failure and reports a passing error state that was never tested.
-- A control measured while off-screen or inside a collapsed parent returns a zero-area box. Filter on `checkVisibility` before measuring, or the target-size probe reports every element in a closed menu.
-- Headless Chromium ships different default fonts than the developer's machine, so text metrics and wrapping differ. This matters for overflow findings: confirm a clipped-text finding against a capture before reporting it, and prefer the repo's own container image when it has one.
-- Third-party iframes (payment fields, embedded video, consent banners) produce axe violations nobody in this repo can fix. Exclude them by frame, and say in the report that they were excluded.
 
 ## Related skills
 

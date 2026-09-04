@@ -78,6 +78,7 @@ Mutating the DOM directly outlives one render in most apps, but a re-render rest
 - **Deliberate horizontal scrollers.** A carousel, a wide data table in its own `overflow-x: auto` container, and a code block are correct. The failure is the *document* scrolling, so check whether the culprit sits inside a scroll container before reporting it.
 - **Off-canvas drawers** parked at `translateX(100%)` extend past the right edge by design. Their computed transform tells you; exclude elements whose parent is `overflow: hidden` and whose offset is a whole viewport width.
 - **A 1px overflow** is a rounding artefact of fractional layout, not a defect. The `+1` tolerances in the recipes are there for that, and widening them further hides real findings.
+- **Headless font substitution.** Headless Chromium ships different default fonts than the developer's machine, so text metrics and wrapping differ. Confirm a clipped-text finding against a capture before reporting it, and prefer the repo's own container image when it has one.
 - **Sticky and fixed chrome** is excluded from the culprit list on purpose, because it is positioned relative to the viewport. Check it separately by scrolling content beneath it.
 
 ## Evidence to write

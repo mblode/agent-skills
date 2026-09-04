@@ -20,8 +20,8 @@ Copy this checklist to track progress:
 
 ```text
 Skill improvement progress:
-- [ ] Phase A: Read everything (SKILL.md, every linked file, repo AGENTS.md, README entry) and run the evals to get a before baseline
-- [ ] Phase B: Score the eleven audit dimensions (before); decide the skill should still exist
+- [ ] Phase A: Read everything (SKILL.md, every linked file, repo AGENTS.md, README entry), run the evals for a before baseline, decide the skill should still exist
+- [ ] Phase B: Score the eleven audit dimensions (before)
 - [ ] Phase C: Rewrite in the ordered procedure
 - [ ] Phase D: Validate (scripts/validate.sh + re-run the same evals + re-score)
 - [ ] Phase E: Re-score dimensions (after), update README one-liner, ship
