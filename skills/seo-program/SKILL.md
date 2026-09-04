@@ -1,6 +1,6 @@
 ---
 name: seo-program
-description: Runs the demand side of an SEO and AEO program in two modes. Topic pipeline pulls live keyword and prompt volumes with real numbers, builds an answer-engine question map, and writes a writer content brief. Monitoring watches Search Console and prompt visibility and reports only state changes. Binds each job to whatever research and chat tools the team already has instead of requiring a named vendor. Use when asked to "what's the search volume", "check prompt volume", "write a content brief", "brief this article for a writer", "build a question map", "what questions should this page answer", "review Search Console", "why did our clicks drop", or "set up SEO monitoring". Writes briefs and research, never the article itself. For implementing the page in code use optimise-seo, and for the article use the external ghostwriter skill with platform blog.
+description: Researches search demand, builds writer briefs and answer-engine question maps, and monitors Search Console with sourced metrics. Use when asked to "check search volume", "write a content brief", "why did clicks drop", or "monitor SEO". For implementation use optimise-seo; article writing is outside this skill.
 ---
 
 # SEO Program
@@ -51,7 +51,7 @@ Topic pipeline progress:
 Full per-tool procedure, match types, and the no-data path: [references/research-protocol.md](references/research-protocol.md).
 
 - Pull the numbers today. Yesterday's export and a remembered figure are context, never the source of truth.
-- The primary keyword needs a modifier. `data analyst` is a category, `ai data analyst` is a query with intent behind it.
+- Select the primary query by intent and product fit. Add a modifier when it disambiguates the audience; do not force one onto an already-specific query.
 - For prompt volume, Exact match (terms in the given order) is the number. Phrase and any-order match are unreliable on multi-word terms and never go in the number column.
 - Record scope (global unless the user asked for a country) and the date window next to every figure.
 - When a tool returns nothing, write "No data". A fabricated volume routes real writing effort at a topic nobody searches.
@@ -88,11 +88,11 @@ Track answer engines separately. ChatGPT and Perplexity overlap on roughly a ten
 
 Report state changes, not state. Clicks or impressions moving roughly 20% or more, average position worsening meaningfully, or 5xx and 404 counts jumping are worth a message; a flat week is not. Never fabricate a metric to fill a report: if access failed, say which property and move on. Track what has already been reported so the same drop is not raised twice.
 
-For the scheduling itself, use the harness (`/schedule` for a recurring cloud run, `/loop` for an in-session interval). This skill defines what to check, not how to fire it.
+Use the host's available scheduler for recurring requests, updating an existing matching job when possible. Report whether the schedule was actually created; a proposed cadence is not a running monitor.
 
 ## Delivery
 
-Findings go in chat. Write a file only when the user asked for one, and never leave research notes, CSVs, or scratch exports behind in the repo.
+Research findings go in chat by default. A requested writer brief is a durable deliverable at the user's or project's destination. Keep scratch exports out of the repo. Sending a recap to another person or channel requires authorization for that communication.
 
 ## Gotchas
 
@@ -118,3 +118,5 @@ Findings go in chat. Write a file only when the user asked for one, and never le
 - `optimise-seo`: builds the page this skill specifies (metadata, schema, canonicals, `llms.txt`, AI-crawler policy, Core Web Vitals)
 - `copywriting`: short-form product and marketing copy, CTAs, UI strings
 - External `ghostwriter` with the blog profile: writes the article from the brief
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

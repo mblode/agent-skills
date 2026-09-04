@@ -1,0 +1,39 @@
+{
+  "skill_name": "ui-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Improve the spacing of one existing settings panel. It has consistent tokens but no design-system.md.",
+      "expected_output": "Inspect local token sources and make the targeted change without a full extraction project.",
+      "files": [],
+      "assertions": [
+        "Uses existing tokens",
+        "Does not require a new design-system artifact for one edit",
+        "Verifies the affected rendered panel"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Is this existing checkout ready to ship? Return a review only. A rendered-rule candidate needs browser evidence but no browser is connected.",
+      "expected_output": "Return evidence-scoped findings with runtime checks unknown.",
+      "files": [],
+      "assertions": [
+        "Leaves source unchanged",
+        "Does not invent rendered results",
+        "Does not redesign the checkout during audit"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Improve the spacing of one existing settings panel. It has consistent tokens but no design-system.md.",
+      "Is this existing checkout ready to ship? Return a review only. A rendered-rule candidate needs browser evidence but no browser is connected."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Prove this hit-target finding in the running browser.",
+        "expected": "ui-verification"
+      }
+    ]
+  }
+}

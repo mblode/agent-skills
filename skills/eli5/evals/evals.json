@@ -3,51 +3,35 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "ELI5 what a JWT is. I'm a designer, not a backend person.",
-      "expected_output": "Explain mode. First line is a one-sentence gist under 20 words. One everyday analogy (a signed pass, a wristband, a stamped ticket) carried through two to four mapping sentences that keep the identifier JWT next to the comparison. One sentence on why it matters to the reader. A final Next line that states one follow-up rather than offering one. Opens with 'Plain language from here.' on first activation only.",
+      "prompt": "ELI5 what a JWT is. Keep it specific enough that I can recognize the term in our code.",
+      "expected_output": "An explanation preserving JWT, without an activation announcement or mandatory follow-up.",
       "files": [],
       "assertions": [
-        "The first content line is a single sentence under 20 words with no undefined jargon",
-        "Exactly one analogy is used and the term JWT still appears verbatim",
-        "No sentence exceeds 25 words and no Tier 1 word, em dash, or double hyphen appears",
-        "The reply ends with a Next line that is a statement, not a question such as 'Want me to...?'",
-        "There is no opening preamble ('Great question', 'Let me explain') and no closing recap"
+        "Keeps JWT verbatim",
+        "Does not promise encrypted contents merely because a token is signed",
+        "Does not announce a permanent mode change"
       ]
     },
     {
       "id": 2,
-      "prompt": "wait what. that didn't land. you said something about the middleware and the cookie but I'm lost",
-      "expected_output": "Re-pitch mode. One line of where we are (step N of M, or the file and the symptom). A new analogy that is not the one used in the previous reply, or a concrete example from this repo. Two to four sentences mapping the parts. One Next action the reader can do in under two minutes. No defence or summary of the reply that failed.",
+      "prompt": "Explain this error in plain English: auth.ts:42 returned 401. Keep the command curl --header \"Authorization: Bearer $TOKEN\" intact.",
+      "expected_output": "Explains the failure while preserving the supplied identifiers and command.",
       "files": [],
       "assertions": [
-        "The reply does not reuse the analogy from the previous turn",
-        "The first line restates where the work stands, not what the previous reply meant",
-        "File paths, identifiers, and commands from the earlier reply appear verbatim",
-        "The reply ends with exactly one Next action"
+        "Preserves auth.ts:42 and 401",
+        "Preserves the quoted command including $TOKEN",
+        "Does not replace a technical token to satisfy a word ban"
       ]
     },
     {
       "id": 3,
-      "prompt": "ok keep going with the migration. eli5 mode stays on. what's the status and what do I run next?",
-      "expected_output": "Shape mode. First line is the next command or path to run. State is restated as 'Step N of M done: <what now works>. Next: <action>.' Steps are numbered, one bounded action each, capped at five. Time estimates in minutes or afternoons if given. No analogy unless a concept is still blocking action. No 'Plain language from here.' re-announcement.",
+      "prompt": "Keep plain English on for the rest of this session. Continue the migration you are already authorized to complete.",
+      "expected_output": "Continues authorized work with the requested style.",
       "files": [],
       "assertions": [
-        "The first line contains a runnable command, a path, or a snippet",
-        "State is restated with a step count and what now works",
-        "No list exceeds five items; longer work is split into 'do now' and 'later'",
-        "The skill activation line is not repeated",
-        "Any quoted test output or error string is reproduced verbatim, not paraphrased"
-      ]
-    },
-    {
-      "id": 4,
-      "prompt": "Can you make this plain-English style permanent so I don't have to type /eli5 every session?",
-      "expected_output": "Routes to the harness rather than promising the skill will persist across sessions or compaction. Names the built-in Concise output style via outputStyle in .claude/settings.local.json (picked through /config) for the shape half, or a custom style in .claude/output-styles/ with keep-coding-instructions: true for the whole voice. Does not suggest the removed /output-style command.",
-      "files": [],
-      "assertions": [
-        "The reply names outputStyle or .claude/output-styles/ as the mechanism",
-        "The reply does not mention /output-style as a command to run",
-        "The reply does not claim the skill itself will persist across sessions"
+        "Does not delegate its own work back to the user through a compulsory Next line",
+        "Does not claim persistence across unrelated sessions",
+        "Does not repeat activation announcements"
       ]
     }
   ]

@@ -77,7 +77,7 @@ That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothin
 
 ### Writing
 
-- **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: one gist, one analogy, next action first, no AI prose.
+- **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: optional analogy, exact technical terms, and house vocabulary without forced templates.
 - **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 51 rules, audit and writing modes, agent-readable docs.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Type-aware README from the manifests: one install, a runnable quickstart, badges only where published.
@@ -94,9 +94,9 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 
 ### Shipping
 
-- **[planning](./skills/planning/SKILL.md)**: Interrogates intent, writes the plan file plan mode presents, then scores it to 5/5 before any code.
+- **[planning](./skills/planning/SKILL.md)**: Writes and reviews executable plans with repository evidence, vertical slices, and explicit acceptance criteria.
 - **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only diff review: bugs, structure, AI slop, security.
-- **[tidy](./skills/tidy/SKILL.md)**: Hunts complexity across five angles and applies the simplifications.
+- **[tidy](./skills/tidy/SKILL.md)**: Applies diff-scoped simplifications, preserving necessary guards and existing edits.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
@@ -104,8 +104,14 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 ### Authoring
 
 - **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, then audits and refactors AGENTS.md and CLAUDE.md, with grades.
-- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates, audits, and rightsizes skills to the open format spec, with a validator and eval workflow.
+- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, with portable workflows, a validator, and regression scenarios.
 - **[save-md](./skills/save-md/SKILL.md)**: Writes a named source as a markdown file the next turn can reread.
+
+## Maintaining the collection
+
+Skills retain house preferences, operational contracts, and repeatable audit rubrics. Generic coaching belongs to the model and host. Every skill includes authored regression scenarios; these are not claims of measured improvement across models.
+
+Run `skills/agent-skills-creator/scripts/validate.sh --all` for portable format requirements and separate house conventions covering references, counts, and scenario structure. Authoring follows the [Agent Skills specification](https://agentskills.io/specification) and [best practices](https://agentskills.io/skill-creation/best-practices). The [collection audit](./maintenance/2026-09-05-skill-audit.md) records changes, retained value, and verification limits.
 
 ## License
 

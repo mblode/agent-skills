@@ -1,0 +1,39 @@
+{
+  "skill_name": "typography-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit a PR whose committed CSS sets an h1 to 48px while inheriting a fixed 20px line-height. The unstaged diff is empty.",
+      "expected_output": "Inspect the PR branch diff and report the overlapping-line risk.",
+      "files": [],
+      "assertions": [
+        "Includes committed changes against the actual PR base",
+        "Names the inherited fixed line-height",
+        "Uses the rule-specific impact rather than the category default"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Audit code samples that contain straight quotes and a --no-input flag, beside rendered paragraph text.",
+      "expected_output": "Keep code punctuation verbatim and scope typography rules to rendered prose.",
+      "files": [],
+      "assertions": [
+        "Does not replace quotes inside code",
+        "Does not alter --no-input",
+        "Distinguishes declared fonts from the face actually loaded"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Audit a PR whose committed CSS sets an h1 to 48px while inheriting a fixed 20px line-height. The unstaged diff is empty.",
+      "Audit code samples that contain straight quotes and a --no-input flag, beside rendered paragraph text."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Choose a new visual direction for our landing page.",
+        "expected": "ui-design Direction"
+      }
+    ]
+  }
+}

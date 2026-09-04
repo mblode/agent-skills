@@ -1,6 +1,6 @@
 # Monitoring
 
-What to check, on what cadence, and what earns a message. Scheduling itself belongs to the harness (`/schedule`, `/loop`); this file defines the content of each check.
+What to check, on what cadence, and what earns a message. Scheduling itself belongs to the host's available scheduler; this file defines the content of each check.
 
 ## Contents
 
@@ -43,7 +43,7 @@ Send once. If a digest already went out for the period, stay quiet rather than r
 
 ## Weekly AI visibility
 
-For topics already tracked, refresh Exact prompt volumes for the last complete week against the prior week, per engine rather than pooled. Report the week window alongside the numbers so the comparison is checkable. Stay quiet only when the latest week is already recorded.
+For topics already tracked, refresh Exact prompt volumes for the last complete week against the prior week, per engine rather than pooled. Report the week window alongside the numbers so the comparison is checkable. Report a new finding, material change, or access blocker; a newly recorded but unchanged week does not require a message.
 
 Match-type discipline from `research-protocol.md` applies here too: Exact is the number, and a missing Exact is "No data", never a Phrase figure in disguise.
 

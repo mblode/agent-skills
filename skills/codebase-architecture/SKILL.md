@@ -1,20 +1,6 @@
 ---
 name: codebase-architecture
-description: >-
-  Designs, deepens, and hardens TypeScript codebase architecture in three
-  modes: folder structures, module contracts, request context, and middleware
-  pipelines for a new app; domain-informed deepening of existing code; and the
-  guardrail tooling, CI gates, and wayfinding that stop a structure decaying.
-  Use when setting up project structure, organizing a monorepo, designing
-  backend modules, enforcing module or import boundaries, writing an
-  architecture brief, recovering domain terminology, or asking "how should I
-  structure this app", "where should this code live", "find architecture
-  improvements", "this module is a mess", "add a dead-code check", "stop
-  agents copying the old pattern", or "my agent can't find anything in this
-  repo". Covers the code tree and its checks. For the AGENTS.md file itself
-  use agents-md, for a new repo use scaffold-nextjs or scaffold-cli, for
-  multi-tenant isolation use multi-tenant-architecture, for a feature plan use
-  planning, and for a local diff use pr-reviewer.
+description: Designs module contracts, deepens existing boundaries, and installs enforceable repository guardrails. Use when asked to "design the architecture", "simplify our modules", or "harden the repo". For one feature plan use planning; for diff cleanup use tidy; for tenancy use multi-tenant-architecture.
 ---
 
 # Codebase Architecture
@@ -202,7 +188,7 @@ Each rebuttal redirects to the step being skipped.
 ### Harden
 
 - `jscpd` without `--threshold` exits 0 on any duplication, and `knip` with too many declared `entry` files hides real dead code behind them. A green step is not a gate until you have watched it fail.
-- `madge` has had no release since 2024. Use `import/no-cycle` in the linter or dependency-cruiser's `no-circular`; both are maintained and the linter rule already runs in the edit loop.
+- Pick cycle tooling that resolves this repository's aliases and workspace edges. Prefer a configured linter rule or dependency-cruiser before adding another graph tool; verify an intentional cycle fails.
 - dependency-cruiser without `options.tsConfig` cannot resolve path aliases, drops those edges, and passes every rule on a graph with half its imports missing.
 - `turbo boundaries` checks cross-package imports and undeclared dependencies only; it sees nothing inside a package, so it does not replace the module boundary rule.
 - A hand-rolled shrink-only baseline (`*-ratchet.mjs` plus `*.baseline.json`) reimplements the `ignore`, allowlist, and `warn` mechanisms knip, the linter, dependency-cruiser, and jscpd already ship, and the baseline becomes the file people edit for a green run.
@@ -219,3 +205,5 @@ Each rebuttal redirects to the step being skipped.
 - `scaffold-nextjs`, `scaffold-cli`: creating the repo this skill then structures.
 - `multi-tenant-architecture`: tenant identification, isolation, and routing; this skill supplies the module layout underneath.
 - `dx-audit`: the developer-facing surface a package ships outward; `api-design.md` here covers only the contract shape.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

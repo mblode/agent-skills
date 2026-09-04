@@ -1,6 +1,6 @@
 ---
 name: optimise-seo
-description: Implements SEO and technical foundations in Next.js App Router codebases, covering sitemap and robots metadata routes, generateMetadata titles and canonicals, JSON-LD structured data, 308/307 redirects, indexing policy and soft-404 status codes, hreflang, Core Web Vitals, AI-crawler policy (per-crawler robots rules, llms.txt, Content-Signal), programmatic SEO, security headers, consent, and error-page resilience. Use when asked to "improve SEO", "add a sitemap", "fix meta tags", "add structured data", "set canonical URLs", "set up redirects", "fix soft 404s", "add hreflang", "add llms.txt", "block GPTBot", "add security headers", "add cookie consent", "improve Core Web Vitals", "audit SEO", or "build SEO pages at scale". Ships code, not strategy. For keyword research, briefs, and Search Console monitoring use seo-program; for visual direction or UI quality use ui-design; for per-tenant robots and sitemap routing use multi-tenant-architecture; for the article itself use the external ghostwriter skill.
+description: Implements Next.js crawlability, metadata, canonicals, status codes, JSON-LD, hreflang, and crawler policy with served-page evidence. Use when asked to "fix SEO", "add a sitemap", "fix soft 404s", or "add llms.txt". For demand research, briefs, or Search Console monitoring use seo-program.
 ---
 
 # Optimise SEO
@@ -16,10 +16,12 @@ Before writing code, read the matching guide in `node_modules/next/dist/docs/` (
 
 | File | Read when |
 |---|---|
+| [references/indexing-policy.md](references/indexing-policy.md) | Redirects, duplicate URLs, index decisions, or pages generated at scale |
 | [references/nextjs-implementation.md](references/nextjs-implementation.md) | Before writing code in steps 2-4: metadata, sitemap and robots, redirects, indexing, streaming 404s, JSON-LD, OG images, CSP |
 | [references/answer-engines.md](references/answer-engines.md) | The task touches AI crawlers, `robots.ts` rules for GPTBot or ClaudeBot, `llms.txt`, Content-Signal, or "why are we not cited" |
 | [references/internationalisation.md](references/internationalisation.md) | The site has more than one locale |
 | [references/technical-hardening.md](references/technical-hardening.md) | Headers, cookies, consent, GPC, `security.txt`, or maintenance and error-status tasks |
+| [references/validation-evidence.md](references/validation-evidence.md) | Step 5: served-page commands and evidence expectations |
 | [references/seo-checklist.md](references/seo-checklist.md) | Step 5: copy into the report and mark each line with evidence |
 
 ## Workflow
@@ -41,7 +43,7 @@ Step 1 is a table: route, index or noindex, canonical, reason. Every later step 
 
 - `app/sitemap.ts` lists every indexable URL with `lastModified` derived from content; `app/robots.ts` names it
 - One canonical per page, one host, one casing, one trailing-slash policy, set through `alternates.canonical` with `metadataBase` in the root layout. Next.js enforces the slash policy itself: by default it 308s `/about/` to `/about`, and `trailingSlash: true` inverts that (files with extensions and `.well-known/` paths are exempt either way)
-- `metadata.verification` carries the Search Console, Bing, and Yandex tokens so ownership does not depend on a DNS record someone else controls
+- Preserve the property's existing ownership verification. Use `metadata.verification` only for a supplied token and the chosen verification method; DNS verification needs no duplicate meta tag
 - Root layout `robots` lifts Google's default preview caps: `googleBot: { 'max-snippet': -1, 'max-image-preview': 'large', 'max-video-preview': -1 }`. Without them Google truncates the snippet and the image preview, and the snippet cap is what AI surfaces read against when deciding how much of a page they may quote
 - `authors` and `creator` set explicitly in the root layout, so person-level attribution does not live only in footer HTML and JSON-LD
 - Unique title and description per page; title and H1 lead with the non-brand primary keyword and agree in intent (a brand-led title on a category page competes only for navigational queries the site already wins)
@@ -53,24 +55,15 @@ Step 1 is a table: route, index or noindex, canonical, reason. Every later step 
 
 ## Redirects and indexing policy
 
-- Permanent moves are 308 (`permanent: true`, `permanentRedirect()`); temporary are 307. One hop, straight to the final URL, and set at one layer (edge or `next.config.ts`, not both).
-- A missing page returns a real 404. In the App Router that means the existence check runs before anything streams; otherwise the response is 200 plus a `noindex` meta, which Search Console reports as a soft 404. Under Cache Components every dynamic route streams its shell first, so the check lives in `proxy.ts`, not in the page.
-- Every route has an explicit index decision. Public pages are `index, follow`; staging, admin, thin, and private routes get `metadata.robots` (HTML) or `X-Robots-Tag` (non-HTML, whole environments).
-- Duplicates consolidate through `rel="canonical"`, not `noindex`: a `noindex`ed page passes nothing to the canonical. Previews and staging are the case for `noindex`; Vercel sets it on preview URLs automatically but not on a custom domain attached to a non-production branch.
-- Thin hubs (empty author, tag, category, pagination pages) stay `noindex` and out of the sitemap until they carry unique content, and no placeholder or lorem page ships indexable.
-- Syndicated copies of one story all point at one canonical URL. Publish on the origin first, wait until Search Console shows it indexed, then syndicate; a platform copy that goes live first outranks the origin even with the canonical set later.
+Load `references/indexing-policy.md` when routes move, duplicates need consolidation, or page indexing policy changes. Verify behavior against the installed Next.js version and served responses.
 
 ## AI crawlers and answer engines
 
 Google needs no special files: AI Overviews and AI Mode run on Googlebot and core ranking, and `nosnippet` or `max-snippet:0` is the only opt-out (it removes the normal snippet too). Everything else is a robots decision per crawler class: search and citation bots (`OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`) put a site in answers; training bots (`GPTBot`, `ClaudeBot`, `CCBot`) do not; `Google-Extended` and `Applebot-Extended` are usage tokens with no crawler behind them. `llms.txt` costs one route and earns almost nothing measurable. The full table, `robots.ts` rules, Content-Signal, and the Markdown-alternate patterns are in `references/answer-engines.md`.
 
-## Programmatic SEO (pages at scale)
+## Programmatic SEO
 
-- Validate demand for the pattern before generating pages; `seo-program` supplies the numbers
-- Each page needs unique value backed by data it alone has; templated text swaps are doorway pages
-- Clean subfolder URLs, hub-and-spoke linking, breadcrumbs everywhere
-- Index the strong pages; `noindex` the long tail until a page earns its place, then add a link and index it
-- Under Cache Components, `generateStaticParams` must return at least one param (an empty array raises `empty-generate-static-params`). List the strong pages there; unlisted slugs get the App Shell on first visit and are upgraded in the background, which needs `partialPrefetching: true`
+For pages generated at scale, load `references/indexing-policy.md`. Require demand evidence and unique page value before indexing a new pattern.
 
 ## Audit triage order
 
@@ -130,27 +123,8 @@ Report in the same order: what blocks indexation first, then on-page and schema 
 - `copywriting`: meta descriptions and titles as copy, once this skill has set the keyword lead and length.
 - External `ghostwriter` with the blog profile: writes the article.
 
-## Validation (step 5, evidence required)
+## Validation
 
-Copy `references/seo-checklist.md`, mark each line, and attach command evidence:
+Run the applicable checks in `references/validation-evidence.md` against the served production build. Record commands, results, exact URLs, and remaining blockers. The validation reference and `references/seo-checklist.md` are both loaded for step 5.
 
-| Check | Command or source | Expected |
-|---|---|---|
-| Production build | `npm run build 2>&1 \| tail -20` (or repo equivalent) | exits 0 |
-| Response headers | `curl -sI <url>` | correct status, canonical host, no `x-powered-by` |
-| Redirects | `curl -sIL <old-url> \| grep -Ei "^(HTTP/\|location:)"` for every rule and every alternate host | exactly one 308 then a 200; no chain, no 404 destination |
-| Local production check | `next build && next start`, after `lsof -ti :3000 \| xargs kill` | a fresh server; `next start` on a taken port fails silently while the old build keeps answering |
-| Served metadata | `curl -s -A Twitterbot <url> \| rg "canonical\|og:\|twitter:\|application/ld\+json"` | tags present in `<head>` |
-| Robots | `curl -s <origin>/robots.txt` | expected allow and disallow, sitemap lines, per-class AI rules, any `Content-Signal` |
-| Sitemap | `curl -s <origin>/sitemap.xml \| head -40` | absolute URLs, content-derived `lastmod`, every generated file reachable |
-| Missing page | `curl -s -o /dev/null -w '%{http_code}\n' <origin>/definitely-missing` | 404 |
-| AI crawler access | `curl -s -o /dev/null -w '%{http_code}\n' -A OAI-SearchBot <url>` (repeat for `Claude-SearchBot`, `PerplexityBot`) | 200 and the body is the page, not a challenge |
-| Agent readiness | `npx is-agentic <domain> --json` | score plus failed-check list, before and after |
-| Lighthouse | `npx lighthouse <url> --only-categories=seo,performance --output=json --output-path=.lighthouse-seo.json --quiet` | SEO and Performance at or above 90, or blockers listed |
-| Core Web Vitals (field) | PageSpeed Insights or the CrUX API for the origin | p75 LCP, INP, CLS in target, or the failing metric named |
-| Structured data | Rich Results Test per URL | valid, warnings cleared, unsupported types documented |
-| Schema versus DOM | `curl -s <url>`, then compare every JSON-LD `name`, `text`, `headline`, and breadcrumb label against the rendered HTML with `script`, `style`, and `template` stripped. Compare word sequences after decoding entities and removing React's `<!-- -->` markers, not raw strings: the JSON holds the literal character and the HTML holds the entity, and `{a}{b}` ships as `free<!-- -->dom` | every claim visible on the page; exactly one `application/ld+json` block per page (count `<script` tags, not string occurrences: the RSC payload repeats the escaped string) |
-| Metadata merge | `curl -s -A Twitterbot <inner-route> \| rg "og:site_name\|og:image\|twitter:creator"` on three inner routes sampled from the sitemap, not the home page | fields inherited from the root layout still present on routes that declare their own `openGraph` or `twitter` |
-| Search Console after deploy | Pages report and enhancement reports | no new warnings; indexed and excluded changes explained. "Excluded by noindex" on Markdown twins, "Blocked by robots.txt" on disallowed paths, and "Discovered, currently not indexed" on new pages are expected states, not defects |
-
-Report remaining blockers with exact URLs and an owner for each.
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

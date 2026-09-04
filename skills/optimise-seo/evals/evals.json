@@ -1,0 +1,39 @@
+{
+  "skill_name": "optimise-seo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Verify SEO in a local Next.js checkout. Port 3000 is occupied by another project; the page has two JSON-LD scripts describing distinct consistent entities.",
+      "expected_output": "Use a free owned port and check served metadata without falsely rejecting multiple blocks.",
+      "files": [],
+      "assertions": [
+        "Does not kill the existing listener",
+        "Verifies the served build identity",
+        "Does not flag block count alone"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add Search Console verification. The domain property is already verified through DNS and no meta token was supplied.",
+      "expected_output": "Preserve DNS verification and avoid invented metadata.",
+      "files": [],
+      "assertions": [
+        "Does not invent a token",
+        "Does not demand meta verification in addition to DNS",
+        "Separates property access from ownership verification"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Verify SEO in a local Next.js checkout. Port 3000 is occupied by another project; the page has two JSON-LD scripts describing distinct consistent entities.",
+      "Add Search Console verification. The domain property is already verified through DNS and no meta token was supplied."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Research keyword volumes and brief an article.",
+        "expected": "seo-program"
+      }
+    ]
+  }
+}

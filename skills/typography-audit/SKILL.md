@@ -1,19 +1,6 @@
 ---
 name: typography-audit
-description: >-
-  Audits web typography against 78 rules in 10 categories: font selection and
-  @font-face setup, sizing and measure, punctuation, spacing and rhythm,
-  hierarchy, alignment and layout, OpenType features, brand identity, typeface
-  pairing, and display type. Reports file:line findings with concrete CSS/HTML
-  fixes ordered by impact. Use when writing or reviewing CSS/HTML for text,
-  selecting or pairing typefaces, configuring font-feature-settings or
-  @font-face, building a type scale, or asking "audit my typography", "fix the
-  fonts", "review my type system", "why does this text look off". Triggers on
-  font-family, font-size, line-height, letter-spacing, smart quotes, em dashes,
-  faux bold or italic, variable fonts, widows and orphans. For whole-UI audits
-  beyond type (accessibility, forms, navigation), use ui-design Audit mode; for
-  choosing a visual direction or designing a new type system, use ui-design
-  Direction mode.
+description: Audits font loading, type scales, measure, spacing, OpenType, and rendered punctuation with 78 scoped rules. Use when asked to "audit typography", "fix the fonts", or "review my type system". For a new visual direction use ui-design Direction; for general UI defects use ui-design Audit.
 ---
 
 # Typography Audit
@@ -36,7 +23,7 @@ Audit progress:
 - [ ] Step 5: Report per the contract; every finding has file:line, rule ID, fix
 ```
 
-1. Scope to changed files unless a full sweep is requested. For a PR: `git diff --name-only` filtered to `.css`, `.scss`, `.html`, `.tsx`/`.jsx`, and template files.
+1. Scope to changed files unless a full sweep is requested. For a PR, use the diff against its actual base merge-base, including committed changes, filtered to `.css`, `.scss`, `.html`, `.tsx`/`.jsx`, and template files.
 2. Map code to categories via the signal table; skip categories with no signal.
 3. Load rule files by prefix (`rules/font-*.md`, etc.), only for the categories the signals selected.
 4. Run categories in priority order so CRITICAL findings surface even if the audit is cut short.
@@ -101,6 +88,7 @@ Report findings as:
 - Don't preload every rule file. Load only the prefixes the signal table selects; a full load spends the budget on categories with no signal in scope.
 - Report the rule's frontmatter `impact`, never the category's. Two rules get misreported most: `brand-color` is HIGH (an accessibility floor, not a brand nicety) and `punct-daggers` is LOW-MEDIUM (decoration, despite sitting in a CRITICAL category).
 - Punctuation rules apply to rendered copy only. Flagging straight quotes or `--` inside `<code>`, `<pre>`, or JS/TS string literals is a false positive; "fixing" them breaks the code.
+- Confirm the rendered font and computed styles through `ui-verification` when a finding depends on them. A CSS declaration alone does not prove which face loaded.
 - Don't flag missing OpenType features without confirming the loaded font ships them. Browsers silently ignore unsupported `font-feature-settings` tags, so the fix does nothing.
 - Every finding needs `file:line` and a concrete fix; an unactionable finding forces a redo.
 - An audit is not a redesign. Proposing new pairings or scales turns a 10-minute review into a design project; flag the issue and route redesign asks to `ui-design`.
@@ -111,3 +99,5 @@ Report findings as:
 - `ui-design` Audit mode: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower.
 - `ui-design` Direction mode: choosing typefaces, scales, and visual direction from scratch; run when a finding becomes a redesign request.
 - `copywriting`: heading and label wording. This skill governs only the casing of that copy (`punct-case-rules`).
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

@@ -23,7 +23,7 @@ Process:
 3. Measure baseline (no skill) vs. treatment (with skill) on each
 4. Iterate until treatment beats baseline by more than it costs in tokens and time
 
-Store scenarios in `evals/evals.json` inside the skill folder. This is the format the `skill-creator` plugin and agentskills.io tooling read, so a hand-written file is runnable later without conversion:
+Store scenarios in `evals/evals.json` inside the skill folder. Use this repository scenario format, adapting it to the chosen runner when needed:
 
 ```json
 {
@@ -44,7 +44,7 @@ Store scenarios in `evals/evals.json` inside the skill folder. This is the forma
 }
 ```
 
-Write `prompt` the way a user types it, with real paths and context; vary formality across cases and include one boundary case. Add `assertions` after the first run, not before: you do not know what "good" looks like until you have seen an output. Keep them objective (countable, checkable); style and feel are for human review. Drop any assertion that passes in both configurations, it measures nothing.
+Write `prompt` the way a user types it, with real paths and context; vary formality across cases and include one boundary case. Add `assertions` after the first run, not before: you do not know what "good" looks like until you have seen an output. Keep them objective (countable, checkable); style and feel are for human review. Keep contract assertions even when both configurations pass. They guard against regressions; use differentiating assertions to measure added value.
 
 Each run needs a clean context, or authoring residue masks gaps in the written instructions. A subagent per case gives that in Claude Code; otherwise use a separate session. Disable the skill for the baseline with `skillOverrides` (`"off"`) rather than deleting it.
 
@@ -67,12 +67,12 @@ For a rule you suspect is carrying no weight: delete it, rerun the scenarios, an
 
 - Ablate one rule at a time, or you learn nothing about which one mattered
 - A rule kept without an ablation is a guess, and guesses accumulate into the bloat you are trying to cut
-- A rule whose absence regresses a scenario has earned permanent tenure; note the scenario next to it so nobody re-litigates it later
+- A rule whose absence regresses a scenario has evidence for retention; link the scenario and revisit when the task, host, or model changes
 - Opinions are not ablatable this way: a house style has no failing scenario, it is the preference the skill exists to encode
 
 An opinion still has a dead state, and ablation cannot see it. A constraint dies when the model stops needing it, which shows up as an ablation that does not regress. An opinion dies when the model stops *following* it, which shows up as nothing at all: removing it regresses no scenario, and the model would not have produced it unprompted either, so both of the tests in `improving-existing-skills.md` vote to keep a line that is changing nothing.
 
-The test for an opinion is conformance, not regression: run the scenario with the skill and check whether the output actually took the position the opinion states. An opinion the model overrides, waters down, or silently ignores is dead weight exactly like a dead constraint, and the fix is usually placement or phrasing rather than deletion. A house rule buried at line 300 loses to the model's default; the same rule in the first 5,000 tokens of the body does not.
+The test for an opinion is conformance, not regression: run the scenario with the skill and check whether the output actually took the position the opinion states. An opinion the model overrides, waters down, or silently ignores is dead weight exactly like a dead constraint, and the fix is usually placement or phrasing rather than deletion. Move ignored preferences closer to the decision they govern and retest; placement does not guarantee conformance.
 
 ## Test Across Models
 
@@ -81,7 +81,7 @@ Skills augment the model, so the same body lands differently on each one. Guidan
 Two axes decide the test matrix, and most skills only think about the first:
 
 - **Capability tier.** A small fast model asks: enough guidance and explicit steps? A frontier model asks: does this over-explain, or re-teach something it already does? Test the floor and the ceiling of the tiers the skill may run under, not the one you author on.
-- **Effort level.** Every current frontier family exposes a reasoning-effort control, and the host picks it, not the skill. The same body is read at the terse end (fewer, more consolidated tool calls, less preamble) and at the exhaustive end. A workflow that only completes because the model volunteered an unstated step is a workflow that breaks at low effort. Run the skill's scenarios at the lowest effort it may see, and make every required step explicit rather than implied.
+- **Effort level.** Where the host exposes reasoning effort, include the settings used in deployment. The same body is read at the terse end (fewer, more consolidated tool calls, less preamble) and at the exhaustive end. A workflow that only completes because the model volunteered an unstated step is a workflow that breaks at low effort. Run scenarios at supported deployment settings and make required contracts explicit.
 
 A skill that travels across vendors adds a third question: does anything in the body assume one harness's tools, paths, or permission model? That is a portability bug, and it surfaces on another vendor's agent long before it surfaces in an eval.
 

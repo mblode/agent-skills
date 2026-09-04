@@ -1,20 +1,6 @@
 ---
 name: product-design
-description: >-
-  Decides what an interface should do before it is built or audited: which
-  control fits the choice, whether an action needs a confirmation or an undo,
-  what it affects and whether it is reversible, which states must exist, what
-  breaks offline or on error, and accessibility as task completion. Works from
-  a brief, spec, mockup, intent, or existing UI. Use when asked "is this the
-  right interaction", "design the flow", "what control should this use",
-  "should this be a modal or inline", "should delete be undoable", "do we need
-  a confirm dialog", "what should this action affect", "which states should
-  this have", "make this resilient", "what breaks here", "spec the right
-  interaction", or "review this flow for product correctness". Owns a gesture
-  that replaces a control (swipe-to-delete, hold-to-confirm). For what a state
-  looks like once built use ui-design; for built-code audits use ui-design
-  Audit mode; for the passage between states use ui-animation; for copy
-  wording use copywriting; for agentic trust use ax-audit.
+description: Specifies interaction choices, action scope, reversibility, recovery, and reachable states. Use when asked to "design the flow", "should delete be undoable", "choose the control", or "review this product decision". For visual implementation use ui-design; for motion use ui-animation; for wording use copywriting.
 ---
 
 # Product Design
@@ -29,24 +15,10 @@ Decide what the interface should do, then route who builds and verifies it: pick
   - motion, gesture physics, or deep typography: `ui-animation`, `typography-audit`.
   - whether an agentic feature earns trust: `ax-audit`.
 
-## product-design, ui-design, or ui-animation?
+## Routing boundary
 
-An interface is a set of states and the passages between them. That decomposition assigns the work.
+`product-design` owns action semantics, scope, reversibility, and contested state choices. `ui-design` builds and styles those states. `ui-animation` owns timing, gestures, and measured motion. A routine missing loading or error state stays with the UI build; a gesture replacing a control needs a product decision and an accessible alternative before its physics.
 
-| The question is about | Use |
-|---|---|
-| Which states exist, what an action affects, whether it is reversible | this skill |
-| What a state looks like once built: markup, type, colour, layout, hierarchy | `ui-design` |
-| The passage between two states: timing, easing, springs, gesture physics | `ui-animation` |
-
-- **Subject beats artifact.** When motion is the subject, it is `ui-animation` whether or not code exists.
-- **Artifact is the opening presumption, not the verdict.** A brief, spec, mockup, or intent with no code is this skill. Code, a diff, or a running UI presumes `ui-design`, and the next test can overturn that: this skill reads existing UI whenever the question is what it should do.
-- **Capability beats presentation.** With code in hand, ask whether the change alters what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all. That is a capability: this skill decides and `ui-design` implements. If it only changes how the same capability looks, reads, or behaves, `ui-design` owns it end to end.
-- **A gesture that replaces a control is a capability decision.** Swipe-to-delete, hold-to-confirm, and drag-to-reorder change what the user can do and how recoverable it is, so this skill settles the interaction (including its non-gesture alternative) and `ui-animation` builds its physics.
-- **Choosing between surfaces with different reachability is a capability.** Modal against inline, drawer against full page, dialog against toast each change what stays visible, how the task is dismissed, and where focus lands (`rule/inline-before-modal`). Styling whichever is chosen is `ui-design`'s.
-- **A missing state nobody would debate is `ui-design`'s to detect and build.** An empty list, a failed fetch, and a pending submit obviously need a state; its `states-` rules find and fix them. This skill decides which states must exist only where that is genuinely open: whether a partial, expired, or offline state should exist at all.
-
-Worked: "Delete should be undoable" is this skill. "The undo toast is ugly" is `ui-design`. "The undo toast should slide, not pop" is `ui-animation`. One artifact often needs both in sequence: this skill decides the states that must exist, then `ui-design` Audit mode verifies the built code implements them.
 
 ## Request modes
 
@@ -77,7 +49,7 @@ Product design pass:
 - [ ] Step 5: Name object, scope, consequence, and reversibility for each action in scope (spec, action, review)
 - [ ] Step 6: Enumerate reachable states and check coverage (shape, spec, harden)
 - [ ] Step 7: Emit output with a rule ID or labeled coverage gap per finding or decision; route follow-on work to siblings
-- [ ] Step 8: Run the pass self-check and label the pass INCOMPLETE if any item fails
+- [ ] Step 8: Check the decision contract and identify unresolved product decisions
 ```
 
 Steps 5 and 6 are mode-scoped because their references are: a pure `action` pass has no state matrix to enumerate, and a `shape` pass has no built actions to name yet.
@@ -113,7 +85,7 @@ In review and harden modes, lead with findings ordered by user impact (P0 to P3)
 
 ## Pass self-check
 
-Close every pass with these, and label it `INCOMPLETE` if any fails:
+Use these as the decision contract. Report unresolved decisions; omit a separate ceremony when the output already carries them:
 
 - Every finding and non-mechanical decision carries a rule ID that appears verbatim in `references/rules.md`, or an inline coverage gap labeled proposed.
 - The internal brief is present with job, desired outcome, and consequence filled, for shape, spec, and harden.

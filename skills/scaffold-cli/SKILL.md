@@ -1,18 +1,7 @@
 ---
 name: scaffold-cli
-description: >-
-  Scaffolds a production-ready TypeScript CLI and npm package: ESM on Node 24,
-  a dual tsdown build (CLI binary plus typed library), vitest, oxlint and
-  oxfmt via ultracite with a lefthook pre-commit hook, changesets v3, GitHub
-  Actions CI, OIDC trusted publishing to npm including the first-publish
-  bootstrap, publint and arethetypeswrong checks, AGENTS.md, and a bundled
-  agent skill. Use when creating a new CLI tool, bootstrapping a TypeScript
-  package, scaffolding a node CLI, starting a new npm package, or asking
-  "scaffold a CLI project", "set up a new TypeScript CLI", or "new npm package
-  with CI and publishing". For a Next.js web app use scaffold-nextjs; for
-  structuring an existing codebase use codebase-architecture; for auditing an
-  existing CLI's developer experience use dx-audit; for releasing an already-
-  scaffolded package use autoship.
+description: Scaffolds a TypeScript CLI and npm package with the house toolchain, dual tsdown outputs, CLI contracts, changesets, and publishing templates. Use when asked to "scaffold a CLI" or "start an npm package". For an existing package release use autoship; for existing API ergonomics use dx-audit.
+compatibility: Requires a shell, Git, Node.js, and npm registry access. Remote publishing requires the relevant account authentication.
 ---
 
 # Scaffold CLI
@@ -20,7 +9,7 @@ description: >-
 - **IS:** bootstrapping a brand-new TypeScript CLI or npm package (Node 24, TypeScript 7) from the pinned templates in `references/`, through to a green first CI run and a package npm can publish over OIDC.
 - **IS NOT:** a Next.js web app (use `scaffold-nextjs`), folder structure or module contracts for an existing codebase (use `codebase-architecture`), auditing an existing CLI's ergonomics (use `dx-audit`), or shipping a release of an existing package (use `autoship`).
 
-Low-freedom scaffold. Generate files exactly as templated, substituting only `{{placeholder}}` variables. The toolchain is the opinion: tsdown not tsup, vitest not jest, oxlint and oxfmt via ultracite not eslint or prettier, `node:util` `styleText` not chalk, `@clack/prompts` not ora. Swapping any of them or restructuring the layout produces a repo the templates' notes no longer describe.
+The templates encode the house toolchain. Substitute project values and verify template APIs against installed package versions; repair proven incompatibilities instead of blindly reproducing them. The toolchain is the opinion: tsdown not tsup, vitest not jest, oxlint and oxfmt via ultracite not eslint or prettier, `node:util` `styleText` not chalk, `@clack/prompts` not ora. Swapping any of them or restructuring the layout produces a repo the templates' notes no longer describe.
 
 ## Reference Files
 
@@ -109,7 +98,7 @@ Run the validation checklist in `references/post-scaffold.md`. Every item is a c
 
 ### Step 8: Bootstrap GitHub and npm
 
-Creating the GitHub repo and the first `npm publish` are public and irreversible (the npm name is claimed on publish), so confirm with the user before either, and stop after Step 7 if they only want local files. Otherwise follow "Bootstrap GitHub and npm" in `references/post-scaffold.md`: create and push the repo, enable Actions-created PRs, publish 0.0.1 once by hand so the package exists, then register the workflow as a trusted publisher. Terminal evidence is a green CI run on the pushed commit and `npm view {{name}} version` printing `0.0.1`. From here every release belongs to `autoship`.
+For a local scaffold, stop after Step 7. If the user already requested remote setup or publication, carry out that authorized scope. Otherwise present the prepared repository/package identity before asking to create or publish it. Otherwise follow "Bootstrap GitHub and npm" in `references/post-scaffold.md`: create and push the repo, enable Actions-created PRs, publish 0.0.1 once by hand so the package exists, then register the workflow as a trusted publisher. Terminal evidence is a green CI run on the pushed commit and `npm view {{name}} version` printing `0.0.1`. From here every release belongs to `autoship`.
 
 ## Dependencies
 
@@ -139,3 +128,5 @@ Creating the GitHub repo and the first `npm publish` are public and irreversible
 - `dx-audit`: audit the CLI's flags, errors, and types once real commands exist.
 - `agents-md`: grow the generated AGENTS.md as the codebase gains structure.
 - `readme-creator`: rewrite the README once there is a real usage story to tell.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

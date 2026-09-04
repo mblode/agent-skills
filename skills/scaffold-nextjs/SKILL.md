@@ -1,6 +1,7 @@
 ---
 name: scaffold-nextjs
-description: Scaffolds a production-ready Next.js turborepo end to end. Runs create-next-app with TypeScript 7, Tailwind CSS, React Compiler, and Cache Components, sets up shadcn/ui with Blode UI components from the Blode registry, blode-icons-react icons, Agentation, and Ultracite (Oxlint, Oxfmt, Lefthook), converts the app into a turborepo, then creates the GitHub repo and deploys to Vercel with a pre-launch checklist. Use when creating a brand-new Next.js app, bootstrapping a turborepo, scaffolding a web project, starting a new repo for a website or marketing site, or asking "create a Next.js project", "set up a turborepo", or "start a new web app". For a TypeScript CLI or npm package, use scaffold-cli. For folder structure and module contracts in an existing app, use codebase-architecture. For building a page inside an existing app, visual direction, palettes, and theming, use ui-design.
+description: Scaffolds a Next.js turborepo with Blode UI, icons, Ultracite, workspace hooks, and GitHub/Vercel setup. Use when asked to "create a Next.js project", "bootstrap a turborepo", or "start a new web app". For a page in an existing app use ui-design; for a CLI use scaffold-cli.
+compatibility: Requires a shell, Git, Node.js, pnpm, and package registry access.
 ---
 
 # Scaffold Next.js
@@ -10,7 +11,7 @@ Scaffold a Next.js turborepo with full tooling, GitHub, and Vercel deployment.
 - **IS:** bootstrapping a brand-new Next.js turborepo end to end: app creation, Blode UI, Ultracite tooling, turborepo conversion, GitHub, and Vercel.
 - **IS NOT:** scaffolding a TypeScript CLI or npm package (use `scaffold-cli`), designing folder structure or module contracts for an existing app (use `codebase-architecture`), building a page inside an existing app, or choosing visual direction and palettes (use `ui-design`).
 
-Low-freedom workflow. The reference files are the single source of truth for commands: run them as written, in phase order. Do not reconstruct commands from memory. Where a Next.js question comes up that the references do not answer, read the bundled docs at `node_modules/next/dist/docs/` in the app (they match the installed version) rather than training data.
+The references encode the house stack and dependency order. Verify version-sensitive flags against the installed CLI and bundled documentation; update a proven incompatible template rather than forcing stale flags. Where a Next.js question comes up that the references do not answer, read the bundled docs at `node_modules/next/dist/docs/` in the app (they match the installed version) rather than training data.
 
 ## Reference Files
 
@@ -54,7 +55,7 @@ Collect from the user (ask only for what is missing):
 
 ### Phase 2: Create Next.js app
 
-Run the create-next-app command from `references/app-setup.md` exactly as written (it pins linter, React Compiler, and package-manager flags). Confirm the app loads at `http://localhost:3000` before continuing.
+Run the create-next-app command from `references/app-setup.md` exactly as written (it pins linter, React Compiler, and package-manager flags). Confirm the app loads on the port reported by the server. Use a free task-owned port when 3000 is occupied.
 
 ### Phase 2.1: Upgrade to TypeScript 7
 
@@ -144,3 +145,5 @@ A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a 
 | After deployment, optimise SEO | `optimise-seo` |
 | Before launch, audit UI quality | `ui-design` (Audit mode) |
 | Before launch, add motion and animation | `ui-animation` |
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

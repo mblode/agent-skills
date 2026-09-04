@@ -1,0 +1,39 @@
+{
+  "skill_name": "agents-md",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Improve these repository instructions. AGENTS.md says npm test, but package.json exposes only check and build. CLAUDE.md contains a duplicate copy. Codex and Claude Code both use the repo.",
+      "expected_output": "Correct the command and replace duplicate Claude instructions with a pointer.",
+      "files": [],
+      "assertions": [
+        "Uses the manifest-backed check command",
+        "Keeps one authoritative instruction source",
+        "Applies the requested improvement without a second approval"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Audit, without editing, an AGENTS.md that lists a missing scripts/deploy.sh and says always write descriptive variable names.",
+      "expected_output": "Report the broken path and redundant coaching with proposed changes.",
+      "files": [],
+      "assertions": [
+        "Leaves files unchanged",
+        "Identifies the missing executable path",
+        "Distinguishes repository contracts from generic coding advice"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Improve these repository instructions. AGENTS.md says npm test, but package.json exposes only check and build. CLAUDE.md contains a duplicate copy. Codex and Claude Code both use the repo.",
+      "Audit, without editing, an AGENTS.md that lists a missing scripts/deploy.sh and says always write descriptive variable names."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Write our public API getting-started guide.",
+        "expected": "docs-writing"
+      }
+    ]
+  }
+}

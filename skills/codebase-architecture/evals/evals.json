@@ -1,0 +1,39 @@
+{
+  "skill_name": "codebase-architecture",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Harden a repository whose CI runs jscpd without a failure threshold. A seeded duplicate currently exits zero. Keep scope to that gate.",
+      "expected_output": "Configure an effective gate and demonstrate a deliberate violation fails.",
+      "files": [],
+      "assertions": [
+        "Checks the process exit status",
+        "Shows pass/fail evidence using a disposable violation",
+        "Does not install unrelated architecture tools"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Design a plan only for an internal service. Existing code already supplies an auth policy registry and request context.",
+      "expected_output": "Reuse existing contracts in a bounded architecture brief.",
+      "files": [],
+      "assertions": [
+        "Names existing auth and context ownership",
+        "Does not introduce a second registry",
+        "Does not claim guardrails were installed"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Harden a repository whose CI runs jscpd without a failure threshold. A seeded duplicate currently exits zero. Keep scope to that gate.",
+      "Design a plan only for an internal service. Existing code already supplies an auth policy registry and request context."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Simplify only the current diff before I open a PR.",
+        "expected": "tidy"
+      }
+    ]
+  }
+}

@@ -9,7 +9,7 @@ Four structural patterns. Pick one by what the skill has to do, then copy the sh
 - Workflow
 - Rules-based
 - Mixed
-- Cross-cutting: anti-rationalization tables
+- Cross-cutting: failure decision tables
 
 ## Picking a Pattern
 
@@ -82,16 +82,6 @@ SKILL.md carries a priority table (category, impact, prefix, rule count) so a tr
 
 Workflow steps where one branch of references applies and the rest do not: platform-specific, framework-specific, or context-specific. The workflow determines context first, then loads only the matching reference. `multi-tenant-architecture` dispatches on Cloudflare versus Vercel this way.
 
-## Cross-Cutting: Anti-Rationalization Tables
+## Cross-Cutting: Failure Decision Tables
 
-Any pattern can include one. Agents and tired engineers generate plausible reasons to skip a step; this table is the pre-written counter. Include it when steps get skipped under time pressure (specs, tests, security review).
-
-```markdown
-| Excuse | Rebuttal |
-|--------|----------|
-| "This task is too simple for a spec." | Acceptance criteria still apply. Five lines is fine. Zero lines is not. |
-| "I'll write tests later." | There is no later. Write the failing test first. |
-| "Tests pass, ship it." | Passing tests are evidence, not proof. Did you verify user-visible behavior? |
-```
-
-Place it after the workflow, before anti-patterns. Each row pairs a specific excuse with a rebuttal that redirects to the skipped step.
+A compact symptom, cause, and recovery table helps with observed operational failures. Keep commands or error signatures that distinguish branches. Do not script rebuttals to a user who changes scope, declines an interview, or already authorized the next step.

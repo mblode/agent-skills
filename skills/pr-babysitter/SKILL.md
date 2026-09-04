@@ -1,17 +1,7 @@
 ---
 name: pr-babysitter
-description: >-
-  Keeps an open GitHub PR moving to merge: detects the PR from the current
-  branch, watches for merge conflicts, red CI (GitHub Actions, Buildkite,
-  Vercel, Fly.io), inbound review comments, and merge readiness, fixes what is
-  safe, and reports only state changes. Also runs one-shot: diagnose and fix
-  CI, rebase and resolve conflicts, or triage and answer review comments. Use
-  when asked to "babysit a PR", "watch this PR", "keep the PR green", "fix
-  CI", "why is CI red", "resolve conflicts", "rebase onto main", "address the
-  review comments", "reply to the reviewers", "is this PR ready to merge", or
-  "what is blocking the merge". For opening or editing the PR use pr-creator;
-  for reviewing the local diff use pr-reviewer; for applying a pr-reviewer
-  report use tidy; for npm release PRs use autoship.
+description: "Monitors or repairs an open GitHub PR: CI failures, conflicts, review threads, and merge readiness, reporting state changes. Use when asked to \"watch this PR\", \"fix CI\", \"resolve conflicts\", or \"address review comments\". For PR metadata use pr-creator; for npm release PRs use autoship."
+compatibility: Requires a Git checkout, authenticated GitHub CLI, and jq. Continuous monitoring also needs a supported scheduler or event subscription.
 ---
 
 # PR Babysitter
@@ -30,6 +20,9 @@ description: >-
 | "is it ready", "what is blocking the merge" | One-shot Phase 5 report |
 
 Standing rules, every mode:
+
+- Monitoring or fixing code does not by itself authorize posting replies. Post, resolve threads, or request reviews only when the user authorized that communication; otherwise prepare replies and report them.
+- Resolve `scripts/fetch-comments.sh` relative to this installed SKILL.md. `${CLAUDE_SKILL_DIR}` below is a Claude Code adapter, not a portable environment variable.
 
 - No setup questions. Auto-detect the PR, the CI platforms, and the defaults (poll every 2 minutes, auto-resolve noise, no auto-merge), then start. Overrides arrive inline: "poll every 5 minutes", "enable auto-merge".
 - Skip closed or merged PRs. Skip drafts (`isDraft`) unless asked.

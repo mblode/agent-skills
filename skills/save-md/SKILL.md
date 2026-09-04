@@ -1,15 +1,6 @@
 ---
 name: save-md
-description: >-
-  Saves a source the user names (URL, YouTube talk, tweet, PDF, image, Google
-  Doc, pasted conversation) as a full-text markdown file with frontmatter,
-  using curl, Read, vision, and Write, so the next turn can reread it after
-  compaction. Public export endpoints instead of fetch summaries or memory: a
-  talk is never reconstructed from training data. Use when the user says "save
-  this", "save this article", "get the markdown", "turn this into markdown",
-  "keep this source", "transcript this", "extract this PDF", or "convert this
-  URL". Not for a URL cited as context for a coding task or a request for a
-  chat summary; read those inline.
+description: Saves a named source to Markdown with provenance and faithful extraction through direct export endpoints. Use when asked to "save this article", "get the markdown", "transcribe this", or "keep this source". A URL supplied as task context alone does not trigger conversion; a chat summary stays in chat.
 ---
 
 # Save as Markdown
@@ -21,7 +12,7 @@ The user named a source. Write it to a `.md` file the next turn can reread, in f
 
 Three rules carry the skill:
 
-1. **Write a file.** Chat does not survive compaction; the file does.
+1. **Write a file.** The deliverable is a durable source artifact with an explicit path.
 2. **Keep the body.** Drop nav, cookie chrome, and comment threads. Keep every paragraph, heading, list, table, and code fence.
 3. **Stop instead of guessing.** A missing file with a named reason beats a plausible one. No paragraph comes from memory.
 
@@ -38,7 +29,7 @@ The source travels from origin to disk with nothing in between. The user gave a 
 A `.md` exists where the user can open it later, chat names the path, and `Read` of that path returns the body. Length follows the source, never a target.
 
 - Location: the project cwd, the connected folder, or the path they named. Name the file from the title unless they gave one. Not `/tmp`, a subagent scratch dir, or a gitignored path: the user cannot find those. Not over `README.md`, `SKILL.md`, `LICENSE.md`, or another project file.
-- Write with the harness Write tool. A shell heredoc expands `$var` and backticks inside the article and truncates a long body.
+- Use a file-writing API or safely quoted input. An unquoted heredoc expands `$var` and backticks; a quoted delimiter preserves them.
 - Read-only mode (Plan, Ask, a sandbox without write permission): name the mode that allows writing and stop. The article pasted into chat is not a substitute.
 - No Write tool at all (chat-only harness): canvas, artifact, or download, in that order.
 - Do not `git add` or commit the file unless they asked.
@@ -92,3 +83,5 @@ type: web | youtube | video | image | gdoc | sheet | slides | pdf | docx | epub 
 - A `date:` copied from the frontmatter example, or from a previous save, silently misdates the file. Run `date -u` and paste the output.
 - A subagent that writes into its scratch worktree kept nothing for the user. The file must land in the user's tree, and chat must name the path.
 - An empty `.md` next to a 2 MB PDF means the text layer was missing, not that the PDF was blank. Check character count before deciding it is a scan.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

@@ -1,0 +1,39 @@
+{
+  "skill_name": "multi-tenant-architecture",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design isolation for shared-schema Postgres. The app currently uses the table owner role; tenant id is set once on a pooled connection.",
+      "expected_output": "Specify a restricted app role and transaction-local tenant context.",
+      "files": [],
+      "assertions": [
+        "Distinguishes table owner from BYPASSRLS",
+        "Uses transaction-local set_config or equivalent",
+        "Includes a cross-tenant read/write check under the app role"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Store domain mappings for a-b.example.com and a.b-example.com using a key alphabet of letters, digits, underscores, and hyphens.",
+      "expected_output": "Choose a collision-free encoding or hash.",
+      "files": [],
+      "assertions": [
+        "Does not replace every separator with underscore",
+        "Keeps the original hostname in the authoritative record",
+        "Treats an unknown hostname as unresolved rather than another tenant"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Design isolation for shared-schema Postgres. The app currently uses the table owner role; tenant id is set once on a pooled connection.",
+      "Store domain mappings for a-b.example.com and a.b-example.com using a key alphabet of letters, digits, underscores, and hyphens."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Write the JSON-LD content for this tenant page; routing already works.",
+        "expected": "optimise-seo"
+      }
+    ]
+  }
+}

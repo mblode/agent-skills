@@ -20,6 +20,7 @@ await page.addInitScript(() => {
       if (e.hadRecentInput) continue;
       window.__shifts.push({
         value: e.value,
+        startTime: e.startTime,
         sources: e.sources.map((s) => ({
           node: s.node?.tagName + (s.node?.id ? '#' + s.node.id : ''),
           from: s.previousRect, to: s.currentRect,
@@ -34,17 +35,32 @@ Delay the data, not the whole network. Throttling the shell slows the bundle and
 
 ```js
 let release;
-await page.route('**/api/invoices*', async (route) => {
-  await new Promise((r) => (release = r));
+const gate = new Promise(resolve => { release = resolve; });
+let markIntercepted;
+const intercepted = new Promise(resolve => { markIntercepted = resolve; });
+const pattern = '**/api/invoices*';
+const delayInvoices = async (route) => {
+  markIntercepted();
+  await gate;
   await route.continue();
-});
-await page.goto(url);
-await page.waitForSelector('[data-testid=invoice-skeleton]');
-const before = await page.locator('#invoice-list').boundingBox();
-release();
-await page.waitForSelector('[data-testid=invoice-row]');
-const after = await page.locator('#invoice-list').boundingBox();
-const shifts = await page.evaluate(() => window.__shifts);
+};
+await page.route(pattern, delayInvoices, { times: 1 });
+let before, after, shifts;
+try {
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await intercepted; // Bound this with the runner timeout; a missed route is unknown.
+  await page.waitForSelector('[data-testid=invoice-skeleton]');
+  before = await page.locator('#invoice-list').boundingBox();
+  release();
+  await page.waitForSelector('[data-testid=invoice-row]');
+  await page.evaluate(() => new Promise(resolve =>
+    requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  after = await page.locator('#invoice-list').boundingBox();
+  shifts = await page.evaluate(() => window.__shifts);
+} finally {
+  release();
+  await page.unroute(pattern, delayInvoices);
+}
 ```
 
 Where the app has no test ids, wait on the loaded content's own selector and take the before snapshot immediately after `goto` resolves.
@@ -55,16 +71,16 @@ Run against a production build. In dev the bundler compiles the route on first n
 
 | Observation | Result |
 |---|---|
-| Container height changes on data arrival AND a `layout-shift` entry names it | `reproduced`, fail. Report both heights, the delta in px, and the summed CLS |
-| Heights differ but no shift entry names the container | It moved inside its own reserved space. `not-reproduced` |
-| Shift entries exist but all name elements below the fold that nobody had scrolled to | Report at lower severity and say the shift was off-screen |
-| Total CLS under 0.1 with no container-level movement | `not-reproduced` |
+| Container height changes on data arrival AND a `layout-shift` entry names it | `reproduced`, fail. Report both heights, the delta in px, and the sum of captured shift values (not the session-window CLS metric) |
+| Heights differ but no shift entry names the container | Inconclusive from attribution alone; inspect displaced siblings and the capture before deciding |
+| Shift entries exist but all name elements below the fold that nobody had scrolled to | Record the observation and viewport; tiering belongs to ui-design, not this probe |
+| Loading and loaded states both observed, no container or sibling movement, and no attributable shift entries | `not-reproduced` for this trigger and viewport |
 
 The same probe covers `perf-image-dimensions-and-priority`: an `<img>` with no intrinsic dimensions shows up as a shift source naming the image, with `from` height 0.
 
 ## False positives to guard
 
-- **Shifts with `hadRecentInput`** are the user's own doing (an accordion they opened) and are excluded by the observer, which is why the filter is in the recipe and not optional.
+- **Shifts with `hadRecentInput`** fall within the recent-input exclusion window. They are excluded from this observer, but can still be unwanted movement. Inspect them separately if the defect follows an interaction.
 - **`content-visibility: auto` subtrees** legitimately shift within themselves as they come into view.
 - **Font swap** produces a real shift that the loading state did not cause. Attribute it: the source node will be a text container, not the placeholder, and the fix belongs to font loading rather than the skeleton.
 - **The harness itself.** A devtools overlay, an injected banner, or a screenshot-time scroll all generate entries. Compare the entry timestamps against the injected delay window and drop anything outside it.

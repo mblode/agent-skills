@@ -20,7 +20,7 @@ Copy this checklist to track progress:
 
 ```text
 Skill improvement progress:
-- [ ] Phase A: Read everything (SKILL.md, every linked file, repo AGENTS.md, README entry), run the evals for a before baseline, decide the skill should still exist
+- [ ] Phase A: Read everything (SKILL.md, every linked file, repo AGENTS.md, README entry), capture available eval results or mark the baseline unrun, decide the skill should still exist
 - [ ] Phase B: Score the eleven audit dimensions (before)
 - [ ] Phase C: Rewrite in the ordered procedure
 - [ ] Phase D: Validate (scripts/validate.sh + re-run the same evals + re-score)
@@ -33,7 +33,7 @@ Skill improvement progress:
 - Rules-based skills: read `_sections.md`, `_template.md`, and 2+ sample rules per category.
 - Read the repo AGENTS.md and the skill's README entry; source of truth for install commands and conventions.
 - `ls -R` the folder; `validate.sh` reports orphan files, so run it here to seed the audit.
-- Run the skill's evaluations now, before touching anything, and keep the output. This is the only ground truth in the protocol: the dimensions below measure form, and a rewrite that improves form while degrading behavior is a regression you cannot detect without a before. A skill with no evals gets 2-3 written here, against its current behavior, or the rewrite ships on faith.
+- Capture a behavioral baseline when a runner and target model are available. Otherwise record that limitation and author concrete scenarios before broad rewrites. Scenarios are specifications, not executed evidence.
 
 Do not edit during Phase A; mid-edit findings cause inconsistent half-rewrites.
 
@@ -53,7 +53,7 @@ Retirement needs the README bullet and count updated, so it reuses Step 6 of the
 
 ## Audit Dimensions
 
-Score each 1-5 before editing; the lowest scores dictate rewrite effort. Report before/after. These are the judgement calls, so none of them is scriptable; everything mechanical is already a check.
+Use these dimensions to locate substantive gaps. Score 1-5 when an audit score is requested; otherwise record concrete findings and their resolution. These are the judgement calls, so none of them is scriptable; everything mechanical is already a check.
 
 | # | Dimension | What 5/5 looks like |
 |---|-----------|---------------------|
@@ -64,7 +64,7 @@ Score each 1-5 before editing; the lowest scores dictate rewrite effort. Report 
 | 5 | Gotchas quality | Each gotcha names a concrete command/value and consequence; from observed failures |
 | 6 | Freshness | No stale commands, paths, version pins, or model names; frontmatter fields valid for every place the skill is meant to run |
 | 7 | Progressive disclosure | Every reference earns its load condition and adds value SKILL.md does not already carry |
-| 8 | Workflow integrity | Copyable checklist; terminal step produces evidence, never "seems right" |
+| 8 | Workflow integrity | Dependencies clear; terminal step names observable completion evidence |
 | 9 | Cross-skill coherence | Related Skills accurate; no trigger overlap with sibling descriptions |
 | 10 | Content patterns | Template, examples, and conditional patterns used where they fit; examples confined to style-sensitive output |
 | 11 | Constraint calibration | Absolutes confined to safety, data loss, and format contracts; other guidance phrased as an outcome; no directive duplicating or contradicting the harness, a sibling skill, or a script's own interface |
@@ -83,7 +83,7 @@ Execute in order: correctness, then triggers, then structure, then deletion, the
    **Stop condition:** an opinion particular to this repo, team, or product is the skill's payload. Never cut it for being opinionated, only for being wrong or already the model's default. The test is "would Claude do this unprompted", not "is this strongly worded". A skill stripped of its opinions validates clean and helps nobody.
 
 7. **Gotchas.** Rewrite vague warnings into concrete-failure format (command/value plus consequence); delete hypotheticals nobody has observed.
-8. **Workflow integrity.** Multi-step workflows need a copyable progress checklist; the final step produces evidence (command output, score table, file listing).
+8. **Workflow integrity.** Long workflows benefit from progress tracking; the final step names the command result or artifact that establishes completion.
 
 ## Structure Normalization Decision Table
 
@@ -111,4 +111,4 @@ Sample-read roughly 10% of rules per category and deep-rewrite only those that f
 1. `scripts/validate.sh skills/<name>` passes clean. Every mechanical constraint is a check there, so a clean run replaces reading a checklist.
 2. Re-score the eleven dimensions; report before/after with files moved and anything deferred.
 3. Rerun the evaluations from Phase A and diff against that baseline. Better dimension scores with worse eval results is a regression: dimensions measure form, evals measure behavior. Without the Phase A run there is nothing to diff against, and "the evals pass" says only that the rewrite is not catastrophic.
-4. Install smoke-test: `npx skills add <repo-slug> -g --skill <name> -y && ls ~/.claude/skills/<name>/`.
+4. When install behavior changed, smoke-test the edited local source in a disposable target. Installing the remote default branch does not test unpushed edits.

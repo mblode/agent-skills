@@ -1,0 +1,39 @@
+{
+  "skill_name": "readme-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Rewrite a hosted web app README. The only consumer entry is https://app.example.test; package.json is private and there is no supported self-hosting mode.",
+      "expected_output": "Lead with the hosted entry rather than inventing package installation.",
+      "files": [],
+      "assertions": [
+        "Omits npm install for the private app",
+        "Does not add registry version badges",
+        "Preserves a concise consumer-focused structure"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Rewrite a published CLI README. The package name is @acme/harbor and its output includes a toolbar example.",
+      "expected_output": "Use the actual package name without treating substrings foo or bar as boilerplate.",
+      "files": [],
+      "assertions": [
+        "Keeps @acme/harbor intact",
+        "Does not flag toolbar merely for containing bar",
+        "Checks CLI examples against the documented interface"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Rewrite a hosted web app README. The only consumer entry is https://app.example.test; package.json is private and there is no supported self-hosting mode.",
+      "Rewrite a published CLI README. The package name is @acme/harbor and its output includes a toolbar example."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Fix the stale commands in AGENTS.md.",
+        "expected": "agents-md"
+      }
+    ]
+  }
+}

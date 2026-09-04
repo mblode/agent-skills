@@ -1,0 +1,39 @@
+{
+  "skill_name": "planning",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan a CSV export using the existing export service. Just write the plan, no interview. Include cancellation and a way to verify partial output is not presented as complete.",
+      "expected_output": "Write a bounded plan from available evidence, with acceptance criteria.",
+      "files": [],
+      "assertions": [
+        "Does not push back for an interview",
+        "Names cancellation and partial-output checks",
+        "Does not implement source code for a plan-only request"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a plan that says proxy.ts handles authorization, while POST /api/export is excluded by its matcher. Fix the plan.",
+      "expected_output": "Correct the authorization location and verification criterion.",
+      "files": [],
+      "assertions": [
+        "Identifies the matcher-excluded path",
+        "Requires authorization at the handler or data boundary",
+        "Does not inflate a self-score by adding unrelated work"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Plan a CSV export using the existing export service. Just write the plan, no interview. Include cancellation and a way to verify partial output is not presented as complete.",
+      "Review a plan that says proxy.ts handles authorization, while POST /api/export is excluded by its matcher. Fix the plan."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Review the code changes on this branch without editing.",
+        "expected": "pr-reviewer"
+      }
+    ]
+  }
+}

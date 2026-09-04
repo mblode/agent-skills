@@ -1,6 +1,6 @@
 # Interrogation protocol
 
-How to spend the 5-10 questions in Create Step 2. Every question goes through `AskUserQuestion`: the recommended answer is the first option, its label marked recommended, the evidence in its description, and the user can still type their own answer through Other.
+Use for an unresolved consequential decision or an explicitly requested interview. Use the host's available question interface; offer a recommendation grounded in evidence. There is no question quota.
 
 ## Contents
 
@@ -9,7 +9,7 @@ How to spend the 5-10 questions in Create Step 2. Every question goes through `A
 - Recommended answer format
 - Batching independent questions
 - Fuzzy term patterns
-- Anti-rationalization table
+- Respecting a request to proceed
 
 ## Question decision tree
 
@@ -42,9 +42,7 @@ Intent clear?
 
 Don't walk the tree mechanically; skip branches the codebase scan already answered. It ranks what matters, it is not a script. When the user names a reference, read it and treat its semantics as the spec ("reimplement the same semantics as `vendor/rate-limiter`"), interrogating deviations only.
 
-Always voice the simplicity node, even when the change looks simple: the whole-change view only exists once every other decision is settled, so the step-back catches scope no earlier question could. This is the mandatory simplicity challenge from SKILL.md Step 2.
-
-**Budget:** 5-10 questions. At 10 without convergence the scope exceeds one plan: say so and propose the split (`splitting.md`) instead of an eleventh question.
+Challenge scope when there is a concrete cut to propose; do not ask a ritual closing question.
 
 ## Blindspot pass
 
@@ -98,16 +96,6 @@ When you hear these, sharpen them:
 
 Propose the sharp version and ask if it's right; never ask "what do you mean?" in the abstract.
 
-## Anti-rationalization table
+## Respecting a request to proceed
 
-Users will try to skip the interrogation. Push back with these:
-
-| User says | Why it's a trap | Your response |
-|---|---|---|
-| "Just write the plan" | Plans without shared understanding produce rework | "I'll keep it to 3 more questions. The plan will be better for it." |
-| "I already know what I want" | They know the goal, not the implementation path | "Great, then these questions will be fast. Let me confirm a few things." |
-| "Skip the questions, I'm in a hurry" | Rushed plans cause more time loss than 5 questions | "5 minutes now saves hours of wrong-direction work. Let me ask the fastest 3." |
-| "It's simple, just do it" | "Simple" things that don't need a plan don't need this skill | "If it's truly simple, should we skip the plan entirely and just implement?" |
-| "I'll figure it out as I go" | Exploration without a plan leads to backtracking | "Let me at least confirm scope so you don't build something you'll throw away." |
-
-**Escape hatch:** one push-back from this table, then respect the call: synthesize what you have and move on. A user who insists twice is not blocked a third time.
+"Just write the plan" and "skip questions" are instructions. Draft from the available evidence and state material assumptions. Leave a consequential unresolved decision at the step it blocks; continue the rest. Do not argue for an interview the user declined.

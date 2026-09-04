@@ -1,6 +1,6 @@
 # README Quality Checklist
 
-Run before finalizing a README. Score each applicable item: Yes = 1, No = 0, N/A = exclude from denominator. Report the pass count with the render-check output from Phase 5 of SKILL.md.
+Use as a consumer-path and house-style rubric. Apply only relevant items; a hosted app with no installable product uses its live URL. If scoring is requested, exclude N/A items and keep editorial scores separate from executed verification.
 
 ## Audience (5 checks)
 
@@ -15,7 +15,7 @@ Run before finalizing a README. Score each applicable item: Yes = 1, No = 0, N/A
 6. Title is the display name, linked to the live site if one exists
 7. Tagline directly below the title with no heading, and it does not open with the project's own name
 8. A plain second line saying what you do with it
-9. Section order follows the spine: header, Demo, Install, Quickstart, capability sections, License
+9. Applicable sections follow the spine: header, Demo, Install, Quickstart, capability sections, License; omit Install for browser-only consumption
 10. Two to four capability sections, or a stated reason for a fifth
 11. Headings use the canonical names: `Install`, `Quickstart`, `Demo`, `License`
 12. Headings are sentence case, and nothing goes deeper than `###`

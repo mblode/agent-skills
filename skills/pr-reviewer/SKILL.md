@@ -1,21 +1,6 @@
 ---
 name: pr-reviewer
-description: >-
-  Reviews the local diff, branch, or PR and returns a read-only,
-  severity-tiered findings report with file:line evidence and committable
-  fixes. Four modes: Standard (bugs), Structural (maintainability), Deslop
-  (AI-generated patterns), and Security audit (whole repo). Honors CLAUDE.md,
-  AGENTS.md, and REVIEW.md; complements Claude Code's bundled /code-review
-  and /security-review rather than replacing them. Use when asked
-  to run /pr-reviewer, "review my changes", "code review", "thermo-nuclear
-  review", "structural review", "deslop this", "clean up AI code", "security
-  audit", "find vulnerabilities", "does the diff match the description", "did
-  this land in the right place", or before commit, push, or handoff. For fixes
-  use tidy; for PR creation use pr-creator; for CI or review comments use
-  pr-babysitter; for frontend UX, accessibility, or rendered quality use
-  ui-design Audit mode; for library or CLI ergonomics use dx-audit; for
-  module boundaries outside a diff use codebase-architecture; for plans use
-  planning.
+description: Reviews a diff or security scope read-only using evidence-tiered findings, structural and context-error rubrics, and repository review policy. Use when asked to "review my changes", "structural review", "review for AI patterns", or "security audit". For applying fixes use tidy; for UI defects use ui-design.
 ---
 
 # Local Review
@@ -25,7 +10,7 @@ description: >-
 
 Only report issues you can defend with `file:line` evidence.
 
-**When to run:** on a diff that compiles and whose tests pass, before commit, push, or handoff. Cost scales with diff size, so shard a large one rather than skimming all of it.
+**When to run:** on the requested diff, including a failing one. Existing check results at the same revision are usable evidence; run a focused check when it can settle a finding, and report coverage limits.
 
 **Then hand off.** `tidy` runs next in the usual flow, hunting complexity and applying what it finds, including this report's confirmed findings. So write the report to be consumed: every `Fix:` line has to be something a person could commit. Do not apply anything yourself, even a one-character fix; the moment this skill edits a file the user loses the read-only report they asked for.
 
@@ -64,7 +49,7 @@ Review progress:
 ```
 
 1. **Discover target.** Staged and unstaged changes first (`git diff --stat`, `git diff --staged --stat`); if clean, the branch diff against its merge base with the default branch (`git merge-base HEAD origin/<default>`). For a PR, `gh pr diff <n>` with the branch checked out for context; same criteria, PR handoff format. Write down the range or ref pair you reviewed; it goes in the report.
-2. **Gather context.** Capture intent from the user's words, the commit messages, and the PR description. Load scoped `AGENTS.md` / `CLAUDE.md`, and a root `REVIEW.md` where one exists: both override this skill's defaults when they conflict, so a pattern they mandate is not a finding. `REVIEW.md` is the file Claude Code Review reads for severity calibration, skip paths, nit caps, and repo-specific checks; apply it the same way here. Run the documented lint, type-check, and tests in their quiet forms (`--reporter=dot`, `--quiet`, or `2>&1 | tail -20`); record baseline failures and the exact commands.
+2. **Gather context.** Capture intent from the user's words, the commit messages, and the PR description. Load scoped `AGENTS.md` / `CLAUDE.md`, and a root `REVIEW.md` where one exists: both override this skill's defaults when they conflict, so a pattern they mandate is not a finding. `REVIEW.md` is the file Claude Code Review reads for severity calibration, skip paths, nit caps, and repo-specific checks; apply it the same way here. Reuse checks already run on this revision. When a candidate needs execution, run the relevant documented command and preserve its exit status; piping into `tail` without `pipefail` can hide failure.
 3. **Review.** Apply the loaded rubric and high-signal criteria; shard large diffs. Five passes, because each finds what the others structurally cannot:
    - **Claims.** Map each claim in the description or commit messages to a hunk, and each hunk to a claim. A claim with no hunk is a finding: the description says a change shipped and the diff does not contain it, the most common description-to-code mismatch in agent-authored PRs, and the one that most often gets them rejected. A hunk with no claim is not a finding on its own; list it under the readiness summary as an unstated change so the reader can decide.
    - **Added lines.** Read every hunk, then the enclosing function. A bug on an unchanged line of a touched function is in scope: this diff re-exposed it.
@@ -190,3 +175,5 @@ PR handoff format, for posting through `pr-babysitter` or `gh`; prefix `minor` i
 - `dx-audit`: the developer-facing surface of a library, CLI, or SDK; route there when the complaint is about an export, command, error string, or config rather than a defect in the diff.
 - `codebase-architecture`: forward-looking architecture briefs, deepening opportunities, and repo-wide guardrails outside a diff review.
 - `planning`: builds and reviews plans before implementation.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

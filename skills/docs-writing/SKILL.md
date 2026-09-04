@@ -1,6 +1,6 @@
 ---
 name: docs-writing
-description: Writes and audits technical documentation using the Diataxis framework and Stripe-style clarity. 51 rules across 9 categories covering voice, structure, clarity, code examples, formatting, navigation, scanability, content hygiene, and review. Use when writing docs, documenting APIs, writing documentation-site tutorials, how-to guides, reference pages, or getting-started guides, auditing an existing README or docs site, making docs readable for AI agents, or asking "review my docs", "improve this documentation", "write docs for this", or "is this a tutorial or a how-to". For editorial blog tutorials use the external ghostwriter skill with platform blog; for a README from scratch or a top-to-bottom README rewrite use readme-creator; for AGENTS.md or CLAUDE.md files use agents-md; for marketing copy use copywriting.
+description: Writes and audits technical docs with Diataxis type gating, runnable examples, and 51 documentation rules. Use when asked to "review my docs", "write an API reference", or improve a documentation page. For a whole README use readme-creator; for agent instructions use agents-md.
 ---
 
 # Documentation Writing
@@ -23,7 +23,7 @@ Doc type gates which rules apply, so classify every file first. Use the Diataxis
 | **Action** | Tutorial | How-to guide |
 | **Cognition** | Explanation | Reference |
 
-A page that answers differently for different sections is mixed; `structure-diataxis` handles the split. Getting-started pages and READMEs are tutorials with a quick start; API and CLI pages are reference.
+A page that answers differently for different sections is mixed; `structure-diataxis` handles the split. Classify by the reader's task, not the filename. A README can orient or reference; a getting-started page can be a tutorial or a goal-directed how-to.
 
 ## Audit workflow
 
@@ -50,7 +50,7 @@ Docs writing progress:
 - [ ] Step 1: Pick one Diataxis type per file with the compass; name the audience and what they can do afterwards
 - [ ] Step 2: Read the defaults bundles (voice-defaults, clarity-defaults, scan-defaults) plus the structure- and code- rules the type-gating table keeps
 - [ ] Step 3: Draft: bottom line up front, quick start for getting-started docs, runnable example per concept, next steps for tutorials and how-tos
-- [ ] Step 4: Self-audit against CRITICAL and HIGH categories; fix findings
+- [ ] Step 4: Apply the type-relevant rules to concrete weaknesses in the draft
 - [ ] Step 5: Verify: run every example, resolve every link, confirm parameter names and defaults against the implementation; quote the command output
 ```
 
@@ -126,3 +126,5 @@ For the full rule list per category, read `rules/_sections.md`. The `*-defaults.
 - `optimise-seo`: implementing `llms.txt`, AI-crawler policy, and Markdown routes in a Next.js App Router site; `nav-agent-readable` says what the docs should expose, that skill builds it.
 - Optional external `ghostwriter` where installed: editorial tutorials, how-to articles, thought leadership, and long-form posts, drafted from the `blog` platform profile.
 - Optional external `blodemd` where installed: scaffolds/deploys MDX docs sites; this skill governs content quality inside them.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

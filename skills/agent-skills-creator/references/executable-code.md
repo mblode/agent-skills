@@ -26,7 +26,7 @@ Execute deterministic work; read-as-reference only when Claude must adapt the al
 
 ## Paths and Permissions
 
-The session shell's working directory moves whenever Claude runs `cd`, so a bare `scripts/x.sh` resolves against wherever the shell happens to be. Write `${CLAUDE_SKILL_DIR}/scripts/x.sh` and it resolves the same way every time. This skill's own `validate.sh` predates the variable and is run from the repo root by convention; new scripts should not rely on that.
+The session shell's working directory moves whenever Claude runs `cd`, so a bare `scripts/x.sh` resolves against wherever the shell happens to be. Resolve `scripts/x.sh` against the installed SKILL.md directory. Claude Code can substitute `${CLAUDE_SKILL_DIR}`; other hosts need the actual resolved path. Run this repository's validator from its root with the explicit skill argument.
 
 Pair the path with an `allowed-tools` rule when the script should run without a permission prompt. The variable is substituted in both places, so the rule matches the exact command the body issues:
 
@@ -78,7 +78,7 @@ Use for multi-record edits, schema migrations, form filling, anywhere a dry run 
 
 ## Runtime Environment
 
-Skills run in a filesystem with bash and code execution. The execution model shapes content organization.
+Executable skills require filesystem and code-execution tools. Discover those capabilities from the host; an API or browser alone does not imply a shell.
 
 - Only the frontmatter (`name`, `description`) is pre-loaded at session start
 - SKILL.md is read when a trigger matches; reference files are read on demand
@@ -90,10 +90,7 @@ Bundle comprehensive resources (docs, examples, datasets); they cost nothing unt
 
 ## Package Dependencies
 
-List required packages explicitly in SKILL.md. Availability differs by environment:
-
-- **Claude Code / claude.ai code execution:** can install from npm and PyPI at runtime
-- **Claude API (direct):** no network access, no runtime installs; dependencies must be pre-installed
+List required packages explicitly in SKILL.md and use `compatibility` for prerequisites that determine whether the workflow can run. Check available runtimes, network access, and installation policy in the active environment; a vendor name alone does not establish those capabilities.
 
 Prefer the standard library; when third-party packages are required, name them and show the install command once in SKILL.md.
 
@@ -109,7 +106,7 @@ Use the qualified form in instructions and examples. If a server name changes, u
 
 ## Visual Analysis
 
-Image input is a default capability across every current frontier model, so a skill hands over the picture rather than a description of it. For layout-heavy formats this beats parsing the structured source, because position and grouping are the information.
+When the host supports image input, hand over the picture rather than a description of it. For layout-heavy formats this beats parsing the structured source, because position and grouping are the information.
 
 - PDF forms → render pages to images, read field positions off the render
 - Charts and diagrams → read the image, not the plotting source
@@ -120,4 +117,4 @@ Provide a script that produces the image (`pdf_to_images.py`), then hand the out
 Two failure modes follow from treating vision as something to route around:
 
 - **Instructing a transcription step.** "Describe the chart, then reason about the description" throws away the thing that made the image worth producing, and the description becomes a lossy intermediate nobody can audit. Ask for the conclusion from the image.
-- **Assuming image output.** Reading images is universal; generating them is not. Several current frontier models take images in and return only text. A skill whose deliverable is a generated image routes to an image-generation tool and says which one, and states what it does when that tool is absent. A skill that only needs to *see* something has no such dependency.
+- **Assuming image output.** Image input and generation are separate host capabilities. Several current frontier models take images in and return only text. A skill whose deliverable is a generated image routes to an image-generation tool and says which one, and states what it does when that tool is absent. A skill that only needs to *see* something has no such dependency.

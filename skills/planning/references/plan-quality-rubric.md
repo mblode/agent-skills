@@ -66,9 +66,4 @@ A good plan delivers a tracer bullet first: a minimum viable slice across the fu
 
 ## Triage Decision
 
-Drive every dimension to 5/5. After scoring all six:
-
-1. Work each dimension <5 upward, weakest first. Re-score after each round, re-sweep anything still below 5; repeat until all six hit 5/5 or stall.
-2. A dimension is **stalled** when it can't reach 5/5 after 2 pushes and the user defers or declines the fix. Record the blocker and move on.
-3. If more than 3 dimensions score 1-2, the plan needs rewriting: say so directly and switch to Create mode rather than grinding the loop.
-4. Always check Scope regardless of score. Scope creep is easy to miss because complexity feels like thoroughness. Driving to 5/5 means tightening scope, not padding the plan to look thorough.
+Use scores to locate gaps when scoring is requested. Fix gaps tied to acceptance criteria or operational consequences. Record unverified claims and unresolved choices; a score is a judgement, not proof. Stop when further changes would add speculative scope or when a user decision is required.

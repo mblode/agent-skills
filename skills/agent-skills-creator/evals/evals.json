@@ -4,14 +4,14 @@
     {
       "id": 1,
       "prompt": "Improve our deploy-checklist skill. It's 380 lines and people say it's too long. Here's the folder.",
-      "expected_output": "The improvement protocol run in order: the evals executed first for a before baseline (or two or three written against current behaviour when none exist), the should-this-skill-still-exist question answered from the with-versus-without delta before any dimension is scored, the eleven dimensions scored before and after, the constraint cut run with the stop condition that repo-specific opinions are the payload, and validate.sh clean at the end.",
+      "expected_output": "A concrete keep, cut, merge, or retire decision, preserving deployment contracts and team preferences while removing generic coaching. Reports available baseline and revised evidence separately from unrun scenarios, with validator results.",
       "files": [],
       "assertions": [
-        "Runs or writes evals before editing anything, and diffs the post-rewrite run against that baseline rather than only reporting that evals pass",
-        "Asks whether the skill should still exist, using the without-skill arm of the eval, and names retirement or folding into a sibling as possible outcomes rather than assuming a rewrite",
-        "Cuts a line only for being wrong or already the model's default, and keeps at least one repo-specific opinion that reads as strongly worded",
-        "Reports before and after scores for the eleven dimensions",
-        "Ends with a validate.sh run and its result"
+        "Records a baseline revision and existing validator result before editing",
+        "Separates measured behavioral evidence from static judgement and unrun scenarios",
+        "Preserves repo-specific release contracts while deleting generic reminders",
+        "Considers retirement or merging when no distinct payload remains",
+        "Runs validate.sh and reports its result"
       ]
     },
     {
@@ -38,6 +38,18 @@
         "Checks whether the body's steps assume bash or a working tree and adds a stated precondition where they do",
         "Does not recommend removing the skill from Cursor or maintaining two copies",
         "Runs validate.sh and reports frontmatter-portable as PASS or explains the remaining SKIP"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Update all skills for new frontier models. The vendor announcement says coding and judgement improved. No cross-model evaluation runner is connected.",
+      "expected_output": "Updates retention guidance first, audits every skill with a ledger, removes generic coaching, retains task contracts, and explicitly marks cross-model behavior untested.",
+      "files": [],
+      "assertions": [
+        "Does not infer training contents or passing model evaluations from the announcement",
+        "Records a concrete disposition for every skill",
+        "Does not delete an operational security contract on benchmark reputation alone",
+        "Distinguishes authored scenarios from executed tests"
       ]
     }
   ],

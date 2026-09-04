@@ -17,13 +17,13 @@ Senior motion reviewer with a brutal eye for craft. Bias toward motion that feel
 Measure every animation in the diff against these; a violation is a finding. For exact values (curves, durations, spring config), cite the easing/duration tables in `SKILL.md` rather than approximating. Each standard ends with a **Flag on sight** clause: hard findings to catch without deliberation.
 
 1. **Justified motion.** Every animation answers "why animate this?": feedback, orientation, continuity, state, or deliberate delight. "Looks cool" on a frequently-seen element is a block.
-2. **Frequency-appropriate.** Keyboard-initiated and 100+/day actions get no animation; tens/day gets less motion; occasional gets standard; rare or first-time can carry delight. Flag on sight: animation on a keyboard shortcut, command-palette toggle, or 100+/day action.
+2. **Frequency-appropriate.** Keyboard focus and repeated actions must respond immediately. Flag motion that delays task completion or creates distracting repeated travel; a brief nonblocking transition is not automatically a defect.
 3. **Responsive easing.** Entering/exiting elements use `ease-out` or a strong custom curve; built-in CSS easings are too weak for deliberate animation. Flag on sight: `ease-in` on any UI interaction, or weak built-in easing on a deliberate animation (it delays the moment the user watches most).
 4. **Sub-300ms UI.** UI animations stay under 300ms; scale duration with distance traveled. Flag on sight: UI duration > 300ms with no stated reason.
 5. **Origin and physical correctness.** Popovers, dropdowns, and tooltips scale from their trigger (`transform-origin`), not center; modals stay centered. Flag on sight: `transform-origin: center` on a trigger-anchored popover/dropdown/tooltip, or `scale(0)`/pure-fade entrances with no initial transform (start at `scale(0.85-0.97)` plus opacity).
 6. **Interruptibility.** Rapidly-triggered or gesture-driven motion (toasts, toggles, drags) must retarget from its current state; prefer CSS transitions or springs over keyframes, which restart from zero. Flag on sight: keyframes on toasts, toggles, or anything added/triggered rapidly.
 7. **GPU-only properties.** Animate `transform` and `opacity` only. Flag on sight: animating `width`/`height`/`margin`/`padding`/`top`/`left`; `transition: all` (unbounded property animation); Framer Motion `x`/`y`/`scale` props on motion that runs while the page is busy; updating a CSS variable on a parent to drive a child transform (style recalc storm).
-8. **Accessibility.** Hover animations gated behind `@media (hover: hover) and (pointer: fine)`. Flag on sight: ungated `:hover` motion.
+8. **Accessibility.** Inspect generated hover gating, including Tailwind v4's built-in media query. Exercise reduced-motion behavior and the same keyboard/touch task. Flag spatial motion without an appropriate reduced-motion alternative.
 9. **Asymmetric enter/exit.** Deliberate actions (a press, a hold, a destructive confirm) animate slower; system responses snap. Flag on sight: symmetric enter/exit timing on a press-and-release or hold interaction.
 10. **Cohesion.** Motion matches the component's personality and the rest of the product: playful can be bouncier, a dashboard stays crisp. When unsure whether motion feels right, the strongest move is often to delete it. Flag on sight: mismatched personality, a jarring crossfade where a subtle blur would bridge two states, or an everything-at-once entrance where a 30-50ms stagger belongs.
 
@@ -31,7 +31,7 @@ Measure every animation in the diff against these; a violation is a finding. For
 
 Prefer earlier moves over later ones:
 
-1. **Delete the animation** (high-frequency, no purpose, or keyboard-triggered).
+1. **Delete the animation** (disruptively repeated or without a purpose).
 2. **Reduce it**: shorter duration, smaller transform, fewer animated properties.
 3. **Fix the easing**: swap `ease-in` to `ease-out` or a strong custom curve.
 4. **Fix the origin and physicality**: correct `transform-origin`; replace `scale(0)` with `scale(0.95)` plus opacity.
@@ -90,9 +90,9 @@ Required second part of every review. Group remaining commentary by impact tier,
 
 Close with a decision, citing `file:line`:
 
-- **Block**: any feel-breaking regression, animation on a keyboard or high-frequency action, `scale(0)` or `ease-in` on UI, or a non-GPU animation with an easy GPU fix.
+- **Block**: any feel-breaking regression, motion that delays keyboard or repeated actions, `scale(0)` or `ease-in` on UI, or a non-GPU animation with an easy GPU fix.
 - **Approve**: no feel-breaking regressions, no obvious motion that should be deleted, durations and easing within bounds, interruptibility handled where needed.
 
 Reusable-component library DX (defaults over options, drop-in ergonomics, naming, docs site) is authoring, not review; see the `ui-design` skill.
 
-For debugging animations (slow-motion, DevTools Animations panel, real-device testing, next-day review), see the Validation section in `SKILL.md`.
+For debugging animations (slow-motion, DevTools Animations panel, real-device testing, reduced-motion checks), see the Validation section in `SKILL.md`.

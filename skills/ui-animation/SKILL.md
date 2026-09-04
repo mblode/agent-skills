@@ -1,20 +1,6 @@
 ---
 name: ui-animation
-description: >-
-  Designs, implements, reviews, debugs, and reverse-engineers UI motion, and
-  finds where an interface is missing it: CSS transitions, keyframes,
-  springs, gestures, drag, easing, timing, Motion (framer-motion),
-  scroll-driven
-  animation, and animation curves from screen recordings. Use when asked to
-  "add animations", "make this feel smooth", "review my animations", "add a
-  swipe gesture", "match this easing", "reverse engineer this animation",
-  "extract the animation curve", "fade in on scroll", "add a parallax
-  effect", "where should this animate", "find animation opportunities", or
-  "what's it called when..." to name a motion effect from a vague
-  description. Owns the passage between two states. For what a state looks
-  like once built use ui-design; for which states exist and whether an
-  action is reversible use product-design, including when a gesture replaces
-  a control.
+description: Builds, reviews, and measures UI motion, including springs, gestures, scroll effects, and curve fitting from recordings. Use when asked to "add animation", "match this easing", "reverse engineer this motion", or find animation opportunities. For action semantics use product-design; for visual layout use ui-design.
 ---
 
 # UI Animation
@@ -22,32 +8,16 @@ description: >-
 - **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, Motion), sweeping an interface for the moments that would genuinely benefit from motion, measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
 - **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design` Direction mode), auditing a whole page's UI quality (use `ui-design` Audit mode), or named text-effect specs (use the external `animate-text` skill where installed).
 
-## product-design, ui-design, or ui-animation?
+## Routing boundary
 
-An interface is a set of states and the passages between them. That decomposition assigns the work.
+`product-design` owns action semantics, scope, reversibility, and contested state choices. `ui-design` builds and styles those states. `ui-animation` owns timing, gestures, and measured motion. A routine missing loading or error state stays with the UI build; a gesture replacing a control needs a product decision and an accessible alternative before its physics.
 
-| The question is about | Use |
-|---|---|
-| Which states exist, what an action affects, whether it is reversible | `product-design` |
-| What a state looks like once built: markup, type, colour, layout, hierarchy | `ui-design` |
-| The passage between two states: timing, easing, springs, gesture physics | this skill |
-
-- **Subject beats artifact.** When motion is what the request is about, it is this skill whether or not code exists yet.
-- **Artifact is the opening presumption, not the verdict.** Code, a diff, or a running UI in hand presumes `ui-design`; a brief, spec, mockup, or intent with no code presumes `product-design`. Either can be overturned by the two tests below.
-- **Capability beats presentation.** With code in hand, ask whether the change alters what a user can *do*, which objects an action affects, whether it is reversible, or whether a state exists at all. That is a capability, so `product-design` decides. If it only changes how the same capability looks or reads, `ui-design` owns it.
-- **A gesture that replaces a control is a capability decision.** Swipe-to-delete, hold-to-confirm, and drag-to-reorder change what the user can do and how recoverable it is, so `product-design` settles the interaction and this skill builds its physics.
-- **Motion incidental to a build stays in `ui-design`.** A hover transition or a fade added while building a component is a property of that component. It arrives here when motion is the subject or its craft is in question.
-
-Worked: "Delete should be undoable" is `product-design`. "The undo toast is ugly" is `ui-design`. "The undo toast should slide, not pop" is this skill.
-
-Where the choice is between `product-design` and `ui-design` and motion is not the subject, those two carry two further tiebreaks (control patterns with different reachability, and undebatable missing states). Neither changes an answer here.
-
-Canonical home for reverse-engineering motion from a recording: route "reverse engineer this animation" and "match this easing" here, not to a separate skill. If the input is a screen recording or video, you are MEASURING motion: follow the Reverse-engineer workflow. Otherwise (designing, implementing, reviewing) use the rules and Workflow below.
 
 ## Reference files
 
 | File | Read when |
 | --- | --- |
+| [references/discovery-workflow.md](references/discovery-workflow.md) | Finding worthwhile opportunities for motion in an existing interface |
 | [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character; also the seam list for a Discovery sweep |
 | [references/spring-animations.md](references/spring-animations.md) | Spring physics, Motion `useSpring`, configuring spring params, Apple damping/response values, asymmetric open/close character, interruption mechanics |
 | [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
@@ -69,7 +39,7 @@ Canonical home for reverse-engineering motion from a recording: route "reverse e
 ## Core rules
 
 - Animate for feedback, orientation, continuity, or deliberate delight. If it's just "it looks cool" and the user sees it often, don't.
-- Never animate keyboard-initiated actions (shortcuts, arrow navigation, tab/focus); they repeat constantly and animation makes them feel slow.
+- Keep keyboard focus and repeated navigation immediate. A state transition may animate if focus and task completion do not wait for it.
 - Prefer CSS transitions for interruptible UI: keyframes restart from zero on interruption, transitions retarget. Use keyframes only for predetermined sequences.
 - Implementation priority: CSS transitions > WAAPI > CSS keyframes > JS (`requestAnimationFrame`); under load CSS stays smooth while JS drops frames.
 - Asymmetric timing: occasional interactions can enter slightly slower, exit fast. High-frequency ephemeral UI (hover highlights, popovers, panel toggles) inverts this: enter instantly (0ms), exit with a brief fade (100-150ms) so the action feels immediate.
@@ -155,7 +125,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Accessibility
 
-- Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Tailwind `hover:` is not gated unless the project set `hoverOnlyWhenSupported` or a custom variant.
+- Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Inspect the generated CSS before adding a gate; Tailwind v4 already wraps `hover:` in `@media (hover: hover)`.
 - During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
 
 ## Performance
@@ -206,30 +176,17 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Slow to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
-- Review again with fresh eyes the next day; imperfections missed during development stand out.
+- Honor `prefers-reduced-motion`: replace spatial travel and looping effects with immediate state changes or restrained fades, then exercise the same task in that mode.
 
 ## Discovery workflow
 
-Use this branch when the request is "where should this animate", not "animate this". Every other mode starts from motion that exists; this one starts from its absence. It reports and never implements: hand a surviving suggestion back to the main workflow above to build it.
-
-```text
-Discovery progress:
-- [ ] Step 1: Recon the stack, existing motion tokens, and product personality
-- [ ] Step 2: Sweep every seam class
-- [ ] Step 3: Gate each candidate
-- [ ] Step 4: Report survivors and rejections
-```
-
-1. **Recon.** Identify the motion library (if any), the easing and duration tokens already in use, and how often each surface is visited. Suggestions extend the existing vocabulary rather than introducing a parallel one, and a dense dashboard earns fewer and subtler suggestions than a playful consumer app.
-2. **Sweep.** Walk the seam table in [references/decision-framework.md](references/decision-framework.md), which carries the grep signature for each. Clear a seam explicitly rather than skipping it silently.
-3. **Gate.** Run each candidate through questions 1 and 2 of the same file: frequency, then purpose. "It looks cool" is not a purpose. Most candidates die here, which is the point.
-4. **Report.** Cap at five to seven suggestions ordered by leverage, each with `file:line`, what happens today, the named purpose, the frequency tier, and exact values (property, duration, curve) drawn from the tables above. Then list two to five rejected candidates, each naming the question that killed it. Close with which single suggestion has the highest leverage.
-
-Where the interface already carries the right amount of motion, say so. That is the correct result for a well-built UI, not an empty report.
+For "where should this animate", load `references/discovery-workflow.md` and `references/decision-framework.md`. Report opportunities supported by purpose and usage frequency. Implement a suggestion only when implementation is in scope.
 
 ## Reverse-engineer workflow
 
 Use this branch to measure an existing animation from a screen recording, then emit code and a handoff spec that reproduce it. The scripts under `scripts/` are the canonical, deterministic path; run them rather than reconstructing their logic.
+
+Resolve every `scripts/` command below relative to the installed skill directory, not the application working directory.
 
 **Dependencies:** `ffmpeg` for frame extraction (`brew install ffmpeg`); Python with `pip install opencv-python numpy scipy` for tracking and curve fitting. Degrades gracefully: with only ffmpeg you can extract frames and reason visually; tracking and fitting need the Python packages.
 
@@ -267,3 +224,5 @@ Maintenance only: when changing Discovery routing or the gate, run the scenarios
 - `ui-design` Direction mode: visual direction, palettes, typography; settle the visual system before tuning motion.
 - `ui-design` Audit mode: page/feature-level UI quality audit. Motion craft and fixes belong here.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

@@ -47,4 +47,4 @@ git commit -m "chore: add patch changeset for <package>"
 git push
 ```
 
-Anything in `git status --porcelain` you did not intend (hook output such as a root `schema.gql`, or reformatted files outside the change) gets `git restore <path>` or stays unstaged. It does not ride into the release commit.
+Anything in `git status --porcelain` you did not intend (hook output such as a root `schema.gql`, or reformatted files outside the change) stays unstaged. Undo only changes introduced by this run; a whole-file restore can discard pre-existing edits. It does not ride into the release commit.

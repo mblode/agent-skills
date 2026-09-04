@@ -25,8 +25,8 @@ Agent responds with a confident directive and nothing else. User can't tell if i
 
 **Static signals:**
 1. Find agent output components (`role="assistant"`, `<AssistantMessage>`, `<AiResponse>`).
-2. Check for citation, source, reasoning, or thinking child components, and for the stream parts that feed them (`reasoning`, `source-url`, `source-document`).
-3. Flag output containers with zero rationale children.
+2. Check whether consequential claims expose supporting sources or a concise user-facing rationale, inline or through source components.
+3. Flag missing support for a consequential claim, not the absence of a particular child component. Internal reasoning need not be displayed.
 
 **Concrete commands:**
 ```bash
@@ -37,8 +37,8 @@ rg -n "type === ['\"](reasoning|source-url|source-document)|filter\(.*type === [
 
 **Judgment signals:**
 - Even if `<Sources>` exists, check whether it's populated vs. always empty.
-- A rationale section for some response types but not others is a partial pass.
-- A `reasoning` or `source-url` part received and filtered out (`parts.filter((p) => p.type === "text")`) is the finding: the rationale arrived and the UI dropped it.
+- Rationale is needed where it helps assess a consequential recommendation; routine status or self-contained answers need no extra panel.
+- Dropping source parts can remove claim support. Omitting private reasoning is not itself a defect; inspect the user-facing explanation and sources.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:trust-no-confidence-cues`, test, and Storybook files.
@@ -46,7 +46,7 @@ rg -n "type === ['\"](reasoning|source-url|source-document)|filter\(.*type === [
 
 ## Fix
 
-Add inline rationale: sources, reasoning steps, or a collapsible thinking section.
+Expose relevant sources and a concise decision rationale. Do not require private chain-of-thought or a thinking panel.
 
 ## Examples
 
@@ -63,7 +63,7 @@ Add inline rationale: sources, reasoning steps, or a collapsible thinking sectio
 ```tsx
 <div className="agent-response" role="assistant">
   <Markdown>{completion.text}</Markdown>
-  {completion.reasoning && <ThinkingBlock steps={completion.reasoning} />}
+  {completion.explanation && <p>{completion.explanation}</p>}
   {completion.sources.length > 0 && <CitationList sources={completion.sources} />}
 </div>
 ```

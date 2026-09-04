@@ -79,7 +79,7 @@ Appended to any finding a probe touched:
 | Probe result | Parent finding |
 |---|---|
 | `reproduced` | Stays `fail`. `observed` comes from the measurement. Tier is unchanged: tiering is the audit's |
-| `not-reproduced` | Withdrawn from `findings` and emitted as a `consideredAndRejected` entry: `candidate` is the element, `rule` is the rule id, `guard` names the probe and the measurement that cleared it |
+| `not-reproduced` | Withdraw only when the probe exercised the alleged trigger. Record the trigger and measurement in `consideredAndRejected`; otherwise retain an `unknown` finding naming the missing condition |
 | `unknown` | Stays as a finding with `result: "unknown"` and the probe's `reason`. It never becomes a `pass` |
 
 A probe that found something no static rule predicted enters as a new finding against the rule it is primary for. Where no rule owns it, use `axe:<violation-id>` or `runtime:<signature>` as the `rule` value and say in the text that it came from the browser rather than from the corpus. Do not stretch a rule id to make a browser finding look like a predicted one.

@@ -1,18 +1,6 @@
 ---
 name: dx-audit
-description: >-
-  Audits the developer-facing surface of a library, CLI, SDK, or npm package:
-  public API contracts, error messages, CLI behavior for humans and agents,
-  exported types, install and first run, and config. 38 rules in six
-  prefix-dispatched categories, loaded candidate-first against a locked scope;
-  reports root-cause findings with impact tiers and concrete fixes. Use when
-  asked to "audit my CLI", "make this CLI agent-friendly", "is this API
-  ergonomic", "review the developer experience", "improve these error messages",
-  "is this package easy to install", "are my types wrong", or "review my SDK".
-  For end-user UI use ui-design Audit mode, for agentic-app trust use ax-audit,
-  for docs prose use docs-writing, for a README use readme-creator, for repo
-  architecture use codebase-architecture, for scaffolding a new CLI use
-  scaffold-cli, and for general diff bugs use pr-reviewer.
+description: Audits libraries, CLIs, and SDKs using 38 rules for public contracts, package exports, piped output, errors, and configuration. Use when asked to "audit my CLI", "review my SDK", "make this agent-friendly", or diagnose package type resolution. For agentic product trust use ax-audit; for docs use docs-writing.
 ---
 
 # DX Audit
@@ -60,7 +48,7 @@ Start from `git diff` against the normal base and keep only changed files reacha
 2. Direct public dependencies and the nearest tests that pin behavior.
 3. Safe probes against the local build:
    - CLI: `--help`, `--version`, one success path, one invalid-input path, and the same command with stdout piped (`| cat`) to see non-TTY behavior. Never trigger a real mutation to test DX; use `--dry-run` where it exists.
-   - Package: `npx publint` and `npx @arethetypeswrong/cli --pack .` after a build. Both are read-only and replace eyeballing the `exports` map.
+   - Package: `npx publint` and `npx @arethetypeswrong/cli --pack .` after a build. These inspect packaging, but packing may invoke lifecycle scripts. Inspect those scripts first or use a disposable checkout before calling `--pack`.
 4. The prior release contract, only when the diff changes a public export, signature, or return shape.
 
 Stop when the behavior is proven, disproven, private, or out of scope. External research is for an explicit comparison request or a named uncertainty local evidence cannot resolve; `references/standards-map.md` carries the standards this skill already leans on.
@@ -157,3 +145,5 @@ Re-open every touched or cited location, rerun the same probes and focused proje
 - `readme-creator`: README structure and first-reader narrative
 - `agents-md`: AGENTS.md and CLAUDE.md instruction files
 - `codebase-architecture`: repository structure and module contracts inside the repo, rather than the surface a package ships outward
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

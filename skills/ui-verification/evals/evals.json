@@ -17,13 +17,13 @@
     {
       "id": 2,
       "prompt": "The audit says the icon button in TableRowActions.tsx line 41 fails interaction-target-size because it is h-8 w-8. Check it on a real page.",
-      "expected_output": "The target-size probe run at a 360px touch viewport reporting a 32x32 bounding box whose four-corner hit test resolves to the button at every corner because a ::before pseudo-element expands the hit area, so the finding is not-reproduced and withdrawn into consideredAndRejected with the measurement as the guard.",
+      "expected_output": "The target-size probe run at a 360px touch viewport reporting a 32x32 bounding box whose sampled hit-test grid resolves to the button because a ::before pseudo-element expands the hit area, so the finding is not-reproduced and withdrawn into consideredAndRejected with the measurement as the guard.",
       "files": [],
       "assertions": [
         "Measures at a touch viewport with touch emulation on, and says so in the conditions",
         "Reports both the bounding box and the effective hit area, not the bounding box alone",
         "Emits the result as not-reproduced and moves the finding to consideredAndRejected naming target-size and the measured hit area as the guard; does not silently drop it and does not leave it as a fail",
-        "Runs the probe twice before reporting, and records reruns",
+        "Does not require duplicate runs of a deterministic measured result; retries inconsistent measurements",
         "Cites an evidence artifact path that was written to disk before the verdict"
       ]
     },
@@ -38,6 +38,17 @@
         "If the re-run still reproduces, reports the finding as applied with clearedBy.result reproduced and says the fix did not clear it, rather than reporting the fix and omitting the re-run",
         "If a different probe now fails on /invoices, emits it as a new finding, not a note on the cleared one",
         "Does not re-run the whole battery; the clearing re-run is scoped to the probe that produced the finding"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "A static race finding occurs when a second request overtakes the first. A browser probe tested only one request and passed. Is the finding disproved?",
+      "expected_output": "Retains an unknown finding because the triggering request order was not exercised.",
+      "files": [],
+      "assertions": [
+        "Does not withdraw the race finding based on the single-request run",
+        "Names the missing ordering condition",
+        "Proposes a controlled overlapping-request probe"
       ]
     }
   ],

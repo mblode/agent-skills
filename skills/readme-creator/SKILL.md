@@ -1,19 +1,6 @@
 ---
 name: readme-creator
-description: >-
-  Writes or rewrites a project's README.md for the reader deciding whether to
-  use it: centered header, one install command, one runnable quickstart, two to
-  four capability sections, license. Detects the project type (CLI, library,
-  web app, framework, monorepo, skill bundle) from manifests, picks sections
-  per type, keeps images and badges rendering on GitHub, npm, PyPI, and
-  crates.io, then scores the result against a checklist. Use when "write a
-  README for this project", "create a README", "rewrite this bad README",
-  "README for my npm package", "my README is too long", "unify the READMEs
-  across my repos", "bootstrap project documentation", or "the create-next-app
-  README is still here". For auditing an existing README's prose or a docs site
-  use docs-writing; for AGENTS.md or CLAUDE.md use agents-md; for the install
-  and first-run experience itself rather than its write-up use dx-audit; for
-  landing-page copy use copywriting.
+description: Creates or rewrites a README for the project consumer, using verified install commands, a runnable quickstart, and house presentation conventions. Use when asked to "write a README", "rewrite our README", or replace scaffold boilerplate. For an in-place prose audit use docs-writing; for agent instructions use agents-md.
 ---
 
 # README Creator
@@ -87,7 +74,7 @@ If unreachable, infer the "why" from the manifest and code, note the assumption 
 
 ### Phase 2: Fix the spine, then choose capability sections
 
-Every README, every type, gets these five and in this order:
+Use this house spine where applicable. A hosted app can lead with its live URL instead of an install command; do not invent installation for a product consumed in the browser:
 
 1. **Header block** (title, tagline, plain second line, badges if registry-listed)
 2. **`## Demo`** (only when a live URL exists)
@@ -122,12 +109,12 @@ When badges apply, load `references/badges-and-shields.md`. Default to two, vers
 
 ### Phase 5: Validate
 
-Load `references/quality-checklist.md`. Score every applicable item, report the pass count as evidence; do not exit on "it reads fine". Fix every failed item, then reread top to bottom once to confirm flow.
+Use `references/quality-checklist.md` to check the consumer path and house conventions. Report runnable-example and link/render results; a self-score is not rendering evidence.
 
 Attach these render-checks alongside the pass count. Each must return nothing:
 
 ```bash
-grep -nE "foo|bar|TODO|\{\{" README.md                                  # placeholders, unresolved mustaches
+grep -nE "TODO|\{\{" README.md                                      # review candidates, not automatic failures
 perl -CSD -ne 'print "$.: $_" if /\x{2014}/' README.md                  # em dashes
 grep -nE "^## (Installation|Getting Started|Quick Start|Licence|Development|Tech Stack|Contributing)" README.md
 grep -nE '(src|\]\()=?"?\.?/?\.github/assets' README.md                  # relative image paths: fine on GitHub, broken on npm and PyPI, so must be empty for a published package
@@ -162,3 +149,5 @@ Rewriting a published package's README, say in the summary that npmjs.com and Py
 | The install or first-run path the README documents is itself the problem | `dx-audit` |
 | Landing-page or marketing copy beyond the tagline | `copywriting` |
 | Drafting in the user's own voice | external `ghostwriter` skill where installed, platform `readme` |
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

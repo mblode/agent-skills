@@ -28,7 +28,7 @@ What to put in a skill and how hard to say it. The mechanical rules live in `scr
 
 ## Don't State the Obvious
 
-Claude knows coding and the codebase. Write only what pushes it off its defaults.
+The agent brings general knowledge, but needs the project facts and procedures that affect this task. Ground new guidance in actual artifacts, corrections, or observed failures.
 
 - Omit anything Claude would do correctly unsupervised
 - General coding advice ("use descriptive variable names") is noise
@@ -41,7 +41,7 @@ Claude knows coding and the codebase. Write only what pushes it off its defaults
 
 The sharpest case of the section above, and the one that costs most, because these instructions do not sit there inertly: they compound with behavior the model already performs and push it past useful.
 
-Current models verify their own work, catch and fix their own mistakes, and delegate to subagents readily. So "add a final verification step", "double-check your answer before responding", "re-verify", and "use a subagent to check your work" buy nothing and spend real tokens producing over-verification. Delete them; output quality holds.
+Generic reminders such as "double-check your answer" do not define a task-specific check. Remove them in a static simplification pass; claim unchanged output quality only after a behavioral comparison. Preserve the exact observation or command that establishes the task's completion.
 
 An external check is not this. "Run the test suite and quote the output" and "watch the check fail, then pass" produce evidence the model cannot generate by reasoning, so they stay.
 
@@ -49,7 +49,7 @@ Three related levers skew long by default and are worth setting deliberately:
 
 - **Calibrate the length of artifacts the skill writes to disk.** Reports, plans, briefs, and docs run long, and a fixed output template invites filling every section instead of dropping the ones the task does not need. Say that length follows the work, not the template. This is a real opinion, unlike "write concisely", which the model already believes it is doing.
 - **Write the quiet form of commands the skill tells Claude to run.** `npm test`, `git log`, and a full build dump hundreds of lines that get re-sent every remaining turn. Prefer `--reporter=dot`, `--quiet`, or `tail`.
-- **Cap delegation where the skill fans out.** Genuinely independent, sizeable tracks justify subagents; small tasks do not, and verification never does. A deterministic cap beats a judgement call, which is why `tidy` fixes the number at five launched in one message, one per review angle, rather than leaving it open. The other case that earns a subagent is output isolation: a noisy log or full suite whose result you do not want in the main window. For a job you hand off over and over, ship it in `agents/` with a cheaper `model:` (haiku or sonnet).
+- **Leave orchestration to the host.** Specify independent work and expected results where delegation adds value. Do not prescribe a fixed agent count, a model override, or repeated review rounds for every task.
 
 **Test:** would the model do this unprompted? If yes, the instruction is at best inert and at worst additive. Same test as "Cut Constraints, Keep Opinions" below, pointed at the model's behavior rather than at its knowledge.
 
@@ -68,7 +68,7 @@ The second is shorter, has no exception list to maintain, and gets a densely com
 
 Before adding a directive, check whether the harness already does it, a sibling skill owns it, or the repo AGENTS.md states it. Overlapping instructions in one context ("leave documentation as appropriate" against "DO NOT add comments") make the model reconcile before it can act, and reconciliation is paid on every invocation.
 
-Route instead of restate: name the sibling in the IS-NOT line, and resolve precedence in advance where a clash is likely. `tidy` does this well, reading the project CLAUDE.md in Phase 1 and stating that its conventions override the skill's own defaults when they conflict. The model is told who wins rather than left to arbitrate.
+Route instead of restate: name the sibling in the IS-NOT line, and resolve precedence in advance where a clash is likely. `tidy` states that repository conventions override its defaults when they conflict. The model is told who wins rather than left to arbitrate.
 
 ## Cut Constraints, Keep Opinions
 
@@ -199,8 +199,8 @@ At session start, Claude scans every description to decide relevance. It is a tr
 - Optimize for the words users say when they need the skill: action verbs and domain nouns the model routes on
 - Add quoted user phrases: `"how do I..."`, `"build a..."`, `"fix my..."`
 - Structure: `[Does what] for/using [domain]. [Covers what]. Use when [specific trigger phrases]. For [adjacent job] use [sibling].`
-- Front-load. The listing that holds every description has a budget (about 1% of the context window in Claude Code) and trims from the tail of the least-used skills first. The 1024-character spec limit is a ceiling, not a target; a description that states its key use case in the first sentence survives trimming, one that saves the triggers for the end does not.
-- Undertriggering is the common failure, so lean pushy: name the contexts where the skill applies even when the user did not ask for it by name. Overtriggering is fixed by a tighter "For X use Y" clause or `disable-model-invocation`, not by hedging.
+- Front-load. Hosts have different listing budgets and truncation policies. The 1024-character spec limit is a ceiling, not a target; a description that states its key use case in the first sentence survives trimming, one that saves the triggers for the end does not.
+- Undertriggering is the common failure, so lean pushy: name the contexts where the skill applies even when the user did not ask for it by name. Use near-miss evaluations to tighten scope when it overtriggers; invocation-control fields are host-specific.
 
 **Weak:** "Provides architecture guidance for multi-tenant platforms"
 **Strong:** "Provides architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, or asking 'how do I support multiple tenants' or 'build a white-label platform'."
@@ -211,17 +211,17 @@ Some skills need user-specific context first. Store it in a `config.json` in the
 
 ## Memory and Storing Data
 
-Auto-memory now owns facts about the user, their feedback, and ongoing project context, so a skill should not instruct anyone to hand-write memories into CLAUDE.md.
+Follow the host's memory policy and the user's authorization for persistent personal facts. Do not prescribe automatic memory writes or a universal memory owner.
 
-Artifacts the skill itself writes and reads back (regression baselines, append-only run logs, a previous-findings file an audit compares against) live outside the skill directory, which a reinstall wipes. Plugin skills get `${CLAUDE_PLUGIN_DATA}`, which survives updates. Personal and project skills do not: that variable is substituted in plugin skills only and stays literal everywhere else, so anchor the path on `${CLAUDE_PROJECT_DIR}` (a `.claude/<skill>/` folder in the project) or a location the user chooses in `config.json`.
+Store durable task artifacts outside the installed skill directory, where updates may replace files. Use a project location or user-selected path. Host-specific storage substitutions require explicit support; portable skills should resolve a concrete path before writing.
 
 ## Standing Instructions, Not One-Time Steps
 
-The body enters the conversation once and is never re-read on later turns. An instruction phrased as a moment ("now check the lockfile") is obeyed once and then sits in context as history; one phrased as a standing rule ("every edit to a manifest is followed by a lockfile check") keeps applying. After compaction only the first 5,000 tokens of the body come back, so the rules that must survive a long session go at the top, and the reference table goes above the workflow it serves.
+Put enduring constraints and routing before optional detail. Skill reloads, context retention, and compaction differ by host; do not encode a universal token budget or assume a reference remains available forever.
 
 ## Store Scripts and Generate Code
 
-Scripts let Claude spend turns on composition, not reconstructing boilerplate. Ship executables (`.sh`, `.py`, `.ts`) as helper functions to compose, and let Claude generate the wrappers. A data skill shipping `fetch_events()`, `fetch_users()`, and `run_query()` turns each analysis into a few lines of glue. Address them as `${CLAUDE_SKILL_DIR}/scripts/<name>` so they resolve wherever the session shell has wandered.
+Scripts let Claude spend turns on composition, not reconstructing boilerplate. Ship executables (`.sh`, `.py`, `.ts`) as helper functions to compose, and let Claude generate the wrappers. A data skill shipping `fetch_events()`, `fetch_users()`, and `run_query()` turns each analysis into a few lines of glue. Resolve scripts relative to the installed skill directory. Use `${CLAUDE_SKILL_DIR}` only in a host that documents that substitution.
 
 For paths and permissions, `!` context injection, error handling, constants, plan-validate-execute, runtime, and package dependencies, see the executable-code reference listed in SKILL.md.
 

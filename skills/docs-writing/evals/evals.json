@@ -1,0 +1,39 @@
+{
+  "skill_name": "docs-writing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit this explanation page: it explains why transactions provide atomicity, has no quickstart, and links to /guides/transactions for usage.",
+      "expected_output": "Classify as explanation and avoid tutorial-only findings.",
+      "files": [],
+      "assertions": [
+        "Does not demand a quickstart",
+        "Does not require a next-steps procedure",
+        "Applies only relevant documentation rules"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Improve API reference prose: timeout defaults to 5 seconds in the code, but the page says 30 seconds. Keep the current reference structure.",
+      "expected_output": "Correct the documented default using implementation evidence.",
+      "files": [],
+      "assertions": [
+        "Uses the code default of 5 seconds",
+        "Preserves reference rather than converting to tutorial",
+        "Reports the source of the correction"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Audit this explanation page: it explains why transactions provide atomicity, has no quickstart, and links to /guides/transactions for usage.",
+      "Improve API reference prose: timeout defaults to 5 seconds in the code, but the page says 30 seconds. Keep the current reference structure."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Write a README from scratch for this CLI.",
+        "expected": "readme-creator"
+      }
+    ]
+  }
+}

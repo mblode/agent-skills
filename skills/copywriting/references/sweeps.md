@@ -1,6 +1,6 @@
 # Seven-Sweep Editing Framework
 
-Structured audit for existing copy. Run sweeps in order, one at a time.
+Reference rubric for existing copy. Use the checks relevant to the requested edit; a full audit can cover all seven.
 
 ## Table of contents
 
@@ -19,10 +19,10 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 
 ## How to use this framework
 
-1. Work sweeps in sequence; each builds on the last.
+1. Select sweeps by the observed problem and scope; do not expand a point edit into seven passes.
 2. Flag issues with the inline tags per sweep (e.g. `[VAGUE]`, `[NO-PROOF]`).
 3. Flag everything before fixing, to prevent scope creep.
-4. After all seven sweeps, resolve every flag before publishing.
+4. Resolve the substantive flags in the selected scope.
 
 ---
 
@@ -179,7 +179,7 @@ Structured audit for existing copy. Run sweeps in order, one at a time.
 
 ## Quick-pass editing checks
 
-Apply at the end of all seven sweeps as a final line-level pass.
+Apply when compound adjective errors occur in the edited scope.
 
 Cut these words on sight; they rarely add meaning:
 

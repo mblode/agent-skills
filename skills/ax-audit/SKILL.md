@@ -1,18 +1,6 @@
 ---
 name: ax-audit
-description: >-
-  Audits agentic applications against 27 rules for architecture and trust:
-  tool parity, honest tool output, human-in-the-loop approval gates and what
-  they show, access scope, unprompted action, escape hatches, and memory
-  visibility, in AI SDK, MCP, and Claude Agent SDK code. Produces a
-  ship-readiness verdict plus an AX Relationship Summary. Use when reviewing
-  agentic feature PRs or asking "is this agent-native", "AX review", "critique
-  this AI feature", "does this earn user trust", "does this feel like AI",
-  "Ask AI button", "review our tool approval flow", "can an agent use our
-  product", "what can the agent access", or "audit this for AX". For
-  traditional frontend UX use ui-design Audit mode. For whether a human
-  developer finds the same API, CLI, or types pleasant to adopt, use dx-audit.
-  For what the product should do before it exists, use product-design.
+description: Audits agentic products for tool parity, authority, approval payloads, recovery, and trust using 27 rules and a ship verdict. Use when asked for an "AX audit", to review an agent approval flow, or whether an agent can operate the product. For human-facing API ergonomics use dx-audit; for ordinary UI use ui-design.
 ---
 
 # AX Audit
@@ -39,7 +27,7 @@ No agentic features in scope? Stop. AX rules against forms and lists are noise.
 
 ```text
 AX Audit progress:
-- [ ] Step 1: Scope, via `git diff --name-only main` (PR mode) or explicit path (full sweep)
+- [ ] Step 1: Scope, via the diff against the PR base merge-base (PR mode) or explicit path (full sweep)
 - [ ] Step 2: Detect agentic features per references/feature-playbooks.md
 - [ ] Step 3: Run each detected feature's playbook in order, plus the diff-wide checks (PR mode only)
 - [ ] Step 4: For each check, load the rule file and follow its detection recipe
@@ -136,3 +124,5 @@ Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evid
 - `dx-audit`: same files, different reader. This skill asks whether an agent can operate and recover; `dx-audit` asks whether a human adopting the API, CLI, or types finds it ergonomic
 - `product-design`: what the agentic feature should do, before this audit
 - `agents-md`: CLAUDE.md / AGENTS.md instruction files
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

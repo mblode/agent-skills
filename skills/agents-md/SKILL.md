@@ -1,20 +1,6 @@
 ---
 name: agents-md
-description: >-
-  Audits, scores, refactors, and writes the AGENTS.md and CLAUDE.md files
-  agents load at session start, and wires a repo so Claude Code, Codex, and
-  Cursor all read the same instructions. Execution-first standards: working
-  commands, real-failure gotchas, signal-to-noise, on-demand placement that
-  survives tool choice, and enforcement by exit code rather than prose. Runs a
-  12-check quick triage or a 49-check full audit with letter grades, then
-  proposes minimal diffs. Use when asked to audit, review, score, refactor, or
-  improve agent instruction files, fix stale commands, reduce bloat, write a
-  new AGENTS.md, set up a project for agents, make a repo agent-friendly, wire
-  a repo for Cursor or Codex, or when asking "my AGENTS.md is bad", "help me
-  write a CLAUDE.md", "my CLAUDE.md is too long", or "improve my agent
-  instructions". For SKILL.md files use agent-skills-creator; for general docs
-  use docs-writing; for mining session history into instruction suggestions
-  use the external cadence-advise skill where installed.
+description: Audits and edits agent instruction files, verifies repository commands, and connects AGENTS.md and CLAUDE.md without duplicate sources. Use when asked to "improve my AGENTS.md", "write a CLAUDE.md", or make instructions work across agents. For SKILL.md use agent-skills-creator.
 ---
 
 # AGENTS.md Setup and Audit
@@ -109,7 +95,7 @@ In priority order:
 4. Move detail needed in fewer than ~30% of tasks to a location that loads on demand: a nested `AGENTS.md` in the directory it concerns, a path-scoped `.claude/rules/*.md`, or a skill. Not an `@import`: imported files load at launch and save nothing.
 5. Add emphasis ("IMPORTANT:", "YOU MUST") only on critical rules agents skip, one line at a time.
 
-Show each change as a diff snippet with a one-line rationale. Apply only after the user confirms.
+For an audit request, propose the diffs. A request to improve, refactor, or write the file already authorizes those edits; apply them and report the rationale.
 
 ### Step 6: Validate changes
 
@@ -147,3 +133,5 @@ Apply approved edits, re-score with the same checklist, report before/after scor
 - `readme-creator` / `docs-writing`: human-facing documentation; AGENTS.md content that belongs in docs should move there.
 - `codebase-architecture` (Harden mode): the rest of the repo an agent works in. A rule a linter can enforce belongs there as an exit code, not here as prose, and it owns the docs tree this file indexes.
 - Claude Code's `/doctor` checkup: proposes trims for a checked-in `CLAUDE.md`, cutting what Claude can derive from the codebase and migrating always-loaded procedures into skills and nested files. Complementary automated triage; it doesn't run the commands, so it never replaces Step 6.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

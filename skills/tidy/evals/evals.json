@@ -1,0 +1,39 @@
+{
+  "skill_name": "tidy",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Tidy a diff where two callers normalize the same API response and the existing shared mapper already provides that normalization. Existing checks passed on this revision.",
+      "expected_output": "Use the shared mapper and verify the affected behavior.",
+      "files": [],
+      "assertions": [
+        "Confirms the mapper has live callers and matching semantics",
+        "Does not rerun unrelated full suites without cause",
+        "Applies the simplification rather than only reporting it"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Tidy a guard that looks redundant. A background worker outside the diff still writes the empty state it protects. The same file has pre-existing user edits.",
+      "expected_output": "Retain the guard and preserve existing work.",
+      "files": [],
+      "assertions": [
+        "Inspects the background writer",
+        "Does not delete the reachable-state guard",
+        "Does not restore the whole file to HEAD"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Tidy a diff where two callers normalize the same API response and the existing shared mapper already provides that normalization. Existing checks passed on this revision.",
+      "Tidy a guard that looks redundant. A background worker outside the diff still writes the empty state it protects. The same file has pre-existing user edits."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Review these changes but do not edit anything.",
+        "expected": "pr-reviewer"
+      }
+    ]
+  }
+}

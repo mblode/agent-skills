@@ -1,0 +1,39 @@
+{
+  "skill_name": "ui-animation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a Tailwind v4 modal animation. Generated hover CSS already includes @media (hover: hover). Keyboard focus moves immediately; a 120ms opacity transition continues afterward. Reduced motion uses an immediate state change.",
+      "expected_output": "Avoid false positives for already-gated hover and nonblocking keyboard feedback.",
+      "files": [],
+      "assertions": [
+        "Inspects generated hover CSS",
+        "Does not ban the transition solely because a keyboard opened it",
+        "Checks reduced-motion task completion"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Match a recording extracted at 60fps using the bundled fitting scripts. The fitting default is 30fps.",
+      "expected_output": "Resolve installed script paths and carry the actual frame rate through fitting.",
+      "files": [],
+      "assertions": [
+        "Passes 60fps to fitting",
+        "Does not run scripts relative to the application by accident",
+        "Reports fitted error rather than claiming an exact visual match"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Review a Tailwind v4 modal animation. Generated hover CSS already includes @media (hover: hover). Keyboard focus moves immediately; a 120ms opacity transition continues afterward. Reduced motion uses an immediate state change.",
+      "Match a recording extracted at 60fps using the bundled fitting scripts. The fitting default is 30fps."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Should swipe-to-delete be undoable?",
+        "expected": "product-design"
+      }
+    ]
+  }
+}

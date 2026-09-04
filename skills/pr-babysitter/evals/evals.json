@@ -10,7 +10,8 @@
         "Fetches logs with gh run view --log-failed or the platform equivalent before editing source",
         "Does not push a second fix for the same check failing with the same error",
         "Does not start a monitor watch or cron job"
-      ]
+      ],
+      "files": []
     },
     {
       "id": 2,
@@ -22,7 +23,8 @@
         "A reviewer question receives a reply and its thread is not resolved by the agent",
         "No thread is resolved without a reply posted first",
         "The final report comes from a second run of the script, not from memory"
-      ]
+      ],
+      "files": []
     },
     {
       "id": 3,
@@ -33,7 +35,8 @@
         "Checks for a PR-subscription tool before starting a Monitor watch, and for Monitor before CronCreate",
         "Writes .claude/pr-babysitter/babysit-pr-{N}.md and never stages it",
         "Reports 'ready to merge' without calling gh pr merge"
-      ]
+      ],
+      "files": []
     }
   ]
 }

@@ -41,7 +41,7 @@ Run in increasing cost order; stop and fix on the first failure.
 
 1. **type-check**: fastest signal on a fix. Scope to changed files where the tooling supports it, else run the project script.
 2. **lint**: scope to changed files (`eslint <files>`, `oxlint <files>`) when possible.
-3. **test**: run the project test script. Scope to affected tests where an affected mode exists, else run the full suite. Use the quiet reporter (`--reporter=dot`, `--silent`) or pipe through `tail -40`: the full output is re-sent on every later turn of the monitor.
+3. **test**: run the project test script. Scope to affected tests where an affected mode exists, else run the full suite. Use the quiet reporter (`--reporter=dot`, `--silent`) or capture a log and inspect its tail while preserving the original exit status: the full output is re-sent on every later turn of the monitor.
 4. **knip**: run last (project-wide by design). Handling is the `knip` item of the failure classification in `ci-platforms.md`.
 
 **All present checks must pass before committing.** A type-check failure may be a stale-dependency issue, not a code bug; check the stale-dependency branch in `ci-platforms.md` first.
@@ -59,12 +59,7 @@ git status --porcelain
 For each untracked or modified file, decide:
 
 - **Intended**: part of the fix, or a tracked generated file the change is supposed to update. Keep it.
-- **Stray**: a generated artifact the fix didn't intend to touch (root `schema.gql`, stray build output, a file a broad formatter rewrote). Revert or remove before staging:
-
-```bash
-git restore <stray-tracked-file>     # revert an unintended modification
-rm <stray-untracked-file>            # remove an unintended new file (e.g. root schema.gql)
-```
+- **Stray**: generated output or formatter churn introduced by this run. Leave unrelated work unstaged. Remove only newly generated files whose ownership is established, and reverse only this run's hunks in pre-existing files. Do not restore whole files against HEAD.
 
 Stage only the fix's files: `git add <paths>`, never `git add -A`, so stray files are never committed. The skill's own state and plan files under `.claude/pr-babysitter/` are always stray: they never go in the PR.
 
@@ -76,14 +71,7 @@ A hook can dirty the tree *during* the commit, after your sweep. Re-check after 
 git status --porcelain
 ```
 
-If the commit left stray files, strip and amend (only safe pre-push, on the monitor's own commit):
-
-```bash
-git restore --staged . && rm <stray-files>
-git commit --amend --no-edit
-```
-
-Never amend a commit already pushed; it may be on a teammate's machine.
+Inspect the commit diff separately from the working tree. Uncommitted artifacts do not require an amend. If the monitor's own unpushed commit accidentally included an artifact, stage only its correction and amend that commit. Preserve any pre-existing index entries; never clear the whole index as cleanup.
 
 ## Gate failure handling
 

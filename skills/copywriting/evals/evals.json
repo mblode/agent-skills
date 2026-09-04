@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Write the hero copy for our landing page. Product is Ledgerline, a bookkeeping tool for freelance designers. Traffic is a cold Instagram ad. We have 4,200 paying users and it connects to Stripe and Xero.",
-      "expected_output": "A brief with inferred fields marked, then Options A, B, and C, each with headline, subhead, and CTA, and a one-sentence recommendation",
+      "expected_output": "A recommended hero draft with supplied facts and inferred brief fields distinguished",
       "files": [],
       "assertions": [
         "Brief names the awareness stage as unaware or problem-aware",
@@ -12,16 +12,16 @@
         "The supplied specifics (4,200, Stripe, Xero) appear in at least one option and none are replaced by 'thousands' or 'your favourite tools'",
         "No headline reuses the phrase 'bookkeeping tool for freelance designers' verbatim",
         "No banned word and no em dash, double hyphen, or spaced hyphen in any option",
-        "Exactly three options for a hero, each structurally different"
+        "Returns one recommended draft unless alternatives were requested"
       ]
     },
     {
       "id": 2,
-      "prompt": "Our pricing page button says 'Get started'. Improve the CTA.",
-      "expected_output": "Two labelled options for a single string, one recommended, with a one-line reason",
+      "prompt": "Our pricing page button says Get started but links directly to /signup for a 14-day trial. Improve the CTA.",
+      "expected_output": "One recommended label naming the known action",
       "files": [],
       "assertions": [
-        "Exactly two options, not three",
+        "Returns one label without manufacturing extra alternatives",
         "Each option names the outcome or destination (e.g. trial length, 'See plans'), not a bare 'Get started' or 'Learn more'",
         "Each label is 2 to 5 words",
         "The response does not expand into a full page audit"
@@ -55,12 +55,12 @@
     {
       "id": 5,
       "prompt": "Fix the copy in this hero. The repo's VOICE.md says: 'Signature words: unlock. Locale: en-AU.' Hero copy: 'Unlock your team's best work. Organise every project, colour-code priorities, and ship on time. Trusted by thousands of teams. Get started.'",
-      "expected_output": "A point-edit or restoration pass that keeps 'unlock', keeps en-AU spelling, and flags only the 3 to 7 weakest lines",
+      "expected_output": "A scoped edit preserving the signature vocabulary and locale",
       "files": [],
       "assertions": [
         "'unlock' is not flagged as a banned word or [AI-ISM]",
         "No en-AU spelling is changed to en-US",
-        "Between 3 and 7 flags total",
+        "Flags only concrete weaknesses, with no minimum finding quota",
         "Every fact, number, and link in the Before appears in the After"
       ]
     }

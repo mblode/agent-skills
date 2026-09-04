@@ -1,0 +1,39 @@
+{
+  "skill_name": "scaffold-nextjs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Scaffold a Next.js turborepo with Blode UI. Port 3000 belongs to an unrelated local project.",
+      "expected_output": "Use the house stack on a free port with correct workspace ownership.",
+      "files": [],
+      "assertions": [
+        "Preserves the unrelated server",
+        "Places app dependencies in apps/web",
+        "Keeps the hook configuration at the git root"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The installed Next.js rejects a flag in the scaffold reference. The current bundled documentation names its replacement.",
+      "expected_output": "Adapt the template using version-matched documentation.",
+      "files": [],
+      "assertions": [
+        "Does not force the rejected flag",
+        "Records the compatibility correction",
+        "Verifies the resulting build"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Scaffold a Next.js turborepo with Blode UI. Port 3000 belongs to an unrelated local project.",
+      "The installed Next.js rejects a flag in the scaffold reference. The current bundled documentation names its replacement."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Build a pricing page inside the existing Next.js app.",
+        "expected": "ui-design"
+      }
+    ]
+  }
+}

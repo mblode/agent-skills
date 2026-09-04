@@ -1,19 +1,7 @@
 ---
 name: ui-verification
-description: >-
-  Boots a running app in a headless browser and executes mechanical probes that
-  turn inferred UI defects into reproduced ones: axe-core scans per theme,
-  computed hit-target measurement, scripted focus walks, CLS attribution under
-  delayed data, 320px overflow and long-content stress, injected 500 / empty /
-  offline responses, and a dark-mode plus pseudo-locale matrix. Returns evidence
-  keyed to ui-design rule ids, and re-runs the same probe after a fix to prove
-  the finding cleared. Use when asked to "verify this in the browser", "prove
-  these findings are real", "run the probes", "check this on a real page",
-  "reproduce this audit finding", "did the fix actually work", "capture both
-  themes", or when a ui-design, typography-audit, or ax-audit finding needs
-  runtime evidence. For finding defects by reading source use ui-design; for
-  pixel regression baselines use Chromatic or Percy; for end-to-end flow
-  correctness write Playwright tests directly.
+description: Runs scoped browser probes for focus, hit targets, overflow, themes, request failures, and performance attribution, with evidence linked to UI rule IDs. Use when asked to "verify this in the browser", "reproduce this finding", or "check the fix". For source audits and severity use ui-design; field metrics require RUM or CrUX.
+compatibility: Requires access to the target app and browser automation. Bundled JavaScript recipes use the Playwright page API.
 ---
 
 # UI Verification
@@ -21,7 +9,7 @@ description: >-
 Owns the browser session. Every other UI skill in this repo reasons about source and infers what the user will see; this one loads the page and measures it.
 
 - **IS:** booting the app, driving it with a browser, and running the probes that decide a rule at runtime: computed boxes, injected failures, observed layout shift, a scripted Tab walk, an axe scan per theme. Output is findings keyed to rule ids with reproducible evidence, plus the clearing re-run after a fix.
-- **IS NOT:** finding defects by reading source or deciding their tier and ship verdict (`ui-design` Audit mode owns both); building or restyling UI (`ui-design` Build); authoring a durable test suite (write Playwright tests); pixel-diff regression against a baseline (Chromatic, Percy); field performance (Lighthouse CI, RUM).
+- **IS NOT:** finding defects by reading source or deciding their tier and ship verdict (`ui-design` Audit mode owns both); building or restyling UI (`ui-design` Build); authoring a durable test suite (write Playwright tests); pixel-diff regression against a baseline (Chromatic, Percy); field performance (RUM or CrUX; Lighthouse is a lab tool).
 
 The division of labour is the point. A static audit reports what the code will probably do; it cannot see a 40px control whose hit area a pseudo-element already expands to 44, or a retry button wired to nothing. This skill reproduces or kills each of those, so a finding arrives with a measurement instead of a confidence.
 
@@ -75,7 +63,7 @@ Verification progress:
 - [ ] Step 1: Establish the session (references/session-setup.md): driver, build mode, base URL, auth, resolved routes
 - [ ] Step 2: Select the probe set from handed-over rule ids (references/rule-coverage.md) or from the routes
 - [ ] Step 3: Run each probe; record evidence artifacts before interpreting any of them
-- [ ] Step 4: Decide each finding reproduced / not-reproduced / unknown; re-run every fail once before reporting it
+- [ ] Step 4: Decide each finding reproduced / not-reproduced / unknown; repeat timing-sensitive or inconsistent results when needed
 - [ ] Step 5: For each fix applied, re-run the identical probe and record clearedBy
 - [ ] Step 6: Emit the verification block per finding (references/evidence-output.md), then render
 - [ ] Step 7: List probes skipped and why. A probe that could not run is never a pass
@@ -106,7 +94,7 @@ Each probe file carries its own recipe. Three rules hold across all of them:
 
 - **Capture evidence before interpreting it.** Write the screenshot, the JSON measurement, and the console log to disk first. A finding whose evidence was never written is unverifiable by the person reading the report, which puts it back where the static audit left it.
 - **One probe, one route, one viewport, one theme.** Never fold two conditions into one run: when the result surprises you, you need to know which axis produced it.
-- **Re-run before reporting.** Every fail runs twice. A result that flips is `unknown` with reason `flaky`, not a finding. This is the whole reason to prefer a probe over an inference, so do not spend it on a race you did not control.
+- **Repeat uncertain measurements.** Retry timing-sensitive or inconsistent results under controlled conditions. A deterministic failure with a captured trigger needs no duplicate run. A result that flips remains inconclusive until its conditions are understood.
 
 ## 4. Decide each finding
 
@@ -115,7 +103,7 @@ Three outcomes, and the middle one is the one that earns this skill its keep.
 | Outcome | Meaning | What it does to the handed-over finding |
 |---|---|---|
 | `reproduced` | The probe measured the defect | Stays a `fail`, now carrying `observed` from the measurement rather than from the source read |
-| `not-reproduced` | The probe ran cleanly and the defect is not there | The static finding is withdrawn and becomes a `consideredAndRejected` entry naming the probe as its guard |
+| `not-reproduced` | The tested conditions did not exhibit the defect | Withdraw only if the probe exercised the alleged trigger; otherwise retain the candidate with the remaining coverage gap |
 | `unknown` | The probe could not run or could not decide | Finding survives as `unknown` with the probe's reason. Never converts to a pass |
 
 A `not-reproduced` result is a real deliverable, not a wasted run. It is what removes the false positives a large rule corpus asserts with `file:line` confidence, and it feeds the rejection section `ui-design` already requires.

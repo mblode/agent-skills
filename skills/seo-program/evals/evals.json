@@ -1,0 +1,39 @@
+{
+  "skill_name": "seo-program",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Brief an article on Things 3 for Windows. The keyword tool reports volume 900 for Australia, last month. The prompt tool supplies Phrase 400 but no Exact data.",
+      "expected_output": "Produce a sourced writer brief with the missing Exact metric explicit.",
+      "files": [],
+      "assertions": [
+        "Retains keyword scope and date",
+        "Writes No data for Exact prompt volume",
+        "Does not write the article or claim Phrase is Exact"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review SEO monitoring for https://app.example.test. The connected Search Console export is for https://www.example.test and a matching monitor already exists.",
+      "expected_output": "Identify the property mismatch and use the existing monitor when updating.",
+      "files": [],
+      "assertions": [
+        "Does not report the other property as app traffic",
+        "Does not create a duplicate recurring job",
+        "Does not send a recap to an unapproved channel"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Brief an article on Things 3 for Windows. The keyword tool reports volume 900 for Australia, last month. The prompt tool supplies Phrase 400 but no Exact data.",
+      "Review SEO monitoring for https://app.example.test. The connected Search Console export is for https://www.example.test and a matching monitor already exists."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Implement canonical URLs and sitemap routes.",
+        "expected": "optimise-seo"
+      }
+    ]
+  }
+}

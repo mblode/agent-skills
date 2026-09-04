@@ -1,0 +1,39 @@
+{
+  "skill_name": "pr-reviewer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this diff read-only. The branch already fails a documented baseline test. A new helper duplicates a live exported helper in the neighboring module.",
+      "expected_output": "Review the requested change with baseline limits and context evidence.",
+      "files": [],
+      "assertions": [
+        "Does not require a green suite to begin",
+        "Locates the live neighboring helper",
+        "Does not edit source while reviewing"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review removal of a retry guard. A writer outside the diff can still produce the delayed state the guard handles.",
+      "expected_output": "Trace the writer and report the reachable regression.",
+      "files": [],
+      "assertions": [
+        "Reads outside the diff to confirm the writer",
+        "Names the trigger and consequence",
+        "Does not accept fewer lines as proof of safety"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Review this diff read-only. The branch already fails a documented baseline test. A new helper duplicates a live exported helper in the neighboring module.",
+      "Review removal of a retry guard. A writer outside the diff can still produce the delayed state the guard handles."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Apply the review findings and simplify the diff.",
+        "expected": "tidy"
+      }
+    ]
+  }
+}

@@ -1,19 +1,7 @@
 ---
 name: pr-creator
-description: >
-  Creates or updates a GitHub pull request with a short, human-sounding
-  description: Linear issue ID in the title when one exists, title under 60
-  chars, one paragraph instead of generated summaries or test-plan sections,
-  and a Risk line only when the risk is real. Handles PR templates, draft and
-  ready state, reviewers, and gh pr edit when the branch already has a PR.
-  Restructures noisy commit history and adds a review path for large diffs.
-  Use when asked to "create a PR", "make a PR", "open a pull request", "PR
-  this", "ship it", "open as draft", "mark the PR ready", "update the PR
-  description", "rewrite the PR title", "make this PR easy to review",
-  "polish this PR", "clean up the commits", "squash the fixups", or "split
-  this PR". For fixing the code in the diff use tidy; for a read-only bug
-  review use pr-reviewer; for CI, conflicts, and review comments after the
-  PR exists use pr-babysitter; for npm releases use autoship.
+description: Creates or updates GitHub PRs with house-style titles and bodies, issue linking, repository templates, and draft state. Use when asked to "create a PR", "rewrite the PR description", or "polish this PR". For code fixes use tidy; for CI and review threads use pr-babysitter; for npm releases use autoship.
+compatibility: Requires Git and authenticated GitHub access. The documented command workflow uses GitHub CLI.
 ---
 
 # pr-creator
@@ -35,7 +23,7 @@ Copy this checklist to track progress:
 
 ```text
 PR creation progress:
-- [ ] Inspect: git branch --show-current, git log --oneline origin/main..HEAD, git diff --stat origin/main...HEAD
+- [ ] Inspect the current branch and diff against the existing PR base, or the discovered default branch merge-base
 - [ ] Existing PR? gh pr view --json url,state,isDraft (state OPEN means edit, not create)
 - [ ] Linear ID from branch, commits, prompt, or issue link; no ID means no prefix
 - [ ] Noisy commits or a >500-line diff? references/pr-polish.md, before pushing
@@ -102,15 +90,14 @@ GitHub reads the first match of `pull_request_template.md` (case-insensitive) in
 
 ## Creating the PR
 
+Write the exact body to a temporary file with the file tool, then pass its path through `--body-file`. The examples use `/tmp/pr-body.md`; choose a task-specific temporary path during execution.
+
 ### No PR yet: create
 
 ```bash
-git push -u origin HEAD   # skip if upstream already set
+git push -u origin HEAD   # when creating a PR for local commits
 
-gh pr create --title "ABC-123: Add auth flow" --body "$(cat <<'EOF'
-One short paragraph that explains what changed and why it matters.
-EOF
-)"
+gh pr create --title "ABC-123: Add auth flow" --body-file /tmp/pr-body.md
 
 gh pr view --json url,title   # evidence the PR exists; return the url
 ```
@@ -122,12 +109,9 @@ Add `--draft` or `--reviewer` here when Rule 7 applies. `--base` only when the t
 `gh pr edit` overwrites the title and body wholesale, so draft the full replacement, not a patch. Same rules and anti-patterns apply.
 
 ```bash
-git push origin HEAD   # push any local commits the PR doesn't have yet
+# A metadata-only edit does not push local commits.
 
-gh pr edit --title "ABC-123: Add auth flow" --body "$(cat <<'EOF'
-One short paragraph that explains what changed and why it matters.
-EOF
-)"
+gh pr edit --title "ABC-123: Add auth flow" --body-file /tmp/pr-body.md
 
 gh pr view --json url,title   # confirm the update; return the url
 ```
@@ -140,7 +124,7 @@ gh pr view --json url,title   # confirm the update; return the url
 - Two different failures look alike: on the default branch, `gh pr create` aborts with `must be on a branch named differently than "main"`; on a branch with nothing new against the base it fails with `No commits between main and <branch>`. The first needs a branch, the second a commit.
 - A branch with an open PR fails `gh pr create` with `a pull request for branch ... into branch main already exists`. `gh pr view --json state` first; `OPEN` means `gh pr edit`. A `MERGED` or `CLOSED` result is a stale PR, so create a new one.
 - Derive the Linear ID from the branch, uppercased: Linear's default branch format is `username/abc-123-title-slug`, so `mblode/abc-123-add-auth` gives `ABC-123`. Never guess an ID: Linear links the PR to whatever ID the title contains, and a wrong one moves someone else's issue.
-- Plain `git diff` shows only uncommitted changes, so on a committed branch it is empty and the description gets written blind. Diff against the merge base: `git diff origin/main...HEAD` (three dots).
+- Plain `git diff` omits committed changes. Use the actual PR base with three-dot diff; do not assume `main`, especially for stacked PRs.
 - Restructure commits before the first push. Force-pushing a rewritten branch under an open PR marks existing inline comments "outdated" and the reviewer loses their thread.
 
 ## Related skills
@@ -149,3 +133,5 @@ gh pr view --json url,title   # confirm the update; return the url
 - `tidy`: applies fixes to the code in the diff; this skill edits only the PR and its commits.
 - `pr-babysitter`: hand off after creation to watch CI, conflicts, and review comments.
 - `autoship`: npm release pipeline (changesets, version PR, publish); "ship it" without release context routes here instead.
+
+Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

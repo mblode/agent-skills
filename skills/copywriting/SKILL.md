@@ -1,17 +1,6 @@
 ---
 name: copywriting
-description: >-
-  Writes and edits short product and marketing copy, including landing pages,
-  CTAs, onboarding strings, product descriptions, email subjects, UI state
-  copy (errors, empty states, button labels), brand voice charts, and AI-ism
-  cleanup. Use when asked to "write copy", "fix the copy", "make this
-  shorter", "improve the CTA", "write the error message", "empty state copy",
-  "name this button", "rewrite from first principles", "remove AI-isms",
-  "clean up AI writing", "flag AI patterns", "define our tone of voice", or
-  "write a voice guide". For blog posts use the external ghostwriter skill
-  with platform blog; for slide copy use presentation-creator; for docs use
-  docs-writing; for in-session assistant talk use eli5; for product behavior
-  decisions use product-design.
+description: Writes and edits product and marketing copy using the brand voice, house vocabulary, awareness-stage frameworks, and product-state contracts. Use when asked to "write copy", "improve this CTA", "remove AI writing patterns", or name an error or empty state. For behavior decisions use product-design; for docs use docs-writing.
 ---
 
 # Copywriting
@@ -126,11 +115,11 @@ Layer frameworks freely. Hero copy almost always opens with Why (the reader's mo
 
 ### Step 5: Write 2-3 alternatives
 
-Label them **Option A**, **Option B**, **Option C**. Three for a page, hero, or campaign; two for a single string like a CTA or subject line, where a third is padding. One is not a choice, and four is a survey. Each option applies the chosen framework visibly, includes a headline, subhead, and at least one CTA, and is structurally different from the others, not the same idea with new adjectives.
+Return one recommended draft by default. Offer two or three distinct alternatives when the user asks to compare directions or a positioning choice remains open. Match the artifact: a button-label task returns labels, not a headline, subhead, and CTA bundle.
 
 ### Step 6: Recommend and explain
 
-Pick one; state which and why in one sentence. For each unpicked option, give one specific edit note.
+Recommend the draft. When alternatives were requested, explain the material tradeoff in one sentence.
 
 ### Step 7: Check every option against the brief
 
@@ -183,7 +172,7 @@ Skip for persuasion-only edits. If the user asked for AI pattern removal, run th
 
 ### Step 5: Run seven sweeps
 
-Load `references/sweeps.md`; run all seven in order, each targeting a distinct failure mode. Finish with the compound adjective hyphenation pass at the end of that file, fixing what it catches silently rather than flagging it.
+Use `references/sweeps.md` for the failure modes present in the copy. A point edit needs only the relevant checks; a full editorial audit can use the complete rubric.
 
 ### Step 6: Flag weakest elements
 
@@ -205,11 +194,11 @@ Attach a label inline to every weak line. Use exactly these labels:
 | `[STATE-COPY]` | Vague, leaky, or dead-end state string (error, success, empty, loading, permission), or a destructive CTA labeled "Confirm"/"OK"/bare verb. Load `references/ui-states.md` before using this label; it holds the rule IDs `product-design` cites |
 | `[AI-ISM]` | AI writing pattern: Tier 1 word, Tier 2 cluster, or structural tell |
 
-Flag the 3-7 weakest elements, prioritised by impact on conversion or comprehension. A list of twenty issues dilutes into one nobody acts on.
+Prioritize concrete weaknesses by conversion or comprehension impact. Report fewer than three when that is all the copy needs; do not manufacture findings to meet a quota.
 
 ### Step 7: Rewrite flagged sections
 
-- Cut hard: a block that reads as already-tight usually isn't. Same meaning in half the words.
+- Cut repetition while preserving meaning and the existing voice. Already-effective copy can stay unchanged.
 - Lead with Why (the user's problem or desire), not What (the product).
 - Name the concrete outcome, not the capability. Replace adjectives with proof: "powerful analytics" becomes "see which pages kill signups".
 - Make CTAs outcome-specific and short: "Start syncing" beats "Get started"; the feature explanation lives above the button, not in it.

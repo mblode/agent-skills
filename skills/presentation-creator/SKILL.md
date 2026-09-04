@@ -1,6 +1,6 @@
 ---
 name: presentation-creator
-description: Creates presentations and slide decks with a story spine, punchy slide copy, high-contrast dark-first visual design, and conversational speaker notes, output as Marp markdown by default, or as a web app with a route per slide and live demos. Covers conference and internal talks, recorded or async decks, and 10-slide investor pitch decks. Use when creating a presentation, structuring a deck, writing slides or speaker notes, building a pitch deck for investors, fixing a deck that has no narrative, or asking "outline a presentation about...", "write slides for...", "design a deck for...", "turn this doc into a deck", "my talk has no story", "write my speaker notes", or "build this deck as a website". When the user names a .pptx or .potx file, use the external pptx skill for the file and this skill for the story, outline, and copy. For long-form articles use the external ghostwriter skill with platform blog; for marketing copy outside slides use copywriting; for product UI use ui-design.
+description: Builds decks with a story spine, house visual system, setting-specific density, and speaker notes. Use when asked to "create a presentation", "write a pitch deck", or "turn this doc into slides". Defaults to Marp; use an available presentation tool for editable PowerPoint. For product UI use ui-design.
 ---
 
 # Presentation Creator
@@ -8,7 +8,7 @@ description: Creates presentations and slide decks with a story spine, punchy sl
 Bold, minimal slide decks with a story underneath: spine to final QA.
 
 - **IS:** slide decks end to end: story spine, slide sequence, slide copy, visual system, speaker notes, investor pitch decks, and decks built as a web app; output as Marp markdown (default), Slidev or reveal.js markdown, or a Next.js deck app.
-- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (external `pptx` skill where installed; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose (external `ghostwriter` with platform `blog`), marketing copy outside slides (`copywriting`), or product UI (`ui-design`).
+- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (available presentation/PPTX skill or tool; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose (external `ghostwriter` with platform `blog`), marketing copy outside slides (`copywriting`), or product UI (`ui-design`).
 
 ## Workflow
 
@@ -60,7 +60,7 @@ Read `web-deck.md` only after the copy exists. Primitives designed before the ou
 
 ### Step 8: QA pass (produces evidence)
 
-Review every slide and output a table. This is the deliverable that proves the deck is done, not a "looks good" sign-off:
+Render the delivered format and inspect every slide. Record layout defects and measured contrast; a self-assigned glance score is editorial judgement. Keep the detailed table with the artifact when useful, and summarize material results in chat:
 
 ```markdown
 | # | Slide | 3-sec test | One message | Spine beat | Layout | Colour | Contrast |
@@ -84,7 +84,7 @@ Deck-level checks below the table:
 - Speaker notes sit where the output format reads them (Marp and Slidev: an HTML comment at the end of the slide; reveal.js: a `Note:` line; `.pptx`: the notes pane)
 - Pitch decks only: 10 slides plus an appendix at most, explicit ask slide (amount and use of funds), headlines pass the forwardable test
 
-Fix every flagged row and re-output the table before handing over.
+Fix observed defects and inspect affected slides again. If rendering is unavailable, label visual verification unrun.
 
 ## Core principles
 

@@ -14,7 +14,7 @@ Everything that has to be true before the first probe runs. A probe result is on
 
 ## Driver
 
-Two options, and the choice is not a preference.
+Use the supported browser surface exposed by the host. The recipes below use Playwright syntax as an adapter; do not assume `evaluate`, interception, or browser launch is available on another driver.
 
 **Playwright** is the default. It gives request interception, network and CPU emulation, a fresh isolated context per run, and repeatability. Use the repo's own `@playwright/test` install when there is one, so the browser version matches CI. Where a browser binary is already provisioned in the environment, point Playwright at it with `executablePath` rather than downloading another.
 
@@ -47,7 +47,7 @@ Read the manifest's scripts rather than guessing the command. Prefer, in order, 
 
 Wait for readiness by polling the URL until it answers, never by sleeping. A fixed sleep is either too short, which produces a run against a half-started server, or too long, which is why nobody runs the suite twice.
 
-Free the port before starting, and stop the server at the end of the run even when a probe threw. A stranded dev server holding port 3000 is the reason the next session's probes all return connection failures.
+Use a free port and record the process started by this run. Reuse an existing server only after confirming its checkout and build. Stop only a server this run owns; never kill an unrelated listener to claim port 3000.
 
 ## Auth and seeded data
 
@@ -76,7 +76,7 @@ A probe that flips between runs is worse than no probe: it spends the credibilit
 - **Disable animation for captures** with reduced motion, and run motion-sensitive checks in a separate pass with it on. Reduced motion is also a code path, and it can be broken.
 - **Freeze the data.** The same seeded fixture on every run, so a list length change does not read as a layout regression.
 - **Fresh context per probe.** Storage, service workers, and caches carried between probes are how one probe's injection leaks into the next one's result.
-- **Run every fail twice** before reporting. A result that changes is `unknown` with reason `flaky`, and the report says which probe was flaky rather than pretending it did not run.
+- **Repeat uncertain results** when timing or inconsistent evidence warrants it. A deterministic captured failure needs no ritual second run. Record inconsistent results and their conditions as inconclusive.
 
 ## When to stop
 

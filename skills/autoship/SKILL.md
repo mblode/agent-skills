@@ -1,16 +1,7 @@
 ---
 name: autoship
-description: >-
-  Runs the npm release flow for an existing changesets package: write the
-  changeset, fix lint/type/test/format failures, push, watch CI, merge the
-  Version Packages PR, watch the publish run, and verify the version on npm.
-  Diagnoses release-side failures: the Changeset Status check, changesets/action
-  v1 vs v2 inputs, and OIDC trusted-publishing auth. Use when asked to "release
-  this", "publish this package", "autoship", "cut a release", "bump and
-  publish", "merge the Version Packages PR", "why didn't it publish", or to fix
-  build failures inside a release flow. For feature PRs use pr-creator; for
-  watching a feature PR use pr-babysitter; for scaffolding a new package use
-  scaffold-cli.
+description: Runs a changesets npm release through the version PR, CI publish, and registry verification. Use when asked to "release this package", "autoship", "merge Version Packages", or diagnose a release that did not publish. For feature PRs use pr-creator or pr-babysitter.
+compatibility: Requires a Git checkout, GitHub CLI authentication, Node.js, and a changesets-based npm release workflow.
 ---
 
 # Autoship
@@ -81,7 +72,7 @@ Autoship progress:
 ### Step 1: Create changeset (default patch)
 
 - Load `references/changeset-and-commit.md`.
-- Check for pending changesets: `ls .changeset/*.md 2>/dev/null | grep -v README.md`. If any exist, ask whether to add another or ship what is pending.
+- Inspect pending changesets and their package coverage. Reuse those covering the requested release; add one only for uncovered changes. Ask only if unrelated pending releases make the publish scope ambiguous.
 - Default to `patch`; `minor` or `major` only on explicit user instruction.
 - Write the file directly (the interactive prompt needs a TTY); the summary is user-facing changelog text inferred from `git log --oneline -10`.
 - `npx changeset status` validates the file: a misspelled package name fails here instead of in CI.
@@ -90,7 +81,7 @@ Autoship progress:
 
 - Discover commands from `package.json` scripts (`check`, `lint`, `typecheck`, `test`, `format`, `fix`); in non-npm repos check `Makefile`, `Cargo.toml`, `pyproject.toml`, `go.mod`.
 - Run lint, typecheck, test, format. After any code change, re-run from the first gate: a type fix routinely breaks lint, and a lint autofix can break a test.
-- Scope auto-fixers to changed files where supported, then check `git status`: broad `fix`/`format` scripts reformat files outside the change (MDX is a frequent casualty). `git restore <path>` the unrelated churn.
+- Scope auto-fixers to changed files where supported, then check `git status`: broad `fix`/`format` scripts reformat files outside the change (MDX is a frequent casualty). Undo only fixer changes introduced by this run, preserving pre-existing edits in the same files.
 - Cap the loop at 5 fix iterations per gate, reporting the remaining error count each pass; then stop and report (Failure Recovery).
 
 ### Step 3: Commit and push the changeset
