@@ -73,7 +73,7 @@ A primary rule that the probe could not run for stays `unknown`. A confirming ru
 | `states-no-error-state` | failure-injection | primary |
 | `type-readable-scale` | viewport-stress | primary |
 
-26 primary, 16 confirming, 6 capture-only.
+Every rule in `ui-design/rules/` has a row. When a rule is added or removed there, this table changes with it; a rule with no row is a rule the browser cannot help with, and that is a decision to record here rather than an omission.
 
 The two rules the audit corpus already marks `detect: rendered`, `states-layout-shift` and `layout-long-content-safety`, are both primary here. That is the point of the mapping: a rule whose own file says it needs the browser had, until now, no browser to be run in.
 

@@ -152,3 +152,5 @@ ln -s /path/to/agent-skills/skills/<name> ~/.claude/skills/<name>
 
 - `agents-md` for auditing AGENTS.md/CLAUDE.md instruction files
 - `docs-writing` for documentation quality rules
+
+Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a user task, which is the baseline Phase A of `references/improving-existing-skills.md` asks for.

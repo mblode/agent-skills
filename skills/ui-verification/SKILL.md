@@ -160,3 +160,5 @@ The ones that cut across probes. Each probe file carries its own false positives
 - `typography-audit`: type findings that need a rendered measure or leading value can be handed here for the measurement.
 - `ax-audit`: agentic surfaces. Its runtime questions use the same session and probes.
 - `ui-animation`: motion craft. This skill can capture the timing, but judging the curve is that skill's.
+
+Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a verification run.
