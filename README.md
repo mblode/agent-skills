@@ -27,6 +27,39 @@ npx skills add mblode/agent-skills -g --agent claude-code codex cursor -y
 
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
+<<<<<<< Updated upstream
+=======
+Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
+
+### Cloud agents
+
+A cloud agent runs on a fresh VM that never sees your machine's `~/.claude/skills` or `~/.agents/skills`, and Cursor's Sync Skills toggle covers only `~/.cursor/skills`. Nothing you install locally reaches them.
+
+**Claude Code cloud, Cowork, and routines.** This repo is a plugin marketplace. On claude.ai, open **Customize > Plugins > Add > Add marketplace > Add from a repository**, enter `mblode/agent-skills`, and install the Agent skills plugin. Every cloud session gets all the skills with no per-repo config, and Sync automatically keeps them current whenever the repo changes on GitHub.
+
+To scope it to one repository instead, declare the marketplace there and Claude installs it at session start:
+
+```jsonc
+// .claude/settings.json
+{
+  "extraKnownMarketplaces": {
+    "mblode-agent-skills": {
+      "source": { "source": "github", "repo": "mblode/agent-skills" }
+    }
+  },
+  "enabledPlugins": { "agent-skills@mblode-agent-skills": true }
+}
+```
+
+**Cursor cloud agents.** Cursor has no account-level equivalent, so install on the VM at build time:
+
+```jsonc
+// .cursor/environment.json
+{ "install": "npx skills add mblode/agent-skills -g --agent cursor -y" }
+```
+
+That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothing untracked in the agent's diff.
+
 ## Skills
 
 ### Architecture
