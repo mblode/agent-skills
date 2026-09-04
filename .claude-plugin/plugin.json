@@ -1,0 +1,8 @@
+{
+  "name": "agent-skills",
+  "version": "1.0.0",
+  "description": "Skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.",
+  "repository": "https://github.com/mblode/agent-skills",
+  "license": "MIT",
+  "keywords": ["skills", "design", "frontend", "ui", "review", "docs"]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "mblode-agent-skills",
+  "owner": {
+    "name": "Matthew Blode",
+    "url": "https://github.com/mblode"
+  },
+  "description": "UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent",
+  "plugins": [
+    {
+      "name": "agent-skills",
+      "source": "./",
+      "description": "Skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.",
+      "homepage": "https://www.skills.sh/mblode/agent-skills",
+      "repository": "https://github.com/mblode/agent-skills",
+      "license": "MIT",
+      "author": { "name": "Matthew Blode" }
+    }
+  ]
+}
