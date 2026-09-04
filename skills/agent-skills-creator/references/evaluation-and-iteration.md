@@ -72,13 +72,14 @@ For a rule you suspect is carrying no weight: delete it, rerun the scenarios, an
 
 ## Test Across Models
 
-Skills augment the model: Opus guidance may underspecify Haiku; Haiku guidance may clutter Opus.
+Skills augment the model, so the same body lands differently on each one. Guidance written for a frontier model may underspecify a small fast model; guidance written for a small one clutters a frontier model and, on the newest frontier models, measurably lowers output quality. Anthropic's own migration guidance says prompts carried forward from prior models are often too prescriptive; that makes the constraint cut a correctness pass, not tidying.
 
-- **Haiku:** enough guidance and explicit steps?
-- **Sonnet:** clear and efficient?
-- **Opus:** avoids over-explaining?
+Two axes decide the test matrix, and most skills only think about the first:
 
-Test every model it may run under; the Claude Code default model is the floor.
+- **Capability tier.** A small fast model asks: enough guidance and explicit steps? A frontier model asks: does this over-explain, or re-teach something it already does? Test the floor and the ceiling of the tiers the skill may run under, not the one you author on.
+- **Effort level.** Every current frontier family exposes a reasoning-effort control, and the host picks it, not the skill. The same body is read at the terse end (fewer, more consolidated tool calls, less preamble) and at the exhaustive end. A workflow that only completes because the model volunteered an unstated step is a workflow that breaks at low effort. Run the skill's scenarios at the lowest effort it may see, and make every required step explicit rather than implied.
+
+A skill that travels across vendors adds a third question: does anything in the body assume one harness's tools, paths, or permission model? That is a portability bug, and it surfaces on another vendor's agent long before it surfaces in an eval.
 
 ## Iterate with Two Claudes
 

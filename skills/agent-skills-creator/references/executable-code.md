@@ -109,10 +109,15 @@ Use the qualified form in instructions and examples. If a server name changes, u
 
 ## Visual Analysis
 
-When inputs can be rendered as images, Claude can analyze them with vision, often more reliable than parsing structured text for layout-heavy formats.
+Image input is a default capability across every current frontier model, so a skill hands over the picture rather than a description of it. For layout-heavy formats this beats parsing the structured source, because position and grouping are the information.
 
-- PDF forms → render pages to images, analyze field positions
-- Charts and diagrams → describe contents from the image, not the source
-- Web pages → screenshot and inspect layout
+- PDF forms → render pages to images, read field positions off the render
+- Charts and diagrams → read the image, not the plotting source
+- Web pages → screenshot and inspect the rendered layout
 
-Provide a script that produces the image (`pdf_to_images.py`), then read the output with vision. Keep the script focused on conversion; let Claude interpret.
+Provide a script that produces the image (`pdf_to_images.py`), then hand the output over directly. Keep the script focused on conversion.
+
+Two failure modes follow from treating vision as something to route around:
+
+- **Instructing a transcription step.** "Describe the chart, then reason about the description" throws away the thing that made the image worth producing, and the description becomes a lossy intermediate nobody can audit. Ask for the conclusion from the image.
+- **Assuming image output.** Reading images is universal; generating them is not. Several current frontier models take images in and return only text. A skill whose deliverable is a generated image routes to an image-generation tool and says which one, and states what it does when that tool is absent. A skill that only needs to *see* something has no such dependency.
