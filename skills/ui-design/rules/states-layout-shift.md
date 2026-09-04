@@ -30,6 +30,8 @@ The greps find missing dimensions; the shift itself is a delta between two rende
 
 Load the surface with the network throttled so the loading state is observable. Record the bounding box of each skeleton, spinner, or placeholder, then record the same container once data has arrived, and compare heights. Attribute the movement with a `PerformanceObserver` on `layout-shift` entries over that window: each entry names the sources that moved and how far. Flag any container whose height changes on data arrival, and report the element, both heights, and the viewport.
 
+The `ui-verification` skill runs this as its layout-shift probe, holding the data response open rather than throttling the whole network so the shell is not slowed with it. Dispatch to it when an app is running; with no browser the greps below produce candidates and the rule is `unknown`, never a fail.
+
 **Concrete commands:**
 ```bash
 # Skeletons missing min-height

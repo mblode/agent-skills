@@ -10,6 +10,7 @@ What the format requires that a script cannot teach you. Every mechanical limit 
 - Claude Code Fields
 - Substitutions in the Body
 - Loading Semantics
+- Where Skills Run
 - Naming
 
 ## Directory Structure
@@ -95,6 +96,20 @@ These govern what Claude can see, so they drive structure decisions:
 - Bundled files cost nothing until read, so a comprehensive reference folder is cheap; a bloated SKILL.md is not.
 - Long references are fine up to roughly 450 lines when single-topic and TOC'd. Split by loading condition, not line count: two topics read at different moments belong in two files even at 60 lines each.
 - Claude Code watches `~/.claude/skills/` and `.claude/skills/` and picks up SKILL.md text changes within the session; a symlinked folder counts. A copied install does not follow the repo.
+
+## Where Skills Run
+
+The format is an open standard, so one folder is read by several agents and the same body has to survive all of them. Two things vary, and only the second is obvious.
+
+**Directories.** Claude Code reads `.claude/skills/` and `~/.claude/skills/`. Cursor reads `.cursor/skills/` and `.agents/skills/` (plus the user-level equivalents), and also loads the Claude and Codex directories for compatibility. Codex builds on the same standard from its own path. `~/.agents/skills/` is the shared location an installer treats as universal, which is why a skill can appear installed under one agent and absent under another while being the same file. Symlinking one folder into the paths each agent reads is the supported way to run one copy everywhere.
+
+**What each host can actually do.** A skill body is instructions to whatever agent read it, and hosts differ in what those instructions can assume:
+
+- **Claude Code-only frontmatter degrades silently on other agents** (`hooks`, `paths`, `context: fork`, `disable-model-invocation`), so a skill that relies on one for correctness is correct in one place only. On a claude.ai upload the same fields hard-error instead. Both failure modes come from the same line of frontmatter.
+- **The `${CLAUDE_*}` substitutions are Claude Code's.** Another agent leaves them as literal text, exactly like `${CLAUDE_PLUGIN_DATA}` in a non-plugin skill: a script path becomes a nonexistent directory name rather than an error.
+- **Browser and desktop hosts have no repo and no shell.** Claude in Chrome now carries sessions, skills, and connectors alongside the desktop and web apps, so a skill written for a checkout can be invoked where there is no working tree, no `git diff` to scope against, and nothing to run `scripts/validate.sh` with. A skill whose every step is a bash command is inert there rather than broken, which is worse: it produces plausible prose instead of an error.
+
+The practical rule: write the body against the capability the skill actually needs, and state the precondition when it needs a shell or a repo. A skill that opens by scoping a diff should say so, so the host that cannot supply one fails loudly at step one instead of improvising through eight steps.
 
 ## Naming
 

@@ -16,6 +16,8 @@ No grep decides this. Whether a container overflows depends on its rendered widt
 
 Evidence to collect: render the surface at 320px and at the narrowest supported desktop width, seeded with a hostile fixture (a 60-character unbroken token, a 200-character name, a raw URL with no spaces, a locale whose strings run 30% longer). Then, per candidate container, compare `scrollWidth` against `clientWidth` and screenshot anything where the content escapes its box or pushes a sibling off screen. Report the overflowing element with its viewport width and the string that broke it.
 
+The `ui-verification` skill runs exactly that as its viewport-stress probe, including the culprit walk that finds the deepest overflowing element rather than its ancestors. Dispatch to it when an app is running; with no browser this rule is `unknown`, never a fail.
+
 **Incorrect (overflow risk):**
 
 ```css

@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-26 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+27 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -27,8 +27,6 @@ npx skills add mblode/agent-skills -g --agent claude-code codex cursor -y
 
 The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
-<<<<<<< Updated upstream
-=======
 Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
 
 ### Cloud agents
@@ -72,7 +70,8 @@ That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothin
 ### Design
 
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
-- **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
+- **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, design-system extraction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
+- **[ui-verification](./skills/ui-verification/SKILL.md)**: Boots the app in a headless browser and runs nine probes that turn inferred UI defects into measured ones, then proves the fix cleared.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a contrast-checked QA pass, as Marp markdown, a web app, or a handoff to pptx.
 

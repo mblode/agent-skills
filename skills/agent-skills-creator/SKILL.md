@@ -23,7 +23,7 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 |------|-----------|
 | `references/authoring-tips.md` | Default when writing or cutting body content: judgement over rules, constraint calibration, degrees of freedom, content patterns, descriptions |
 | `references/skill-patterns.md` | Choosing a structural pattern |
-| `references/format-specification.md` | Directory layout, spec versus Claude Code-only frontmatter, body substitutions, loading semantics, naming |
+| `references/format-specification.md` | Directory layout, spec versus Claude Code-only frontmatter, body substitutions, loading semantics, which host reads the skill from where and what each can do, naming |
 | `references/rules-folder-structure.md` | Building a rules-based audit/lint skill |
 | `references/improving-existing-skills.md` | Auditing, scoring, simplifying, or rewriting an existing skill |
 | `references/executable-code.md` | Skill includes scripts, injects live context with `!`, depends on packages, or invokes MCP tools |
@@ -61,7 +61,7 @@ Simple/hub, workflow, rules-based, or mixed. `references/skill-patterns.md` has 
 
 Create `skills/<name>/SKILL.md` with `name` and `description`, the `---` on line 1. Write the description as a model trigger, not a human summary: what it does, what it covers, then "Use when..." with the phrases users actually say, and the key use case first because the listing trims descriptions from the tail when it runs over budget. `validate.sh` enforces the limits, so write for routing and let the script police the constraints.
 
-Decide where the skill will run before adding any other field. The six spec fields travel everywhere; Claude Code's own fields (`disable-model-invocation`, `context: fork`, `hooks`, `paths`, and the rest in `references/format-specification.md`) fail a claude.ai upload or API package with a hard error. A skill with side effects a model should never start unprompted (deploys, sends, spend) gets `disable-model-invocation: true` and, if it travels, a body line saying who may start it.
+Decide where the skill will run before adding any other field. The six spec fields travel everywhere; Claude Code's own fields (`disable-model-invocation`, `context: fork`, `hooks`, `paths`, and the rest in `references/format-specification.md`) fail a claude.ai upload or API package with a hard error. "Everywhere" now includes other vendors' agents and hosts with no shell at all, which constrains the body as much as the frontmatter: `references/format-specification.md` covers both. A skill with side effects a model should never start unprompted (deploys, sends, spend) gets `disable-model-invocation: true` and, if it travels, a body line saying who may start it.
 
 ### Step 3: Write SKILL.md body
 
@@ -71,7 +71,7 @@ Decide where the skill will run before adding any other field. The six spec fiel
 - Add only context Claude lacks ("Don't State the Obvious"); use consistent terminology
 - Phrase guidance as an outcome, reserving absolutes for safety, data loss, format contracts, and observed failures ("Judgement Over Rules")
 - Check nothing here contradicts the harness, a sibling skill, or the repo AGENTS.md; route instead of restate ("Don't Fight the Harness or a Sibling")
-- Keep the opinions that make the skill worth invoking; cut only what Claude already does unprompted ("Cut Constraints, Keep Opinions")
+- Keep the opinions that make the skill worth invoking; cut only what Claude already does unprompted ("Cut Constraints, Keep Opinions"). On current frontier models over-prescription is not merely wasted tokens: instructions carried forward from older models are often too prescriptive and lower output quality, so the constraint cut is correctness work
 - Match degrees of freedom to fragility: prose for open-ended work, exact commands for fragile or destructive ops ("Degrees of Freedom")
 - Reach for named content patterns: template for fixed output, examples only where style is the deliverable, conditional for decision points
 - Add a copyable progress checklist for multi-step workflows; validation loops for quality-critical tasks
@@ -146,9 +146,11 @@ ln -s /path/to/agent-skills/skills/<name> ~/.claude/skills/<name>
 - A `context: fork` skill whose body is guidelines rather than a task; the subagent gets conventions and no prompt, and returns nothing
 - Vague names (`helper`, `utils`, `tools`, `documents`, `data`) that give the model nothing to route on
 - Magic numbers in scripts with no justifying comment
-- Shipping without testing on every target model; what reads well to Opus may underspecify for Haiku
+- Shipping without testing across the capability tiers and effort levels the skill will actually run under; what reads well to a frontier model may underspecify a small fast one, and a step the model only volunteers at high effort is a step the workflow does not really have
 
 ## Related Skills
 
 - `agents-md` for auditing AGENTS.md/CLAUDE.md instruction files
 - `docs-writing` for documentation quality rules
+
+Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a user task, which is the baseline Phase A of `references/improving-existing-skills.md` asks for.

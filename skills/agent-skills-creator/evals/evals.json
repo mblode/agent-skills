@@ -1,0 +1,61 @@
+{
+  "skill_name": "agent-skills-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Improve our deploy-checklist skill. It's 380 lines and people say it's too long. Here's the folder.",
+      "expected_output": "The improvement protocol run in order: the evals executed first for a before baseline (or two or three written against current behaviour when none exist), the should-this-skill-still-exist question answered from the with-versus-without delta before any dimension is scored, the eleven dimensions scored before and after, the constraint cut run with the stop condition that repo-specific opinions are the payload, and validate.sh clean at the end.",
+      "files": [],
+      "assertions": [
+        "Runs or writes evals before editing anything, and diffs the post-rewrite run against that baseline rather than only reporting that evals pass",
+        "Asks whether the skill should still exist, using the without-skill arm of the eval, and names retirement or folding into a sibling as possible outcomes rather than assuming a rewrite",
+        "Cuts a line only for being wrong or already the model's default, and keeps at least one repo-specific opinion that reads as strongly worded",
+        "Reports before and after scores for the eleven dimensions",
+        "Ends with a validate.sh run and its result"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a skill that reviews screenshots of our checkout for visual regressions and then generates a corrected mockup image for the designer.",
+      "expected_output": "A skill whose body hands the screenshot to the model directly rather than instructing a describe-then-reason step, and which routes the mockup generation to a named image-generation tool with an explicit path for when that tool is absent, because image input is universal across current frontier models and image output is not.",
+      "files": [],
+      "assertions": [
+        "Does not instruct the model to describe or transcribe the screenshot as an intermediate step",
+        "Names a specific image-generation tool for the mockup and states what the skill does when it is unavailable",
+        "Does not assume the invoking model can emit an image directly",
+        "States the shell or repo precondition if any step depends on one, so a browser host fails at step one rather than improvising",
+        "Description opens in third person with a Use when clause and quoted trigger phrases"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "My skill works great in Claude Code but does nothing useful when a teammate runs it from Cursor, and it broke the claude.ai upload. Here it is.",
+      "expected_output": "A diagnosis that separates the two failures by their shared cause: Claude Code-only frontmatter and ${CLAUDE_*} substitutions degrade silently on Cursor and hard-error on a claude.ai upload from the same lines, plus a check of whether the body assumes a shell or a repo that a browser host cannot supply, and a fix that keeps the six spec fields and states preconditions in the body.",
+      "files": [],
+      "assertions": [
+        "Identifies the Claude Code-only frontmatter fields present and explains that they are ignored on Cursor and rejected on upload",
+        "Finds any ${CLAUDE_*} substitution in the body and explains it is left literal on other agents",
+        "Checks whether the body's steps assume bash or a working tree and adds a stated precondition where they do",
+        "Does not recommend removing the skill from Cursor or maintaining two copies",
+        "Runs validate.sh and reports frontmatter-portable as PASS or explains the remaining SKIP"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "How do I write a skill for our release process?",
+      "Improve this skill, it never seems to change what the agent does.",
+      "Audit my SKILL.md against the format spec.",
+      "Why doesn't my skill trigger when I ask about deployments?",
+      "Rightsize this skill, it's gotten bloated.",
+      "Which frontmatter fields can I use if this has to work on claude.ai too?",
+      "Should I install the popular react-best-practices skill or write our own?"
+    ],
+    "near_miss": [
+      "Rewrite our CLAUDE.md so Codex and Cursor read the same instructions. (agents-md owns instruction files)",
+      "Audit our docs folder for Diataxis compliance. (docs-writing owns documentation quality)",
+      "Write the README for this skills repo. (readme-creator)",
+      "Configure a PreToolUse hook in settings.json. (update-config; a hook inside a skill's frontmatter is this skill's, a repo-level hook is not)"
+    ]
+  }
+}
