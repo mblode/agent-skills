@@ -74,7 +74,7 @@ Resolve one mode before acting, and load only that mode's files.
 | Mode | Dispatch when the user asks for | Load |
 |------|--------------------------------|------|
 | **Direction** | visual direction, palettes, fonts, tokens, a brand kit, "pick a style"; deliverable is a spec, not code | the Direction section below |
-| **Extract** | recording what an existing codebase already decided: "what design system does this use", "document our tokens", "why does the new component look off" | [references/design-system-extract.md](./references/design-system-extract.md) only |
+| **Extract** | recording what an existing codebase already decided: "what design system does this use", "document our tokens", "inventory our components and scales" | [references/design-system-extract.md](./references/design-system-extract.md) only |
 | **Build** | the target does not exist yet: "build a landing page", "create a dashboard", "add a pricing section" | [direction/aesthetic-direction.md](./direction/aesthetic-direction.md), [design-guidelines.md](./design-guidelines.md), then the applicable files from its index |
 | **Audit** | the target exists and no change was named: "audit this component", "check my UI", "is this accessible", "design QA this page", "is this ready to ship". **Deslop scope** on "remove AI slop", "looks vibe coded", "simplify this UI" | [references/feature-playbooks.md](./references/feature-playbooks.md) and `rules/` only |
 | **Options** | variants to compare in the browser: "show me 3 hero layouts" | [ideas.md](./ideas.md) plus the guidelines per variant |
