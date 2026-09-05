@@ -1,0 +1,71 @@
+{
+  "skill_name": "branding",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Meadow is a joyful children's science museum with a recognizable orange spiral, chunky lettering, and tactile exhibits. The team says make our rebrand feel as polished as Vercel. Propose identity direction and verification evidence.",
+      "expected_output": "Preserve recognizable character, translate polish into discipline, and test representative applications.",
+      "files": [],
+      "assertions": [
+        "Does not substitute monochrome developer branding.",
+        "Preserves the known recognizable assets or gives a brief-grounded reason to change them.",
+        "Distinguishes proposed verification from tests actually run."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our product team has 12 approved launch-card templates, but 30 authors repeatedly overflow headlines. Should we replace them with a new generative brand system?",
+      "expected_output": "Address authoring constraints and proof applications before a rebrand or generator.",
+      "files": [],
+      "assertions": [
+        "Recommends addressing overflow in the approved system first.",
+        "Names controllable authoring behavior and a practical test."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Morrow is an established tea shop whose cobalt wordmark and hand-drawn leaves are recognizable. Develop a playful summer campaign for signs, reusable cups, and email. Keep the core identity. No rendering tools are available.",
+      "expected_output": "Develop a campaign idea with stable core assets, format-specific direction, and honest unrendered status.",
+      "files": [],
+      "assertions": [
+        "Separates campaign variation from core identity.",
+        "Does not replace the approved core assets.",
+        "Labels visual applications as proposals, not verified renders."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Compare two creative directions for a joyful science museum with orange spiral identity. One concept has polished photos and short copy, the other rough placeholders and long copy. How should we compare fairly? No rendering tools.",
+      "expected_output": "A controlled comparison with comparable material and fidelity, distinct theses, tradeoffs, and honest unrendered status.",
+      "files": [],
+      "assertions": [
+        "Calls for comparable content, formats, and fidelity before judging concepts.",
+        "Distinguishes the conceptual thesis and tradeoff from polish differences.",
+        "Does not claim to have rendered or tested the alternatives.",
+        "Preserves the orange spiral identity."
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "We need an identity people remember.",
+      "Refresh our brand without losing recognition.",
+      "What should stay consistent across campaigns?",
+      "Create a visual language for our company.",
+      "Help position and brand our new product.",
+      "Our launch assets look like different companies.",
+      "Define a creative direction for the rebrand.",
+      "Build guidelines for our brand system."
+    ],
+    "near_miss": [
+      "Fix this button focus state.",
+      "Rewrite this CTA in our existing voice.",
+      "Should we build a dashboard?",
+      "Implement the approved homepage in React.",
+      "Check the font loading performance.",
+      "Generate a portrait from this exact prompt.",
+      "Write a personal LinkedIn post.",
+      "Animate this approved modal transition."
+    ]
+  }
+}

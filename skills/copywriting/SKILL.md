@@ -1,11 +1,11 @@
 ---
 name: copywriting
-description: Writes and edits product and marketing copy using the brand voice, house vocabulary, awareness-stage frameworks, and product-state contracts. Use when asked to "write copy", "improve this CTA", "remove AI writing patterns", or name an error or empty state. For behavior decisions use product-design; for docs use docs-writing.
+description: Writes and edits product, marketing, and transactional email copy using brand voice, product terminology, and state contracts. Use when asked to "write copy", "draft a password reset email", "improve this CTA", "use our glossary", "remove AI writing patterns", or write an error or empty state. For behavior decisions use product-design; for docs use docs-writing.
 ---
 
 # Copywriting
 
-- **IS:** short conversion copy (landing pages, hero, subheads, CTAs, product descriptions, onboarding strings, email subjects); product-state strings (destructive CTAs, error, success, empty, loading, permission copy); stripping AI writing tells from any copy.
+- **IS:** short conversion copy (landing pages, hero, subheads, CTAs, product descriptions, onboarding strings, email subjects); transactional and system emails (account, payment, recovery, security, and notifications); product-state strings (destructive CTAs, error, success, empty, loading, permission copy); stripping AI writing tells from any copy.
 - **IS NOT:** long-form articles, posts, or anything written as a person rather than a brand (use the external `ghostwriter` skill with platform `blog`), slide or deck copy (use `presentation-creator`), API/product/reference docs (use `docs-writing`), in-session assistant talk (use `eli5`), or deciding which action exists, its scope, consequence, reversibility, or reachable states (use `product-design`; this skill writes final wording once those are decided).
 
 Two modes, auto-detected:
@@ -13,6 +13,8 @@ Two modes, auto-detected:
 - Copy exists or the user pasted copy to fix: **Mode B (Edit)**.
 - Nothing written yet, or the user wants something new: **Mode A (Write)**.
 - Genuinely ambiguous ("improve this", no copy in scope): ask one question, then commit.
+
+For brand positioning and identity direction use `branding`; this skill applies the established identity to words.
 
 ## Reference files
 
@@ -24,12 +26,14 @@ Two modes, auto-detected:
 | `references/ai-patterns.md` | Flag structural, sentence-level, and drafting AI tells; P0/P1/P2 triage (Edit Step 4) |
 | `references/sweeps.md` | Run the seven line-level sweeps, then the hyphenation pass (Edit Step 5) |
 | `references/ui-states.md` | The copy is a product state or action label, not marketing (Write Step 4; Edit Step 6 before using `[STATE-COPY]`) |
+| `references/terminology.md` | A glossary is supplied, product terms conflict, or naming conventions need to be recorded |
+| `references/transactional-emails.md` | Drafting or editing a transactional or system email; use for both Write and Edit modes |
 | `references/voice-chart.md` | No usable voice file exists and the product needs one (Write Step 3; Edit Step 1); also holds the tone-by-reader-state table |
 | `evals/evals.json` | Only when changing this skill: behavioural scenarios with assertions plus should-trigger and near-miss routing prompts. Never loads during a user task |
 
 ## Banned words
 
-The never-write set. Applies in both modes and to every line you hand back:
+The never-write set applies to newly authored copy in both modes. Preserve original wording in quoted Before text so an audit remains accurate:
 
 > delve, leverage (verb), robust, seamless, holistic, paradigm, game-changing, cutting-edge, innovative, synergy, revolutionary, effortless, world-class, powerful, showcase, unlock
 
@@ -37,7 +41,7 @@ Also ban **"simple"** as a claim ("our simple onboarding"): never earned upfront
 
 Em dashes count as a banned word: none in headings or body, and no `--` or spaced hyphen standing in for one. Use a comma, colon, full stop, or parentheses.
 
-A voice file that names one of these as a signature word is the only thing that overrides the list (Write Step 3). `references/word-lists.md` holds the wider tiered vocabulary with replacements; that list is for detection in Edit mode, not a second copy of this one.
+An established brand signature can override the list under Write Step 3; one stale occurrence in shipped copy does not establish a signature. `references/word-lists.md` holds the wider tiered vocabulary with replacements; that list is for detection in Edit mode, not a second copy of this one.
 
 ---
 
@@ -49,7 +53,7 @@ Writing progress:
 - [ ] Step 2: State the brief, then write
 - [ ] Step 3: Discover brand voice
 - [ ] Step 4: Route by copy type, choose framework
-- [ ] Step 5: Write 2-3 alternatives
+- [ ] Step 5: Write the recommended draft, with alternatives when useful
 - [ ] Step 6: Recommend and explain
 - [ ] Step 7: Check every option against the brief
 ```
@@ -62,6 +66,8 @@ Settle four things, from the user or from the files. Where the files do not sett
 2. **Audience.** The specific reader: job title, pain, what they've already tried.
 3. **Product.** What it does; the concrete user outcome.
 4. **Traffic source.** Where the reader comes from (cold ad, warm email, organic search, referral, inside the product).
+
+For transactional emails, use the trigger, recipient, affected object, and next action from `references/transactional-emails.md` instead of a marketing awareness brief.
 
 Traffic source sets the reader's awareness stage (`references/frameworks.md`): cold readers need the problem named before the product; warm readers already know the problem and want the mechanism or proof.
 
@@ -85,6 +91,8 @@ Stop and ask before writing only when a wrong guess makes the work useless or un
 
 ### Step 3: Discover brand voice
 
+Check the relevant product glossary and house style alongside voice sources; load `references/terminology.md` when terms are supplied, disputed, or being established.
+
 Find voice signals before inventing one. Work down this order and stop at the first hit:
 
 1. **A voice file in the repo:** `VOICE.md`, `BRAND.md`, `docs/voice.md`, or a tone-of-voice doc. Authoritative when it exists.
@@ -98,6 +106,7 @@ Voice is constant; tone adapts to the reader's state (frustrated, confused, conf
 
 ### Step 4: Route by copy type, choose framework
 
+- **Transactional or system email:** load `references/transactional-emails.md`; use its event-based structure and skip persuasion frameworks. Continue to drafting and checks below.
 - **Product-state copy** (error, empty, success, loading, permission) or an action label: load `references/ui-states.md` and stop here. Persuasion frameworks do not apply to a button that deletes something.
 - **Marketing copy:** load `references/frameworks.md`, plus `references/page-types.md` when the target is a homepage, landing, pricing, feature, or about page.
 
@@ -113,7 +122,7 @@ Choose the lead framework from the brief's awareness stage:
 
 Layer frameworks freely. Hero copy almost always opens with Why (the reader's motivation), whatever else it uses.
 
-### Step 5: Write 2-3 alternatives
+### Step 5: Write the draft
 
 Return one recommended draft by default. Offer two or three distinct alternatives when the user asks to compare directions or a positioning choice remains open. Match the artifact: a button-label task returns labels, not a headline, subhead, and CTA bundle.
 
@@ -149,15 +158,19 @@ Editing progress:
 
 ### Step 1: Read all copy-bearing files
 
+Check the relevant glossary and house style as well as the voice source; load `references/terminology.md` when terminology affects the edit.
+
 Scan every reader-facing surface: README headers, landing components, hero, CTAs, product descriptions, feature lists, onboarding strings, meta descriptions, email subjects. Read the voice file too if one exists (`VOICE.md`, `BRAND.md`, `docs/voice.md`); it settles register and locale, and it overrides the word lists for any word it names as a signature. Where the audit keeps turning on a voice question nobody has answered, load `references/voice-chart.md` and offer to settle it. Ask which files if unclear; judge copy only in the context you have read it in.
 
 ### Step 2: Set the north star
 
-Write one sentence before auditing: "[User] can now [do X] without [old pain]." Every flag and rewrite serves it. If you can't write it confidently, ask; the copy is unfixable until the value proposition is clear.
+For marketing audits, state the reader's desired outcome before flagging weaknesses. For functional copy, state the event or task and required next step instead; do not require a sales value proposition. A point edit can leave this implicit when the supplied context is sufficient. Ask only when missing context would change the meaning of the edit.
 
 ### Step 3: Audit against persuasion frameworks
 
-Load `references/frameworks.md`. Check every major copy block against each framework and carry forward only the highest-impact problems; Step 6 sets the flag budget.
+For transactional or system emails, load `references/transactional-emails.md` and check event, consequence, and action instead of persuasion. For product-state copy, use `references/ui-states.md`. Apply only relevant clarity and mechanics checks in later steps; do not add sales framing or risk-reversal promises.
+
+For marketing copy, load `references/frameworks.md`. Check every major copy block against each framework and carry forward only the highest-impact problems; Step 6 sets the flag budget.
 
 ### Step 4: Remove AI writing patterns
 
@@ -199,7 +212,7 @@ Prioritize concrete weaknesses by conversion or comprehension impact. Report few
 ### Step 7: Rewrite flagged sections
 
 - Cut repetition while preserving meaning and the existing voice. Already-effective copy can stay unchanged.
-- Lead with Why (the user's problem or desire), not What (the product).
+- In marketing copy, lead with Why (the user's problem or desire), not What (the product). In functional copy, lead with the event, state, or action.
 - Name the concrete outcome, not the capability. Replace adjectives with proof: "powerful analytics" becomes "see which pages kill signups".
 - Make CTAs outcome-specific and short: "Start syncing" beats "Get started"; the feature explanation lives above the button, not in it.
 - When replacing an AI-ism, rewrite the sentence; a synonym swap moves the tell one tier down.
@@ -233,7 +246,7 @@ Prioritize concrete weaknesses by conversion or comprehension impact. Report few
 - Confidence: [high / medium; note if copy context was limited]
 ```
 
-Every "After" line keeps every fact, number, and link from its "Before", and every change fixes a named failure from the audit. A rewrite that is merely different is a regression: restore the original.
+Every "After" line preserves valid facts, numbers, links, and template variables from its "Before". If current evidence contradicts the original, explicitly identify and correct that claim rather than preserving a known error. Every change fixes a named failure from the audit. A rewrite that is merely different is a regression: restore the original.
 
 ---
 
@@ -261,4 +274,3 @@ Every "After" line keeps every fact, number, and link from its "Before", and eve
 | The product decision of which action exists and its scope and consequence | `product-design` |
 | Casing of headings and labels (sentence case versus title case) | `typography-audit` (`punct-case-rules`) |
 | In-session assistant talk, recaps, or ELI5 | `eli5` |
-

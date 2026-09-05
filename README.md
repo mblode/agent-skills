@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-27 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+29 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -69,6 +69,9 @@ That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothin
 
 ### Design
 
+- **[product-judgment](./skills/product-judgment/SKILL.md)**: Decide what deserves building from customer reality, product coherence, and the strongest case against it.
+- **[branding](./skills/branding/SKILL.md)**: Distinctive positioning and identity systems that hold together across real applications.
+
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, design-system extraction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
 - **[ui-verification](./skills/ui-verification/SKILL.md)**: Boots the app in a headless browser and runs nine probes that turn inferred UI defects into measured ones, then proves the fix cleared.
@@ -78,7 +81,7 @@ That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothin
 ### Writing
 
 - **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: optional analogy, exact technical terms, and house vocabulary without forced templates.
-- **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, persuasion frameworks, brand voice charts, AI-ism removal.
+- **[copywriting](./skills/copywriting/SKILL.md)**: Product and marketing copy, transactional emails, product glossaries, brand voice charts, and AI-ism removal.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 51 rules, audit and writing modes, agent-readable docs.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Type-aware README from the manifests: one install, a runnable quickstart, badges only where published.
 - **[seo-program](./skills/seo-program/SKILL.md)**: Keyword and prompt-volume research, writer briefs, AEO question maps, Search Console monitoring.

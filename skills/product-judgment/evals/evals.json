@@ -1,0 +1,59 @@
+{
+  "skill_name": "product-judgment",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A task manager for independent translators prioritizes instant capture and predictable recovery. Three requests ask for a team velocity dashboard. An existing weekly completed-task list exists; no customer interviews or usage counts are available. Should we build the dashboard?",
+      "expected_output": "Investigate the underlying need and existing route before committing, without inventing demand.",
+      "files": [],
+      "assertions": [
+        "Does not invent customer counts or adoption metrics.",
+        "Checks the existing list and intended audience.",
+        "Names evidence that could change the call."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement an approved CSV export and preserve scope. Should a product judgment workflow reopen whether export should exist?",
+      "expected_output": "Route to implementation without reopening the approved feature.",
+      "files": [],
+      "assertions": [
+        "Respects approved scope.",
+        "Limits escalation to newly discovered material conflicts."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A payroll product promises recoverable edits. Support supplied six verified cases of lost work when sessions expire. A tested draft recovery path exists but is disabled; enabling it passes access-control and retention checks. Engineering estimates one day, approved within budget. Should we ship it?",
+      "expected_output": "Recommend proceeding within the supported scope, with recovery acceptance criteria and a real objection.",
+      "files": [],
+      "assertions": [
+        "Allows a supported proceed verdict.",
+        "Does not import task-manager category restrictions.",
+        "Names a failure or acceptance observation."
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Is this customer request worth doing?",
+      "Challenge our roadmap priorities.",
+      "Are we solving the wrong need?",
+      "Should we enter a new product category?",
+      "Why should we say no to this feature?",
+      "This feature is already half built, does it fit?",
+      "What would justify investing in offline mode?",
+      "Help choose which user problem to solve next."
+    ],
+    "near_miss": [
+      "Implement this approved export.",
+      "Write the SQL migration.",
+      "Create a ticket in Linear.",
+      "Should delete use undo or confirmation?",
+      "Review the pull request for bugs.",
+      "Choose our logo colors.",
+      "Turn the approved feature into an implementation plan.",
+      "Make this card responsive."
+    ]
+  }
+}

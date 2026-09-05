@@ -29,6 +29,10 @@ Owns everything that touches the built artifact: pick the visual direction, impl
 `product-design` owns action semantics, scope, reversibility, and contested state choices. `ui-design` builds and styles those states. `ui-animation` owns timing, gestures, and measured motion. A routine missing loading or error state stays with the UI build; a gesture replacing a control needs a product decision and an accessible alternative before its physics.
 
 
+For brand positioning, identity changes, or a system spanning campaigns and physical applications, use `branding`. Direction mode applies that identity to UI; it does not reopen an approved brand.
+
+Before choosing styles, read the project's existing `design.md`, `design-system.md`, or brand guide when present. Check its scope and source against the implemented theme; report drift instead of creating a second competing specification.
+
 ## Modes
 
 Resolve one mode before acting, and load only that mode's files.

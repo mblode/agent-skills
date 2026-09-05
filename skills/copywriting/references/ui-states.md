@@ -58,7 +58,7 @@ One verb per operation, used consistently. Don't call the same operation "Delete
 | Duplicate | Copy the object | n/a | Clone |
 | Move | Relocate without copying | yes | Transfer |
 
-When two verbs fit, pick the one whose consequence matches, then use it everywhere for that action.
+Use the consuming product's approved glossary for named operations when it accurately describes the consequence; the table supplies defaults, not a reason to rename an established feature. When two verbs fit, pick the one whose consequence matches, then use it everywhere for that action.
 
 ## Error-state copy
 

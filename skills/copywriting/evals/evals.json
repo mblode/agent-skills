@@ -63,6 +63,32 @@
         "Flags only concrete weaknesses, with no minimum finding quota",
         "Every fact, number, and link in the Before appears in the After"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Write a password reset email for Finch. {{reset_url}} expires in 20 minutes; requesting it changes nothing until completed. Support URL {{support_url}}. Old shipped example says \"Upgrade to Pro while you are here\" and expires in 60 minutes. Current product docs specify 20. Do not send.",
+      "expected_output": "A functional full draft with labeled subject, preheader, heading, body, and action, correcting the outdated precedent.",
+      "files": [],
+      "assertions": [
+        "Includes subject, preheader, heading, body, and an action with {{reset_url}}.",
+        "States 20-minute expiry, not 60, and keeps expiry in the body.",
+        "Preserves {{support_url}} and does not add promotional copy.",
+        "Does not claim sending, rendering, or inbox verification.",
+        "Explains the material correction from the old expiry."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Edit only \"Your subscription was canceled. Subscribe again below.\" Product glossary: paid access is plan; Subscribe is a distinct creator-update feature; approved restore action Resume plan; cancellation leaves access until {{end_date}}; destination {{resume_url}}.",
+      "expected_output": "A scoped line edit reflecting the glossary, access end date, and approved action.",
+      "files": [],
+      "assertions": [
+        "Uses plan for paid access and Resume plan for the action.",
+        "Preserves {{end_date}} and {{resume_url}}.",
+        "Removes positional instruction below.",
+        "Does not expand into a full email or invent a new product action.",
+        "Preserves the source US spelling canceled rather than changing it to cancelled without instruction."
+      ]
     }
   ],
   "routing": {
@@ -75,7 +101,9 @@
       "Make this shorter: 'Our seamless, robust platform leverages cutting-edge AI to unlock insights.'",
       "Draft a VOICE.md for our brand so the team stops arguing about tone.",
       "Rewrite the pricing page from first principles. Plans are Solo, Team, Company.",
-      "Flag any AI patterns in this landing page draft before we ship it."
+      "Flag any AI patterns in this landing page draft before we ship it.",
+      "Draft the password reset email, including preview text and the button.",
+      "Check our cancellation message against the product glossary."
     ],
     "near_miss": [
       {
@@ -109,6 +137,14 @@
       {
         "prompt": "Build the landing page in Tailwind, dark mode, make it look premium.",
         "expected": "ui-design"
+      },
+      {
+        "prompt": "Configure the email provider and deploy the reset-email worker.",
+        "expected": "implementation tooling, not copywriting"
+      },
+      {
+        "prompt": "Rebrand our company with a new visual identity.",
+        "expected": "branding"
       }
     ]
   }
