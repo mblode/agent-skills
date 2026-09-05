@@ -19,7 +19,7 @@ All rows: retain the listed payload, update as described. Scenario structure is 
 | [autoship](../skills/autoship/SKILL.md) | CI-owned changesets version and publish sequence | Reuse pending coverage; preserve pre-existing edits during fixer cleanup |
 | [ax-audit](../skills/ax-audit/SKILL.md) | Agent execution and trust contracts with two rule layers | Use the actual PR base; distinguish user-facing rationale from private reasoning panels |
 | [codebase-architecture](../skills/codebase-architecture/SKILL.md) | Module boundaries and gates proven to fail | Removed a stale tool-maintenance assertion; added gate and existing-contract scenarios |
-| [copywriting](../skills/copywriting/SKILL.md) | House vocabulary, brand voice, and state-copy contracts | Removed fixed alternative/finding counts and mandatory seven-pass edits |
+| [copywriting](https://github.com/mblode/brandwriter/blob/main/skills/copywriting/SKILL.md) | House vocabulary, brand voice, and state-copy contracts | Removed fixed alternative/finding counts and mandatory seven-pass edits |
 | [docs-writing](../skills/docs-writing/SKILL.md) | Repeatable Diataxis-aware audit rubric | Classify by reader task rather than assuming every README is a tutorial |
 | [dx-audit](../skills/dx-audit/SKILL.md) | Local package/CLI probes and contract-specific rules | Packing is not inherently read-only; account for lifecycle side effects |
 | [eli5](../skills/eli5/SKILL.md) | House vocabulary and preservation of exact technical terms | Replaced the long template with a compact style; deleted two generic prose references |

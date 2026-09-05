@@ -9,7 +9,7 @@ Decide what the interface should do, then route who builds and verifies it: pick
 
 - **IS:** the decision layer. From a brief, spec, mockup, intent, or existing UI: choose the interaction and control, name the object, scope, and consequence of each action, settle reversibility and the safeguard it implies, enumerate every reachable state, set resilience expectations, and require accessibility as task completion. It decides, then routes build, verification, and wording out.
 - **IS NOT:**
-  - whether a feature deserves investment or fits the product: `product-judgment`.
+  - whether a feature deserves investment or fits the product: the external `product-judgment` skill from Brandwriter.
   - building or styling UI, visual direction, palettes, type: `ui-design`.
   - auditing the built result (rendered quality, a11y markup, keyboard, layout, performance, React or Next code-level UX with a ship verdict): `ui-design` Audit mode.
   - copy wording, persuasion, or AI-ism removal: `copywriting`.
