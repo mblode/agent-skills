@@ -32,7 +32,7 @@ jobs:
         run: |
           for attempt in $(seq 1 60); do
             served=$(curl --fail --silent --show-error --max-time 20 \
-              "https://blode.co/agent-skills/llms.txt?revision=$EXPECTED_SHA&attempt=$attempt" \
+              "https://blode.co/agent-skills/llms.txt" \
               | sed -nE 's/.*\(synced at ([0-9a-f]{40})\).*/\1/p' | head -1) || served=""
             if [[ "$served" =~ ^[0-9a-f]{40}$ ]]; then
               if [ "$served" = "$EXPECTED_SHA" ]; then
