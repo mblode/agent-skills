@@ -113,6 +113,23 @@ Skills retain house preferences, operational contracts, and repeatable audit rub
 
 Run `skills/agent-skills-creator/scripts/validate.sh --all` for portable format requirements and separate house conventions covering references, counts, and scenario structure. Authoring follows the [Agent Skills specification](https://agentskills.io/specification) and [best practices](https://agentskills.io/skill-creation/best-practices). The [collection audit](./maintenance/2026-09-05-skill-audit.md) records changes, retained value, and verification limits.
 
+The canonical validator also serves `agent-evals` and the private collection. Machine output uses
+`--format tsv` (skill, status, section, check, detail); `--policy private --repo PATH` checks
+portable metadata, catalogue membership, and authored cases without imposing public path rules.
+Run `python3 -m unittest discover -s maintenance/tests` after changing this interface.
+CI validates all public skills and protocol fixtures on each pull request.
+
+Use the sibling eval CLI to check routing coverage and compare full installed folders:
+
+```bash
+node ../agent-evals/dist/cli.js validate-cases --skills-dir "$PWD"
+node ../agent-evals/dist/cli.js doctor --source "$PWD" --source ../agent-skills-private
+```
+
+The doctor reports drift and retired ownership without overwriting installed edits. Reconcile
+those edits into source before reinstalling. Behavioral comparisons must use fresh equivalent
+fixtures and report baseline results, host/model, loaded files, and unmeasured assertions.
+
 ## License
 
 MIT

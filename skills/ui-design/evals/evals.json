@@ -20,7 +20,8 @@
       "assertions": [
         "Leaves source unchanged",
         "Does not invent rendered results",
-        "Does not redesign the checkout during audit"
+        "Does not redesign the checkout during audit",
+        "Keeps unmeasured rendered candidates unknown, including in passed or rejected findings; does not infer two-dimensional touch-target size from minimum height alone."
       ]
     }
   ],

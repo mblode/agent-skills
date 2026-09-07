@@ -6,6 +6,7 @@
 #
 #   validate.sh skills/<name>    one skill
 #   validate.sh --all            every skill in the repo
+#   validate.sh --format tsv --policy private --repo /path/to/private-repo
 #
 # Output groups checks under "format" (the Agent Skills spec) and "house style"
 # (this repo's taste). Exits 1 if any check FAILs. SKIP means a check does not
@@ -14,6 +15,8 @@
 # Portable to bash 3.2 (macOS default): no associative arrays, no mapfile.
 
 set -uo pipefail
+POLICY=public
+FORMAT=text
 
 # Bare mktemp, not `-t skillvalidate`: GNU mktemp rejects a -t template with no
 # X's, so the named form ran on macOS and died on every Linux checkout.
@@ -21,7 +24,13 @@ RESULTS="$(mktemp)"
 trap 'rm -f "$RESULTS"' EXIT
 
 # record <PASS|FAIL|SKIP> <format|house> <check-name> <detail>
-record() { printf '%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "$4" >>"$RESULTS"; }
+record() {
+  detail="$4"
+  detail="${detail//$'\t'/ }"
+  detail="${detail//$'\n'/ }"
+  detail="${detail//$'\r'/ }"
+  printf '%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "$detail" >>"$RESULTS"
+}
 
 # check <format|house> <check-name> <detail-on-failure> <count>
 # A count of 0 passes; anything else fails. Keeps call sites to one line.
@@ -40,13 +49,13 @@ validate_skill() {
   fi
 
   # --- frontmatter: ruby owns YAML parsing and emits its own result lines ---
-  ruby -E UTF-8 -ryaml -e '
+  SKILL_VALIDATION_POLICY="$POLICY" ruby -E UTF-8 -ryaml -e '
     path, folder = ARGV
     src = File.read(path)
     m = src.match(/\A---\n(.*?)\n---\n/m)
     # Detail explains a failure, so suppress it on PASS to avoid lines that read
     # as their own contradiction ("PASS name-reserved ... contains a reserved word").
-    def out(status, name, detail) puts [status, "format", name, status == "PASS" ? "" : detail].join("\t") end
+    def out(status, name, detail) puts [status, "format", name, status == "PASS" ? "" : detail].map { |value| value.to_s.gsub(/[\t\r\n]/, " ") }.join("\t") end
     unless m
       out("FAIL", "frontmatter-present", "no --- delimited YAML block at the top")
       exit
@@ -83,7 +92,8 @@ validate_skill() {
     n = y["name"].is_a?(String) ? y["name"] : ""
     d = y["description"].is_a?(String) ? y["description"] : ""
     def house(status, name, detail)
-      puts [status, "house", name, status == "PASS" ? "" : detail].join("\t")
+      return if ENV["SKILL_VALIDATION_POLICY"] == "private"
+      puts [status, "house", name, status == "PASS" ? "" : detail].map { |value| value.to_s.gsub(/[\t\r\n]/, " ") }.join("\t")
     end
 
     if n.strip.empty? then out("FAIL", "name-present", "missing name")
@@ -107,6 +117,7 @@ validate_skill() {
     end
   ' "$md" "$name" >>"$RESULTS" 2>/dev/null || record FAIL format frontmatter-parses "ruby failed on $md"
 
+  if [ "$POLICY" = public ]; then
   # --- body ---
   lines=$(wc -l <"$md" | tr -d ' ')
   if [ "$lines" -lt 500 ]; then
@@ -279,13 +290,15 @@ validate_skill() {
   n=$(grep -rnE 'MCP' "$skill_dir" 2>/dev/null | grep -E '`[a-z][a-z0-9]*_[a-z0-9_]+`' | grep -vE 'mcp__|[A-Za-z]:[a-z]' | wc -l | tr -d ' ')
   check house mcp-tools-qualified "MCP tool named without a Server:tool prefix" "$n"
 
+  fi
+
   # Authored evaluation scenarios are data, not executed tests. Validate their
   # local contract so malformed or empty cases cannot masquerade as coverage.
   if [ -f "$skill_dir/evals/evals.json" ]; then
     ruby -rjson -e '
       path, name = ARGV
       def fail_case(message)
-        puts ["FAIL", "house", "eval-scenarios", message].join("\t")
+        puts ["FAIL", "house", "eval-scenarios", message].map { |value| value.to_s.gsub(/[\t\r\n]/, " ") }.join("\t")
         exit
       end
       begin
@@ -312,24 +325,27 @@ validate_skill() {
         end
         fail_case("case #{id}: missing assertions") if item["assertions"].empty?
       end
-      puts ["PASS", "house", "eval-scenarios", "#{cases.length} authored cases; behavior not executed"].join("\t")
+      puts ["PASS", "house", "eval-scenarios", "#{cases.length} authored cases; behavior not executed"].map { |value| value.to_s.gsub(/[\t\r\n]/, " ") }.join("\t")
     ' "$skill_dir/evals/evals.json" "$name" >>"$RESULTS" 2>/dev/null || record FAIL house eval-scenarios "evaluation validation failed"
   else
     record SKIP house eval-scenarios "no evals/evals.json; behavior coverage not established"
   fi
 
+  if [ "$POLICY" = public ]; then
   # --- house style ---
   n=$(find "$skill_dir" -name '*.md' -exec perl -CSD -ne 'print if /\x{2014}/' {} + 2>/dev/null | wc -l | tr -d ' ')
   check house no-em-dashes "em dash present, restructure with commas, colons, or periods" "$n"
 
+  fi
+
   # --- repo integration ---
   repo_root="$(cd "$skill_dir/../.." 2>/dev/null && pwd)"
   if [ -f "$repo_root/README.md" ] && [ -d "$repo_root/skills" ]; then
-    grep -q "skills/$name/SKILL.md" "$repo_root/README.md" \
+    { grep -Fq "skills/$name/SKILL.md" "$repo_root/README.md" || { [ "$POLICY" = private ] && grep -Fq "| \`$name\` |" "$repo_root/README.md"; }; } \
       && record PASS house readme-bullet "" \
       || record FAIL house readme-bullet "no bullet in README.md"
 
-    if [ -f "$repo_root/docs/skills.mdx" ]; then
+    if [ "$POLICY" = public ] && [ -f "$repo_root/docs/skills.mdx" ]; then
       grep -q "skills/$name/SKILL.md" "$repo_root/docs/skills.mdx" \
         && record PASS house docs-bullet "" \
         || record FAIL house docs-bullet "no bullet in docs/skills.mdx"
@@ -353,34 +369,75 @@ validate_skill() {
 }
 
 # --- entry point ---
-if [ "$#" -ne 1 ]; then
-  sed -n '3,12p' "$0" | sed 's/^# \{0,1\}//'
+root=""
+target=""
+all=0
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --format|--policy|--repo)
+      [ "$#" -ge 2 ] || { echo "Missing value for $1" >&2; exit 2; }
+      case "$1" in --format) FORMAT="$2";; --policy) POLICY="$2";; --repo) root="$2"; all=1;; esac
+      shift 2 ;;
+    --all) all=1; shift ;;
+    -*) echo "Unknown option: $1" >&2; exit 2 ;;
+    *) [ -z "$target" ] || { echo "Only one skill path is accepted" >&2; exit 2; }; target="$1"; shift ;;
+  esac
+done
+case "$POLICY" in public|private) ;; *) echo "Policy must be public or private" >&2; exit 2;; esac
+case "$FORMAT" in text|tsv) ;; *) echo "Format must be text or tsv" >&2; exit 2;; esac
+if { [ "$all" -eq 1 ] && [ -n "$target" ]; } || { [ "$all" -eq 0 ] && [ -z "$target" ]; }; then
+  echo "Usage: validate.sh [--format text|tsv] [--policy public|private] SKILL_PATH | --all | --repo REPO" >&2
   exit 2
 fi
-
-if [ "$1" = "--all" ]; then
-  here="$(cd "$(dirname "$0")" && pwd)"
-  root="$(cd "$here/../../.." && pwd)"
+emit() {
+  [ -s "$RESULTS" ] || return 0
+  if [ "$FORMAT" = tsv ]; then
+    awk -v skill="$name" -F'\t' 'BEGIN { OFS="\t" } { detail=$4; for(i=5;i<=NF;i++) detail=detail " " $i; gsub(/\r/, " ",detail); print skill,$1,$2,$3,detail }' "$RESULTS"
+  else
+    printf '\n=== %s\n' "$name"
+    awk -F'\t' '{ printf "  %-5s %-11s %-26s %s\n", $1, $2, $3, $4 }' "$RESULTS"
+    printf '  %s FAIL, %s PASS, %s SKIP\n' "$(grep -c '^FAIL' "$RESULTS" || true)" "$(grep -c '^PASS' "$RESULTS" || true)" "$(grep -c '^SKIP' "$RESULTS" || true)"
+  fi
+  if grep -q '^FAIL' "$RESULTS"; then any_fail=1; fi
+}
+any_fail=0
+if [ "$all" -eq 1 ]; then
+  if [ -z "$root" ]; then
+    here="$(cd "$(dirname "$0")" && pwd)"
+    root="$(cd "$here/../../.." && pwd)"
+  fi
+  [ -d "$root/skills" ] || { echo "Missing skills directory: $root/skills" >&2; exit 2; }
+  count=0
   for d in "$root"/skills/*/; do
-    printf '\n=== %s\n' "$(basename "$d")"
+    [ -d "$d" ] || continue
+    [ -n "$(find "$d" -type f -print -quit)" ] || continue
+    count=$((count + 1))
     : >"$RESULTS"
     validate_skill "$d"
-    awk -F'\t' '{ printf "  %-5s %-11s %-26s %s\n", $1, $2, $3, $4 }' "$RESULTS"
-    f=$(grep -c '^FAIL' "$RESULTS" || true)
-    printf '  %s FAIL, %s PASS, %s SKIP\n' "$f" "$(grep -c '^PASS' "$RESULTS" || true)" "$(grep -c '^SKIP' "$RESULTS" || true)"
-    [ "$f" -gt 0 ] && any_fail=1
+    emit
   done
-  [ "${any_fail:-0}" -eq 0 ] || exit 1
-  exit 0
+  : >"$RESULTS"
+  name=_catalogue
+  ruby -e '
+    root, policy = ARGV
+    path = File.join(root, "README.md")
+    unless File.file?(path)
+      puts ["FAIL", "house", "readme-bullet", "README.md missing"].map { |value| value.to_s.gsub(/[\t\r\n]/, " ") }.join("\t")
+      exit
+    end
+    text = File.read(path)
+    names = text.scan(%r{skills/([a-z0-9-]+)/SKILL\.md}).flatten
+    names += text.scan(/^\| `([a-z0-9-]+)` \|/).flatten if policy == "private"
+    names.uniq.each do |name|
+      unless File.file?(File.join(root, "skills", name, "SKILL.md"))
+        puts ["FAIL", "house", "readme-bullet", "README lists missing skill #{name}"].map { |value| value.to_s.gsub(/[\t\r\n]/, " ") }.join("\t")
+      end
+    end
+  ' "$root" "$POLICY" >>"$RESULTS" || record FAIL house readme-bullet "catalogue validation failed"
+  emit
+  [ "$count" -gt 0 ] || { echo "No skills found in $root" >&2; exit 2; }
+else
+  validate_skill "$target"
+  emit
 fi
-
-validate_skill "$1"
-for section in format house; do
-  if grep -q "	$section	" "$RESULTS"; then
-    printf '\n%s\n' "$section"
-    grep "	$section	" "$RESULTS" | awk -F'\t' '{ printf "  %-5s %-28s %s\n", $1, $3, $4 }'
-  fi
-done
-fails=$(grep -c '^FAIL' "$RESULTS" || true)
-printf '\n%s FAIL, %s PASS, %s SKIP\n' "$fails" "$(grep -c '^PASS' "$RESULTS" || true)" "$(grep -c '^SKIP' "$RESULTS" || true)"
-[ "$fails" -eq 0 ]
+exit "$any_fail"
