@@ -1,19 +1,53 @@
 name: Rebuild agent-skills-web
-
-# blode.co/agent-skills renders this repo. It pulls the content fresh at build
-# time, so a rebuild is all the sync it needs. The path filter matches exactly
-# what that site reads: everything below a skill folder is left to GitHub.
 on:
   push:
     branches: [main]
     paths:
       - "README.md"
-      - "skills/*/SKILL.md"
+      - "skills/**"
+      - ".github/workflows/rebuild-web.yml"
   workflow_dispatch:
-
+permissions:
+  contents: read
+concurrency:
+  group: agent-skills-web-content
+  cancel-in-progress: true
 jobs:
   rebuild:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Trigger the Vercel deploy hook
-        run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_AGENT_SKILLS_WEB }}"
+        env:
+          DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_AGENT_SKILLS_WEB }}
+        run: |
+          test -n "$DEPLOY_HOOK" || { echo "Missing website deploy hook secret" >&2; exit 1; }
+          curl --fail --silent --show-error --retry 2 -X POST "$DEPLOY_HOOK" > /dev/null
+      - name: Verify published content revision
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          for attempt in $(seq 1 60); do
+            served=$(curl --fail --silent --show-error --max-time 20 \
+              "https://blode.co/agent-skills/llms.txt?revision=$EXPECTED_SHA&attempt=$attempt" \
+              | sed -nE 's/.*\(synced at ([0-9a-f]{40})\).*/\1/p' | head -1) || served=""
+            if [[ "$served" =~ ^[0-9a-f]{40}$ ]]; then
+              if [ "$served" = "$EXPECTED_SHA" ]; then
+                echo "Published content verified: $served"
+                exit 0
+              fi
+              # A newer main commit can win the build race. Accept it only if it
+              # contains this source revision, never merely because it differs.
+              git fetch --quiet origin "$served" || true
+              if git merge-base --is-ancestor "$EXPECTED_SHA" "$served"; then
+                echo "Published descendant verified: $served (contains $EXPECTED_SHA)"
+                exit 0
+              fi
+            fi
+            sleep 15
+          done
+          echo "Website did not publish the expected source revision: $EXPECTED_SHA" >&2
+          exit 1

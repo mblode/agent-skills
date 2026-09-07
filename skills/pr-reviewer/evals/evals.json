@@ -20,7 +20,10 @@
       "assertions": [
         "Reads outside the diff to confirm the writer",
         "Names the trigger and consequence",
-        "Does not accept fewer lines as proof of safety"
+        "Does not accept fewer lines as proof of safety",
+        "Lists only reference files actually read in this session as loaded.",
+        "Reads references/context-errors.md when reviewing guard removal, before applying that rubric.",
+        "Pairs each claimed reference read with an excerpt present in the successful tool result."
       ]
     }
   ],

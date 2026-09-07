@@ -15,3 +15,6 @@ node_modules/
 # Env
 .env
 .env.*
+
+# Python validation tests
+__pycache__/

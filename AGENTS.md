@@ -50,11 +50,11 @@ For a full install smoke-check:
 ls ~/.claude/skills/ | sort
 ```
 
-The list should match the folders in `skills/` here.
+Other repositories may contribute installed skills. Compare each owned folder recursively with its source; a directory listing alone does not establish parity.
 
 ## Coding Style & Naming Conventions
 
-- Files are Markdown-first, with two exceptions: `skills/agent-skills-creator/scripts/validate.sh` and `skills/pr-babysitter/scripts/fetch-comments.sh`.
+- Files are Markdown-first, with supporting scripts and evaluation fixtures.
 - No em dashes anywhere (skill bodies, descriptions, READMEs, commits). Restructure with commas, colons, periods, or parentheses; don't substitute a spaced hyphen.
 - When detail is needed, add a focused reference file rather than expanding `SKILL.md`.
 
@@ -71,7 +71,7 @@ For the judgement a script cannot make (what to include, how prescriptive to be,
 
 ## Testing
 
-No unit tests. The validator above is the test suite: run it on every skill you touch, plus the smoke-test above when install behavior changes.
+Run the validator on every skill you touch. Run `python3 -m unittest discover -s maintenance/tests` when changing the validation protocol. Authored scenarios validate structurally; behavioral evidence requires separate isolated runs. Compare the full installed skill folder when install behavior changes.
 
 ## Gotchas
 

@@ -31,7 +31,7 @@ Pick one mode from the user's wording; load only its references:
 
 Conditional loads:
 
-- `references/context-errors.md` when the diff was agent-written, or when it adds a module, a system boundary, a guard, or a fallback. Covers the two mistakes that are invisible inside the diff: code that duplicates or bypasses something already in the repo, and code guarding a state this system never produces.
+- `references/context-errors.md` when the diff was agent-written, or when it adds, changes, or removes a module, system boundary, guard, or fallback. Covers the two mistakes that are invisible inside the diff: code that duplicates or bypasses something already in the repo, and code guarding a state this system never produces.
 - `references/security-checklist.md` for auth, input handling, external APIs, uploads, dependency or lockfile changes, or environment config.
 - `references/performance-checklist.md` for fetching, rendering, images, dependencies, or bundle-affecting imports.
 - `agents/openai.yaml` only when a different-model CLI is installed and you are running the optional second-opinion pass below.
@@ -40,8 +40,8 @@ Conditional loads:
 
 ```text
 Review progress:
-- [ ] Dispatch mode and load references
 - [ ] Discover target; record the exact range
+- [ ] Dispatch mode; open its references and applicable conditional references
 - [ ] Gather context: intent, instruction files, REVIEW.md, quiet baseline checks
 - [ ] Review: claims, added lines, removed lines, call sites, outside the diff; shard if needed
 - [ ] Verdict each candidate: confirmed, plausible, or refuted
@@ -49,7 +49,7 @@ Review progress:
 ```
 
 1. **Discover target.** Staged and unstaged changes first (`git diff --stat`, `git diff --staged --stat`); if clean, the branch diff against its merge base with the default branch (`git merge-base HEAD origin/<default>`). For a PR, `gh pr diff <n>` with the branch checked out for context; same criteria, PR handoff format. Write down the range or ref pair you reviewed; it goes in the report.
-2. **Gather context.** Capture intent from the user's words, the commit messages, and the PR description. Load scoped `AGENTS.md` / `CLAUDE.md`, and a root `REVIEW.md` where one exists: both override this skill's defaults when they conflict, so a pattern they mandate is not a finding. `REVIEW.md` is the file Claude Code Review reads for severity calibration, skip paths, nit caps, and repo-specific checks; apply it the same way here. Reuse checks already run on this revision. When a candidate needs execution, run the relevant documented command and preserve its exit status; piping into `tail` without `pipefail` can hide failure.
+2. **Gather context.** Open the selected mode references with the file tools, then apply the conditional loads to both added and removed lines. For a removed retry guard, read `references/context-errors.md` before tracing its writers. A filename in this skill is a pointer, not loaded content. If a required read fails, report that coverage gap rather than claiming the rubric was applied. Capture intent from the user's words, the commit messages, and the PR description. Load scoped `AGENTS.md` / `CLAUDE.md`, and a root `REVIEW.md` where one exists: both override this skill's defaults when they conflict, so a pattern they mandate is not a finding. `REVIEW.md` is the file Claude Code Review reads for severity calibration, skip paths, nit caps, and repo-specific checks; apply it the same way here. Reuse checks already run on this revision. When a candidate needs execution, run the relevant documented command and preserve its exit status; piping into `tail` without `pipefail` can hide failure.
 3. **Review.** Apply the loaded rubric and high-signal criteria; shard large diffs. Five passes, because each finds what the others structurally cannot:
    - **Claims.** Map each claim in the description or commit messages to a hunk, and each hunk to a claim. A claim with no hunk is a finding: the description says a change shipped and the diff does not contain it, the most common description-to-code mismatch in agent-authored PRs, and the one that most often gets them rejected. A hunk with no claim is not a finding on its own; list it under the readiness summary as an unstated change so the reader can decide.
    - **Added lines.** Read every hunk, then the enclosing function. A bug on an unchanged line of a touched function is in scope: this diff re-exposed it.
@@ -64,7 +64,7 @@ Review progress:
    - **Refuted:** factually wrong, or already guarded. Quote the line that proves it.
 
    Plausible is the default. Do not refute something for being "speculative" when the state is realistic: concurrency races, nil or undefined on a rare but reachable path (error handler, cold cache, absent optional field), falsy-zero read as missing, off-by-one on a boundary the code does not exclude, retry storms and partial failures, a regex or allowlist that lost its anchor. Refute only what you can disprove from the code: the line does not say that, a type or constant makes it impossible, the diff already handles it, or it is style with no observable effect. Also drop duplicates, mis-attributions, and pre-existing issues outside any touched function. Diff modes require changed lines; Security audit requires real in-scope code.
-5. **Report.** Use `references/severity-rubric.md`; structural blockers go under `Must fix before push`. Mark plausible findings as such so the reader knows which ones need a repro before acting. The readiness summary carries the evidence: the range reviewed, each baseline command with its last line, the references loaded, and any unstated hunks from the claims pass.
+5. **Report.** Use `references/severity-rubric.md`; structural blockers go under `Must fix before push`. Mark plausible findings as such so the reader knows which ones need a repro before acting. The readiness summary carries the evidence: the range reviewed, each baseline command with its last line, successful reference reads, each paired with a short excerpt from its tool result, and any unstated hunks from the claims pass.
 
 ## High-signal criteria
 
@@ -125,7 +125,9 @@ Default local report:
 ### Ready for handoff
 - Reviewed: <range or ref pair>, <N> files
 - Baseline: `<command>` -> <last line>; `<command>` -> <last line>
-- Loaded: <mode> mode, <references>
+- Mode: <selected mode>
+- Reference evidence: `<path actually opened>` -> "<short excerpt returned by the read>"; repeat for each successful reference read
+- Missing reference coverage: <required reads that failed or were unavailable, or None>
 - Unstated changes: <hunks no claim covers, or None>
 - <readiness verdict>
 ```
