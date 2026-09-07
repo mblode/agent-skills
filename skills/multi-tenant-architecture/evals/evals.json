@@ -32,7 +32,7 @@
     "near_miss": [
       {
         "prompt": "Write the JSON-LD content for this tenant page; routing already works.",
-        "expected": "optimise-seo"
+        "expected": "seo"
       }
     ]
   }

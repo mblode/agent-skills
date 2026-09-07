@@ -1,0 +1,82 @@
+[
+  {
+    "prompt": "Audit blode.co and fix crawlability issues.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Why is our category page invisible to AI search?",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Add a sitemap that only lists available pages.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Investigate a drop in organic clicks.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Research the search demand for Things 3 on Windows.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Write a sourced SEO content brief.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Measure our visibility in AI Overviews and Copilot.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Consolidate duplicate documentation URLs.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Check the French and German hreflang tags.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Fix canonical URLs and JSON-LD in Next.js.",
+    "expected": "seo"
+  },
+  {
+    "prompt": "Write the finished article from this approved brief.",
+    "expected": "ghostwriter"
+  },
+  {
+    "prompt": "Rewrite this welcome email.",
+    "expected": "ghostwriter"
+  },
+  {
+    "prompt": "Make this button label clearer.",
+    "expected": "copywriting"
+  },
+  {
+    "prompt": "Redesign the homepage visual style.",
+    "expected": "ui-design"
+  },
+  {
+    "prompt": "Set up tenant isolation for custom domains.",
+    "expected": "multi-tenant-architecture"
+  },
+  {
+    "prompt": "Review keyboard focus in this dialog.",
+    "expected": "ui-verification"
+  },
+  {
+    "prompt": "Add a new onboarding animation.",
+    "expected": "ui-animation"
+  },
+  {
+    "prompt": "Create a skill for release management.",
+    "expected": "agent-skills-creator"
+  },
+  {
+    "prompt": "Write a Diataxis tutorial from this API.",
+    "expected": "docs-writing"
+  },
+  {
+    "prompt": "Change the pricing page CTA wording.",
+    "expected": "copywriting"
+  }
+]

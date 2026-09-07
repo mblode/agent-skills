@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "prompt": "Brief a page on Things 3 for Windows, not an article. Supplied fresh export: Australian monthly keyword volume 900 for August 2026. Prompt vendor offers Phrase 400 but no Exact; do not fetch new sources. The product works on Windows. Audience is people considering switching from Things. Recommend next evidence and report metrics."
+  },
+  {
+    "id": 2,
+    "prompt": "Audit these verified served-page facts and give only justified fixes: portfolio homepage H1 Matthew Blode; DNS-verified GSC domain with no meta token; two consistent JSON-LD blocks sharing stable @ids; a category page has only navigation until JS runs; sitemap lists /studio which returns 404; all lastmod values are set to build time; /docs and /docs/introduction show identical content and self-canonicalize; French/German alternates reciprocate without x-default. The owner wants to opt out of GPTBot training but appear in ChatGPT search. Do not use external tools."
+  },
+  {
+    "id": 3,
+    "prompt": "Diagnose search performance for https://app.example.test. Only connected GSC export is https://www.example.test. Existing monitor targets app and must be reused. A prior report alleges a 20% drop from 5 clicks to 4, but no completed matching comparison window or conversion data is available. Explain what is unknown and the next measurement steps. Tool capability snapshot: Google generative AI performance provides impressions by page/country/device/date; Bing AI Performance provides citations and cited pages. Vendor prompt volumes are demand estimates. No messages to others are authorized."
+  }
+]

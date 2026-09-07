@@ -223,7 +223,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - `typography-audit`: deep typography (pairing, OpenType systems, measure, leading, display type); the `type-` rule here is the readable-floor check.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics).
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
-- `optimise-seo`: meta descriptions and page titles.
+- `seo`: meta descriptions and page titles.
 
 Maintenance only: when changing audit routing or anti-slop behavior, run the scenarios in `evaluations/` as a regression rubric.
 

@@ -1,0 +1,9 @@
+{
+  "arm": "none-haiku",
+  "case": 1,
+  "exit": 0,
+  "models": [
+    "claude-haiku-4-5-20251001"
+  ],
+  "output": "# Analysis: Insufficient Evidence to Brief\n\n**What you've supplied:**\n- Australian keyword volume: 900 (August 2026)\n- Vendor metric: Phrase 400 (no Exact match data)\n- Platform: Windows\n- Target audience: Things users evaluating alternatives\n\n**Critical gap:**\nNo evidence provided on Things 3 for Windows itself,no feature set, functionality comparison, positioning, or market context. The premise may also need verification, as Things 3 historically runs macOS/iOS only.\n\n---\n\n## Recommended Evidence Before Briefing\n\n1. **Product verification**: Confirm Things 3 Windows release date and feature parity\n2. **Competitive intel**: How does Things 3 Windows address Windows-native competitors (Todoist, Microsoft To Do)?\n3. **Demand signals**: Search intent behind that 900 volume,is it \"Things 3 Windows\" desire or Android/web alternative search?\n4. **User churn data**: What friction points drive Things users to switch?\n5. **Phrase vs. Exact context**: Why Phrase 400 matters (brand confusion? category search dominance?)\n\n---\n\n## Metrics to Report\n\n- Volume trend (Aug 2026 baseline vs. prior months)\n- Phrase breakdown by intent (feature requests, pricing, availability)\n- Geographic concentration (Australia-specific demand?)\n- Competitor volume comparison\n\n**Without this evidence, any brief would be speculation, not SEO-grounded strategy.**"
+}

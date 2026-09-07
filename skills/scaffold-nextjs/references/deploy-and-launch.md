@@ -100,7 +100,7 @@ Pin `node-version` to what Vercel's project settings use, and cache `apps/web/.n
 
 ### Site URL and metadataBase
 
-Create `apps/web/lib/site.ts` exporting `siteUrl = "https://{{domain}}"` and `siteName`, then set `metadataBase: new URL(siteUrl)` in the root layout's `metadata` export beside `title: { default, template }` and `description`. Every relative `alternates.canonical` and `openGraph.images` value resolves against it, and a relative value with no `metadataBase` is a build error. `optimise-seo` fills in the rest of that object after launch.
+Create `apps/web/lib/site.ts` exporting `siteUrl = "https://{{domain}}"` and `siteName`, then set `metadataBase: new URL(siteUrl)` in the root layout's `metadata` export beside `title: { default, template }` and `description`. Every relative `alternates.canonical` and `openGraph.images` value resolves against it, and a relative value with no `metadataBase` is a build error. `seo` fills in the rest of that object after launch.
 
 ### Search Console and Bing verification
 
@@ -120,13 +120,13 @@ Create in `apps/web/app/`:
 - `opengraph-image.png` (1200x630, under 8 MB or the build fails)
 - `opengraph-image.alt.txt` (one line of alt text; it becomes `og:image:alt`)
 
-Next.js App Router serves the file as both the Open Graph and the Twitter card image via file-based metadata conventions. A separate `twitter-image.png` is redundant: `twitter:image` falls back to the OG image when the file is absent, and a byte-identical duplicate only doubles the payload. Alternatively, generate the card with code (`opengraph-image.tsx` and `ImageResponse` from `next/og`); `optimise-seo` covers that pattern and the metadata merge rules that decide whether a page keeps its card.
+Next.js App Router serves the file as both the Open Graph and the Twitter card image via file-based metadata conventions. A separate `twitter-image.png` is redundant: `twitter:image` falls back to the OG image when the file is absent, and a byte-identical duplicate only doubles the payload. Alternatively, generate the card with code (`opengraph-image.tsx` and `ImageResponse` from `next/og`); `seo` covers that pattern and the metadata merge rules that decide whether a page keeps its card.
 
 ### Skill handoffs
 
 After deployment, run these skills in order:
 
-1. `optimise-seo`: metadata, structured data, sitemap, robots, Core Web Vitals
+1. `seo`: metadata, structured data, sitemap, robots, Core Web Vitals
 2. `ui-design` Audit mode: accessibility, typography surface checks, interaction quality, craft polish
 3. `ui-animation`: motion easing, timing, gestures, and review rules
 

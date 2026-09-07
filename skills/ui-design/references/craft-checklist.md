@@ -68,4 +68,4 @@ Timing, easing, springs, gestures, and transform/opacity-only animation belong t
 ## Visual direction and SEO → sibling
 
 - Visual-direction polish (matching box-shadows to references, concentric border radius, optical alignment of icons/text, image outlines on light backgrounds, the fundamentals→visual→polish quality pyramid) belongs to this skill's Direction and Build modes, not to a built-UI defect check.
-- SEO metadata, canonical/OG tags, and dynamic OG images belong to the `optimise-seo` skill.
+- SEO metadata, canonical/OG tags, and dynamic OG images belong to the `seo` skill.

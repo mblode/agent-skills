@@ -123,7 +123,7 @@ For the full rule list per category, read `rules/_sections.md`. The `*-defaults.
 - `agents-md`: AGENTS.md/CLAUDE.md instruction files (execution-first, not reader-facing docs).
 - `copywriting`: marketing, landing-page, and product copy.
 - `dx-audit`: the product's own error messages, CLI output, and API ergonomics; this skill covers how the docs describe them.
-- `optimise-seo`: implementing `llms.txt`, AI-crawler policy, and Markdown routes in a Next.js App Router site; `nav-agent-readable` says what the docs should expose, that skill builds it.
+- `seo`: implementing `llms.txt`, AI-crawler policy, and Markdown routes in a Next.js App Router site; `nav-agent-readable` says what the docs should expose, that skill builds it.
 - Optional external `ghostwriter` where installed: editorial tutorials, how-to articles, thought leadership, and long-form posts, drafted from the `blog` platform profile.
 - Optional external `blodemd` where installed: scaffolds/deploys MDX docs sites; this skill governs content quality inside them.
 

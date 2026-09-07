@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-26 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+25 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -81,7 +81,6 @@ That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothin
 - **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: optional analogy, exact technical terms, and house vocabulary without forced templates.
 - **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 51 rules, audit and writing modes, agent-readable docs.
 - **[readme-creator](./skills/readme-creator/SKILL.md)**: Type-aware README from the manifests: one install, a runnable quickstart, badges only where published.
-- **[seo-program](./skills/seo-program/SKILL.md)**: Keyword and prompt-volume research, writer briefs, AEO question maps, Search Console monitoring.
 
 Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://github.com/mblode/ghostwriter).
 
@@ -90,7 +89,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 27 rules for tool parity, approval gates, and escape hatches, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
-- **[optimise-seo](./skills/optimise-seo/SKILL.md)**: Next.js App Router SEO: sitemaps, metadata, structured data, redirects, hreflang, AI-crawler policy, Core Web Vitals.
+- **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
 
 ### Shipping
 

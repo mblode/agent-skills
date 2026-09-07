@@ -1,12 +1,12 @@
 ---
 name: multi-tenant-architecture
-description: Designs tenant isolation, hostname routing, custom-domain lifecycle, and plan limits on Cloudflare or Vercel. Use when asked to "isolate tenant data", "support custom domains", "build a white-label platform", or assess PSL registration. For general module structure use codebase-architecture; for SEO content use optimise-seo.
+description: Designs tenant isolation, hostname routing, custom-domain lifecycle, and plan limits on Cloudflare or Vercel. Use when asked to "isolate tenant data", "support custom domains", "build a white-label platform", or assess PSL registration. For general module structure use codebase-architecture; for SEO content use seo.
 ---
 
 # Multi-Tenant Platform Architecture (Cloudflare or Vercel)
 
 - **IS:** platform choice, domain strategy and PSL, tenant identification, compute and data isolation, hostname routing, tenant context propagation, custom domains and SSL, per-tenant static files, and mapping platform limits to plans.
-- **IS NOT:** general folder structure or module contracts (use `codebase-architecture`), scaffolding a new repo (use `scaffold-nextjs`), or the content of per-tenant SEO files once routing serves them dynamically: sitemap entries, canonical URLs, structured data, indexing policy (use `optimise-seo`).
+- **IS NOT:** general folder structure or module contracts (use `codebase-architecture`), scaffolding a new repo (use `scaffold-nextjs`), or the content of per-tenant SEO files once routing serves them dynamically: sitemap entries, canonical URLs, structured data, indexing policy (use `seo`).
 
 ## Contents
 
@@ -88,7 +88,7 @@ Multi-tenant progress:
 - Lifecycle to design and record: add domain -> show DNS target -> verify ownership -> certificate issued -> mapping activated -> removal or failure path.
 - **Cloudflare:** Cloudflare for SaaS custom hostname on the SaaS zone, proxied fallback origin, `customers.<you>.com` CNAME target, `http` or `txt` validation, pre-validate before DNS cutover. See [cloudflare-platform.md](references/cloudflare-platform.md).
 - **Vercel:** `projectsAddProjectDomain` -> DNS values from the project's domain card -> `_vercel` TXT only if the domain is already on Vercel -> `projectsVerifyProjectDomain` -> Let's Encrypt HTTP-01. See [vercel-domains.md](references/vercel-domains.md).
-- `robots.txt`, `sitemap.xml`, `llms.txt` are route handlers inside the tenant segment with explicit `Content-Type`; nothing tenant-specific lives in `/public`. Their content is `optimise-seo` territory.
+- `robots.txt`, `sitemap.xml`, `llms.txt` are route handlers inside the tenant segment with explicit `Content-Type`; nothing tenant-specific lives in `/public`. Their content is `seo` territory.
 
 8. Surface limits as plans and capture evidence
 - Fill the limits-to-plan table from [limits-and-quotas.md](references/limits-and-quotas.md), re-checking each source URL and dating it; enforce at the routing layer (Cloudflare `limits`, Vercel plan header plus server checks).
@@ -191,6 +191,6 @@ Evidence commands (run against local or preview; mark N/A with a reason):
 
 - `codebase-architecture`: folder structure, module contracts, and the request-context pipeline for the application itself.
 - `scaffold-nextjs`: bootstrap the Next.js turborepo before applying these tenancy patterns.
-- `optimise-seo`: content of per-tenant `robots.txt`, `sitemap.xml`, `llms.txt`, canonical URLs, and structured data once routing serves them.
+- `seo`: content of per-tenant `robots.txt`, `sitemap.xml`, `llms.txt`, canonical URLs, and structured data once routing serves them.
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

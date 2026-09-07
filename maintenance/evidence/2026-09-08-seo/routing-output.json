@@ -1,0 +1,7 @@
+{
+  "models": [
+    "claude-haiku-4-5-20251001",
+    "claude-opus-5[1m]"
+  ],
+  "output": "[{\"id\":1,\"skill\":\"seo\"},{\"id\":2,\"skill\":\"seo\"},{\"id\":3,\"skill\":\"seo\"},{\"id\":4,\"skill\":\"seo\"},{\"id\":5,\"skill\":\"seo\"},{\"id\":6,\"skill\":\"seo\"},{\"id\":7,\"skill\":\"seo\"},{\"id\":8,\"skill\":\"seo\"},{\"id\":9,\"skill\":\"seo\"},{\"id\":10,\"skill\":\"seo\"},{\"id\":11,\"skill\":\"ghostwriter\"},{\"id\":12,\"skill\":\"ghostwriter\"},{\"id\":13,\"skill\":\"copywriting\"},{\"id\":14,\"skill\":\"ui-design\"},{\"id\":15,\"skill\":\"multi-tenant-architecture\"},{\"id\":16,\"skill\":\"ui-verification\"},{\"id\":17,\"skill\":\"ui-animation\"},{\"id\":18,\"skill\":\"agent-skills-creator\"},{\"id\":19,\"skill\":\"docs-writing\"},{\"id\":20,\"skill\":\"copywriting\"}]"
+}

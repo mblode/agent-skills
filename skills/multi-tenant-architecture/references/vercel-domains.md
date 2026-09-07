@@ -62,7 +62,7 @@ Applies to step 7 when Vercel is the chosen platform: the onboarding lifecycle a
 ## Redirects and canonical hosts
 
 - Add both `tenant.com` and `www.tenant.com`; set `redirect` on the secondary through the API or dashboard.
-- When a tenant serves on both `tenant.acme.app` and `tenant.com`, redirect one to the other or set `alternates.canonical` in `generateMetadata`; keep one host in the sitemap. The `optimise-seo` skill owns the canonical and sitemap content.
+- When a tenant serves on both `tenant.acme.app` and `tenant.com`, redirect one to the other or set `alternates.canonical` in `generateMetadata`; keep one host in the sitemap. The `seo` skill owns the canonical and sitemap content.
 - Use `308` for permanent host consolidation (preserves method), `307` for temporary.
 
 ## Preview URLs
