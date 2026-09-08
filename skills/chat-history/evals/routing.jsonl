@@ -1,0 +1,16 @@
+{"prompt": "We fixed this before. Find the previous fix.", "expected": true}
+{"prompt": "Search past chats for the migration decision.", "expected": true}
+{"prompt": "Use Claude Code Search to recover our research.", "expected": true}
+{"prompt": "What happened after I pasted the defect list?", "expected": true}
+{"prompt": "Why did the refactor plan get watered down across sessions?", "expected": true}
+{"prompt": "Find my Cursor conversation about the parser.", "expected": true}
+{"prompt": "Look through this ChatGPT export for our decision.", "expected": true}
+{"prompt": "Recover the reasoning from the earlier Claude conversation.", "expected": true}
+{"prompt": "Search the repository for this function.", "expected": false}
+{"prompt": "Fix this curve using the attached image.", "expected": false}
+{"prompt": "Write an Obsidian note about this decision.", "expected": false}
+{"prompt": "What website was I viewing yesterday?", "expected": false}
+{"prompt": "Create a skill for chart design.", "expected": false}
+{"prompt": "Summarize the conversation pasted below.", "expected": false}
+{"prompt": "Implement search in my chat application.", "expected": false}
+{"prompt": "Check whether the production fix is deployed.", "expected": false}

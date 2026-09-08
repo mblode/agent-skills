@@ -1,0 +1,38 @@
+{
+  "skill_name": "chat-history",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We fixed the curve before. Find what actually changed and whether the source was repaired.",
+      "expected_output": "Recover the initial claim and later correction, distinguishing viewer repair from source repair.",
+      "files": [],
+      "assertions": [
+        "Cites source line or message key",
+        "Includes the later correction",
+        "Does not equate viewer repair with source repair"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Find where I pasted this defect list and read what followed: yen curve regression.",
+      "expected_output": "Locate the original user occurrence, read subsequent assistant/tool evidence, and cite exact source locations.",
+      "files": [],
+      "assertions": [
+        "Locates the user message rather than an injected instruction",
+        "Reads following tool evidence",
+        "Reports truncation if the evidence window is incomplete"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Search all my ChatGPT chats for the migration decision. Only local Codex sessions are available.",
+      "expected_output": "Report missing ChatGPT access; do not present Codex coverage as a ChatGPT search.",
+      "files": [],
+      "assertions": [
+        "Reports unavailable ChatGPT history",
+        "Does not claim no matching ChatGPT conversation exists",
+        "Does not require a harness-specific API"
+      ]
+    }
+  ]
+}
