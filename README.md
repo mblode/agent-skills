@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-25 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+26 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -99,6 +99,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
+- **[done-bear-oncall](./skills/done-bear-oncall/SKILL.md)**: Personal-products on-call: wake vs defer, draft-only PRs, lessons loop.
 
 ### Authoring
 
