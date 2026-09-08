@@ -4,7 +4,7 @@
 
 **UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
 
-25 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+26 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -101,6 +101,8 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
 
 ### Authoring
+
+- **[chat-history](./skills/chat-history/SKILL.md)**: Recover decisions, previous fixes, and context from past AI conversations with fast local search and source evidence.
 
 - **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, then audits and refactors AGENTS.md and CLAUDE.md, with grades.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, with portable workflows, a validator, and regression scenarios.
