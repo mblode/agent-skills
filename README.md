@@ -99,7 +99,6 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
-- **[done-bear-oncall](./skills/done-bear-oncall/SKILL.md)**: Personal-products on-call: wake vs defer, draft-only PRs, lessons loop.
 
 ### Authoring
 
