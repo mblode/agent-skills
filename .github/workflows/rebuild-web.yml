@@ -30,10 +30,23 @@ jobs:
         env:
           EXPECTED_SHA: ${{ github.sha }}
         run: |
+          # Actions IPs can see transient SSL errors, timeouts, and 403s from
+          # the edge while the Vercel deploy is still propagating. Keep polling
+          # until the timeout. Only HTTP 200 plus a matching (or descendant)
+          # synced-at SHA counts as success.
+          body="${RUNNER_TEMP:-/tmp}/llms-verify.txt"
+          status="000"
+          served=""
           for attempt in $(seq 1 60); do
-            served=$(curl --fail --silent --show-error --max-time 20 \
-              "https://blode.co/agent-skills/llms.txt" \
-              | sed -nE 's/.*\(synced at ([0-9a-f]{40})\).*/\1/p' | head -1) || served=""
+            status=$(curl --silent --show-error --max-time 20 \
+              --output "$body" --write-out "%{http_code}" \
+              -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" \
+              "https://blode.co/agent-skills/llms.txt") || status="000"
+            served=""
+            if [ "$status" = "200" ]; then
+              served=$(sed -nE 's/.*\(synced at ([0-9a-f]{40})\).*/\1/p' "$body" | head -1)
+            fi
+            echo "attempt $attempt: HTTP $status served=${served:-none}"
             if [[ "$served" =~ ^[0-9a-f]{40}$ ]]; then
               if [ "$served" = "$EXPECTED_SHA" ]; then
                 echo "Published content verified: $served"
@@ -49,5 +62,5 @@ jobs:
             fi
             sleep 15
           done
-          echo "Website did not publish the expected source revision: $EXPECTED_SHA" >&2
+          echo "Website did not publish the expected source revision: $EXPECTED_SHA (last HTTP $status served=${served:-none})" >&2
           exit 1
