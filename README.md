@@ -29,35 +29,6 @@ The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
 
 Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
 
-### Cloud agents
-
-A cloud agent runs on a fresh VM that never sees your machine's `~/.claude/skills` or `~/.agents/skills`, and Cursor's Sync Skills toggle covers only `~/.cursor/skills`. Nothing you install locally reaches them.
-
-**Claude Code cloud, Cowork, and routines.** This repo is a plugin marketplace. On claude.ai, open **Customize > Plugins > Add > Add marketplace > Add from a repository**, enter `mblode/agent-skills`, and install the Agent skills plugin. Every cloud session gets all the skills with no per-repo config, and Sync automatically keeps them current whenever the repo changes on GitHub.
-
-To scope it to one repository instead, declare the marketplace there and Claude installs it at session start:
-
-```jsonc
-// .claude/settings.json
-{
-  "extraKnownMarketplaces": {
-    "mblode-agent-skills": {
-      "source": { "source": "github", "repo": "mblode/agent-skills" }
-    }
-  },
-  "enabledPlugins": { "agent-skills@mblode-agent-skills": true }
-}
-```
-
-**Cursor cloud agents.** Cursor has no account-level equivalent, so install on the VM at build time:
-
-```jsonc
-// .cursor/environment.json
-{ "install": "npx skills add mblode/agent-skills -g --agent cursor -y" }
-```
-
-That lands in the VM's `~/.agents/skills`, which Cursor loads, and leaves nothing untracked in the agent's diff.
-
 ## Skills
 
 ### Architecture
@@ -108,29 +79,6 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, with portable workflows, a validator, and regression scenarios.
 - **[save-md](./skills/save-md/SKILL.md)**: Writes a named source as a markdown file the next turn can reread.
 
-## Maintaining the collection
-
-Skills retain house preferences, operational contracts, and repeatable audit rubrics. Generic coaching belongs to the model and host. Every skill includes authored regression scenarios; these are not claims of measured improvement across models.
-
-Run `skills/agent-skills-creator/scripts/validate.sh --all` for portable format requirements and separate house conventions covering references, counts, and scenario structure. Authoring follows the [Agent Skills specification](https://agentskills.io/specification) and [best practices](https://agentskills.io/skill-creation/best-practices). The [collection audit](./maintenance/2026-09-05-skill-audit.md) records changes, retained value, and verification limits.
-
-The canonical validator also serves `agent-evals` and the private collection. Machine output uses
-`--format tsv` (skill, status, section, check, detail); `--policy private --repo PATH` checks
-portable metadata, catalogue membership, and authored cases without imposing public path rules.
-Run `python3 -m unittest discover -s maintenance/tests` after changing this interface.
-CI validates all public skills and protocol fixtures on each pull request.
-
-Use the sibling eval CLI to check routing coverage and compare full installed folders:
-
-```bash
-node ../agent-evals/dist/cli.js validate-cases --skills-dir "$PWD"
-node ../agent-evals/dist/cli.js doctor --source "$PWD" --source ../agent-skills-private
-```
-
-The doctor reports drift and retired ownership without overwriting installed edits. Reconcile
-those edits into source before reinstalling. Behavioral comparisons must use fresh equivalent
-fixtures and report baseline results, host/model, loaded files, and unmeasured assertions.
-
 ## License
 
 MIT
@@ -138,7 +86,3 @@ MIT
 ---
 
 Crafted by [<img src="https://blode.co/avatar-circle.png" width="20" align="top" />](https://blode.co) [Matthew Blode](https://blode.co)
-
-## Company identity and copy
-
-Branding, copywriting, and product judgment now live in the separate [Brandwriter repository](https://github.com/mblode/brandwriter). It maintains company identity kits and reads company profiles independently of personal Ghostwriter profiles. Install with `npx skills add mblode/brandwriter --agent codex claude-code -y` (repository access required).
