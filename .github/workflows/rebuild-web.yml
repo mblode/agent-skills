@@ -15,7 +15,7 @@ concurrency:
 jobs:
   rebuild:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,28 +25,50 @@ jobs:
           DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_AGENT_SKILLS_WEB }}
         run: |
           test -n "$DEPLOY_HOOK" || { echo "Missing website deploy hook secret" >&2; exit 1; }
+          # Hook JSON is only a PENDING job id. Waiting on Vercel readyState
+          # needs an API token this workflow does not have, so SHA verify below
+          # is the ready check.
           curl --fail --silent --show-error --retry 2 -X POST "$DEPLOY_HOOK" > /dev/null
       - name: Verify published content revision
         env:
           EXPECTED_SHA: ${{ github.sha }}
         run: |
-          # Actions IPs can see transient SSL errors, timeouts, and 403s from
-          # the edge while the Vercel deploy is still propagating. Keep polling
-          # until the timeout. Only HTTP 200 plus a matching (or descendant)
-          # synced-at SHA counts as success.
+          # Canonical /llms.txt is cached at the Vercel CDN (s-maxage=3600,
+          # x-vercel-cache: HIT). Matching deploys are READY in about 30s, but
+          # polling that URL every 15s from Actions IPs kept serving the
+          # previous main SHA, then flipped to HTTP 403 around attempt 33
+          # (runs 34463626162, 34423624748). Query params miss the no-query
+          # cache object; wait until READY before the first fetch so a MISS
+          # does not PRERENDER the previous SHA into that bucket. Back off on
+          # 403/429 so the remaining budget is not burned while the edge is
+          # blocking. Stay well under ~32 requests. Only HTTP 200 plus a
+          # matching (or descendant) synced-at SHA counts as success.
           body="${RUNNER_TEMP:-/tmp}/llms-verify.txt"
+          hdr="${RUNNER_TEMP:-/tmp}/llms-verify.hdr"
           status="000"
           served=""
-          for attempt in $(seq 1 60); do
+          attempt=0
+          sleep_s=45
+          deadline=$((SECONDS + 1200))
+          echo "waiting 40s for the deploy hook build to reach READY"
+          sleep 40
+          while [ "$SECONDS" -lt "$deadline" ]; do
+            attempt=$((attempt + 1))
             status=$(curl --silent --show-error --max-time 20 \
-              --output "$body" --write-out "%{http_code}" \
+              --dump-header "$hdr" --output "$body" --write-out "%{http_code}" \
               -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" \
-              "https://blode.co/agent-skills/llms.txt") || status="000"
+              -H "Cache-Control: no-cache" \
+              -H "Pragma: no-cache" \
+              "https://blode.co/agent-skills/llms.txt?revision=${EXPECTED_SHA}&attempt=${attempt}") || status="000"
             served=""
+            xcache=""
+            if [ -f "$hdr" ]; then
+              xcache=$(tr -d '\r' < "$hdr" | sed -nE 's/^[Xx]-[Vv]ercel-[Cc]ache:[[:space:]]*//p' | tail -1)
+            fi
             if [ "$status" = "200" ]; then
               served=$(sed -nE 's/.*\(synced at ([0-9a-f]{40})\).*/\1/p' "$body" | head -1)
             fi
-            echo "attempt $attempt: HTTP $status served=${served:-none}"
+            echo "attempt $attempt: HTTP $status x-vercel-cache=${xcache:-none} served=${served:-none}"
             if [[ "$served" =~ ^[0-9a-f]{40}$ ]]; then
               if [ "$served" = "$EXPECTED_SHA" ]; then
                 echo "Published content verified: $served"
@@ -60,7 +82,22 @@ jobs:
                 exit 0
               fi
             fi
-            sleep 15
+            if [ "$status" = "403" ] || [ "$status" = "429" ]; then
+              sleep_s=$((sleep_s < 90 ? sleep_s * 2 : 120))
+              echo "edge blocked HTTP $status; backing off ${sleep_s}s"
+            elif [ "$status" = "000" ]; then
+              sleep_s=20
+            else
+              sleep_s=45
+            fi
+            remaining=$((deadline - SECONDS))
+            if [ "$remaining" -le 0 ]; then
+              break
+            fi
+            if [ "$sleep_s" -gt "$remaining" ]; then
+              sleep_s=$remaining
+            fi
+            sleep "$sleep_s"
           done
           echo "Website did not publish the expected source revision: $EXPECTED_SHA (last HTTP $status served=${served:-none})" >&2
           exit 1
