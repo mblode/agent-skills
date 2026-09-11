@@ -64,10 +64,10 @@ Use these dimensions to locate substantive gaps. Score 1-5 when an audit score i
 | 5 | Gotchas quality | Each gotcha names a concrete command/value and consequence; from observed failures |
 | 6 | Freshness | No stale commands, paths, version pins, or model names; frontmatter fields valid for every place the skill is meant to run |
 | 7 | Progressive disclosure | Every reference earns its load condition and adds value SKILL.md does not already carry |
-| 8 | Workflow integrity | Dependencies clear; terminal step names observable completion evidence |
+| 8 | Workflow integrity | Dependencies clear; the scope of done stated upfront and the terminal step names observable completion evidence |
 | 9 | Cross-skill coherence | Related Skills accurate; no trigger overlap with sibling descriptions |
 | 10 | Content patterns | Template, examples, and conditional patterns used where they fit; examples confined to style-sensitive output |
-| 11 | Constraint calibration | Absolutes confined to safety, data loss, and format contracts; other guidance phrased as an outcome; no directive duplicating or contradicting the harness, a sibling skill, or a script's own interface |
+| 11 | Constraint calibration | Absolutes confined to safety, data loss, and format contracts; other guidance phrased as an outcome; known-safe loops granted explicitly rather than left to per-step confirmation; no directive duplicating or contradicting the harness, a sibling skill, or a script's own interface |
 
 ## Rewrite Procedure
 
@@ -78,12 +78,12 @@ Execute in order: correctness, then triggers, then structure, then deletion, the
 3. **Boundary opener.** Add or repair the IS/IS-NOT pair after the H1.
 4. **Structure.** Apply the decision table below. After a move, update every link and grep all SKILL.md repo-wide for the old path.
 5. **Signal-density cut.** Delete lines Claude would do anyway; dedupe SKILL.md/reference overlap; merge near-duplicate sections.
-6. **Constraint cut.** Same pass over the same text, different target. Convert absolutes to outcome phrasing, delete rules the current model honors unsupervised, and delete anything an interface, sibling, or the harness already states.
+6. **Constraint cut.** Same pass over the same text, different target. Convert absolutes to outcome phrasing, delete rules the current model honors unsupervised, and delete anything an interface, sibling, or the harness already states. Blanket caution ("confirm before each edit", "ask before running anything") is the usual find here: replace it with a restriction on what deploys, sends, or spends, plus an explicit grant for the loop that is safe and the reason it is safe.
 
    **Stop condition:** an opinion particular to this repo, team, or product is the skill's payload. Never cut it for being opinionated, only for being wrong or already the model's default. The test is "would Claude do this unprompted", not "is this strongly worded". A skill stripped of its opinions validates clean and helps nobody.
 
 7. **Gotchas.** Rewrite vague warnings into concrete-failure format (command/value plus consequence); delete hypotheticals nobody has observed.
-8. **Workflow integrity.** Long workflows benefit from progress tracking; the final step names the command result or artifact that establishes completion.
+8. **Workflow integrity.** Long workflows benefit from progress tracking. State what the finished state includes before the first step, and have the final step name the command result or artifact that establishes completion.
 
 ## Structure Normalization Decision Table
 

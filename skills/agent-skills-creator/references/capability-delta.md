@@ -15,6 +15,8 @@ A skill supplies something the task, tools, repository, and host do not already 
 | Operational contract or observed failure | Keep the minimum reproducible guidance | Command, schema, failure consequence, or regression case |
 | Volatile facts: quotas, prices, SDK APIs | Resolve from current official sources when used | Source and date; no undated snapshot presented as live |
 
+A skill in a shared repository is read by several contributors' agents running different models, so it cannot be tuned to one of them. Step lists calibrated to the gaps of the weakest target overconstrain the strongest; a stated outcome and a stated scope of done are actionable at every tier and are what travels.
+
 Strong model performance is a reason to revisit instructions, not proof that removing a particular contract preserves behavior. Do not infer what was in a vendor's post-training from an announcement. Label a static deletion judgement as such; reserve measured claims for actual runs.
 
 ## Keep, cut, merge, retire

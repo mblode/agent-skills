@@ -23,7 +23,7 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 | File | Read When |
 |------|-----------|
 | `references/capability-delta.md` | Removing generic coaching, evaluating model upgrades, or auditing a whole collection |
-| `references/authoring-tips.md` | Default when writing or cutting body content: judgement over rules, constraint calibration, degrees of freedom, content patterns, descriptions |
+| `references/authoring-tips.md` | Default when writing or cutting body content: judgement over rules, constraint calibration, permission and completion scope, degrees of freedom, content patterns, descriptions |
 | `references/skill-patterns.md` | Choosing a structural pattern |
 | `references/format-specification.md` | Directory layout, spec versus Claude Code-only frontmatter, body substitutions, loading semantics, which host reads the skill from where and what each can do, naming |
 | `references/rules-folder-structure.md` | Building a rules-based audit/lint skill |
@@ -63,7 +63,7 @@ Simple/hub, workflow, rules-based, or mixed. `references/skill-patterns.md` has 
 
 Create `skills/<name>/SKILL.md` with `name` and `description`, the `---` on line 1. Write the description as a model trigger, not a human summary: what it does, what it covers, then "Use when..." with the phrases users actually say, and the key use case first because the listing trims descriptions from the tail when it runs over budget. `validate.sh` enforces the limits, so write for routing and let the script police the constraints.
 
-Decide where the skill will run before adding any other field. Use portable fields for this collection; put genuine runtime prerequisites in `compatibility`. Host-specific fields require current host documentation and a deliberately host-specific package. State authorization boundaries in the body when a workflow deploys, sends, or spends. The format reference distinguishes these contracts.
+Decide where the skill will run before adding any other field. Use portable fields for this collection; put genuine runtime prerequisites in `compatibility`. Host-specific fields require current host documentation and a deliberately host-specific package. State authorization boundaries in the body when a workflow deploys, sends, or spends, and grant the safe loops just as explicitly; the body carries both sides of that envelope. The format reference distinguishes these contracts.
 
 ### Step 3: Write SKILL.md body
 
@@ -76,7 +76,8 @@ Decide where the skill will run before adding any other field. Use portable fiel
 - Keep the opinions that make the skill worth invoking; cut only what the target agent already does unprompted ("Cut Constraints, Keep Opinions"). On current frontier models over-prescription is not merely wasted tokens: instructions carried forward from older models are often too prescriptive and lower output quality, so the constraint cut is correctness work
 - Match degrees of freedom to fragility: prose for open-ended work, exact commands for fragile or destructive ops ("Degrees of Freedom")
 - Reach for named content patterns: template for fixed output, examples only where style is the deliverable, conditional for decision points
-- State the workflow dependencies and completion evidence; add a checklist only when it helps track a long or resumable task
+- Write the permission side of the envelope, not only the restriction: grant a known-safe loop with the reason it is safe, and keep confirmation for what deploys, sends, spends, or writes outside the working tree ("Grant Permission, Don't Just Restrict")
+- State the workflow dependencies, what the finished state includes, and the completion evidence; scope and evidence are different sentences ("Say Where the Work Ends"). Add a checklist only when it helps track a long or resumable task
 - Put the deliverable, routing, and task-specific constraints first; loading and compaction behavior depend on the host
 - Build a Gotchas section from observed failures: the highest-signal content in any skill
 

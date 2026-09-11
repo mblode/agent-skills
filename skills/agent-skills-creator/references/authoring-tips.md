@@ -9,6 +9,8 @@ What to put in a skill and how hard to say it. The mechanical rules live in `scr
 - Judgement Over Rules
 - Don't Fight the Harness or a Sibling
 - Cut Constraints, Keep Opinions
+- Grant Permission, Don't Just Restrict
+- Say Where the Work Ends
 - Open with Boundaries (IS/IS-NOT)
 - Build a Gotchas Section
 - Use the File System for Progressive Disclosure
@@ -80,6 +82,24 @@ The deletion target is guardrails duplicating the model's own judgement, not str
 **Cut:** "write clear prose", "handle errors properly", "use good naming". Claude does this unprompted.
 
 The test is "would Claude do this anyway", never "is this strongly worded".
+
+## Grant Permission, Don't Just Restrict
+
+A skill's authority envelope has two sides and most skills write only one. "Ask before applying the migration" is a restriction. "The local suite runs against disposable fixtures and cannot reach production, so run it, fix the failures your change caused, and rerun without checking in" is a permission, and it is the side that usually goes unwritten.
+
+The cost of the missing half is not neutral. An agent with no stated permission pauses at every step that looks consequential, which turns a five-minute loop into five round trips and strands the workflow half-done when nobody answers.
+
+Grant the permission with the reason it is safe, not just the verb. The reason is what lets the agent extend the grant to the next case that matches and withhold it from the one that does not; "run the tests" does not survive contact with a suite that suddenly has a staging credential in it, and "the fixtures are disposable and there is no production access" does.
+
+Keep restricting what earns it: anything that deploys, sends, spends, or writes outside the working tree. Blanket caution written defensively against a weaker model ("confirm before every file edit", "never run a command without approval") now buys nothing and costs a turn each time it fires.
+
+## Say Where the Work Ends
+
+Name the full scope of done in the same breath as the task, because the verb does not carry it. "Implement the change" and "implement the change, run the affected tests, and fix what the change broke" stop in different places, and an agent reading the first one is not wrong to hand back a passing-looking diff it never ran.
+
+This is not the same as completion evidence. Evidence says how anyone knows the work finished; scope says what finishing includes. A skill wants both, and they are usually one sentence apart.
+
+For work that spans passes, say what each pass covers and what ends the loop. Prefer a condition ("repeat until `validate.sh` reports no FAIL") over a count, unless the count is the actual contract.
 
 ## Open with Boundaries (IS/IS-NOT)
 
@@ -201,6 +221,7 @@ At session start, Claude scans every description to decide relevance. It is a tr
 - Structure: `[Does what] for/using [domain]. [Covers what]. Use when [specific trigger phrases]. For [adjacent job] use [sibling].`
 - Front-load. Hosts have different listing budgets and truncation policies. The 1024-character spec limit is a ceiling, not a target; a description that states its key use case in the first sentence survives trimming, one that saves the triggers for the end does not.
 - Undertriggering is the common failure, so lean pushy: name the contexts where the skill applies even when the user did not ask for it by name. Use near-miss evaluations to tighten scope when it overtriggers; invocation-control fields are host-specific.
+- Lean pushy on situations, not on domain nouns. A trailing category list ("use when working with databases, queries, models, or persistence") looks like broad coverage and behaves like noise: it matches every adjacent prompt and starves the sibling that should have won. The same words spent on the moment of use ("use when adding or changing a migration, or reviewing its rollout") route more often and collide less.
 
 **Weak:** "Provides architecture guidance for multi-tenant platforms"
 **Strong:** "Provides architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, or asking 'how do I support multiple tenants' or 'build a white-label platform'."
