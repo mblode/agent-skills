@@ -52,7 +52,9 @@ Turn "this feels off" into a named cause, then make the smallest fix that addres
 
 ## "It's janky / drops frames"
 
-Work the diagnosis checklist in `performance-deep-dive.md`; the short order is: non-`transform`/`opacity` properties first, then motion coinciding with a busy main thread (move to CSS/WAAPI), then per-frame React state updates, then an inherited CSS variable driving transforms, then animated `blur()` over 20px. Only after those, `will-change: transform`.
+Work the diagnosis checklist in `performance-deep-dive.md`; the short order is: non-`transform`/`opacity` properties first, then motion coinciding with a busy main thread (move to CSS/WAAPI, or stop co-scheduling the work), then per-frame React state updates, then an inherited CSS variable driving transforms, then animated `blur()` over 20px. Only after those, `will-change: transform`.
+
+If it janks only sometimes (on open, on the first run, during navigation, while data lands), the animation is fine and a long task is sharing the tick. Record a performance trace over the interaction and look for a task over 50ms; fix the scheduling, not the motion (see Long tasks during animation in `performance-deep-dive.md`).
 
 ## "It jumps / snaps / shifts"
 
