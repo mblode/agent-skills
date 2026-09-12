@@ -23,10 +23,6 @@
 npx skills add mblode/agent-skills -g --agent codex claude-code -y
 ```
 
-`--agent` takes a space-separated list. A comma-separated one is rejected whole as a single invalid name.
-
-The bundle is listed at [skills.sh](https://www.skills.sh/mblode/agent-skills).
-
 Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
 
 ## Skills
