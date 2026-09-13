@@ -2,9 +2,7 @@
 
 # Agent Skills
 
-**UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent**
-
-26 skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.
+**Nobody ships AI slop on purpose. These skills make sure you don’t.**
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
