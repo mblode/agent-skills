@@ -4,9 +4,11 @@
 
 **Nobody ships AI slop on purpose. These skills make sure you don’t.**
 
+UI audits, typography, docs, PR review, and releases. On-demand skills for coding agents.
+
 <p align="center">
-  <a href="https://www.skills.sh/mblode/agent-skills">
-    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.skills.sh%2Fapi%2Fbadge%2Fmblode%2Fagent-skills&label=installs" />
+  <a href="https://github.com/mblode/agent-skills/stargazers">
+    <img src="https://img.shields.io/github/stars/mblode/agent-skills?style=flat&colorA=000000&colorB=000000" />
   </a>
   <a href="https://github.com/mblode/agent-skills/blob/main/LICENSE.md">
     <img src="https://img.shields.io/github/license/mblode/agent-skills?style=flat&colorA=000000&colorB=000000" />
@@ -20,6 +22,8 @@
 ```bash
 npx skills add mblode/agent-skills -g --agent codex claude-code -y
 ```
+
+If these help, [star the repo](https://github.com/mblode/agent-skills) so others find them.
 
 Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training), a course on spotting and fixing AI slop. First unit free.
 
