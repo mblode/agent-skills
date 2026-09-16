@@ -38,7 +38,7 @@ For dashboards, admin tools, and data-dense workflows.
     0 1px 2px -1px rgba(0, 0, 0, 0.06),
     0 2px 4px 0 rgba(0, 0, 0, 0.04);
   ```
-  Hover: increase each opacity by `0.02`; transition `box-shadow 200ms ease`.
+  Hover: increase each opacity by `0.02`; transition `box-shadow 200ms ease`. In dark mode drop the lift and ambient layers and keep only the ring (`dark:shadow-none dark:inset-ring dark:inset-ring-white/5`, as in the dark-mode guideline): depth layers are invisible on dark surfaces.
 - **Image outlines:** add a 1px inset outline for depth. Use `outline` (not `border`) so layout dimensions are unaffected:
   ```css
   img {
@@ -85,7 +85,7 @@ Default to Linear-style restraint: calm hierarchy, strong typography and spacing
 
 - Show navigation, page location, and user/workspace context.
 - Keep supporting bars and inactive nav a step quieter than the main surface.
-- In dark mode, prefer borders over shadows; adjust semantic colours.
+- In dark mode, keep only the ring layer of the shadow formula; adjust semantic colours.
 
 ## Motion
 

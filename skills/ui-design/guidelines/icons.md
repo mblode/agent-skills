@@ -11,6 +11,7 @@ Covers: SVG icons, Heroicons, inline checkmarks, icon buttons, icon sizing, icon
 - Aligning an icon next to a text group (label + supporting text): align it to the first line/label with `items-start` or `items-baseline`, never `items-center` on the group.
 - Application UIs (dashboards, settings, admin, sidebar nav, forms): use only Heroicons Micro (16px, `size-4`); never 20px/mini or 24px/outline.
 - Icons paired with text should usually be visually quieter than the label: lower opacity, use the secondary text color, or reduce emphasis so the icon supports recognition without becoming the focal point.
+- With a stroke-based icon set (Lucide, Tabler), match stroke to the adjacent text weight: `1.5px` beside regular (400) text, `2px` beside medium/semibold (500-600), `2.5px` beside bold (700). A hairline icon beside a bold label reads as broken. One stroke weight per surface; never mix icon libraries on one toolbar.
 - Optically center asymmetric icons in icon-only buttons. If geometry looks off, adjust the SVG viewBox or wrapper alignment rather than trusting mathematical centering.
 
 ## Coding Rules
