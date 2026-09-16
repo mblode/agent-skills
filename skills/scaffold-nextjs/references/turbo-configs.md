@@ -257,7 +257,7 @@ Run these from this directory, not from `apps/web`; they go through Turborepo:
 ```bash
 npm run dev           # start the site
 npm run build         # build every workspace
-npm run lint          # oxlint
+npm run lint          # oxlint, including @shadcn/lint
 npm run lint:fix      # oxlint --fix
 npm run format        # oxfmt --write .   (scope to your changes)
 npm run format:check  # oxfmt --check
@@ -267,7 +267,8 @@ npm run fix           # lint:fix + format
 ```
 
 `npm run check` is the combined quality gate; the pre-commit hook runs the same
-tools on staged files.
+tools on staged files. `npm run lint` must run inside `apps/web` (turbo does
+that) so Oxlint loads `oxlint.config.ts` and `@shadcn/lint`.
 
 ## Rules
 
@@ -276,6 +277,9 @@ tools on staged files.
 - `next.config.ts` keeps `cacheComponents`, `partialPrefetching`, and
   `reactCompiler` on. Read the Instant Navigations rules in
   `apps/web/AGENTS.md` before adding a route.
+- `@shadcn/lint` enforces design-system `className` contracts: call sites may
+  add layout classes (`mt-4`, `w-full`); restyle in `components/ui/` instead.
+  Optional extra rules: https://github.com/shadcn-ui/lint#rules
 ````
 
-Then `{{name}}/CLAUDE.md` containing the single line `@AGENTS.md`. After the first `npm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; `apps/web/CLAUDE.md` stays the one-line import.
+Then `{{name}}/CLAUDE.md` containing the single line `@AGENTS.md`. After the first `npm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; `apps/web/CLAUDE.md` stays the one-line import. The Phase 5.1 design-system lint paragraph stays above those markers.
