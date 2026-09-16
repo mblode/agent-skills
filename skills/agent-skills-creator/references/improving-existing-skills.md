@@ -57,14 +57,14 @@ Use these dimensions to locate substantive gaps. Score 1-5 when an audit score i
 
 | # | Dimension | What 5/5 looks like |
 |---|-----------|---------------------|
-| 1 | Trigger coverage | Third-person description; "Use when..." with quoted user phrases; disambiguated from siblings |
+| 1 | Trigger coverage | Third-person description; "Use when..." with quoted user phrases; disambiguated from siblings; no longer than it takes to say when it applies |
 | 2 | Boundary clarity | IS/IS-NOT opener present and accurate where sibling skills exist |
 | 3 | Structure conformity | Pattern matches content; files in pattern-correct folders |
 | 4 | Signal density | Every line passes "would removing this cause Claude to make a mistake?"; one term per concept |
 | 5 | Gotchas quality | Each gotcha names a concrete command/value and consequence; from observed failures |
 | 6 | Freshness | No stale commands, paths, version pins, or model names; frontmatter fields valid for every place the skill is meant to run |
 | 7 | Progressive disclosure | Every reference earns its load condition and adds value SKILL.md does not already carry |
-| 8 | Workflow integrity | Dependencies clear; the scope of done stated upfront and the terminal step names observable completion evidence |
+| 8 | Workflow integrity | Dependencies clear; the scope of done stated upfront and the terminal step names observable completion evidence; every stop-for-review step guards a decision that is genuinely the user's |
 | 9 | Cross-skill coherence | Related Skills accurate; no trigger overlap with sibling descriptions |
 | 10 | Content patterns | Template, examples, and conditional patterns used where they fit; examples confined to style-sensitive output |
 | 11 | Constraint calibration | Absolutes confined to safety, data loss, and format contracts; other guidance phrased as an outcome; known-safe loops granted explicitly rather than left to per-step confirmation; no directive duplicating or contradicting the harness, a sibling skill, or a script's own interface |
@@ -74,11 +74,11 @@ Use these dimensions to locate substantive gaps. Score 1-5 when an audit score i
 Execute in order: correctness, then triggers, then structure, then deletion, then polish. Reordering causes rework, for example density-cutting a section you later move.
 
 1. **Stale fixes.** Anything contradicting repo AGENTS.md or reality (install commands, paths, rule counts, CLI flags, frontmatter fields the target runtime rejects). Bugs; fix before stylistic work.
-2. **Description.** Third-person opener of what it does, capability summary, "Use when..." triggers with quoted user phrases, key use case first. Disambiguate from siblings: if two descriptions could route the same prompt, both need an edge ("For X, use `other-skill`"). Check with a should-trigger and near-miss prompt set, not by rereading.
+2. **Description.** Third-person opener of what it does, capability summary, "Use when..." triggers with quoted user phrases, key use case first, and no longer than that takes. Read it in the listing next to its siblings: if two descriptions could route the same prompt, both need an edge ("For X, use `other-skill`"), and a description that claims a whole domain rather than a moment of use gets cut to the moment. Check with a should-trigger and near-miss prompt set, not by rereading.
 3. **Boundary opener.** Add or repair the IS/IS-NOT pair after the H1.
 4. **Structure.** Apply the decision table below. After a move, update every link and grep all SKILL.md repo-wide for the old path.
 5. **Signal-density cut.** Delete lines Claude would do anyway; dedupe SKILL.md/reference overlap; merge near-duplicate sections.
-6. **Constraint cut.** Same pass over the same text, different target. Convert absolutes to outcome phrasing, delete rules the current model honors unsupervised, and delete anything an interface, sibling, or the harness already states. Blanket caution ("confirm before each edit", "ask before running anything") is the usual find here: replace it with a restriction on what deploys, sends, or spends, plus an explicit grant for the loop that is safe and the reason it is safe.
+6. **Constraint cut.** Same pass over the same text, different target. Convert absolutes to outcome phrasing, delete rules the current model honors unsupervised, and delete anything an interface, sibling, or the harness already states. Blanket caution ("confirm before each edit", "ask before running anything") is the usual find here: replace it with a restriction on what deploys, sends, or spends, plus an explicit grant for the loop that is safe and the reason it is safe. The other usual find is a review checkpoint ("stop after the first implementation and present it", "wait for approval of the plan") that the current model honors literally and ends the task at. Keep it where the decision is the user's; otherwise delete it and make sure the scope of done in step 8 covers what the checkpoint was implicitly guarding.
 
    **Stop condition:** an opinion particular to this repo, team, or product is the skill's payload. Never cut it for being opinionated, only for being wrong or already the model's default. The test is "would Claude do this unprompted", not "is this strongly worded". A skill stripped of its opinions validates clean and helps nobody.
 

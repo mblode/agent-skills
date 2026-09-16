@@ -16,7 +16,8 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 - New skill → Creation Workflow below.
 - Audit, improve, or rewrite an existing skill → `references/improving-existing-skills.md`, which scores eleven audit dimensions, runs an ordered rewrite, then reuses Steps 5-8 for validation and shipping.
 - Simplify a skill or update a collection → same reference, plus `references/capability-delta.md` for retention decisions and the collection ledger.
-- Skill never triggers, or triggers on the wrong prompts → the Routing Evals section of `references/evaluation-and-iteration.md`, then the description. Body edits do not fix routing.
+- Skill never triggers, triggers on the wrong prompts, or its description is being trimmed in a crowded listing → the Routing Evals section of `references/evaluation-and-iteration.md`, then the description. Body edits do not fix routing.
+- Skill stops after a first draft and hands back for review when nobody asked → "Say Where the Work Ends" in `references/authoring-tips.md`; the fix is the scope of done and the review checkpoints, not the steps.
 
 ## Reference Files
 
@@ -61,7 +62,7 @@ Simple/hub, workflow, rules-based, or mixed. `references/skill-patterns.md` has 
 
 ### Step 2: Create directory and frontmatter
 
-Create `skills/<name>/SKILL.md` with `name` and `description`, the `---` on line 1. Write the description as a model trigger, not a human summary: what it does, what it covers, then "Use when..." with the phrases users actually say, and the key use case first because the listing trims descriptions from the tail when it runs over budget. `validate.sh` enforces the limits, so write for routing and let the script police the constraints.
+Create `skills/<name>/SKILL.md` with `name` and `description`, the `---` on line 1. Write the description as a model trigger, not a human summary: what it does, what it covers, then "Use when..." with the phrases users actually say, and the key use case first because the listing trims descriptions from the tail when it runs over budget. Keep it as short as it can be while still saying when it applies: every installed description sits in every session, and one that over-claims loads a skill that does not help. `validate.sh` enforces the limits, so write for routing and let the script police the constraints.
 
 Decide where the skill will run before adding any other field. Use portable fields for this collection; put genuine runtime prerequisites in `compatibility`. Host-specific fields require current host documentation and a deliberately host-specific package. State authorization boundaries in the body when a workflow deploys, sends, or spends, and grant the safe loops just as explicitly; the body carries both sides of that envelope. The format reference distinguishes these contracts.
 
@@ -77,8 +78,8 @@ Decide where the skill will run before adding any other field. Use portable fiel
 - Match degrees of freedom to fragility: prose for open-ended work, exact commands for fragile or destructive ops ("Degrees of Freedom")
 - Reach for named content patterns: template for fixed output, examples only where style is the deliverable, conditional for decision points
 - Write the permission side of the envelope, not only the restriction: grant a known-safe loop with the reason it is safe, and keep confirmation for what deploys, sends, spends, or writes outside the working tree ("Grant Permission, Don't Just Restrict")
-- State the workflow dependencies, what the finished state includes, and the completion evidence; scope and evidence are different sentences ("Say Where the Work Ends"). Add a checklist only when it helps track a long or resumable task
-- Put the deliverable, routing, and task-specific constraints first; loading and compaction behavior depend on the host
+- State the workflow dependencies, what the finished state includes, and the completion evidence; scope and evidence are different sentences ("Say Where the Work Ends"). Keep a stop-for-review step only where the decision is genuinely the user's; current frontier models honor a mandatory pause literally and end the task there. Add a checklist only when it helps track a long or resumable task
+- Put the deliverable, routing, and task-specific constraints first; loading and compaction behavior depend on the host. A skill with several workflows makes SKILL.md a router (mode choice, shared contract, one pointer per workflow) and keeps each workflow's body in its own reference ("Use the File System for Progressive Disclosure")
 - Build a Gotchas section from observed failures: the highest-signal content in any skill
 
 ### Step 4: Add reference or rule files
@@ -125,6 +126,8 @@ When installation behavior changed, install the edited local source into a dispo
 - `readme-skill-count` compares the README's stated count against `find skills -maxdepth 2 -name SKILL.md`. Adding a reference file to an existing skill does not change it; only adding or removing a skill does.
 - `--agent` on `skills add` is variadic and space-separated (`--agent codex cursor`); it consumes arguments until the next one starting with `-`. A comma-separated list is validated element-wise and rejected whole as one invalid name. Do not conclude from an empty `~/.codex/skills` that the install failed: any agent whose `skillsDir` is `.agents/skills` is treated as universal and installed to `~/.agents/skills/`, which those agents read directly.
 - A description that omits "Use when" fails `description-triggers` outright, but a description that has the phrase and the wrong trigger words fails nothing and simply never routes. The validator cannot see this; only a routing eval can.
+- `description-length` passes anything under 1024 characters, and a collection of descriptions that each pass can still overrun the host's listing budget together, at which point the host shortens every one of them and the "Use when" clauses go first. Judge a description in the listing next to its siblings, not alone.
+- A step reading "stop here and present the result for review" ends the task on current frontier models even when the user asked for the whole job and is not watching. The step reads as a safety rule, so it is rarely questioned during a constraint cut, and the skill ships stopping one implementation short.
 
 ## Anti-patterns
 

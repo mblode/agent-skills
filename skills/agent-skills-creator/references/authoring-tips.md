@@ -43,9 +43,9 @@ The agent brings general knowledge, but needs the project facts and procedures t
 
 The sharpest case of the section above, and the one that costs most, because these instructions do not sit there inertly: they compound with behavior the model already performs and push it past useful.
 
-Generic reminders such as "double-check your answer" do not define a task-specific check. Remove them in a static simplification pass; claim unchanged output quality only after a behavioral comparison. Preserve the exact observation or command that establishes the task's completion.
+Generic reminders such as "double-check your answer" or "run the tests before you finish" do not define a task-specific check. Current frontier models test and verify unprompted, so the reminder buys nothing on the first run and produces redundant runs after it. Remove them in a static simplification pass; claim unchanged output quality only after a behavioral comparison. Preserve the exact observation or command that establishes the task's completion.
 
-An external check is not this. "Run the test suite and quote the output" and "watch the check fail, then pass" produce evidence the model cannot generate by reasoning, so they stay.
+An external check is not this. "Run the test suite and quote the output" and "watch the check fail, then pass" produce evidence the model cannot generate by reasoning, so they stay. The line between the two is whether the instruction names which check and what result counts.
 
 Three related levers skew long by default and are worth setting deliberately:
 
@@ -99,7 +99,9 @@ Name the full scope of done in the same breath as the task, because the verb doe
 
 This is not the same as completion evidence. Evidence says how anyone knows the work finished; scope says what finishing includes. A skill wants both, and they are usually one sentence apart.
 
-For work that spans passes, say what each pass covers and what ends the loop. Prefer a condition ("repeat until `validate.sh` reports no FAIL") over a count, unless the count is the actual contract.
+For work that spans passes, say what each pass covers and what ends the loop. Prefer a condition ("repeat until `validate.sh` reports no FAIL") over a count, unless the count is the actual contract. If the skill wants exploration past a first working version, say what to explore and where it stops; "keep going" without a stop is as unactionable as no scope at all.
+
+Audit every stop-for-review step the same way. Current frontier models honor "present the plan and wait" or "stop after the first implementation for review" literally, and the workflow ends there whether or not anyone is reviewing. Keep a checkpoint only where the decision is genuinely the user's (a destructive step, a spend, a design fork the skill cannot resolve); everywhere else, state the scope of done and let the workflow run to it. A checkpoint carried over from a model that needed reining in is the mirror image of blanket caution, and it costs the same turn.
 
 ## Open with Boundaries (IS/IS-NOT)
 
@@ -134,7 +136,7 @@ A skill is a folder, not one file: treat the file system as context engineering.
 - `examples/`: usage examples and snippets
 - `rules/`: categorized rule files for audit/lint skills
 
-SKILL.md is a map to that tree, not a repository of everything the domain knows. A reference nothing ever loads is dead weight, and a SKILL.md that inlines what a reference should hold is paid for on every invocation.
+SKILL.md is a map to that tree, not a repository of everything the domain knows. A reference nothing ever loads is dead weight, and a SKILL.md that inlines what a reference should hold is paid for on every invocation: reading a skill spends context, brings compaction closer, and adds guidance that may not apply to this task. For a skill with several workflows, make SKILL.md a router: the mode choice, the shared contract, and a pointer per workflow, with each workflow's body in its own file so the model reads the one it needs and none of the others.
 
 ## Comprehensive Reference Folders
 
@@ -222,6 +224,8 @@ At session start, Claude scans every description to decide relevance. It is a tr
 - Front-load. Hosts have different listing budgets and truncation policies. The 1024-character spec limit is a ceiling, not a target; a description that states its key use case in the first sentence survives trimming, one that saves the triggers for the end does not.
 - Undertriggering is the common failure, so lean pushy: name the contexts where the skill applies even when the user did not ask for it by name. Use near-miss evaluations to tighten scope when it overtriggers; invocation-control fields are host-specific.
 - Lean pushy on situations, not on domain nouns. A trailing category list ("use when working with databases, queries, models, or persistence") looks like broad coverage and behaves like noise: it matches every adjacent prompt and starves the sibling that should have won. The same words spent on the moment of use ("use when adding or changing a migration, or reviewing its rollout") route more often and collide less.
+- As short as it can be while still saying when it applies. Every installed description is in every session's context, and a host with too many of them shortens all of them to fit, so a long description costs its neighbors as well as itself. Pushy means naming the moment of use, not adding clauses.
+- Read the description against its siblings as one listing, the way the model sees it. Two descriptions that could both claim a prompt, or one that over-emphasizes its own applicability, load a skill that does not help the task, and neither problem is visible from inside a single file.
 
 **Weak:** "Provides architecture guidance for multi-tenant platforms"
 **Strong:** "Provides architecture guidance for multi-tenant platforms on Cloudflare or Vercel. Use when defining domain strategy, tenant identification, isolation, routing, or asking 'how do I support multiple tenants' or 'build a white-label platform'."

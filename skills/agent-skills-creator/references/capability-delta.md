@@ -17,6 +17,8 @@ A skill supplies something the task, tools, repository, and host do not already 
 
 A skill in a shared repository is read by several contributors' agents running different models, so it cannot be tuned to one of them. Step lists calibrated to the gaps of the weakest target overconstrain the strongest; a stated outcome and a stated scope of done are actionable at every tier and are what travels.
 
+A model upgrade moves two things at once, in opposite directions, and an audit checks both. Guidance written to rein in an older model (step-by-step recipes, blanket confirmation, a stop for review after the first draft) now overconstrains and makes the newer model stop early or defer decisions it could take. At the same time the newer model is more tentative about how far to take a task, so the scope of done and the permission for known-safe loops need to be stated where they were previously left implicit. Cutting the first without adding the second leaves a skill that stops sooner than the one it replaced.
+
 Strong model performance is a reason to revisit instructions, not proof that removing a particular contract preserves behavior. Do not infer what was in a vendor's post-training from an announcement. Label a static deletion judgement as such; reserve measured claims for actual runs.
 
 ## Keep, cut, merge, retire
@@ -29,10 +31,11 @@ A domain checklist can remain useful even when every rule is familiar: the user 
 
 1. Pull safely and record the baseline revision, dirty paths, skill inventory, and validator result.
 2. Update the creator's retention criteria first. Audit each skill's entry point, references, scripts, routing neighbors, and evaluation coverage against those criteria.
-3. Keep a collection ledger with one row per skill: unique payload, concrete change or retention reason, and verification status. For large rule sets, record which categories were sampled and expand inspection when a sample fails.
-4. Fill gaps with a concrete contract, tool, or regression scenario. Do not add a new skill simply to cover a topic a frontier agent already handles.
-5. Validate every changed skill and the collection; check stale paths after deletions. Update descriptions and README entries to match final behavior.
-6. Report static checks separately from behavior runs. If target models or a runner are unavailable, ship reviewable edits and scenarios with that limitation explicit. Do not fabricate scores or call authored assertions passing tests.
+3. Audit the descriptions as one listing before editing any body. Concatenate every description in the order the host lists them and read the result as the model does: total length against the host's listing budget, pairs that could claim the same prompt, and any description that over-emphasizes its own applicability. Shorten before adding; a listing that runs over budget is trimmed from every tail at once, so one long description degrades routing for the whole collection.
+4. Keep a collection ledger with one row per skill: unique payload, concrete change or retention reason, and verification status. For large rule sets, record which categories were sampled and expand inspection when a sample fails.
+5. Fill gaps with a concrete contract, tool, or regression scenario. Do not add a new skill simply to cover a topic a frontier agent already handles.
+6. Validate every changed skill and the collection; check stale paths after deletions. Update descriptions and README entries to match final behavior.
+7. Report static checks separately from behavior runs. If target models or a runner are unavailable, ship reviewable edits and scenarios with that limitation explicit. Do not fabricate scores or call authored assertions passing tests.
 
 ## Behavioral comparison
 
