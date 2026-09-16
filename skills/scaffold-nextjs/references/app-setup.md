@@ -9,7 +9,7 @@
 - [Phase 4: Install Agentation](#phase-4-install-agentation)
 - [Phase 4.1: Add Google Analytics (optional)](#phase-41-add-google-analytics-optional)
 - [Phase 5: Install Ultracite](#phase-5-install-ultracite)
-- [Phase 5.1: Wire @shadcn/lint into Oxlint](#phase-51-wire-shadcnlint-into-oxlint)
+- [Phase 5.1: Enable ultracite/oxlint/shadcn](#phase-51-enable-ultraciteoxlintshadcn)
 - [Phase 6 prep: Move into apps/web/](#phase-6-prep-move-into-appsweb)
 
 ---
@@ -274,6 +274,7 @@ SDK:
 npx ultracite@latest init \
   --linter oxlint \
   --frameworks next react \
+  --js-plugins @shadcn/lint \
   --integrations lefthook \
   --agents universal \
   --pm npm \
@@ -283,16 +284,17 @@ npx ultracite@latest init \
 
 Flag notes:
 - `--frameworks` takes space-separated values (`next react`), not commas; commas fail validation.
+- `--js-plugins @shadcn/lint` is how Ultracite 7.12+ registers `ultracite/oxlint/shadcn`. It is opt-in and required here. Older CLIs reject the value or skip the preset; confirm `ultracite` is ≥ 7.12 after install.
 - `--agents universal` writes `AGENTS.md` with the Ultracite code standards. Without it, `--quiet` skips the agent prompt and no file is written.
 - `--skip-install` lets you review the generated `package.json` changes before installing.
 - Omit `--quiet` to confirm the generated file list interactively.
 
-Sets up (verified against a real `ultracite@7.10.7 init` run with these flags):
-- `oxlint.config.ts`: extends `ultracite/oxlint/{core,next,react}`. Phase 5.1 adds `@shadcn/lint` on top of this file; do not pass `--js-plugins @shadcn/lint` to init (that preset enables the full six-rule suite).
+Sets up (verified against a real `ultracite@7.12.0 init` run with these flags):
+- `oxlint.config.ts`: extends `ultracite/oxlint/{core,next,react,shadcn}` and hoists `jsPlugins: shadcn.jsPlugins`. Phase 5.1 only edits this file if that import is missing.
 - `oxfmt.config.ts`: extends `ultracite/oxfmt`
 - `lefthook.yml`: a pre-commit hook. This copy is temporary. Phase 6 replaces it with a root-level file scoped to `apps/web/`, because git reads `lefthook.yml` only from the directory that holds `.git`.
 - `AGENTS.md` with the Ultracite code standards
-- In `package.json`: `check` and `fix` scripts, `"type": "module"`, and `oxlint`, `oxfmt`, `lefthook` at `latest` plus a pinned `ultracite`. No `prepare` script: with `--skip-install` the lefthook install step that would write it is skipped, and the root `package.json` in Phase 6 owns it instead.
+- In `package.json`: `check` and `fix` scripts, `"type": "module"`, and `oxlint`, `oxfmt`, `lefthook` (often `latest`) plus `@shadcn/lint` and a pinned `ultracite`. No `prepare` script: with `--skip-install` the lefthook install step that would write it is skipped, and the root `package.json` in Phase 6 owns it instead.
 
 2. Install, pin, and verify:
 
@@ -302,57 +304,47 @@ npx ultracite fix     # oxfmt --write + oxlint --fix
 npx ultracite check   # oxfmt --check + oxlint
 ```
 
-Both pass with zero errors. Leave the generated `extends` and `ignorePatterns` intact; Phase 5.1 adds `@shadcn/lint` on top. Replace the three `latest` ranges in `devDependencies` with the versions `npm install` resolved (`npm ls oxlint oxfmt lefthook --depth=0`), so the hook and CI run the same binaries. Create `CLAUDE.md` beside `AGENTS.md` as a one-line `@AGENTS.md` import (a symlink works on macOS and Linux but not Windows, and a copy drifts as soon as either file is edited). On the first `next dev` run from a coding agent's shell, Next 16.3 appends its managed `nextjs-agent-rules` block to `AGENTS.md`; content outside the markers is preserved, `CLAUDE.md` is left alone when it exists, and nothing is written from a plain terminal.
+Both pass with zero errors. Leave the generated `extends` (including `shadcn`) and `ignorePatterns` intact. Replace the `latest` ranges in `devDependencies` with the versions `npm install` resolved (`npm ls ultracite oxlint oxfmt lefthook @shadcn/lint --depth=0`), so the hook and CI run the same binaries. `ultracite` must be ≥ 7.12. Create `CLAUDE.md` beside `AGENTS.md` as a one-line `@AGENTS.md` import (a symlink works on macOS and Linux but not Windows, and a copy drifts as soon as either file is edited). On the first `next dev` run from a coding agent's shell, Next 16.3 appends its managed `nextjs-agent-rules` block to `AGENTS.md`; content outside the markers is preserved, `CLAUDE.md` is left alone when it exists, and nothing is written from a plain terminal.
 
-## Phase 5.1: Wire @shadcn/lint into Oxlint
+## Phase 5.1: Enable ultracite/oxlint/shadcn
 
-`@shadcn/lint` is an Oxlint JS plugin that checks Tailwind `className` contracts against the design system. Install it in the package that owns `oxlint.config.ts`. This phase runs before the turbo move, so that is the current app directory (`{{name}}/`). After Phase 6 the same files live in `apps/web/`; if you are wiring this into an already-moved tree, `cd apps/web` and install there, never at the turborepo root.
+Ultracite 7.12 ships an opt-in `ultracite/oxlint/shadcn` preset on top of `@shadcn/lint`. It enables all six design-system rules at `error` with the upstream `allow: ["layout"]` policy, and relaxes the component-authoring rules inside `**/components/ui/**`. This phase runs before the turbo move, in `{{name}}/`. After Phase 6 the same files live in `apps/web/`; if you are wiring this into an already-moved tree, `cd apps/web` and edit there, never at the turborepo root.
 
-Requires Oxlint ≥ 1.80 (JS plugins) and Node ≥ 20.19. Do not pass `--js-plugins @shadcn/lint` to `ultracite init`, and do not extend `ultracite/oxlint/shadcn`: both enable the full six-rule suite. New scaffolds enable only the README Oxlint quickstart policy.
+Requires Ultracite ≥ 7.12, Oxlint ≥ 1.80 (JS plugins), and Node ≥ 20.19. Prefer the Phase 5 init flag. Do not fall back to `jsPlugins: ["@shadcn/lint"]` plus a hand-rolled starter-only `no-restyle` snippet.
 
-1. Bump Oxlint if needed, install the plugin, and pin:
-
-```bash
-npm install -D "oxlint@>=1.80" @shadcn/lint
-npm ls oxlint @shadcn/lint --depth=0
-```
-
-Replace the `oxlint` and `@shadcn/lint` ranges in `devDependencies` with the resolved versions, the same pin Phase 5 applied to `oxfmt` and `lefthook`.
-
-2. Register the plugin on the Ultracite-generated `oxlint.config.ts`. Keep the existing `extends` and `ignorePatterns`. Add `jsPlugins` (append `"@shadcn/lint"` if the array already exists). Enable only `no-restyle`, and turn it off in the UI component definition directory so those files can style themselves. With `--no-src-dir` and default shadcn aliases, that directory is `components/ui/**`; if `components.json` `aliases.ui` points somewhere else, use that path.
+1. Confirm `oxlint.config.ts` looks like this (framework import order may follow `--frameworks next react`). Keep `core`, `next`, and `react`; add `shadcn`. `jsPlugins: shadcn.jsPlugins` re-declares the plugin on the root config so Knip does not flag `@shadcn/lint` as unused.
 
 ```typescript
 import { defineConfig } from "oxlint";
 import core from "ultracite/oxlint/core";
 import next from "ultracite/oxlint/next";
 import react from "ultracite/oxlint/react";
+import shadcn from "ultracite/oxlint/shadcn";
 
 export default defineConfig({
-  extends: [core, react, next],
+  extends: [core, next, react, shadcn],
   ignorePatterns: core.ignorePatterns,
-  jsPlugins: ["@shadcn/lint"],
-  rules: {
-    "shadcn/no-restyle": ["error", { allow: ["layout"] }],
-  },
-  overrides: [
-    {
-      files: ["components/ui/**"],
-      rules: { "shadcn/no-restyle": "off" },
-    },
-  ],
+  jsPlugins: shadcn.jsPlugins,
 });
 ```
 
-Do not add `no-raw-colors`, `no-arbitrary-values`, `no-inline-styles`, `no-unknown-classes`, or `require-static-classes`. More rules: https://github.com/shadcn-ui/lint#rules
+If init ran without the flag, or `ultracite` was older than 7.12, upgrade (`npm install -D ultracite@latest`), install the plugin (`npm install -D @shadcn/lint`), and add the `shadcn` import, `extends` entry, and `jsPlugins` hoist yourself. Re-running `npx ultracite@latest init` with the same flags (including `--js-plugins @shadcn/lint`) also updates an existing config.
+
+The preset already turns `shadcn/no-restyle`, `shadcn/no-arbitrary-values`, and `shadcn/require-static-classes` off for `**/components/ui/**` (definitions must restyle). Do not duplicate that override when the default alias is in use. If `components.json` `aliases.ui` points elsewhere, add a matching override for that path and, if needed, `settings.shadcn.ui` on this root config (Oxlint does not merge `settings` from extended configs).
+
+2. Pin `@shadcn/lint` (and `oxlint` if you bumped it) to the resolved versions, the same pin Phase 5 applied to `ultracite`, `oxfmt`, and `lefthook`.
 
 3. Append this to `AGENTS.md` (outside any later Next-managed markers):
 
 ```md
 ## Design-system lint
 
-Oxlint loads `@shadcn/lint`. After UI changes, run `npx ultracite check`
-and fix `shadcn/no-restyle` findings. Call sites may add layout classes
-(`mt-4`, `w-full`); appearance belongs in `components/ui/`.
+Ultracite extends `ultracite/oxlint/shadcn` (`@shadcn/lint`). After UI
+changes, run `npx ultracite check`. Findings name the variant, token, or
+file to use instead. Autofix with `npx ultracite fix`; remaining
+diagnostics with `npx ultracite fix --codex` (or `--claude`) when that
+CLI is available. Call sites may add layout classes (`mt-4`, `w-full`);
+appearance belongs in `components/ui/`.
 ```
 
 4. Verify from this directory, not the parent:
@@ -361,7 +353,9 @@ and fix `shadcn/no-restyle` findings. Call sites may add layout classes
 npx ultracite check
 ```
 
-Zero errors. A plugin-load failure usually means Oxlint is older than 1.80, `@shadcn/lint` is not installed in this package, or `jsPlugins` was omitted.
+Zero errors. A plugin-load failure usually means Ultracite is older than 7.12, Oxlint is older than 1.80, `@shadcn/lint` is not installed in this package, or `shadcn` is missing from `extends`.
+
+Agents see design-system errors through the same Ultracite check that CI runs. `ultracite fix` applies mechanical autofixes; `ultracite fix --codex` (or `--claude`) hands the rest to the local agent CLI, file by file.
 
 ## Phase 6 prep: Move into apps/web/
 

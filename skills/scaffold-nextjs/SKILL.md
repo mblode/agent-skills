@@ -1,6 +1,6 @@
 ---
 name: scaffold-nextjs
-description: "Scaffolds a Next.js turborepo with Blode UI, icons, Ultracite, @shadcn/lint, workspace hooks, and GitHub/Vercel setup. Use when asked to \"create a Next.js project\", \"bootstrap a turborepo\", or \"start a new web app\". For a page in an existing app use ui-design; for a CLI use scaffold-cli."
+description: "Scaffolds a Next.js turborepo with Blode UI, icons, Ultracite (oxlint/shadcn), workspace hooks, and GitHub/Vercel setup. Use when asked to \"create a Next.js project\", \"bootstrap a turborepo\", or \"start a new web app\". For a page in an existing app use ui-design; for a CLI use scaffold-cli."
 compatibility: Requires a shell, Git, Node.js, pnpm, and package registry access.
 ---
 
@@ -8,7 +8,7 @@ compatibility: Requires a shell, Git, Node.js, pnpm, and package registry access
 
 Scaffold a Next.js turborepo with full tooling, GitHub, and Vercel deployment.
 
-- **IS:** bootstrapping a brand-new Next.js turborepo end to end: app creation, Blode UI, Ultracite and `@shadcn/lint`, turborepo conversion, GitHub, and Vercel.
+- **IS:** bootstrapping a brand-new Next.js turborepo end to end: app creation, Blode UI, Ultracite with `ultracite/oxlint/shadcn`, turborepo conversion, GitHub, and Vercel.
 - **IS NOT:** scaffolding a TypeScript CLI or npm package (use `scaffold-cli`), designing folder structure or module contracts for an existing app (use `codebase-architecture`), building a page inside an existing app, or choosing visual direction and palettes (use `ui-design`).
 
 The references encode the house stack and dependency order. Verify version-sensitive flags against the installed CLI and bundled documentation; update a proven incompatible template rather than forcing stale flags. Where a Next.js question comes up that the references do not answer, read the bundled docs at `node_modules/next/dist/docs/` in the app (they match the installed version) rather than training data.
@@ -17,7 +17,7 @@ The references encode the house stack and dependency order. Verify version-sensi
 
 | File | Read When |
 |------|-----------|
-| `references/app-setup.md` | Phase 2: create-next-app flags, TypeScript 7 upgrade, Instant Navigations, shadcn + Blode registry, icons, Agentation, Ultracite, `@shadcn/lint`, move into apps/web/ |
+| `references/app-setup.md` | Phase 2: create-next-app flags, TypeScript 7 upgrade, Instant Navigations, shadcn + Blode registry, icons, Agentation, Ultracite 7.12+ with `ultracite/oxlint/shadcn`, move into apps/web/ |
 | `references/turbo-configs.md` | Phase 6: root package.json, turbo.json, root lefthook.yml, .gitignore, knip.json, workspace scripts, next.config.ts, root and app AGENTS.md |
 | `references/deploy-and-launch.md` | Phase 7 and 8: GitHub, Vercel, CI workflow, metadataBase, verification, security.txt, favicon, OG image, validation checklist |
 
@@ -34,7 +34,7 @@ Scaffold progress:
 - [ ] Phase 3: Install Blode UI components and icons
 - [ ] Phase 4: Install Agentation
 - [ ] Phase 5: Install Ultracite
-- [ ] Phase 5.1: Wire @shadcn/lint into Oxlint
+- [ ] Phase 5.1: Enable ultracite/oxlint/shadcn
 - [ ] Phase 6: Convert to Turborepo
 - [ ] Phase 7: GitHub and Vercel setup
 - [ ] Phase 8: Pre-launch checklist
@@ -76,11 +76,11 @@ Agentation section of `references/app-setup.md`: install the package, patch `app
 
 ### Phase 5: Install Ultracite
 
-Ultracite section of `references/app-setup.md`: run `ultracite init` with the exact flags listed, then verify with `npx ultracite fix` and `npx ultracite check`. The `lefthook.yml` it writes is temporary; Phase 6 replaces it with a root-level one. Do not pass `--js-plugins @shadcn/lint` here.
+Ultracite section of `references/app-setup.md`: run `ultracite@latest init` with the exact flags listed, including `--js-plugins @shadcn/lint` (Ultracite ≥ 7.12). Verify with `npx ultracite fix` and `npx ultracite check`. The `lefthook.yml` it writes is temporary; Phase 6 replaces it with a root-level one.
 
-### Phase 5.1: Wire @shadcn/lint into Oxlint
+### Phase 5.1: Enable ultracite/oxlint/shadcn
 
-`@shadcn/lint` section of `references/app-setup.md`: bump `oxlint` to ≥ 1.80 if Ultracite left an older pin, install `@shadcn/lint` in the package that owns `oxlint.config.ts` (app root now, `apps/web` after Phase 6), register `jsPlugins`, and enable the starter `shadcn/no-restyle` policy with a `components/ui/**` override. Skip the full rule suite.
+`ultracite/oxlint/shadcn` section of `references/app-setup.md`: confirm init wrote `import shadcn from "ultracite/oxlint/shadcn"` into `extends` alongside core/next/react. If it did not, add that import (and `jsPlugins: shadcn.jsPlugins`). Do not hand-roll `jsPlugins: ["@shadcn/lint"]` or a starter-only `no-restyle` rule. The preset already turns `shadcn/no-restyle` off inside `**/components/ui/**`; add a matching override only when `aliases.ui` is a different path.
 
 ### Phase 6: Convert to Turborepo
 
@@ -89,7 +89,7 @@ Move the app into `apps/web/` (commands at the end of `references/app-setup.md`)
 1. Generate root `package.json`, `turbo.json`, `lefthook.yml`, `knip.json`, and `.gitignore` from the templates. Delete `apps/web/lefthook.yml`; git only reads the copy next to `.git`.
 2. Update `apps/web/package.json` scripts to the turbo-compatible block and remove its `prepare` script (the root one installs the hooks).
 3. Verify `apps/web/next.config.ts` still has `reactCompiler: true`, `cacheComponents: true`, and `partialPrefetching: true`.
-4. Write the root `AGENTS.md` and `CLAUDE.md` from the template. Keep the Phase 5.1 design-system lint paragraph in `apps/web/AGENTS.md` outside the Next-managed markers.
+4. Write the root `AGENTS.md` and `CLAUDE.md` from the template. Keep the Phase 5.1 design-system lint paragraph in `apps/web/AGENTS.md` outside the Next-managed markers, including `ultracite fix` / `ultracite fix --codex`.
 5. Run `npm install` from the root, then `npm run dev` once from the coding agent's shell. When Next 16.3 detects a coding agent in the environment it appends its managed `nextjs-agent-rules` block to `apps/web/AGENTS.md` (and creates `apps/web/CLAUDE.md` as `@AGENTS.md` if missing). Commit it. From a plain terminal nothing is written; that is fine, the block arrives on the agent's first run.
 6. Verify `npm run check`, `npm run build`, and `npx lefthook run pre-commit --all-files` pass from the root, then `npm run start -w web` and load the home page from the production build.
 
@@ -127,15 +127,15 @@ A `{{name}}` left in `package.json` fails `npm install` (invalid-name error); a 
 - `turbopack.root` is not needed here. Turbopack infers the workspace root from the lockfile; set it only when linked packages live outside the repo.
 - `next dev` appends a managed `<!-- BEGIN:nextjs-agent-rules -->` block to the `AGENTS.md` next to the `next` package (so `apps/web/`, not the root), and writes `CLAUDE.md` as `@AGENTS.md` only when neither file exists. It runs only when a coding agent is detected in the environment (`next/dist/server/lib/generate-agent-files.js`), so a plain terminal never triggers it. Reverting it only recreates the diff on the next agent run; commit it, and keep project instructions outside the markers.
 - `create-next-app --react-compiler` installs `babel-plugin-react-compiler` as a devDependency. With `experimental.turbopackRustReactCompiler` on it is unused; remove it after Phase 2.2 so nobody reads it as a requirement.
-- `ultracite init --skip-install` writes `check` and `fix` scripts, sets `"type": "module"`, and adds `oxlint`, `oxfmt`, and `lefthook` at `latest`. It writes no `prepare` script (that happens in the install step it skipped). Pin the three tools to the versions the first `npm install` resolves before committing, and let the root `prepare` own hook installation. `@shadcn/lint` needs Oxlint ≥ 1.80 (JS plugins) and Node ≥ 20.19; if the resolved `oxlint` is older, bump it in Phase 5.1 before registering `jsPlugins` or the plugin fails to load.
-- No ESLint or Prettier. Ultracite owns lint and format via Oxlint + Oxfmt; a stray `.eslintrc` makes the editor disagree with the lefthook pre-commit hook. Do not pass `--js-plugins @shadcn/lint` to `ultracite init`, and do not `extends` `ultracite/oxlint/shadcn`: both turn on the full six-rule suite. Register `jsPlugins: ["@shadcn/lint"]` and enable only `shadcn/no-restyle`.
-- Keep Ultracite's `extends` and `ignorePatterns`. Add `"@shadcn/lint"` to `jsPlugins` (append if the array already exists). Replacing `oxlint.config.ts` with the README `.oxlintrc.json` example drops `ultracite/oxlint/{core,next,react}`.
-- Turn `shadcn/no-restyle` off for `components/ui/**` (or the `aliases.ui` path in `components.json`). Without that override, the plugin reports the component files for styling themselves.
-- Run lint and format through the workspace scripts: root `npm run check` / `npm run fix` (turbo runs them inside `apps/web`), or `npx ultracite check` from `apps/web`. Running `ultracite`, `oxlint`, or `oxfmt` from the repo root finds no `oxlint.config.ts` there and lints with defaults, which disagrees with the hook. `@shadcn/lint` is in that same config, so a root run also skips the design-system rules.
+- `ultracite init --skip-install` writes `check` and `fix` scripts, sets `"type": "module"`, and adds `oxlint`, `oxfmt`, `lefthook`, and `@shadcn/lint` (the last from `--js-plugins`). It writes no `prepare` script (that happens in the install step it skipped). Pin those tools to the versions the first `npm install` resolves before committing, and let the root `prepare` own hook installation. Confirm `ultracite` is ≥ 7.12 (`npm ls ultracite --depth=0`); older CLIs reject `--js-plugins @shadcn/lint` or skip the preset. JS plugins need Oxlint ≥ 1.80 and Node ≥ 20.19; if the plugin fails to load, bump `oxlint` rather than dropping `shadcn` from `extends`.
+- No ESLint or Prettier. Ultracite owns lint and format via Oxlint + Oxfmt; a stray `.eslintrc` makes the editor disagree with the lefthook pre-commit hook. Pass `--js-plugins @shadcn/lint` to `ultracite init` (Ultracite ≥ 7.12). That is how 7.12 registers `ultracite/oxlint/shadcn`. Do not replace that preset with `jsPlugins: ["@shadcn/lint"]` plus a starter-only `shadcn/no-restyle` block.
+- Keep Ultracite's `extends` (`core`, `next`, `react`) and `ignorePatterns`, and add `shadcn`. Replacing `oxlint.config.ts` with a README `.oxlintrc.json` example drops the framework presets. Keep `jsPlugins: shadcn.jsPlugins` on the root config: Oxlint already loads the plugin from the preset, but Knip only reads `jsPlugins` off the root and otherwise flags `@shadcn/lint` as unused.
+- The preset turns `shadcn/no-restyle`, `no-arbitrary-values`, and `require-static-classes` off inside `**/components/ui/**`. Do not duplicate that override unless `components.json` `aliases.ui` points elsewhere; then add a matching override for that path or the plugin reports definition files for styling themselves.
+- Run lint and format through the workspace scripts: root `npm run check` / `npm run fix` (turbo runs them inside `apps/web`), or `npx ultracite check` from `apps/web`. Running `ultracite`, `oxlint`, or `oxfmt` from the repo root finds no `oxlint.config.ts` there and lints with defaults, which disagrees with the hook and skips the shadcn preset. Remaining design-system findings after `ultracite fix` can go to `npx ultracite fix --codex` (or `--claude`) from `apps/web`.
 - No manual git hooks. Lefthook owns them; husky or another hook manager double-runs or skips fixes.
 - `lefthook.yml` lives at the repo root, next to `.git`. A copy inside `apps/web/` is read only when lefthook is invoked from that directory, which the git hook never does. The root file scopes each job with `root: "apps/web/"` so staged paths are passed relative to the workspace, where `oxlint.config.ts` and `oxfmt.config.ts` live.
 - The hook runs `oxfmt` and `oxlint` as two jobs with their own globs, not `ultracite fix`. Ultracite exits non-zero when the staged set contains no lintable JS/TS file, so a CSS-only or Markdown-only commit fails the hook outright; two jobs let lefthook skip whichever has nothing to do. The `oxfmt` glob includes `md` and `mdx` so it inspects what `format:check` inspects.
-- No app dependencies in the root `package.json` (root holds only `turbo`, `ultracite`, and `lefthook`); they break workspace isolation and turbo cache keys. `@shadcn/lint` stays in `apps/web` with `oxlint.config.ts`. Pin the same `ultracite` version at the root and in `apps/web` so config resolution cannot drift.
+- No app dependencies in the root `package.json` (root holds only `turbo`, `ultracite`, and `lefthook`); they break workspace isolation and turbo cache keys. `@shadcn/lint` stays in `apps/web` with `oxlint.config.ts`. Pin the same `ultracite` version (≥ 7.12) at the root and in `apps/web` so config resolution cannot drift.
 - Never run `npx shadcn@latest add @blode/...` before `npx shadcn@latest registry add @blode=...`; the unregistered namespace makes the add fail.
 - Never import from `lucide-react`; `blode-icons-react` is Blode UI's icon library and mixed imports bundle two icon sets. `shadcn init` writes `"iconLibrary": "lucide"` into `components.json`; change it to `blode-icons-react` before adding components, and replace any generated `lucide-react` import paths.
 - Never create `apps/web/` by hand. Scaffold at the root first, then move it in Phase 6; hand-building skips create-next-app defaults (Tailwind wiring, alias config).
