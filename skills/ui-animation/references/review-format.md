@@ -20,7 +20,7 @@ Measure every animation in the diff against these; a violation is a finding. For
 2. **Frequency-appropriate.** Keyboard focus and repeated actions must respond immediately. Flag motion that delays task completion or creates distracting repeated travel; a brief nonblocking transition is not automatically a defect.
 3. **Responsive easing.** Entering/exiting elements use `ease-out` or a strong custom curve; built-in CSS easings are too weak for deliberate animation. Flag on sight: `ease-in` on any UI interaction, or weak built-in easing on a deliberate animation (it delays the moment the user watches most).
 4. **Sub-300ms UI.** UI animations stay under 300ms; scale duration with distance traveled. Flag on sight: UI duration > 300ms with no stated reason.
-5. **Origin and physical correctness.** Popovers, dropdowns, and tooltips scale from their trigger (`transform-origin`), not center; modals stay centered. Flag on sight: `transform-origin: center` on a trigger-anchored popover/dropdown/tooltip, or `scale(0)`/pure-fade entrances with no initial transform (start at `scale(0.85-0.97)` plus opacity).
+5. **Origin and physical correctness.** Popovers, dropdowns, and tooltips scale from their trigger (`transform-origin`), not center; modals stay centered. Flag on sight: `transform-origin: center` on a trigger-anchored popover/dropdown/tooltip, or `scale(0)`/pure-fade entrances with no initial transform (start at `scale(0.9-0.96)` plus opacity).
 6. **Interruptibility.** Rapidly-triggered or gesture-driven motion (toasts, toggles, drags) must retarget from its current state; prefer CSS transitions or springs over keyframes, which restart from zero. Flag on sight: keyframes on toasts, toggles, or anything added/triggered rapidly.
 7. **GPU-only properties.** Animate `transform` and `opacity` only. Flag on sight: animating `width`/`height`/`margin`/`padding`/`top`/`left`; `transition: all` (unbounded property animation); Framer Motion `x`/`y`/`scale` props on motion that runs while the page is busy; updating a CSS variable on a parent to drive a child transform (style recalc storm).
 8. **Accessibility.** Inspect generated hover gating, including Tailwind v4's built-in media query. Exercise reduced-motion behavior and the same keyboard/touch task. Flag spatial motion without an appropriate reduced-motion alternative.
@@ -51,7 +51,7 @@ Required first part of every review. Markdown table, one row per issue; never a 
 | `transform: scale(0)` | `transform: scale(0.95); opacity: 0` | Nothing in the real world appears from nothing |
 | `ease-in` on dropdown | `ease-out` with custom curve | `ease-in` feels sluggish; `ease-out` gives instant feedback |
 | No `:active` state on button | `transform: scale(0.97)` on `:active` with `transition-duration: 0s` | Buttons must feel responsive to press |
-| `transform-origin: center` on popover | `transform-origin: var(--radix-popover-content-transform-origin)` | Popovers scale from trigger (modals stay centered) |
+| `transform-origin: center` on popover | `transform-origin: var(--transform-origin)` | Popovers scale from trigger (modals stay centered) |
 
 ## Review checklist
 

@@ -34,6 +34,7 @@ description: Builds, reviews, and measures UI motion, including springs, gesture
 | [references/curve-fitting.md](references/curve-fitting.md) | Reverse-engineer: reading `fit_curves.py` output, spring vs bezier, judging fit error, asymmetric open/close |
 | [references/code-output.md](references/code-output.md) | Reverse-engineer: emitting code for CSS, Motion/Framer Motion, SwiftUI, React Native, UIKit |
 | [references/choreography.md](references/choreography.md) | Reverse-engineer: multi-element/multi-phase motion: staggers, blur-before-move, per-edge settling |
+| [references/live-tuning.md](references/live-tuning.md) | Dialling a curve in live when there is no reference to fit against: the DevTools bezier editor, retiming in the Animations panel, when a control-panel library earns a dependency |
 | [references/vocabulary.md](references/vocabulary.md) | Naming a motion effect the user describes vaguely ("what's it called when...") |
 
 ## Core rules
@@ -66,7 +67,7 @@ description: Builds, reviews, and measures UI motion, including springs, gesture
 - Avoid `filter` animation for core interactions; if unavoidable keep blur ≤ 20px (heavy blur is expensive, especially in Safari).
 - SVG: apply transforms on a `<g>` wrapper with `transform-box: fill-box; transform-origin: center`; without it they rotate/scale around the canvas origin. Line drawing, path morphing, and the Motion SVG origin override live in [references/svg-animation.md](references/svg-animation.md).
 - `transform: scale()` also scales children (icons, text, borders scale proportionally), unlike `width`/`height`: a feature for press feedback, but account for it when an inner element must stay fixed-size.
-- Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`), or every themed property animates at once.
+- Disable transitions during theme switches (`[data-theme-switching] * { transition: none !important }`), or every themed property animates at once. Force a reflow (`void document.body.offsetHeight`) after the flip and remove the override on the next frame, or use `next-themes` `disableTransitionOnChange`.
 
 ## Easing defaults
 
@@ -120,7 +121,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Spatial and sequencing
 
-- Popover `transform-origin` at the trigger (modals stay `center`), dialog/menu entrances from `scale(0.85-0.9)` not `scale(0)`, and 30-50ms staggers (total under 300ms, most important element leading). Full rules and code in [references/component-patterns.md](references/component-patterns.md) and [references/contextual-animations.md](references/contextual-animations.md).
+- Popover `transform-origin` at the trigger (modals stay `center`), dialog/menu entrances from `scale(0.9-0.96)` not `scale(0)` (small popovers at the low end, full dialogs at the high end: a large surface already travels far in absolute pixels), and 30-50ms staggers (total under 300ms, most important element leading). Full rules and code in [references/component-patterns.md](references/component-patterns.md) and [references/contextual-animations.md](references/contextual-animations.md).
 - **Paired elements rule:** elements that animate together (modal + overlay, tooltip + arrow, FAB + label) must share easing and duration. Mismatched timing is the usual cause of "something feels off".
 
 ## Accessibility
@@ -163,7 +164,7 @@ Animation progress:
 ```
 
 1. Answer the four questions in [references/decision-framework.md](references/decision-framework.md): animate? purpose? easing? speed?
-2. Pick duration from the easing defaults table above.
+2. Pick duration from the easing defaults table above. If the value is contested or the component is hard to reach, dial it live in the DevTools bezier editor rather than guessing, then bake the result into source ([references/live-tuning.md](references/live-tuning.md)).
 3. Choose implementation: CSS transition > WAAPI > spring > keyframe > JS.
 4. Load the reference for your component or technique.
 5. When reviewing, apply the strict posture in [references/review-format.md](references/review-format.md): measure against the ten standards, output the Before/After/Why table, then a tiered verdict ending in a Block/Approve decision.

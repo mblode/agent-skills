@@ -356,7 +356,7 @@ See also: `contextual-animations.md` § Contextual icon swaps for the Motion/Ani
 
 Origin-aware dropdown with open/close animations. JS handles close-state cleanup.
 
-See also: `component-patterns.md` § Popovers and dropdowns for Radix UI transform-origin and scale patterns.
+See also: `component-patterns.md` § Popovers and dropdowns for library transform-origin and scale patterns.
 
 ```html
 <div class="t-dropdown" data-origin="top-left">

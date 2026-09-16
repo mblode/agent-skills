@@ -47,9 +47,9 @@ Blur under 20px; heavy blur is expensive, especially in Safari.
 Scale in from the trigger point, not from center; the default `transform-origin: center` is wrong for popovers.
 
 ```css
-/* Radix UI */
+/* Base UI. Radix exposes the same thing as --radix-popover-content-transform-origin */
 .popover {
-  transform-origin: var(--radix-popover-content-transform-origin);
+  transform-origin: var(--transform-origin);
 }
 
 /* Data attribute fallback */
@@ -59,11 +59,11 @@ Scale in from the trigger point, not from center; the default `transform-origin:
 .popover[data-side="right"]  { transform-origin: center left; }
 ```
 
-Start at `scale(0.88)`, never `scale(0)`: nothing appears from nothing.
+Start at `scale(0.92)`, never `scale(0)`: nothing appears from nothing.
 
 ```css
 .menu {
-  transform: scale(0.88);
+  transform: scale(0.92);
   opacity: 0;
   transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
               opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);

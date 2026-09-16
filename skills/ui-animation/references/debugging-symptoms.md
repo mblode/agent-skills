@@ -43,8 +43,8 @@ Turn "this feels off" into a named cause, then make the smallest fix that addres
 
 | Check, in order | Fix |
 | --- | --- |
-| Entrance from `scale(0)` or a bare fade | Start from `scale(0.9-0.95)` plus opacity; nothing real appears from nothing, and a near-full start reads as "it was almost already there". |
-| Wrong `transform-origin` | Popovers, dropdowns, and tooltips scale from their trigger, not center (use the library's origin variable, e.g. `--radix-popover-content-transform-origin`). Slowed playback makes a wrong origin unmistakable. |
+| Entrance from `scale(0)` or a bare fade | Start from `scale(0.9-0.96)` plus opacity; nothing real appears from nothing, and a near-full start reads as "it was almost already there". |
+| Wrong `transform-origin` | Popovers, dropdowns, and tooltips scale from their trigger, not center (use the library's origin variable: `--transform-origin` in Base UI, `--radix-popover-content-transform-origin` in Radix). Slowed playback makes a wrong origin unmistakable. |
 | Crossfade shows two distinct overlapping states | Add `filter: blur(2px)` during the transition; blur bridges the gap so the eye reads one transforming object instead of two swapped ones. |
 | Sub-animations on different clocks | Unify the timing family so the component reads as one entity; one slow sub-animation breaks the whole thing. |
 | Enter and exit mismatched | Exit in the direction of entry, roughly 20% faster and simpler than the entrance; the user already decided, get out of the way. |
