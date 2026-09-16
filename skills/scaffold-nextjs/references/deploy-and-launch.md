@@ -139,8 +139,9 @@ After all phases, verify:
 - [ ] `npm run check` passes lint, format, and type checks from the root
 - [ ] `npx lefthook run pre-commit --all-files` passes from the root
 - [ ] The CI workflow ran green on the first pull request
-- [ ] `apps/web/AGENTS.md` ends with the Next-managed `nextjs-agent-rules` block (written on the first `next dev` from a coding agent) and is committed; `apps/web/CLAUDE.md` is the one-line `@AGENTS.md` import
-- [ ] `babel-plugin-react-compiler` is not in `apps/web/package.json`; `oxlint`, `oxfmt`, and `lefthook` are pinned, not `latest`
+- [ ] `apps/web/AGENTS.md` ends with the Next-managed `nextjs-agent-rules` block (written on the first `next dev` from a coding agent) and is committed; `apps/web/CLAUDE.md` is the one-line `@AGENTS.md` import; the Phase 5.1 design-system lint paragraph is present outside those markers
+- [ ] `babel-plugin-react-compiler` is not in `apps/web/package.json`; `oxlint` (≥ 1.80), `oxfmt`, `lefthook`, and `@shadcn/lint` are pinned, not `latest`
+- [ ] `apps/web/oxlint.config.ts` keeps the ultracite `extends`, lists `@shadcn/lint` in `jsPlugins`, enables `shadcn/no-restyle` with `{ allow: ["layout"] }`, and turns that rule off for `components/ui/**`
 - [ ] `metadataBase` is set to `https://{{domain}}` and `metadata.verification` carries the Search Console token
 - [ ] `git status` is clean after `npm run dev` (no regenerated files left uncommitted)
 - [ ] GitHub repo has initial commit pushed

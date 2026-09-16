@@ -22,12 +22,27 @@
         "Records the compatibility correction",
         "Verifies the resulting build"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Scaffold a Next.js turborepo with Blode UI and wire the house lint stack.",
+      "expected_output": "Ultracite Oxlint plus a lean @shadcn/lint starter policy after init, not the full ultracite shadcn preset.",
+      "files": [],
+      "assertions": [
+        "Does not pass --js-plugins @shadcn/lint to ultracite init",
+        "Installs @shadcn/lint in the package that owns oxlint.config.ts",
+        "Ensures oxlint is 1.80 or newer",
+        "Registers jsPlugins with @shadcn/lint without dropping ultracite extends",
+        "Enables only shadcn/no-restyle with allow layout",
+        "Turns shadcn/no-restyle off for components/ui/**"
+      ]
     }
   ],
   "routing": {
     "should_trigger": [
       "Scaffold a Next.js turborepo with Blode UI. Port 3000 belongs to an unrelated local project.",
-      "The installed Next.js rejects a flag in the scaffold reference. The current bundled documentation names its replacement."
+      "The installed Next.js rejects a flag in the scaffold reference. The current bundled documentation names its replacement.",
+      "Scaffold a Next.js turborepo with Blode UI and wire the house lint stack."
     ],
     "near_miss": [
       {
