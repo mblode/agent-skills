@@ -57,7 +57,7 @@ Seeing a skill trigger says Claude found it, not that it does the job; never tri
 - **Should-trigger:** 8-10 prompts a user would type when they need this skill, phrased differently each time and none quoting the description verbatim
 - **Near-miss:** 8-10 prompts that look adjacent but belong to a named sibling skill, or to no skill
 
-A near-miss that routes here is a boundary problem: sharpen the IS-NOT line and the "For X use `sibling`" clause in both descriptions. A should-trigger that misses is a vocabulary problem: add the words the prompt used. `skill-creator`'s description-tuning mode generates both sets, measures the hit rate, and proposes edits; a hand-kept JSONL of `{"prompt", "expected"}` pairs does the same job across a whole bundle.
+A near-miss that routes here is a boundary problem: sharpen the IS-NOT line and the "For X use `sibling`" clause in both descriptions. A should-trigger that misses is a vocabulary problem: add the words the prompt used, and take out a clause of equal weight so the description does not grow. Run both sets against the whole installed listing, not one skill in isolation: the failure the model actually sees is two descriptions claiming the same prompt, or a listing so long the host has trimmed the trigger clause off the end. `skill-creator`'s description-tuning mode generates both sets, measures the hit rate, and proposes edits; a hand-kept JSONL of `{"prompt", "expected"}` pairs does the same job across a whole bundle.
 
 ## Ablate Constraints
 
@@ -76,7 +76,7 @@ The test for an opinion is conformance, not regression: run the scenario with th
 
 ## Test Across Models
 
-Skills augment the model, so the same body lands differently on each one. Guidance written for a frontier model may underspecify a small fast model; guidance written for a small one clutters a frontier model and, on the newest frontier models, measurably lowers output quality. Anthropic's own migration guidance says prompts carried forward from prior models are often too prescriptive; that makes the constraint cut a correctness pass, not tidying.
+Skills augment the model, so the same body lands differently on each one. Guidance written for a frontier model may underspecify a small fast model; guidance written for a small one clutters a frontier model and, on the newest frontier models, measurably lowers output quality. More than one vendor's migration guidance now says the same two things: prompts carried forward from prior models are too prescriptive, and boundaries written to stop an older model make the newer one stop early. That makes the constraint cut a correctness pass, not tidying, and it makes "does the workflow run to completion" a scenario to run on the newest model, not only the smallest.
 
 Two axes decide the test matrix, and most skills only think about the first:
 

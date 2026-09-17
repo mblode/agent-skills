@@ -51,6 +51,34 @@
         "Does not delete an operational security contract on benchmark reputation alone",
         "Distinguishes authored scenarios from executed tests"
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "We have 38 skills installed and Codex has started truncating the descriptions. It keeps loading the database skill for anything that mentions a model. Fix the routing.",
+      "expected_output": "Reads every description as one listing in the order the host shows it, shortens descriptions instead of adding trigger words, replaces domain-noun category lists with the moment of use, gives colliding siblings a For X use Y edge, and verifies with should-trigger and near-miss prompts run against the full listing. Bodies are untouched.",
+      "files": [],
+      "assertions": [
+        "Concatenates or reads all installed descriptions together before editing any single one",
+        "Reduces total description length rather than lengthening the misrouting skill's description",
+        "Rewrites the database skill's trigger from a category list to a specific moment of use such as adding or changing a migration",
+        "Adds a disambiguating clause to both members of any colliding pair, not just one",
+        "Runs or authors a routing eval with near-miss prompts and reports the result against the whole listing",
+        "Does not edit SKILL.md bodies to fix a routing problem"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Our feature-implementation skill used to run a task to completion. Since we upgraded the model it does the first cut, writes a summary, and asks us to review before it will run the tests or fix anything. Here's the skill.",
+      "expected_output": "Locates the stop-for-review step and any blanket confirmation language, decides for each whether the decision is genuinely the user's, removes the ones that are not, and replaces them with a stated scope of done, completion evidence, and an explicit grant for the local test loop with the reason it is safe. Does not add step-by-step instructions to compensate.",
+      "files": [],
+      "assertions": [
+        "Identifies the specific step or sentence that instructs the model to stop for review after the first implementation",
+        "Distinguishes checkpoints that guard a user decision (deploy, spend, destructive action) from a generic review pause and keeps only the former",
+        "Adds a scope-of-done sentence covering implementation, running the affected tests, and fixing what the change broke",
+        "Grants the local test loop explicitly with the reason it is safe rather than only removing the restriction",
+        "Does not add prescriptive step lists or additional reminders to run tests",
+        "Runs validate.sh and reports its result"
+      ]
     }
   ],
   "routing": {
@@ -61,7 +89,9 @@
       "Why doesn't my skill trigger when I ask about deployments?",
       "Rightsize this skill, it's gotten bloated.",
       "Which frontmatter fields can I use if this has to work on claude.ai too?",
-      "Should I install the popular react-best-practices skill or write our own?"
+      "Should I install the popular react-best-practices skill or write our own?",
+      "Codex is cutting our skill descriptions short and picking the wrong one, can you tighten them?",
+      "Our skill stops after the first draft and asks for review, make it finish the job."
     ],
     "near_miss": [
       "Rewrite our CLAUDE.md so Codex and Cursor read the same instructions. (agents-md owns instruction files)",
