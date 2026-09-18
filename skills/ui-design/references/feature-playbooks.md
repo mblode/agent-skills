@@ -2,7 +2,7 @@
 
 Detect each feature from element + filename + route, then run its checks in order. All checks name a file in `rules/`; the category index is `rules/_sections.md`.
 
-**Also run the matching category checks.** Beyond the checks below, run the `rules/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, accessible names, error association; contrast ratios stay with axe); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any user-facing surface runs `mobile-*`. Motion has no rules here: an animated surface with a timing, easing, or gesture problem is a finding that names `ui-animation`. Category map: `rules/_sections.md`.
+**Also run the matching category checks.** Beyond the checks below, run the `rules/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, accessible names, error association, overlaid affixes; contrast ratios stay with axe); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`, `type-hover-weight-shift`; hover-only helper UI also runs `a11y-disabled-control-tooltip` and `a11y-tooltip-no-interactive`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any user-facing surface runs `mobile-*`. Motion has no rules here: an animated surface with a timing, easing, or gesture problem is a finding that names `ui-animation`. Category map: `rules/_sections.md`.
 
 ## Table of contents
 
@@ -87,6 +87,7 @@ Checks:
 3. **`states-layout-shift`**: typing pause must not flash empty or collapse the list. **fix-this-sprint.**
 4. **`microcopy-vague-error`**: search service down → "Search is temporarily unavailable, here's [recent items]" not "Error". **fix-this-sprint.**
 5. **`focus-on-dynamic-content`**: `aria-live="polite"` on result count for screen readers. **fix-this-sprint.**
+6. **`forms-input-affix-hit-target`**: a search icon overlays the field; it is not a flex sibling that steals the click. **backlog.**
 
 ## Form (multi-step or long single page)
 
@@ -99,6 +100,7 @@ Checks:
 3. **`forms-use-form-status-misuse`**: `useFormStatus` must be in a child of `<form>`, not the same component. **release-blocker** (silent runtime bug).
 4. **`microcopy-vague-error`**: "Email already in use, sign in instead" beats "Invalid". **fix-this-sprint.**
 5. **`states-layout-shift`**: async-loaded form (e.g. user profile) reserves field layout while loading. **fix-this-sprint.**
+6. **`forms-input-affix-hit-target`**: search, currency, and unit marks overlay the field; they are not flex siblings that steal clicks. **backlog.**
 
 ## List / Feed / Inbox
 
@@ -111,6 +113,7 @@ Checks:
 3. **`states-no-error-state`**: fetch failure has retry + cause. **fix-this-sprint.**
 4. **`focus-on-dynamic-content`**: keyboard arrow navigation works; focus visible on row. **fix-this-sprint.**
 5. **`interaction-target-size`**: row tap targets ≥44 px on mobile. **fix-this-sprint.**
+6. **`type-hover-weight-shift`**: selected or hover rows do not bump `font-weight` and reflow neighbours. **backlog.**
 
 ## Dashboard
 

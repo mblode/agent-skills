@@ -57,6 +57,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 
 - **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 27 rules for tool parity, approval gates, and escape hatches, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
+- **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, and Is It Agent Ready findings on public sites and docs.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
 - **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
 

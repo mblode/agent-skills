@@ -20,6 +20,10 @@ Answer these four questions in order before writing animation code. SKILL.md car
 | Occasional | Modals, drawers, toasts | Standard animation |
 | Rare / first-time | Onboarding, feedback forms, celebrations | Can add delight |
 
+**Novelty budget.** Keep most of a surface familiar: about 90% expected motion (or none) and 10% novel treatment. Do not stack high-novelty beats in consecutive sections; put quiet structure between them.
+
+**One-shot only.** First-run staggers, intro morphs, and login flourishes must not replay on every visit. Gate them with a cookie, local flag, or rewrite so a reload is instant.
+
 ## 2. What is the purpose?
 
 Answer "why does this animate?" before writing code.

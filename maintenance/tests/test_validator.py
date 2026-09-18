@@ -78,6 +78,17 @@ class ValidatorContract(unittest.TestCase):
             self.assertEqual(code, 1)
             self.assertTrue(any(r[1] == 'FAIL' and r[3] == 'eval-scenarios' for r in rows))
 
+    def test_unreferenced_markdown_is_unreachable(self):
+        reference = self.skill / 'references/lost.md'
+        reference.parent.mkdir()
+        reference.write_text('# Lost\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 1)
+        self.assertTrue(any(r[1] == 'FAIL' and r[3] == 'all-md-reachable' for r in rows))
+        with self.md.open('a') as file:
+            file.write('\nSee lost.md in the index.\n')
+        self.assertEqual(self.run_validator()[0], 0)
+
 
 if __name__ == '__main__':
     unittest.main()

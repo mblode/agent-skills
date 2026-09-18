@@ -22,8 +22,8 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 
 **Impact:** CRITICAL
 **Default tier:** release-blocker for submit and data-loss bugs, fix-this-sprint elsewhere
-**Rules:** 8
-**Description:** Forms are conversion paths, and form-handling bugs are the most common ship-blockers. Labels, autocomplete, paste and IME support, error association, and mobile input sizing decide whether users can complete a form at all. React 19's `useActionState`, `useFormStatus`, and `useOptimistic` address the behavior half only if used correctly: form clears on validation error, double-submit, `useFormStatus` misuse with its always-false bug.
+**Rules:** 9
+**Description:** Forms are conversion paths, and form-handling bugs are the most common ship-blockers. Labels, autocomplete, paste and IME support, error association, mobile input sizing, and overlaid affixes decide whether users can complete a form at all. React 19's `useActionState`, `useFormStatus`, and `useOptimistic` address the behavior half only if used correctly: form clears on validation error, double-submit, `useFormStatus` misuse with its always-false bug.
 
 ## 2. States (states)
 
@@ -50,8 +50,8 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 
 **Impact:** CRITICAL
 **Default tier:** mostly release-blocker
-**Rules:** 8
-**Description:** Semantic structure, accessible names, non-color state cues, media alternatives, and document language. Failures exclude assistive-tech users entirely, so run this category first. Contrast ratios are not checked here: axe-core computes them, so run it rather than eyeballing hex values.
+**Rules:** 10
+**Description:** Semantic structure, accessible names, non-color state cues, media alternatives, document language, and tooltip contracts. Failures exclude assistive-tech users entirely, so run this category first. Contrast ratios are not checked here: axe-core computes them, so run it rather than eyeballing hex values.
 
 ## 6. Keyboard and Interaction (interaction)
 
@@ -92,8 +92,8 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 
 **Impact:** HIGH
 **Default tier:** mostly fix-this-sprint
-**Rules:** 1
-**Description:** Surface-level readable floor for body type. Pairing, brand, measure, leading, and display type belong to the typography-audit skill.
+**Rules:** 2
+**Description:** Surface-level readable floor for body type, plus hover/selected weight shifts that reflow chrome. Pairing, brand, measure, leading, and display type belong to the typography-audit skill.
 
 ## 12. Layout and Resilience (layout)
 
@@ -126,4 +126,4 @@ These pairings often co-fire. Emit both findings with the same `surface` to make
 
 ---
 
-Total: 48 rules across 14 categories.
+Total: 52 rules across 14 categories.

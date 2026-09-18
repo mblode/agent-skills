@@ -25,7 +25,7 @@ Seek useful independent reviews, demonstrations, research and community contribu
 
 ## Optional machine-readable surfaces
 
-`llms.txt` and Markdown alternatives can help tools that use them. They are not Google ranking requirements or evidence of citations. Add them for a real consumer and keep them aligned with the visible source rather than duplicating a second content system.
+`llms.txt` and Markdown alternatives can help tools that use them. They are not Google ranking requirements or evidence of citations. Add them for a real consumer and keep them aligned with the visible source rather than duplicating a second content system. Mintlify Agent Score, AFDocs, and Is Agentic scorecards belong to `agent-ready`; this file is crawler policy, canonicals, and how Next.js should cache the twin.
 
 Prefer an explicit Markdown URL when content negotiation adds unnecessary cache complexity. If negotiation is required, honor Accept quality values, including `q=0`, preserve required Vary fields on both representations, and verify actual CDN behavior in both request orders. Next may replace Vary on framework-generated HTML; do not claim cache safety from a header set only on the Markdown response. Keep canonical and indexing policy intentional for alternate URLs.
 

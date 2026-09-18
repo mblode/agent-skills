@@ -142,9 +142,18 @@ validate_skill() {
   orphans=""
   while IFS= read -r -d '' f; do
     base="$(basename "$f")"
-    # -F so a dot in the filename is a literal, not a regex wildcard.
-    find "$skill_dir" -maxdepth 1 -name '*.md' -exec grep -qF "$base" {} + 2>/dev/null \
-      || orphans="$orphans $base"
+    named=0
+    # Grep each root .md itself. `find -exec grep {} +` hits ARG_MAX (and
+    # sandboxes that deny sysconf(_SC_ARG_MAX)), which made every file look
+    # unreachable even when SKILL.md named it. -F so a dot is literal.
+    for root_md in "$skill_dir"/*.md; do
+      [ -f "$root_md" ] || continue
+      if grep -qF -- "$base" "$root_md"; then
+        named=1
+        break
+      fi
+    done
+    [ "$named" -eq 1 ] || orphans="$orphans $base"
   done < <(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' -print0 2>/dev/null)
   check house all-md-reachable "unreachable from SKILL.md or a root track file:$orphans" \
     "$(printf '%s' "$orphans" | wc -w | tr -d ' ')"

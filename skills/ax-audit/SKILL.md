@@ -8,7 +8,7 @@ description: Audits agentic products for tool parity, authority, approval payloa
 Feature-level reviewer for apps where an agent acts for the user. One question: **does it earn trust, and where does it break?**
 
 - **IS:** rules-based audit of agentic surfaces (chat, tool execution, config, dashboards) across architecture (`rules-arch/`) and trust (`rules-ax/`), ending in a ship-readiness verdict plus an AX Relationship Summary.
-- **IS NOT:** traditional frontend UX (use `ui-design` Audit mode); developer-facing API, CLI, or type ergonomics (use `dx-audit`); agent instruction files (use `agents-md`); what the product should do before it exists (use `product-design`).
+- **IS NOT:** traditional frontend UX (use `ui-design` Audit mode); developer-facing API, CLI, or type ergonomics (use `dx-audit`); public site or docs agent scores (use `agent-ready`); agent instruction files (use `agents-md`); what the product should do before it exists (use `product-design`).
 
 No agentic features in scope? Stop. AX rules against forms and lists are noise.
 
@@ -122,6 +122,7 @@ Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evid
 
 - `ui-design` Audit mode: traditional frontend UX around agentic surfaces; run both on agentic feature PRs
 - `dx-audit`: same files, different reader. This skill asks whether an agent can operate and recover; `dx-audit` asks whether a human adopting the API, CLI, or types finds it ergonomic
+- `agent-ready`: whether public docs and HTTP APIs are discoverable to coding agents; this skill audits in-product agent UX
 - `product-design`: what the agentic feature should do, before this audit
 - `agents-md`: CLAUDE.md / AGENTS.md instruction files
 

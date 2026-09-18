@@ -41,6 +41,7 @@ The threshold is doing the work here, and that is deliberate. A single hero grad
 - **A shared decorative component used in 3 or more places is a brand system, not a one-off.** Check with `rg -l 'from .*GlowBackground'` before reporting. A `<GridPattern />` that appears on every section of the site is the visual language of the product, and the count that matters is 1 (the component), not the number of call sites. Skip it.
 - **Charts, illustrations, and canvas backgrounds** are content rendered as layers.
 - **Blur used for a real effect,** such as a frosted sticky header sitting over scrolling content, has an obvious job.
+- **One faint grain layer that hides banding** (`guidelines/materials.md`) is a surface treatment, not atmosphere. Count it as the one allowed layer; extra noise stacks still fail.
 
 ## Fix
 

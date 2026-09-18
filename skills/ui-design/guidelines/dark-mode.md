@@ -9,6 +9,7 @@ Covers: dark-mode styling, light-to-dark conversion, contrast audits, dark-mode 
 - Default dark mode to the OS `prefers-color-scheme` setting (Tailwind's built-in `dark:` behavior); add a manual toggle only when the user explicitly asks
 - Remove all shadows in dark mode: use `dark:shadow-none`
 - On dark-mode-only sites, add `scheme-only-dark` to `<html>` or the top-level element: ensures native elements (scrollbars, form controls, `color-scheme`) render in dark mode
+- Optical compensation: light text on dark reads heavier than the same weight on light. Prefer the existing face at the same weight with `-webkit-font-smoothing: antialiased` (owned in typography-audit `font-rendering`) rather than dropping below 400. If a display line still looks overweight, tighten tracking slightly instead of inventing a lighter cut.
 
 ## Component Rules
 

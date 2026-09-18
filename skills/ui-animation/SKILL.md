@@ -1,11 +1,11 @@
 ---
 name: ui-animation
-description: Builds, reviews, and measures UI motion, including springs, gestures, scroll effects, and curve fitting from recordings. Use when asked to "add animation", "match this easing", "reverse engineer this motion", or find animation opportunities. For action semantics use product-design; for visual layout use ui-design.
+description: Builds, reviews, and measures UI motion, including springs, gestures, scroll effects, curve fitting from recordings, and sparse interface sound. Use when asked to "add animation", "match this easing", "reverse engineer this motion", "add a click sound", or find animation opportunities. For action semantics use product-design; for visual layout use ui-design.
 ---
 
 # UI Animation
 
-- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, Motion), sweeping an interface for the moments that would genuinely benefit from motion, measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, and naming a described motion effect (reverse-lookup vocabulary).
+- **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, Motion), sweeping an interface for the moments that would genuinely benefit from motion, measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, naming a described motion effect (reverse-lookup vocabulary), and gating sparse interface sound.
 - **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design` Direction mode), auditing a whole page's UI quality (use `ui-design` Audit mode), or named text-effect specs (use the external `animate-text` skill where installed).
 
 ## Routing boundary
@@ -36,6 +36,7 @@ description: Builds, reviews, and measures UI motion, including springs, gesture
 | [references/choreography.md](references/choreography.md) | Reverse-engineer: multi-element/multi-phase motion: staggers, blur-before-move, per-edge settling |
 | [references/live-tuning.md](references/live-tuning.md) | Dialling a curve in live when there is no reference to fit against: the DevTools bezier editor, retiming in the Animations panel, when a control-panel library earns a dependency |
 | [references/vocabulary.md](references/vocabulary.md) | Naming a motion effect the user describes vaguely ("what's it called when...") |
+| [references/interface-sfx.md](references/interface-sfx.md) | Click sounds, interface audio, UI SFX, haptic-plus-sound, or "why is the web afraid of sound" |
 
 ## Core rules
 
@@ -128,6 +129,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 - Gate hover (motion and paint) behind `@media (hover: hover) and (pointer: fine)`, or touch devices replay hover on tap. Inspect the generated CSS before adding a gate; Tailwind v4 already wraps `hover:` in `@media (hover: hover)`.
 - During direct manipulation, keep the element locked to the pointer with no easing; add easing only after release.
+- Optional interface SFX: sparse, gesture-unlocked, additive confirmation only. See [references/interface-sfx.md](references/interface-sfx.md).
 
 ## Performance
 
@@ -178,7 +180,7 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 - Slow to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.
 - Test touch interactions on real devices; simulators under-report gesture and hover-on-tap issues.
-- Honor `prefers-reduced-motion`: replace spatial travel and looping effects with immediate state changes or restrained fades, then exercise the same task in that mode.
+- Honor `prefers-reduced-motion`: replace spatial travel with immediate state changes or restrained fades. Pause looping decorations with `animation-play-state: paused` (do not yank them with `display: none`). Keep explicit user-triggered feedback. Exercise the same task in that mode.
 
 ## Discovery workflow
 
@@ -219,6 +221,10 @@ Reverse-engineer progress:
 - Measure open and close as separate clips and report two curves; never fit one and reuse it reversed (see `references/choreography.md`). Treat a fit `error` above 0.08 as suspect.
 
 Maintenance only: when changing Discovery routing or the gate, run the scenarios in `evaluations/` as a regression rubric. They never load during a user task.
+
+## Sources
+
+Interface SFX gating taken from Craft (gustavo-fior) and Raphael Salaja's web-sound writing. Novelty 90/10 split, one-shot intro gating, and `animation-play-state` on loops taken from Rauno Freiberg. Rejected vendoring emilkowalski/skills and gustavo-fior/craft: trigger collision with this skill. Clip-path and proportional scale already lived here.
 
 ## Related skills
 

@@ -12,7 +12,7 @@ Owns everything that touches the built artifact: pick the visual direction, impl
 
 ## Contents
 
-- [product-design, ui-design, or ui-animation?](#product-design-ui-design-or-ui-animation)
+- [Routing boundary](#routing-boundary)
 - [Modes](#modes)
 - [Direction mode](#direction-mode)
 - [Extract mode](#extract-mode)
@@ -22,6 +22,7 @@ Owns everything that touches the built artifact: pick the visual direction, impl
 - [Quality Bar](#quality-bar)
 - [Verify](#verify)
 - [Gotchas](#gotchas)
+- [Sources](#sources)
 - [Related skills](#related-skills)
 
 ## Routing boundary
@@ -214,13 +215,29 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - Reporting one issue from several rules inflates the count and splits the fix. Keep the most concrete framing: "missing error state" beats "the page is hard to use".
 - The suppression comment is `ui-audit-ignore:` even though this skill is named `ui-design`. It is spelled that way in users' repositories, and renaming it would silently un-suppress every suppression anyone has written.
 
+## Sources
+
+Taken as compact audit rules and build bullets, not as vendored skills:
+
+- Rauno Freiberg, [Web Interface Guidelines](https://interfaces.rauno.me): disabled-control tooltips, hover tooltips without interactive content, overlaid input affixes, stable hover weight, immediate toggles, `user-select` on controls.
+- Jakub Krehel and Gustavo Fior craft notes: OKLCH ramps, optical compensation on dark surfaces, faint grain against banding, squircles on icon tiles only. Nested radius, hit areas, interruptible motion, and image outlines already lived in this collection.
+- Paco Coursey: theme-toggle transition gating already lived in `ui-animation`. SVG-plus-backdrop blur stays in `materials.md`.
+
+Rejected (same trigger as skills already in this repo, so installing them would reconcile two owners):
+
+- `npx skills add jakubkrehel/skills` (`better-ui`, `better-typography`, `better-interface`)
+- `npx skills add emilkowalski/skill` (`emil-design-eng`, `animate`, `review-animations`)
+- `npx skills add gustavo-fior/craft` (`craft-design-engineering`)
+
+Taste essays (Developing Taste, The Concept of Taste) and Disney's 12 principles were left out: they are generic coaching the model already has. Benji Taylor's Agentation belongs with `ax-audit` when a product is annotating a UI for agents, not with visual polish.
+
 ## Related skills
 
 - `product-design`: what the interface should do, decided before this skill builds or verifies it.
 - `ui-verification`: boots the app in a browser and reproduces these findings as measurements. This skill decides what is wrong and what tier it is; that one decides whether it is actually there.
 - `pr-reviewer`: correctness and code quality in the same diff; this skill covers only user-facing quality.
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
-- `typography-audit`: deep typography (pairing, OpenType systems, measure, leading, display type); the `type-` rule here is the readable-floor check.
+- `typography-audit`: deep typography (pairing, OpenType systems, measure, leading, display type); the `type-` rules here are the readable-floor check and hover-weight reflow.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics).
 - `copywriting`: landing-page copy, message match, persuasion frameworks.
 - `seo`: meta descriptions and page titles.

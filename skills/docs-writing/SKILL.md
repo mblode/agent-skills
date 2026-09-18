@@ -6,7 +6,7 @@ description: Writes and audits technical docs with Diataxis type gating, runnabl
 # Documentation Writing
 
 - **IS:** writing and auditing technical documentation quality (Diataxis doc types, voice, structure, clarity, runnable code, formatting, navigation, content hygiene, agent-readable docs) for docs sites, API references, documentation-site tutorials, how-to docs, and existing READMEs.
-- **IS NOT:** editorial blog tutorials or articles (use the external `ghostwriter` skill with platform `blog`), a README from scratch or a whole-README rewrite (use `readme-creator`; a README that needs its prose fixed in place stays here), AGENTS.md or CLAUDE.md instructions (use `agents-md`), marketing and landing-page copy (use `copywriting`), or the product's own error strings and CLI output (use `dx-audit`; this skill covers the docs that describe them).
+- **IS NOT:** editorial blog tutorials or articles (use the external `ghostwriter` skill with platform `blog`), a README from scratch or a whole-README rewrite (use `readme-creator`; a README that needs its prose fixed in place stays here), AGENTS.md or CLAUDE.md instructions (use `agents-md`), marketing and landing-page copy (use `copywriting`), public agent-readiness scorecards (use `agent-ready`), Next.js `llms.txt`/markdown routes (use `seo`), or the product's own error strings and CLI output (use `dx-audit`; this skill covers the docs that describe them).
 
 ## Mode dispatch
 
@@ -123,7 +123,8 @@ For the full rule list per category, read `rules/_sections.md`. The `*-defaults.
 - `agents-md`: AGENTS.md/CLAUDE.md instruction files (execution-first, not reader-facing docs).
 - `copywriting`: marketing, landing-page, and product copy.
 - `dx-audit`: the product's own error messages, CLI output, and API ergonomics; this skill covers how the docs describe them.
-- `seo`: implementing `llms.txt`, AI-crawler policy, and Markdown routes in a Next.js App Router site; `nav-agent-readable` says what the docs should expose, that skill builds it.
+- `agent-ready`: Mintlify/AFDocs, Is Agentic, and Is It Agent Ready contracts; `nav-agent-readable` is the content rule
+- `seo`: crawler policy, sitemaps, ranking, and Next.js `llms.txt`/markdown routes that `nav-agent-readable` requires
 - Optional external `ghostwriter` where installed: editorial tutorials, how-to articles, thought leadership, and long-form posts, drafted from the `blog` platform profile.
 - Optional external `blodemd` where installed: scaffolds/deploys MDX docs sites; this skill governs content quality inside them.
 

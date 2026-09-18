@@ -1,0 +1,63 @@
+{
+  "skill_name": "agent-ready",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Current Agent Score: 87/100. Warnings: llms.txt directive buried past 50% on some pages; 1/2 pages support .md URLs; Accept: text/markdown returns markdown with the wrong Content-Type; content starts at 17%; llms.txt covers 0/2 sitemap doc pages. Propose concrete edits grouped by check. Do not invent missing pages.",
+      "expected_output": "Fixes grouped by AFDocs check with exact directive markup, .md/Content-Type headers, coverage regeneration, and no invented API or CLI.",
+      "files": [],
+      "assertions": [
+        "Groups changes by the named AFDocs checks",
+        "Places the llms.txt directive in the HTML body near the top",
+        "Sets Content-Type to text/markdown for Accept negotiation",
+        "Does not invent documentation pages that were not in the report or repo"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Improve how ready https://example.com/docs is for agents. Is Agentic 93/100. Failures: JSON error responses, no typed error model in OpenAPI, no versioning policy, no rate-limit headers. Partial: docs not linked from homepage, operationIds present but schemas untyped. Inspect the existing codebase before changing files.",
+      "expected_output": "Inspects routes and OpenAPI first, implements RFC 9457 errors, typed 4xx/5xx schemas, a declared /api/v1 or version header, RateLimit headers, and homepage/llms.txt links without adding a fake CLI.",
+      "files": [],
+      "assertions": [
+        "Inspects existing API or OpenAPI before adding endpoints",
+        "Uses a JSON problem or typed error schema for 4xx and 5xx",
+        "Declares versioning and rate-limit headers rather than only describing them in prose",
+        "Does not publish a CLI package unless one already exists or the user asked for one"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Current Agent Score: 87/100. Warnings: llms.txt directive buried past 50% on some pages; 1/2 pages support .md URLs.",
+      "Improve how ready https://blode.co/iconsmith is for agents. Is Agentic 93/100. JSON error responses failed.",
+      "Paste this isitagentready report and fix the failing checks.",
+      "Fix llms.txt coverage so AFDocs stops failing.",
+      "Make this documentation site agent-ready.",
+      "Mintlify score is 87, implement the markdown negotiation warning.",
+      "npx afdocs check failed content-negotiation and llms-txt-coverage.",
+      "Add RFC 9457 error bodies and RateLimit headers to the public API from this is-agentic report."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Audit this explanation page: it explains why transactions provide atomicity, has no quickstart, and links to /guides/transactions for usage.",
+        "expected": "docs-writing"
+      },
+      {
+        "prompt": "Audit my CLI help text and piped JSON output.",
+        "expected": "dx-audit"
+      },
+      {
+        "prompt": "Does this chat agent approval gate earn trust?",
+        "expected": "ax-audit"
+      },
+      {
+        "prompt": "Why did organic traffic drop after the migration?",
+        "expected": "seo"
+      },
+      {
+        "prompt": "Write a README from scratch for this CLI.",
+        "expected": "readme-creator"
+      }
+    ]
+  }
+}

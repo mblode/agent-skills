@@ -43,6 +43,7 @@ Covers: inputs, selects, textareas, checkboxes, radio buttons, toggles, search b
 - Every `<input>`, `<select>`, and `<textarea>` must have a `<label>` associated via `id`/`for`, or an `aria-label`.
 - Always set an explicit `type` on `<button>`: `type="submit"` inside forms, `type="button"` otherwise.
 - For ecommerce/checkout forms where the field purpose is obvious from context, use `placeholder` with `aria-label` instead of visible `<label>` elements; still use section headings (e.g. "Shipping address", "Payment") to group related fields.
+- Prefix/suffix icons (search, currency, units) must be absolutely positioned on top of the input with matching padding so the whole control is one hit target; clicking the icon focuses the field. Do not place the icon as a sibling that splits the click target. Audit rule: `forms-input-affix-hit-target`.
 
 ## Selects
 
@@ -117,6 +118,7 @@ Covers: inputs, selects, textareas, checkboxes, radio buttons, toggles, search b
 ## Toggles
 
 - Native `<input type="checkbox">`, CSS-only state (no JS class toggling), every class required, label via `id`/`for` or `aria-label`.
+- A toggle takes effect immediately on change. Do not require a separate Save to apply a binary preference; Save is for multi-field forms.
 - Replace `{brand}` and `{gray}` with the appropriate brand/gray colors.
 - Use `w-9` as the default size; only adjust the width to make it larger or smaller. Larger on mobile, e.g. `w-11 sm:w-9`.
 - Remove all `dark:` classes if the site has no dark mode; for always-dark sites, use the `dark:` values as the base classes and remove the `dark:`-prefixed versions.

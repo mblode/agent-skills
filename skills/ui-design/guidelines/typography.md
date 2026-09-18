@@ -23,3 +23,4 @@ Covers: text sizes, line heights, heading styles, font weights, tracking, text w
 - Constrain text width with `max-w-[*ch]` directly on the element: see [Heading Groups](./heading-groups.md) for values per `text-*` size.
 - When a project uses Inter, use the official variable font (`InterVariable`) with `font-display: swap`; enable useful OpenType features through `font-feature-settings` (for example `cv02`, `cv03`, `cv04`, `cv11`, `ss01`, `ss03`). Do not introduce Inter merely because it is a familiar UI default.
 - Always read [Custom Fonts](./custom-fonts.md) when using custom fonts.
+- Do not change `font-weight` on hover or selected states of controls or nav items: the width shift reflows adjacent text. Change color, opacity, or underline instead. Audit rule: `type-hover-weight-shift`.

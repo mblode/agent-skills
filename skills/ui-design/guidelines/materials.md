@@ -1,6 +1,6 @@
 # Materials
 
-Covers: translucent chrome, backdrop-filter layers, material weight as hierarchy, vibrancy text legibility, scroll edge effects, and reduced-transparency fallbacks. Approximates Apple-style materials on the web.
+Covers: translucent chrome, backdrop-filter layers, material weight as hierarchy, vibrancy text legibility, scroll edge effects, grain against banding, and reduced-transparency fallbacks. Approximates Apple-style materials on the web.
 
 - Build nav bars, toolbars, and sheets as translucent layers, `backdrop-filter: blur() saturate()` over a semi-transparent background, with content scrolling underneath, rather than opaque bars that consume a fixed strip. A bright top border reads as light catching the material.
 - Material weight encodes hierarchy: darker, heavier materials separate structural regions (sidebars); lighter materials draw attention to interactive elements (buttons). Never stack a light translucent surface on another translucent surface: legibility collapses.
@@ -10,6 +10,8 @@ Covers: translucent chrome, backdrop-filter layers, material weight as hierarchy
 - Scroll edge effects, not hard dividers. Instead of a 1px border under a sticky header, fade a small blur or gradient mask where content meets floating chrome, only where floating UI actually overlaps content.
 - Materialize, don't just fade. For glass or blur surfaces, animate blur radius and scale together on enter and exit, so the surface reads as a real material arriving rather than a plain opacity fade.
 - Provide fallbacks: `@media (prefers-reduced-transparency: reduce)` raises background opacity and drops the blur; `@media (prefers-contrast: more)` uses a near-solid background with a defined, contrasting border.
+- Grain vs banding: a very faint noise overlay (`pointer-events-none`, `aria-hidden`) hides banding from large blurs and stretched gradients. One layer, low opacity. Do not stack multiple noise layers (see `slop-decoration-no-role`).
+- Large `blur()` / `backdrop-filter` values are expensive; prefer smaller blur plus a solid or gradient underlay.
 
 ```css
 .toolbar {

@@ -23,12 +23,24 @@
         "Does not redesign the checkout during audit",
         "Keeps unmeasured rendered candidates unknown, including in passed or rejected findings; does not infer two-dimensional touch-target size from minimum height alone."
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Audit this settings row: a disabled Invoice button wrapped in a hover Tooltip that says you need billing access. Report only.",
+      "expected_output": "Flags a11y-disabled-control-tooltip; does not treat the hover hint as an accessible explanation.",
+      "files": [],
+      "assertions": [
+        "Names a11y-disabled-control-tooltip",
+        "Leaves source unchanged because the request is report-only",
+        "Does not recommend pointer-events-none on the button as the fix"
+      ]
     }
   ],
   "routing": {
     "should_trigger": [
       "Improve the spacing of one existing settings panel. It has consistent tokens but no design-system.md.",
-      "Is this existing checkout ready to ship? Return a review only. A rendered-rule candidate needs browser evidence but no browser is connected."
+      "Is this existing checkout ready to ship? Return a review only. A rendered-rule candidate needs browser evidence but no browser is connected.",
+      "Audit this settings row: a disabled Invoice button wrapped in a hover Tooltip that says you need billing access. Report only."
     ],
     "near_miss": [
       {

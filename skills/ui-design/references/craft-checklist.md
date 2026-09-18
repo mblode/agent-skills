@@ -15,7 +15,7 @@ Final polish sweep for pre-release sign-off. Run after the rule-based CRITICAL/H
 
 ## Legibility and typography
 
-Surface type defects are the `type-` rule; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
+Surface type defects are the `type-` rules; punctuation, OpenType, pairing, brand, and display type are the `typography-audit` skill. Not duplicated here.
 
 ## Keyboard, focus, and targets
 - Buttons/links need a `hover:` state; hover/active/focus more prominent than rest. Set `-webkit-tap-highlight-color` on controls.
@@ -35,6 +35,7 @@ Surface type defects are the `type-` rule; punctuation, OpenType, pairing, brand
 - Checkboxes/radios: label + control share one hit target (no dead zones).
 - Placeholders end with `…` and show an example pattern.
 - Warn before navigation with unsaved changes (`beforeunload` or router guard).
+- Input affix hit targets are `forms-input-affix-hit-target`; not duplicated here.
 
 ## Navigation and feedback
 - Preserve URL state; Back/Forward restores scroll.
@@ -56,7 +57,7 @@ Surface type defects are the `type-` rule; punctuation, OpenType, pairing, brand
 - `will-change` sparingly; avoid heavy blur and excessive video autoplay.
 
 ## Accessibility and theming
-- No tooltips on disabled controls; hover-tooltips hold no interactive content.
+- Disabled-control tooltips and interactive hover-tooltips are `a11y-disabled-control-tooltip` and `a11y-tooltip-no-interactive`; not duplicated here.
 - HTML illustrations (inline SVG, CSS art) need an accessible name, same as `<img>`.
 - No animation during theme switches; set `color-scheme` and `<meta name="theme-color">`. Native `<select>`: explicit `background-color` and `color` (Windows dark mode fix).
 - Guard hydration for date/time; `value` inputs require `onChange`; `suppressHydrationWarning` only where needed (dates, theme).

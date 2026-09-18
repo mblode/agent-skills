@@ -62,6 +62,8 @@ Context is a budget with two ends. Too little and the agent asks redundant quest
 
 **Shared workspace.** Agents and users share one data space, each building on the other's work. Sandbox only when security or data integrity requires it.
 
+**Stable names on the pixel surface.** When an agent must operate the same UI a human sees, expose durable names in the DOM (`data-agent-id`, aria names that match the tool nouns) rather than making the agent guess from CSS and copy. Screenshot-only targeting drifts when layout shifts; a named control is a tool. This is the product-side half of annotating a UI for agents, not a visual-polish concern.
+
 **Approval gates.** Match approval to stakes and reversibility:
 
 | Stakes | Reversibility | Pattern |

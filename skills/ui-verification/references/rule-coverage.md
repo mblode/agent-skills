@@ -26,12 +26,14 @@ A primary rule that the probe could not run for stays `unknown`. A confirming ru
 |---|---|---|
 | `a11y-color-only-meaning` | axe-scan | confirming |
 | `a11y-data-table-semantics` | axe-scan | confirming |
+| `a11y-disabled-control-tooltip` | axe-scan, focus-walk | confirming |
 | `a11y-document-language` | axe-scan | confirming |
 | `a11y-icon-controls-labeled` | axe-scan | confirming |
 | `a11y-image-alt-text` | axe-scan | confirming |
 | `a11y-media-captions` | axe-scan | confirming |
 | `a11y-semantic-html-first` | axe-scan | confirming |
 | `a11y-skip-link-heading-order` | axe-scan, focus-walk | confirming |
+| `a11y-tooltip-no-interactive` | focus-walk | confirming |
 | `async-no-error-boundary` | failure-injection | primary |
 | `async-no-suspense-boundary` | web-vitals | confirming |
 | `async-optimistic-without-rollback` | failure-injection | primary |
@@ -44,6 +46,7 @@ A primary rule that the probe could not run for stays `unknown`. A confirming ru
 | `forms-dont-block-paste-ime` | focus-walk | confirming |
 | `forms-error-association` | failure-injection, axe-scan | primary |
 | `forms-inline-errors-first-focus` | failure-injection, focus-walk | primary |
+| `forms-input-affix-hit-target` | target-size | confirming |
 | `forms-labels-and-autocomplete` | axe-scan | confirming |
 | `forms-lost-data-on-error` | failure-injection | primary |
 | `forms-mobile-input-font-size` | viewport-stress | primary |
@@ -71,6 +74,7 @@ A primary rule that the probe could not run for stays `unknown`. A confirming ru
 | `states-layout-shift` | layout-shift | primary |
 | `states-no-empty-state` | failure-injection | primary |
 | `states-no-error-state` | failure-injection | primary |
+| `type-hover-weight-shift` | layout-shift | confirming |
 | `type-readable-scale` | viewport-stress | primary |
 
 Every rule in `ui-design/rules/` has a row. When a rule is added or removed there, this table changes with it; a rule with no row is a rule the browser cannot help with, and that is a decision to record here rather than an omission.

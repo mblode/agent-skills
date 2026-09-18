@@ -1,12 +1,12 @@
 ---
 name: seo
-description: Audits and fixes technical SEO, researches search demand, creates content briefs, and measures SEO/AEO performance. Use when asked to "audit SEO", "fix indexing", "improve AI visibility", "check keyword volume", "write an SEO brief", or "why did organic traffic drop". For writing the article use ghostwriter; for visual redesign use ui-design.
+description: Audits and fixes technical SEO, researches search demand, creates content briefs, and measures SEO/AEO performance. Use when asked to "audit SEO", "fix indexing", "improve AI visibility", "check keyword volume", "write an SEO brief", or "why did organic traffic drop". For Mintlify Agent Score, AFDocs, or Is Agentic reports use agent-ready. For writing the article use ghostwriter; for visual redesign use ui-design.
 ---
 
 # SEO
 
 - **IS:** one entry point for search visibility: evidence-led audits, implementation, demand research, writer briefs, and performance measurement across search and answer engines.
-- **IS NOT:** writing the article (`ghostwriter`), standalone marketing copy (`copywriting`), visual redesign (`ui-design`), or tenant infrastructure (`multi-tenant-architecture`). Fix SEO copy and markup when they are part of the requested implementation.
+- **IS NOT:** writing the article (`ghostwriter`), standalone marketing copy (`copywriting`), visual redesign (`ui-design`), tenant infrastructure (`multi-tenant-architecture`), or implementing AFDocs / Is Agentic / Is It Agent Ready scorecards (`agent-ready`). Fix SEO copy and markup when they are part of the requested implementation.
 
 ## Route the task
 
@@ -47,7 +47,7 @@ Original evidence, useful comparisons and honest product limitations earn their 
 |---|---|
 | [references/audit.md](references/audit.md) | Crawling, diagnosing or prioritizing a site audit |
 | [references/indexing-policy.md](references/indexing-policy.md) | Canonicals, redirects, exclusions, duplicate or programmatic pages |
-| [references/nextjs-implementation.md](references/nextjs-implementation.md) | Implementing App Router metadata, sitemaps, rendering, status codes or schema; verify APIs against the installed Next.js docs |
+| [references/nextjs-implementation.md](references/nextjs-implementation.md) | Implementing App Router metadata, sitemaps, rendering, status codes, Markdown twins, or schema; verify APIs against the installed Next.js docs |
 | [references/answer-engines.md](references/answer-engines.md) | AI visibility, crawler policies, Markdown alternatives or `llms.txt` |
 | [references/internationalisation.md](references/internationalisation.md) | Language/region variants and hreflang |
 | [references/technical-hardening.md](references/technical-hardening.md) | CDN access, response headers, errors or preview environments affect discovery |
