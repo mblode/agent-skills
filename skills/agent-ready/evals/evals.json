@@ -80,8 +80,8 @@
         "expected": "none"
       },
       {
-        "prompt": "Our docs MCP server's tool descriptions are vague. Rewrite them so models pick the right tool.",
-        "expected": "dx-audit"
+        "prompt": "Write a CLAUDE.md for this docs repo so agents follow our terminology.",
+        "expected": "agents-md"
       }
     ]
   }

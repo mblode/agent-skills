@@ -1,6 +1,6 @@
 ---
 name: agent-ready
-description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Covers llms.txt, markdown twins that link the index, Accept negotiation, OpenAPI errors, rate-limit headers, MCP discovery, and robots Link headers. Use when asked to "make this agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief. For docs prose use docs-writing; for CLI/SDK ergonomics use dx-audit; for agentic product UX use ax-audit; for crawler policy and Next.js markdown routes use seo.
+description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make this agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief. For docs prose use docs-writing; for CLI/SDK ergonomics use dx-audit; for agentic product UX use ax-audit; for crawler policy, Next.js markdown routes, and AEO measurement use seo.
 ---
 
 # Agent Ready
@@ -63,7 +63,7 @@ Done when every in-scope failing check has a code or content change (or an expli
 
 ## Priority
 
-Agents read markdown fine and fail at navigation. Mintlify's 2026 benchmark (2,400 tasks over 20 docs sites, Claude and Codex) held answer accuracy at 94 to 99% in every format while failed requests per task fell from 2.23 on HTML to 1.42 on plain markdown and 0.11 once each markdown page linked `llms.txt`. The map delivered two thirds of the gain, and tokens per task fell 26 to 60%. Order work accordingly:
+Agents read markdown fine and fail at navigation. In Mintlify's 2026 benchmark (2,400 tasks, 20 docs sites, Claude and Codex) accuracy held at 94 to 99% in every format while failed requests per task went 2.23 on HTML, 1.42 on plain markdown, 0.11 once each markdown page linked `llms.txt`. Order work accordingly:
 
 1. The map: `llms.txt` on the docs host, a link to it in the first lines of every markdown twin, and `Link` headers that advertise both. Agents request `.md` and `llms.txt` only when they know they exist.
 2. Failures the product actually has (docs HTML that agents cannot read, HTML error pages on a real API, gated public docs with no alternate path).
@@ -81,11 +81,13 @@ Finish with remaining items that need a product decision, DNS access, or credent
 
 ## Gotchas
 
-- Converting HTML to markdown strips the navigation with the chrome. A `.md` twin with no link to `llms.txt` leaves agents inferring sibling URLs that do not exist; the index link in the twin's first lines is the single highest-value line on the site.
+- A `.md` twin has no navigation: the conversion stripped it with the chrome. Emit the `llms.txt` link from the twin route so no page can miss it; a per-page edit drifts.
+- Markdown twins are a route in one app. When the changelog or blog lives in a separate marketing app on the same origin, it stays HTML-only without anyone deciding that; walk every app, not only the one with the twin route.
+- One `llms.txt` advertised three ways (`rel="llms-txt"` from a proxy, `rel="https://llmstxt.org/rel/llms-txt"` from framework headers, `rel="describedby"` from a layout `<link>`) leaves the scanner reading whichever layer wins on that response. Pick the rel set the scanners probe and emit it from one place.
 - `llms.txt` that lists HTML while `.md` twins exist steers agents away from markdown and is scored worse than linking `.md` from the start.
 - A directive in `<head>`, nav, or past 50% of the HTML body does not count. Put it in the document body, near the top, server-rendered.
 - Returning markdown with `Content-Type: text/plain` or `text/html` is a warn, not a pass. Set `text/markdown; charset=utf-8` and `Vary: Accept`.
-- A dashboard with no agent traffic proves nothing: agents run no JavaScript. Server logs of `.md`, `llms.txt`, and AI user agent requests are the only readership measure, and they are where the 404 pattern shows up.
+- A dashboard with no agent traffic proves nothing: agents run no JavaScript, and Search Console and SERP tools count searchers, not agents. Server logs of `.md`, `llms.txt`, and AI user agent requests are the only readership measure; without a log drain the honest number is No data, not a client-side proxy.
 - Bot protection tuned for crawlers (challenge pages, WAF bot rules, tight rate limits on `text/markdown` routes) blocks the agents you are optimizing for, and they cannot pass a challenge. Exempt the machine-readable routes or serve them from paths the rules do not cover.
 - Mentioning a CLI or MCP server in `llms.txt` without a published package or live endpoint is a partial that you cannot fix with copy. Ship it or stop advertising it.
 - Empty `/.well-known/` documents and stub OpenAPI files fail typed-schema checks. Advertise only what exists.

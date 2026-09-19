@@ -54,7 +54,7 @@ Use the site's real titles and URLs, never invented pages.
 
 Must appear in the HTML **body**, not `<head>`, `<nav>`, or `<script>`, and in the first 50% of the converted page. Server-render them.
 
-The markdown twin's directive matters more than the HTML one. Converting a page to markdown removes the sidebar and breadcrumbs, so an agent that lands on a twin has nothing to navigate with and guesses sibling URLs; in Mintlify's url-discovery-bench that guessing cost 1.42 failed requests per task on plain markdown against 0.11 once every twin linked `llms.txt`. Ship the twin link before anything else in this file.
+The markdown twin's directive matters more than the HTML one. Converting a page to markdown removes the sidebar and breadcrumbs, so an agent that lands on a twin has nothing to navigate with and guesses sibling URLs. The index link removed most of those guesses in Mintlify's benchmark (numbers in SKILL.md, Priority). Ship the twin link before anything else in this file.
 
 HTML (visually hidden, stays in the DOM):
 
