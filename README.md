@@ -59,7 +59,6 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
 - **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, and Is It Agent Ready findings on public sites and docs.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
-- **[slop-cop](./skills/slop-cop/SKILL.md)**: Runs the slop-cop taste linter: copywriting and typography rules from this repository answered by TypeSafe Jev probabilities, with act, review and silent bands, a scorecard, and JSON and SARIF output.
 - **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
 
 ### Shipping
