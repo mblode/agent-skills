@@ -1,6 +1,7 @@
 ---
 name: agent-ready
 description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make this agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief. For docs prose use docs-writing; for CLI/SDK ergonomics use dx-audit; for agentic product UX use ax-audit; for crawler policy, Next.js markdown routes, and AEO measurement use seo.
+compatibility: The verification script needs Bash and curl. Scanner commands need Node.js and npm registry access.
 ---
 
 # Agent Ready
@@ -29,7 +30,7 @@ Agent-ready progress:
 - [ ] Step 3: Inventory every knowledge surface the origin serves and map each finding to a real one; skip surfaces the product does not offer
 - [ ] Step 4: Load the matching reference and implement the map first, then failures, then warnings. For Next.js App Router `llms.txt` and markdown routes, load `seo` (that skill's `nextjs-implementation.md` and `answer-engines.md`) instead of a second recipe.
 - [ ] Step 5: Add or update tests for every behavior you change
-- [ ] Step 6: Verify every public endpoint and machine-readable file you touched
+- [ ] Step 6: Verify every public endpoint and machine-readable file you touched (`scripts/check-surfaces.sh`, then the curl recipes for anything it does not cover)
 - [ ] Step 7: Report changes, quoted verification, and remaining product decisions
 ```
 
@@ -59,7 +60,7 @@ Done when every in-scope failing check has a code or content change (or an expli
 | [references/docs-afdocs.md](references/docs-afdocs.md) | Mintlify Agent Score, AFDocs, `llms.txt`, `.md` URLs, the index link in markdown twins, Accept negotiation, page size, auth gates, non-docs knowledge surfaces |
 | [references/api-surfaces.md](references/api-surfaces.md) | Is Agentic API findings: JSON errors, OpenAPI, versioning, rate limits, function calling, CLI, MCP |
 | [references/site-discovery.md](references/site-discovery.md) | Is It Agent Ready: robots, sitemap, Link headers, DNS-AID, well-known catalogs, bot rules |
-| [references/verification.md](references/verification.md) | Step 6: curl recipes, server-log measurement, url-discovery-bench, and what counts as evidence |
+| [references/verification.md](references/verification.md) | Step 6: `check-surfaces.sh`, curl recipes, server-log measurement, url-discovery-bench, the after-shipping rerun, and what counts as evidence |
 
 ## Priority
 

@@ -6,6 +6,16 @@ Read at Step 6. Quote command output (status, content-type, a header, or the fir
 
 Use the public origin when the user has one; otherwise the local preview origin. Same path in both cases.
 
+Run the bundled script first, resolved against the installed skill directory. It prints one TSV line per URL (status, content-type, link, location, url) and exits 1 on any non-200 or a `Content-Type` that does not match `--expect-type`:
+
+```bash
+scripts/check-surfaces.sh --origin "$ORIGIN" /llms.txt /robots.txt /sitemap.xml /docs/example.md
+scripts/check-surfaces.sh --accept text/markdown --expect-type text/markdown "$ORIGIN/docs/example"
+scripts/check-surfaces.sh --origin "$ORIGIN" /openapi.json /.well-known/api-catalog --out "surfaces-$(date +%F).tsv"
+```
+
+Quote its output lines as the evidence. Redirects count as misses because it does not follow them; a same-host 3xx you intend is fine, but say so. Use curl directly for what the script does not do: bodies, POST probes, and the HTML-Accept control.
+
 ```bash
 curl -sSI "$ORIGIN/llms.txt"
 curl -sS "$ORIGIN/llms.txt" | head
@@ -69,7 +79,7 @@ Add a test that hits the route or handler: markdown content-type, problem+json s
 
 Every surface here regresses on a deploy: a route refactor drops the twin's index link, a header config changes a rel, a new app on the origin ships HTML-only. When the user wants it to stay green, set up a scheduled rerun rather than a one-off:
 
-- Rerun the same scanners and the curl set above; save the scorecard and the status, `Content-Type`, and `Link` lines under a dated path.
+- Rerun the same scanners and `check-surfaces.sh --out` with a dated filename; save the scorecard next to it.
 - Diff against the previous run. Alert only on a pass that became a fail, `llms-txt-coverage` under 95%, a twin that stopped linking `llms.txt`, or a non-200 on an advertised surface. Stay quiet when nothing moved.
 - Server-side agent counts are No data until a log drain exists. Do not fill the gap from client-side analytics or Search Console.
 - One draft fix PR per regression, never a push to the default branch.
