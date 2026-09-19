@@ -60,7 +60,7 @@ Done when every in-scope failing check has a code or content change (or an expli
 | [references/docs-afdocs.md](references/docs-afdocs.md) | Mintlify Agent Score, AFDocs, `llms.txt`, `.md` URLs, the index link in markdown twins, Accept negotiation, page size, auth gates, non-docs knowledge surfaces |
 | [references/api-surfaces.md](references/api-surfaces.md) | Is Agentic API findings: JSON errors, OpenAPI, versioning, rate limits, function calling, CLI, MCP |
 | [references/site-discovery.md](references/site-discovery.md) | Is It Agent Ready: robots, sitemap, Link headers, DNS-AID, well-known catalogs, bot rules |
-| [references/verification.md](references/verification.md) | Step 6: `check-surfaces.sh`, curl recipes, server-log measurement, url-discovery-bench, the after-shipping rerun, and what counts as evidence |
+| [references/verification.md](references/verification.md) | Step 6: `check-surfaces.sh`, curl recipes, server-log measurement, url-discovery-bench, and what counts as evidence |
 
 ## Priority
 

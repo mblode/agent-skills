@@ -12,8 +12,8 @@
 #       probes the given paths on that origin (absolute URLs also accepted)
 #   check-surfaces.sh --accept text/markdown --expect-type text/markdown https://docs.example.com/guide
 #       content negotiation: the HTML URL must answer with markdown
-#   check-surfaces.sh --origin https://docs.example.com --out "surfaces-$(date +%F).tsv"
-#       also writes the TSV for diffing against the previous run
+#   check-surfaces.sh --origin https://docs.example.com --out surfaces.tsv
+#       also writes the TSV to a file for the report
 #
 # Portable to bash 3.2 (macOS default): no associative arrays, no mapfile.
 

@@ -11,7 +11,7 @@ Run the bundled script first, resolved against the installed skill directory. It
 ```bash
 scripts/check-surfaces.sh --origin "$ORIGIN" /llms.txt /robots.txt /sitemap.xml /docs/example.md
 scripts/check-surfaces.sh --accept text/markdown --expect-type text/markdown "$ORIGIN/docs/example"
-scripts/check-surfaces.sh --origin "$ORIGIN" /openapi.json /.well-known/api-catalog --out "surfaces-$(date +%F).tsv"
+scripts/check-surfaces.sh --origin "$ORIGIN" /openapi.json /.well-known/api-catalog --out surfaces.tsv
 ```
 
 Quote its output lines as the evidence. Redirects count as misses because it does not follow them; a same-host 3xx you intend is fine, but say so. Use curl directly for what the script does not do: bodies, POST probes, and the HTML-Accept control.
@@ -74,17 +74,6 @@ Write `dataset/<site>.json` from the site's real pages and questions in the shap
 ## Tests
 
 Add a test that hits the route or handler: markdown content-type, problem+json status and `code`, OpenAPI fragment for 4xx, `RateLimit` header. Match the project's runner. Do not add a browser screenshot as the only proof of a header.
-
-## After shipping
-
-Every surface here regresses on a deploy: a route refactor drops the twin's index link, a header config changes a rel, a new app on the origin ships HTML-only. When the user wants it to stay green, set up a scheduled rerun rather than a one-off:
-
-- Rerun the same scanners and `check-surfaces.sh --out` with a dated filename; save the scorecard next to it.
-- Diff against the previous run. Alert only on a pass that became a fail, `llms-txt-coverage` under 95%, a twin that stopped linking `llms.txt`, or a non-200 on an advertised surface. Stay quiet when nothing moved.
-- Server-side agent counts are No data until a log drain exists. Do not fill the gap from client-side analytics or Search Console.
-- One draft fix PR per regression, never a push to the default branch.
-
-Whether anyone cites the surfaces (answer-engine visibility, citation tracking) is `seo` monitoring, not this check.
 
 ## Remaining recommendations
 
