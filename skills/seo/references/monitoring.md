@@ -8,10 +8,11 @@ Bind each metric to the actual property, hostname and project path. Verify nativ
 |---|---|---|
 | Are pages indexed and receiving search traffic? | Native Google/Bing indexing and performance reports | Ownership verification or sitemap submission alone proves neither |
 | Is the site visible in Google's generative AI features? | Search Console generative AI performance, including available impression/page/country/device/date dimensions | Verify current report access and supported dimensions; do not invent AI-specific clicks or CTR from impression-only data |
-| Is Bing/Copilot citing it? | Bing Webmaster AI Performance, available citations, cited pages and grounding-query/topic dimensions | Availability and sampling vary; citation counts are not ranking positions or referral visits |
+| Is Bing/Copilot citing it? | Bing Webmaster AI Performance, available citations, cited pages and grounding-query/topic dimensions | Needs Bing Webmaster verification first, otherwise `No data`; availability and sampling vary; citation counts are not ranking positions or referral visits |
 | Is a tracked prompt producing mentions/citations? | Repeated, documented engine-specific prompt panel or connected visibility tool | Preserve prompts, engine/model, search mode, locale, date, repetitions, sample size and citation URL; a panel is not population-wide demand |
 | How often do people ask the topic? | Vendor Exact prompt demand metric | Demand is not the site's share of visibility |
 | Does discovery produce useful outcomes? | Analytics landing sessions, qualified visits, signups, activation or revenue | Preserve attribution definitions and windows; missing/referrer-stripped visits prevent complete AI attribution |
+| Do the agent-readable surfaces answer? | Scanner scorecards and `agent-ready`'s `check-surfaces.sh` output | Says whether `llms.txt`, markdown twins and headers work, not whether any engine cites them; agent readership itself needs server logs, and without a log drain it is `No data` |
 
 Inspect current native capabilities using `sources.md`, not a frozen vendor checklist. Google generative AI reports may expose different dimensions for Search and Discover. Where a connector omits a native report, use an available browser/export or report that gap rather than silently substituting overall search data.
 

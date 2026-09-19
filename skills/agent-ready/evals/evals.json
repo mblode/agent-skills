@@ -24,6 +24,19 @@
         "Declares versioning and rate-limit headers rather than only describing them in prose",
         "Does not publish a CLI package unless one already exists or the user asked for one"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our CDN logs show Claude and Codex user agents hitting /docs with a 404 rate around 30%: they fetch a page, 404 on a guessed sibling path, then try another. We already serve .md twins for every page and /docs/llms.txt exists. Nothing shows up in GA. Fix it in this Next.js repo.",
+      "expected_output": "Reads the twin route first, adds a server-rendered index link (absolute llms.txt URL) to the first lines of every markdown twin plus Link headers, does not rewrite prose, explains why GA shows nothing, adds a route test, and quotes curl output for a twin and llms.txt.",
+      "files": [],
+      "assertions": [
+        "Puts a link to llms.txt in the first lines of every markdown twin, emitted by the route rather than hand-edited per page",
+        "Advertises llms.txt and the markdown alternate in Link headers",
+        "States that client-side analytics cannot observe agent traffic and points at server logs as the measure",
+        "Does not rewrite page prose or invent new pages",
+        "Quotes status and Content-Type from a fetched twin and from llms.txt after the change"
+      ]
     }
   ],
   "routing": {
@@ -35,7 +48,11 @@
       "Make this documentation site agent-ready.",
       "Mintlify score is 87, implement the markdown negotiation warning.",
       "npx afdocs check failed content-negotiation and llms-txt-coverage.",
-      "Add RFC 9457 error bodies and RateLimit headers to the public API from this is-agentic report."
+      "Add RFC 9457 error bodies and RateLimit headers to the public API from this is-agentic report.",
+      "Agents keep 404ing on guessed URLs under /docs even though every page has a .md version.",
+      "Run url-discovery-bench against our docs and fix whatever makes the failed-request count high.",
+      "Mintlify's State of Knowledge report says markdown plus llms.txt cuts agent 404s 20x. Get our docs there.",
+      "Our changelog and help center are HTML only while the docs have markdown twins. Make them agent-readable too."
     ],
     "near_miss": [
       {
@@ -57,6 +74,14 @@
       {
         "prompt": "Write a README from scratch for this CLI.",
         "expected": "readme-creator"
+      },
+      {
+        "prompt": "Summarize the 2026 State of Knowledge report for the team in three paragraphs.",
+        "expected": "none"
+      },
+      {
+        "prompt": "Write a CLAUDE.md for this docs repo so agents follow our terminology.",
+        "expected": "agents-md"
       }
     ]
   }

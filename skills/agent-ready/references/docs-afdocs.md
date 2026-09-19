@@ -12,6 +12,7 @@ Follow the published formats exactly. Do not invent page copy; reuse titles and 
 - Markdown twins
 - Size and structure
 - Auth
+- Other knowledge surfaces
 - Framework routes
 
 ## Baseline
@@ -53,6 +54,8 @@ Use the site's real titles and URLs, never invented pages.
 
 Must appear in the HTML **body**, not `<head>`, `<nav>`, or `<script>`, and in the first 50% of the converted page. Server-render them.
 
+The markdown twin's directive matters more than the HTML one. Converting a page to markdown removes the sidebar and breadcrumbs, so an agent that lands on a twin has nothing to navigate with and guesses sibling URLs. The index link removed most of those guesses in Mintlify's benchmark (numbers in SKILL.md, Priority). Ship the twin link before anything else in this file.
+
 HTML (visually hidden, stays in the DOM):
 
 ```html
@@ -64,11 +67,16 @@ HTML (visually hidden, stays in the DOM):
 </p>
 ```
 
-Markdown twin, first lines after any title:
+Markdown twin, first lines after any title (absolute URLs, since agents fetch twins from any base):
 
 ```markdown
-> For AI agents: a documentation index is available at /llms.txt
+> ## Documentation index
+> [Documentation index](https://docs.acme.com/llms.txt)
+> [HTML page](https://docs.acme.com/auth)
+> Use the index to discover pages before guessing URLs.
 ```
+
+Emit it from the same route that renders the twin, so no page can miss it. Inlining the whole `llms.txt` into every page is the benchmark's fourth arm; the report does not publish its result, so prefer the link and keep the twin small.
 
 Use the actual `llms.txt` path (`/docs/llms.txt` when that is canonical). Also emit HTTP links when you can set headers without fighting the framework:
 
@@ -107,6 +115,19 @@ Cache `llms.txt` and markdown with `max-age` of 300–3600 plus `ETag` or `Last-
 ## Auth
 
 Public reference and getting-started pages should fetch without a session. If a gate is required, publish an ungated `llms.txt` plus an alternate path (public mirror, shipped SDK docs). Do not put public docs behind bot challenges that HTML-only agents cannot pass.
+
+## Other knowledge surfaces
+
+Agents answer from whatever the origin serves, and most companies keep product knowledge on five or more surfaces while only the docs are agent-readable. Walk the sitemap and the homepage nav for changelog, release notes, help center, community, status, and API status pages. For each surface the product owns, decide once:
+
+| Surface | Twins and index entry | Why |
+|---------|----------------------|-----|
+| Changelog, release notes, migration guides | Yes, under `## Optional` if the main list is long | Agents act on stale parameters; the changelog is where the fix lives |
+| Help center, FAQ, troubleshooting | Yes | These answer the questions the docs did not |
+| Community threads, forum | Only when the company hosts and stands behind the answers | Unvetted answers propagate as fact |
+| Marketing, pricing, legal, careers | No | AFDocs excludes them; listing them dilutes the index |
+
+A surface on a different host or CMS is a product decision to record, not something to fake with a copy in the docs repo.
 
 ## Framework routes
 
