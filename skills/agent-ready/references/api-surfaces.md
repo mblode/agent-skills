@@ -96,3 +96,5 @@ Advertise the live transport URL in a server card (current well-known paths scan
 Auth belongs in RFC 9728 protected-resource metadata when the endpoint returns 401, not as a fictional card field. Anonymous read-only servers skip OAuth documents.
 
 List the MCP URL in `llms.txt` and, when you have an RFC 9727 catalog, in `/.well-known/api-catalog`.
+
+A docs MCP server needs both a search tool and a fetch-by-path tool. Across Mintlify-hosted servers in 2026 the calls split 53% search to 47% path retrieval, depending on whether the agent already knows the page; a server with only one strands the other half. Return markdown from both, and make the path tool accept the same slugs `llms.txt` lists.

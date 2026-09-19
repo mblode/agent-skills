@@ -49,7 +49,10 @@ validate_skill() {
   fi
 
   # --- frontmatter: ruby owns YAML parsing and emits its own result lines ---
-  SKILL_VALIDATION_POLICY="$POLICY" ruby -E UTF-8 -ryaml -e '
+  # The magic comment keeps \p{L} valid when the shell has no UTF-8 locale
+  # (LANG unset in CI or a sandbox makes -e scripts US-ASCII and ruby rejects
+  # the property), so the check reports the real result instead of "ruby failed".
+  SKILL_VALIDATION_POLICY="$POLICY" ruby -E UTF-8 -ryaml -e '# encoding: utf-8
     path, folder = ARGV
     src = File.read(path)
     m = src.match(/\A---\n(.*?)\n---\n/m)
