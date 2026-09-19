@@ -55,7 +55,7 @@ Pick the destination by who needs it and when. Guidance needed in fewer than ~30
 - Reference material -> `docs/*.md`, linked by plain relative path
 - Claude-only or Cursor-only detail tied to file types -> `.claude/rules/*.md` with `paths:` or `.cursor/rules/*.mdc` with `globs:`
 
-Do not reach for `@import` to shrink the file. Imported content is expanded at launch, so the context cost is unchanged, and Codex and Cursor never see it. The one import that belongs in a multi-tool repo is `@AGENTS.md` at the top of `CLAUDE.md`.
+Do not reach for `@import` to shrink the file. Imported content is expanded at launch, so the context cost is unchanged, and Codex and Cursor never see it. Use AGENTS.md directly; do not add a CLAUDE.md wrapper.
 
 ## Step 5: Validate before finalizing
 

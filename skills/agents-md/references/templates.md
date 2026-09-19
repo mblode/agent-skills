@@ -8,7 +8,7 @@ Structure starters only. Fill with project-specific commands, gotchas, and conve
 - Root file skeleton (single project)
 - Root file skeleton (monorepo)
 - Root file skeleton (multi-language monorepo)
-- The Claude Code pointer file
+- Claude Code setup
 - Filling a skeleton
 
 ## Before/After Example
@@ -97,16 +97,9 @@ Each workspace has its own `AGENTS.md`, loaded when an agent works there:
 <Runtime inputs, build outputs, venvs, node_modules, caches>
 ```
 
-## The Claude Code pointer file
+## Claude Code setup
 
-Claude Code does not read `AGENTS.md`. Every skeleton above needs this `CLAUDE.md` beside it, or a `CLAUDE.md -> AGENTS.md` symlink when the Claude-only section would be empty:
-
-```markdown
-@AGENTS.md
-
-## Claude Code
-<Claude-only additions, or delete this section>
-```
+Use these AGENTS.md skeletons directly with Claude Code's enabled built-in `agents-md` mod. Do not add a CLAUDE.md pointer or symlink. Check Project instructions mode and migrate old project instruction files as described in `project-setup.md`.
 
 ## Filling a skeleton
 

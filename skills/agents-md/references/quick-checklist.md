@@ -27,4 +27,4 @@ Automatic fail regardless of score:
 
 - Commands are mostly broken/stale
 - Content is mostly generic advice, template text, or restatements of default agent behavior
-- The repo uses Claude Code and has no `CLAUDE.md` pointing at `AGENTS.md`: the file under audit is not loaded there at all
+- The intended tool does not load the shared instructions: check Claude Code version, built-in mod, Project instructions mode, and leftover project Claude files; absence of a CLAUDE.md wrapper is not a failure

@@ -32,7 +32,7 @@ Ranked by how many tools see it and when:
 2. **A skill.** Loads on demand in Claude Code, Codex, and Cursor. Right for a repeated multi-step procedure (release flow, verification sequence, migration runbook); root keeps one pointer line naming the skill.
 3. **A plain relative link to `docs/*.md`.** Every tool can follow it when a task needs it; none loads it automatically. Right for reference material.
 4. **A path-scoped rule.** `.claude/rules/*.md` with `paths:` frontmatter (Claude Code) or `.cursor/rules/*.mdc` with `globs:` (Cursor). Loads when matching files are touched. One tool each, so never the only home of a rule the whole repo must obey.
-5. **An `@import`.** Claude Code only, and expanded at launch, so it organizes text without reducing what loads. Use it for the `CLAUDE.md -> @AGENTS.md` pointer and for Claude-only depth that must be present every session, not as a way to shrink the root.
+5. **An `@import`.** Claude Code only, and expanded at launch, so it organizes text without reducing what loads. Use it only for Claude-only depth that must be present every session, not as a way to shrink the root or create a compatibility wrapper.
 
 ```markdown
 # Additional context
@@ -41,7 +41,7 @@ Ranked by how many tools see it and when:
 - Release flow: run the `release` skill
 ```
 
-An import whose path resolves outside the repo (`@~/.claude/my-project-instructions.md`) makes Claude Code show a one-time approval dialog per project; a declined import stays disabled with no further prompt. Keep such imports in `CLAUDE.local.md` or the user-level file, never in the shared root.
+External imports in AGENTS.md require prior engine approval, which the mod cannot request itself. Keep critical shared rules inline and reference optional material with plain links.
 
 If framework behavior causes repeated mistakes, don't paste the docs; add one short gotcha plus the command or link that resolves it.
 
@@ -71,9 +71,9 @@ Instruction files load from multiple locations, each with a distinct job:
 - **Managed policy** (`/etc/claude-code/CLAUDE.md` and equivalents): organisation-wide, cannot be excluded by users; not the repo's concern, but a rule duplicated from it in root is dead weight
 - **Auto-memory**: facts about the user, their feedback, and ongoing project state; written by the agent as it works, not hand-maintained
 - **User-level file** (`~/.claude/CLAUDE.md`, `~/.claude/rules/`, `~/.codex/AGENTS.md`): applies to every session on that machine; personal defaults only, never project-specific commands
-- **Project root `./AGENTS.md`**: shared via git; the tool-agnostic source of truth, with `./CLAUDE.md` as a pointer to it
+- **Project root `./AGENTS.md`**: shared via git; the tool-agnostic source of truth, read directly by Claude Code through its enabled built-in mod
 - **`./.claude/rules/*.md`**: Claude Code only; unscoped rules load with the root, `paths:`-scoped rules load when matching files are touched
-- **`./CLAUDE.local.md`**: gitignored personal overrides at project level
+- **`./CLAUDE.local.md`**: gitignored personal overrides; blocks default AGENTS.md fallback, so verify both-files mode if retained
 - **`AGENTS.override.md`**: Codex only; replaces `AGENTS.md` in the same directory, so one committed by accident silently swaps the rule set
 - **Parent directories**: inherited in monorepos (root and ancestors both load)
 - **Child directories**: Claude Code loads them on demand when working in that subtree; Codex loads them only when launched there

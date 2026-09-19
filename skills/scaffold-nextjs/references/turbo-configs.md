@@ -9,7 +9,7 @@
 - [knip.json](#knipjson)
 - [apps/web/package.json scripts](#appswebpackagejson-scripts)
 - [apps/web/next.config.ts](#appswebnextconfigts)
-- [Root AGENTS.md and CLAUDE.md](#root-agentsmd-and-claudemd)
+- [Root AGENTS.md](#root-agentsmd)
 
 ---
 
@@ -239,7 +239,7 @@ export default nextConfig;
 
 `create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present. The others come from Phase 2.2 and must survive the move into `apps/web/`, since dropping `cacheComponents` silently takes `partialPrefetching` with it. No `turbopack.root` is needed: Turbopack infers the workspace root from the lockfile at `{{name}}/package-lock.json`. If the config ever imports a project module (a `basePath` constant, a site URL), import it by relative path: Next compiles `next.config.ts` without `tsconfig` path resolution, so an `@/` alias resolves against the wrong directory. `experimental.useOffline: true` is worth turning on once the app has forms; it holds a navigation or Server Action through a connectivity drop and retries on reconnect instead of throwing.
 
-## Root AGENTS.md and CLAUDE.md
+## Root AGENTS.md
 
 Ultracite's `AGENTS.md` and the Next-managed block both live in `apps/web/`. The root needs its own short file so an agent opening the repo runs commands from the right directory. Create `{{name}}/AGENTS.md`:
 
@@ -283,4 +283,4 @@ that) so Oxlint loads `oxlint.config.ts` and `ultracite/oxlint/shadcn`.
   `npx ultracite fix` then `npx ultracite fix --codex` from `apps/web`.
 ````
 
-Then `{{name}}/CLAUDE.md` containing the single line `@AGENTS.md`. After the first `npm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; `apps/web/CLAUDE.md` stays the one-line import. The Phase 5.1 design-system lint paragraph stays above those markers.
+Use AGENTS.md directly without a CLAUDE.md wrapper. After the first `npm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; remove any generated duplicate `apps/web/CLAUDE.md`. The Phase 5.1 design-system lint paragraph stays above those markers.

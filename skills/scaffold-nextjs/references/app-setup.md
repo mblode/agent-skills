@@ -304,7 +304,7 @@ npx ultracite fix     # oxfmt --write + oxlint --fix
 npx ultracite check   # oxfmt --check + oxlint
 ```
 
-Both pass with zero errors. Leave the generated `extends` (including `shadcn`) and `ignorePatterns` intact. Replace the `latest` ranges in `devDependencies` with the versions `npm install` resolved (`npm ls ultracite oxlint oxfmt lefthook @shadcn/lint --depth=0`), so the hook and CI run the same binaries. `ultracite` must be ≥ 7.12. Create `CLAUDE.md` beside `AGENTS.md` as a one-line `@AGENTS.md` import (a symlink works on macOS and Linux but not Windows, and a copy drifts as soon as either file is edited). On the first `next dev` run from a coding agent's shell, Next 16.3 appends its managed `nextjs-agent-rules` block to `AGENTS.md`; content outside the markers is preserved, `CLAUDE.md` is left alone when it exists, and nothing is written from a plain terminal.
+Both pass with zero errors. Leave the generated `extends` (including `shadcn`) and `ignorePatterns` intact. Replace the `latest` ranges in `devDependencies` with the versions `npm install` resolved (`npm ls ultracite oxlint oxfmt lefthook @shadcn/lint --depth=0`), so the hook and CI run the same binaries. `ultracite` must be ≥ 7.12. Use AGENTS.md directly and remove any generated duplicate CLAUDE.md wrapper; Claude Code supports AGENTS.md through its built-in mod. On the first `next dev` run from a coding agent's shell, Next 16.3 appends its managed `nextjs-agent-rules` block to `AGENTS.md`; content outside the markers is preserved, `CLAUDE.md` is left alone when it exists, and nothing is written from a plain terminal.
 
 ## Phase 5.1: Enable ultracite/oxlint/shadcn
 

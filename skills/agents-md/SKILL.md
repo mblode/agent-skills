@@ -1,6 +1,6 @@
 ---
 name: agents-md
-description: Audits and edits agent instruction files, verifies repository commands, and connects AGENTS.md and CLAUDE.md without duplicate sources. Use when asked to "improve my AGENTS.md", "write a CLAUDE.md", or make instructions work across agents. For SKILL.md use agent-skills-creator.
+description: Audits and edits agent instruction files, verifies repository commands, and migrates repositories to AGENTS.md as the single shared source. Use when asked to "improve my AGENTS.md", "migrate CLAUDE.md to AGENTS.md", or make instructions work across agents. For SKILL.md use agent-skills-creator.
 ---
 
 # AGENTS.md Setup and Audit
@@ -15,7 +15,7 @@ AGENTS.md files are execution contracts, not knowledge bases. Two tests catch th
 
 Absolutes still earn their place for safety, data loss, format contracts, and rules this repo's agents have actually been observed to break.
 
-AGENTS.md is the tool-agnostic source of truth: Codex, Cursor, Copilot, and the rest of the agents.md list read it natively. Claude Code is the exception. It reads `CLAUDE.md`, not `AGENTS.md`, so a repo that uses Claude Code needs a `CLAUDE.md` whose first line is `@AGENTS.md` (or a `CLAUDE.md -> AGENTS.md` symlink when there are no Claude-only additions). If only a `CLAUDE.md` exists and another tool is in use, `git mv CLAUDE.md AGENTS.md` and add the pointer file; a copy of either drifts.
+AGENTS.md is the tool-agnostic source of truth. Claude Code's built-in `agents-md` mod supports it directly. Use `AGENTS.md` at the root and in scoped subdirectories, without `CLAUDE.md` wrappers or symlinks. The default `claude-md-or-agents-md` mode yields when project Claude instruction files exist on the root-to-working-directory path; see `references/project-setup.md` for migration, settings, and loader limits. Preserve unique instructions before removing old files. User-level and managed Claude files are separate from repository migration.
 
 ## Choose a Mode
 
@@ -110,12 +110,12 @@ Apply approved edits, re-score with the same checklist, report before/after scor
 
 ## Gotchas
 
-- Claude Code reads `CLAUDE.md`, not `AGENTS.md`. A repo with only `AGENTS.md` gives Claude Code no instructions and nothing warns; `/context` shows an empty Memory files list. Add a `CLAUDE.md` containing `@AGENTS.md`.
+- A project `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md` can suppress the default AGENTS.md fallback across the project. Removing only the root wrapper may not fix loading. Check the built-in mod and `/config` Project instructions, then verify loaded files.
 - `@import` moves text, not cost. Imported files are expanded into context at launch, so splitting a 400-line `CLAUDE.md` into five imports still loads 400 lines every session. Only nested files, path-scoped `.claude/rules/`, and skills load on demand.
 - `@import` reaches Claude Code only. Codex and Cursor pass the line through as text without warning, so an imported safety or format rule is absent from most sessions while the file still looks correct.
 - `@import` lines inside backticks or fenced blocks are literal text: a real import wrapped in a code span silently never loads. The same rule makes example imports inside fences safe to show.
 - Import chains stop at four hops; deeper content disappears with no error.
-- An import that resolves outside the repo (`@~/.claude/my-prefs.md`) in a project-level file triggers a one-time approval dialog in Claude Code. Decline it and the import stays disabled with no further prompt, so the teammate who pressed No runs a different rule set from then on.
+- External imports in AGENTS.md require prior engine approval, but the mod cannot raise that approval dialog itself. Keep shared instructions inline or use plain reference links; do not rely on an external import to load critical rules.
 - Nested files do not load the same way per tool. Claude Code loads a subdirectory's file when it reads files there; Codex concatenates only the files on the path from repo root to the launch directory. A rule that lives only in `packages/api/AGENTS.md` is invisible to a Codex session started at the root and to any Claude Code task that never opens that subtree. Universal rules go in root.
 - Codex stops adding instruction files once the concatenated total reaches `project_doc_max_bytes` (32 KiB by default), root first. A bloated root file silently crowds out every nested file beneath it.
 - Project-specific commands in `~/.claude/CLAUDE.md` or `~/.codex/AGENTS.md` load in every repo, so one project's `npm run dev` becomes noise or a wrong command everywhere else.

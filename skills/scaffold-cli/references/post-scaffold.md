@@ -22,7 +22,7 @@ Then **overwrite the generated `lefthook.yml`** with the version below before co
 see "Replace the generated lefthook.yml" for why.
 
 ```bash
-ln -s AGENTS.md CLAUDE.md
+# Use AGENTS.md directly; no compatibility symlink.
 git add .
 git commit -m "Initial commit"
 ```
@@ -76,7 +76,7 @@ both correct at once.
 
 - `git init` must precede `ultracite init`: the lefthook integration adds a `prepare: lefthook install` script and runs it immediately; `lefthook install` writes into `.git/hooks` and fails without a repo.
 - `npx ultracite init` runs `npm install` itself, then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). `--linter oxlint` skips the linter prompt; `--quiet` suppresses the rest.
-- Create the `ln -s AGENTS.md CLAUDE.md` symlink exactly once, here; a second run fails with `File exists`.
+- Keep AGENTS.md as the only shared instruction file.
 - The initial commit captures the clean scaffold state, including ultracite-generated files.
 
 ## Validation Checklist
@@ -93,7 +93,7 @@ Validation:
 - [ ] `node dist/cli.js --version` prints 0.0.1
 - [ ] `node dist/cli.js --help` shows the description and lists the `--output` and `--no-input` global options
 - [ ] `node dist/cli.js --version | cat` prints 0.0.1 with no ANSI escape codes (color is suppressed when stdout is not a TTY)
-- [ ] `ls -la CLAUDE.md` shows a symlink to AGENTS.md
+- [ ] AGENTS.md exists without a CLAUDE.md wrapper or symlink
 - [ ] `grep -c staged_files lefthook.yml` returns 2 (the generated single-job version was replaced)
 - [ ] a JSON-only commit passes the hook: `touch package.json && git add package.json && npx lefthook run pre-commit` exits 0 (this is the changesets-bot release path)
 - [ ] `.github/workflows/ci.yml` and `.github/workflows/npm-publish.yml` exist
@@ -104,7 +104,7 @@ Validation:
 ## Troubleshooting
 
 - `ultracite init` fails or hangs: re-run without `--quiet` to see the blocking prompt, answer interactively, then continue.
-- `ln -s` fails on Windows: write a one-line `CLAUDE.md` containing `@AGENTS.md` instead. A copy drifts the moment either file is edited.
+- Claude Code requires its built-in agents-md mod enabled with an AGENTS.md-loading mode; use the agents-md skill if instructions do not load.
 - `npm install` fails: verify Node >= 24.11 with `node --version`; the engines field rejects older versions.
 - `npm install` prints a peer warning for `typescript` against `tsdown`: expected and harmless. `tsdown@0.22.x` still lists its optional `typescript` peer as `^5 || ^6`, but its `.d.ts` engine (`rolldown-plugin-dts`) supports `^7`, so `dist/index.d.ts` still generates. Do not downgrade TypeScript.
 - `npm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).

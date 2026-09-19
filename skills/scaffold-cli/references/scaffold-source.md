@@ -67,7 +67,7 @@ program.parseAsync().catch((error: unknown) => {
 
 ## AGENTS.md
 
-The post-scaffold sequence creates the CLAUDE.md symlink later, not here.
+AGENTS.md is the shared instruction file; no CLAUDE.md symlink is needed.
 
 ```markdown
 # {{name}}

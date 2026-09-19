@@ -4,12 +4,13 @@
     {
       "id": 1,
       "prompt": "Improve these repository instructions. AGENTS.md says npm test, but package.json exposes only check and build. CLAUDE.md contains a duplicate copy. Codex and Claude Code both use the repo.",
-      "expected_output": "Correct the command and replace duplicate Claude instructions with a pointer.",
+      "expected_output": "Correct the command, preserve unique instructions in AGENTS.md, and remove the duplicate CLAUDE.md without creating a wrapper.",
       "files": [],
       "assertions": [
         "Uses the manifest-backed check command",
         "Keeps one authoritative instruction source",
-        "Applies the requested improvement without a second approval"
+        "Applies the requested improvement without a second approval",
+        "Uses native Claude Code AGENTS.md support and checks fallback blockers"
       ]
     },
     {
@@ -21,6 +22,18 @@
         "Leaves files unchanged",
         "Identifies the missing executable path",
         "Distinguishes repository contracts from generic coding advice"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Migrate this repository to AGENTS.md only. Root CLAUDE.md is a symlink to AGENTS.md, packages/api/CLAUDE.md has unique rules, and .claude/CLAUDE.md exists. A gitignored CLAUDE.local.md holds private notes.",
+      "expected_output": "Remove the duplicate symlink safely, migrate scoped content, inspect the hidden project blocker, and keep private notes out of shared files while explaining the fallback mode exception.",
+      "files": [],
+      "assertions": [
+        "Does not delete the symlink target",
+        "Preserves unique instructions and nested scope",
+        "Does not copy private notes into shared AGENTS.md",
+        "Explains that project CLAUDE.local.md blocks default fallback and both-files mode supports retaining it"
       ]
     }
   ],

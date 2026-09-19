@@ -86,7 +86,7 @@ From the same `references/scaffold-source.md`, generate:
 - `README.md`: install, usage, API, agent skill install, license
 - `skills/{{bin}}/SKILL.md`: agent skill definition
 
-Do not create the CLAUDE.md symlink here; Step 6 creates it exactly once.
+Use AGENTS.md directly; do not create a CLAUDE.md wrapper or symlink.
 
 ### Step 6: Run post-scaffold commands
 
