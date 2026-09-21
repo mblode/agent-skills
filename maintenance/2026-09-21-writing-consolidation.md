@@ -1,10 +1,10 @@
 # Writing consolidation, 21 September 2026
 
-Baseline: `24f4fd8` on main. Four writing skills across three repositories (`ghostwriter`, brandwriter's `copywriting`, and this repository's `docs-writing` and `readme-creator`) became one `ghostwriter` skill in the ghostwriter repository. The decision was Matthew's: one writing skill, in the ghostwriter repo, brandwriter deleted, the model doing the writing. This is a static retention decision made with the `agent-skills-creator` protocol (read everything, classify each section under `capability-delta.md`, rewrite in order, validate). Behaviour is unrun; the scenarios in `ghostwriter/skills/ghostwriter/evals/evals.json` are specifications, and the measured path is `evaluate-ghostwriter`'s blind A/B against held-out writing.
+Baseline: `24f4fd8` on main. Four writing skills across three repositories (`ghostwriter`, brandwriter's `copywriting`, and this repository's `docs-writing` and `readme-creator`) became one `ghostwriter` skill in the ghostwriter repository. The decision was Matthew's: one writing skill, in the ghostwriter repo, brandwriter deleted, the model doing the writing. This is a static retention decision made with the `agent-skills-creator` protocol (read everything, classify each section under `capability-delta.md`, rewrite in order, validate). Behaviour is unrun; the scenarios in `ghostwriter/skills/ghostwriter/evals/evals.json` are specifications. A second pass the same day retired `train-ghostwriter` and `evaluate-ghostwriter` (a profile is now written from pasted samples), replaced the `brand.json` company manifest with a plain company profile file, and halved every reference, so the ghostwriter repository is one skill of about 5,000 words and nothing to build.
 
 ## Why one skill
 
-The four skills carried three banned-word lists that were ~96% the same list, four copies of "cut it in half", nine separate em-dash bans, and two incompatible review formats. Each repository's AGENTS.md forbids runtime references across skills, so the duplication could not be shared, only removed. The config layout was never the problem: company manifests already lived under `GHOSTWRITER_HOME/brands`.
+The four skills carried three banned-word lists that were ~96% the same list, four copies of "cut it in half", nine separate em-dash bans, and two incompatible review formats. Each repository's AGENTS.md forbids runtime references across skills, so the duplication could not be shared, only removed. The config layout was never the problem, and it got simpler still: a company is now a profile file beside the personal ones.
 
 ## Disposition
 
@@ -29,4 +29,4 @@ The four skills carried three banned-word lists that were ~96% the same list, fo
 
 ## Verification
 
-`validate.sh --all` reports 0 FAIL with and without a UTF-8 locale. `python3 -m unittest discover -s maintenance/tests` passes. In ghostwriter, `npm test` (59 tests) and `agentskills validate` pass for all three skills, and `validate.sh skills/ghostwriter` run from this repository reports 0 FAIL. In agent-evals, `validate-cases --skills-dir` passes (327 cases, 25 skills) and `vitest` passes (25 tests). Behavioural comparison: not run.
+`validate.sh --all` reports 0 FAIL with and without a UTF-8 locale. `python3 -m unittest discover -s maintenance/tests` passes. In ghostwriter, `agentskills validate skills/ghostwriter` passes and `validate.sh skills/ghostwriter` run from this repository reports 0 FAIL. In agent-evals, `validate-cases --skills-dir` passes (327 cases, 25 skills) and `vitest` passes (25 tests). Behavioural comparison: not run.
