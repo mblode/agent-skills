@@ -54,7 +54,7 @@ fi
 normalised="$(printf '%s' "$jobs" | jq -s '
   [ .[] | if has("jobs") then (.jobs | if type == "object" and has("jobs") then .jobs else . end) else . end ]
   | flatten
-  | map(select(.completed_at != null))
+  | map(select(.completed_at != null and .started_at != null and .conclusion != "skipped"))
 ')"
 
 printf '%s' "$normalised" | jq -r --arg run_started "$run_started" --arg min "$min_step" '
@@ -81,9 +81,9 @@ printf '%s' "$normalised" | jq -r --arg run_started "$run_started" --arg min "$m
     ( [ $jobs[] | select(.completed_at == $end) ][0] as $last
       | [ $last ]
       | until(
-          ( .[0] as $head | [ $jobs[] | select(.completed_at <= $head.started_at) ] | length == 0 );
+          ( .[0] as $head | [ $jobs[] | select(.id != $head.id and .completed_at <= $head.started_at) ] | length == 0 );
           ( .[0] as $head
-            | ([ $jobs[] | select(.completed_at <= $head.started_at) ] | sort_by(.completed_at) | last) as $prev
+            | ([ $jobs[] | select(.id != $head.id and .completed_at <= $head.started_at) ] | sort_by(.completed_at) | last) as $prev
             | [ $prev ] + . )
         )
       | map("  " + .name + " (" + fmt(secs(.started_at; .completed_at)) + ")")[] ),
