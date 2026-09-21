@@ -1,6 +1,6 @@
 # Structural Quality Rubric
 
-Unusually strict review of implementation quality, maintainability, and codebase health. Loaded by pr-reviewer's Structural mode ("thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", "code judo").
+Unusually strict review of implementation quality, maintainability, and codebase health. Loaded by tidy's Structural mode ("thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", "code judo").
 
 SKILL.md lists seven of these as an always-on floor, because Standard mode never loads this file. This rubric deepens them and adds the rest; the overlap is deliberate, not drift.
 

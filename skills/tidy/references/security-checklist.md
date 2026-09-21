@@ -1,6 +1,6 @@
 # Security Checklist
 
-Three-tier classification for security-relevant changes. Load when the diff touches auth, input handling, external APIs, file uploads, or environment config, and always in pr-reviewer's Security audit mode (whole-codebase).
+Three-tier classification for security-relevant changes. Load when the diff touches auth, input handling, external APIs, file uploads, or environment config, and always in tidy's Security audit mode (whole-codebase).
 
 ## Contents
 

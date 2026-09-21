@@ -61,8 +61,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 ### Shipping
 
 - **[planning](./skills/planning/SKILL.md)**: Writes and reviews executable plans with repository evidence, vertical slices, and explicit acceptance criteria.
-- **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only diff review: bugs, structure, AI slop, security.
-- **[tidy](./skills/tidy/SKILL.md)**: Applies diff-scoped simplifications, preserving necessary guards and existing edits.
+- **[tidy](./skills/tidy/SKILL.md)**: Diff review with severity-tiered findings (bugs, structure, AI slop, security), report-only by default; apply mode lands the fixes and simplifies the diff.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.

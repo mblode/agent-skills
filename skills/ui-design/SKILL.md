@@ -8,7 +8,7 @@ description: Designs and builds React/Next/Tailwind UI and audits visual and int
 Owns everything that touches the built artifact: pick the visual direction, implement it in code, and audit what shipped.
 
 - **IS:** choosing visual direction (palettes, type scales, tokens, layout systems, CRO strategy, brand boards), building UI in code, and auditing built React or Next frontends for user-facing defects with `file:line` evidence, applied fixes, and a ship verdict.
-- **IS NOT:** deciding what an interface should do before it exists (use `product-design`); non-UI correctness and code quality (use `pr-reviewer`); agentic-app review (use `ax-audit`); deep typography or motion passes (use `typography-audit`, `ui-animation`); the wording of a string (use `ghostwriter`).
+- **IS NOT:** deciding what an interface should do before it exists (use `product-design`); non-UI correctness and code quality (use `tidy`); agentic-app review (use `ax-audit`); deep typography or motion passes (use `typography-audit`, `ui-animation`); the wording of a string (use `ghostwriter`).
 
 ## Contents
 
@@ -235,7 +235,7 @@ Taste essays (Developing Taste, The Concept of Taste) and Disney's 12 principles
 
 - `product-design`: what the interface should do, decided before this skill builds or verifies it.
 - `ui-verification`: boots the app in a browser and reproduces these findings as measurements. This skill decides what is wrong and what tier it is; that one decides whether it is actually there.
-- `pr-reviewer`: correctness and code quality in the same diff; this skill covers only user-facing quality.
+- `tidy`: correctness and code quality in the same diff; this skill covers only user-facing quality.
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
 - `typography-audit`: deep typography (pairing, OpenType systems, measure, leading, display type); the `type-` rules here are the readable-floor check and hover-weight reflow.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics).

@@ -183,7 +183,7 @@ There is no binary to invoke: the audit runs as an agent, and this adapter descr
 
 Gate on `remaining`, never on `found`. A gate on `found` fails a run that fixed everything it saw, which trains everyone to skip the audit.
 
-There is no PR-comment adapter. Posting per-line review comments on a diff is the `pr-reviewer` skill's territory, and duplicating it here produces two bots arguing on the same line.
+There is no PR-comment adapter. Posting per-line review comments on a diff is the `tidy` skill's territory, and duplicating it here produces two bots arguing on the same line.
 
 ## JSON schema
 

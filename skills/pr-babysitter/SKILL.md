@@ -7,7 +7,7 @@ compatibility: Requires a Git checkout, authenticated GitHub CLI, and jq. Contin
 # PR Babysitter
 
 - **IS:** keeping one open PR moving: conflicts, CI across GitHub Actions/Buildkite/Vercel/Fly.io, inbound review comments, and merge readiness, as a background monitor or as one-shot fixes.
-- **IS NOT:** opening or editing the PR (`pr-creator`), reviewing the diff for bugs (`pr-reviewer`), applying a local `pr-reviewer` report (`tidy`), or npm release PRs (`autoship` watches its own release CI; never babysit a release or Version Packages PR it drives).
+- **IS NOT:** opening or editing the PR (`pr-creator`), reviewing or fixing the diff itself (`tidy`), or npm release PRs (`autoship` watches its own release CI; never babysit a release or Version Packages PR it drives).
 
 ## Mode Selection
 
@@ -186,6 +186,6 @@ On stop, report: polls or events handled, fixes applied, conflicts resolved, com
 
 - `pr-creator`: opens or edits the PR; babysitting starts after it exists
 - `planning`: writes plans a fresh session executes. The fix plan this skill writes is an audit trail for one PR, not a `planning` deliverable
-- `pr-reviewer`: local diff review for bugs; run it on monitor-authored fixes beyond a trivial patch
-- `tidy`: applies a `pr-reviewer` report to the working tree; this skill applies GitHub review comments
+- `tidy`: local diff review for bugs; run it on monitor-authored fixes beyond a trivial patch
+- `tidy`: reviews and fixes the diff itself; this skill applies GitHub review comments
 - `autoship`: npm release pipelines; it watches its own release CI, so never babysit a release PR it drives
