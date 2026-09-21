@@ -1,0 +1,61 @@
+{
+  "skill_name": "ci-speedup",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "CI on our monorepo takes 10 to 12 minutes per PR and agents are now waiting on it more than on review. Everything runs in one Test job. Figure out where the time goes and make it faster.",
+      "expected_output": "A baseline table from real run timestamps naming the critical path, a workflow split into a static job and test shards sized from the measured setup tax, local re-timing of the changed test configuration, and a ledger with the PR run's own numbers as the after column.",
+      "files": [],
+      "assertions": [
+        "Pulls job and step timestamps from at least two completed runs before proposing changes",
+        "Names the critical path as an ordered chain with minutes, distinct from total runner minutes",
+        "Quotes the test runner's duration breakdown (import, environment, tests) for the slowest suite",
+        "Predicts the new chain's minutes before pushing and compares against the PR run afterwards",
+        "Keeps existing incident-derived guards (concurrency groups, change detection, migration checks) in place",
+        "Writes a ledger with before, changes, after, and not-taken sections"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our Vitest suite is 220 files and takes almost 7 minutes in CI but the tests themselves are only 40 seconds according to the summary line. Why, and what do we do about it?",
+      "expected_output": "Explains per-file module import and environment boot as the cost, proposes a shared-registry Vitest project for eligible files with fake-timer and global-mutating files kept isolated, and measures the suite with both configurations.",
+      "files": [],
+      "assertions": [
+        "Identifies import plus environment time as per-file boot cost rather than slow tests",
+        "Proposes isolate: false as a second project rather than a global switch",
+        "Names fake timers and unrestored global mutation as reasons to keep a file isolated",
+        "Runs the suite with the new configuration and reports pass or fail per moved file"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Speed up CI, but we are on a private repo with a 2,000 minute plan. Don't just throw more runners at it.",
+      "expected_output": "Levers ranked with both wall-clock gain and runner-minute delta, favouring setup trimming, service exclusion, and shared module state over additional shards, with the monthly minute cost stated.",
+      "files": [],
+      "assertions": [
+        "Reports runner-minute change alongside wall-clock change for each lever",
+        "Prefers levers that lower both numbers before proposing shards",
+        "States an estimated monthly minute cost for any shard added"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "CI takes forever, can you look at why our pipeline is so slow",
+      "Every PR waits 15 minutes on checks. Shorten that.",
+      "We want the push to green time under five minutes",
+      "Our GitHub Actions bill doubled since we started using coding agents, what is eating the minutes",
+      "Shard our test job",
+      "Is our Supabase start step in CI necessary at 3 minutes",
+      "Profile the CI workflow and tell me where the time goes",
+      "Apply the Linear CI bottleneck article to our repo"
+    ],
+    "near_miss": [
+      { "prompt": "CI is red on my PR, fix it", "expected": "pr-babysitter" },
+      { "prompt": "Set up GitHub Actions for this new npm package", "expected": "scaffold-cli" },
+      { "prompt": "Publish the CLI release and watch the publish workflow", "expected": "autoship" },
+      { "prompt": "Review this workflow change for bugs", "expected": "pr-reviewer" },
+      { "prompt": "The deploy failed with a health check timeout, roll it back", "expected": "none" }
+    ]
+  }
+}
