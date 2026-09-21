@@ -48,7 +48,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 ### Writing
 
 - **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: optional analogy, exact technical terms, and house vocabulary without forced templates.
-Docs, READMEs, personal voice, brand copy, and blog posts live in [ghostwriter](https://github.com/mblode/ghostwriter).
+- **[ghostwriter](./skills/ghostwriter/SKILL.md)**: Writes anything as you or as your company: messages, posts, PRs, tickets, PRDs, slides, copy, docs, READMEs. Works with no profile and writes one from pasted samples.
 
 ### Quality
 

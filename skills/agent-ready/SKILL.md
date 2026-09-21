@@ -1,6 +1,6 @@
 ---
 name: agent-ready
-description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make this agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief. For docs prose use the external ghostwriter skill; for CLI/SDK ergonomics use dx-audit; for agentic product UX use ax-audit; for crawler policy, Next.js markdown routes, and AEO measurement use seo.
+description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make this agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief. For docs prose use ghostwriter; for CLI/SDK ergonomics use dx-audit; for agentic product UX use ax-audit; for crawler policy, Next.js markdown routes, and AEO measurement use seo.
 compatibility: The verification script needs Bash and curl. Scanner commands need Node.js and npm registry access.
 ---
 
@@ -9,7 +9,7 @@ compatibility: The verification script needs Bash and curl. Scanner commands nee
 Turn a public agent-readiness score, or a log of agents failing to navigate, into shipped, verified HTTP and docs changes.
 
 - **IS:** ingesting Mintlify Agent Score / AFDocs, [Is Agentic](https://is-agentic.com/), [Is It Agent Ready](https://isitagentready.com/), or [url-discovery-bench](https://github.com/mintlify/url-discovery-bench) findings, plus server-side evidence of agent 404s, inspecting the repo, implementing the matching protocols, adding tests, and verifying live responses.
-- **IS NOT:** rewriting docs prose (the external `ghostwriter` skill where installed), package/CLI/SDK ergonomics (`dx-audit`), whether an in-product agent can be trusted (`ax-audit`), or search ranking, crawler policy, and Next.js `llms.txt`/markdown routes (`seo`). Do not vendor [vercel-labs/is-agentic](https://github.com/vercel-labs/is-agentic); that skill retrieves reports. This one implements the product.
+- **IS NOT:** rewriting docs prose (`ghostwriter`), package/CLI/SDK ergonomics (`dx-audit`), whether an in-product agent can be trusted (`ax-audit`), or search ranking, crawler policy, and Next.js `llms.txt`/markdown routes (`seo`). Do not vendor [vercel-labs/is-agentic](https://github.com/vercel-labs/is-agentic); that skill retrieves reports. This one implements the product.
 
 ## Contents
 
@@ -97,7 +97,7 @@ Finish with remaining items that need a product decision, DNS access, or credent
 
 ## Related skills
 
-- External `ghostwriter` where installed: page quality after the machine-readable path works
+- `ghostwriter`: page quality after the machine-readable path works
 - `seo`: App Router `llms.txt` and markdown routes, sitemaps, robots, crawler policy, and AEO measurement. This skill owns the AFDocs/Is Agentic contract those routes must satisfy.
 - `dx-audit`: the CLI or SDK once it exists as a package
 - `ax-audit`: in-product agent trust, not public HTTP discovery

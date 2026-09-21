@@ -1,0 +1,130 @@
+{
+  "skill_name": "ghostwriter",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Turn this into a Slack message for the platform channel: ok so the rspack thing is done for mfe-admin-shell, refresh is like 1 second now instead of 12, i think we should roll it to the other apps but maybe not the checkout one yet? not sure. PR is github.com/acme/mfe/pull/482",
+      "expected_output": "One finished Slack message in the user's slack register, shorter than the ramble, keeping the numbers and the link, with the checkout question left open.",
+      "files": [],
+      "assertions": [
+        "Returns one message, not alternatives or a plan",
+        "Keeps 1 second, 12, mfe-admin-shell, and the PR link verbatim",
+        "The checkout rollout stays a question or a maybe; it is not stated as a decision",
+        "No em dash or spaced hyphen",
+        "No praise, preamble, or explanation before the message"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a blog post in my voice. Facts: I rebuilt my site from scratch in one night with Claude Code, it was live before morning, the old codebase was 3 years old and I deleted all of it. That is all I want to say.",
+      "expected_output": "A short post in the blog register built only from the three supplied facts, with no invented motive, quote, or extra episode, halved once and checked.",
+      "files": [],
+      "assertions": [
+        "Contains no reason or motive for the rebuild that the user did not state",
+        "Contains no invented numbers, names, tools, or quotes beyond one night, 3 years, and Claude Code",
+        "Follows the blog profile's exclamation, emoji, and heading conventions",
+        "No em dash or spaced hyphen",
+        "Returns the post text only"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Critique my draft before I send it to my manager: 'Hi Priya, I hope this finds you well. I wanted to reach out because I've been thinking about the on-call rotation and honestly I think there might potentially be some room for improvement. It's not about the workload, it's about the predictability. Let me know your thoughts when you get a chance!'",
+      "expected_output": "Findings ordered by cost to the reader, each naming the place, the problem, and the cost, followed by a rewritten message; no praise anywhere.",
+      "files": [],
+      "assertions": [
+        "Opens with the highest-cost finding, not a compliment or a summary of what works",
+        "Contains no praise or reassurance sentence",
+        "Names the buried ask and the hedge stack as findings",
+        "Includes the rewritten message after the findings",
+        "The rewrite keeps Priya and the on-call subject and adds no invented detail"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write the README for this repo. package.json: name @acme/harbor, bin harbor, description 'Ship a preview URL for every branch', repository github.com/acme/harbor, license MIT, private not set.",
+      "expected_output": "A CLI README from the manifest: install from the published name, a runnable quickstart, badges because it is published, no invented origin story, and the readme profile's markup if one exists.",
+      "files": [],
+      "assertions": [
+        "Install line uses @acme/harbor, not the repo name",
+        "Quickstart is complete and runnable as pasted",
+        "Contains no sentence explaining why the author built it",
+        "No Contributing, Development, Tech Stack, or Workspaces section",
+        "No em dash; canonical heading names Install, Quickstart, License"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write the hero headline and subhead for the Done Bear landing page. Cold Instagram traffic. It's a to-do app for people with ADHD, 2,100 paying users, syncs with Google Calendar.",
+      "expected_output": "One recommended headline and subhead written from the donebear profile, opening with the reader's problem, keeping 2,100 and Google Calendar, with inferred brief fields marked.",
+      "files": [],
+      "assertions": [
+        "Reads the donebear profile rather than a personal one",
+        "Headline opens with the reader's problem or motivation, not the product name",
+        "2,100 and Google Calendar appear and are not replaced by generic phrases",
+        "Does not reuse the phrase 'to-do app for people with ADHD' verbatim",
+        "Returns one recommended draft with inferred fields marked"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Draft a Slack reply saying I agree and can review the PR tomorrow. (GHOSTWRITER_HOME points at an empty directory.)",
+      "expected_output": "One plain, tell-free Slack line, then a single line saying no slack profile exists yet and offering to write one from 5 to 10 pasted messages.",
+      "files": [],
+      "assertions": [
+        "Returns a usable reply without stopping or refusing",
+        "Does not adopt a fictional persona, sign-off, or laugh token",
+        "Offers to write a profile from pasted samples in one line",
+        "Does not tell the user an export or training step is required"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Here are eight Slack messages I wrote: [eight short messages, two containing a colleague's name and a PR link]. Write my slack profile.",
+      "expected_output": "A slack.md under the data root in the profile shape (Register, Contexts, Message shapes, Language, Anti-patterns, Redacted excerpts, Provenance), written after one path confirmation, with names and links redacted in excerpts.",
+      "files": [],
+      "assertions": [
+        "Asks once to confirm the write path before writing",
+        "Every excerpt is under 280 characters and contains no colleague name or PR link",
+        "Provenance states it is a quick profile from 8 pasted samples and not evaluable",
+        "No rule is derived from a single message",
+        "Does not point the user at an export or training step"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Reply to this email as me, I can do Thursday at 2",
+      "Clean up my ramble into a Linear ticket",
+      "Write a LinkedIn post about the meetup, 60 people came",
+      "Does this Slack message land or is it too soft?",
+      "Cut this doc in half but keep the numbers",
+      "Write the password reset email for Done Bear",
+      "Rewrite our getting-started page, the examples are stale",
+      "Write a README for the new CLI package",
+      "Critique this essay draft, no rewriting yet",
+      "Turn these notes into a message to the team",
+      "Write the PR description for this branch in my voice",
+      "Write a PRD for the reminders feature from these notes",
+      "Write my email profile from these ten emails"
+    ],
+    "near_miss": [
+      {
+        "prompt": "Should the delete button be undoable or need a confirm dialog?",
+        "expected": "product-design"
+      },
+      {
+        "prompt": "Update AGENTS.md with the new test command",
+        "expected": "agents-md"
+      },
+      {
+        "prompt": "Write the PR description for this branch",
+        "expected": "pr-creator"
+      },
+      {
+        "prompt": "Explain what a mutex is like I'm five",
+        "expected": "eli5"
+      }
+    ]
+  }
+}

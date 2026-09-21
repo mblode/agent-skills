@@ -1,6 +1,6 @@
 ---
 name: dx-audit
-description: Audits libraries, CLIs, and SDKs using 38 rules for public contracts, package exports, piped output, errors, and configuration. Use when asked to "audit my CLI", "review my SDK", or diagnose package type resolution. For public site or docs agent scores use agent-ready; for agentic product trust use ax-audit; for docs prose use the external ghostwriter skill.
+description: Audits libraries, CLIs, and SDKs using 38 rules for public contracts, package exports, piped output, errors, and configuration. Use when asked to "audit my CLI", "review my SDK", or diagnose package type resolution. For public site or docs agent scores use agent-ready; for agentic product trust use ax-audit; for docs prose use ghostwriter.
 ---
 
 # DX Audit
@@ -8,7 +8,7 @@ description: Audits libraries, CLIs, and SDKs using 38 rules for public contract
 Audit or improve what developers import, run, configure, or read when something fails.
 
 - **IS:** a bounded review of public APIs, developer-facing errors, CLI commands, exported types, install and first-run behavior, and config, with fixes only when asked.
-- **IS NOT:** a repo-wide quality sweep (`pr-reviewer`), end-user UI (`ui-design` Audit mode), agent trust review (`ax-audit`), public site or docs agent scores (`agent-ready`), docs prose or a README (the external `ghostwriter` skill where installed), repository architecture (`codebase-architecture`), or building a new CLI (`scaffold-cli`).
+- **IS NOT:** a repo-wide quality sweep (`pr-reviewer`), end-user UI (`ui-design` Audit mode), agent trust review (`ax-audit`), public site or docs agent scores (`agent-ready`), docs prose or a README (`ghostwriter`), repository architecture (`codebase-architecture`), or building a new CLI (`scaffold-cli`).
 
 ## Modes
 
@@ -142,7 +142,7 @@ Re-open every touched or cited location, rerun the same probes and focused proje
 - `scaffold-cli`: builds a new CLI with these patterns already in place; this skill audits what exists
 - `pr-reviewer`: general correctness and structure of a diff
 - `agent-ready`: public HTTP/docs agent scores (AFDocs, Is Agentic, Is It Agent Ready); this skill audits the package once it exists
-- External `ghostwriter` where installed: documentation prose, README structure, and the first-reader narrative
+- `ghostwriter`: documentation prose, README structure, and the first-reader narrative
 - `agents-md`: AGENTS.md and CLAUDE.md instruction files
 - `codebase-architecture`: repository structure and module contracts inside the repo, rather than the surface a package ships outward
 

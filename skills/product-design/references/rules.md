@@ -25,7 +25,7 @@ Cite an ID exactly as written (`rule/destructive-names-action`). If no rule belo
 | Rule | The decision as an observable constraint, not an adjective |
 | Why | The user consequence when violated |
 | Source | Where it is detailed or grounded: a reference section, a sibling skill, or a key in External sources |
-| Enforcement | `lint` (deterministic, see `lint-patterns.md`), `judgment` (this skill), or `copy` (wording written by the external `ghostwriter` skill against these IDs) |
+| Enforcement | `lint` (deterministic, see `lint-patterns.md`), `judgment` (this skill), or `copy` (wording written by `ghostwriter` against these IDs) |
 
 A rule is observable when you can point at the interface and say it passes or fails without invoking taste. "Destructive actions use Verb plus Noun" is observable; "Buttons should be clear" is not and does not belong here.
 
@@ -53,7 +53,7 @@ A gap stays in the pass output. Promoting one into this file is a separate, deli
 
 ## Copy rule IDs
 
-This skill owns these IDs. The external `ghostwriter` skill writes the strings against them and cites them back, so the wording has one owner and the product decision stays here.
+This skill owns these IDs. `ghostwriter` writes the strings against them and cites them back, so the wording has one owner and the product decision stays here.
 
 | ID | The decision it governs |
 |----|-------------------------|

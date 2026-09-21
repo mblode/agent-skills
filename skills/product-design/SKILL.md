@@ -1,6 +1,6 @@
 ---
 name: product-design
-description: Specifies interaction choices, action scope, reversibility, recovery, and reachable states. Use when asked to "design the flow", "should delete be undoable", "choose the control", or "review this product decision". For visual implementation use ui-design; for motion use ui-animation; for wording use the external ghostwriter skill.
+description: Specifies interaction choices, action scope, reversibility, recovery, and reachable states. Use when asked to "design the flow", "should delete be undoable", "choose the control", or "review this product decision". For visual implementation use ui-design; for motion use ui-animation; for wording use ghostwriter.
 ---
 
 # Product Design
@@ -12,7 +12,7 @@ Decide what the interface should do, then route who builds and verifies it: pick
   - whether a feature deserves investment or fits the product: the external `product-judgment` skill from Brandwriter.
   - building or styling UI, visual direction, palettes, type: `ui-design`.
   - auditing the built result (rendered quality, a11y markup, keyboard, layout, performance, React or Next code-level UX with a ship verdict): `ui-design` Audit mode.
-  - copy wording, persuasion, or AI-ism removal: the external `ghostwriter` skill where installed.
+  - copy wording, persuasion, or AI-ism removal: `ghostwriter`.
   - motion, gesture physics, or deep typography: `ui-animation`, `typography-audit`.
   - whether an agentic feature earns trust: `ax-audit`.
 
@@ -107,7 +107,7 @@ Use these as the decision contract. Report unresolved decisions; omit a separate
 ## Related skills
 
 - `ui-design`: visual direction and building the decided interaction in code; its Audit mode covers the built result, rendered quality and accessibility markup, with a ship verdict.
-- External `ghostwriter` where installed: exact wording for names, errors, and empty and loading copy, written against the copy rule IDs this skill owns in `references/rules.md`.
+- `ghostwriter`: exact wording for names, errors, and empty and loading copy, written against the copy rule IDs this skill owns in `references/rules.md`.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill settles whether a gesture replaces a control and what its alternative is; that skill builds the motion.
 - `ax-audit`: whether a built agentic feature earns trust; this skill decides what it should do first.
 - `typography-audit`: deep type.

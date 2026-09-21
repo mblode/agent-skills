@@ -98,6 +98,6 @@ Report findings as:
 
 - `ui-design` Audit mode: broad frontend quality (accessibility, forms, navigation, motion); its typography coverage is shallower.
 - `ui-design` Direction mode: choosing typefaces, scales, and visual direction from scratch; run when a finding becomes a redesign request.
-- External `ghostwriter` where installed: heading and label wording. This skill governs only the casing of that copy (`punct-case-rules`).
+- `ghostwriter`: heading and label wording. This skill governs only the casing of that copy (`punct-case-rules`).
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

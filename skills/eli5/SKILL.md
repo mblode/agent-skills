@@ -1,6 +1,6 @@
 ---
 name: eli5
-description: "Applies the house explanation style: concrete terms, optional analogy, no minimizers or promotional vocabulary, and verbatim technical identifiers. Use when asked for \"ELI5\", \"plain English\", \"re-pitch that\", or \"stop using jargon\". For product copy and documentation use the external ghostwriter skill."
+description: "Applies the house explanation style: concrete terms, optional analogy, no minimizers or promotional vocabulary, and verbatim technical identifiers. Use when asked for \"ELI5\", \"plain English\", \"re-pitch that\", or \"stop using jargon\". For product copy and documentation use ghostwriter."
 ---
 
 # Plain-language house style
@@ -18,7 +18,7 @@ Return the explanation itself. No activation announcement, fixed sentence count,
 
 ## Boundaries
 
-This changes assistant prose. Product copy, technical docs, and README structure belong to the external `ghostwriter` skill where installed, and PR bodies to `pr-creator`.
+This changes assistant prose. Product copy, technical docs, and README structure belong to `ghostwriter`, and PR bodies to `pr-creator`.
 
 ## Maintenance
 

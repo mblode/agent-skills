@@ -72,7 +72,7 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 **Impact:** HIGH
 **Default tier:** fix-this-sprint, release-blocker for leaked errors
 **Rules:** 2
-**Description:** Vague errors and leaked exception text with PII or stack traces. Wording of a string that is not an error belongs to the external `ghostwriter` skill where installed.
+**Description:** Vague errors and leaked exception text with PII or stack traces. Wording of a string that is not an error belongs to `ghostwriter`.
 
 ## 9. Mobile and Touch (mobile)
 
