@@ -6,6 +6,7 @@ How to get real numbers out of GitHub Actions and turn them into a critical path
 
 - Where the numbers are
 - Pulling timings
+- Percentiles and trend
 - Computing the critical path
 - Reading test-runner output
 - Baseline table
@@ -29,7 +30,19 @@ The script prints each job with its queue wait and duration, every step over two
 
 Through a GitHub MCP server, `github:actions_list` (method `list_workflow_runs`, then `list_workflow_jobs`) returns the same job and step objects the script reads; compute the durations from the timestamps by hand or save the JSON and feed it to the script with `--jobs-json <file>`.
 
+One run is a sample. Hosted runners vary by a minute on the same shard between consecutive pushes, so the baseline and the after both want median and p90 over the recent history:
+
+```bash
+scripts/ci-timings.sh --runs 20 --workflow ci.yml --branch main
+```
+
+That prints median, p90 and spread per job name and for the whole run. Use the single-run form to read steps and the chain; use this form for the numbers that go in the ledger.
+
 Take runs on the default branch and on a pull request separately. The default-branch run usually carries a deploy stage that pull requests skip, so its critical path is longer and different.
+
+## Percentiles and Trend
+
+Report the median for what a developer usually waits and the p90 for what they remember. Alongside them, record the count of test files (or tests) and the rate they grow, because a pipeline that is fast today at 500 files is the pipeline that is slow at 900. Minutes per hundred files, tracked per measurement, is the number that says when the next round is due before anyone complains. The ledger reference has the table.
 
 ## Computing the Critical Path
 
