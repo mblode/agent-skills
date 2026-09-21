@@ -69,6 +69,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
+- **[ci-speedup](./skills/ci-speedup/SKILL.md)**: Measures a pipeline's critical path from run timestamps, then splits, shards, trims setup, and shares test module state, with a before/after ledger.
 
 ### Authoring
 
