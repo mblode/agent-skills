@@ -2,7 +2,7 @@
 
 Unusually strict review of implementation quality, maintainability, and codebase health. Loaded by tidy's Structural mode ("thermo-nuclear review", "structural review", "deep code quality audit", "harsh maintainability review", "code judo").
 
-SKILL.md lists seven of these as an always-on floor, because Standard mode never loads this file. This rubric deepens them and adds the rest; the overlap is deliberate, not drift.
+SKILL.md carries an always-on floor of structural checks under High-signal criteria, because Standard mode never loads this file. This rubric deepens each of them and adds the rest; the overlap is deliberate, not drift.
 
 The core question is not "will this code break?" but "should this code exist in this form?"
 
