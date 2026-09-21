@@ -25,4 +25,4 @@ Set headings, buttons, labels, and nav items in sentence case, and apply it ever
 <button>Save changes</button>
 ```
 
-Always capitalize the first word, proper nouns, and "I". Do not reach for `text-transform: capitalize` to fake title case; it capitalizes every word including articles and prepositions, which no title-case style permits. Wording itself (what a heading should say) belongs to `copywriting`; this rule governs only the casing.
+Always capitalize the first word, proper nouns, and "I". Do not reach for `text-transform: capitalize` to fake title case; it capitalizes every word including articles and prepositions, which no title-case style permits. Wording itself (what a heading should say) belongs to the external `ghostwriter` skill where installed; this rule governs only the casing.

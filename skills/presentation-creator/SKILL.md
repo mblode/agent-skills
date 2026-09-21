@@ -8,7 +8,7 @@ description: Builds decks with a story spine, house visual system, setting-speci
 Bold, minimal slide decks with a story underneath: spine to final QA.
 
 - **IS:** slide decks end to end: story spine, slide sequence, slide copy, visual system, speaker notes, investor pitch decks, and decks built as a web app; output as Marp markdown (default), Slidev or reveal.js markdown, or a Next.js deck app.
-- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (available presentation/PPTX skill or tool; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose (external `ghostwriter` with platform `blog`), marketing copy outside slides (`copywriting`), or product UI (`ui-design`).
+- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (available presentation/PPTX skill or tool; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose and marketing copy outside slides (external `ghostwriter` where installed), or product UI (`ui-design`).
 
 ## Workflow
 
@@ -113,6 +113,6 @@ Fix observed defects and inspect affected slides again. If rendering is unavaila
 
 - External `pptx` skill (anthropics/skills) where installed: creating, editing, and QA of the `.pptx` file. This skill owns story, outline, copy, and notes; on a visual conflict inside a `.pptx`, this skill's colour system and type hierarchy set direction and the `pptx` skill's font, margin, and notes mechanics win.
 - External `dataviz` skill where installed: any chart or metric tile on a slide.
-- `copywriting`: landing pages, CTAs, marketing copy outside a deck.
+- External `ghostwriter` where installed: landing pages, CTAs, marketing copy outside a deck.
 - `ui-design`: visual systems for product UI and landing pages; presentation visual rules live in `references/visual-design.md` instead.
 - External `ghostwriter` where installed: long-form articles from the `blog` platform profile, when the output is prose, not slides.

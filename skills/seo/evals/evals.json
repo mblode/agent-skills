@@ -92,7 +92,7 @@
       },
       {
         "prompt": "Make this button label clearer.",
-        "expected": "copywriting"
+        "expected": "ghostwriter"
       },
       {
         "prompt": "Redesign the homepage visual style.",
@@ -116,11 +116,11 @@
       },
       {
         "prompt": "Write a Diataxis tutorial from this API.",
-        "expected": "docs-writing"
+        "expected": "ghostwriter"
       },
       {
         "prompt": "Change the pricing page CTA wording.",
-        "expected": "copywriting"
+        "expected": "ghostwriter"
       }
     ]
   }

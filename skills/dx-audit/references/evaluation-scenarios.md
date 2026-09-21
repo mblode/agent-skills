@@ -17,7 +17,7 @@ Scenarios for changing this skill. Evaluate the observable workflow, not whether
 
 ## 2. Multi-skill request
 
-**Prompt:** "Use dx-audit, readme-creator, and codebase-architecture. Make this package simple."
+**Prompt:** "Use dx-audit, ghostwriter, and codebase-architecture. Make this package simple."
 
 **Expected behavior:**
 

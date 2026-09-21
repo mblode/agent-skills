@@ -127,6 +127,6 @@ For a local scaffold, stop after Step 7. If the user already requested remote se
 - `autoship`: every release after the bootstrap publish: changeset, CI watch, Version Packages PR, publish verification, and diagnosis of a release that did not publish.
 - `dx-audit`: audit the CLI's flags, errors, and types once real commands exist.
 - `agents-md`: grow the generated AGENTS.md as the codebase gains structure.
-- `readme-creator`: rewrite the README once there is a real usage story to tell.
+- External `ghostwriter` where installed: rewrite the README once there is a real usage story to tell.
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

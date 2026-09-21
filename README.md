@@ -48,10 +48,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 ### Writing
 
 - **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: optional analogy, exact technical terms, and house vocabulary without forced templates.
-- **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 51 rules, audit and writing modes, agent-readable docs.
-- **[readme-creator](./skills/readme-creator/SKILL.md)**: Type-aware README from the manifests: one install, a runnable quickstart, badges only where published.
-
-Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://github.com/mblode/ghostwriter).
+Docs, READMEs, personal voice, brand copy, blog posts, and voice evaluation live in [ghostwriter](https://github.com/mblode/ghostwriter).
 
 ### Quality
 

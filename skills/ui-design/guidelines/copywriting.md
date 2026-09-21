@@ -15,4 +15,4 @@ Covers: headings, taglines, subtitles, descriptions, labels, list items, button 
 - Toasts name the specific thing changed, no trailing period, never say "successfully": "Project deleted", not "Successfully deleted the project."
 - Empty states point to the first action: "No deployments yet. Push to your Git repository to create one."
 - In-progress states use the present participle plus a real ellipsis character: "Deploying…", "Saving…", never three periods.
-- Sentence case everywhere: labels, buttons, titles, tabs, body, helper text, and toasts. This matches `copywriting`, which owns final wording.
+- Sentence case everywhere: labels, buttons, titles, tabs, body, helper text, and toasts. Final wording belongs to the external `ghostwriter` skill where installed.

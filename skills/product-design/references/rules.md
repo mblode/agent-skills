@@ -9,7 +9,7 @@ Cite an ID exactly as written (`rule/destructive-names-action`). If no rule belo
 - [How to read a rule](#how-to-read-a-rule)
 - [Categories](#categories)
 - [Recording a coverage gap](#recording-a-coverage-gap)
-- [Copy rule IDs (defined in copywriting)](#copy-rule-ids-defined-in-copywriting)
+- [Copy rule IDs](#copy-rule-ids)
 - [Interaction and control selection](#interaction-and-control-selection)
 - [Action naming and consequence](#action-naming-and-consequence)
 - [State coverage](#state-coverage)
@@ -25,7 +25,7 @@ Cite an ID exactly as written (`rule/destructive-names-action`). If no rule belo
 | Rule | The decision as an observable constraint, not an adjective |
 | Why | The user consequence when violated |
 | Source | Where it is detailed or grounded: a reference section, a sibling skill, or a key in External sources |
-| Enforcement | `lint` (deterministic, see `lint-patterns.md`), `judgment` (this skill), or `copy` (defined in `copywriting`) |
+| Enforcement | `lint` (deterministic, see `lint-patterns.md`), `judgment` (this skill), or `copy` (wording written by the external `ghostwriter` skill against these IDs) |
 
 A rule is observable when you can point at the interface and say it passes or fails without invoking taste. "Destructive actions use Verb plus Noun" is observable; "Buttons should be clear" is not and does not belong here.
 
@@ -51,9 +51,9 @@ Example: `coverage gap (proposed) rule/autosave-signals-state`: an autosaving ed
 
 A gap stays in the pass output. Promoting one into this file is a separate, deliberate edit.
 
-## Copy rule IDs (defined in copywriting)
+## Copy rule IDs
 
-These IDs are authored and worded in the copywriting skill's `references/ui-states.md`; this skill cites them for the product decision and routes the wording there. Restated so a citation resolves without opening another skill's file. Entries below for these IDs carry `Scope`, `Why`, `Source`, and `Enforcement` but no `Rule` line: the constraint's wording has one owner.
+This skill owns these IDs. The external `ghostwriter` skill writes the strings against them and cites them back, so the wording has one owner and the product decision stays here.
 
 | ID | The decision it governs |
 |----|-------------------------|
@@ -116,7 +116,8 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 ### rule/destructive-names-action
 - Scope: confirmation and primary buttons for destructive or irreversible actions.
 - Why: a generic label hides what is about to happen, so the user confirms without reading. Apple HIG: avoid "OK" unless the alert is purely informational; a title like "Delete" or "Erase" says what the button does.
-- Source: defined in the copywriting skill's `references/ui-states.md`; cited by `naming-and-copy.md`; Apple HIG alerts.
+- Rule: destructive and primary CTAs use Verb plus Noun naming the exact object (`Delete project`, `Remove member`), never `Confirm`, `OK`, `Yes`, or a bare verb; `Save`, `Cancel`, and `Close` are exempt.
+- Source: `naming-and-copy.md`; Apple HIG alerts; Polaris and Material content guidelines.
 - Enforcement: copy plus judgment.
 
 ### rule/name-object-scope-consequence
@@ -166,26 +167,29 @@ These IDs are authored and worded in the copywriting skill's `references/ui-stat
 ### rule/empty-state-action
 - Scope: empty and zero-data states.
 - Why: a bare "No items" leaves the user with nothing to do and no way to begin.
-- Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Empty state.
+- Rule: an empty state names the object and offers the first action; never-had-any guides the first step, filtered-to-zero offers to clear the filter, user-cleared confirms completion and says when new content appears.
+- Source: `surfaces.md` > Empty state; NN/g empty states.
 - Enforcement: copy plus judgment.
 
 ### rule/error-states-recovery
 - Scope: error states and failure messages.
 - Why: an error without a recovery path strands the user. NN/g heuristic 9: plain language, precise problem, constructive suggestion.
-- Source: defined in the copywriting skill's `references/ui-states.md`; `surfaces.md` > Validation and error; GOV.UK error message.
+- Rule: an error states what happened, why when known, and the recovery action, without raw exception text, blaming vocabulary, or a bare "Something went wrong".
+- Source: `surfaces.md` > Validation and error; GOV.UK error message; NN/g error-message guidelines.
 - Enforcement: copy plus judgment.
 
 ### rule/loading-stable-labels
 - Scope: controls in a loading or busy state.
 - Rule: keep the control's label stable while busy and use the component's loading or busy affordance. Do not swap the label for "Loading..." or change its width.
 - Why: a shifting label causes layout jump and hides which action is in flight.
-- Source: `surfaces.md` > Loading state; `loading-state-specific` in `copywriting`.
+- Source: `surfaces.md` > Loading state; `rule/loading-state-specific`.
 - Enforcement: judgment.
 
 ### rule/loading-state-specific
 - Scope: loading copy.
 - Why: specific feedback tells the user the system is working, not stuck.
-- Source: defined in the copywriting skill's `references/ui-states.md`.
+- Rule: prefer specific loading copy that names the target ("Loading your projects…") over a bare "Loading...", with a rough duration for long operations.
+- Source: `surfaces.md` > Loading state; NN/g progress indicators.
 - Enforcement: copy.
 
 ### rule/time-limit-adjustable

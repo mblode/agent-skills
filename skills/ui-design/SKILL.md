@@ -8,7 +8,7 @@ description: Designs and builds React/Next/Tailwind UI and audits visual and int
 Owns everything that touches the built artifact: pick the visual direction, implement it in code, and audit what shipped.
 
 - **IS:** choosing visual direction (palettes, type scales, tokens, layout systems, CRO strategy, brand boards), building UI in code, and auditing built React or Next frontends for user-facing defects with `file:line` evidence, applied fixes, and a ship verdict.
-- **IS NOT:** deciding what an interface should do before it exists (use `product-design`); non-UI correctness and code quality (use `pr-reviewer`); agentic-app review (use `ax-audit`); deep typography or motion passes (use `typography-audit`, `ui-animation`); the wording of a string (use `copywriting`).
+- **IS NOT:** deciding what an interface should do before it exists (use `product-design`); non-UI correctness and code quality (use `pr-reviewer`); agentic-app review (use `ax-audit`); deep typography or motion passes (use `typography-audit`, `ui-animation`); the wording of a string (use the external `ghostwriter` skill where installed).
 
 ## Contents
 
@@ -239,7 +239,7 @@ Taste essays (Developing Taste, The Concept of Taste) and Disney's 12 principles
 - `ax-audit`: agentic surfaces. Run both on an agentic feature.
 - `typography-audit`: deep typography (pairing, OpenType systems, measure, leading, display type); the `type-` rules here are the readable-floor check and hover-weight reflow.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics).
-- `copywriting`: landing-page copy, message match, persuasion frameworks.
+- External `ghostwriter` where installed: landing-page copy, message match, persuasion frameworks.
 - `seo`: meta descriptions and page titles.
 
 Maintenance only: when changing audit routing or anti-slop behavior, run the scenarios in `evaluations/` as a regression rubric.

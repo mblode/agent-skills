@@ -430,7 +430,9 @@ if [ "$all" -eq 1 ]; then
   done
   : >"$RESULTS"
   name=_catalogue
-  ruby -e '
+  # -E UTF-8: the README holds curly quotes, and with no UTF-8 locale ruby
+  # reads it as US-ASCII and String#scan raises instead of reporting.
+  ruby -E UTF-8 -e '# encoding: utf-8
     root, policy = ARGV
     path = File.join(root, "README.md")
     unless File.file?(path)

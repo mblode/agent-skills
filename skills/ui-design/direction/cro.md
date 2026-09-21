@@ -87,7 +87,7 @@ CRO tools report average ROI of 223%. AI-assisted A/B testing, common in mid-mar
 
 ## Voice of Customer research
 
-Copy-research methodology (mining reviews, tickets, and transcripts for the reader's exact words) is owned by the `copywriting` skill; it feeds the copywriting brief. Route VoC work there.
+Copy-research methodology (mining reviews, tickets, and transcripts for the reader's exact words) is owned by the external `ghostwriter` skill where installed; it feeds the copy brief. Route VoC work there.
 
 ---
 

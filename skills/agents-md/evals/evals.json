@@ -45,7 +45,7 @@
     "near_miss": [
       {
         "prompt": "Write our public API getting-started guide.",
-        "expected": "docs-writing"
+        "expected": "ghostwriter"
       }
     ]
   }
