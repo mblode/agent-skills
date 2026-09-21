@@ -7,12 +7,13 @@
       "expected_output": "A baseline table from real run timestamps naming the critical path, a workflow split into a static job and test shards sized from the measured setup tax, local re-timing of the changed test configuration, and a ledger with the PR run's own numbers as the after column.",
       "files": [],
       "assertions": [
-        "Pulls job and step timestamps from at least two completed runs before proposing changes",
+        "Pulls job and step timestamps and reports median and p90 over recent runs, not a single run",
         "Names the critical path as an ordered chain with minutes, distinct from total runner minutes",
         "Quotes the test runner's duration breakdown (import, environment, tests) for the slowest suite",
         "Predicts the new chain's minutes before pushing and compares against the PR run afterwards",
         "Keeps existing incident-derived guards (concurrency groups, change detection, migration checks) in place",
-        "Writes a ledger with before, changes, after, and not-taken sections"
+        "Writes a ledger with before, changes, after, and not-taken sections",
+        "Ledger includes a trend row (test count, median, p90, minutes per hundred files) and when the next round is due"
       ]
     },
     {
@@ -24,7 +25,9 @@
         "Identifies import plus environment time as per-file boot cost rather than slow tests",
         "Proposes isolate: false as a second project rather than a global switch",
         "Names fake timers and unrestored global mutation as reasons to keep a file isolated",
-        "Runs the suite with the new configuration and reports pass or fail per moved file"
+        "Runs the suite with the new configuration and reports pass or fail per moved file",
+        "Measures the ceiling with vitest run --no-isolate before proposing the project split",
+        "Names task-runner contention inside one job as a separate cause to rule out"
       ]
     },
     {
@@ -51,11 +54,34 @@
       "Apply the Linear CI bottleneck article to our repo"
     ],
     "near_miss": [
-      { "prompt": "CI is red on my PR, fix it", "expected": "pr-babysitter" },
-      { "prompt": "Set up GitHub Actions for this new npm package", "expected": "scaffold-cli" },
-      { "prompt": "Publish the CLI release and watch the publish workflow", "expected": "autoship" },
-      { "prompt": "Review this workflow change for bugs", "expected": "pr-reviewer" },
-      { "prompt": "The deploy failed with a health check timeout, roll it back", "expected": "none" }
+      {
+        "prompt": "CI is red on my PR, fix it",
+        "expected": "pr-babysitter"
+      },
+      {
+        "prompt": "Set up GitHub Actions for this new npm package",
+        "expected": "scaffold-cli"
+      },
+      {
+        "prompt": "Publish the CLI release and watch the publish workflow",
+        "expected": "autoship"
+      },
+      {
+        "prompt": "Review this workflow change for bugs",
+        "expected": "pr-reviewer"
+      },
+      {
+        "prompt": "The deploy failed with a health check timeout, roll it back",
+        "expected": "none"
+      }
     ]
+  },
+  "baseline": {
+    "date": "2026-09-21",
+    "model": "claude-sonnet (fresh subagent contexts, no repository access)",
+    "scenario": 2,
+    "without_skill": "Diagnosed per-file boot correctly; proposed isolate: false globally with a caveat, node as default environment, transform cache, coverage off, sharding. Did not measure the ceiling, did not name the leaking calls, did not name task-runner contention.",
+    "with_skill": "Read SKILL.md and levers.md. Measured ceiling first, second project isolated by vi.mock/fake timers/stubGlobal, node environment for DOM-free files, contention named, shard last. Passed assertions 1 to 3 and 5 to 6; assertion 4 needs a repository.",
+    "delta": "Real and concentrated in observed-failure content (eligibility by leaking calls, ceiling measurement, contention). Baseline raised two levers the skill lacked: coverage on every run, node as the default environment; both added to levers.md."
   }
 }
