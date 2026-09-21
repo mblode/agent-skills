@@ -6,7 +6,7 @@ description: Audits and fixes technical SEO, researches search demand, creates c
 # SEO
 
 - **IS:** one entry point for search visibility: evidence-led audits, implementation, demand research, writer briefs, and performance measurement across search and answer engines.
-- **IS NOT:** writing the article (`ghostwriter`), standalone marketing copy (`copywriting`), visual redesign (`ui-design`), tenant infrastructure (`multi-tenant-architecture`), or implementing AFDocs / Is Agentic / Is It Agent Ready scorecards (`agent-ready`). Fix SEO copy and markup when they are part of the requested implementation.
+- **IS NOT:** writing the article or standalone marketing copy (`ghostwriter`), visual redesign (`ui-design`), tenant infrastructure (`multi-tenant-architecture`), or implementing AFDocs / Is Agentic / Is It Agent Ready scorecards (`agent-ready`). Fix SEO copy and markup when they are part of the requested implementation.
 
 ## Route the task
 

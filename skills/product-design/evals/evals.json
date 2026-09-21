@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "We're adding a 'Delete workspace' button to the settings page. It should be a red button with a confirm dialog that says 'Are you sure?' with OK and Cancel. Spec the right interaction.",
-      "expected_output": "A spec that names object, scope, and consequence; treats the action as irreversible and wide-scope; replaces OK/Cancel with a typed or named confirmation; enumerates in-progress and failure states; routes the build to ui-design and final wording to copywriting.",
+      "expected_output": "A spec that names object, scope, and consequence; treats the action as irreversible and wide-scope; replaces OK/Cancel with a typed or named confirmation; enumerates in-progress and failure states; routes the build to ui-design and final wording to ghostwriter.",
       "files": [],
       "assertions": [
         "Cites rule/irreversible-action-safeguard or rule/destructive-proportional for the safeguard choice",

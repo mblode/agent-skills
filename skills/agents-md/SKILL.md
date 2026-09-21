@@ -6,7 +6,7 @@ description: Audits and edits agent instruction files, verifies repository comma
 # AGENTS.md Setup and Audit
 
 - **IS:** wiring a repo so every agent tool in use reads the same rules, then auditing, scoring, refactoring, and writing the AGENTS.md / CLAUDE.md / CLAUDE.local.md files agents load at session start.
-- **IS NOT:** authoring SKILL.md files (use `agent-skills-creator`), project docs or READMEs (use `docs-writing` or `readme-creator`), or mining session history (use the external `cadence-advise` skill where installed; this skill audits the file as-is).
+- **IS NOT:** authoring SKILL.md files (use `agent-skills-creator`), project docs or READMEs (use `ghostwriter`), or mining session history (use the external `cadence-advise` skill where installed; this skill audits the file as-is).
 
 AGENTS.md files are execution contracts, not knowledge bases. Two tests catch the two ways a line fails.
 
@@ -130,7 +130,7 @@ Apply approved edits, re-score with the same checklist, report before/after scor
 
 - `agent-skills-creator`: authoring and improving SKILL.md files (different format and rules).
 - External `cadence-advise` skill where installed: proposes AGENTS.md/CLAUDE.md edits from observed session history; complements this skill's file-first audit.
-- `readme-creator` / `docs-writing`: human-facing documentation; AGENTS.md content that belongs in docs should move there.
+- `ghostwriter`: human-facing documentation; AGENTS.md content that belongs in docs should move there.
 - `codebase-architecture` (Harden mode): the rest of the repo an agent works in. A rule a linter can enforce belongs there as an exit code, not here as prose, and it owns the docs tree this file indexes.
 - Claude Code's `/doctor` checkup: proposes trims for a checked-in `CLAUDE.md`, cutting what Claude can derive from the codebase and migrating always-loaded procedures into skills and nested files. Complementary automated triage; it doesn't run the commands, so it never replaces Step 6.
 

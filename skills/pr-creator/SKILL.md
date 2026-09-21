@@ -9,7 +9,7 @@ compatibility: Requires Git and authenticated GitHub access. The documented comm
 Write PR descriptions like a developer posting in Slack, not an AI summarizing a diff.
 
 - **IS:** creating or updating a GitHub PR's title, body, draft state, and reviewers, plus the commit restructuring and review path that make a large diff readable.
-- **IS NOT:** changing the code in the diff (use `tidy`), reviewing it for bugs (use `pr-reviewer`), watching CI and review comments after the PR exists (use `pr-babysitter`), or cutting npm releases (use `autoship`).
+- **IS NOT:** changing the code in the diff or reviewing it for bugs (use `tidy`), watching CI and review comments after the PR exists (use `pr-babysitter`), or cutting npm releases (use `autoship`).
 
 ## Reference Files
 
@@ -129,7 +129,7 @@ gh pr view --json url,title   # confirm the update; return the url
 
 ## Related skills
 
-- `pr-reviewer`: run before creating to check the diff for bugs.
+- `tidy`: run before creating to check the diff for bugs.
 - `tidy`: applies fixes to the code in the diff; this skill edits only the PR and its commits.
 - `pr-babysitter`: hand off after creation to watch CI, conflicts, and review comments.
 - `autoship`: npm release pipeline (changesets, version PR, publish); "ship it" without release context routes here instead.

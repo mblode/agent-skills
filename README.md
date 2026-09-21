@@ -48,10 +48,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 ### Writing
 
 - **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: optional analogy, exact technical terms, and house vocabulary without forced templates.
-- **[docs-writing](./skills/docs-writing/SKILL.md)**: Diataxis doc types, 51 rules, audit and writing modes, agent-readable docs.
-- **[readme-creator](./skills/readme-creator/SKILL.md)**: Type-aware README from the manifests: one install, a runnable quickstart, badges only where published.
-
-Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://github.com/mblode/ghostwriter).
+- **[ghostwriter](./skills/ghostwriter/SKILL.md)**: Writes anything as you or as your company: messages, posts, PRs, tickets, PRDs, slides, copy, docs, READMEs. Works with no profile and writes one from pasted samples.
 
 ### Quality
 
@@ -64,8 +61,7 @@ Personal voice, blog posts, and voice evaluation live in [ghostwriter](https://g
 ### Shipping
 
 - **[planning](./skills/planning/SKILL.md)**: Writes and reviews executable plans with repository evidence, vertical slices, and explicit acceptance criteria.
-- **[pr-reviewer](./skills/pr-reviewer/SKILL.md)**: Read-only diff review: bugs, structure, AI slop, security.
-- **[tidy](./skills/tidy/SKILL.md)**: Applies diff-scoped simplifications, preserving necessary guards and existing edits.
+- **[tidy](./skills/tidy/SKILL.md)**: Diff or PR review with file:line findings in confirmed and plausible tiers (bugs, structure, AI slop, security), report-only by default; apply mode lands the fixes and simplifies the diff.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.

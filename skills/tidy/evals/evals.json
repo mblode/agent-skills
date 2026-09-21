@@ -3,36 +3,123 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Tidy a diff where two callers normalize the same API response and the existing shared mapper already provides that normalization. Existing checks passed on this revision.",
-      "expected_output": "Use the shared mapper and verify the affected behavior.",
+      "prompt": "Look over my branch before I push. Heads up that main is already red on the flaky auth test, so don't wait for green. I added a formatDuration helper in src/lib/time.ts.",
+      "expected_output": "A read-only report in the Local review format: the new helper flagged against the live duration formatter already exported next door, the failing auth test shown as baseline, and an unchanged working tree.",
       "files": [],
       "assertions": [
-        "Confirms the mapper has live callers and matching semantics",
-        "Does not rerun unrelated full suites without cause",
-        "Applies the simplification rather than only reporting it"
+        "Edits no file",
+        "Does not require a green suite to begin; the auth failure appears in the Baseline line, not as a finding",
+        "Locates the existing exported formatter and cites its path and a live call site in a Context: line",
+        "States the range reviewed as a ref pair or merge-base range",
+        "Every finding carries file:line, a Why: line, and a Fix: line that could be committed as written"
       ]
     },
     {
       "id": 2,
-      "prompt": "Tidy a guard that looks redundant. A background worker outside the diff still writes the empty state it protects. The same file has pre-existing user edits.",
-      "expected_output": "Retain the guard and preserve existing work.",
+      "prompt": "Review this diff, it removes the retry wrapper around the sync write in src/workers/sync.ts since the write is idempotent now. Don't change anything, just tell me if it's safe.",
+      "expected_output": "A report that traces the writers of the delayed state outside the diff, finds the scheduler that can still produce it, and reports the removal as a regression with the trigger named.",
       "files": [],
       "assertions": [
-        "Inspects the background writer",
-        "Does not delete the reachable-state guard",
-        "Does not restore the whole file to HEAD"
+        "Reads outside the diff to find every writer of the state the retry handled",
+        "Names the trigger and the consequence for the removed guard",
+        "Does not accept fewer lines as proof of safety",
+        "Reads references/context-errors.md before applying its rubric, and lists only reference files actually read in this session under Reference evidence",
+        "Pairs each claimed reference read with an excerpt present in the successful tool result",
+        "Edits no file"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Tidy this up. Two of the route handlers I touched each normalize the Stripe response by hand, and I'm pretty sure there's a mapper for that somewhere in src/payments.",
+      "expected_output": "Both handlers rewritten onto the shared mapper after confirming it has live callers and matching semantics, the affected tests run with the result quoted, and a summary of what changed and what was left.",
+      "files": [],
+      "assertions": [
+        "Confirms the shared mapper has live callers and handles the boundary cases the hand-rolled code handled before switching to it",
+        "Applies the change rather than only reporting it",
+        "Runs the checks the change affects and quotes the last line of the result; does not rerun an unrelated full suite without cause",
+        "Summary lists what was applied, what was left and why, and the check results",
+        "Does not commit, push, or open a PR"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Simplify this diff. There's a guard in src/cache/read.ts for an empty snapshot that I think is dead now. Careful, I have unrelated uncommitted edits in that same file I still need.",
+      "expected_output": "The guard kept because a background worker outside the diff still writes the empty snapshot, the uncertainty reported with the writer named, and the user's other edits in the file untouched.",
+      "files": [],
+      "assertions": [
+        "Inspects the writers of the snapshot state, including the background worker outside the diff",
+        "Does not delete the guard while a writer of the reachable state exists; reports the writer and the uncertainty instead",
+        "Does not run git restore or otherwise roll back the whole file; the user's unrelated edits survive",
+        "Applies any other supported simplification in the diff rather than stopping at the guard"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "deslop this branch, the agent left comments everywhere and there's a bunch of `as any`",
+      "expected_output": "Findings grouped by slop category with file:line, comments and casts fixed at the source without changing runtime behavior, and stale comments quoted alongside the line that refutes them.",
+      "files": [],
+      "assertions": [
+        "Reads references/ai-slop-patterns.md and references/severity-rubric.md and lists them under Reference evidence with excerpts",
+        "Groups findings by category, not by file",
+        "Fixes `as any` at the type's source or with a type guard rather than a different cast",
+        "Flags only patterns inside the diff; pre-existing comments outside touched functions are not findings",
+        "Runs the type check after the edits and quotes the result"
       ]
     }
   ],
   "routing": {
     "should_trigger": [
-      "Tidy a diff where two callers normalize the same API response and the existing shared mapper already provides that normalization. Existing checks passed on this revision.",
-      "Tidy a guard that looks redundant. A background worker outside the diff still writes the empty state it protects. The same file has pre-existing user edits."
+      "Can you look over what I changed before I push?",
+      "Go through this branch and tell me if anything is broken",
+      "Give me a harsh maintainability pass on the diff, don't fix anything",
+      "Clean up the AI-generated cruft in src/api before I open the PR",
+      "Review PR #482 for bugs and post the summary on it",
+      "Apply what the review found and cut whatever is redundant in the diff",
+      "Is this retry wrapper in the worker actually needed? Trace it and remove it if not",
+      "Find vulnerabilities in the payments module",
+      "My commit message says I added rate limiting, check the diff actually does that",
+      "There are three helpers doing the same thing in these changes, collapse them"
     ],
     "near_miss": [
       {
-        "prompt": "Review these changes but do not edit anything.",
-        "expected": "pr-reviewer"
+        "prompt": "Open the PR with a proper description once the diff is clean.",
+        "expected": "pr-creator"
+      },
+      {
+        "prompt": "Rewrite the PR description so it mentions the Linear ticket and reads like a human wrote it.",
+        "expected": "pr-creator"
+      },
+      {
+        "prompt": "CI is red on my PR, fix it and resolve the merge conflicts.",
+        "expected": "pr-babysitter"
+      },
+      {
+        "prompt": "Address the reviewer's comments on PR 311 and reply to each thread.",
+        "expected": "pr-babysitter"
+      },
+      {
+        "prompt": "Check the rendered checkout page for accessibility problems.",
+        "expected": "ui-design"
+      },
+      {
+        "prompt": "The new settings modal looks like AI slop, fix the spacing and the empty state.",
+        "expected": "ui-design"
+      },
+      {
+        "prompt": "Audit my CLI's error messages and exit codes.",
+        "expected": "dx-audit"
+      },
+      {
+        "prompt": "Design the module boundaries for the new billing service.",
+        "expected": "codebase-architecture"
+      },
+      {
+        "prompt": "Stress-test this implementation plan before we start building.",
+        "expected": "planning"
+      },
+      {
+        "prompt": "/code-review --fix",
+        "expected": "none"
       }
     ]
   }

@@ -16,8 +16,8 @@ Four structural patterns. Pick one by what the skill has to do, then copy the sh
 | Pattern | Use when | In-repo example |
 |---------|----------|-----------------|
 | Simple/hub | Dispatching to 2-5 focused files by track or mode | `ui-design` |
-| Workflow | A multi-step process with progressive reference loading | `agents-md`, `pr-reviewer` |
-| Rules-based | Auditing or linting against categorized rules | `typography-audit`, `docs-writing` |
+| Workflow | A multi-step process with progressive reference loading | `agents-md`, `tidy` |
+| Rules-based | Auditing or linting against categorized rules | `typography-audit`, `ax-audit` |
 | Mixed | Workflow steps with conditional or platform-specific references | `multi-tenant-architecture` |
 
 Decision guide: auditing against a checklist is rules-based; guiding a process is workflow; dispatching by context is simple/hub. Unsure means workflow, the most flexible.

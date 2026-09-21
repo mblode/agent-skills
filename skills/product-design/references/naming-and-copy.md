@@ -1,13 +1,13 @@
 # Naming and Consequence
 
-Load in `action` and `spec` modes, and whenever an action's object, scope, consequence, or reversibility is unsettled. Owns the product decision of what the action is and what it must communicate. Wording craft (persuasion, tone, AI-ism removal, the full state-copy rules, the canonical verb table) lives in `copywriting`. Decide here; route wording there.
+Load in `action` and `spec` modes, and whenever an action's object, scope, consequence, or reversibility is unsettled. Owns the product decision of what the action is and what it must communicate. Wording craft (persuasion, tone, AI-ism removal, the state-copy wording, the canonical verb) lives in `ghostwriter`. Decide here; route wording there.
 
-## The split with copywriting
+## The split with ghostwriter
 
 - `product-design` decides: whether the action should exist, which object it affects, its scope, its consequence, whether it is reversible, and which safeguard pattern that implies.
-- `copywriting` writes: the exact strings, the canonical verb per operation, and error, success, empty, loading, and permission copy. Its `references/ui-states.md` defines the shared copy rule IDs, restated in this skill's `rules.md` so citations resolve.
+- `ghostwriter` writes: the exact strings, the canonical verb per operation, and error, success, empty, loading, and permission copy, against the copy rule IDs this skill owns in `rules.md`.
 
-When the decision is settled and the user needs one label, name it inline. When the work expands into multiple strings, tone, or persuasion, route to `copywriting`.
+When the decision is settled and the user needs one label, name it inline. When the work expands into multiple strings, tone, or persuasion, route to `ghostwriter`.
 
 ## Object, scope, consequence
 
@@ -37,11 +37,11 @@ An undo control appears only when the first two rows are true (`rule/undo-only-w
 
 - Destructive and primary CTAs use Verb plus Noun naming the object: `Delete project`, `Remove member`, `Discard changes` (`rule/destructive-names-action`).
 - No `Confirm`, `OK`, `Yes`, `Submit`, or bare verb on a consequential action (`rule/no-confirm-ok-labels`). `Cancel` always means "do nothing and close".
-- One canonical verb per operation across the product (`rule/canonical-verb`). The verb carries the consequence: `Delete` permanent, `Remove` detach, `Archive` recoverable, `Cancel` abandon in-progress, `Discard` drop unsaved edits. The full verb table with reversibility per verb is in the copywriting skill's `references/ui-states.md`.
+- One canonical verb per operation across the product (`rule/canonical-verb`). The verb carries the consequence: `Delete` permanent, `Remove` detach, `Archive` recoverable, `Cancel` abandon in-progress, `Discard` drop unsaved edits.
 
 ## State copy at a glance
 
-Product-level expectations; strings are `copywriting`'s:
+Product-level expectations; strings are `ghostwriter`'s:
 
 - Error: what happened, why when known, the recovery action; no raw exceptions (`rule/error-states-recovery`).
 - Success: past tense, names the object, weight proportional to the action (`rule/success-state-specific`). A consequential submission's success also carries a reference and what happens next.
@@ -50,6 +50,6 @@ Product-level expectations; strings are `copywriting`'s:
 - Permission: user benefit before the ask, in context of first use (`rule/permission-benefit-first`).
 - All of the above work when heard, not just seen (`rule/reads-without-seeing`).
 
-## When to route to copywriting
+## When to route to ghostwriter
 
 Hand off when the work is about words, not the action decision: rewriting multiple strings for tone or voice; persuasion, hero copy, or marketing CTAs; removing AI-isms or running the copy sweeps; choosing between two acceptable phrasings on style grounds.

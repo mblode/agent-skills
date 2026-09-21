@@ -19,7 +19,7 @@ Installs all skills into `~/.claude/skills/` via the `skills` CLI. Works with Cl
 Install a single skill:
 
 ```bash
-npx skills add mblode/agent-skills -g --skill pr-reviewer -y
+npx skills add mblode/agent-skills -g --skill tidy -y
 ```
 
 ### Local dev: symlink hot-swap
@@ -40,7 +40,7 @@ The deploy chain: `skills add` writes the content once to `~/.agents/skills/<nam
 Confirm files landed correctly after install:
 
 ```bash
-ls ~/.claude/skills/pr-reviewer/
+ls ~/.claude/skills/tidy/
 # Expected: SKILL.md (plus any references/ folder)
 ```
 
@@ -81,7 +81,7 @@ Run the validator on every skill you touch. Run `python3 -m unittest discover -s
 
 ## Commit & Pull Request Guidelines
 
-- Commit messages: short, imperative, sentence case (e.g., "Add pr-reviewer skill").
+- Commit messages: short, imperative, sentence case (e.g., "Add tidy skill").
 - PRs: brief summary, list of skills changed/added, README updates (especially when adding a new skill).
 - When adding reference files, note how they are used by the corresponding `SKILL.md`.
 

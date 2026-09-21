@@ -104,7 +104,7 @@ Docs:
 
 ## Defer-to (when this is another tool's job)
 
-- Copywriting quality on the empty-state body text: defer to copywriting review (this rule only requires a CTA, not perfect copy).
+- Copywriting quality on the empty-state body text: defer to `ghostwriter` (this rule only requires a CTA, not perfect copy).
 
 ## Suppression
 

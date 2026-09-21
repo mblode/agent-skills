@@ -74,10 +74,10 @@
       "Build this deck as a website with a live demo on slide 6."
     ],
     "near_miss": [
-      { "prompt": "Write the hero copy and CTA for the landing page we're launching alongside the talk.", "expected": "copywriting" },
+      { "prompt": "Write the hero copy and CTA for the landing page we're launching alongside the talk.", "expected": "ghostwriter" },
       { "prompt": "Build a landing page for the conference with a dark theme and a speaker grid.", "expected": "ui-design" },
       { "prompt": "Open quarterly-review.pptx and pull the text out of every slide into a summary.", "expected": "pptx (external)" },
-      { "prompt": "Write a 2,000-word blog post version of my conference talk.", "expected": "ghostwriter (external, platform blog)" },
+      { "prompt": "Write a 2,000-word blog post version of my conference talk.", "expected": "ghostwriter" },
       { "prompt": "Make a bar chart of our monthly revenue for the traction slide.", "expected": "dataviz (external)" }
     ]
   }

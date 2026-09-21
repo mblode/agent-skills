@@ -57,7 +57,7 @@
     "near_miss": [
       {
         "prompt": "Audit this explanation page: it explains why transactions provide atomicity, has no quickstart, and links to /guides/transactions for usage.",
-        "expected": "docs-writing"
+        "expected": "ghostwriter"
       },
       {
         "prompt": "Audit my CLI help text and piped JSON output.",
@@ -73,7 +73,7 @@
       },
       {
         "prompt": "Write a README from scratch for this CLI.",
-        "expected": "readme-creator"
+        "expected": "ghostwriter"
       },
       {
         "prompt": "Summarize the 2026 State of Knowledge report for the team in three paragraphs.",

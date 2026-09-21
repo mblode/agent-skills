@@ -1,6 +1,6 @@
 ---
 name: product-design
-description: Specifies interaction choices, action scope, reversibility, recovery, and reachable states. Use when asked to "design the flow", "should delete be undoable", "choose the control", or "review this product decision". For visual implementation use ui-design; for motion use ui-animation; for wording use copywriting.
+description: Specifies interaction choices, action scope, reversibility, recovery, and reachable states. Use when asked to "design the flow", "should delete be undoable", "choose the control", or "review this product decision". For visual implementation use ui-design; for motion use ui-animation; for wording use ghostwriter.
 ---
 
 # Product Design
@@ -9,10 +9,10 @@ Decide what the interface should do, then route who builds and verifies it: pick
 
 - **IS:** the decision layer. From a brief, spec, mockup, intent, or existing UI: choose the interaction and control, name the object, scope, and consequence of each action, settle reversibility and the safeguard it implies, enumerate every reachable state, set resilience expectations, and require accessibility as task completion. It decides, then routes build, verification, and wording out.
 - **IS NOT:**
-  - whether a feature deserves investment or fits the product: the external `product-judgment` skill from Brandwriter.
+  - whether a feature deserves investment or fits the product: out of scope; state it as an open product question.
   - building or styling UI, visual direction, palettes, type: `ui-design`.
   - auditing the built result (rendered quality, a11y markup, keyboard, layout, performance, React or Next code-level UX with a ship verdict): `ui-design` Audit mode.
-  - copy wording, persuasion, or AI-ism removal: `copywriting`.
+  - copy wording, persuasion, or AI-ism removal: `ghostwriter`.
   - motion, gesture physics, or deep typography: `ui-animation`, `typography-audit`.
   - whether an agentic feature earns trust: `ax-audit`.
 
@@ -30,7 +30,7 @@ Resolve one mode from the user's verb and artifact before acting, then load that
 | **shape** (default) | "design the flow for", "what control here", "how should this work", "is this the right pattern", a brief with no settled UI | `references/product-judgment.md`, `references/surfaces.md` |
 | **spec** | "spec the right interaction", "define the expected states", judgment applied before or during a build | `references/product-judgment.md`, `references/surfaces.md`, `references/naming-and-copy.md`; route the build to `ui-design` |
 | **review** | "review this flow for product correctness", "what's wrong with this UX decision", "is this the right interaction" | `references/interface-quality.md` |
-| **action** | "what should this action affect", "should this be undoable", "do we need a confirm dialog", or reversibility is unsettled | `references/naming-and-copy.md`; route final wording to `copywriting` |
+| **action** | "what should this action affect", "should this be undoable", "do we need a confirm dialog", or reversibility is unsettled | `references/naming-and-copy.md`; route final wording to `ghostwriter` |
 | **harden** | "make this resilient", "what breaks here", error, permission, offline, expiry, and destructive paths | `references/surfaces.md`, `references/interface-quality.md`, `references/product-judgment.md` |
 
 **Review mode is about a flow, not an artifact.** "Audit this component", "check my UI", and "design QA this page" point at built markup and belong to `ui-design` Audit mode. This skill's review asks whether the decisions behind a flow are right, and stops at decision altitude.
@@ -91,7 +91,7 @@ Use these as the decision contract. Report unresolved decisions; omit a separate
 - Every finding and non-mechanical decision carries a rule ID that appears verbatim in `references/rules.md`, or an inline coverage gap labeled proposed.
 - The internal brief is present with job, desired outcome, and consequence filled, for shape, spec, and harden.
 - Every destructive or consequential action in scope has its reversibility stated and a matching pattern.
-- Follow-on work is routed by name (`ui-design`, `ui-animation`, `copywriting`), never done here.
+- Follow-on work is routed by name (`ui-design`, `ui-animation`, `ghostwriter`), never done here.
 
 ## Gotchas
 
@@ -107,7 +107,7 @@ Use these as the decision contract. Report unresolved decisions; omit a separate
 ## Related skills
 
 - `ui-design`: visual direction and building the decided interaction in code; its Audit mode covers the built result, rendered quality and accessibility markup, with a ship verdict.
-- `copywriting`: exact wording for names, errors, and empty and loading copy; defines the shared copy rule IDs in its `references/ui-states.md`.
+- `ghostwriter`: exact wording for names, errors, and empty and loading copy, written against the copy rule IDs this skill owns in `references/rules.md`.
 - `ui-animation`: the passage between two states (timing, easing, springs, gesture physics). This skill settles whether a gesture replaces a control and what its alternative is; that skill builds the motion.
 - `ax-audit`: whether a built agentic feature earns trust; this skill decides what it should do first.
 - `typography-audit`: deep type.

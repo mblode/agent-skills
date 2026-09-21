@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Creates and reviews executable implementation plans grounded in repository evidence, with vertical slices, explicit decisions, and verification criteria. Use when asked to "plan this feature", "stress-test this plan", "grill me", or "split this into tickets". For architecture use codebase-architecture; for code review use pr-reviewer.
+description: Creates and reviews executable implementation plans grounded in repository evidence, with vertical slices, explicit decisions, and verification criteria. Use when asked to "plan this feature", "stress-test this plan", "grill me", or "split this into tickets". For architecture use codebase-architecture; for code review use tidy.
 ---
 
 # Planning
@@ -12,7 +12,7 @@ Produce an executable plan, or strengthen an existing one. Planning alone produc
 - **Interview:** the user asks to be grilled or interviewed; explore decisions interactively.
 - **Split:** multiple independently deliverable outcomes need tickets with native dependency links.
 
-For architecture contracts use `codebase-architecture`; for code findings use `pr-reviewer`.
+For architecture contracts use `codebase-architecture`; for code findings use `tidy`.
 
 ## References
 

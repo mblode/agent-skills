@@ -8,7 +8,7 @@ description: Designs module contracts, deepens existing boundaries, and installs
 Decide a TypeScript codebase's structure, improve it where change has become expensive, and make it hold. The target is a codebase a reader can hold in their head: few surfaces, one canonical way to do each job, and behaviour where you would first look for it.
 
 - **IS:** folder structures, module contracts, request context and middleware pipelines, frontend/backend boundaries; architecture briefs; domain language and decision records; domain-informed deepening; guardrail tooling, CI gates, and agent wayfinding.
-- **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a plan for one feature (`planning`), a diff-scoped cleanup pass (`tidy`), or structural review of a local diff (`pr-reviewer`).
+- **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a plan for one feature (`planning`), a diff-scoped cleanup pass (`tidy`), or structural review of a local diff (`tidy`).
 
 ## Contents
 
@@ -200,7 +200,7 @@ Each rebuttal redirects to the step being skipped.
 ## Related skills
 
 - `agents-md`: the AGENTS.md / CLAUDE.md file itself. This skill owns the checks and docs tree that file points at; a rule a linter can enforce goes here as an exit code, not there as prose.
-- `tidy`: the diff-scoped cleanup that Harden's guardrails keep small; `pr-reviewer`: read-only review of a local diff.
+- `tidy`: review and diff-scoped cleanup, which Harden's guardrails keep small.
 - `planning`: a plan for one feature; architecture briefs from Design mode feed into it.
 - `scaffold-nextjs`, `scaffold-cli`: creating the repo this skill then structures.
 - `multi-tenant-architecture`: tenant identification, isolation, and routing; this skill supplies the module layout underneath.

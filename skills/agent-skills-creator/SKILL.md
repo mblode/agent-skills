@@ -9,7 +9,7 @@ compatibility: Repository validation requires Bash, Ruby with YAML and JSON, Per
 Create and improve skills in the Agent Skills open format: full lifecycle from pattern selection through validation and README update.
 
 - **IS:** creating new agent skills and auditing or rewriting existing ones: SKILL.md, references, rules folders, scripts, evaluations.
-- **IS NOT:** AGENTS.md/CLAUDE.md instruction files (use `agents-md`) or general documentation quality (use `docs-writing`).
+- **IS NOT:** AGENTS.md/CLAUDE.md instruction files (use `agents-md`) or general documentation quality (use `ghostwriter`).
 
 ## Choose a Mode
 
@@ -143,6 +143,6 @@ When installation behavior changed, install the edited local source into a dispo
 ## Related Skills
 
 - `agents-md` for auditing AGENTS.md/CLAUDE.md instruction files
-- `docs-writing` for documentation quality rules
+- `ghostwriter` for documentation quality
 
 Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a user task, which is the baseline Phase A of `references/improving-existing-skills.md` asks for.

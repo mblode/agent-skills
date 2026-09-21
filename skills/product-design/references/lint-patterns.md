@@ -24,7 +24,7 @@ For either path, add a test or eval catching the regression. If a rule needs man
 Examples of the split:
 
 - Counting 2 to 3 static options is mechanical, so prefer-radio is a lint rule.
-- Naming the right object and consequence for a destructive action needs product context: it stays here (`rule/name-object-scope-consequence`) and in `copywriting` for wording.
+- Naming the right object and consequence for a destructive action needs product context: it stays here (`rule/name-object-scope-consequence`) and in `ghostwriter` for wording.
 - Detecting a nested modal is structural: a lint rule. Whether the second step should exist is judgment.
 - Whether a gesture has a control alternative (`rule/gesture-has-control-alternative`) needs the whole surface, not one file: judgment. Whether a control's rendered box meets the target-size floor is `ui-design`'s `interaction-target-size` rule, not a lint rule here.
 

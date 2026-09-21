@@ -348,6 +348,43 @@ validate_skill() {
   n=$(find "$skill_dir" -name '*.md' -exec perl -CSD -ne 'print if /\x{2014}/' {} + 2>/dev/null | wc -l | tr -d ' ')
   check house no-em-dashes "em dash present, restructure with commas, colons, or periods" "$n"
 
+  # A retired skill named in backticks is a dead route. The list lives in
+  # maintenance/retired-names.tsv (name<TAB>replacement) so a retirement is
+  # recorded once and every stale pointer fails here instead of being grepped
+  # for by hand.
+  retired_file="$(cd "$skill_dir/../.." 2>/dev/null && pwd)/maintenance/retired-names.tsv"
+  if [ -f "$retired_file" ]; then
+    stale=""
+    while IFS=$'\t' read -r rname rreplacement; do
+      [ -n "$rname" ] || continue
+      case "$rname" in \#*) continue ;; esac
+      if grep -rqF -- "\`$rname\`" "$skill_dir" --include='*.md' --include='*.json' 2>/dev/null; then
+        stale="$stale $rname(use:${rreplacement:-none})"
+      fi
+    done <"$retired_file"
+    check house no-retired-names "names a retired skill:$stale" "$(printf '%s' "$stale" | wc -w | tr -d ' ')"
+  else
+    record SKIP house no-retired-names "no maintenance/retired-names.tsv"
+  fi
+
+  # The inverse of all-md-reachable: every relative Markdown link in the skill
+  # must point at a file that exists. all-md-reachable passes when SKILL.md
+  # still names a file that was renamed away; this catches the rename.
+  dead=""
+  while IFS= read -r -d '' f; do
+    dir="$(dirname "$f")"
+    while IFS= read -r target; do
+      [ -n "$target" ] || continue
+      case "$target" in http://*|https://*|\#*|/*|*'<'*|mailto:*|...) continue ;; esac
+      target="${target%%#*}"
+      # A bare word like `url` is a prose placeholder, not a path.
+      case "$target" in *.*|*/*) ;; *) continue ;; esac
+      [ -n "$target" ] || continue
+      [ -e "$dir/$target" ] || dead="$dead $(basename "$f")->$target"
+    done < <(perl -ne 'next if /^\s*```/ ... /^\s*```/; while (/\]\(([^)\s]+)\)/g) { print "$1\n" }' "$f")
+  done < <(find "$skill_dir" -name '*.md' -print0 2>/dev/null)
+  check house md-links-resolve "link target missing:$dead" "$(printf '%s' "$dead" | wc -w | tr -d ' ')"
+
   fi
 
   # --- repo integration ---
@@ -430,7 +467,9 @@ if [ "$all" -eq 1 ]; then
   done
   : >"$RESULTS"
   name=_catalogue
-  ruby -e '
+  # -E UTF-8: the README holds curly quotes, and with no UTF-8 locale ruby
+  # reads it as US-ASCII and String#scan raises instead of reporting.
+  ruby -E UTF-8 -e '# encoding: utf-8
     root, policy = ARGV
     path = File.join(root, "README.md")
     unless File.file?(path)

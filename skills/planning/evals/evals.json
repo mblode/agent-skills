@@ -32,7 +32,7 @@
     "near_miss": [
       {
         "prompt": "Review the code changes on this branch without editing.",
-        "expected": "pr-reviewer"
+        "expected": "tidy"
       }
     ]
   }

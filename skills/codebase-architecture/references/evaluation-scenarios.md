@@ -79,7 +79,7 @@ Evaluate the observable workflow, not whether the answer repeats the skill's wor
 
 **Expected behavior:**
 
-- Routes the diff review to `pr-reviewer` and diff-scoped fixes to `tidy`.
+- Routes the diff review and diff-scoped fixes to `tidy`.
 - Applies this skill only to what is outside the diff, or asks which is wanted.
 - Does not launch a repo-wide deepening scan in response to a diff-shaped request.
 
