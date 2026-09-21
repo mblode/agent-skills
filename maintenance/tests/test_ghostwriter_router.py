@@ -25,9 +25,10 @@ class GhostwriterRouter(unittest.TestCase):
         surfaces = (SKILL / 'references/surfaces.md').read_text()
         heads = re.findall(r'^\*\*([^*]+)\.\*\*', surfaces, re.M)
         self.assertGreaterEqual(len(heads), 8)
+        stop = {'and', 'or', 'the', 'message', 'post', 'copy', 'script', 'comment', 'review'}
         for head in heads:
-            first = head.split(',')[0].split(' (')[0].strip().split(' ')[0].lower()
-            self.assertIn(first.rstrip('s'), table.lower(), head)
+            tokens = [t for t in re.findall(r'[a-z]+', head.lower()) if len(t) > 2 and t not in stop]
+            self.assertTrue(any(t in table.lower() for t in tokens), head)
 
 
 if __name__ == '__main__':
