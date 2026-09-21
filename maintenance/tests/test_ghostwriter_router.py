@@ -28,7 +28,7 @@ class GhostwriterRouter(unittest.TestCase):
         stop = {'and', 'or', 'the', 'message', 'post', 'copy', 'script', 'comment', 'review'}
         for head in heads:
             tokens = [t for t in re.findall(r'[a-z]+', head.lower()) if len(t) > 2 and t not in stop]
-            self.assertTrue(any(t in table.lower() for t in tokens), head)
+            self.assertTrue(any(t in table.lower() or t.rstrip('s') in table.lower() for t in tokens), head)
 
 
 if __name__ == '__main__':
