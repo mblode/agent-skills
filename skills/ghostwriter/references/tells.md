@@ -2,11 +2,13 @@
 
 The pass you run on your own draft before returning it. It removes what marks prose as machine-written, not what makes it the user's.
 
-The test: a model writes for the widest reader and subject; a person writes for one. Cut anything that fails it, listed here or not.
+The test: a model writes for the widest reader and subject; a person writes for one. A sentence that could sit unchanged in someone else's post or another project's docs says nothing about this one. Cut what fails, listed here or not.
+
+Weight the tells. Structure tells earn an edit at one sighting. A lone hedge, passive, or clipped sentence is a habit until other tells share the passage; leave it.
 
 ## Structure
 
-- **Em dashes:** none, and no `--` or spaced hyphen standing in. Comma, colon, full stop, or parentheses.
+- **Em dashes:** none, and no `--` or spaced hyphen standing in. Comma, full stop, or parentheses; a colon before a list or an example, never as the dash's replacement mid-sentence.
 - **Antithesis:** "it's not X, it's Y", "not just X but Y", "X rather than Y", the split form ("This isn't about speed. It's about trust."). Say the positive thing.
 - **Copula avoidance:** "serves as", "features", "boasts" where "is" or "has" is the word.
 - **Bold as highlighter,** and a bold label with a period instead of a colon.
@@ -27,10 +29,11 @@ These survive a word-level pass.
 - **Over-smoothing:** real messages carry a typo, a dropped word, a comma splice. Keep the roughness the profile shows; never fake it. Apostrophes are a device fingerprint; match what the profile records.
 - **Performed cleverness and wisdom-shaped sentences:** a witty phrase or an insight-sounding line with no specific claim. Make it concrete or cut it.
 - **Uniform confidence:** every line at the same pitch. Real writing has a flat line beside a strong one.
+- **Over-compression:** halving left dropped articles, verbless fragments, arrows, or abbreviations the reader has to decode. Cutting words is not the goal; removing what is not the user's is. Write the sentence back out.
 
 ## Vocabulary
 
-Word lists date with every model generation; the test is whether the word would survive in a press release and die in a text message. Current examples: delve, leverage, robust, seamless, unlock, empower, showcase, elevate, streamline, foster, nuanced, crucial, enhance, "deep dive", "actionable", "learnings", "landscape" as a metaphor. Rewrite the sentence around the specific instead of swapping the word for its neighbour.
+Word lists date with every model generation; the test is whether the word would survive in a press release and die in a text message. Current examples: delve, leverage, robust, seamless, unlock, empower, showcase, elevate, streamline, foster, nuanced, crucial, enhance, "deep dive", "actionable", "learnings", "landscape" as a metaphor. Rewrite the sentence around the specific instead of swapping the word for its neighbour. Engineering metaphor nouns are the same tell in a PRD or a ticket: substrate, wedge, vector, primitive, harness, surface, north star, flywheel, gold-plating. Name the mechanism.
 
 ## Keep
 

@@ -34,7 +34,7 @@ When the user pastes their own writing and asks for a profile, write `<data-root
 
 - **Draft:** facts in, finished text out. Text only, unless asked for alternatives.
 - **Ramble:** the user's dump outranks the profile for this message. Keep the phrasings that land, impose the structure, and leave every open question open: "maybe we drop the vendor" never becomes a decision.
-- **Rewrite:** change the prose, not the meaning. Every fact, link, and qualification survives.
+- **Rewrite:** change the prose, not the meaning. Every fact, link, and qualification survives; "may have failed" never becomes "failed". A hollow paragraph rewritten is a short hollow paragraph: say so instead of polishing it.
 - **Critique:** findings ordered by cost to the reader, each with the place, the problem, and the cost, then the rewritten text underneath. No praise. If nothing is wrong, say so in one line.
 
 ## Before returning
