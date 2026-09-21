@@ -1,6 +1,6 @@
 # Naming and Consequence
 
-Load in `action` and `spec` modes, and whenever an action's object, scope, consequence, or reversibility is unsettled. Owns the product decision of what the action is and what it must communicate. Wording craft (persuasion, tone, AI-ism removal, the state-copy wording, the canonical verb table) lives in `ghostwriter`. Decide here; route wording there.
+Load in `action` and `spec` modes, and whenever an action's object, scope, consequence, or reversibility is unsettled. Owns the product decision of what the action is and what it must communicate. Wording craft (persuasion, tone, AI-ism removal, the state-copy wording, the canonical verb) lives in `ghostwriter`. Decide here; route wording there.
 
 ## The split with ghostwriter
 
@@ -37,7 +37,7 @@ An undo control appears only when the first two rows are true (`rule/undo-only-w
 
 - Destructive and primary CTAs use Verb plus Noun naming the object: `Delete project`, `Remove member`, `Discard changes` (`rule/destructive-names-action`).
 - No `Confirm`, `OK`, `Yes`, `Submit`, or bare verb on a consequential action (`rule/no-confirm-ok-labels`). `Cancel` always means "do nothing and close".
-- One canonical verb per operation across the product (`rule/canonical-verb`). The verb carries the consequence: `Delete` permanent, `Remove` detach, `Archive` recoverable, `Cancel` abandon in-progress, `Discard` drop unsaved edits. The full verb table with reversibility per verb lives in `ghostwriter`'s `references/copy.md`.
+- One canonical verb per operation across the product (`rule/canonical-verb`). The verb carries the consequence: `Delete` permanent, `Remove` detach, `Archive` recoverable, `Cancel` abandon in-progress, `Discard` drop unsaved edits.
 
 ## State copy at a glance
 

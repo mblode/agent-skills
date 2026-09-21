@@ -1,6 +1,6 @@
 # Docs
 
-Read when writing, rewriting, or auditing technical documentation. A `docs` profile, when present, sets register, spelling, and house conventions over the defaults here.
+Read when writing, rewriting, or auditing technical documentation.
 
 ## Classify first
 
@@ -22,10 +22,10 @@ Type-gated checks: a quick start (the fewest steps that produce visible output) 
 
 **Hygiene.** Delete docs for removed features. Docs live in `docs/` by type. No status reports or dated plans. Experimental features get a callout after the intro; a page written ahead of the code is marked `[PLANNED]` and unmarked in the PR that ships it. Freshness comes from the build, never a hand-typed date.
 
-**Review.** A fresh reader follows the page from scratch. Read aloud, cut what makes you stumble, check what the cut lost, stop when a cut removes a fact or a step. Run every example, check parameter names and defaults against the implementation, resolve every link. Docs change in the same PR as the code, with prose lint in CI.
+**Review.** A fresh reader follows the page from scratch. Run every example, check parameter names and defaults against the implementation, resolve every link. Docs change in the same PR as the code, with prose lint in CI.
 
 ## Writing and auditing
 
 Writing: pick the type, name the audience and what they can do afterwards, write the page, ship it when its examples ran and its links resolved. Length follows what the reader has to do.
 
-Auditing: scope to changed files unless asked for a sweep. Classify, then run the checks in priority order (voice and structure, then clarity and code, then the rest), skipping what the type excludes. Report by file, by severity; every finding names the check, the issue, and the fix, with `file:line` when available; clean files listed as pass; no praise. "Improve" or "fix" means apply the fixes and return the page. Misclassification is the top false positive; "should" is not a bug; a hand-typed "Last updated" is worse than none.
+Auditing: scope to changed files unless asked for a sweep. Classify, then run the checks in priority order (voice and structure, then clarity and code, then the rest), skipping what the type excludes. Report by file, by severity; every finding names the check, the issue, and the fix, with `file:line` when available; clean files listed as pass; no praise. "Improve" or "fix" means apply the fixes and return the page. Misclassification is the top false positive; "should" is not a bug.

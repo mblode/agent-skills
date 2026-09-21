@@ -1,16 +1,16 @@
 # README
 
-Read when writing a README from scratch or rewriting one wholesale. A `readme` profile, when present, owns register, spelling, and house markup (header block, badge style, heading names, footer) and wins every conflict here. Without one: terse second-person imperative, no emoji, no exclamation marks, numbers over adjectives.
+Read when writing a README from scratch or rewriting one wholesale. Without a `readme` profile: terse second-person imperative, no emoji, no exclamation marks, numbers over adjectives.
 
 ## The reader
 
-Someone arrived from a search result or a registry listing with fifteen seconds and one question: is this worth my time? Every line answers that or gets cut. They are not a contributor: build pipeline, workspace layout, release process, and coding standards move to `CONTRIBUTING.md` or `AGENTS.md` (create the file rather than delete the content), and the README keeps at most a one-line pointer.
+Someone arrived from a search result or a registry listing with fifteen seconds and one question: is this worth my time? Every line answers that or gets cut. They are not a contributor: build pipeline, workspace layout, release process, and coding standards move to `CONTRIBUTING.md` or `AGENTS.md`, creating the file if needed, and the README keeps at most a one-line pointer.
 
 ## Detect the type
 
 Read the manifest (`package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`) for name, description, license, `bin`, `"private"`, and `repository`. First match wins: skill bundle (`skills/` of `SKILL.md` files), monorepo (workspace config), CLI (`bin` or a CLI dependency), framework (extension points), library (`exports`, no `bin`), web app (framework config, no publish). A monorepo is a delivery mechanism, not a type: write for what a stranger installs or visits. A `"private": true` manifest or no registry means GitHub only; a published package also renders on npmjs.com, PyPI, or crates.io, which changes image URLs and earns badges.
 
-Ask the user only what the code cannot reveal: what problem it solves, sections to force in or out. Unreachable: state what it does from the code. Never invent a motive or an origin story.
+Ask the user only what the code cannot reveal: what problem it solves, sections to force in or out. Unreachable: state what it does from the code.
 
 ## The spine
 
@@ -21,7 +21,7 @@ Ask the user only what the code cannot reveal: what problem it solves, sections 
 5. Capability sections, as many as the decision needs, usually one or two, named for what the reader gets (`## What you can do`, `## Options`, `## Configuration`, `## Notes` for the awkward facts and prior art). Bullets as `- **Name:** what it does.` A skill bundle's `## Skills` lists each skill linked to its `SKILL.md`, one clause each.
 6. **`## License`**: the bare licence name, plus the footer credit if the profile has one.
 
-Canonical heading names across a set of repos: `Install`, `Quickstart`, `Demo`, `License`, sentence case. Every code block runs as pasted: real values, no `foo` or `my-app`. One `> [!NOTE]` at most, for the fact that breaks installs; PyPI renders it as literal text, so a Python package says it in prose.
+Other headings in sentence case. Every code block runs as pasted: real values, no `foo` or `my-app`. One `> [!NOTE]` at most, for the fact that breaks installs; PyPI renders it as literal text, so a Python package says it in prose.
 
 ## Badges
 

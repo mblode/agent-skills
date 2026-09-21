@@ -53,7 +53,7 @@ A gap stays in the pass output. Promoting one into this file is a separate, deli
 
 ## Copy rule IDs
 
-This skill owns these IDs. `ghostwriter` writes the strings against them and cites them back, so the wording has one owner and the product decision stays here.
+This skill owns these IDs; `ghostwriter` writes the strings against them, and the product decision stays here.
 
 | ID | The decision it governs |
 |----|-------------------------|

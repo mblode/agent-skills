@@ -16,23 +16,10 @@ Adapted from Wes Kao's frameworks via kinantid/skills (MIT); the warm no draws o
 
 **Invert the but.** Readers keep what follows "but". When the positive is the honest headline, write "[negative], but [positive]". Never invert a real risk flag or incident news.
 
-**Receipts before you credit.** Every specific in a compliment needs a source. Don't credit work that happened differently, inflate scope, or tell someone to develop a skill they just showed.
+**Receipts before you credit.** Every specific in a compliment needs a source. Don't credit work that happened differently, inflate scope, or tell someone to develop a skill they just showed. A label ("great leadership") is not an observation.
 
 **Bad news: objective, not detached.** Lead with the fact and its size ("12 profiles, 3 noticed before we did"), one severity line, own it once ("my miss"), close on containment. Passive voice here is the tell. A reasonable decision someone won't love is not a mistake; state it with the reasoning and do not apologise.
 
 **Speak in the affirmative.** "Keep blockers to two minutes, then priorities" beats "don't spend standup on blockers". "I can pick this up Thursday" beats "I can't until Thursday". When the negative is the message, follow it with the replacement.
 
 **Answer the real question.** "What's the status?" usually means "will I be surprised, and do you need anything from me?" Answer that first and let the literal answer ride along; if the two diverge, name both.
-
-| Symptom | Fix |
-|---|---|
-| Point in paragraph three, or history before the ask | Lead with the point |
-| Obvious pushback unaddressed | Name the objection |
-| No clear action; "ASAP" or "when you get a chance" | Make the yes easy |
-| A decline the reader might miss | The warm no |
-| True facts framed with doubt words | Finesse |
-| Compliment cancelled by a trailing "but" | Invert the but |
-| Praise with no source, or a label instead of an observation | Receipts |
-| "An issue occurred", or three apologies | Objective, not detached |
-| "Can't until X", "don't do X" | Affirmative |
-| A literal answer to a loaded question | The real question |

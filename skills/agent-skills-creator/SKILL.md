@@ -143,6 +143,6 @@ When installation behavior changed, install the edited local source into a dispo
 ## Related Skills
 
 - `agents-md` for auditing AGENTS.md/CLAUDE.md instruction files
-- `ghostwriter`, for documentation quality
+- `ghostwriter` for documentation quality
 
 Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a user task, which is the baseline Phase A of `references/improving-existing-skills.md` asks for.

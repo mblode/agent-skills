@@ -92,3 +92,18 @@ class ValidatorContract(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+    def test_retired_name_and_dead_link_fail(self):
+        maintenance = self.repo / 'maintenance'
+        maintenance.mkdir()
+        (maintenance / 'retired-names.tsv').write_text('# name\treplacement\nold-skill\texample\n')
+        self.assertEqual(self.run_validator()[0], 0)
+        self.md.write_text(self.md.read_text() + '\nFor the rest use `old-skill`.\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 1)
+        self.assertTrue(any(r[1] == 'FAIL' and r[3] == 'no-retired-names' for r in rows))
+        self.md.write_text(self.md.read_text().replace('`old-skill`', '`example`') + '\nSee [notes](references/missing.md) and [a placeholder](url).\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 1)
+        self.assertTrue(any(r[1] == 'FAIL' and r[3] == 'md-links-resolve' and 'missing.md' in r[4] for r in rows))
+

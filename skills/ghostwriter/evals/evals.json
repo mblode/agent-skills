@@ -7,11 +7,10 @@
       "expected_output": "One finished Slack message in the user's slack register, shorter than the ramble, keeping the numbers and the link, with the checkout question left open.",
       "files": [],
       "assertions": [
-        "Returns one message, not alternatives or a plan",
         "Keeps 1 second, 12, mfe-admin-shell, and the PR link verbatim",
         "The checkout rollout stays a question or a maybe; it is not stated as a decision",
         "No em dash or spaced hyphen",
-        "No praise, preamble, or explanation before the message"
+        "Returns one message with no alternatives, preamble, or explanation"
       ]
     },
     {
@@ -22,7 +21,7 @@
       "assertions": [
         "Contains no reason or motive for the rebuild that the user did not state",
         "Contains no invented numbers, names, tools, or quotes beyond one night, 3 years, and Claude Code",
-        "Follows the blog profile's exclamation, emoji, and heading conventions",
+        "Any headings are plain noun phrases; no lists or tables",
         "No em dash or spaced hyphen",
         "Returns the post text only"
       ]
@@ -50,7 +49,7 @@
         "Quickstart is complete and runnable as pasted",
         "Contains no sentence explaining why the author built it",
         "No Contributing, Development, Tech Stack, or Workspaces section",
-        "No em dash; canonical heading names Install, Quickstart, License"
+        "Heading names are Install, Quickstart, License"
       ]
     },
     {
@@ -86,7 +85,7 @@
       "assertions": [
         "Asks once to confirm the write path before writing",
         "Every excerpt is under 280 characters and contains no colleague name or PR link",
-        "Provenance states it is a quick profile from 8 pasted samples and not evaluable",
+        "Provenance states it is a quick profile from 8 pasted samples",
         "No rule is derived from a single message",
         "Does not point the user at an export or training step"
       ]
@@ -104,7 +103,7 @@
       "Write a README for the new CLI package",
       "Critique this essay draft, no rewriting yet",
       "Turn these notes into a message to the team",
-      "Write the PR description for this branch in my voice",
+      "Reply to this review comment in my voice: the reviewer wants the retry moved into the client",
       "Write a PRD for the reminders feature from these notes",
       "Write my email profile from these ten emails"
     ],
