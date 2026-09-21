@@ -47,11 +47,17 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 **Worker count.** Two test processes each spawning `cpus - 1` workers on a four-core runner oversubscribe it. When a task runner fans out every workspace's tests in one job, set its concurrency or give each suite `--maxWorkers`. This is why a per-workspace duration under contention exceeds the same suite alone.
 
+**Balancing shards by duration.** Vitest and Playwright shard by file count. Balancing by recorded per-file duration is possible with a custom sequencer; Linear tried it and found the gain did not pay for the complexity. Split the long files instead.
+
+**Remote task cache.** Turbo or Nx remote caching turns a cache hit into a network fetch plus a disk write plus a read by the next task, so on a hosted runner it is bounded by network and IOPS rather than CPU; in practice a mid-sized TypeScript monorepo lands at one to two minutes for a fully cached run, not seconds. It pays off for build outputs consumed downstream, less for test tasks whose only output is a pass. Without a remote cache, every task in CI is a miss and `turbo run test` is only a parallel runner.
+
 **Split large test files.** A shard is only as fast as its longest file. Files over a few hundred tests serialize one worker; splitting by describe block lets the scheduler balance. Linear went from 4 to 8 shards only after this made the shards balance.
 
 **Playwright workers.** `workers: 1` in CI is a correctness choice when specs share a database. Raise it only with per-worker fixtures; measure `fullyParallel` on the real API before trusting it.
 
 ## Toolchain
+
+**Faster runners.** Hosted GitHub runners are four slow vCPUs on shared disks. Third-party runners (Blacksmith, Depot, Namespace, RWX, BuildJet, or self-hosted) run the same YAML on faster CPUs and NVMe with a persistent cache. Linear measured 34 percent across the pipeline and 52 percent on `tsc` from the switch alone. It is a spend, so it is the user's call; the case for it is one run of the unchanged pipeline on each, side by side. Ordering matters: measure after the split and setup work, because a faster machine shortens every job and hides which one was the problem.
 
 **Native TypeScript.** `tsgo` (`@typescript/native-preview`) cut Linear's median type-check by 73 percent. It does not support `baseUrl`, some `paths` shapes, or every `tsc -b` project-reference layout; check each tsconfig before switching, and keep `tsc` for the ones it refuses. Gain lands on the critical path only when type-checking is on it.
 
@@ -66,6 +72,12 @@ Grouped by the class of time each one removes. For each lever: what must be true
 **Build once.** Remote Docker builds re-run the dependency layer when the build context includes anything the lockfile does not pin. Order the Dockerfile so `COPY` of lockfiles and manifests precedes the install, and keep sources out of that layer.
 
 **Health checks as a job.** Twenty seconds of `curl --retry` in its own job costs a runner allocation. Fold it into the deploy job's last step.
+
+## What Comes Next
+
+Once push-to-green sits around five minutes, an agent loop stops waiting on checks and the bottleneck moves to the stages that do not shard: deploy, rollback, and human review. Say so in the ledger rather than chasing the last minute out of tests; a 4:40 deploy stage that was a quarter of the chain becomes half of it once the tests are fixed, and gets the next round.
+
+Bazel and content-addressed build systems (RWX, Dagger) get warm-cache builds to seconds for compiled languages, and agents have cut a Bazel conversion from years to weeks, but for a JavaScript monorepo the same people who did those conversions point back at `tsgo`, syntax-only linting, and setup work as the better spend. Note it as not taken, with that reason.
 
 ## Cost Accounting
 

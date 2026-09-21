@@ -13,7 +13,7 @@ Make the wait from push to green shorter, measured, and written down.
 
 ## What Changes the Number
 
-Wall-clock time is the slowest chain of dependent jobs, not the sum of jobs. Every lever is judged by how much it takes off that chain; a lever that saves runner minutes off the critical path is a cost saving, not a speedup, and the ledger records it as one.
+Wall-clock time is the slowest chain of dependent jobs, not the sum of jobs. The number that matters is push to green for one pull request; around five minutes is where an agent loop stops waiting on checks, and past that the bottleneck moves to deploy and review. Every lever is judged by how much it takes off that chain; a lever that saves runner minutes off the critical path is a cost saving, not a speedup, and the ledger records it as one.
 
 Three ratios decide what to do next:
 
