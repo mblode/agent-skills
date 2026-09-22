@@ -1,6 +1,6 @@
 ---
 name: ghostwriter
-description: Writes, rewrites, and critiques anything written, as the user or as a company, and returns finished text for messages, posts, review comments, tickets, PRDs, talk scripts, copy, docs, and READMEs, in the voice a private profile shows, with the machine tells stripped. Works with no profile and writes one from pasted samples. Use when asked to "write this in my voice", "turn this ramble into a message", "draft a Slack reply", "write the hero copy", "write the README", "critique my draft", "cut this in half", or "write my slack profile". For the product decision behind a label use product-design.
+description: Writes, rewrites, and critiques anything written, as the user or as a company, and returns finished text for messages, posts, review comments, tickets, PRDs, design docs, talk scripts, copy, docs, and READMEs, in the voice a private profile shows, with the machine tells stripped. Works with no profile and writes one from pasted samples. Use when asked to "write this in my voice", "turn this ramble into a message", "draft a Slack reply", "write the hero copy", "write the README", "critique my draft", "cut this in half", or "write my slack profile". For the product decision behind a label use product-design.
 ---
 
 # Ghostwriter
@@ -45,14 +45,15 @@ Never invent a name, number, date, link, decision, availability, experience, mot
 
 ## Surfaces
 
-A profile always wins over a reference's defaults. An ask, a decline, bad news, or feedback also reads [references/strategy.md](references/strategy.md).
+A profile always wins over a reference's defaults. An ask, a decline, bad news, or feedback also reads [references/strategy.md](references/strategy.md). Pieces with a fixed skeleton (PRD, design doc, Linear issue, docs page, blog post, talk script) start from [references/templates.md](references/templates.md); a section the piece does not need is deleted, not filled.
 
 | Surface | Profile | Reference |
 |---|---|---|
 | Slack, WhatsApp, LinkedIn message, email | `slack`, `whatsapp`, `linkedin`, `email` | [references/surfaces.md](references/surfaces.md) |
 | LinkedIn post, blog post, essay | `linkedin`, `blog` | surfaces.md |
 | Linear issue or comment; GitHub review or PR comment | `linear`, `github` | surfaces.md |
-| PRD; talk script, and a voice pass on slide copy | `prd`, `talk` | surfaces.md |
+| PRD; talk script, and a voice pass on slide copy | `prd`, `talk` | surfaces.md, templates.md |
+| Design doc, RFC, ADR | `design` | templates.md |
 | UI, landing page, and transactional copy as a company | `<company>` | [references/copy.md](references/copy.md) |
 | Technical docs | `docs` | [references/docs.md](references/docs.md) |
 | README | `readme` | [references/readme.md](references/readme.md) |

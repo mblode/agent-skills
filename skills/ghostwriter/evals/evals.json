@@ -89,6 +89,19 @@
         "No rule is derived from a single message",
         "Does not point the user at an export or training step"
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "Write the design doc for moving session storage from Redis to Postgres. Facts: Redis bill is $1,400/month, sessions are 2GB, we already run Postgres 16 for everything else, p99 read must stay under 20ms, I haven't decided the TTL sweep interval. Alternatives I looked at: keep Redis, use Cloudflare KV.",
+      "expected_output": "A design doc in the templates.md skeleton: Context, Decision, Why this over the alternatives (Redis and KV each with the reason it lost), Consequences, Input wanted naming the TTL sweep interval. No Background or Timeline section, no invented latency or cost figures beyond the ones given.",
+      "files": [],
+      "assertions": [
+        "Uses only the supplied numbers and invents no latency, cost, or date",
+        "Names both alternatives with a one-sentence reason each",
+        "Input wanted line names the TTL sweep interval and nothing vaguer",
+        "Contains no section without a supplied fact under it",
+        "Leaves the TTL decision open rather than choosing one"
+      ]
     }
   ],
   "routing": {
@@ -105,7 +118,8 @@
       "Turn these notes into a message to the team",
       "Reply to this review comment in my voice: the reviewer wants the retry moved into the client",
       "Write a PRD for the reminders feature from these notes",
-      "Write my email profile from these ten emails"
+      "Write my email profile from these ten emails",
+      "Write the RFC for splitting the auth service, here are my notes"
     ],
     "near_miss": [
       {

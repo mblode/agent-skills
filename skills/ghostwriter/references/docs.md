@@ -4,7 +4,7 @@ Read when writing, rewriting, or auditing technical documentation.
 
 ## Classify first
 
-Diataxis compass: does the page serve action or understanding, and is the reader learning or working? Tutorial (a lesson, "we" voice, reliable result), how-to (a task for a competent reader), explanation ("About X"), reference (neutral, mirrors the product). One type per file; split a mixed page. Classify by the reader's task, not the filename.
+Diataxis compass: does the page serve action or understanding, and is the reader learning or working? Tutorial (a lesson, "we" voice, reliable result), how-to (a task for a competent reader), explanation ("About X"), reference (neutral, mirrors the product). One type per file; split a mixed page. Classify by the reader's task, not the filename. Each type also excludes: a tutorial does not explain the design or the alternatives, a how-to assumes the reader knows why, a reference never instructs, an explanation never lists steps. A sentence of the wrong type moves to the page of the right type and is linked from here. Page skeletons per type are in templates.md.
 
 Type-gated checks: a quick start (the fewest steps that produce visible output) only on getting-started pages and READMEs; next steps (what the reader most likely needs next) only on tutorials and how-tos; the same operation in the 2-3 most used languages plus `curl` only on multi-SDK references; request and response beside each entry only on API references; `llms.txt` and a Markdown variant of every page only on docs sites. Demanding one of these elsewhere is a finding against Diataxis.
 
@@ -22,7 +22,7 @@ Type-gated checks: a quick start (the fewest steps that produce visible output) 
 
 **Hygiene.** Delete docs for removed features. Docs live in `docs/` by type. No status reports or dated plans. Experimental features get a callout after the intro; a page written ahead of the code is marked `[PLANNED]` and unmarked in the PR that ships it. Freshness comes from the build, never a hand-typed date.
 
-**Review.** A fresh reader follows the page from scratch. Run every example, check parameter names and defaults against the implementation, resolve every link. Docs change in the same PR as the code, with prose lint in CI.
+**Review.** A fresh reader follows the page from scratch. Run every example in a clean shell, not the author's (an unstated environment variable is the usual broken example), check parameter names and defaults against the implementation, resolve every link. Docs change in the same PR as the code, with prose lint in CI.
 
 ## Writing and auditing
 

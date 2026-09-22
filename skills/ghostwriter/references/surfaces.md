@@ -14,7 +14,7 @@ Shape defaults where the profile is silent.
 
 **GitHub review or PR comment.** The line, the problem, the cost, then the fix proposed once. A nit says it is a nit. No praise padding around a finding. The PR's title and body are `pr-creator`'s.
 
-**PRD.** Problem, who has it and how often, what changes for them, how we will know (a measurable), out of scope, open questions. Drop any section the document does not need. Decisions stated as decisions; open questions left open. Halve it and check the measurable and the scope fences survived.
+**PRD, design doc.** Skeletons in templates.md. Decisions stated as decisions; open questions left open, each with an owner. Halve it and check the measurable, the decision, and the scope fences survived.
 
 **Slides.** `presentation-creator` writes the deck and its slide copy. Here only a voice pass on copy that exists: one idea per slide, the number or claim as the headline, never a paragraph.
 
