@@ -1,6 +1,6 @@
 # Handoff plans
 
-Read when a fresh session, a subagent, a teammate, or a cleared context will execute the plan. In Claude Code, approving a plan with the clear-context option or starting a new session to implement makes every plan a handoff plan; only a plan executed in the same conversation that wrote it is exempt.
+For every dispatched ticket, and any plan a fresh session, a subagent, a teammate, or a cleared context will execute. Approving a plan with a clear-context option or starting a new session to implement makes every plan a handoff; only a plan executed in the same conversation that wrote it is exempt.
 
 ## Why the executor is a stranger
 
@@ -11,6 +11,10 @@ The executor has not seen the interrogation. Every decision the user made in cha
 - Code excerpts the executor must match, with `file:line` markers, trimmed to the decision-rich part (a type, a schema, a function signature, a state machine). Prose describing a contract drifts; the code does not.
 - Conventions the codebase follows that a grep would not reveal: naming, where tests live, which helper to reuse, which module must not be imported from.
 - The verification commands and their expected output, copied from the Verification section, so the executor can run them without reading anything else.
+
+## Outcome, not steps
+
+Hand over the outcome, the acceptance check, the STOP conditions, the budget, and the finish line. Agents given 20-step prescriptive workflows deviate from them in well-reasoned ways, and the deviation is invisible until review; a stated outcome survives the deviation, a step list does not. Keep exact steps only for fragile or destructive commands (a migration, a deploy, a data backfill).
 
 ## STOP conditions
 
@@ -35,6 +39,9 @@ A plan that says what trips a STOP but never what an acceptable finish looks lik
 - The capability works on the real path and the case that motivated the plan improved (name the command or observation that shows it).
 - A genuine blocker was removed and the next one isolated (name it).
 - The run stopped because finishing needs scope the plan does not cover (name the scope).
+- The budget ran out (name what was spent and where the work stands).
+
+The first outcome is a PR with the Risk and Proof section and the acceptance check's result from a fresh run, not a cached one. Every outcome ends with the notes file written, because the coordinator moves the ledger row from it.
 
 ## Implementation-notes file
 
@@ -56,4 +63,4 @@ A deviation that is not a STOP condition never pauses the work: take the conserv
 
 ## Reviewing the result
 
-After implementation, the adversarial check is a fresh subagent reading only the diff, the plan, and the notes file: every requirement implemented, every listed edge case tested, nothing outside the plan's scope changed. Tell it to report gaps that affect correctness or the stated requirements, not style; a reviewer asked to find gaps will find some, and chasing every one over-engineers the result.
+After implementation, the adversarial check is a reviewer on a different vendor's model than the author, reading only the diff, the ticket, and the notes file: every requirement implemented, every listed edge case tested, nothing outside the plan's scope changed. Tell it to report gaps that affect correctness or the stated requirements, not style; a reviewer asked to find gaps will find some, and chasing every one over-engineers the result.

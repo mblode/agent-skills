@@ -1,6 +1,6 @@
 # Splitting work into slices
 
-The exit from Create mode when the work is too big for one plan, and from Review mode when Scope cannot reach 5/5 because the plan is really two plans. The output is a set of **vertical slices**, one ticket each, every ticket declaring what blocks it.
+Split mode's body. The output is a set of **vertical slices**, one ticket each in the contract from `tickets.md`, every ticket declaring what blocks it, and one ledger row per ticket.
 
 ## Contents
 
@@ -17,10 +17,11 @@ The exit from Create mode when the work is too big for one plan, and from Review
 
 Split when any of these hold:
 
-- The interrogation passed 10 questions without converging. More detail buys nothing: the plan cannot be executed in one pass.
+- An interview passed 10 questions without converging. More detail buys nothing: the plan cannot be executed in one pass.
+- The change will not fit the PR size limit, or one reviewer could not review it in one sitting.
 - The plan has more than one shippable outcome. Two things a user could notice separately are two plans.
 - Nothing can be verified until the last step lands. A plan whose Verification section only runs at the end is a stack of layers, not a plan.
-- Review keeps Scope below 5/5 because items serve different goals and cutting either one drops a current requirement.
+- Items serve different goals and cutting either one drops a current requirement.
 
 Do not split to escape the interrogation. Slicing needs the same understanding a single plan needs: intent, scope, and the frame settled first. Split before the frame is settled and you slice the wrong axis, then every slice inherits the mistake.
 
@@ -72,31 +73,17 @@ You write the tickets yourself, exactly as you open a PR. Nothing downstream wri
 Publish in dependency order, blockers first, so each ticket's edges can reference identifiers that already exist.
 
 - **A real tracker (Linear, GitHub, ...):** one issue per slice. Set the tracker's **native** blocking relation ("Blocked by" on Linear), not just a line of prose. A runner reads the relation; a blocker that exists only in the description is invisible to it and the ticket will pick up early.
-- **Local markdown files:** one file per slice at `<plan-dir>/slices/<NN>-<slug>.md`, numbered from `01` in dependency order, one ticket per file and never one combined file. There is no tracker to read the edges, so the `Blocked by` line is for the human driving pickup.
+- **No tracker chosen:** one file per slice at `docs/tickets/<NN>-<slug>.md`, numbered from `01` in dependency order, one ticket per file and never one combined file, plus one row per ticket in `docs/ledger.md`. There is no tracker to read the edges, so the ledger's `blocked by` column is what the coordinator dispatches from.
 
 Do not modify or close the parent issue.
 
-Finally, record the breakdown in the plan file under a `## Slices` heading: each slice's identifier or file path, its title, and its blockers. When the split happened during interrogation and no plan file exists yet, write the lightweight one now (title, context, approach) and put `## Slices` in it. Without that index the plan and the tickets drift apart the moment either changes, and Review has nothing to act on.
+Finally, add each ticket to the ledger in state `ready`, and link the ledger from the plan or epic. Without that index the plan and the tickets drift apart the moment either changes, and Dispatch has nothing to read.
 
 ## Ticket shape
 
-```markdown
-# <NN> <Title>
+Each ticket follows the contract and template in `tickets.md`. Every acceptance criterion must be checkable by someone holding only the diff and the repo: "works correctly" is not a criterion; "the list still renders when the API returns 500" is.
 
-**What to build:** the end-to-end behaviour this ticket makes work, from the
-user's perspective. Not a layer-by-layer implementation list.
-
-**Blocked by:** <the tickets that gate this one, or "none, can start immediately">
-
-## Acceptance criteria
-
-- [ ] Criterion 1
-- [ ] Criterion 2
-```
-
-Every criterion must be checkable by someone holding only the diff and the repo. "Works correctly" is not a criterion; "the list still renders when the API returns 500" is.
-
-Avoid file paths and code snippets: they go stale between publishing and pickup. The exception is a snippet that encodes a decision more precisely than prose can (a schema, a state machine, a type shape), trimmed to the decision-rich part.
+Paths and snippets go stale between publishing and pickup, so Dispatch re-checks the touch set against the current checkout. A snippet belongs in a ticket only when it encodes a decision more precisely than prose (a schema, a state machine, a type shape), trimmed to the decision-rich part.
 
 ## What a fan-out runner reads
 

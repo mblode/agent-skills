@@ -1,6 +1,6 @@
 # Quick Checklist (12 Checks)
 
-Fast triage for any AGENTS.md/CLAUDE.md root file.
+Fast triage for any root AGENTS.md, or a CLAUDE.md being merged into one.
 
 Scoring: `Yes` = 1, `No` = 0, `N/A` = exclude from denominator. Target: `>= 10/12` (or equivalent with `N/A`).
 
@@ -27,4 +27,4 @@ Automatic fail regardless of score:
 
 - Commands are mostly broken/stale
 - Content is mostly generic advice, template text, or restatements of default agent behavior
-- The intended tool does not load the shared instructions: check Claude Code version, built-in mod, Project instructions mode, and leftover project Claude files; absence of a CLAUDE.md wrapper is not a failure
+- An agent the repo uses cannot quote a rule from the file when asked (the loading probe in `instructions.md`); a missing CLAUDE.md wrapper is not a failure

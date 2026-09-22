@@ -1,0 +1,130 @@
+{
+  "skill_name": "backlog",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a plan that says proxy.ts handles authorization, while POST /api/export is excluded by its matcher. Fix the plan.",
+      "expected_output": "Correct the authorization location and verification criterion, with the matcher exclusion shown as evidence.",
+      "files": [],
+      "assertions": [
+        "Identifies the matcher-excluded path from the code, reported with the claim-verification output shape",
+        "Requires authorization at the handler or data boundary",
+        "Does not inflate the plan by adding unrelated work"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We have 40 tickets ready in Linear for the billing rewrite and I'm the only reviewer. Dispatch them all to Codex agents now so it's done by tomorrow.",
+      "expected_output": "A dispatch capped at review capacity: a handful of unblocked tickets dispatched with lane, handoff, budget, and ledger rows, the rest left ready with the reason, and the cap explained in queueing terms rather than dispatching 40 agents.",
+      "files": [],
+      "assertions": [
+        "Does not dispatch all 40 tickets at once; WIP is set from what one reviewer can review in a day",
+        "Explains that PRs past review capacity wait, go stale against main, and conflict, citing the queueing knee",
+        "Dispatches only tickets whose native blockers are merged",
+        "Each dispatched ticket gets a lane, a handoff with an acceptance check and STOP conditions, a budget, and a ledger row in dispatched",
+        "Records the author model per ticket so review can be cross-vendor",
+        "Asks before raising WIP above review capacity instead of treating the deadline as authorization"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The coordinator session has been quiet for two hours. Its last message was 'The next step is to run the integration tests for ticket 12 and open the PR.' Ticket 12 has no PR. What's going on and what do we do?",
+      "expected_output": "Ticket 12 marked stalled from the ledger evidence, the announce-then-stop pattern named, and a fresh re-dispatch from the ticket, handoff, and notes file inside the remaining budget, with the ledger reconciled against PRs and CI.",
+      "files": [],
+      "assertions": [
+        "Treats a final message that names a next step without a tool call as a stall, not progress",
+        "Reconciles the ledger from observed state (PRs, commits, CI) rather than from the coordinator's memory",
+        "Re-dispatches into a fresh session from the ticket and notes file instead of telling the old session to continue",
+        "Increments the attempt count and checks the budget before re-dispatching",
+        "Escalates to the human if the attempt cap is reached rather than looping"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Set up a /goal to migrate all 300 call sites from the old logger to the new one overnight. Just let it run until it's done.",
+      "expected_output": "An expand, migrate-in-batches, contract breakdown with a goal prompt that carries wall-clock, quota, attempt, and fan-out caps and explicit stop conditions, rather than an unbounded goal.",
+      "files": [],
+      "assertions": [
+        "Sequences the change as expand, migrate batches, contract rather than one vertical slice",
+        "Writes a wall-clock cap, a quota cap, and an attempt cap into the goal prompt itself",
+        "Names stop conditions including main going red and a STOP condition from the handoff",
+        "Caps concurrent agents and concurrent verify steps in the workflow, not only in prose",
+        "States what the goal leaves behind when it stops: the reconciled ledger and a status summary"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Main went red an hour ago on a migration test. Six agent PRs are green and waiting. Keep dispatching the queue and merge the green ones.",
+      "expected_output": "Dispatch and merging stop, one fix ticket is dispatched from the failing run, the six PRs are parked, and the resume condition is a fresh green run on main.",
+      "files": [],
+      "assertions": [
+        "Stops dispatching new tickets and does not merge the waiting PRs while main is red",
+        "Dispatches a single fix ticket built from the failing run's evidence",
+        "Marks the waiting tickets parked with the reason in the ledger",
+        "Names the resume condition as a fresh, uncached green run on main",
+        "Records the red interval for the retro"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Run the weekly agent retro. This week: three PRs opened without typecheck passing, one e2e test forced green with a test-only header, and a coordinator that stopped mid-batch twice.",
+      "expected_output": "One row per failure with evidence and a brake: repeated failures routed to gates as exit codes, the test-gaming lane noted in the dated routing reference, and the week's throughput, review wait, WIP, stalls, and main-red hours reported.",
+      "files": [],
+      "assertions": [
+        "Builds rows from the ledger and PR evidence, not recollection",
+        "Routes the repeated typecheck failure to a hook or required check via gates rather than another instruction line",
+        "Routes the test-only header to a check-the-check audit and a gate that detects it",
+        "Records the stalling coordinator as a routing change with the date",
+        "Reports throughput, time to first review, WIP against capacity, stalls, re-dispatches, and hours main was red"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Break this epic into tickets: team invites, SSO login, and audit log for admins. We use GitHub Issues.",
+      "expected_output": "Vertical slices presented for approval with outcomes and real blocking edges, then published blockers-first as GitHub issues with native blocked-by links, each in the ticket contract, with ledger rows in ready.",
+      "files": [],
+      "assertions": [
+        "Proposes vertical slices titled by outcome, not schema, API, and UI layers",
+        "Presents the breakdown for approval before publishing anything",
+        "Publishes in dependency order with the tracker's native blocking relation, not prose",
+        "Each ticket has an acceptance check, touch set, size limit, dependencies, lane, and budget",
+        "Does not list a merely related ticket as a blocker"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Split this epic into tickets we can hand to agents",
+      "Dispatch the ready tickets to Codex",
+      "What's stalled right now across the agents?",
+      "We have 60 issues and two reviewers, how many agents should run at once?",
+      "Which model should coordinate and which should implement?",
+      "Leave this running overnight as a /goal",
+      "Run the weekly retro on what the agents got wrong",
+      "Grill me on this plan before we split it",
+      "Review a plan that says proxy.ts handles authorization, while POST /api/export is excluded by its matcher. Fix the plan."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Plan a CSV export using the existing export service. Just write the plan, no interview. Include cancellation and a way to verify partial output is not presented as complete.",
+        "expected": "none"
+      },
+      {
+        "prompt": "Review the code changes on this branch without editing.",
+        "expected": "tidy"
+      },
+      {
+        "prompt": "Add pre-push hooks so agents can't open PRs without typecheck passing",
+        "expected": "gates"
+      },
+      {
+        "prompt": "Open a PR for this branch and watch CI until it merges",
+        "expected": "ship"
+      },
+      {
+        "prompt": "Write a decision record for moving the queue to pg-boss",
+        "expected": "architecture"
+      }
+    ]
+  }
+}

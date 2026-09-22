@@ -1,6 +1,6 @@
 # Lever Catalogue
 
-Grouped by the class of time each one removes. For each lever: what must be true, the gain to expect, and how it has failed. Pick by gain on the critical path measured in Step 1, never by how modern the lever sounds.
+Grouped by the class of time each one removes. For each lever: what must be true, the gain to expect, and how it has failed. Pick by gain on the critical path measured in CI speed Step 1, never by how modern the lever sounds.
 
 ## Contents
 
@@ -34,7 +34,7 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 **Dependency install.** Time three shapes on the runner: a plain install with the package manager's download cache (`actions/setup-node` with `cache: npm`), a whole-`node_modules` cache keyed on the lockfile hash, and a workspace-filtered install (`npm ci --workspace=<app> --include-workspace-root`, pnpm `--filter`). A fresh pnpm install at 7.5 seconds beat Linear's cache restore at 28; npm's extract is heavier, so the cache often wins there. A filtered install breaks when a task runner later reaches a workspace that was not installed.
 
-**Service boot.** Start only the services the suite connects to. For local Supabase, a stack using the database and Auth needs `db`, `kong`, and `gotrue`: `supabase start -x studio,postgres-meta,edge-runtime,realtime,imgproxy,mailpit,postgrest`, after checking nothing calls PostgREST (`supabase.from(...)` in application code, as opposed to Drizzle's `.from`). Keep `storage-api` when the config declares buckets. Excluding containers saves their pulls, not the boot; the SKILL.md gotchas carry the numbers and the `--workdir` trap.
+**Service boot.** Start only the services the suite connects to. For local Supabase, a stack using the database and Auth needs `db`, `kong`, and `gotrue`: `supabase start -x studio,postgres-meta,edge-runtime,realtime,imgproxy,mailpit,postgrest`, after checking nothing calls PostgREST (`supabase.from(...)` in application code, as opposed to Drizzle's `.from`). Keep `storage-api` when the config declares buckets. Excluding containers saves their pulls, not the boot; the gotchas in `ci-speed.md` carry the numbers and the `--workdir` trap.
 
 **Database schema.** Replaying every migration into a fresh database costs seconds per migration per container; a generated schema snapshot restores in one or two. Keep the replay in one place (the merge-DAG check, or one integration job) so a broken migration still fails somewhere.
 
@@ -74,7 +74,7 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 **Rolling deploys queue, never cancel.** A cancelled `flyctl deploy` or `kubectl rollout` leaves the app half-rolled. Deploy jobs get their own concurrency group with `cancel-in-progress: false`; a rollback workflow shares the group with cancellation on so it pre-empts.
 
-**Build once.** Order the Dockerfile so `COPY` of lockfiles and manifests precedes the install, keep sources out of that layer, and give the package manager a named cache mount. Across an internal fleet of Buildkite pipelines this was the largest measured lever: 13:35 per feature-branch build where it landed with change gating, 1:38 alone. Beyond the two cache traps in the SKILL.md gotchas:
+**Build once.** Order the Dockerfile so `COPY` of lockfiles and manifests precedes the install, keep sources out of that layer, and give the package manager a named cache mount. Across an internal fleet of Buildkite pipelines this was the largest measured lever: 13:35 per feature-branch build where it landed with change gating, 1:38 alone. Beyond the two cache traps in the `ci-speed.md` gotchas:
 
 - `cache-to` on a registry needs the `docker-container` buildx driver; the default `docker` driver ignores it without a warning.
 - Moving a `COPY --from=builder` above a source `COPY` with an overlapping destination changes the image silently. Diff the image, not only the build time.
@@ -101,4 +101,4 @@ On a public repository with hosted runners, minutes are free and wall-clock is t
 
 ## Sources
 
-The Linear numbers come from their published CI write-up. The Docker, CDK, migration-under-shards, path-filter, verification, and attribution rules come from an internal Buildkite optimizer's playbooks and nine weeks of its savings reports. Left behind from it: retry playbooks (reliability, `pr-babysitter`), host-specific queue and plugin playbooks, and the TypeScript upgrade ladder (a migration, not a lever).
+The Linear numbers come from their published CI write-up. The Docker, CDK, migration-under-shards, path-filter, verification, and attribution rules come from an internal Buildkite optimizer's playbooks and nine weeks of its savings reports. Left behind from it: retry playbooks (reliability, `ship`), host-specific queue and plugin playbooks, and the TypeScript upgrade ladder (a migration, not a lever).

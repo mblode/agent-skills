@@ -75,7 +75,7 @@ Classes: toolchain (compilers, linters, type checkers), gating (change detection
 
 ## Verifying the After-Measurement
 
-Read in Step 4, before a lever is credited. A shorter chain is necessary, not sufficient.
+Applied in CI speed Step 4, before a lever is credited. A shorter chain is necessary, not sufficient.
 
 - **No step starts later than it did.** Put the after-run's step start offsets next to the baseline's. A chain that shortened while one step moved later has regressed something; find it first.
 - **Parallelism is proved by overlap.** Steps that now run concurrently must have intersecting intervals in the after-run; a step that merely got faster did not parallelize. The saving is the sum of their baseline durations minus the group's wall-clock. Manual approvals and environment waits have no interval and are excluded.

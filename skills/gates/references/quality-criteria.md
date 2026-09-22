@@ -81,7 +81,7 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 46. Removed references to deleted folders/APIs
 47. Version-sensitive guidance is date/version scoped where needed
 48. Clear maintenance loop (how to keep the file current)
-49. Personal overrides stay private; any CLAUDE.local.md fallback blocker is identified and its loading mode verified
+49. Personal overrides stay private (`CLAUDE.local.md`, user-level files), and every agent the repo uses was shown to load the shared file by quoting a rule from it
 
 ## Grade mapping
 
@@ -102,4 +102,4 @@ Mark grade `F` regardless of score if any hold:
 - Commands are mostly broken/stale
 - Instructions are primarily generic advice, or restatements of default agent behavior
 - File is dominated by copied docs/templates rather than executable guidance
-- The intended tool does not load the shared instructions: check Claude Code version, built-in mod, Project instructions mode, and leftover project Claude files; absence of a CLAUDE.md wrapper is not a failure
+- An agent the repo uses cannot quote a rule from the shared file when asked; a missing CLAUDE.md wrapper is not a failure

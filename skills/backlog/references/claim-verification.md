@@ -1,6 +1,6 @@
 # Claim Verification
 
-Verify claims with local evidence, not at face value. Load during plan review when a claim is locally checkable, or when the user asks to verify one.
+Verify claims with local evidence, not at face value: a plan's claim about the code, a user's claim during an interview, or an agent's claim that a ticket is done.
 
 ## Contents
 
@@ -9,12 +9,13 @@ Verify claims with local evidence, not at face value. Load during plan review wh
 - Verifying against documentation
 - Output format
 - Worked example: the Verify move in a review
-- Integration with plan review
+- Agent completion claims
 
 ## When to use
 
-- Triage (Step 2): the plan asserts something checkable about the codebase, performance, or behavior
-- Dialogue (Step 3): the user responds with a specific, verifiable claim
+- A plan or ticket asserts something checkable about the codebase, performance, or behavior
+- During an interview, the user responds with a specific, verifiable claim
+- An agent reports a ticket done, tests passing, or a bug fixed, before the ledger moves the row
 - Standalone: the user says "verify this", "is this true", "prove it", "check this claim"
 - Before relying on an assumption that drives a critical decision
 
@@ -137,16 +138,17 @@ Verdict: NOT VERIFIED: 2 active call sites outside the module
 
 Tone throughout: reference the specific section and claim, no preamble praise, follow-ups sharper than first questions, acceptance brief and written into the file before moving on.
 
-## Integration with plan review
+## Agent completion claims
 
-During triage (Step 2), verify the plan's load-bearing checkable claims before the dialogue; a NOT VERIFIED claim drops its dimension a point and becomes the first question.
+An agent's "done" is a claim like any other, and the ledger moves on evidence. Name which of four things the evidence shows, because each can be green while the next is red:
 
-During dialogue (Step 3), when the user responds with a verifiable claim:
+| Claim level | Evidence | Known false green |
+|-------------|----------|-------------------|
+| Cached check | Task runner reports a cache hit | A cached `turbo run test` was green while a fresh `--force` run failed on an env singleton evaluated at import |
+| Fresh tests | The suite ran now, uncached, from a clean install | A test that cannot fail, a skipped suite, a test-only branch in production code |
+| Build | The artifact the deploy uses was built (including the container) | A PR build that never built the container |
+| Runtime startup | The service started and answered a real request | Dev startup failing on module resolution that no test imports |
 
-1. Recognize it is checkable ("this is under 100 lines", "we already handle that case", "the test covers this")
-2. Pause the dialogue
-3. Run the verification workflow
-4. Report the verdict with the raw evidence
-5. Use the verdict to choose the next move: ACCEPT, PUSH DEEPER, or REFRAME
+Record the level in the ledger's `last evidence`. `in_review` needs fresh tests at minimum; a claim resting only on a cached check is INCONCLUSIVE.
 
-Do not verify every claim, only those load-bearing for a plan decision or that seem surprising.
+During an interview, when the user responds with a verifiable claim, pause, verify, report the verdict with the raw evidence, and let it choose the next move. Verify only claims that are load-bearing for a decision or that seem surprising.
