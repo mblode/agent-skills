@@ -12,7 +12,7 @@ Shape defaults where the profile is silent.
 
 **Linear issue, comment.** The gap, then "so" plus the concrete cost; a gap with no cost is not finished. Identifiers, counts, and file:line do the arguing; quote the offending string. At most one heading. Scope fences stated flat. A comment adds one fact or one decision and stops.
 
-**GitHub review or PR comment.** The line, the problem, the cost, then the fix proposed once. A nit says it is a nit. No praise padding around a finding. The PR's title and body are `pr-creator`'s.
+**GitHub review or PR comment.** The line, the problem, the cost, then the fix proposed once. A nit says it is a nit. No praise padding around a finding. The PR's title and body are `ship`'s.
 
 **PRD, design doc.** Skeletons in templates.md. Decisions stated as decisions; open questions left open, each with an owner. Halve it and check the measurable, the decision, and the scope fences survived.
 

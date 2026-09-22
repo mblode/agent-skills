@@ -57,7 +57,7 @@ Ablate one rule at a time. Keep a rule only if a scenario below regresses withou
 **Expected behavior:**
 - Feature detection finds nothing
 - Stops. Does not run the 27 rules
-- Routes to `ui-design` Audit mode
+- Routes to `design` Audit mode
 - Does not file AX findings about the missing spinner
 
 ## Scenario 5: non-agentic code that trips a weak detection signal
@@ -69,7 +69,7 @@ Ablate one rule at a time. Keep a rule only if a scenario below regresses withou
 **Expected behavior:**
 - Feature detection finds nothing; neither token counts as a signal on its own
 - Stops. Does not run the chat playbook's rules
-- Routes to `ui-design` Audit mode
+- Routes to `design` Audit mode
 - Regression guard: this scenario failed before the weak-signal rule was added to `feature-playbooks.md`, when bare `completion` and `isStreaming` were listed as chat signals
 
 ## Scenario 6: a generic toolbar named Action
@@ -80,7 +80,7 @@ Ablate one rule at a time. Keep a rule only if a scenario below regresses withou
 
 **Expected behavior:**
 - Does not detect a tool-execution surface; `<Action>` alone is a weak signal
-- Stops and routes to `ui-design` Audit mode
+- Stops and routes to `design` Audit mode
 - Regression guard: two models independently invented this guard themselves when `<Action>` was listed as a strong signal
 
 ## Scenario 7: real executor code that matches no listed string

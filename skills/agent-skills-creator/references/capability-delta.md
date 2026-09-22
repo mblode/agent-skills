@@ -21,6 +21,12 @@ A model upgrade moves two things at once, in opposite directions, and an audit c
 
 Strong model performance is a reason to revisit instructions, not proof that removing a particular contract preserves behavior. Do not infer what was in a vendor's post-training from an announcement. Label a static deletion judgement as such; reserve measured claims for actual runs.
 
+## Compile to a gate
+
+Before keeping a rule as prose, ask whether a script, lint rule, hook, or CI check can decide it. A check fires on every run and every model; prose is read once and can be argued with. When one can, ship the check (in the skill's `scripts/`, or as a snippet the skill installs in the target repository) and reduce the prose to when to run it and how to read its output. Keep prose for judgement a check cannot make: taste, tradeoffs, when a rule does not apply.
+
+Model and vendor names do not belong in a skill body. They age within weeks, and a skill is read by several models at once. Where routing between models is the payload, keep it in one dated reference that says to re-check live sources, and state everything else as the capability needed (a strict instruction follower, a cheap subagent, a reviewer that is not the author's model).
+
 ## Keep, cut, merge, retire
 
 Keep a skill with a distinct trigger and useful payload. Cut generic explanations inside it. Merge when the remaining payload shares an existing skill's trigger and output contract. Retire when nothing unique remains; record the replacement or native capability and remove routing pointers, README entries, and obsolete fixtures together.

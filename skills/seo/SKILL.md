@@ -1,12 +1,12 @@
 ---
 name: seo
-description: Audits and fixes technical SEO, researches search demand, creates content briefs, and measures SEO/AEO performance. Use when asked to "audit SEO", "fix indexing", "improve AI visibility", "check keyword volume", "write an SEO brief", or "why did organic traffic drop". For Mintlify Agent Score, AFDocs, or Is Agentic reports use agent-ready. For writing the article use ghostwriter; for visual redesign use ui-design.
+description: Audits and fixes technical SEO, researches search demand, creates content briefs, and measures SEO/AEO performance. Use when asked to "audit SEO", "fix indexing", "improve AI visibility", "check keyword volume", "write an SEO brief", or "why did organic traffic drop". For Mintlify Agent Score, AFDocs, or Is Agentic reports use agent-ready. For writing the article use ghostwriter; for visual redesign use design.
 ---
 
 # SEO
 
 - **IS:** one entry point for search visibility: evidence-led audits, implementation, demand research, writer briefs, and performance measurement across search and answer engines.
-- **IS NOT:** writing the article or standalone marketing copy (`ghostwriter`), visual redesign (`ui-design`), tenant infrastructure (`multi-tenant-architecture`), or implementing AFDocs / Is Agentic / Is It Agent Ready scorecards (`agent-ready`). Fix SEO copy and markup when they are part of the requested implementation.
+- **IS NOT:** writing the article or standalone marketing copy (`ghostwriter`), visual redesign (`design`), tenant infrastructure (`architecture`), or implementing AFDocs / Is Agentic / Is It Agent Ready scorecards (`agent-ready`). Fix SEO copy and markup when they are part of the requested implementation.
 
 ## Route the task
 

@@ -15,10 +15,10 @@ Four structural patterns. Pick one by what the skill has to do, then copy the sh
 
 | Pattern | Use when | In-repo example |
 |---------|----------|-----------------|
-| Simple/hub | Dispatching to 2-5 focused files by track or mode | `ui-design` |
-| Workflow | A multi-step process with progressive reference loading | `agents-md`, `tidy` |
-| Rules-based | Auditing or linting against categorized rules | `typography-audit`, `ax-audit` |
-| Mixed | Workflow steps with conditional or platform-specific references | `multi-tenant-architecture` |
+| Simple/hub | Dispatching to 2-5 focused files by track or mode | `design` |
+| Workflow | A multi-step process with progressive reference loading | `gates`, `tidy` |
+| Rules-based | Auditing or linting against categorized rules | `design`, `ax-audit` |
+| Mixed | Workflow steps with conditional or platform-specific references | `architecture` |
 
 Decision guide: auditing against a checklist is rules-based; guiding a process is workflow; dispatching by context is simple/hub. Unsure means workflow, the most flexible.
 
@@ -61,7 +61,7 @@ skills/<name>/
   references/<detail>.md
 ```
 
-Load-bearing parts, in the order they matter: a "Read when" table mapping each reference to its trigger condition, a copyable progress checklist, numbered steps, and a final step that produces evidence. `agents-md` is the reference implementation.
+Load-bearing parts, in the order they matter: a "Read when" table mapping each reference to its trigger condition, a copyable progress checklist, numbered steps, and a final step that produces evidence. `gates` is the reference implementation.
 
 ## Rules-Based
 
@@ -80,7 +80,7 @@ SKILL.md carries a priority table (category, impact, prefix, rule count) so a tr
 
 ## Mixed
 
-Workflow steps where one branch of references applies and the rest do not: platform-specific, framework-specific, or context-specific. The workflow determines context first, then loads only the matching reference. `multi-tenant-architecture` dispatches on Cloudflare versus Vercel this way.
+Workflow steps where one branch of references applies and the rest do not: platform-specific, framework-specific, or context-specific. The workflow determines context first, then loads only the matching reference. `architecture` dispatches on Cloudflare versus Vercel this way.
 
 ## Cross-Cutting: Failure Decision Tables
 

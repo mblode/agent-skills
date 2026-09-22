@@ -83,27 +83,27 @@
     "near_miss": [
       {
         "prompt": "Open the PR with a proper description once the diff is clean.",
-        "expected": "pr-creator"
+        "expected": "ship"
       },
       {
         "prompt": "Rewrite the PR description so it mentions the Linear ticket and reads like a human wrote it.",
-        "expected": "pr-creator"
+        "expected": "ship"
       },
       {
         "prompt": "CI is red on my PR, fix it and resolve the merge conflicts.",
-        "expected": "pr-babysitter"
+        "expected": "ship"
       },
       {
         "prompt": "Address the reviewer's comments on PR 311 and reply to each thread.",
-        "expected": "pr-babysitter"
+        "expected": "ship"
       },
       {
         "prompt": "Check the rendered checkout page for accessibility problems.",
-        "expected": "ui-design"
+        "expected": "design"
       },
       {
         "prompt": "The new settings modal looks like AI slop, fix the spacing and the empty state.",
-        "expected": "ui-design"
+        "expected": "design"
       },
       {
         "prompt": "Audit my CLI's error messages and exit codes.",
@@ -111,11 +111,11 @@
       },
       {
         "prompt": "Design the module boundaries for the new billing service.",
-        "expected": "codebase-architecture"
+        "expected": "architecture"
       },
       {
         "prompt": "Stress-test this implementation plan before we start building.",
-        "expected": "planning"
+        "expected": "backlog"
       },
       {
         "prompt": "/code-review --fix",

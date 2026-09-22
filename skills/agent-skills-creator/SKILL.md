@@ -1,6 +1,6 @@
 ---
 name: agent-skills-creator
-description: Creates and improves portable Agent Skills with a validator, routing scenarios, and evidence-based keep, cut, merge, or retire decisions. Use when asked to "write a skill", "update all skills", "audit my SKILL.md", "remove redundant instructions", or fix skill triggering. For AGENTS.md or CLAUDE.md use agents-md.
+description: Creates and improves portable Agent Skills with a validator, routing scenarios, and evidence-based keep, cut, merge, or retire decisions. Use when asked to "write a skill", "update all skills", "audit my SKILL.md", "remove redundant instructions", or fix skill triggering. For AGENTS.md or CLAUDE.md use gates.
 compatibility: Repository validation requires Bash, Ruby with YAML and JSON, Perl, and standard Unix utilities.
 ---
 
@@ -9,7 +9,7 @@ compatibility: Repository validation requires Bash, Ruby with YAML and JSON, Per
 Create and improve skills in the Agent Skills open format: full lifecycle from pattern selection through validation and README update.
 
 - **IS:** creating new agent skills and auditing or rewriting existing ones: SKILL.md, references, rules folders, scripts, evaluations.
-- **IS NOT:** AGENTS.md/CLAUDE.md instruction files (use `agents-md`) or general documentation quality (use `ghostwriter`).
+- **IS NOT:** AGENTS.md/CLAUDE.md instruction files (use `gates`) or general documentation quality (use `ghostwriter`).
 
 ## Choose a Mode
 
@@ -142,7 +142,7 @@ When installation behavior changed, install the edited local source into a dispo
 
 ## Related Skills
 
-- `agents-md` for auditing AGENTS.md/CLAUDE.md instruction files
+- `gates` for auditing AGENTS.md/CLAUDE.md instruction files
 - `ghostwriter` for documentation quality
 
 Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a user task, which is the baseline Phase A of `references/improving-existing-skills.md` asks for.

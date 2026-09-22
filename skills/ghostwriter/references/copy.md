@@ -18,7 +18,7 @@ Settle purpose (the one action), reader (who, how they arrived), product (the co
 
 ## Product-state copy
 
-Words read while doing a task, where clarity beats persuasion. The product decision (scope, reversibility, whether a confirmation exists) is `product-design`'s; this writes the wording once that is settled, against the rule IDs it owns.
+Words read while doing a task, where clarity beats persuasion. The product decision (scope, reversibility, whether a confirmation exists) is `design`'s; this writes the wording once that is settled, against the rule IDs it owns.
 
 - `rule/destructive-names-action`, `rule/no-confirm-ok-labels`: labels name the object: `Delete project`, never `Confirm`, `OK`, `Yes`, or a bare verb. `Save`, `Cancel`, `Close` are the exemptions.
 - `rule/canonical-verb`: one verb per operation: Delete destroys, Remove detaches, Archive hides reversibly, Discard drops unsaved edits.

@@ -112,7 +112,7 @@ When sibling skills exist or scope creep is likely, open the body (right after t
 - **IS NOT:** doing the task itself, or planning work you will execute in this session.
 ```
 
-Name the sibling to route to in the IS-NOT line ("use `agents-md`"). Skip it when a skill has no neighbors and unmistakable scope; it would just restate the description.
+Name the sibling to route to in the IS-NOT line ("use `gates`"). Skip it when a skill has no neighbors and unmistakable scope; it would just restate the description.
 
 ## Build a Gotchas Section
 
@@ -146,7 +146,7 @@ For broad domains (a design system, a full CLI surface, a style guide), many sma
 
 The highest-fidelity reference is code. An existing implementation, a test suite, or a vendored library in another language communicates a contract better than prose describing the same contract, because it cannot be vague and it cannot drift from itself.
 
-When a skill needs Claude to match a contract, point at the code and interrogate only the deviations. `planning` does this with its reference-as-spec probe: it asks whether existing code, a library, or a site already does this the way the user wants, then treats those semantics as the spec. Prefer, in order: the code itself, a test suite that pins its behavior, then prose.
+When a skill needs Claude to match a contract, point at the code and interrogate only the deviations. `backlog` does this with its reference-as-spec probe: it asks whether existing code, a library, or a site already does this the way the user wants, then treats those semantics as the spec. Prefer, in order: the code itself, a test suite that pins its behavior, then prose.
 
 ## Degrees of Freedom
 

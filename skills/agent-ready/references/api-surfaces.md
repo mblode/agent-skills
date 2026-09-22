@@ -85,7 +85,7 @@ Do not add a fake developer portal. A single docs index that links auth, endpoin
 
 A sentence in `llms.txt` is not a CLI. Pass means a package on npm, PyPI, or Homebrew that can run a real command.
 
-If the product has no CLI and nobody asked to build one, remove the llms.txt mention (or move it under Optional as a planned item) and record it as a product decision. If they asked to ship one, scaffold with `scaffold-cli` and audit with `dx-audit`; this skill only requires the published entry and a link from `llms.txt`.
+If the product has no CLI and nobody asked to build one, remove the llms.txt mention (or move it under Optional as a planned item) and record it as a product decision. If they asked to ship one, scaffold with `scaffold` and audit with `dx-audit`; this skill only requires the published entry and a link from `llms.txt`.
 
 ## MCP
 

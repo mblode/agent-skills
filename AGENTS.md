@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 
 - `skills/` holds each skill in its own folder (kebab-case). Each skill has a `SKILL.md` file with YAML frontmatter (`name`, `description`) and Markdown guidance.
-- Some skills include reference files alongside the `SKILL.md` (e.g. `skills/agents-md/references/`).
+- Some skills include reference files alongside the `SKILL.md` (e.g. `skills/gates/references/`).
 - Top-level files: `README.md` (overview and install docs).
 
 ## Install / Development Commands
@@ -57,6 +57,8 @@ Other repositories may contribute installed skills. Compare each owned folder re
 - Files are Markdown-first, with supporting scripts and evaluation fixtures.
 - No em dashes anywhere (skill bodies, descriptions, READMEs, commits). Restructure with commas, colons, periods, or parentheses; don't substitute a spaced hyphen.
 - When detail is needed, add a focused reference file rather than expanding `SKILL.md`.
+- A skill carries only what the model and host cannot supply: taste, product policy, operational contracts, and observed failures. When a script, hook, lint rule, or CI check can decide a rule, ship the check and keep the prose to when to run it (`skills/agent-skills-creator/references/capability-delta.md`).
+- No model or vendor names in skill bodies. The one exception is `skills/backlog/references/routing.md`, which is dated and says to re-check live sources.
 
 ## Skill Authoring
 
