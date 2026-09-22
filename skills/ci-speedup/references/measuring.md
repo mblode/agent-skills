@@ -10,6 +10,8 @@ How to get real numbers out of GitHub Actions and turn them into a critical path
 - Computing the critical path
 - Reading test-runner output
 - Baseline table
+- Verifying the after-measurement
+- Other hosts
 
 ## Where the Numbers Are
 
@@ -82,3 +84,16 @@ One table per measured run, in the ledger and in the pull request description:
 | e2e | playwright | 143 | execution |
 
 Classes: toolchain (compilers, linters, type checkers), gating (change detection, matrix computation, runner allocation), setup (checkout, installs, caches, service boot, database schema), execution (the tests and builds the pipeline exists to run). The class decides which lever family applies.
+
+## Verifying the After-Measurement
+
+Read in Step 4, before a lever is credited in the ledger. A shorter chain is necessary, not sufficient.
+
+- **No step starts later than it did.** Put the after-run's step start offsets next to the baseline's. A chain that shortened while one step moved later has regressed something, and that regression is found before the lever is credited.
+- **Parallelism is proved by overlap.** Steps that now run concurrently must have intersecting start and end intervals in the after-run; a step that merely got faster did not parallelize. The saving is the sum of their baseline durations minus the group's wall-clock. Manual approvals and environment waits have no interval and are excluded.
+- **The lever fired, per the log.** Read a line that appears on a cold run as well as a warm one (the cache action's own banner, not "cache restored"), so that a miss on the first run reads as a miss and not as the lever being absent.
+- **Measured against predicted.** Within about 20 percent of the Step 2 prediction confirms; shards get 30 because they vary by file count between runs. Outside that band the lever is inconclusive until the gap is explained, and the ledger says which.
+
+## Other Hosts
+
+Buildkite exposes `started_at` and `finished_at` per job on a build, with the same interval reading as above; block steps and steps in a waiting state have no interval and sit outside the chain. Map the jobs to the GitHub job shape and feed the JSON to `scripts/ci-timings.sh --jobs-json <file>`, or compute the chain by hand from the timestamps.

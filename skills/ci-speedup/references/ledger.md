@@ -51,6 +51,10 @@ median crosses <threshold> around <date>. Re-measure when it does.
 
 The after column comes from a run on the branch, never from the prediction in Step 2. When they disagree, the ledger says so and says why. Give median and p90 over the last ten or twenty runs where the history exists (`scripts/ci-timings.sh --runs 20 --workflow ci.yml --branch main`); a single run is a sample, and the same shard has measured 2:26 and 3:30 on consecutive pushes.
 
+Attribute per lever. Nine weeks of savings reports from an internal fleet of pipelines attributed savings per repository and never per lever, wrote off nine repositories that got slower as "pipeline growth", and reverted nothing; one repository was flagged slower in the first report and was still slower seven weeks later. Two rules follow. Land one lever per push where the chain allows, or read a run per lever, so the after column names what paid. A negative after column is a revert decision, not a caveat: the ledger states revert or keep, and why, before the next lever lands.
+
+The pull request body carries one verdict (confirmed, not confirmed, inconclusive) with observed and projected in one sentence, `Observed saving: 39 seconds. Projected saving: 42 seconds.` Not confirmed and inconclusive name the next action.
+
 The trend table is what makes the ledger a standing practice rather than a one-off: Linear indexes machine time per test and test count from a fixed week and projects when the suite outgrows the pipeline again (at 2,000 new tests a week, theirs would have doubled without the work). One row per measurement, and a sentence saying when the next round is due.
 
 ## Instruction-File Lines

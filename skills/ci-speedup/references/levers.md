@@ -10,10 +10,13 @@ Grouped by the class of time each one removes. For each lever: what must be true
 - Toolchain
 - Deploy stage
 - Cost accounting
+- Sources
 
 ## Gating
 
 **Change detection compares against the last verified commit.** On the default branch, `github.event.before` is the previous push, which may have been cancelled out of the queue and never checked. Ask the API for the newest successful run of the workflow on the branch and compare against its head; anything else falls back to the full suite. Applies whenever a concurrency group queues default-branch pushes.
+
+**Path filters keep the default branch whole.** Before merging a filter, walk the default-branch run where none of the filtered paths changed: the deploy and every required check must still produce a result, or the merge queue waits on a check that never reports. Repo-wide and required steps are never gated, and a native path filter is never swapped for a hand-rolled changed-files check, which sees less.
 
 **Decide without a working tree.** A gating job that only needs the diff can use `fetch-depth: 1` plus a fetch of the base SHA, or no checkout at all when the decision comes from the API. Gain is 10 to 20 seconds at the head of every chain. Linear moved theirs from 26 to 8 seconds this way.
 
@@ -41,7 +44,7 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 ## Execution
 
-**Shard across jobs.** `vitest run --shard=1/2`, `playwright test --shard=1/2`, or a task-runner filter per workspace. Gain is the suite time divided by shards, minus one extra setup per shard. Shard the suites whose duration exceeds the setup tax by a wide margin; put everything else in one shard.
+**Shard across jobs.** `vitest run --shard=1/2`, `playwright test --shard=1/2`, or a task-runner filter per workspace. Gain is the suite time divided by shards, minus one extra setup per shard. Shard the suites whose duration exceeds the setup tax by a wide margin; put everything else in one shard. A step that also runs migrations or seeds cannot be sharded as it stands: every shard replays them, or races the others on one database. Move the migration into a step the shards `need`.
 
 **Shared module registry.** Vitest `isolate: false` keeps one module registry per worker across files, so the module graph is imported once instead of per file. Linear's largest single saving (about 17 percent of monthly runner time; slowest shard from 300 to 379 seconds down to about 195). Measure the ceiling first with `vitest run --no-isolate` on the whole suite: a 222-file jsdom suite went from 2:56 to 1:01 that way, with 31 files failing. Then apply as a second Vitest project. The files to keep isolated are the ones that register cross-file state, not the ones that fail: `vi.mock` and `vi.doMock` registrations, fake timers, `vi.stubGlobal` and `vi.stubEnv` all outlive the file under a shared registry, and the failures land in later files that did nothing wrong. Two eligibility mechanisms: Linear's is an opt-in comment on each file plus the teardown that makes it safe, which is explicit and reviewable but needs every author to know it; the alternative is a mechanical scan in the Vitest config that isolates any file matching those calls, which is self-maintaining and never wrong by omission. A mechanical split by that scan is honest but only pays off once the mocking half is small; with 122 of 222 files isolated the same suite reached 2:31, because the isolated half still boots per file. The real gain waits on making mocks leak-safe (restore in `afterEach`, or inject the dependency) and moving files across, and on the instruction file saying new tests default to the shared project.
 
@@ -65,7 +68,7 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 **Faster runners.** Hosted GitHub runners are four slow vCPUs on shared disks. Third-party runners (Blacksmith, Depot, Namespace, RWX, BuildJet, or self-hosted) run the same YAML on faster CPUs and NVMe with a persistent cache. Linear measured 34 percent across the pipeline and 52 percent on `tsc` from the switch alone. It is a spend, so it is the user's call; the case for it is one run of the unchanged pipeline on each, side by side. Ordering matters: measure after the split and setup work, because a faster machine shortens every job and hides which one was the problem.
 
-**Native TypeScript.** `tsgo` (`@typescript/native-preview`) cut Linear's median type-check by 73 percent. It does not support `baseUrl`, some `paths` shapes, or every `tsc -b` project-reference layout; check each tsconfig before switching, and keep `tsc` for the ones it refuses. Gain lands on the critical path only when type-checking is on it.
+**Native TypeScript.** `tsgo` (`@typescript/native-preview`) cut Linear's median type-check by 73 percent. It does not support `baseUrl`, some `paths` shapes, `moduleResolution: node10` (usually inherited or defaulted rather than written in the tsconfig it fails on), or every `tsc -b` project-reference layout; check each tsconfig before switching, and keep `tsc` for the ones it refuses. Gain lands on the critical path only when type-checking is on it.
 
 **Lint without the type graph.** Rules that build the program are the expensive ones. Oxlint and Biome run syntax-only rules in seconds; type-aware rules stay in a separate, sharded, or default-branch-only job.
 
@@ -75,7 +78,16 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 **Rolling deploys queue, never cancel.** A cancelled `flyctl deploy` or `kubectl rollout` leaves the app half-rolled. Deploy jobs get their own concurrency group with `cancel-in-progress: false`; a rollback workflow shares that group with cancellation on so it pre-empts.
 
-**Build once.** Remote Docker builds re-run the dependency layer when the build context includes anything the lockfile does not pin. Order the Dockerfile so `COPY` of lockfiles and manifests precedes the install, and keep sources out of that layer.
+**Build once.** Remote Docker builds re-run the dependency layer when the build context includes anything the lockfile does not pin. Order the Dockerfile so `COPY` of lockfiles and manifests precedes the install, keep sources out of that layer, and give the package manager a cache mount. Across an internal fleet of Buildkite pipelines this was the largest measured lever: 13:35 per feature-branch build on one repository where it landed with change gating, 1:38 alone on another. How it has failed, each one observed:
+
+- A registry cache pushed to the same tag as the image never hits. The `push` overwrites the cache manifests, and `cache-from` finds a regular image instead. The cache ref is its own tag.
+- `cache-to` on a registry needs the `docker-container` buildx driver; the default `docker` driver ignores it and the build is uncached with no warning.
+- `RUN --mount=type=cache` without an `id` derives one from the target path, so parallel builds of different images share a directory under the default `sharing=shared` and corrupt it. Name every mount.
+- Moving a `COPY --from=builder` above a source `COPY` with an overlapping destination changes the image contents silently. Diff the image, not only the build time.
+- `compression=zstd,compression-level=1` on the cache exporter is a hypothesis, not a default: A/B it on a cold and a warm build against separate refs, and never set `force-compression=true`.
+- A workflow or Dockerfile that a template or pipeline library generates is edited in the generator. A hand edit to the output is reverted by the next generation.
+
+**CDK deploys.** `cdk deploy --concurrency N` deploys independent stacks in parallel; it applies with two or more stacks and is capped around 5 by CloudFormation rate limits. `--method=direct` skips the changeset on stages where nobody reads it, measured at 3:20 per default-branch build on one repository. Neither applies to `--all` or wildcard stack arguments, which do not say which stacks are touched, and neither takes effect when the workflow line calls a wrapper script that owns the real command.
 
 **Health checks as a job.** Twenty seconds of `curl --retry` in its own job costs a runner allocation. Fold it into the deploy job's last step.
 
@@ -94,3 +106,7 @@ Wall-clock and runner minutes move independently. Write both in the ledger:
 - `isolate: false` lowers both.
 
 For a public repository on hosted runners, minutes are free and wall-clock is the only number. For a private one, or on paid third-party runners, say what the extra minutes cost per month before choosing shards over shared state.
+
+## Sources
+
+The Linear measurements cited inline come from their published CI write-up. The Docker build failures, the CDK deploy lever, the migration-under-shards and path-filter rules, and the verification and attribution rules in the other references come from an internal Buildkite optimizer's playbooks and nine weeks of its savings reports. Left behind from that source: retry playbooks (reliability, which `pr-babysitter` owns), host-specific queue and plugin playbooks, and the TypeScript upgrade ladder (a migration, not a lever).

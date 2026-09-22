@@ -25,7 +25,7 @@ Three ratios decide what to do next:
 
 | File | Read when |
 |------|-----------|
-| `references/measuring.md` | Step 1: pulling run, job, and step timings; percentiles over many runs; the critical path; reading test-runner duration lines; the baseline table |
+| `references/measuring.md` | Step 1: pulling run, job, and step timings; percentiles over many runs; the critical path; reading test-runner duration lines; the baseline table. Step 4: the rules that decide whether the after-run credits a lever |
 | `references/levers.md` | Step 2: the lever catalogue by class, what each needs to be true, expected gain, and how each one has failed |
 | `references/ledger.md` | Step 5: the ledger, its trend table, and the instruction-file lines that keep the layout and the test defaults from regressing |
 | `scripts/ci-timings.sh` | Step 1: one run's jobs, steps and critical path, or `--runs N` for median and p90 per job; `--help` gives the forms |
@@ -67,7 +67,7 @@ Keep the pipeline's guards. Change detection, merge-DAG checks, concurrency grou
 
 ### Step 4: Push and read the after-measurement
 
-The branch's own runs are the after-measurement. Read them the same way as Step 1 and put the numbers next to the baseline. When the predicted chain and the measured one disagree, find out why before adding another lever. Repeat until the critical path stops moving or the remaining levers need a decision the user owns.
+The branch's own runs are the after-measurement. Read them the same way as Step 1 and put the numbers next to the baseline, and check the run against the verification rules in `references/measuring.md` (no step starts later, parallelism shows as overlap, the log says the lever fired) before crediting a lever. When the predicted chain and the measured one disagree, find out why before adding another lever. Repeat until the critical path stops moving or the remaining levers need a decision the user owns.
 
 ### Step 5: Ledger and guardrails
 
@@ -89,6 +89,10 @@ Write the ledger from `references/ledger.md` into the repository's docs: before,
 - A job that another job `needs` and that was skipped by an `if` makes the dependent skip too. Where a deploy must still run when an optional job was skipped, gate on `always()` and the specific job results.
 - Matrix jobs default to `fail-fast: true`; one failed shard then cancels the others and hides how many are red. Set `fail-fast: false` on test shards.
 - Format checks with a `--check .` on the whole tree make docs-only commits ineligible for `paths-ignore`; only extensions the formatter never matches can be skipped.
+- A Docker registry cache pushed to the same tag as the image never hits: the push overwrites the cache manifests and `cache-from` finds a regular image. The cache ref is its own tag.
+- `RUN --mount=type=cache` without an `id` shares one directory between parallel builds of different images and corrupts it under the default `sharing=shared`. Name every mount.
+- Editing the deploy line in the workflow does nothing when that line calls a wrapper script that owns the real command. Find where the command runs before re-timing.
+- `turbo run typecheck`, `lerna run`, and `npm run -ws --if-present` silently skip workspaces that lack the script, so a green root command proves nothing about a workspace that never ran. Validate per workspace when re-timing locally.
 
 ## Related Skills
 
