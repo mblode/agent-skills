@@ -1,0 +1,27 @@
+# Replaces the lefthook.yml that `ultracite init` writes, before the first commit.
+#
+# 1. Scope. `npx ultracite fix` with no file arguments formats the whole repo,
+#    so committing one file silently rewrites unrelated files. {staged_files}
+#    keeps the fixer to what is being committed.
+# 2. Empty sets. oxlint exits non-zero when handed no lintable files. JSON in
+#    the same job as TS would fail every JSON-only commit, which is exactly what
+#    a release bot's version commit is. Lint only what oxlint lints; format the
+#    rest with oxfmt directly.
+# Globs are *.{...}, never **/: a **/ glob never matches root files, so edits to
+# package.json and tsdown.config.ts would bypass the hook.
+pre-commit:
+  parallel: true
+  jobs:
+    - name: ultracite
+      glob: "*.{js,jsx,ts,tsx}"
+      run: npx ultracite fix {staged_files}
+      stage_fixed: true
+    - name: oxfmt
+      glob: "*.{json,jsonc,css}"
+      # oxfmt ignores lockfiles and exits non-zero when every file it gets is
+      # ignored, so a lockfile-only commit would fail the hook.
+      exclude:
+        - "package-lock.json"
+        - "**/package-lock.json"
+      run: npx oxfmt --write {staged_files}
+      stage_fixed: true

@@ -1,0 +1,29 @@
+# .github/workflows/check.yml
+# Resolve {{checkout_action}}, {{setup_node_action}}, and {{node_version}} live:
+# the current major tag of actions/checkout and actions/setup-node, and the Node
+# version the Vercel project uses.
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: {{checkout_action}}
+      - uses: {{setup_node_action}}
+        with:
+          cache: npm
+          node-version: "{{node_version}}"
+      - run: npm ci
+      - run: npm run check
+      - run: npm test --if-present
+        env:
+          TURBO_FORCE: "true"
+      - run: npm run build

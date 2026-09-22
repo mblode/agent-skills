@@ -1,0 +1,30 @@
+# {{name}}
+
+{{description}}
+
+## Commands
+
+```bash
+npm install        # setup
+npm run build      # tsdown, outputs to dist/
+npm run dev        # tsdown --watch
+npm test           # vitest run --passWithNoTests
+npm run typecheck  # tsc --noEmit
+npm run fix        # ultracite fix: format + lint autofix
+npm run check      # ultracite check (CI)
+```
+
+## Gotchas
+
+- ESM only, NodeNext: relative imports need `.js` extensions even from `.ts` sources.
+- Two build entries: `cli.js` (shebang, no types) and `index.js` (types). Do not merge them, and do not add a shebang to `src/cli.ts`.
+- Lint and format through `npm run fix` and `npm run check`, not oxlint or oxfmt directly.
+- Colors via `styleText` from `node:util`; progress via the `@clack/prompts` spinner. No chalk or ora.
+
+## Agent invariants
+
+- Data on stdout; logs and progress on stderr. `--output json` for machine-readable output.
+- Never prompts when stdin is not a TTY; `--no-input` plus flags for every value.
+- Mutating commands support `--dry-run`; destructive ones require `--yes` without a TTY.
+- In `--output json` mode, errors print `{ error, code, message, details }` on stdout and exit non-zero.
+- Core logic lives in `src/index.ts` so it can back an MCP server too; CLI-only concerns stay in `src/cli.ts`.

@@ -1,0 +1,20 @@
+{
+  "name": "{{name}}",
+  "private": true,
+  "packageManager": "npm@{{npm_version}}",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "format": "turbo format",
+    "format:check": "turbo format:check",
+    "check-types": "turbo check-types",
+    "check": "turbo lint format:check check-types",
+    "fix": "turbo lint:fix format",
+    "test": "turbo test",
+    "prepare": "lefthook install || true"
+  },
+  "devDependencies": {}
+}

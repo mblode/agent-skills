@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture"
+  short_description: "Design, build, deepen, and harden TypeScript codebase structure, including multi-tenant platforms"
+  default_prompt: "Use $architecture to design module contracts and repo shape, start a rebuild with a walking skeleton and production-eligibility gate, deepen expensive boundaries, enforce them with boundary checks, or design tenant isolation, routing, custom domains, and plan limits."

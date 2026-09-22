@@ -1,0 +1,29 @@
+# {{name}}
+
+Turborepo. The site lives in `apps/web` (see that app's `AGENTS.md` for code
+standards and the Next.js docs pointer).
+
+## Commands
+
+Run from this directory; they go through Turborepo:
+
+```bash
+npm run dev           # start the site
+npm run build         # build every workspace
+npm run check         # lint + format:check + check-types
+npm run fix           # lint:fix + format
+npm test              # tests (TURBO_FORCE=true for an uncached run)
+```
+
+`npm run lint` must run inside `apps/web` (turbo does that) so Oxlint loads
+`oxlint.config.ts` and the shadcn preset. Running oxlint from the root lints
+with defaults.
+
+## Rules
+
+- No em dashes in copy, content, docs, or commit messages.
+- `next.config.ts` keeps `cacheComponents`, `partialPrefetching`, and
+  `reactCompiler` on. Read the Instant Navigations rules in
+  `apps/web/AGENTS.md` before adding a route.
+- Call sites may add layout classes (`mt-4`, `w-full`); restyle in
+  `components/ui/` instead.

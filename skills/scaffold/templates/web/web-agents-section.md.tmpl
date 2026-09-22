@@ -1,0 +1,22 @@
+## Design-system lint
+
+Ultracite extends `ultracite/oxlint/shadcn` (`@shadcn/lint`). After UI
+changes, run `npx ultracite check`. Findings name the variant, token, or
+file to use instead. Autofix with `npx ultracite fix`; remaining
+diagnostics with `npx ultracite fix --codex` (or `--claude`) when that
+CLI is available. Call sites may add layout classes (`mt-4`, `w-full`);
+appearance belongs in `components/ui/`.
+
+## Instant Navigations
+
+- Nothing is cached unless a function says `'use cache'` (with `cacheLife`
+  and `cacheTag`); data shared across instances uses `'use cache: remote'`.
+- No `dynamic`, `dynamicParams`, `revalidate`, or `fetchCache` segment
+  exports, in pages or route handlers.
+- Await `params`, `searchParams`, `cookies()`, and `headers()` inside a
+  `<Suspense>`-wrapped child, never at the top of a page.
+- No `new Date()`, `Date.now()`, `Math.random()`, or `crypto.randomUUID()`
+  during render: use `await connection()` in a Suspense child or a
+  `'use cache'` function.
+- Backgrounds and themes belong to the route, never to `body` or `html`;
+  the previous route stays mounted as hidden DOM.
