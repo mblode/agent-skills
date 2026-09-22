@@ -61,7 +61,7 @@ skills/<name>/
   references/<detail>.md
 ```
 
-Load-bearing parts, in the order they matter: a "Read when" table mapping each reference to its trigger condition, a copyable progress checklist, numbered steps, and a final step that produces evidence. `gates` is the reference implementation.
+Load-bearing parts, in the order they matter: a "Read when" table mapping each reference to its trigger condition, a copyable progress checklist, numbered steps, and a final step that produces evidence. `gates` CI speed mode (`references/ci-speed.md`) follows this shape.
 
 ## Rules-Based
 
