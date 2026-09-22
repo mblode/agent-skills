@@ -5,16 +5,18 @@
     "name": "Matthew Blode",
     "url": "https://github.com/mblode"
   },
-  "description": "UI audits, typography, docs, PR review, and releases, loaded on demand by your coding agent",
+  "description": "Architecture, backlog, gates, design, review, releases, and writing, loaded on demand by your coding agent",
   "plugins": [
     {
       "name": "agent-skills",
       "source": "./",
-      "description": "Skills for the parts of shipping that code review never covers: the loading states, the type scale, and whether half the diff is AI slop.",
+      "description": "Taste, brakes, and backlog control for coding agents: design system, voice, gates, and the failures you have already paid for.",
       "homepage": "https://www.skills.sh/mblode/agent-skills",
       "repository": "https://github.com/mblode/agent-skills",
       "license": "MIT",
-      "author": { "name": "Matthew Blode" }
+      "author": {
+        "name": "Matthew Blode"
+      }
     }
   ]
 }
