@@ -1,6 +1,6 @@
 # PR Polish
 
-Restructure commits and add a review path so a large or messy PR reads cleanly. Loaded by pr-creator when commits are noisy, the diff exceeds 500 lines, or the user asks to polish, squash, restructure, or split.
+Restructure commits so a large or messy PR reads cleanly, or split it when `gates` says it exceeds review capacity. Used in PR mode when commits are noisy, the diff is over the review budget, or the user asks to polish, squash, restructure, or split.
 
 Do this before the first push wherever possible. Rewriting history under an open PR marks inline comments on the old SHAs "outdated" and the reviewer loses their thread.
 
@@ -72,20 +72,10 @@ Extract the independent slice onto its own branch, then rebuild the original wit
 ```bash
 git switch -c <new-branch> origin/main
 git cherry-pick <sha>...                     # the independent commits, oldest first
-git push -u origin HEAD                      # then gh pr create for this slice per SKILL.md
+git push -u origin HEAD                      # then gh pr create for this slice, same PR contract
 
 git switch <original-branch>
 # soft reset and rebuild, omitting the extracted files
 ```
 
 Add `Part of ABC-123` to both bodies if they share one Linear issue, and one line in the original PR saying what moved where. Split only work that a reviewer could approve without the other PR; splitting coupled changes doubles the review, it does not halve it.
-
-## Review path in the description
-
-The one-paragraph rule in SKILL.md still applies. For a diff over 500 lines or touching five or more files, add one line telling the reviewer where to start:
-
-```text
-Review path: start with migration.sql, then permissions.ts, then the UI.
-```
-
-The `Risk:` line, when the change earns one, follows the same rule as SKILL.md: one line, only for something non-obvious ("The migration locks the users table; run during low traffic").

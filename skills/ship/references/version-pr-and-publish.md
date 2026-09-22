@@ -12,7 +12,7 @@
 
 ## The Release Workflow
 
-One workflow (commonly `release.yml` or `npm-publish.yml`) handles versioning and publishing across two runs on the default branch (SKILL.md, The Release Loop). Current shape with OIDC trusted publishing and `changesets/action@v2`:
+One workflow (commonly `release.yml` or `npm-publish.yml`) handles versioning and publishing across two runs on the default branch (the release loop in release mode). Current shape with OIDC trusted publishing and `changesets/action@v2`:
 
 ```yaml
 on:
@@ -54,7 +54,7 @@ The head branch is the identity; the title is "Version Packages" by default but 
 
 ## Waiting for the PR to Appear
 
-`changesets/action` opens the PR during the release run triggered by the changeset push, usually within a minute of that run finishing. When the Step 4a watch is `TERMINAL: success` and the PR is absent, run this watch (Monitor or background Bash, per `references/ci-polling.md` mechanics) with a 10-minute cap:
+`changesets/action` opens the PR during the release run triggered by the changeset push, usually within a minute of that run finishing. When the commit watch on the changeset push ends `TERMINAL: success` and the PR is absent, run this watch the same way (Monitor or background Bash) with a 10-minute cap:
 
 ```bash
 BASE=$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)
@@ -78,7 +78,7 @@ gh pr view <n> --json mergeable,headRefName  # MERGEABLE, changeset-release/<bas
 
 `bucket` is one of `pass`, `fail`, `pending`, `skipping`, `cancel`; anything but `pass` blocks. `mergeable` is `MERGEABLE`, `CONFLICTING`, or `UNKNOWN` (still computing: wait 30 seconds and re-query).
 
-Merging is Yellow tier: announce one line, then execute. Do not prompt for re-confirmation; invoking autoship is the consent.
+Announce one line, then merge. Do not prompt for re-confirmation; invoking the release is the consent.
 
 ```text
 Merging Version Packages PR #<n>: <package>@<version>
@@ -98,7 +98,7 @@ The merge triggers the second run of the same workflow. Scope the watch to the m
 SHA=$(gh pr view <n> --json mergeCommit --jq .mergeCommit.oid)
 ```
 
-Run the commit watch script with that `SHA`. On `TERMINAL: failure`, `gh run view <id> --log-failed` on the release run and match it against the failure table below. Publish failures are configuration, auth, or registry state; a blind rerun reproduces the same error and, on a partial monorepo publish, can double-publish the packages that succeeded.
+Run `scripts/watch-commit.sh` with that `SHA`. On `TERMINAL: failure`, `gh run view <id> --log-failed` on the release run and match it against the failure table below. Publish failures are configuration, auth, or registry state; a blind rerun reproduces the same error and, on a partial monorepo publish, can double-publish the packages that succeeded.
 
 ## Verifying on npm
 
