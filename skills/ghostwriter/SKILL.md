@@ -39,7 +39,7 @@ When the user pastes their own writing and asks for a profile, write `<data-root
 
 ## Before returning
 
-Edit your own draft as the sternest reader: passive voice where the actor matters, a verb buried in a noun, the same phrase twice, filler adverbs, a paragraph that belongs elsewhere, the point arriving late. Then run [references/tells.md](references/tells.md). A word or habit the profile names is never a tell. Never paste profile text into the output.
+Edit your own draft as the sternest reader: passive voice where the actor matters, a verb buried in a noun, the same phrase twice, filler adverbs, a paragraph that belongs elsewhere, the point arriving late. Then run [references/tells.md](references/tells.md). A word or habit the profile names is never a tell. Never paste profile text into the output. When the draft is a file and the project has `taste-lint`, run `npx taste-lint lint <file>`: it catches the tells a regex can, and the profile's own checks once the voice pack is configured (see `$GHOSTWRITER_HOME/AGENTS.md`). It never replaces the read.
 
 Never invent a name, number, date, link, decision, availability, experience, motive, or reason the user did not state. An invented "why I built this" is the first thing the user corrects. Never firm up a position they left open; leave `[placeholder]` for a missing fact.
 

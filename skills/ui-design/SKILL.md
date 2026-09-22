@@ -198,6 +198,7 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - Check desktop and mobile viewports; capture screenshot paths or browser tool observations. `ui-verification` owns the mechanism for both: the session, the captures, and the probes that measure what this list asks you to eyeball.
 - Judge subtle hierarchy, state, and edge treatments at the rendered size, theme, background, and platform where users encounter them. If a distinction is not visible there, it does not exist.
 - Check console errors and failed network requests.
+- If the project has `taste-lint`, run `npx taste-lint lint --profile product <changed files>` and fix its blocking findings. Its review notes are prompts to check, not verdicts.
 - Exercise the interaction states the Quality Bar requires.
 - Scroll the first and last content past sticky or fixed headers, footers, and action bars at both widths. Content must not disappear beneath them, and overlapping chrome needs a visible edge or scroll cue.
 - Confirm text does not overflow or overlap in buttons, cards, sidebars, and compact panels.

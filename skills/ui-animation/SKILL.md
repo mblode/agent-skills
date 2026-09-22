@@ -175,7 +175,7 @@ Animation progress:
 
 Produce evidence for each check (DevTools observations, not "looks fine"):
 
-- Grep the diff for layout property transitions (`width`, `height`, `top`, `left`) and `transition: all`.
+- Grep the diff for layout property transitions (`width`, `height`, `top`, `left`) and `transition: all`. If the project has `taste-lint`, `npx taste-lint lint --profile product` runs these greps plus `ease-in`, scale-from-zero and `framer-motion` imports.
 - Retoggle components rapidly; confirm transitions retarget instead of restarting from zero.
 - Slow to 10% in the DevTools Animations panel to catch timing and `transform-origin` issues invisible at full speed.
 - Confirm `will-change` is toggled around animations, not permanently set, and looping animations pause off-screen.

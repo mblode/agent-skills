@@ -92,6 +92,7 @@ Use these as the decision contract. Report unresolved decisions; omit a separate
 - The internal brief is present with job, desired outcome, and consequence filled, for shape, spec, and harden.
 - Every destructive or consequential action in scope has its reversibility stated and a matching pattern.
 - Follow-on work is routed by name (`ui-design`, `ui-animation`, `ghostwriter`), never done here.
+- If the project has `taste-lint`, `npx taste-lint lint --profile product` flags nested modals, a select for a few options and unlabeled icon controls as review notes; confirm each against the rule ID before reporting it.
 
 ## Gotchas
 
