@@ -29,14 +29,13 @@
     {
       "id": 3,
       "prompt": "Critique my draft before I send it to my manager: 'Hi Priya, I hope this finds you well. I wanted to reach out because I've been thinking about the on-call rotation and honestly I think there might potentially be some room for improvement. It's not about the workload, it's about the predictability. Let me know your thoughts when you get a chance!'",
-      "expected_output": "Findings ordered by cost to the reader, each naming the place, the problem, and the cost, followed by a rewritten message; no praise anywhere.",
+      "expected_output": "Findings ordered by cost to the reader, each naming the place, the problem, the cost, and the edit; no rewritten message and no praise.",
       "files": [],
       "assertions": [
         "Opens with the highest-cost finding, not a compliment or a summary of what works",
         "Contains no praise or reassurance sentence",
         "Names the buried ask and the hedge stack as findings",
-        "Includes the rewritten message after the findings",
-        "The rewrite keeps Priya and the on-call subject and adds no invented detail"
+        "Gives an edit for each finding and does not include a rewritten message"
       ]
     },
     {
@@ -101,6 +100,28 @@
         "Input wanted line names the TTL sweep interval and nothing vaguer",
         "Contains no section without a supplied fact under it",
         "Leaves the TTL decision open rather than choosing one"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Shorten these docs for an Australian audience: Organise the input files. Run atlas check before atlas export. If the check fails, fix the reported files and run it again. Exporting may take 30 seconds.",
+      "expected_output": "The same instructions with only redundant wording removed, or unchanged if nothing is redundant.",
+      "files": [],
+      "assertions": [
+        "Keeps 'Organise' and the exact commands",
+        "Keeps the check-before-export order, the failure recovery, and 'may take 30 seconds'",
+        "Does not invent a faster timing or force a table"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Write the README for a hosted tool. Title: Word Count. Tagline: Count words in pasted text. Second line: Paste text to count its words. Demo: https://count.example.test. No other capabilities, no install. License: MIT.",
+      "expected_output": "A short README with header, Demo, and License only.",
+      "files": [],
+      "assertions": [
+        "Omits the second line, which repeats the tagline",
+        "Adds no capability sections or Install",
+        "Keeps the demo URL and the MIT license"
       ]
     }
   ],
