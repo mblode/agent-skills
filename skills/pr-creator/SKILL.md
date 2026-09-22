@@ -6,7 +6,7 @@ compatibility: Requires Git and authenticated GitHub access. The documented comm
 
 # pr-creator
 
-Write PR descriptions like a developer posting in Slack, not an AI summarizing a diff.
+Write PR descriptions like a developer posting in Slack, not an AI summarizing a diff. The reviewer has none of your context, so the body answers what the diff cannot: why, what it costs if wrong, and where you want their view. The diff answers what changed.
 
 - **IS:** creating or updating a GitHub PR's title, body, draft state, and reviewers, plus the commit restructuring and review path that make a large diff readable.
 - **IS NOT:** changing the code in the diff or reviewing it for bugs (use `tidy`), watching CI and review comments after the PR exists (use `pr-babysitter`), or cutting npm releases (use `autoship`).
@@ -40,7 +40,7 @@ Do not ask the user to approve the description first; the point is speed. They c
 1. **Title.** With a Linear ID: `ABC-123: Add auth flow`. Without one: `Add auth flow`. Under 60 characters, no trailing period. If the repo lints PR titles (a `semantic-pull-request` or commitlint workflow under `.github/workflows/`), use its shape and put the ID at the end: `feat: add auth flow (ABC-123)`. Linear links on the ID wherever it sits in the title.
 2. **Body.** One short paragraph: what changed and why it matters. Length follows the change; a one-line body is fine for a one-line fix.
 3. **No fake why.** If the reason is not in the prompt, the Linear issue, the branch, the commits, or the diff, leave it out rather than inventing one.
-4. **Risk only when real.** One `Risk:` line for migrations, billing, auth, permissions, irreversible writes, wide blast radius, or a subtle behavior change. Otherwise nothing.
+4. **Risk and input only when real.** One `Risk:` line for migrations, billing, auth, permissions, irreversible writes, wide blast radius, or a subtle behavior change. One `Input wanted:` line when a decision in the diff is still open and the reviewer's view would change it; name the decision, never "thoughts welcome". Otherwise nothing.
 5. **Testing only if real.** Say what you ran only if you ran it. Never a `Test plan` section, never checkboxes.
 6. **Partial work.** If this PR does not finish the Linear issue, keep the ID out of the title and write `Part of ABC-123` in the body. Linear's default automation moves a linked issue to Done when the PR merges; the non-closing magic word links without closing.
 7. **Draft and reviewers only when asked.** `--draft` for "draft" or "WIP"; `gh pr ready` promotes it later, `gh pr ready --undo` demotes. `--reviewer alice,org/team` only for people the user named; CODEOWNERS already requests owners.
@@ -53,6 +53,7 @@ Do not ask the user to approve the description first; the point is speed. They c
 - Lines that start with a filename or path; the diff already lists the files
 - A `Test plan` section with checkboxes
 - A bullet list that restates the diff
+- A body a reviewer must read exhaustively to find what matters: if the point is not in the first sentence, the paragraph is a summary, not a description
 
 ## Examples
 
@@ -62,6 +63,8 @@ Do not ask the user to approve the description first; the point is speed. They c
 Title: ABC-123: Add auth flow with session management
 
 Adds the auth flow needed for session-based login, including refresh, timeout handling, and a small error boundary for auth failures.
+
+Input wanted: the 15-minute idle timeout is a guess; if product has a number, I'll use it.
 ```
 
 ### Bugfix (real risk, real testing)
@@ -82,7 +85,7 @@ Title: Bump eslint to 9 and fix the new no-unused-vars hits
 Bumps eslint to 9. The only code change is removing three unused imports it now flags.
 ```
 
-The first two carry the real why from the commits and stop. `Risk:` earns its line in the second because the diff touches billing writes; the testing sentence is there only because a replay actually ran. The third has no deeper why, so it does not pretend to.
+The first two carry the real why from the commits and stop. `Input wanted:` earns its line in the first because the timeout is a decision the reviewer can change; `Risk:` earns its line in the second because the diff touches billing writes, and the testing sentence is there only because a replay actually ran. The third has no deeper why, so it does not pretend to.
 
 ## Templates
 
