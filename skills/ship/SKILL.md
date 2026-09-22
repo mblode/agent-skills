@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Ships work through GitHub and npm. Opens or rewrites a PR with a house-style title, Linear ID, and a body that says why plus a Risk and Proof section; runs a changesets npm release through the Version Packages PR, OIDC publish, and registry check; and once a PR is open, answers or resolves every review thread, handles conflicts safely, and reports merge readiness. Use when asked to "create a PR", "write the PR description", "polish this PR", "ship it", "release this package", "merge Version Packages", "why didn't it publish", "address the review comments", "reply to the reviewers", "resolve conflicts", or "is this ready to merge". For reviewing the diff itself use tidy; for PR size, review capacity, required checks, and CI speed use gates; for a new package use scaffold.
+description: Ships work through GitHub and npm. Opens or rewrites a PR with a house-style title, Linear ID, and a body that says why plus a Risk and Proof section; wires and runs changesets npm releases, from the release workflow and bootstrap publish through the Version Packages PR, OIDC publish, and registry check; and once a PR is open, answers or resolves every review thread, handles conflicts safely, and reports merge readiness. Use when asked to "create a PR", "write the PR description", "polish this PR", "ship it", "release this package", "set up npm publishing", "merge Version Packages", "why didn't it publish", "address the review comments", "reply to the reviewers", "resolve conflicts", or "is this ready to merge". For reviewing the diff itself use tidy; for PR size, review capacity, required checks, and CI speed use gates; for a new package use scaffold.
 compatibility: Requires Git, an authenticated GitHub CLI, and jq. Release mode also needs Node.js and a changesets-based npm release workflow.
 ---
 
@@ -8,15 +8,15 @@ compatibility: Requires Git, an authenticated GitHub CLI, and jq. Release mode a
 
 Move a change from a branch to merged, or from the default branch to npm, with a PR a reviewer can trust and no review thread left unanswered. Watching the PR is the host's job; this skill supplies what to write, what counts as answered, and what counts as ready.
 
-- **IS:** the PR itself (title, body, Linear link, template, draft state, commit shape); changesets npm releases from changeset file to registry; follow-through on an open PR: review-thread accounting, replies, conflicts, merge readiness.
-- **IS NOT:** reviewing or fixing the diff for bugs (`tidy`); PR size budgets, review capacity, required checks, hooks, and CI speed (`gates`); a new package and its bootstrap publish (`scaffold`); prose in the user's voice outside the PR body (`ghostwriter`).
+- **IS:** the PR itself (title, body, Linear link, template, draft state, commit shape); changesets npm releases from changeset file to registry, and the one-time release wiring (config, workflow, bootstrap publish, trusted publisher) for a package that has none; follow-through on an open PR: review-thread accounting, replies, conflicts, merge readiness.
+- **IS NOT:** reviewing or fixing the diff for bugs (`tidy`); PR size budgets, review capacity, required checks, hooks, and CI speed (`gates`); generating a new package (`scaffold`); prose in the user's voice outside the PR body (`ghostwriter`).
 
 ## Modes
 
 | Mode | Triggers | Done means |
 |------|----------|------------|
 | **PR** | "create a PR", "open a PR", "write or rewrite the PR description", "polish this PR", "ship it" on a feature branch | The PR exists or is updated to the contract below, and the URL from `gh pr view --json url,title` is returned |
-| **Release** | "release this package", "publish", "merge Version Packages", "why didn't it publish", "ship it" in a changesets repo on the default branch | `npm view <pkg>@<version> version` prints the new version and `npm view <pkg> dist-tags` shows `latest` on it (unless pre mode), both quoted in the report. A diagnosis ends at the named cause and fix, with nothing re-run |
+| **Release** | "release this package", "publish", "set up npm publishing", "merge Version Packages", "why didn't it publish", "ship it" in a changesets repo on the default branch | `npm view <pkg>@<version> version` prints the new version and `npm view <pkg> dist-tags` shows `latest` on it (unless pre mode), both quoted in the report. Setup ends at the bootstrap version on npm and the trusted publisher registered. A diagnosis ends at the named cause and fix, with nothing re-run |
 | **Follow-through** | "address the review comments", "reply to the reviewers", "resolve conflicts", "is it ready to merge", a host PR event (CI failure, new review) | A fresh run of `scripts/merge-ready.sh` shows zero owed replies, and every blocker it lists is fixed or named in the report |
 
 "Ship it" means PR mode unless the repo has a `.changeset/` folder and the user is on the default branch or says release or publish. Never follow-through on a Version Packages PR that Release mode is driving.
@@ -27,6 +27,7 @@ Move a change from a branch to merged, or from the default branch to npm, with a
 |------|-----------|
 | `references/pr.md` | PR mode: title and body rules, examples, templates, the create and edit commands, `gh` failure modes |
 | `references/pr-polish.md` | Commits carry fixup, WIP, or "address review" noise, `gates` flags the diff as over the review budget, or the user asks to squash, restructure, or split |
+| `references/release-setup.md` | The package has no `.changeset/config.json` or no `changesets/action` workflow, or has never been published: versions, config, Changeset Status check, release workflow, Actions PR setting, bootstrap publish, trusted publisher |
 | `references/release.md` | Release mode: the two-run release loop, changeset file, release commit, CI watch, failure recovery |
 | `references/version-pr-and-publish.md` | Release CI is green, or diagnosing a release that versioned but did not publish: workflow shape, merge preconditions, publish failure table, npm verification |
 | `references/follow-through.md` | Follow-through mode: script output, thread buckets, awaiting-reply rule, anchor ladder, legal ignore reasons, reply and resolve, conflicts, CI failures, readiness |
@@ -51,17 +52,17 @@ Invoking the skill is consent for its mode's normal flow. Announce in one line, 
 - merge the Version Packages PR once its head is `changeset-release/<default-branch>`, every check reports `bucket: pass`, and it is `MERGEABLE`
 - post replies and resolve threads when the user asked to address or reply to comments. A host event on its own authorizes fixes and pushes, not posts: put the drafted replies in the report
 
-Ask first: merging a feature PR (on opt-in, `gh pr merge --auto` with the repo's merge method), rewriting history already pushed under an open PR, changing repository or npm settings.
+Ask first: merging a feature PR (on opt-in, `gh pr merge --auto` with the repo's merge method), rewriting history already pushed under an open PR, changing repository or npm settings, the bootstrap publish.
 
 ## Never
 
-Each of these is an observed failure; none has an exception.
+Each of these is an observed failure; none has an exception beyond the one it names.
 
 - **Force-push someone else's commits.** More than one author in `git log origin/<base>..HEAD --format='%ae' | sort -u` means merge the base in instead of rebasing. On your own branch use `--force-with-lease --force-if-includes`; a refused lease means someone pushed, so stop and report.
 - **Go green by weakening the check.** No skipped, deleted, or narrowed tests; no conditionals or test-only headers that make a test pass under CI; no lowered thresholds; no `--no-verify`. Agents have forced e2e green this way, and the bug ships under a green badge.
 - **Push an empty commit to kick CI.** Rerun the job (`gh run rerun <id> --failed`). The same check failing twice with the same error after a fix is the signal to stop and report, not to try a third variant.
 - **Stage with `git add -A`.** Hooks leave artifacts (a root `schema.gql`) that ride into the PR. Sweep `git status --porcelain`, stage explicit paths.
-- **Version or publish locally.** No `changeset version`, no `npm publish`, no hand edits to `CHANGELOG.md` or the package `version`; CI owns all four.
+- **Version or publish locally.** No `changeset version`, no `npm publish`, no hand edits to `CHANGELOG.md` or the package `version`; CI owns all four. The one exception is the bootstrap publish in `references/release-setup.md`, before any changeset exists.
 - **Override a gate.** No `gh pr merge --admin`, and never reply to, fix, or resolve a merge-gate verdict.
 
 ## PR contract

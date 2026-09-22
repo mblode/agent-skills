@@ -70,10 +70,12 @@ Auto-approve or auto-merge only diffs that are small and low-risk by rule, not b
 
 - Paths on an allow-list: docs, dependency patch bumps with a lockfile, test-only fixture updates.
 - Under a lower size limit (for example 50 lines).
-- Never touching auth, tenancy, migrations, infrastructure, billing, CI configuration, or the gates themselves.
+- Never touching auth, tenancy, migrations, data deletion, permissions or entitlements, infrastructure, billing, CI, build, signing, or release configuration, a public contract, or the gates themselves.
 - All required checks green on a fresh run.
 
-Anything else gets a human, and the reviewer's model is never the author's.
+Anything else gets a human, and the reviewer's model is never the author's. The shape of the escalate list: money, identity, destructive data operations, persisted-data shape, and anything that reaches users outside the normal deploy path. The rest is undone by the rollback path, which is why it can merge unattended.
+
+Write both lists into a checked-in rubric that the automated reviewer reads from the base ref, so a PR cannot loosen the rules it is judged by; without one the reviewer falls back to defaults that approve everything or nothing. Two lists, not a severity score. Prove it like any gate: a docs-only PR auto-approves and a migration escalates. A rubric nobody has watched escalate is not known to work.
 
 ## Risk and Proof section
 

@@ -12,29 +12,7 @@
 
 ## The Release Workflow
 
-One workflow (commonly `release.yml` or `npm-publish.yml`) handles versioning and publishing across two runs on the default branch (the release loop in release mode). Current shape with OIDC trusted publishing and `changesets/action@v2`:
-
-```yaml
-on:
-  push:
-    branches: [main]
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with: { fetch-depth: 0 }
-      - uses: actions/setup-node@v6
-        with: { node-version: 24, registry-url: https://registry.npmjs.org, cache: npm }
-      - run: npm ci
-      - uses: changesets/action@v2
-        with:
-          publish-script: npm run release
-```
+One workflow (commonly `release.yml` or `npm-publish.yml`) handles versioning and publishing across two runs on the default branch (the release loop in release mode). Compare the repo's file with the canonical one in `references/release-setup.md`: `id-token: write`, an npm upgrade before publish, and the publish input name that matches the action major.
 
 - `release` is typically `npm run build && changeset publish`. `changeset publish` calls `npm publish` per package; with `id-token: write`, npm 11.5.1+, and a trusted publisher configured on npmjs.com for this repo and this workflow filename, no token is involved and provenance is attached automatically (`NPM_CONFIG_PROVENANCE` and `--provenance` are redundant).
 - The same workflow on `@v1` uses `publish: npm run release` and `env: GITHUB_TOKEN`. Both majors default the PR title to "Version Packages" and the head branch to `changeset-release/<base>`; v2 also defaults `create-github-releases` and `push-git-tags` to true.
@@ -115,7 +93,7 @@ With `create-github-releases` on, `gh release view "v$VERSION"` (or `<package>@$
 | Log says | Cause | Fix |
 |----------|-------|-----|
 | `Unexpected input(s) 'publish'` warning, run green, no publish | `changesets/action@v2` with v1 input names | Rename to `publish-script` (and `version-script`, `pr-title`, `commit-message`, `pr-base-branch`) |
-| `ENEEDAUTH` with `id-token: write` set | npm older than 11.5.1 (Node 22 ships 10.9.x), or the trusted publisher's workflow filename, owner, or repo does not match this workflow exactly (case and `.yml` included), or the publish runs from a reusable workflow so npm sees the caller's filename | Node 24 or `npm install -g npm@latest`; fix the trusted publisher entry on npmjs.com; publish from the registered workflow file |
+| `ENEEDAUTH` with `id-token: write` set | npm older than 11.5.1 (Node 22 ships 10.9.x), or the trusted publisher's workflow filename, owner, or repo does not match this workflow exactly (case and `.yml` included), or the publish runs from a reusable workflow so npm sees the caller's filename | A Node major bundling npm 11.5.1+, or `npm install -g npm@latest` before publish; fix the trusted publisher entry on npmjs.com; publish from the registered workflow file |
 | `ENEEDAUTH` or `E401` with an `NPM_TOKEN` secret | Classic token (all revoked), or an expired granular token | Configure a trusted publisher and drop the secret |
 | `E402 Payment Required` on a scoped package | `access` defaults to `restricted` | `"access": "public"` in `.changeset/config.json` (or `publishConfig.access` in `package.json`) |
 | `E422` `Failed to validate repository information` | `package.json` `repository.url` does not match the GitHub repo exactly; provenance rejects it | Fix `repository.url` to `git+https://github.com/<owner>/<repo>.git`, merge, and let the loop run again |

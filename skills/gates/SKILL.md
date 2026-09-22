@@ -1,6 +1,6 @@
 ---
 name: gates
-description: Installs and verifies the brakes that make agent output safe to merge. Covers pre-commit and pre-push hooks, required CI checks including the container build, PR size and review-capacity limits, audits proving tests, evals, scorers, and dashboards can actually fail, measured CI critical-path speedups, and AGENTS.md as the one cross-agent instruction file with verified commands. Use when asked to "add pre-commit hooks", "agents open PRs without running tests", "check the check", "can this test fail", "our evals are green but", "is this dashboard right", "speed up CI", "CI is slow", "improve my AGENTS.md", "audit our agent instructions", or when main keeps breaking under agent PRs. For a red build or the PR itself use ship; for code findings use tidy; for dispatching agents use backlog; for SKILL.md files use agent-skills-creator.
+description: Installs and verifies the brakes that make agent output safe to merge. Covers pre-commit and pre-push hooks, required CI checks including the container build, PR size and review-capacity limits, audits proving tests, evals, scorers, and dashboards can actually fail, measured CI critical-path speedups, and AGENTS.md as the one cross-agent instruction file with verified commands. Use when asked to "add pre-commit hooks", "agents open PRs without running tests", "check the check", "can this test fail", "our evals are green but", "is this dashboard right", "speed up CI", "CI is slow", "improve my AGENTS.md", "audit our agent instructions", or when main keeps breaking under agent PRs. For the PR itself use ship; for code findings use tidy; for dispatching agents use backlog; for SKILL.md files use agent-skills-creator.
 compatibility: CI speed reads run and job timings through the GitHub CLI or a GitHub MCP server; other CI hosts need their equivalent API. Hooks assume git and the repository's toolchain.
 ---
 
@@ -33,8 +33,8 @@ A request spanning modes runs them in the order Check-the-check, Install, Instru
 
 | File | Read when |
 |------|-----------|
-| `references/hooks.md` | Install: lefthook pre-commit and pre-push, the single pre-PR command, the CI job that repeats the hooks, the container build on the PR |
-| `references/review-capacity.md` | Install: PR size gate, WIP, stop merging when main is red, required checks, auto-approval rules, the Risk and Proof PR section, the queueing knee |
+| `references/hooks.md` | Install: the check, verify, and verify:full tiers, the boot check, lefthook pre-commit and pre-push, the CI job that repeats the hooks, the container build on the PR, session-start, post-edit, and worktree hooks |
+| `references/review-capacity.md` | Install: PR size gate, WIP, stop merging when main is red, required checks, auto-approval rules, the Risk and Proof PR section, the blast-radius rubric for auto-approval, the queueing knee |
 | `references/check-the-check.md` | Check-the-check, and before trusting any green check a gate or claim rests on |
 | `references/ci-speed.md` | CI speed: what changes the number, the five-step measured workflow, and its gotchas |
 | `references/ci-measuring.md` | CI speed Step 1 (timings, percentiles, critical path, test-runner duration lines, baseline table) and Step 4 (verifying the after-measurement) |

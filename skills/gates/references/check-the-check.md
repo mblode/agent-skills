@@ -10,6 +10,7 @@ A check is only evidence if it can fail. Each entry: the failure, how it was obs
 - Skip-on-failure modes
 - Scorers that check length
 - Cached versus cold runs
+- Commands that prove nothing
 - Enforcement scripts that overclaim
 - Dashboards against a hand count
 - Findings table
@@ -69,6 +70,18 @@ tmp=$(mktemp -d) && git clone --depth 1 "file://$PWD" "$tmp/cold" && cd "$tmp/co
 ```
 
 Also check the task runner's hash inputs: an environment variable the code reads but `turbo.json` does not list in `env` or `globalEnv` serves a stale hit. Gate it with an uncached run on main at least nightly, and state the evidence level (cached, fresh, build, runtime startup) in every claim.
+
+## Commands that prove nothing
+
+A green command that proved nothing ends the investigation, which makes it worse than a red one. List this repo's in AGENTS.md next to what to run instead. The shapes:
+
+- **A flag that hides findings:** `--quiet` dropping warnings, a reporter that swallows a category, a threshold nothing reaches.
+- **A tool that reports but never fails:** `jscpd` without `--threshold`, a boundary tool without `--validate` or with every rule at `info`.
+- **A filter matching zero files:** a test path pattern, workspace filter, or glob that matches nothing and exits 0. The most common and the most convincing.
+- **A stale incremental result:** `tsc --incremental` or a build cache computed against code that has since changed.
+- **A step skipped by condition:** an `if:` or path filter that no longer matches, so the gate is listed and never runs.
+
+For each gate, read its log for the count it acted on (files linted, tests run, rules evaluated); zero or no count is a finding. Skipped jobs on the default branch: `gh run view <id> --json jobs --jq '.jobs[] | select(.conclusion == "skipped") | .name'`.
 
 ## Enforcement scripts that overclaim
 
