@@ -39,7 +39,7 @@ For substantial mixed work, track only the applicable steps:
 
 Prioritize crawl/index defects before cosmetic metadata changes. Page titles, headings and content structure follow the page's purpose and reader intent. Descriptive non-brand terms help category discovery; brand-led portfolio and product pages can be appropriate. Neither a fixed title character count nor question-shaped headings are ranking requirements.
 
-Original evidence, useful comparisons and honest product limitations earn their place ahead of manufactured keyword permutations. Research likely reader questions; do not present invented query fan-outs as engine telemetry or create a page for every variation.
+For AI visibility, the owner builds crawl access, content and extractable structure; independent reviews, comparisons and coverage are earned, and they supply most of what answers say about a brand. Fix the owned layers first, then say where the remaining leverage sits instead of padding the site. Original evidence, useful comparisons and honest product limitations earn their place ahead of manufactured keyword permutations. Research likely reader questions; do not present invented query fan-outs as engine telemetry or create a page for every variation.
 
 ## References
 
@@ -48,7 +48,7 @@ Original evidence, useful comparisons and honest product limitations earn their 
 | [references/audit.md](references/audit.md) | Crawling, diagnosing or prioritizing a site audit |
 | [references/indexing-policy.md](references/indexing-policy.md) | Canonicals, redirects, exclusions, duplicate or programmatic pages |
 | [references/nextjs-implementation.md](references/nextjs-implementation.md) | Implementing App Router metadata, sitemaps, rendering, status codes, Markdown twins, or schema; verify APIs against the installed Next.js docs |
-| [references/answer-engines.md](references/answer-engines.md) | AI visibility, crawler policies, Markdown alternatives or `llms.txt` |
+| [references/answer-engines.md](references/answer-engines.md) | AI visibility, crawler policies, owned versus earned coverage, Markdown alternatives or `llms.txt` |
 | [references/internationalisation.md](references/internationalisation.md) | Language/region variants and hreflang |
 | [references/technical-hardening.md](references/technical-hardening.md) | CDN access, response headers, errors or preview environments affect discovery |
 | [references/validation-evidence.md](references/validation-evidence.md) | Verifying findings, a built page or a deployed correction |
@@ -75,6 +75,8 @@ Sending recaps to others, scheduling recurring work, spending on tools and produ
 - DNS verification needs no invented meta token. Confirm scoped data access separately.
 - A crawler user-agent probe does not authenticate a bot IP or establish index inclusion. Treat CDN logs and engine inspection as separate evidence.
 - Prompt demand, measured citations, mentions, AI impressions and referral sessions are different quantities. Preserve engine, source, match type, scope and window.
+- One prompt run, or one score averaged across engines, is not a visibility measurement. Repeat each prompt, report per engine, and keep recall separate from citations.
+- Schema, `llms.txt` and fixed answer-block lengths are not measured citation levers. Keep them for their real consumers; do not sell them as AI visibility.
 - A vendor Search Console connector may under-report. Reconcile property, filters and aggregation against native Search Console before diagnosing a drop.
 
 Maintenance only: `evals/evals.json` holds behavioral scenarios and routing prompts. It is loaded when changing the skill, not during ordinary SEO work.

@@ -66,6 +66,18 @@
         "Separates native AI visibility, prompt demand and conversion outcomes",
         "Reuses the existing monitor and does not send an unauthorized recap"
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Our SaaS marketing site already serves full server-rendered HTML, allows OAI-SearchBot, Claude-SearchBot and PerplexityBot, and has answer-first guides with visible last-updated dates. An agency proposes a GEO retainer: add FAQ schema to every page, publish llms.txt, rewrite every intro to exactly 50 words, and report one monthly AI visibility score from a single run of 20 prompts averaged across ChatGPT, Perplexity and Gemini. Advise where the budget should go and how to measure it. Do not use external tools.",
+      "expected_output": "An evidence-bounded recommendation that treats the owned layers as largely done, moves effort to earned third-party coverage and honest per-engine measurement, and does not present schema, llms.txt or answer length as citation levers.",
+      "files": [],
+      "assertions": [
+        "Does not claim FAQ schema, llms.txt or a fixed intro length will increase AI citations",
+        "Identifies independent reviews, comparisons or round-ups in the category as the main remaining lever and recommends classifying which source types current answers cite",
+        "Rejects a single-run blended score in favor of repeated runs reported per engine",
+        "Recommends at least one first-party or retrieval check, such as Search Console generative AI reports, Bing AI performance, or a retrieval snippet test"
+      ]
     }
   ],
   "routing": {
@@ -79,7 +91,8 @@
       "Measure our visibility in AI Overviews and Copilot.",
       "Consolidate duplicate documentation URLs.",
       "Check the French and German hreflang tags.",
-      "Fix canonical URLs and JSON-LD in Next.js."
+      "Fix canonical URLs and JSON-LD in Next.js.",
+      "An agency wants to sell us schema, llms.txt and a monthly AI visibility score. Is that where our GEO budget should go?"
     ],
     "near_miss": [
       {
