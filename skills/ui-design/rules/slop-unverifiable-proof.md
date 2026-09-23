@@ -4,14 +4,14 @@ id: slop-unverifiable-proof
 category: slop
 defaultTier: backlog
 detect: static
-related: slop-faux-product-chrome
+related: slop-faux-product-chrome, slop-invented-behaviour, slop-fact-padding
 ---
 
 ## Unverifiable proof standing in for real evidence
 
 "99.9% uptime", "10,000+ teams", "3x faster", a testimonial from Jane Doe, CEO at Acme, and a strip of logos nobody has heard of. Every one of these is a claim about the world, and a visitor who cannot check any of them learns that this page's numbers are decoration. The damage is not aesthetic: it is that the true claims on the same page now read as invented too, and the one number you could have proven gets discounted with the rest. Shipping a placeholder testimonial to production is also a straightforward credibility risk, and in some jurisdictions an advertising one.
 
-`direction/aesthetic-direction.md` treats invented proof as absolute rather than count-based, for exactly this reason: it misinforms rather than merely underwhelming.
+`direction/aesthetic-direction.md` treats invented proof as absolute rather than count-based, for exactly this reason: it misinforms rather than merely underwhelming. Invented capability (settings, modes, roles, integrations, and claims about competitors) is owned by `slop-invented-behaviour`, whose evidence is the brief rather than the diff.
 
 ## Precondition: this rule requires diff scope
 

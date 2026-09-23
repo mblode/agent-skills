@@ -65,7 +65,7 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 **Impact:** HIGH
 **Default tier:** mostly fix-this-sprint
 **Rules:** 2
-**Description:** Real links for navigation and live-region announcements. Users need to know where they are and what the system is doing.
+**Description:** Real links with a real destination (no `href="#"`, no trial CTA that scrolls to its own page, no anchor without a target) and live-region announcements. Users need to know where they are and what the system is doing.
 
 ## 8. Microcopy (microcopy)
 
@@ -113,8 +113,8 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 
 **Impact:** MEDIUM
 **Default tier:** backlog
-**Rules:** 6
-**Description:** The house style of machine-generated interfaces: default-everything spacing, stock gradient hero, emoji as iconography, filler copy shipped as real copy, and the other tells that make a screen read as unfinished rather than broken. Nothing here blocks a task, which is why it defaults to backlog, but it is what a reviewer means by "this looks AI-made."
+**Rules:** 12
+**Description:** The house style of machine-generated interfaces: default-everything spacing, stock gradient hero, emoji as iconography, filler copy shipped as real copy, and the other tells that make a screen read as unfinished rather than broken. The newer tells outlast the classic ones: an eyebrow over every heading, decorative `01`/`02`/`03`, an external arrow on internal links, stacked slogan fragments, the brief's few facts restated to fill sections, and settings or claims the brief never stated. Nothing here blocks a task, which is why it defaults to backlog, but it is what a reviewer means by "this looks AI-made."
 
 ---
 
@@ -126,4 +126,4 @@ These pairings often co-fire. Emit both findings with the same `surface` to make
 
 ---
 
-Total: 52 rules across 14 categories.
+Total: 58 rules across 14 categories.

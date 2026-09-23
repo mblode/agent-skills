@@ -49,5 +49,25 @@
       "Still keeps the earned gradient, the real logos, the screenshot, and the chrome bar that holds it",
       "Still deletes the three stacked layers and the duplicate CTAs"
     ]
+  },
+  {
+    "skills": [
+      "ui-design"
+    ],
+    "query": "Deslop this Northwind landing page. The brief was: desktop folder sync for small teams; keeps both versions on offline conflict; LAN first, encrypted relay fallback; $8/seat/month, 14-day trial, no card; two people in Melbourne, 2026, macOS and Windows, Linux beta.",
+    "files": [
+      "fixtures/northwind-generated-landing.tsx"
+    ],
+    "expected_behavior": [
+      "Selects Audit mode with the Deslop scope and captures the rendered page before editing",
+      "Reports nav-semantic-links for the bare href=\"#\" logo link, both trial CTAs that point at in-page anchors, and #trial, which has no matching id",
+      "Reports slop-eyebrow-overuse for three eyebrows above three section headings, and keeps at most one",
+      "Reports slop-decorative-ordinals for 01/02/03 on the feature cards and KEEPS the numbered setup list, which is a real sequence",
+      "Reports slop-external-arrow-internal-link for the arrow on Try Northwind, whose href is #pricing",
+      "Reports slop-slogan-headings for 'Stay in sync. Keep it simple.' and 'Same file. Different flights. Both edits kept.'",
+      "Reports slop-fact-padding: keep-both and the 14-day trial are each restated four or more times across hero, cards, pricing, and FAQ",
+      "Reports slop-invented-behaviour for the 'ask me' conflict mode (contradicts keep both), admin roles, Slack alerts, and the unsourced competitor claim, citing the brief",
+      "Does not add any fact, setting, or claim that is not in the brief while rewriting"
+    ]
   }
 ]

@@ -18,6 +18,7 @@ Weight the tells. Structure tells earn an edit at one sighting. A lone hedge, pa
 - **Template phrases and inflation:** "whether you're X or Y", "in today's", "a game-changer", "experts say". Name the audience, the context, the number, or the source, or drop it.
 - **Crutch transitions and hedges:** "moreover", "that said", "in conclusion", "it's worth noting", "genuinely", "honestly" (announcing honesty implies the rest is not). Delete the word, keep the line.
 - **Chatbot residue:** "great question", "happy to help", "let's take a look". Start with the answer.
+- **Slogan fragments:** stacked two-to-four-word sentences as a heading or opener ("Same file. Different flights. Both edits kept."), and stock lines any brand could print ("Stay in sync. Keep it simple."). Write one sentence that says what happens.
 - **Rhythm by rule:** synonym cycling, forced triads, engineered short-short-long, uniform paragraph length. If "agent" is right three times, write it three times.
 
 ## Drafting

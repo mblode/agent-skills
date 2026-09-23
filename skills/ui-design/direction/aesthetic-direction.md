@@ -6,13 +6,20 @@ Shared calibration layer for both tracks; make UI look human-designed, not AI-de
 
 AI slop is plausible defaults compounding without a shared reason, not one forbidden motif. Any item below can be the right call when it serves the product, audience, hierarchy, or state, and one of them is usually a choice. Three or more on one surface with no such reason is the threshold: that reads as assembled rather than designed, and is what a refinement pass exists to remove.
 
-Two bullets are absolute regardless of count, because they misinform rather than merely underwhelm: invented proof, and product framing that shows something the product does not do.
+Two bullets are absolute regardless of count, because they misinform rather than merely underwhelm: invented proof, and product framing that shows something the product does not do, including settings or modes the brief never stated.
 
 - A fashionable font chosen for category signalling rather than the product's tone, including decorative monospace on developer tools.
 - Purple, cyan, or sunset gradients, glow, blur, glass, grids, and noise used as atmosphere without a content or brand role.
 - Repeated card grids, pill clusters, oversized numerals, numbered rails, giant wordmarks, and symmetric sections that flatten the real priority.
 - Fake browser chrome, fabricated dashboards, empty split panels, generic device frames, and invented logo strips, testimonials, or statistics standing in for authentic product proof. Real, checkable proof is not this bullet.
 - Decoration stacked on controls and content that still use unowned default shape, weight, hierarchy, and states.
+- An eyebrow label above more than two section headings on one page. Keep the one that says what its heading cannot.
+- `01`, `02`, `03` on cards or steps that have no real order.
+- A north-east arrow (↗) on a link or button that stays on the site; the glyph means "leaves".
+- Headings stacked from two-to-four-word fragments ("Same file. Different flights. Both edits kept.") or stock lines any brand could print ("Stay in sync. Keep it simple."). Write one sentence about this product.
+- The brief's few facts restated as hero, feature cards, stats, and FAQ to fill the template. Say each fact once and cut the sections that have nothing new.
+- Settings, modes, roles, integrations, app navigation, or competitor claims the brief never stated. This is product framing that shows something the product does not do, so it is absolute.
+- Not a signal but a bug: `href="#"`, a "Start free trial" that scrolls to an anchor, or an anchor with no matching `id`. Link the real route, or leave the CTA out and say the route is missing.
 
 ## Philosophy
 

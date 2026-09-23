@@ -24,7 +24,7 @@ Use when turning a UI image into semantic, unstyled HTML or JSX markup as a scaf
 - Represent repeated UI as semantic lists, description lists, table rows, fieldsets, or repeated inline markup, not abstractions.
 - Preserve visible copy; use concise placeholder copy only when text is unreadable.
 - Normal casing; never preserve all-caps, small-caps, or all-lowercase visual styling (casing belongs in CSS). Preserve real acronyms and brand capitalization.
-- Use `<a href="#">` for navigation, destinations, page/route changes, downloads, external links, and button-looking CTAs ("Get started", "Learn more", "View details", "Pricing", "Sign in", "Sign up") when not visibly submitting a form.
+- Use `<a>` for navigation, destinations, page/route changes, downloads, external links, and button-looking CTAs ("Get started", "Learn more", "View details", "Pricing", "Sign in", "Sign up") when not visibly submitting a form.
 - Use `<button type="button">` only for same-page actions that mutate, toggle, open, close, dismiss, or control visible UI state; `<button type="submit">` only for visible form-submission controls.
 - Pair controls with visible `label`s when the image shows labels; use `aria-label` when there's no visible label; `fieldset`/`legend` for grouped controls.
 - Represent icons as a 20px by 20px `<svg>` with `role="img"` and only a comment naming the inferred meaning; never `<img>` for icon placeholders.
@@ -44,7 +44,7 @@ Use when turning a UI image into semantic, unstyled HTML or JSX markup as a scaf
 - Every `<section>` has a logical kebab-case `id` based on content or purpose.
 - Scope matches the prompt, requested file/component name, insertion target, and image context; isolated sections/components aren't wrapped in page-level `<main>`.
 - Text uses normal casing, not screenshot casing that belongs in CSS.
-- Every `<a>` has an `href` (`href="#"` when no destination is known); no `<button>` used only because the image styles a link like a button.
+- Every `<a>` has a real `href`: the route the prompt or the visible label names (`/pricing`, `/signup`), or `href="#todo-<purpose>"` (for example `#todo-signup`) when no destination is known, so the gap stays visible to the reviewer. Never a bare `href="#"`, which the audit reports under `nav-semantic-links`. No `<button>` used only because the image styles a link like a button.
 - Icon placeholders use 20px by 20px `<svg>` with only an inferred-meaning comment, no `<title>`, no `<img>`.
 - Embedded app/interface screenshots are placeholder media, not recreated controls, tables, charts, browser chrome, or device UI.
 - Markup is one contiguous block with no new components, helpers, data arrays, or mapping abstractions.
