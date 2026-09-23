@@ -66,8 +66,6 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
 - **[ci-speedup](./skills/ci-speedup/SKILL.md)**: Measures a pipeline's critical path as median and p90 over runs, then splits, shards, trims setup, and shares test module state, with a ledger and trend.
-- **[backlog](./skills/backlog/SKILL.md)**: Runs a split backlog through parallel agents: a ledger as the source of truth, WIP capped at review capacity, stall and budget rules, model lanes, and a weekly retro.
-- **[gates](./skills/gates/SKILL.md)**: Installs the brakes on agent PRs (hooks, required checks, PR size, stop on red main) and proves tests, evals, and scorers can fail.
 
 ### Authoring
 
@@ -75,7 +73,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 - **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, migrates to native AGENTS.md without Claude wrappers, then audits and refactors instructions with grades.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, with portable workflows, a validator, and regression scenarios.
-- **[save-md](./skills/save-md/SKILL.md)**: Saves a named source (article, YouTube transcript, Google Doc, PDF) as a full markdown file, never a summary, with tested per-site endpoints.
+- **[save-md](./skills/save-md/SKILL.md)**: Writes a named source as a markdown file the next turn can reread.
 
 ## License
 

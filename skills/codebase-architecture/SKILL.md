@@ -59,7 +59,6 @@ Load only when the condition applies.
 | Reference | Mode | Read when |
 |-----------|------|-----------|
 | [references/stack-defaults.md](references/stack-defaults.md) | Design | Choosing libraries, tooling, or deploy targets |
-| [references/greenfield.md](references/greenfield.md) | Design | Starting a from-scratch rebuild on an agreed stack: walking skeleton, first vertical slice, production-eligibility gate, decision records |
 | [references/api-design.md](references/api-design.md) | Design, Deepen | Designing endpoints, module contracts, request context, error shapes, or an agent-facing CLI/SDK surface |
 | [references/distributed-correctness.md](references/distributed-correctness.md) | Design, Deepen | The work provably touches an external system, webhook, retry, audit trail, or money. In Deepen you can grep for it; in Design it is a question about requirements, so confirm before loading rather than inferring it from the product's domain |
 | [references/brief-conventions.md](references/brief-conventions.md) | Design | Writing the conventions, testing, quality-bar, or rollout and rollback sections of the brief |
