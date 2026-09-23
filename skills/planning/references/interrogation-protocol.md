@@ -62,10 +62,16 @@ Every question carries a concrete recommendation so the user reacts to something
 > **Q: Should we extend the existing `auth` middleware or build a new one?**
 >
 > My recommendation: extend `auth/middleware.ts`. It already validates tokens and has the hook points we need at line 45. A new one duplicates the refresh logic.
+> Measured: extending touches 1 file and 12 routes that already use it. Flips if: the new routes need a different token issuer.
 
 > **Q: How should we handle the case where the external API is down?**
 >
 > My recommendation: return cached data with a staleness indicator. The `cache/` module already stores responses with TTLs. Adding a `stale: true` flag is one line.
+> Flips if: any caller must never show stale data (billing totals, for example).
+
+> **Q: Will this table gain more than these four props in the next month?**
+>
+> If not, extend `DataTable` (4 props, 23 call sites untouched). If it will, I'd build a separate `ReportTable` now (1 new file, about 60 duplicated lines of sort and paging) rather than force the shared component past its shared rule.
 
 **Bad:**
 
@@ -73,7 +79,9 @@ Every question carries a concrete recommendation so the user reacts to something
 
 > My recommendation: we should probably think about whether to use approach A or B. (Still making the user decide.)
 
-**Rule:** name the file, the function, the approach. If you can't be specific, you haven't explored enough: read more code before asking.
+> Two paragraphs weighing A against B with no numbers. (Measure the options instead.)
+
+**Rule:** name the file, the function, the approach. If you can't be specific, you haven't explored enough: read more code before asking. Present consequential decisions per `decision-briefs.md`: measured options, a preview each, and the hinge that would flip the recommendation.
 
 ## Batching independent questions
 

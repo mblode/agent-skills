@@ -18,6 +18,7 @@ For architecture contracts use `codebase-architecture`; for code findings use `t
 
 | File | Read when |
 |---|---|
+| `references/decision-briefs.md` | A consequential decision goes to the human, in any mode |
 | `references/interrogation-protocol.md` | A consequential choice is unresolved, or the user requested an interview |
 | `references/doc-grounding.md` | ADRs, specifications, or library docs constrain the approach |
 | `references/handoff-plans.md` | Another session or person will execute the plan |
@@ -29,7 +30,7 @@ For architecture contracts use `codebase-architecture`; for code findings use `t
 ## Workflow
 
 1. Identify the requested outcome and authoritative plan path. Use the host's plan file where one exists. A durable handoff goes at the project path, default `docs/plans/<slug>.md`; name which copy is authoritative.
-2. Inspect the modules, tests, and decisions that constrain this change. Resolve questions the repository answers yourself. Ask only when an unresolved choice materially changes scope, behavior, or a hard-to-reverse action. Routine assumptions belong in the draft.
+2. Inspect the modules, tests, and decisions that constrain this change. Resolve questions the repository answers yourself. Ask only when an unresolved choice materially changes scope, behavior, or a hard-to-reverse action. Routine assumptions belong in the draft. Before asking, measure the options and name what would flip your recommendation; when that hinge is a fact only the human has, ask about it directly (`references/decision-briefs.md`).
 3. Choose the smallest vertical slice that exercises the real boundary. Name the existing code or platform capability it extends. A new dependency or abstraction needs a current requirement the existing mechanism cannot satisfy.
 4. Write the plan with the contract below. Review the consequential claims once against the rubric; fix evidenced gaps directly. Interview mode can explore competing approaches, but has no minimum question count.
 5. Return the plan path, unresolved decisions, and verification limits. Use the host's approval mechanism when its mode requires it. Do not add a second approval question for the plan's own review.
@@ -40,7 +41,7 @@ Include only sections this change needs:
 
 - **Outcome:** triggering problem, intended behavior, and acceptance criteria.
 - **Approach:** chosen slice, affected files or interfaces, and migration order where applicable.
-- **Decisions:** evidence for consequential choices; assumptions that remain unverified.
+- **Decisions:** a decision log: question, choice, who decided and when, measured evidence per option, and what would flip it; assumptions that remain unverified.
 - **Boundaries:** exclusions only where an adjacent change would plausibly be mistaken for scope.
 - **Verification:** a command, test scenario, or observation tied to each material acceptance criterion, including expected failure behavior.
 - **Recovery:** rollback or recovery for migrations and irreversible writes.
@@ -58,6 +59,8 @@ Repeat review only after a substantive edit or new evidence. A user decision tha
 - A plan in `~/.claude/plans/` is not available to other checkouts or CI. Durable handoffs need a project artifact.
 - A bare "run tests" step does not establish the changed behavior. Name the acceptance scenario and expected result.
 - Publishing slices without native blocker relations leaves the execution queue unaware of dependencies.
+- A decision argued in prose is read at a fraction of the speed it was written. Measure the options and preview them instead.
+- An answer the human gave from context the repository lacks is lost when the session ends unless the plan or the project's memory records it.
 - A plan written for a prior revision can name moved files. Verify consequential paths and interfaces against the current checkout.
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

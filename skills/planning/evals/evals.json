@@ -22,12 +22,25 @@
         "Requires authorization at the handler or data boundary",
         "Does not inflate a self-score by adding unrelated work"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan adding four filter props to the shared DataTable used across the app. This reporting feature will keep growing next month.",
+      "expected_output": "Measure the fork before recommending, ask about the growth hinge, and record the decision.",
+      "files": [],
+      "assertions": [
+        "Counts DataTable call sites or usages before recommending an option",
+        "States what would flip the recommendation",
+        "Asks about how far the feature will grow rather than a bare extend-or-new question",
+        "Records the resolved decision with who, why, and the flip condition"
+      ]
     }
   ],
   "routing": {
     "should_trigger": [
       "Plan a CSV export using the existing export service. Just write the plan, no interview. Include cancellation and a way to verify partial output is not presented as complete.",
-      "Review a plan that says proxy.ts handles authorization, while POST /api/export is excluded by its matcher. Fix the plan."
+      "Review a plan that says proxy.ts handles authorization, while POST /api/export is excluded by its matcher. Fix the plan.",
+      "Plan adding four filter props to the shared DataTable used across the app. This reporting feature will keep growing next month."
     ],
     "near_miss": [
       {
