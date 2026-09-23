@@ -12,6 +12,7 @@ Start with the actual property and public host. Record the environment, URL samp
 | Metadata and entities | meaningful titles/descriptions, canonical, social images, JSON-LD consistency and eligibility | no fixed title length or one-script rule; valid JSON is not rich-result eligibility |
 | Experience | field LCP, INP, CLS where available; lab diagnostics and interactions | lab scores cannot substitute for missing field data; low word count alone is not a defect in a functional tool |
 | Content and demand | reader intent, original evidence, comparison accuracy, overlapping pages, conversion path | do not infer demand from a keyword in a title or invent product facts |
+| Answer engines | crawler groups, retrieval snippet test, extractable claims, consistent entity naming, content freshness, third-party coverage of the category | owned-site readiness does not establish citations; `llms.txt`, schema and answer-block length are not citation requirements |
 | Measurement | native search reports, engine-specific AI reporting, qualified conversions | search impressions, prompt volume, citations and sessions are not interchangeable |
 
 ## Crawl scope

@@ -1,0 +1,10 @@
+{
+  "case": "seo eval 7",
+  "prompt": "Our SaaS marketing site already serves full server-rendered HTML, allows OAI-SearchBot, Claude-SearchBot and PerplexityBot, and has answer-first guides with visible last-updated dates. An agency proposes a GEO retainer: add FAQ schema to every page, publish llms.txt, rewrite every intro to exactly 50 words, and report one monthly AI visibility score from a single run of 20 prompts averaged across ChatGPT, Perplexity and Gemini. Advise where the budget should go and how to measure it. Do not use external tools.",
+  "arms": {
+    "none": "no skill",
+    "old": "seo SKILL.md plus all references at c263f55",
+    "new": "edited seo SKILL.md plus all references"
+  },
+  "runner": "claude -p, tools, MCP and slash commands disabled, skill text appended to the system prompt, default model"
+}

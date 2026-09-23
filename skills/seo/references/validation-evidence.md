@@ -9,7 +9,8 @@ Choose probes for the changed behavior, not a fixed command quota. Record comman
 3. For rendering changes, compare raw HTML with the browser DOM and inspect the visual result with and without JavaScript. Check the affected route pattern, a detail route and a missing path.
 4. For sitemap changes, parse emitted XML, verify advertised URLs and compare lastmod to the content source. For redirects, inspect the complete chain and terminal status/canonical.
 5. For AI access, probe relevant user-agent paths, then distinguish those results from authenticated crawler logs or engine URL inspection. For content negotiation, test both representations and cache request orders.
-6. Check JSON-LD syntax, entity consistency and current rich-result eligibility separately. Multiple consistent blocks are valid; DNS ownership does not require a duplicate meta token.
+6. For AI retrievability, copy a unique 20 to 30 word sentence from the live page and, in a clean session per assistant, ask each relevant engine to search for that exact text and return only matching results. A returned URL proves that engine can retrieve the page, not that it will cite it; a miss points to indexing, robots, CDN/WAF challenges or crawlability before copy.
+7. Check JSON-LD syntax, entity consistency and current rich-result eligibility separately. Multiple consistent blocks are valid; DNS ownership does not require a duplicate meta token.
 
 ## Completion evidence
 
