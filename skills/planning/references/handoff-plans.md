@@ -10,6 +10,7 @@ The executor has not seen the interrogation. Every decision the user made in cha
 
 - Code excerpts the executor must match, with `file:line` markers, trimmed to the decision-rich part (a type, a schema, a function signature, a state machine). Prose describing a contract drifts; the code does not.
 - Conventions the codebase follows that a grep would not reveal: naming, where tests live, which helper to reuse, which module must not be imported from.
+- The decision log (`decision-briefs.md`), so the executor does not reopen a settled choice and knows each one's `Flips if:` hinge.
 - The verification commands and their expected output, copied from the Verification section, so the executor can run them without reading anything else.
 
 ## STOP conditions
@@ -52,7 +53,7 @@ Name a notes file next to the plan (`<plan>.notes.md`) and instruct the executor
 <one of the three finish outcomes, with the evidence>
 ```
 
-A deviation that is not a STOP condition never pauses the work: take the conservative option, log it, keep going. The notes file is what review reads afterwards; a handoff without one loses every decision made during execution, and the reviewer has only the diff to reconstruct them from.
+A deviation that would reverse a logged decision, or that the executor finds crosses its `Flips if:` hinge, is not the conservative option: stop and report, because the human decided on facts that no longer hold. Any other deviation never pauses the work: take the conservative option, log it, keep going. The notes file is what review reads afterwards; a handoff without one loses every decision made during execution, and the reviewer has only the diff to reconstruct them from.
 
 ## Reviewing the result
 

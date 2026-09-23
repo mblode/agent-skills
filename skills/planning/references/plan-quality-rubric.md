@@ -1,6 +1,6 @@
 # Plan Quality Rubric
 
-Used in Step 2 (Triage) to score each dimension 1-5 and find the weakest areas for deep-dive questioning.
+Used in review to find the weakest dimensions for questioning. Score 1-5 only when the user asks for scores; otherwise record findings.
 
 ## Scoring Scale
 
@@ -64,6 +64,6 @@ A good plan delivers a tracer bullet first: a minimum viable slice across the fu
 - **2:** Built on multiple unstated assumptions. Claims presented as facts without sources.
 - **1:** No assumptions acknowledged. Reads as if the approach is self-evidently correct.
 
-## Triage Decision
+## Acting on the scores
 
 Use scores to locate gaps when scoring is requested. Fix gaps tied to acceptance criteria or operational consequences. Record unverified claims and unresolved choices; a score is a judgement, not proof. Stop when further changes would add speculative scope or when a user decision is required.

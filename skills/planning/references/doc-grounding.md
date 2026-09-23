@@ -1,6 +1,6 @@
 # Doc grounding
 
-Ground the plan in documentation that already encodes decisions, then grill the rationale. Load during Step 1 when design docs, RFCs, ADRs, or library/API docs are relevant.
+Ground the plan in documentation that already encodes decisions, then grill the rationale. Load while inspecting constraints (workflow step 2) when design docs, RFCs, ADRs, or library/API docs are relevant.
 
 ## Where to find docs
 
@@ -55,4 +55,4 @@ Use `interrogation-protocol.md`'s recommended-answer format: name the doc, quote
 - Summarizing the docs back to the user. They wrote them; a recap burns a turn without advancing the plan.
 - Re-asking what a doc plainly answers. Read it, fold the answer into your grounding, move on.
 - Treating a doc as current truth when the code diverges. Verify against the code and flag the drift; planning against a stale doc bakes it in.
-- Grilling every decision. Only ones this work could break earn a question; the rest waste the 5-10 question budget.
+- Grilling every decision. Only ones this work could break earn a question; the rest cost the user a turn and buy nothing.
