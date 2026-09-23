@@ -75,6 +75,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 - **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, migrates to native AGENTS.md without Claude wrappers, then audits and refactors instructions with grades.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, with portable workflows, a validator, and regression scenarios.
+- **[save-md](./skills/save-md/SKILL.md)**: Saves a named source (article, YouTube transcript, Google Doc, PDF) as a full markdown file, never a summary, with tested per-site endpoints.
 
 ## License
 

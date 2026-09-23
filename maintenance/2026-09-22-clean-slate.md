@@ -1,6 +1,6 @@
 # Two thin skills for agent-scale work, 22 September 2026
 
-Baseline: `c263f55` on main, 26 skills. Result: 27 skills. This is a static retention decision; the new scenarios are specifications and no behavioural run is claimed.
+Baseline: `c263f55` on main, 26 skills. Result: 28 skills. This is a static retention decision; the new scenarios are specifications and no behavioural run is claimed.
 
 ## What changed
 
@@ -9,7 +9,7 @@ Baseline: `c263f55` on main, 26 skills. Result: 27 skills. This is a static rete
 - Added `codebase-architecture/references/greenfield.md`, covering a walking skeleton, the first full vertical slice, a pass/fail/unknown production-eligibility gate, and decision records with flip conditions. The checks come from the 22 September architecture audit of the Series A rebuild.
 - Fixed `scaffold-cli`'s tsdown config. The node-platform default emits `.mjs` and `.d.mts`, so `bin` and `exports` pointed at files that did not exist. `fixedExtension: false` fixes that.
 - Fixed `multi-tenant-architecture`'s Vercel proxy key. Replacing dots with underscores maps different hostnames to the same key. It now hashes the hostname and compares the stored hostname on lookup.
-- Retired `save-md`; the host covers it.
+- Slimmed `save-md` to a short contract plus its tested endpoint table, and added an opt-in Firecrawl fallback for JavaScript-only and challenge pages. An earlier commit here retired it on the claim that the host covers it; the host's fetch tool returns a model summary, not the page, so it came back.
 - Added "Compile to a gate" and a no-model-names rule to `capability-delta.md` and AGENTS.md.
 
 ## What was tried and reverted

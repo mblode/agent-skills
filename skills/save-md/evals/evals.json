@@ -1,0 +1,39 @@
+{
+  "skill_name": "save-md",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Save this pasted source as note.md: Title: Shell examples. Body: Run `echo $HOME`, then read the final paragraph. Final paragraph: Done.",
+      "expected_output": "Save the supplied text with provenance without shell expansion.",
+      "files": [],
+      "assertions": [
+        "Preserves literal $HOME and backticks",
+        "Writes the final paragraph",
+        "Returns the durable file path"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Save a named article whose origin returns a login wall; no authenticated connector is available.",
+      "expected_output": "Report the access limitation without reconstructing the article.",
+      "files": [],
+      "assertions": [
+        "Does not invent inaccessible paragraphs",
+        "Labels any saved accessible excerpt as partial",
+        "Does not substitute a similar article"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Save this pasted source as note.md: Title: Shell examples. Body: Run `echo $HOME`, then read the final paragraph. Final paragraph: Done.",
+      "Save a named article whose origin returns a login wall; no authenticated connector is available."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Use this URL as context for fixing the bug.",
+        "expected": "No conversion; read inline"
+      }
+    ]
+  }
+}
