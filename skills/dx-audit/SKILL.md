@@ -8,7 +8,7 @@ description: Audits libraries, CLIs, and SDKs using 38 rules for public contract
 Audit or improve what developers import, run, configure, or read when something fails.
 
 - **IS:** a bounded review of public APIs, developer-facing errors, CLI commands, exported types, install and first-run behavior, and config, with fixes only when asked.
-- **IS NOT:** a repo-wide quality sweep (`tidy`), end-user UI (`design` Audit mode), agent trust review (`ax-audit`), public site or docs agent scores (`agent-ready`), docs prose or a README (`ghostwriter`), repository architecture (`architecture`), or building a new CLI (`scaffold`).
+- **IS NOT:** a repo-wide quality sweep (`tidy`), end-user UI (`ui-design` Audit mode), agent trust review (`ax-audit`), public site or docs agent scores (`agent-ready`), docs prose or a README (`ghostwriter`), repository architecture (`codebase-architecture`), or building a new CLI (`scaffold-cli`).
 
 ## Modes
 
@@ -137,13 +137,13 @@ Re-open every touched or cited location, rerun the same probes and focused proje
 
 ## Related skills
 
-- `design` Audit mode: rendered end-user frontend quality and accessibility
+- `ui-design` Audit mode: rendered end-user frontend quality and accessibility
 - `ax-audit`: same files, different reader; asks whether an agent can operate and recover, where this skill asks whether a developer finds the surface ergonomic
-- `scaffold`: builds a new CLI with these patterns already in place; this skill audits what exists
+- `scaffold-cli`: builds a new CLI with these patterns already in place; this skill audits what exists
 - `tidy`: general correctness and structure of a diff
 - `agent-ready`: public HTTP/docs agent scores (AFDocs, Is Agentic, Is It Agent Ready); this skill audits the package once it exists
 - `ghostwriter`: documentation prose, README structure, and the first-reader narrative
-- `gates`: AGENTS.md and CLAUDE.md instruction files
-- `architecture`: repository structure and module contracts inside the repo, rather than the surface a package ships outward
+- `agents-md`: AGENTS.md and CLAUDE.md instruction files
+- `codebase-architecture`: repository structure and module contracts inside the repo, rather than the surface a package ships outward
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

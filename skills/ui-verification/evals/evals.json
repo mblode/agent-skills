@@ -1,0 +1,74 @@
+{
+  "skill_name": "ui-verification",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The ui-design audit flagged these on /settings and /billing: interaction-target-size on the close button in the API-keys dialog, states-no-error-state on the invoices table, and focus-not-restored on the delete-key confirm. Verify them in the browser. The app is running on :3000; /billing needs a logged-in user and there is no seeded session.",
+      "expected_output": "A session block naming the driver, build mode, and the two routes with their status; the target-size and focus-walk probes run on /settings with measured observed values; every /billing finding returned as unknown with reason auth-required; no tier or ship verdict assigned to anything; the probesSkipped array populated rather than inferred from absence.",
+      "files": [],
+      "assertions": [
+        "Maps each rule id to its probe through references/rule-coverage.md rather than improvising a check",
+        "Returns unknown with reason auth-required for the states-no-error-state finding on /billing; does not report it as pass, and does not report failure-injection as having run there",
+        "Every reproduced finding carries route, viewport, and theme, and an observed value in units (px, not 'too small')",
+        "Does not assign a tier, bump a tier, or print SHIP VERDICT; the findings are handed back for ui-design to tier",
+        "Lists probesSkipped explicitly with a reason for each probe that did not run"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The audit says the icon button in TableRowActions.tsx line 41 fails interaction-target-size because it is h-8 w-8. Check it on a real page.",
+      "expected_output": "The target-size probe run at a 360px touch viewport reporting a 32x32 bounding box whose sampled hit-test grid resolves to the button because a ::before pseudo-element expands the hit area, so the finding is not-reproduced and withdrawn into consideredAndRejected with the measurement as the guard.",
+      "files": [],
+      "assertions": [
+        "Measures at a touch viewport with touch emulation on, and says so in the conditions",
+        "Reports both the bounding box and the effective hit area, not the bounding box alone",
+        "Emits the result as not-reproduced and moves the finding to consideredAndRejected naming target-size and the measured hit area as the guard; does not silently drop it and does not leave it as a fail",
+        "Does not require duplicate runs of a deterministic measured result; retries inconsistent measurements",
+        "Cites an evidence artifact path that was written to disk before the verdict"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I fixed the invoices skeleton so it reserves height now. Did the fix actually work? Same route as before, /invoices.",
+      "expected_output": "The layout-shift probe re-run under the identical conditions of the original finding (route, viewport, theme, held data response, production build), the before artifact preserved, a clearedBy block recorded on the finding, and any new failure on another probe for the same route reported as a separate new finding rather than folded into the old one.",
+      "files": [],
+      "assertions": [
+        "Re-runs layout-shift with the same route, viewport, theme, injected delay, and build mode as the original finding; does not compare a dev-build re-run against a production-build original",
+        "Does not overwrite the before capture; the clearedBy evidence path is distinct from the original evidence path",
+        "If the re-run still reproduces, reports the finding as applied with clearedBy.result reproduced and says the fix did not clear it, rather than reporting the fix and omitting the re-run",
+        "If a different probe now fails on /invoices, emits it as a new finding, not a note on the cleared one",
+        "Does not re-run the whole battery; the clearing re-run is scoped to the probe that produced the finding"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "A static race finding occurs when a second request overtakes the first. A browser probe tested only one request and passed. Is the finding disproved?",
+      "expected_output": "Retains an unknown finding because the triggering request order was not exercised.",
+      "files": [],
+      "assertions": [
+        "Does not withdraw the race finding based on the single-request run",
+        "Names the missing ordering condition",
+        "Proposes a controlled overlapping-request probe"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Verify these audit findings in the browser before I open the PR.",
+      "Prove these are real. The audit flagged six things and I don't believe half of them.",
+      "Run the probes on /checkout at mobile width.",
+      "Did the fix actually work? Re-check the layout shift on the dashboard.",
+      "Capture both themes on the settings page so I can see the dark-mode contrast.",
+      "Check the contrast on this page for real, not from the hex values.",
+      "The audit says the modal doesn't restore focus. Reproduce it."
+    ],
+    "near_miss": [
+      "Audit this component for UX bugs. (ui-design: reading source is not this skill)",
+      "Is this ready to ship? (ui-design: the verdict is the audit's, this skill never issues one)",
+      "Write a Playwright e2e test for the checkout flow. (a durable test suite is the repo's, not a one-off probe)",
+      "Set up Chromatic for visual regression. (pixel baselines are Chromatic's)",
+      "Make the close button bigger. (ui-design Build; this skill measures, it does not restyle)",
+      "What's our LCP in production? (field performance is RUM, not a lab probe)"
+    ]
+  }
+}

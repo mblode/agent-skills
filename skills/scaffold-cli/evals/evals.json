@@ -1,0 +1,39 @@
+{
+  "skill_name": "scaffold-cli",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a local-only TypeScript CLI scaffold named @acme/report with bin report. Use the house stack. Do not create a remote or publish.",
+      "expected_output": "Generate and validate the local package while respecting local-only scope.",
+      "files": [],
+      "assertions": [
+        "Keeps CLI and library build outputs distinct",
+        "Checks bin and exports against emitted files",
+        "Does not create a GitHub repo or publish"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A scaffold template produces dist/cli.mjs but package.json bin names dist/cli.js. Fix the scaffold.",
+      "expected_output": "Reconcile the actual emitted extension and manifest contract.",
+      "files": [],
+      "assertions": [
+        "Checks the build output",
+        "Makes the manifest and emitted entry agree",
+        "Does not claim successful packaging from source alone"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Create a local-only TypeScript CLI scaffold named @acme/report with bin report. Use the house stack. Do not create a remote or publish.",
+      "A scaffold template produces dist/cli.mjs but package.json bin names dist/cli.js. Fix the scaffold."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Publish the next version of this existing changesets package.",
+        "expected": "autoship"
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 ---
 name: presentation-creator
-description: Builds decks with a story spine, house visual system, setting-specific density, and speaker notes. Use when asked to "create a presentation", "write a pitch deck", or "turn this doc into slides". Defaults to Marp; use an available presentation tool for editable PowerPoint. For product UI use design.
+description: Builds decks with a story spine, house visual system, setting-specific density, and speaker notes. Use when asked to "create a presentation", "write a pitch deck", or "turn this doc into slides". Defaults to Marp; use an available presentation tool for editable PowerPoint. For product UI use ui-design.
 ---
 
 # Presentation Creator
@@ -8,7 +8,7 @@ description: Builds decks with a story spine, house visual system, setting-speci
 Bold, minimal slide decks with a story underneath: spine to final QA.
 
 - **IS:** slide decks end to end: story spine, slide sequence, slide copy, visual system, speaker notes, investor pitch decks, and decks built as a web app; output as Marp markdown (default), Slidev or reveal.js markdown, or a Next.js deck app.
-- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (available presentation/PPTX skill or tool; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose and marketing copy outside slides (`ghostwriter`), or product UI (`design`), or a spoken talk script (`ghostwriter`).
+- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (available presentation/PPTX skill or tool; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose and marketing copy outside slides (`ghostwriter`), or product UI (`ui-design`), or a spoken talk script (`ghostwriter`).
 
 ## Workflow
 
@@ -114,4 +114,4 @@ Fix observed defects and inspect affected slides again. If rendering is unavaila
 - External `pptx` skill (anthropics/skills) where installed: creating, editing, and QA of the `.pptx` file. This skill owns story, outline, copy, and notes; on a visual conflict inside a `.pptx`, this skill's colour system and type hierarchy set direction and the `pptx` skill's font, margin, and notes mechanics win.
 - External `dataviz` skill where installed: any chart or metric tile on a slide.
 - `ghostwriter`: marketing copy outside a deck, and long-form prose from the `blog` profile when the output is prose, not slides.
-- `design`: visual systems for product UI and landing pages; presentation visual rules live in `references/visual-design.md` instead.
+- `ui-design`: visual systems for product UI and landing pages; presentation visual rules live in `references/visual-design.md` instead.

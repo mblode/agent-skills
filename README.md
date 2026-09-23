@@ -4,7 +4,7 @@
 
 **Nobody ships AI slop on purpose. These skills make sure you don’t.**
 
-Taste, brakes, and backlog control for coding agents. Fifteen skills that hold what the model cannot know: your design system, your voice, your gates, and the failures you have already paid for.
+UI audits, typography, docs, PR review, and releases. On-demand skills for coding agents.
 
 <p align="center">
   <a href="https://www.skills.sh/mblode/agent-skills">
@@ -29,38 +29,52 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 ## Skills
 
-### Build
+### Architecture
 
-- **[architecture](./skills/architecture/SKILL.md)**: Module contracts, from-scratch rebuilds with a walking skeleton and a pass/fail production gate, and multi-tenant isolation, routing, and custom domains.
-- **[backlog](./skills/backlog/SKILL.md)**: Runs a large backlog through parallel agents: review-sized tickets, WIP capped at review capacity, a ledger, stall and budget rules, model lanes, and a weekly retro.
-- **[gates](./skills/gates/SKILL.md)**: The brakes: hooks, required CI checks, PR size limits, checks that the checks can fail, measured CI speedups, and one AGENTS.md every agent reads.
-- **[scaffold](./skills/scaffold/SKILL.md)**: New repos from house templates (Next.js Turborepo, TypeScript CLI, SaaS monorepo), proven on a cold clone.
-
-### Ship
-
-- **[tidy](./skills/tidy/SKILL.md)**: Diff or PR review with file:line findings in confirmed and plausible tiers (bugs, structure, AI slop, security), report-only by default; apply mode lands the fixes and simplifies the diff.
-- **[ship](./skills/ship/SKILL.md)**: PRs with a Risk and Proof section, changesets npm releases with OIDC publish, and review-thread accounting through to merge-ready.
+- **[codebase-architecture](./skills/codebase-architecture/SKILL.md)**: Design a structure, deepen an existing one, or harden it with guardrails.
+- **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with Blode UI, Ultracite (oxlint/shadcn), GitHub, and Vercel.
+- **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI package: ESM, tsdown, vitest, changesets, CI.
+- **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Tenant isolation, routing, and custom domains on Cloudflare or Vercel.
 
 ### Design
 
-- **[design](./skills/design/SKILL.md)**: Product behaviour with stable rule IDs, visual direction and Tailwind builds, a UX and typography audit with a ship verdict, browser probes that measure each finding, and motion fitted from recordings.
+
+- **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
+- **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, design-system extraction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
+- **[ui-verification](./skills/ui-verification/SKILL.md)**: Boots the app in a headless browser and runs nine probes that turn inferred UI defects into measured ones, then proves the fix cleared.
+- **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a contrast-checked QA pass, as Marp markdown, a web app, or a handoff to pptx.
 
 ### Writing
 
-- **[ghostwriter](./skills/ghostwriter/SKILL.md)**: Writes anything as you or as your company: messages, posts, tickets, PRDs, design docs, slides, copy, docs, READMEs, and plain-language explanations. Works with no profile and writes one from pasted samples.
+- **[eli5](./skills/eli5/SKILL.md)**: Session talk in plain language: optional analogy, exact technical terms, and house vocabulary without forced templates.
+- **[ghostwriter](./skills/ghostwriter/SKILL.md)**: Writes anything as you or as your company: messages, posts, PRs, tickets, PRDs, design docs, slides, copy, docs, READMEs. Works with no profile and writes one from pasted samples.
 
-### Audits
+### Quality
 
-- **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
-- **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
 - **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 27 rules for tool parity, approval gates, and escape hatches, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
+- **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
+- **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
+- **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
+
+### Shipping
+
+- **[planning](./skills/planning/SKILL.md)**: Writes and reviews executable plans with repository evidence, vertical slices, and explicit acceptance criteria.
+- **[tidy](./skills/tidy/SKILL.md)**: Diff or PR review with file:line findings in confirmed and plausible tiers (bugs, structure, AI slop, security), report-only by default; apply mode lands the fixes and simplifies the diff.
+- **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
+- **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
+- **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
+- **[ci-speedup](./skills/ci-speedup/SKILL.md)**: Measures a pipeline's critical path as median and p90 over runs, then splits, shards, trims setup, and shares test module state, with a ledger and trend.
+- **[backlog](./skills/backlog/SKILL.md)**: Runs a split backlog through parallel agents: a ledger as the source of truth, WIP capped at review capacity, stall and budget rules, model lanes, and a weekly retro.
+- **[gates](./skills/gates/SKILL.md)**: Installs the brakes on agent PRs (hooks, required checks, PR size, stop on red main) and proves tests, evals, and scorers can fail.
 
 ### Authoring
 
-- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, prefers a check over a rule, with a validator and regression scenarios.
 - **[chat-history](./skills/chat-history/SKILL.md)**: Recover decisions, previous fixes, and context from past AI conversations with fast local search and source evidence.
+
+- **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, migrates to native AGENTS.md without Claude wrappers, then audits and refactors instructions with grades.
+- **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, with portable workflows, a validator, and regression scenarios.
 
 ## License
 

@@ -1,6 +1,6 @@
 ---
 name: ghostwriter
-description: Writes, rewrites, and critiques anything written, as the user or as a company, and returns finished text for messages, posts, review comments, tickets, PRDs, design docs, talk scripts, copy, docs, and READMEs, in the voice a private profile shows, with the machine tells stripped. Works with no profile and writes one from pasted samples. Use when asked to "write this in my voice", "turn this ramble into a message", "draft a Slack reply", "write the hero copy", "write the README", "critique my draft", "cut this in half", or "write my slack profile", and for plain-language explanations ("ELI5", "plain English", "stop using jargon"). For the product decision behind a label use design; for PR descriptions use ship.
+description: Writes, rewrites, and critiques anything written, as the user or as a company, and returns finished text for messages, posts, review comments, tickets, PRDs, design docs, talk scripts, copy, docs, and READMEs, in the voice a private profile shows, with the machine tells stripped. Works with no profile and writes one from pasted samples. Use when asked to "write this in my voice", "turn this ramble into a message", "draft a Slack reply", "write the hero copy", "write the README", "critique my draft", "cut this in half", or "write my slack profile". For the product decision behind a label use product-design.
 ---
 
 # Ghostwriter
@@ -8,7 +8,7 @@ description: Writes, rewrites, and critiques anything written, as the user or as
 Write the finished piece. The user brings facts, a ramble, or a draft; you bring the writing. It reads as they (or their company) wrote it, it is as short as the reader needs, and nothing in it is invented.
 
 - **IS:** drafting, rewriting, and critiquing anything the user writes, from private voice profiles, returning text ready to send or commit.
-- **IS NOT:** the product decision behind a label (`design`), a PR description (`ship`), or a persona of its own. The voice lives in the profile.
+- **IS NOT:** the product decision behind a label (`product-design`), or a persona of its own. The voice lives in the profile.
 
 ## Done looks like
 
@@ -35,7 +35,6 @@ When the user pastes their own writing and asks for a profile, write `<data-root
 - **Draft:** facts in, finished text out. Text only, unless asked for alternatives.
 - **Ramble:** the user's dump outranks the profile for this message. Keep the phrasings that land, impose the structure, and leave every open question open: "maybe we drop the vendor" never becomes a decision.
 - **Rewrite:** change the prose, not the meaning. Every fact, link, and qualification survives; "may have failed" never becomes "failed". A hollow paragraph rewritten is a short hollow paragraph: say so instead of polishing it.
-- **Explain:** plain language for the user, in the assistant's own voice rather than a profile. Result first. Keep every identifier, path, command, error, and number verbatim and explain around it. Use an analogy only when it clarifies the mechanism, and name its limit if that changes the answer; if it did not land, change the framing rather than lengthen it. No minimizers ("simply", "just", "obviously"). A single ELI5 request does not become a session mode unless asked, and never hands the user work the agent is authorized to do.
 - **Critique:** findings ordered by cost to the reader, each with the place, the problem, the cost, and the edit (cut, move, merge, or the missing fact to add). Rewritten text only when asked. No praise. If nothing is wrong, say so in one line.
 
 ## Before returning

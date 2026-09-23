@@ -3,82 +3,6 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "CI on our monorepo takes 10 to 12 minutes per PR and agents are now waiting on it more than on review. Everything runs in one Test job. Figure out where the time goes and make it faster.",
-      "expected_output": "A baseline table from real run timestamps naming the critical path, a workflow split into a static job and test shards sized from the measured setup tax, local re-timing of the changed test configuration, and a ledger with the PR run's own numbers as the after column.",
-      "files": [],
-      "assertions": [
-        "Pulls job and step timestamps and reports median and p90 over recent runs, not a single run",
-        "Names the critical path as an ordered chain with minutes, distinct from total runner minutes",
-        "Quotes the test runner's duration breakdown (import, environment, tests) for the slowest suite",
-        "Predicts the new chain's minutes before pushing and compares against the PR run afterwards",
-        "Keeps existing incident-derived guards (concurrency groups, change detection, migration checks) in place",
-        "Writes a ledger with before, changes, after, and not-taken sections",
-        "Ledger includes a trend row (test count, median, p90, minutes per hundred files) and when the next round is due"
-      ]
-    },
-    {
-      "id": 2,
-      "prompt": "Our Vitest suite is 220 files and takes almost 7 minutes in CI but the tests themselves are only 40 seconds according to the summary line. Why, and what do we do about it?",
-      "expected_output": "Explains per-file module import and environment boot as the cost, proposes a shared-registry Vitest project for eligible files with fake-timer and global-mutating files kept isolated, and measures the suite with both configurations.",
-      "files": [],
-      "assertions": [
-        "Identifies import plus environment time as per-file boot cost rather than slow tests",
-        "Proposes isolate: false as a second project rather than a global switch",
-        "Names fake timers and unrestored global mutation as reasons to keep a file isolated",
-        "Runs the suite with the new configuration and reports pass or fail per moved file",
-        "Measures the ceiling with vitest run --no-isolate before proposing the project split",
-        "Names task-runner contention inside one job as a separate cause to rule out"
-      ]
-    },
-    {
-      "id": 3,
-      "prompt": "Speed up CI, but we are on a private repo with a 2,000 minute plan. Don't just throw more runners at it.",
-      "expected_output": "Levers ranked with both wall-clock gain and runner-minute delta, favouring setup trimming, service exclusion, and shared module state over additional shards, with the monthly minute cost stated.",
-      "files": [],
-      "assertions": [
-        "Reports runner-minute change alongside wall-clock change for each lever",
-        "Prefers levers that lower both numbers before proposing shards",
-        "States an estimated monthly minute cost for any shard added"
-      ]
-    },
-    {
-      "id": 4,
-      "prompt": "Improve these repository instructions. AGENTS.md says npm test, but package.json exposes only check and build. CLAUDE.md contains a duplicate copy. Codex and Claude Code both use the repo.",
-      "expected_output": "Correct the command, preserve unique instructions in AGENTS.md, and remove the duplicate CLAUDE.md without creating a wrapper, then show both tools load the file.",
-      "files": [],
-      "assertions": [
-        "Uses the manifest-backed check command and runs it",
-        "Keeps one authoritative instruction source",
-        "Applies the requested improvement without a second approval",
-        "Relies on native AGENTS.md support; does not create a CLAUDE.md wrapper or symlink",
-        "Verifies loading by asking each tool to quote a rule unique to the file"
-      ]
-    },
-    {
-      "id": 5,
-      "prompt": "Audit, without editing, an AGENTS.md that lists a missing scripts/deploy.sh and says always write descriptive variable names.",
-      "expected_output": "Report the broken path and redundant coaching with proposed changes.",
-      "files": [],
-      "assertions": [
-        "Leaves files unchanged",
-        "Identifies the missing executable path",
-        "Distinguishes repository contracts from generic coding advice"
-      ]
-    },
-    {
-      "id": 6,
-      "prompt": "Consolidate this repository on AGENTS.md. Root CLAUDE.md is a symlink to AGENTS.md, packages/api/CLAUDE.md has unique rules, and .claude/CLAUDE.md exists. A gitignored CLAUDE.local.md holds private notes.",
-      "expected_output": "Remove the duplicate symlink safely, move scoped content into packages/api/AGENTS.md, fold unique lines from .claude/CLAUDE.md into the shared file, keep private notes out of shared files, and verify loading by asking each tool.",
-      "files": [],
-      "assertions": [
-        "Does not delete the symlink target",
-        "Preserves unique instructions and nested scope",
-        "Does not copy private notes into shared AGENTS.md",
-        "Verifies loading with a quote-a-rule probe rather than by reading the file tree"
-      ]
-    },
-    {
-      "id": 7,
       "prompt": "Agents keep opening PRs where typecheck fails, even though AGENTS.md tells them to run it. Make that stop. Claude Code, Codex, and Cursor all work in this repo.",
       "expected_output": "A lefthook pre-commit and pre-push setup installed through prepare, one verify command named in AGENTS.md, a CI job repeating the hooks, each hook shown failing on a deliberate violation, and the required-check change written up for the user.",
       "files": [],
@@ -92,7 +16,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": 2,
       "prompt": "turbo run test is green locally and in CI every time, but a teammate's fresh clone fails. What's going on?",
       "expected_output": "The green runs are identified as cache hits, the suite is run cold in a fresh clone with --force, the import-time env singleton or missing env input in turbo.json is found, and an uncached run on main is proposed as a gate.",
       "files": [],
@@ -105,7 +29,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": 3,
       "prompt": "Our answer-quality eval has been 100% green for a month. Can you check it's actually measuring something?",
       "expected_output": "The scorer's code is read, it is found to check only length or to skip on failure, must-fail fixtures are added and shown to fail, and the report is changed to print passed, failed, skipped, and errored counts.",
       "files": [],
@@ -117,7 +41,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": 4,
       "prompt": "The checkout e2e suite went green right after an agent's PR that 'fixed flakiness'. Is that real?",
       "expected_output": "The diff and production code are searched for test-only headers, environment branches, and conditionals in tests; any bypass is reported with file and line; a lint rule or CI grep is proposed so the pattern fails next time.",
       "files": [],
@@ -129,7 +53,7 @@
       ]
     },
     {
-      "id": 11,
+      "id": 5,
       "prompt": "Main broke twice yesterday with 30 agent PRs merged. Set up whatever we need so that doesn't happen again.",
       "expected_output": "A PR size gate, a main-green required check with a fixes-main exception, the container build on the PR, WIP tied to review capacity, auto-approval limited to small low-risk paths, and a Risk and Proof section, with settings changes written up for the user.",
       "files": [],
@@ -146,30 +70,24 @@
   ],
   "routing": {
     "should_trigger": [
-      "CI takes forever, can you look at why our pipeline is so slow",
-      "Every PR waits 15 minutes on checks. Shorten that.",
-      "Our GitHub Actions bill doubled since we started using coding agents, what is eating the minutes",
-      "Shard our test job",
-      "Add pre-commit hooks so agents stop pushing broken code",
-      "Can this test actually fail?",
-      "Check the check on our eval suite",
-      "Is this revenue dashboard right?",
-      "Improve our AGENTS.md",
-      "Audit our agent instructions for stale commands",
-      "Add a PR size limit and stop merges when main is red"
+      "Agents keep opening PRs where typecheck fails, even though AGENTS.md tells them to run it. Make that stop. Claude Code, Codex, and Cursor all work in this repo.",
+      "turbo run test is green locally and in CI every time, but a teammate's fresh clone fails. What's going on?",
+      "Our answer-quality eval has been 100% green for a month. Can you check it's actually measuring something?",
+      "The checkout e2e suite went green right after an agent's PR that 'fixed flakiness'. Is that real?",
+      "Main broke twice yesterday with 30 agent PRs merged. Set up whatever we need so that doesn't happen again."
     ],
     "near_miss": [
       {
         "prompt": "CI is red on my PR, fix it",
-        "expected": "ship"
+        "expected": "pr-babysitter"
       },
       {
         "prompt": "Set up GitHub Actions for this new npm package",
-        "expected": "scaffold"
+        "expected": "scaffold-cli"
       },
       {
         "prompt": "Publish the CLI release and watch the publish workflow",
-        "expected": "ship"
+        "expected": "autoship"
       },
       {
         "prompt": "Review this workflow change for bugs",
@@ -184,12 +102,20 @@
         "expected": "ghostwriter"
       },
       {
-        "prompt": "Split this epic into tickets and dispatch them to agents",
-        "expected": "backlog"
-      },
-      {
         "prompt": "Audit my SKILL.md for redundant instructions",
         "expected": "agent-skills-creator"
+      },
+      {
+        "prompt": "CI takes 14 minutes. Measure the critical path and cut it.",
+        "expected": "ci-speedup"
+      },
+      {
+        "prompt": "Make AGENTS.md the one instruction file for Claude Code, Codex and Cursor.",
+        "expected": "agents-md"
+      },
+      {
+        "prompt": "Dispatch these twelve ready tickets to agents and keep the ledger",
+        "expected": "backlog"
       }
     ]
   },

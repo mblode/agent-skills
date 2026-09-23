@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 
 - `skills/` holds each skill in its own folder (kebab-case). Each skill has a `SKILL.md` file with YAML frontmatter (`name`, `description`) and Markdown guidance.
-- Some skills include reference files alongside the `SKILL.md` (e.g. `skills/gates/references/`).
+- Some skills include reference files alongside the `SKILL.md` (e.g. `skills/agents-md/references/`).
 - Top-level files: `README.md` (overview and install docs).
 
 ## Install / Development Commands

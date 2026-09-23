@@ -1,0 +1,39 @@
+{
+  "skill_name": "autoship",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Release this. It's a changesets repo, just a patch, the last three commits fixed the --output json envelope.",
+      "expected_output": "A patch changeset file committed and pushed without running changeset version locally, CI watched on the pushed SHA, the changeset-release/<base> PR merged once every check passes, the publish run watched on the merge SHA, and a final report quoting npm view <pkg>@<version> version and npm view <pkg> dist-tags.",
+      "files": [],
+      "assertions": [
+        "A new .changeset/*.md file exists in the pushed commit with the package name quoted and a patch bump",
+        "No local `changeset version` or `npm publish` command was run",
+        "The merged PR's head branch is changeset-release/<default-branch> and gh pr checks showed bucket: pass for every check before the merge",
+        "The final message quotes npm view output showing the new version and latest pointing at it"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The release workflow went green after I merged Version Packages but nothing showed up on npm. What happened?",
+      "expected_output": "A read-only diagnosis: reads the uses: line of the release workflow, checks the run log for the Unexpected input(s) warning or a missing publish input, and names the fix (rename publish to publish-script on changesets/action@v2, or add the input) without re-running the workflow or publishing manually.",
+      "files": [],
+      "assertions": [
+        "The response names the changesets/action major in use and the input name it expects",
+        "No workflow re-run, npm publish, or settings change was performed",
+        "The fix is stated as a workflow file edit"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Publish fails with ENEEDAUTH even though I set id-token: write and configured the trusted publisher on npm. Fix the release.",
+      "expected_output": "Diagnosis from the failed run log against the publish failure table: npm below 11.5.1 from setup-node with Node 22, or a trusted publisher whose workflow filename differs from the file in .github/workflows/. The fix is a workflow edit (Node 24 or npm install -g npm@latest) or correcting the npmjs.com entry; the workflow is not blindly re-run.",
+      "files": [],
+      "assertions": [
+        "The response checks the Node or npm version used by the failing run",
+        "The response compares the trusted publisher's workflow filename with the actual file name including .yml",
+        "No `gh run rerun` was issued before a config change"
+      ]
+    }
+  ]
+}

@@ -17,7 +17,7 @@ Scenarios for changing this skill. Evaluate the observable workflow, not whether
 
 ## 2. Multi-skill request
 
-**Prompt:** "Use dx-audit, ghostwriter, and architecture. Make this package simple."
+**Prompt:** "Use dx-audit, ghostwriter, and codebase-architecture. Make this package simple."
 
 **Expected behavior:**
 
@@ -73,4 +73,4 @@ Scenarios for changing this skill. Evaluate the observable workflow, not whether
 
 **Expected behavior:**
 
-- Routes to `scaffold`; dx-audit has nothing to audit until the CLI exists.
+- Routes to `scaffold-cli`; dx-audit has nothing to audit until the CLI exists.

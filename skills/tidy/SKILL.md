@@ -1,6 +1,6 @@
 ---
 name: tidy
-description: Reviews a local diff, branch diff, or PR with file:line findings in confirmed and plausible tiers, and in apply mode lands the fixes and diff-scoped simplifications. Use when asked to "review my changes", "code review", "tidy this", "simplify my diff", "deslop this", "structural review", or "security audit". For the PR itself, CI, and review threads use ship; for UI defects use design; for repo architecture use architecture.
+description: Reviews a local diff, branch diff, or PR with file:line findings in confirmed and plausible tiers, and in apply mode lands the fixes and diff-scoped simplifications. Use when asked to "review my changes", "code review", "tidy this", "simplify my diff", "deslop this", "structural review", or "security audit". For the PR itself use pr-creator; for CI and review threads use pr-babysitter; for UI defects use ui-design; for repo architecture use codebase-architecture.
 ---
 
 # Tidy
@@ -8,7 +8,7 @@ description: Reviews a local diff, branch diff, or PR with file:line findings in
 Review the diff, then fix it when asked. One pass produces the report; the same pass, in apply mode, lands the fixes along with the simplifications a clean diff still hides.
 
 - **IS:** review of a local diff, branch diff, PR, or named security scope, returning severity-tiered findings with `file:line` evidence; in apply mode, the smallest complete fixes for those findings plus diff-scoped simplification.
-- **IS NOT:** creating PRs, CI failures, and review threads (`ship`), user-facing UX, accessibility, or rendered quality (`design` Audit mode), library or CLI ergonomics (`dx-audit`), architecture briefs (`architecture`), repo-wide hooks and CI brakes (`gates`), reviewing plans (`backlog`).
+- **IS NOT:** creating PRs (`pr-creator`), CI failures and review threads (`pr-babysitter`), user-facing UX, accessibility, or rendered quality (`ui-design` Audit mode), library or CLI ergonomics (`dx-audit`), architecture briefs and repo-wide guardrails (`codebase-architecture`), reviewing plans (`planning`).
 
 ## Report or apply
 
@@ -121,7 +121,7 @@ Every finding carries `file:line`, a one-line impact, and a committable fix. A p
 - <readiness verdict>
 ```
 
-For a PR handoff posted through `ship` or `gh`, use the same finding shape under `## PR handoff summary` and prefix `minor` items with `Nit:`. In apply mode, follow the report with what was applied, what was left and why, and the check results.
+For a PR handoff posted through `pr-babysitter` or `gh`, use the same finding shape under `## PR handoff summary` and prefix `minor` items with `Nit:`. In apply mode, follow the report with what was applied, what was left and why, and the check results.
 
 ## Gotchas
 
@@ -133,7 +133,8 @@ For a PR handoff posted through `ship` or `gh`, use the same finding shape under
 
 ## Related skills
 
-- `ship`: creates or updates the PR after review, follows its CI and inbound review threads, and posts the PR handoff format; commits and PR creation stay there.
-- `design` Audit mode: UI-level slop, layout, and rendered quality; Deslop mode here covers code-level slop only.
+- `pr-creator`: creates or updates the PR after review; commits and PR creation stay there.
+- `pr-babysitter`: monitors CI and inbound review comments, and posts the PR handoff format.
+- `ui-design` Audit mode: UI-level slop, layout, and rendered quality; Deslop mode here covers code-level slop only.
 
 Maintenance only: `evals/evals.json` holds the regression scenarios and routing prompts for anyone changing this skill; it never loads during a user task.

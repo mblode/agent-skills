@@ -94,7 +94,7 @@
       "Our skill stops after the first draft and asks for review, make it finish the job."
     ],
     "near_miss": [
-      "Rewrite our CLAUDE.md so Codex and Cursor read the same instructions. (gates owns instruction files)",
+      "Rewrite our CLAUDE.md so Codex and Cursor read the same instructions. (agents-md owns instruction files)",
       "Audit our docs folder for Diataxis compliance. (ghostwriter owns documentation quality)",
       "Write the README for this skills repo. (ghostwriter)",
       "Configure a PreToolUse hook in settings.json. (update-config; a hook inside a skill's frontmatter is this skill's, a repo-level hook is not)"

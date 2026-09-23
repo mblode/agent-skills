@@ -1,0 +1,54 @@
+{
+  "skill_name": "scaffold-nextjs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Scaffold a Next.js turborepo with Blode UI. Port 3000 belongs to an unrelated local project.",
+      "expected_output": "Use the house stack on a free port with correct workspace ownership.",
+      "files": [],
+      "assertions": [
+        "Preserves the unrelated server",
+        "Places app dependencies in apps/web",
+        "Keeps the hook configuration at the git root"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The installed Next.js rejects a flag in the scaffold reference. The current bundled documentation names its replacement.",
+      "expected_output": "Adapt the template using version-matched documentation.",
+      "files": [],
+      "assertions": [
+        "Does not force the rejected flag",
+        "Records the compatibility correction",
+        "Verifies the resulting build"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Scaffold a Next.js turborepo with Blode UI and wire the house lint stack.",
+      "expected_output": "Ultracite 7.12+ Oxlint with ultracite/oxlint/shadcn after init, not a hand-rolled starter-only no-restyle snippet.",
+      "files": [],
+      "assertions": [
+        "Passes --js-plugins @shadcn/lint to ultracite init, or adds import shadcn from ultracite/oxlint/shadcn after init",
+        "Requires ultracite 7.12 or newer",
+        "Keeps ultracite/oxlint core, next, and react extends and adds shadcn",
+        "Does not register jsPlugins as [\"@shadcn/lint\"] with a starter-only no-restyle rule block",
+        "Relies on the preset turning shadcn/no-restyle off for **/components/ui/**, or adds a matching override only when aliases.ui differs",
+        "Documents ultracite fix and ultracite fix --codex for remaining design-system findings"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Scaffold a Next.js turborepo with Blode UI. Port 3000 belongs to an unrelated local project.",
+      "The installed Next.js rejects a flag in the scaffold reference. The current bundled documentation names its replacement.",
+      "Scaffold a Next.js turborepo with Blode UI and wire the house lint stack."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Build a pricing page inside the existing Next.js app.",
+        "expected": "ui-design"
+      }
+    ]
+  }
+}

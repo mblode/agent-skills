@@ -1,0 +1,38 @@
+{
+  "skill_name": "eli5",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ELI5 what a JWT is. Keep it specific enough that I can recognize the term in our code.",
+      "expected_output": "An explanation preserving JWT, without an activation announcement or mandatory follow-up.",
+      "files": [],
+      "assertions": [
+        "Keeps JWT verbatim",
+        "Does not promise encrypted contents merely because a token is signed",
+        "Does not announce a permanent mode change"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Explain this error in plain English: auth.ts:42 returned 401. Keep the command curl --header \"Authorization: Bearer $TOKEN\" intact.",
+      "expected_output": "Explains the failure while preserving the supplied identifiers and command.",
+      "files": [],
+      "assertions": [
+        "Preserves auth.ts:42 and 401",
+        "Preserves the quoted command including $TOKEN",
+        "Does not replace a technical token to satisfy a word ban"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Keep plain English on for the rest of this session. Continue the migration you are already authorized to complete.",
+      "expected_output": "Continues authorized work with the requested style.",
+      "files": [],
+      "assertions": [
+        "Does not delegate its own work back to the user through a compulsory Next line",
+        "Does not claim persistence across unrelated sessions",
+        "Does not repeat activation announcements"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+[
+  {
+    "skills": [
+      "ui-design"
+    ],
+    "query": "Is this invite form ready to ship? Tell me what's broken.",
+    "files": [
+      "fixtures/invite-member-form.tsx"
+    ],
+    "expected_behavior": [
+      "Selects Audit mode, not Build or Direction: reports defects in the code as written instead of restyling or regenerating the form",
+      "Reports file:line findings for the data loss (email and role cleared before the request resolves), the unguarded submit (no pending state, so the button double-fires), the unchecked res.ok with no rendered error state, and the icon-only close button with no accessible name",
+      "Applies the fixes in the same pass rather than handing back a report alone",
+      "Emits a ship verdict",
+      "Does not propose a new palette, type scale, or layout: no visual direction work appears in the output"
+    ]
+  },
+  {
+    "skills": [
+      "ui-design",
+      "product-design"
+    ],
+    "query": "Two things on this modal. First, Delete should remove the whole project, not just the one version, and people should be able to undo it for 30 days. Second, the destructive button sits at the same visual weight as Cancel.",
+    "files": [
+      "fixtures/delete-version-modal.tsx"
+    ],
+    "expected_behavior": [
+      "Splits the request instead of treating code-in-hand as a blanket route to ui-design",
+      "Routes the first ask to product-design: it changes which object the action affects (version to project) and whether it is reversible, so it is a capability decision, not a visual one",
+      "Runs product-design first and ui-design second, rather than editing the handler and the className in one pass",
+      "Has product-design name the object, scope, and consequence, replacing the 'Confirm' label and the now-false 'cannot be undone' copy, and cites its rule IDs",
+      "Routes the second ask to ui-design end to end: it changes how the same capability looks, not what it does",
+      "product-design stops at decision altitude and does not write the line-level fix itself"
+    ]
+  },
+  {
+    "skills": [
+      "ui-design",
+      "typography-audit"
+    ],
+    "query": "Audit this pricing page before launch.",
+    "files": [
+      "fixtures/pricing-page.tsx"
+    ],
+    "expected_behavior": [
+      "ui-design Audit mode owns the pass: a broad pre-launch audit is not handed wholesale to typography-audit",
+      "Reports the non-type defects itself: the clickable div that is not a button and cannot be reached by keyboard, and the missing empty state when plans is empty",
+      "Flags the type defects its own type- rule owns (13px body copy below the readable floor) and routes measure, leading, punctuation, and faux bold to typography-audit, which owns them, rather than opening a full type pass itself",
+      "Routes the deep type work (the scale, the pairing, the measure) to typography-audit rather than duplicating its rule set",
+      "Keeps a single ship verdict for the page instead of emitting two competing verdicts"
+    ]
+  },
+  {
+    "skills": [
+      "ui-design",
+      "ui-animation"
+    ],
+    "query": "Make this settings page feel native on mobile. Hover sticks after tap and pull-to-refresh reloads the page.",
+    "files": [
+      "fixtures/clean-settings.tsx"
+    ],
+    "expected_behavior": [
+      "Selects Audit mode, not Retrofit/make-responsive and not Build",
+      "Runs existing mobile-* rules (viewport, hover-only actions) and routes hover gating and :active press / touch-action: manipulation to ui-animation",
+      "Does not invent a hover-stuck rule or a new skill",
+      "Applies press feedback in the audited files; pull-to-refresh is craft-checklist overscroll, reported with file:line if the shell lives outside the fixture"
+    ]
+  }
+]

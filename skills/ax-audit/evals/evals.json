@@ -20,7 +20,7 @@
       "assertions": [
         "Does not invent an agentic feature",
         "Does not apply approval-flow rules to the form",
-        "Routes ordinary UI review to design"
+        "Routes ordinary UI review to ui-design"
       ]
     }
   ],

@@ -1,0 +1,53 @@
+[
+  {
+    "skills": [
+      "ui-design"
+    ],
+    "query": "This feels AI-generated. Clean it up.",
+    "files": [
+      "fixtures/real-proof-landing.tsx"
+    ],
+    "expected_behavior": [
+      "Selects Audit mode with the Deslop scope, and captures the rendered page at desktop and mobile before editing anything",
+      "KEEPS the amber brand gradient: its stops sit within roughly 30 degrees, it gives the hero a focal point, and one wash is below the slop-decoration-no-role threshold of 3",
+      "KEEPS all six customer logos: they are real named companies with real asset paths, which slop-unverifiable-proof explicitly excludes",
+      "KEEPS the product screenshot at full size and straight on, and does not replace it with an illustration or a device mockup",
+      "KEEPS the browser chrome bar: it sits directly above a real screenshot, which is the presentation-device carve-out slop-faux-product-chrome states, and the URL text corroborates only and cannot open a finding",
+      "DELETES the three sourceless blur and grid layers, which put the file over the threshold of 3, and two of the three trailing CTA blocks",
+      "Applies the fix ladder in order: deletes unsupported furniture before restyling anything that remains",
+      "Reports slop-token-drift and slop-near-duplicate-scale as unknown, because no theme file is in scope",
+      "Names what it considered and deliberately did not flag, with the guard for each"
+    ]
+  },
+  {
+    "skills": [
+      "ui-design"
+    ],
+    "query": "Remove the AI slop from this.",
+    "files": [
+      "fixtures/clean-settings.tsx"
+    ],
+    "expected_behavior": [
+      "Reports that there is little or nothing to remove, plainly, without padding the output to look useful",
+      "Emits no slop findings: values trace to the Tailwind scale, there is one accent, there are no decorative layers, and no proof is invented",
+      "Populates the considered-and-rejected section, naming the skeleton loader (a loading state, not an empty decorative panel) and the red revoke button (a semantic role, not an unearned accent)",
+      "Does not manufacture a finding to justify the pass, and does not restyle a screen that already works",
+      "Ends the report at the considered-and-rejected block: no closing line, sign-off, or promotional footer"
+    ]
+  },
+  {
+    "skills": [
+      "ui-design"
+    ],
+    "query": "this looks vibe coded, fix it",
+    "files": [
+      "fixtures/real-proof-landing.tsx"
+    ],
+    "expected_behavior": [
+      "Reaches the same conclusions as the first scenario from a query that names no defects, proving the detection is doing the work rather than the prompt",
+      "Selects Audit mode with the Deslop scope from the phrase alone",
+      "Still keeps the earned gradient, the real logos, the screenshot, and the chrome bar that holds it",
+      "Still deletes the three stacked layers and the duplicate CTAs"
+    ]
+  }
+]

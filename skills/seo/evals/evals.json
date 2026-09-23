@@ -96,19 +96,19 @@
       },
       {
         "prompt": "Redesign the homepage visual style.",
-        "expected": "design"
+        "expected": "ui-design"
       },
       {
         "prompt": "Set up tenant isolation for custom domains.",
-        "expected": "architecture"
+        "expected": "multi-tenant-architecture"
       },
       {
         "prompt": "Review keyboard focus in this dialog.",
-        "expected": "design"
+        "expected": "ui-verification"
       },
       {
         "prompt": "Add a new onboarding animation.",
-        "expected": "design"
+        "expected": "ui-animation"
       },
       {
         "prompt": "Create a skill for release management.",

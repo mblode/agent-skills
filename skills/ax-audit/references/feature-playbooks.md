@@ -27,7 +27,7 @@ The tier in parentheses is a scan copy of the rule's override for that surface. 
 
 **Weak signals, never on their own.** `completion`, `isStreaming`, and `<Action>` match ordinary non-agentic code: a progress percentage (`const completion = done / total`), a video upload flag, and a generic icon-button component. Count any of them only alongside a strong signal from the table. A chat surface detected from a bare `completion`, or a tool-execution surface from a toolbar's `<Action>`, runs a full playbook against a form and produces exactly the noise the stop condition below exists to prevent.
 
-No agentic features detected → stop; this skill does not apply. Route to `design` Audit mode.
+No agentic features detected → stop; this skill does not apply. Route to `ui-design` Audit mode.
 
 ## Diff-wide checks
 

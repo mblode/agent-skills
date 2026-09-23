@@ -79,7 +79,7 @@ Write both lists into a checked-in rubric that the automated reviewer reads from
 
 ## Risk and Proof section
 
-Every agent PR body carries this, and `ship` fills it:
+Every agent PR body carries this, and `pr-creator` fills it:
 
 ```markdown
 ## Risk

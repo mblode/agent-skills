@@ -101,7 +101,7 @@ Finish with remaining items that need a product decision, DNS access, or credent
 - `seo`: App Router `llms.txt` and markdown routes, sitemaps, robots, crawler policy, and AEO measurement. This skill owns the AFDocs/Is Agentic contract those routes must satisfy.
 - `dx-audit`: the CLI or SDK once it exists as a package
 - `ax-audit`: in-product agent trust, not public HTTP discovery
-- `gates`: repo instruction files, not public `llms.txt`
+- `agents-md`: repo instruction files, not public `llms.txt`
 
 Maintenance only: `evals/evals.json` is for changing this skill, not for a user task.
 

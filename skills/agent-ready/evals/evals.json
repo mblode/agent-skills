@@ -81,7 +81,7 @@
       },
       {
         "prompt": "Write a CLAUDE.md for this docs repo so agents follow our terminology.",
-        "expected": "gates"
+        "expected": "agents-md"
       }
     ]
   }

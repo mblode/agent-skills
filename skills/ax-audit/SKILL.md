@@ -1,6 +1,6 @@
 ---
 name: ax-audit
-description: Audits agentic products for tool parity, authority, approval payloads, recovery, and trust using 27 rules and a ship verdict. Use when asked for an "AX audit", to review an agent approval flow, or whether an agent can operate the product. For human-facing API ergonomics use dx-audit; for ordinary UI use design.
+description: Audits agentic products for tool parity, authority, approval payloads, recovery, and trust using 27 rules and a ship verdict. Use when asked for an "AX audit", to review an agent approval flow, or whether an agent can operate the product. For human-facing API ergonomics use dx-audit; for ordinary UI use ui-design.
 ---
 
 # AX Audit
@@ -8,7 +8,7 @@ description: Audits agentic products for tool parity, authority, approval payloa
 Feature-level reviewer for apps where an agent acts for the user. One question: **does it earn trust, and where does it break?**
 
 - **IS:** rules-based audit of agentic surfaces (chat, tool execution, config, dashboards) across architecture (`rules-arch/`) and trust (`rules-ax/`), ending in a ship-readiness verdict plus an AX Relationship Summary.
-- **IS NOT:** traditional frontend UX, or what the product should do before it exists (use `design`); developer-facing API, CLI, or type ergonomics (use `dx-audit`); public site or docs agent scores (use `agent-ready`); agent instruction files (use `gates`).
+- **IS NOT:** traditional frontend UX (use `ui-design` Audit mode); developer-facing API, CLI, or type ergonomics (use `dx-audit`); public site or docs agent scores (use `agent-ready`); agent instruction files (use `agents-md`); what the product should do before it exists (use `product-design`).
 
 No agentic features in scope? Stop. AX rules against forms and lists are noise.
 
@@ -105,7 +105,7 @@ Render after findings when any agentic feature was detected. Findings serve engi
 - **Interactive gates do not cover unattended runs.** Cron, webhook, and queue entry points reach the same executor with nobody to prompt. `comm-unrequested-action-no-consent` audits that path; evidence names the entry point, not the executor.
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the count in the verdict block; a suppression with no reason is itself a `warn`.
 - **Don't inflate tiers.** `comm-no-generative-momentum` and `granularity-static-api-mapping` default to `backlog`. One finding promoted to `release-blocker` flips the whole PR to ❌ NOT READY, so promoting cosmetic ones trains the team to ignore the verdict entirely.
-- **Don't duplicate `design` Audit mode findings.** "Missing loading state" and "form clears on error" are its territory; duplicating them trains engineers to dismiss the whole AX report.
+- **Don't duplicate `ui-design` Audit mode findings.** "Missing loading state" and "form clears on error" are its territory; duplicating them trains engineers to dismiss the whole AX report.
 - **A Personally Intelligent agent that only ever suggests has plateaued.** Memory stage is not trust. Name the highest action rung in `evolutionStage.behavior` or the summary flatters a polite chatbot.
 
 ## Audit self-check
@@ -120,9 +120,10 @@ Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evid
 
 ## Related skills
 
-- `design`: traditional frontend UX around agentic surfaces (Audit mode; run both on agentic feature PRs), and what the agentic feature should do before this audit
+- `ui-design` Audit mode: traditional frontend UX around agentic surfaces; run both on agentic feature PRs
 - `dx-audit`: same files, different reader. This skill asks whether an agent can operate and recover; `dx-audit` asks whether a human adopting the API, CLI, or types finds it ergonomic
 - `agent-ready`: whether public docs and HTTP APIs are discoverable to coding agents; this skill audits in-product agent UX
-- `gates`: CLAUDE.md / AGENTS.md instruction files
+- `product-design`: what the agentic feature should do, before this audit
+- `agents-md`: CLAUDE.md / AGENTS.md instruction files
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

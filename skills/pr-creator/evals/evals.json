@@ -1,0 +1,39 @@
+{
+  "skill_name": "pr-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Update only the body of the existing PR. Its base is release/next, and this local checkout also has an unpushed experimental commit.",
+      "expected_output": "Edit the PR metadata against the correct published PR scope.",
+      "files": [],
+      "assertions": [
+        "Does not push the experimental commit",
+        "Uses the PR base instead of main",
+        "Returns the updated PR URL"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a PR for a partial implementation of ABC-123. The repository template requires Summary and Validation sections.",
+      "expected_output": "Use the required template and a non-closing issue reference.",
+      "files": [],
+      "assertions": [
+        "Preserves the repository headings",
+        "Uses Part of ABC-123 rather than claiming the issue is complete",
+        "Does not fabricate validation results"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Update only the body of the existing PR. Its base is release/next, and this local checkout also has an unpushed experimental commit.",
+      "Create a PR for a partial implementation of ABC-123. The repository template requires Summary and Validation sections."
+    ],
+    "near_miss": [
+      {
+        "prompt": "Diagnose the red CI job on this existing PR.",
+        "expected": "pr-babysitter"
+      }
+    ]
+  }
+}
