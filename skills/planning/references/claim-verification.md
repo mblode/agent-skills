@@ -13,8 +13,8 @@ Verify claims with local evidence, not at face value. Load during plan review wh
 
 ## When to use
 
-- Triage (Step 2): the plan asserts something checkable about the codebase, performance, or behavior
-- Dialogue (Step 3): the user responds with a specific, verifiable claim
+- Review: the plan asserts something checkable about the codebase, performance, or behavior
+- Interview: the user responds with a specific, verifiable claim
 - Standalone: the user says "verify this", "is this true", "prove it", "check this claim"
 - Before relying on an assumption that drives a critical decision
 
@@ -139,12 +139,12 @@ Tone throughout: reference the specific section and claim, no preamble praise, f
 
 ## Integration with plan review
 
-During triage (Step 2), verify the plan's load-bearing checkable claims before the dialogue; a NOT VERIFIED claim drops its dimension a point and becomes the first question.
+In review, verify the plan's load-bearing checkable claims before asking anything; a NOT VERIFIED claim drops its dimension a point and becomes the first question.
 
-During dialogue (Step 3), when the user responds with a verifiable claim:
+In an interview, when the user responds with a verifiable claim:
 
 1. Recognize it is checkable ("this is under 100 lines", "we already handle that case", "the test covers this")
-2. Pause the dialogue
+2. Pause the interview
 3. Run the verification workflow
 4. Report the verdict with the raw evidence
 5. Use the verdict to choose the next move: ACCEPT, PUSH DEEPER, or REFRAME

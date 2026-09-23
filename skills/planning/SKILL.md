@@ -18,8 +18,8 @@ For architecture contracts use `codebase-architecture`; for code findings use `t
 
 | File | Read when |
 |---|---|
-| `references/decision-briefs.md` | A consequential decision goes to the human, in any mode |
-| `references/interrogation-protocol.md` | A consequential choice is unresolved, or the user requested an interview |
+| `references/decision-briefs.md` | Presenting a consequential decision to the human: measuring options, previews, recording the answer |
+| `references/interrogation-protocol.md` | Choosing which question to ask about an unresolved choice, or the user requested an interview |
 | `references/doc-grounding.md` | ADRs, specifications, or library docs constrain the approach |
 | `references/handoff-plans.md` | Another session or person will execute the plan |
 | `references/plan-quality-rubric.md` | Reviewing completeness, feasibility, scope, testability, risk, and assumptions |
@@ -59,8 +59,6 @@ Repeat review only after a substantive edit or new evidence. A user decision tha
 - A plan in `~/.claude/plans/` is not available to other checkouts or CI. Durable handoffs need a project artifact.
 - A bare "run tests" step does not establish the changed behavior. Name the acceptance scenario and expected result.
 - Publishing slices without native blocker relations leaves the execution queue unaware of dependencies.
-- A decision argued in prose is read at a fraction of the speed it was written. Measure the options and preview them instead.
-- An answer the human gave from context the repository lacks is lost when the session ends unless the plan or the project's memory records it.
 - A plan written for a prior revision can name moved files. Verify consequential paths and interfaces against the current checkout.
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.

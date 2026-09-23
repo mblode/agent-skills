@@ -53,7 +53,7 @@ Name a notes file next to the plan (`<plan>.notes.md`) and instruct the executor
 <one of the three finish outcomes, with the evidence>
 ```
 
-A deviation that crosses a logged decision's `Flips if:` hinge is a STOP condition: the human decided on facts that no longer hold. Any other deviation never pauses the work: take the conservative option, log it, keep going. The notes file is what review reads afterwards; a handoff without one loses every decision made during execution, and the reviewer has only the diff to reconstruct them from.
+A deviation that would reverse a logged decision, or that the executor finds crosses its `Flips if:` hinge, is not the conservative option: stop and report, because the human decided on facts that no longer hold. Any other deviation never pauses the work: take the conservative option, log it, keep going. The notes file is what review reads afterwards; a handoff without one loses every decision made during execution, and the reviewer has only the diff to reconstruct them from.
 
 ## Reviewing the result
 
