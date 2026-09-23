@@ -115,7 +115,10 @@ export default defineConfig([
   {
     entry: { cli: "src/cli.ts" },
     format: ["esm"],
+    platform: "node",
+    fixedExtension: false,
     clean: true,
+    dts: false,
     sourcemap: true,
     target: "node24",
     banner: { js: "#!/usr/bin/env node" },
@@ -123,12 +126,16 @@ export default defineConfig([
   {
     entry: { index: "src/index.ts" },
     format: ["esm"],
+    platform: "node",
+    fixedExtension: false,
     dts: true,
     sourcemap: true,
     target: "node24",
   },
 ]);
 ```
+
+`fixedExtension: false` keeps `.js` and `.d.ts`. tsdown's node-platform default emits `.mjs` and `.d.mts`, and then `bin` and `exports` point at files that do not exist; `npx publint` after the build catches it.
 
 `banner` injects the shebang into `dist/cli.js` at build, which is why `src/cli.ts` carries none.
 

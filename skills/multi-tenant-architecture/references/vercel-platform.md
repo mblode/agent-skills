@@ -24,20 +24,29 @@ Next.js 16 renamed `middleware.ts` to `proxy.ts` (exported function `proxy`, Nod
 
 ```ts
 // proxy.ts
+import { createHash } from "node:crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { get } from "@vercel/global-config";
 
 const ROOT = process.env.NEXT_PUBLIC_ROOT_DOMAIN!; // acme.app
 const TENANT_HEADERS = ["x-tenant-id", "x-tenant-slug", "x-tenant-plan"];
-const keyFor = (hostname: string) => hostname.replace(/\./g, "_"); // Global Config keys: ^[\w-]+$
+type Tenant = { id: string; slug: string; plan: string; hostname: string };
 
-function lookupKey(host: string): string | null {
-  const hostname = host.split(":")[0];
-  if (hostname.endsWith(".localhost")) return `sub_${hostname.split(".")[0]}`;
-  if (hostname.includes("---") && hostname.endsWith(".vercel.app")) return `sub_${hostname.split("---")[0]}`;
+// Edge store keys allow only [A-Za-z0-9_-]. Hash, never replace separators:
+// replacing dots and hyphens with "_" maps different hostnames to one key.
+const keyFor = (hostname: string) =>
+  `h_${createHash("sha256").update(hostname).digest("hex")}`;
+
+function tenantHostname(host: string): string | null {
+  const hostname = host.split(":")[0].toLowerCase();
   if (hostname === ROOT || hostname === `www.${ROOT}`) return null; // brand site
-  if (hostname.endsWith(`.${ROOT}`)) return `sub_${hostname.slice(0, -(ROOT.length + 1))}`;
-  return `domain_${keyFor(hostname)}`; // custom domain
+  if (process.env.NODE_ENV !== "production" && hostname.endsWith(".localhost")) {
+    return `${hostname.split(".")[0]}.${ROOT}`;
+  }
+  if (hostname.includes("---") && hostname.endsWith(".vercel.app")) {
+    return `${hostname.split("---")[0]}.${ROOT}`; // preview deployments
+  }
+  return hostname; // tenant subdomain or custom domain
 }
 
 export async function proxy(request: NextRequest) {
@@ -47,11 +56,14 @@ export async function proxy(request: NextRequest) {
 
   if (pathname.startsWith("/.well-known")) return NextResponse.next({ request: { headers } });
 
-  const key = lookupKey(request.headers.get("host") ?? "");
-  if (!key) return NextResponse.next({ request: { headers } });
+  const hostname = tenantHostname(request.headers.get("host") ?? "");
+  if (!hostname) return NextResponse.next({ request: { headers } });
 
-  const tenant = await get<{ id: string; slug: string; plan: string }>(key);
-  if (!tenant) return new NextResponse("Not found", { status: 404 }); // never fall through to brand content
+  // Written only after the domain verified; the database stays the source of truth.
+  const tenant = await get<Tenant>(keyFor(hostname));
+  if (!tenant || tenant.hostname !== hostname) {
+    return new NextResponse("Not found", { status: 404 }); // never fall through to brand content
+  }
 
   headers.set("x-tenant-id", tenant.id);
   headers.set("x-tenant-slug", tenant.slug);
@@ -83,7 +95,7 @@ export const config = {
 
 Edge Config was renamed Global Config. Package `@vercel/global-config` (drop-in for `@vercel/edge-config`), env var `GLOBAL_CONFIG` (legacy `EDGE_CONFIG` still read by the new SDK; the legacy SDK cannot read newly connected stores).
 
-- Store only `hostname -> { id, slug, plan }`. 1 MB per store on every plan, 3 stores per project, up to 10 s write propagation, writes 250 per month on Hobby and 100 per hour on Pro and Enterprise. Onboarding many domains on Hobby exhausts the write quota; the database stays the source of truth and Global Config is a write-through cache.
+- Store only `keyFor(hostname) -> { id, slug, plan, hostname }`, written after the domain verifies. 1 MB per store on every plan, 3 stores per project, up to 10 s write propagation, writes 250 per month on Hobby and 100 per hour on Pro and Enterprise. Onboarding many domains on Hobby exhausts the write quota; the database stays the source of truth and Global Config is a write-through cache.
 - Key names match `^[\w-]+$` (256 chars): encode dots in hostnames.
 - Prefer `getAll()` over several `get()` calls; each SDK call is one billable read.
 - The confirmation screen after a domain verifies reads the database, not Global Config, because of the propagation window.

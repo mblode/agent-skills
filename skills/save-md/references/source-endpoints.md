@@ -16,6 +16,7 @@ Per-host public endpoints that return text or a clean binary instead of HTML chr
 - Blogs and newsletters
 - Binary files on disk
 - Turning VTT captions into text
+- Fallback reader (opt-in)
 
 ## How to use a row
 
@@ -125,3 +126,15 @@ Trust `Content-Type` and `Content-Disposition` from the download over the URL su
 ## Turning VTT captions into text
 
 Auto-generated VTT repeats each line across two cues (once with word timings, once plain) and interleaves `[Music]` markers. Keep the plain form of each cue once, in order, and join into paragraphs on the gaps between cues. Manual captions (`--write-sub`) do not duplicate and can be used as-is after dropping the timestamp lines. Either way the saved file is `type: youtube` with `source:` the watch URL.
+
+## Fallback reader (opt-in)
+
+Third-party readers are off by default: they see every URL you send, and one served a stale cached copy in testing. Use Firecrawl only for a page the rows above cannot reach (a JavaScript-only page, a Cloudflare challenge, Medium), only when `FIRECRAWL_API_KEY` is already set, and only after the user has said third-party fetching is fine for this source. Never send a private, internal, or signed URL.
+
+```bash
+curl -sS https://api.firecrawl.dev/v2/scrape \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" -H 'Content-Type: application/json' \
+  -d '{"url":"<url>","formats":["markdown"]}' | jq -r '.data.markdown' > <file>.md
+```
+
+The endpoint was `v2` on 23 Sep 2026; check docs.firecrawl.dev if it answers 404. Add `fetched_via: firecrawl` to the frontmatter so the provenance says a third party rendered it. A page Firecrawl also cannot render is a stop.
