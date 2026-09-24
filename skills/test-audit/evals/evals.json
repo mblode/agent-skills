@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "prompt": "Add a test for the slugify change I just made in src/lib/slug.ts",
-      "expected_output": "Answers the four gate questions for the change, checks existing slug tests for coverage of the new behavior, extends an existing table case if one exists, and writes at most one test that asserts observable output rather than internal calls.",
+      "prompt": "I'm about to add a test for the slugify change in src/lib/slug.ts. Is it worth adding, and what should it assert?",
+      "expected_output": "Answers the four gate questions for the change, checks existing slug tests for coverage of the new behavior, extends an existing table case if one exists, and adds at most one test that asserts observable output rather than internal calls, or says why none is needed.",
       "files": [],
       "assertions": [
         "Checks existing tests for slugify before writing a new one",
@@ -75,5 +75,21 @@
         "expected": "ui-verification"
       }
     ]
+  },
+  "baseline": {
+    "date": "2026-09-24",
+    "method": "Plan-only proxy: fresh general-purpose subagents wrote their plan of work with and without the skill loaded; no fixture repository was executed. Graded by hand against the assertions.",
+    "results": {
+      "1": {
+        "without_skill": "3/8",
+        "with_skill": "8/8",
+        "notes": "Without the skill: aggregate coverage only, no keeper named per deletion, no test-only seam removal, production lines not separated."
+      },
+      "3": {
+        "without_skill": "2/4",
+        "with_skill": "4/4",
+        "notes": "Without the skill: no numeric target; removed only dead and duplicate tests and ended on a question to the user."
+      }
+    }
   }
 }
