@@ -8,7 +8,7 @@ description: Reviews a local diff, branch diff, or PR with file:line findings in
 Review the diff, then fix it when asked. One pass produces the report; the same pass, in apply mode, lands the fixes along with the simplifications a clean diff still hides.
 
 - **IS:** review of a local diff, branch diff, PR, or named security scope, returning severity-tiered findings with `file:line` evidence; in apply mode, the smallest complete fixes for those findings plus diff-scoped simplification.
-- **IS NOT:** creating PRs (`pr-creator`), CI failures and review threads (`pr-babysitter`), user-facing UX, accessibility, or rendered quality (`ui-design` Audit mode), library or CLI ergonomics (`dx-audit`), architecture briefs and repo-wide guardrails (`codebase-architecture`), reviewing plans (`planning`).
+- **IS NOT:** creating PRs (`pr-creator`), CI failures and review threads (`pr-babysitter`), user-facing UX, accessibility, or rendered quality (`ui-design` Audit mode), library or CLI ergonomics (`dx-audit`), architecture briefs and repo-wide guardrails (`codebase-architecture`), reviewing plans (`planning`), pruning an existing test suite (`test-audit`).
 
 ## Report or apply
 

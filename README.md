@@ -57,6 +57,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
 - **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
+- **[test-audit](./skills/test-audit/SKILL.md)**: Prunes low-value tests to a measured target with coverage held, and gates new tests before they land.
 
 ### Shipping
 
