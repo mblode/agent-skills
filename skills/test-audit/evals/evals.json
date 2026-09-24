@@ -1,0 +1,95 @@
+{
+  "skill_name": "test-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our TypeScript monorepo has 4,100 Vitest tests and most were written by agents. Remove the least useful 20% of tests in packages/api while keeping coverage within 2%.",
+      "expected_output": "A measured baseline (declaration count, line and branch coverage per file), a ledger marking each test R, F, C, or D with evidence, deletions in lowest-value order until the 20% target is met or the ledger proves it cannot be, coverage re-measured within the 2 point budget, test-only seams removed, and a handoff with before and after numbers.",
+      "files": [],
+      "assertions": [
+        "Records baseline declaration count and line and branch coverage before deleting anything",
+        "States the target and coverage budget in writing before the first deletion",
+        "Marks each candidate with evidence naming the keeper test or why no contract exists",
+        "Keeps deleting past the obvious candidates until the target is met, or reports the shortfall with per-candidate contract evidence",
+        "Compares coverage per production file, not only the total",
+        "Removes test-only exports or seams that the deleted tests kept alive",
+        "Reports production line changes separately from test line changes",
+        "Does not delete a test that fails on the baseline without investigating it as a product bug"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm about to add a test for the slugify change in src/lib/slug.ts. Is it worth adding, and what should it assert?",
+      "expected_output": "Answers the four gate questions for the change, checks existing slug tests for coverage of the new behavior, extends an existing table case if one exists, and adds at most one test that asserts observable output rather than internal calls, or says why none is needed.",
+      "files": [],
+      "assertions": [
+        "Checks existing tests for slugify before writing a new one",
+        "Extends an existing table-driven case instead of adding a near-duplicate test when one exists",
+        "Asserts on returned output rather than on internal call shapes or mocks",
+        "Does not export a private helper just to test it"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "clean up the tests in src/billing, there's a lot of junk",
+      "expected_output": "Proposes a concrete target and budget before starting, measures the baseline, then deletes a coherent batch of high-confidence junk tests with evidence, keeping billing contracts (proration, currency rounding, webhook idempotency) and running the owner tests and coverage afterwards.",
+      "files": [],
+      "assertions": [
+        "Proposes a numeric target and coverage budget rather than an open-ended cleanup",
+        "Proceeds on the proposed target without waiting for confirmation",
+        "Keeps tests that guard money, idempotency, or migration contracts",
+        "Runs the billing tests and coverage after deleting and reports both"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Agents have written thousands of tests we don't need, prune them",
+      "Remove 20% of the least useful tests while keeping coverage within 2%",
+      "Which of these tests are actually worth keeping?",
+      "Our test suite is bloated with mock-heavy tests, audit it",
+      "Delete tests that just re-assert the implementation",
+      "Should I even add a test for this one-line change?",
+      "Find duplicate tests across the dispatch and outbound suites and consolidate them",
+      "Cut the test LOC in half without losing real coverage"
+    ],
+    "near_miss": [
+      {
+        "prompt": "CI takes 14 minutes, shard the test job",
+        "expected": "ci-speedup"
+      },
+      {
+        "prompt": "Review my diff for bugs before I push",
+        "expected": "tidy"
+      },
+      {
+        "prompt": "The tests are failing on my PR, fix CI",
+        "expected": "pr-babysitter"
+      },
+      {
+        "prompt": "Set up Vitest and a CI workflow for this new CLI package",
+        "expected": "scaffold-cli"
+      },
+      {
+        "prompt": "Take screenshots of the settings page and check the layout at mobile widths",
+        "expected": "ui-verification"
+      }
+    ]
+  },
+  "baseline": {
+    "date": "2026-09-24",
+    "method": "Plan-only proxy: fresh general-purpose subagents wrote their plan of work with and without the skill loaded; no fixture repository was executed. Graded by hand against the assertions.",
+    "results": {
+      "1": {
+        "without_skill": "3/8",
+        "with_skill": "8/8",
+        "notes": "Without the skill: aggregate coverage only, no keeper named per deletion, no test-only seam removal, production lines not separated."
+      },
+      "3": {
+        "without_skill": "2/4",
+        "with_skill": "4/4",
+        "notes": "Without the skill: no numeric target; removed only dead and duplicate tests and ended on a question to the user."
+      }
+    }
+  }
+}

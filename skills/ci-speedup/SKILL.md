@@ -9,7 +9,7 @@ compatibility: Reads run and job timings through the GitHub CLI or a GitHub MCP 
 Make the wait from push to green shorter, measured, and written down.
 
 - **IS:** measuring a pipeline's critical path from run timestamps, choosing the levers that shorten it, changing workflow and test configuration, and recording before and after with the trend that says when the next round is due.
-- **IS NOT:** getting a red build green (`pr-babysitter`), writing a pipeline for a package that has none (`scaffold-cli`), or general repository hygiene.
+- **IS NOT:** getting a red build green (`pr-babysitter`), writing a pipeline for a package that has none (`scaffold-cli`), deleting low-value tests (`test-audit`), or general repository hygiene.
 
 ## What Changes the Number
 
