@@ -30,8 +30,8 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 | `references/rules-folder-structure.md` | Building a rules-based audit/lint skill |
 | `references/improving-existing-skills.md` | Auditing, scoring, simplifying, or rewriting an existing skill |
 | `references/executable-code.md` | Skill includes scripts, injects live context with `!`, depends on packages, or invokes MCP tools |
-| `references/evaluation-and-iteration.md` | Writing `evals/evals.json`, routing tests, ablating constraints, testing across models |
-| `references/adopt-adapt-author.md` | A public skill already covers this ground, or deciding whether to vendor, adapt, or replace a third-party skill |
+| `references/evaluation-and-iteration.md` | Writing `evals/evals.json`, testing the keep decision across models, routing tests, ablating constraints, or reviewing a skill revision |
+| `references/adopt-adapt-author.md` | Before authoring or adopting: checking job ownership, choosing public scope, or deciding whether to vendor, adapt, or replace a third-party skill |
 
 The validator is the single local statement of mechanical gates. From the repository root:
 
@@ -57,6 +57,8 @@ Skill creation progress:
 ```
 
 ### Step 1: Choose a pattern
+
+Check for an existing owner of the job before creating a skill; `references/adopt-adapt-author.md` guides reuse and scope.
 
 Simple/hub, workflow, rules-based, or mixed. `references/skill-patterns.md` has the shapes, the in-repo example for each, and the problem-to-pattern affinity table.
 
@@ -116,7 +118,7 @@ When installation behavior changed, install the edited local source into a dispo
 
 ### Step 8: Evaluate and iterate
 
-`references/evaluation-and-iteration.md`. Write 2-3 scenarios in `evals/evals.json`, add assertions after the first run, and measure with-skill against without-skill in fresh sessions. Test routing separately with should-trigger and near-miss prompts. Test on each target model, and ablate any rule you suspect is dead weight: delete it, rerun the scenarios, keep it only if one regresses.
+`references/evaluation-and-iteration.md`. Write 2-3 scenarios in `evals/evals.json`, add assertions after the first run, and measure with-skill against without-skill in fresh sessions. That comparison is the keep test: the skill must improve the job enough to justify its cost. Test routing separately with should-trigger and near-miss prompts. Test on each target model, and ablate any rule you suspect is dead weight: delete it, rerun the scenarios, keep it only if one regresses.
 
 ## Gotchas
 

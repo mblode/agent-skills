@@ -1,6 +1,6 @@
 # Adopt, Adapt, or Author
 
-Use when a public skill already covers the ground you were about to write, or when deciding whether to vendor, fork, or replace a third-party skill you installed earlier.
+Use before authoring or adopting a skill, or when deciding whether to vendor, fork, or replace a third-party skill you installed earlier.
 
 The default answer keeps moving toward "author". A current frontier model already carries general craft: WCAG thresholds, React hygiene, REST conventions, the standard library. A fetched skill that teaches those buys tokens and reconciliation, not capability. What no model carries is what *this* project decided. Weight the sort accordingly: adopt less than the skill's star count suggests, author more.
 
@@ -13,6 +13,7 @@ Classify the candidate before you read it closely. The kind decides the action.
 | Process | A method that holds whatever the product is: how to audit a surface, how to decide whether a thing should animate at all | Adopt. Change little. |
 | Craft | A rule that composes with anything: a contrast threshold, a budget, a measurement | Take the rules, override the numbers with this project's numbers |
 | Taste | What this product looks like, sounds like, and refuses to do | Author. No fetched file knows the constraints. |
+| Organization policy | When a refund is given, what can ship without another review | Author from the team's actual decisions; resolve missing policy with its owner rather than importing a public default |
 
 Most candidates are mixed. Sort each *section*, not each file: a design skill is usually process in its audit steps and taste in its token values, and taking the whole file imports someone else's taste along with their method.
 
@@ -24,7 +25,13 @@ Two skills that each answer "what should this look like" do not compose. They ar
 
 This is the reason behind the IS / IS NOT boundary opener, not a separate rule. A boundary is only enforceable if exactly one skill owns each question. Installing an overlapping skill breaks the boundary from outside the file, where the audit will not catch it.
 
-Before adopting, check the candidate against every sibling already installed. If a sibling's description would also fire on the same prompt, one of them has to change or go.
+Before authoring or adopting, check the job against repository skills and installed siblings. If one already owns the trigger and output, improve that owner or replace it with evidence rather than add a competitor. Distinct jobs can compose; the same job needs one owner. If two descriptions would fire on the same prompt, narrow their IS / IS NOT boundaries or consolidate them.
+
+## Scope Public Skills to the Job
+
+For a public skill, name the reusable job before the industry or stack. Planning, routing, tool use, and browser automation can serve many jobs; a focused job can also travel across industries. Keep incidental terminology and tool choices out of the core contract so they do not needlessly narrow who can use it.
+
+Keep the specific context when it supplies the value: a framework migration or a company's refund policy needs its constraints. Portability is a reason to remove accidental limits, not to bundle unrelated jobs or dilute specialist judgment.
 
 ## The Vendoring Cost Rule
 
@@ -49,3 +56,7 @@ Two forms, both fine:
 - **Prose, for derivations.** A short `## Sources` section in the skill that names what it drew on, what it took, and what it left. Put it in the file, not only in the commit message: the next repo is cloned from a copy, not from the history, so anything that lives only in a commit message does not travel.
 
 Record the reason, not just the verdict. "Rejected: teaches craft the model already has" and "Rejected: depends on six siblings we did not take" lead to different decisions next time.
+
+## Sources
+
+Vercel, [State of agent skills](https://vercel.com/blog/state-of-agent-skills), September 25, 2026: extends the existing author-over-adopt guidance with organization policy, ownership checks before authoring, and job portability. Its effectiveness and code-maintenance arguments inform the retention and evaluation guidance. Registry statistics are omitted because installs do not establish quality.
