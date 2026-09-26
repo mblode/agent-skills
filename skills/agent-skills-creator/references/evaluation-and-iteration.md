@@ -114,8 +114,12 @@ Watch real sessions for:
 
 ## Re-Evaluating After a Rewrite
 
-After improving a skill (see `improving-existing-skills.md`), rerun evals before shipping, with the pre-edit snapshot as the baseline instead of no-skill. Better audit dimensions but worse evals is a regression: dimensions measure form, evals measure behavior.
+After improving a skill (see `improving-existing-skills.md`), rerun evals before shipping against both the pre-edit snapshot and no-skill. The previous version detects regressions; no-skill tests whether the skill still earns its place. Beating the previous version alone is not a keep verdict. Better audit dimensions but worse evals is a regression: dimensions measure form, evals measure behavior.
+
+Maintain the skill like code: version its body, references, scripts, and evals together, identify each run's skill revision, and review the diff with its validation and behavioral evidence before release. Record unrun comparisons explicitly. A passing format check does not substitute for the behavioral comparison.
 
 ## Measuring Adoption
 
 Log invocations with a PreToolUse hook and compare actual usage against the trigger rate you expected. Undertriggering is a description problem, not a body problem: fix the "Use when" phrases before touching content. Across an org the same log finds promotion candidates for a shared library.
+
+Use adoption data to choose what to investigate, not what to keep. Invocations and installs measure use; only the with-versus-without comparison establishes added value.

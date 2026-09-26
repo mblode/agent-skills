@@ -23,7 +23,9 @@ Strong model performance is a reason to revisit instructions, not proof that rem
 
 ## Keep, cut, merge, retire
 
-Keep a skill with a distinct trigger and useful payload. Cut generic explanations inside it. Merge when the remaining payload shares an existing skill's trigger and output contract. Retire when nothing unique remains; record the replacement or native capability and remove routing pointers, README entries, and obsolete fixtures together.
+Keep a skill with a distinct trigger only when with-skill evaluations show a worthwhile gain over without-skill on the target job, accounting for tokens and time. Install counts can guide discovery, but aggregate counters do not establish unique users or independent choices and cannot pass this keep test. Without comparative runs, label retention provisional rather than measured.
+
+Cut generic explanations inside the skill. Merge when the remaining payload shares an existing skill's trigger and output contract. Retire when nothing unique remains; record the replacement or native capability and remove routing pointers, README entries, and obsolete fixtures together.
 
 A domain checklist can remain useful even when every rule is familiar: the user requested consistent coverage. Prefer applicability and detection recipes over lectures explaining the concept. Never delete a shipped application's security, accessibility, or data-integrity requirement merely because the model knows its name.
 
@@ -41,4 +43,4 @@ A domain checklist can remain useful even when every rule is familiar: the user 
 
 Use identical task inputs, repository state, tool access, and effort settings in fresh contexts for no-skill, previous-skill, and revised-skill arms. Record model identifier, host, date, loaded files, output artifact, assertion evidence, and failures. Compare task success, preference conformance, tool calls, latency, and context cost. Repeat borderline results before a destructive retirement decision.
 
-User-named target models define the matrix. Unavailable models stay untested; a different model cannot stand in for them. Preserve contract assertions even when both arms pass, since a later edit can regress them. Revisit the retained rule when the task or host changes; no rule has permanent tenure.
+User-named target models define the matrix. Unavailable models stay untested; a different model cannot stand in for them. Preserve contract assertions even when both arms pass, since a later edit can regress them. Repeat the keep test when the target model, task, or host changes: a stronger no-skill baseline can erase a previously useful gain.
