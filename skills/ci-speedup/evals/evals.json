@@ -78,7 +78,7 @@
   },
   "baseline": {
     "date": "2026-09-21",
-    "model": "claude-sonnet (fresh subagent contexts, no repository access)",
+    "model": "a small fast model (fresh subagent contexts, no repository access)",
     "scenario": 2,
     "without_skill": "Diagnosed per-file boot correctly; proposed isolate: false globally with a caveat, node as default environment, transform cache, coverage off, sharding. Did not measure the ceiling, did not name the leaking calls, did not name task-runner contention.",
     "with_skill": "Read SKILL.md and levers.md. Measured ceiling first, second project isolated by vi.mock/fake timers/stubGlobal, node environment for DOM-free files, contention named, shard last. Passed assertions 1 to 3 and 5 to 6; assertion 4 needs a repository.",
