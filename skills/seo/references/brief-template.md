@@ -14,6 +14,7 @@ Date: <YYYY-MM-DD>
 Audience and intent: <who and what they need>
 Decision: <create, update, consolidate or validate; why>
 Distinct value: <original evidence, useful comparison or experience>
+Gap evidence: <for create: who the current results and answers cite, and the two or three things they miss, with the date read; for update: the decay or ranking evidence>
 Existing coverage: <page to improve or overlap to avoid>
 Desired outcome: <reader action and measurable product outcome>
 
@@ -32,7 +33,7 @@ Canonical: <preferred URL>
 North star: <what the reader should understand or decide>
 Ideas to land: <only the substantive ideas needed>
 Proof and limitations: <what the writer must demonstrate and qualify>
-Questions worth answering: <natural questions; note existing coverage>
+Questions worth answering: <natural questions with their source (support, forum, review, Search Console query); note existing coverage>
 
 ## Sources and validation
 

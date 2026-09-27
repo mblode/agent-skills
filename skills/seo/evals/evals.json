@@ -78,6 +78,18 @@
         "Rejects a single-run blended score in favor of repeated runs reported per engine",
         "Recommends at least one first-party or retrieval check, such as Search Console generative AI reports, Bing AI performance, or a retrieval snippet test"
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "Here is our Search Console summary for the last 28 days against the 28 before: /blog/things-3-for-windows 130 clicks (was 45), position 7.1; /guides/how-to-run-a-weekly-review 0 clicks from 310 impressions (was 2 from 330), position 16.8 (was 14.2); /guides/how-to-export-your-ticktick-data 1 click from 120 impressions (was 3 from 100), position 7.4 (was 7.6). The founder wants to publish three new posts this month: 'best GTD apps', 'weekly review template' and 'Things 3 vs TickTick'. Decide what to work on first and write the decision for the first item. Do not use external tools.",
+      "expected_output": "A refresh-before-new decision that reads the supplied windows, puts the declining weekly-review guide and the steady-position CTR fall ahead of new posts, and refuses to recommend any new post without a named gap in the current results.",
+      "files": [],
+      "assertions": [
+        "Treats the weekly-review guide as a refresh or update candidate because of its position loss, rather than recommending a separate 'weekly review template' post that would compete with it",
+        "Reports absolute clicks and impressions beside any percentage change",
+        "Requires a gap check (who the current results cite and what they miss) before recommending any of the three new posts",
+        "Does not state that the TickTick export guide's CTR fall is proven significant from these counts alone"
+      ]
     }
   ],
   "routing": {

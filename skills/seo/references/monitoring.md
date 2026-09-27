@@ -38,6 +38,12 @@ Report absolute counts alongside percentage changes. Moving from 5 clicks to 4 i
 
 Distinguish loss of visibility, lower click-through, fewer sessions and weaker activation. Verify conversion instrumentation before concluding that SEO traffic quality changed. If authentic scope or outcome data is absent, mark it `No data` and name the smallest next check.
 
+## Decay and refresh queue
+
+Refreshing a page that already ranks usually moves faster than publishing a new one, so review a page-level decay list on the same comparable windows before choosing new work. For each page, compare clicks, impressions, average position and CTR across two complete windows of equal length, and list the pages that lost clicks with the absolute counts beside the change.
+
+Set the entry bar from the property's own volume: a minimum impression count for the current window, and triggers the project has written down (a traffic fall, a position loss, a CTR fall at a steady position, or a material product or source change). Where the project has no written triggers, derive them from normal variance and say so. Before opening a refresh, rule out a redirect or slug change inside either window, a launch, seasonality and brand-query movement. Refresh the stale answer, source, screenshot or step; do not restamp the date for a cosmetic edit.
+
 ## Recurring checks
 
 Use an existing matching owner/schedule when recurring work is authorized. A proposed cadence is not a configured monitor. Preserve the configured destination and notification preferences; do not send an unapproved recap elsewhere.

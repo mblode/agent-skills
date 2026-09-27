@@ -28,6 +28,10 @@ Do not merge unlike populations into one metric or fill blanks from memory. If s
 
 Use natural evaluator questions: what it is, when to use it, alternatives, implementation, evidence and limitations. Mark questions already covered and identify material gaps. Hypothesized fan-out queries are brainstorming, not observed engine behavior; do not manufacture separate pages for every wording.
 
+Mine questions from where buyers ask them in their own words: support and sales threads, community forums and Reddit, review sites and competitor help centres. Record each question with its source URL or ticket reference and date, so the brief can cite provenance; a question with no source is a hypothesis.
+
+Before recommending `create`, run the gap check for the target query or prompt. Read the current top organic results and, where the page targets answer engines, a repeated prompt panel per engine. Record who is cited and two or three specific things the current answers miss or get wrong: an unanswered evaluator question, stale product facts, no first-hand evidence, no honest limitation. The gap must be something the site can actually supply. No named gap means no new page: recommend `update`, `consolidate` or `defer` instead, and say so.
+
 Recommend create, update, consolidate, defer or validate based on demand evidence, attainable intent, differentiated value and the conversion path. State confidence and the next evidence needed. Quantitative evidence can be `No data`; a small validation may still be justified by explicit qualitative evidence.
 
 Treat vendor correlation studies as dated, sample-dependent research. Preserve engine, sample selection and non-causal limitations. Branded searches, independent mentions and videos can be tracked where useful, but none is a universal strongest predictor or a guaranteed lever.
