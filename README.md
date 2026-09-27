@@ -42,6 +42,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, design-system extraction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
 - **[ui-verification](./skills/ui-verification/SKILL.md)**: Boots the app in a headless browser and runs nine probes that turn inferred UI defects into measured ones, then proves the fix cleared.
+- **[app-verification](./skills/app-verification/SKILL.md)**: Builds and maintains a product's own verify CLI, doctor command, feature map, and worktree isolation, with a reproduce-first bug handoff. Call by name.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a contrast-checked QA pass, as Marp markdown, a web app, or a handoff to pptx.
 

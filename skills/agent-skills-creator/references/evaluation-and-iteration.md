@@ -5,8 +5,10 @@ Build evals before docs: they reveal real gaps, not imagined ones. Two things fa
 ## Contents
 
 - Build Evaluations First
+- Workspace Hygiene
 - Routing Evals
 - Ablate Constraints
+- Loop to a Rubric
 - Test Across Models
 - Iterate with Two Claudes
 - Observe How Claude Navigates
@@ -52,6 +54,12 @@ Each run needs a clean context, or authoring residue masks gaps in the written i
 
 `/plugin install skill-creator@claude-plugins-official` automates the loop: isolated runs, assertion grading with evidence, a with-versus-without benchmark, blind A/B between two versions, and description tuning. The `evals/` folder loads only when someone is changing the skill, never during a user task, and SKILL.md should say so where it lists the folder.
 
+Pick the judge from a different model family than the one under test. A same-family judge shares the family's blind spots and tends to prefer its own family's phrasing and structure, which inflates the pass rate on exactly the failures you most need to catch.
+
+## Workspace Hygiene
+
+Name the eval workspace the way a real project would be named: a plausible product name and an ordinary directory layout, never `test-repo`, `eval-sandbox`, `skill-test-1`, or any name that tells the agent it is being graded. An agent that notices it is inside a test behaves differently from one doing real work: it hedges, over-explains, adds unrequested caveats, or performs a more careful version of the task than it would produce under normal pressure. That gap is pure measurement noise, and it runs in the direction that makes a skill look better than it is. Fixtures, seed data, and file paths inside the workspace follow the same rule.
+
 ## Routing Evals
 
 Seeing a skill trigger says Claude found it, not that it does the job; never triggering says the description failed, whatever the body holds. Test routing on its own with two prompt sets:
@@ -75,6 +83,17 @@ For a rule you suspect is carrying no weight: delete it, rerun the scenarios, an
 An opinion still has a dead state, and ablation cannot see it. A constraint dies when the model stops needing it, which shows up as an ablation that does not regress. An opinion dies when the model stops *following* it, which shows up as nothing at all: removing it regresses no scenario, and the model would not have produced it unprompted either, so both of the tests in `improving-existing-skills.md` vote to keep a line that is changing nothing.
 
 The test for an opinion is conformance, not regression: run the scenario with the skill and check whether the output actually took the position the opinion states. An opinion the model overrides, waters down, or silently ignores is dead weight exactly like a dead constraint, and the fix is usually placement or phrasing rather than deletion. Move ignored preferences closer to the decision they govern and retest; placement does not guarantee conformance.
+
+## Loop to a Rubric
+
+Assertions fit a discrete pass or fail. Some skills instead produce one artifact judged as a whole (a deck, a design, a PR description, a verification report), where a rubric scored 0-10 per criterion says more than a pass/fail list. For those, loop the skill against its own output until the judge returns 10 on every criterion, not just once:
+
+1. Run the skill; have the judge (a different model family, per above) score every rubric criterion and name the single lowest-scoring one.
+2. Make the smallest change that addresses that lowest criterion, and only that one.
+3. Re-run and re-score.
+4. Stop at 10/10 across every criterion, or when two consecutive iterations move no score, whichever comes first; record the second outcome as a plateau, not a pass.
+
+Log each iteration's lowest-scoring criterion and the change made for it. A loop that jumps to "make it better" without naming the criterion it is targeting cannot tell whether the next score moved because of that change or by chance, and cannot tell a real plateau from a rubric nobody is reading closely enough to move.
 
 ## Test Across Models
 

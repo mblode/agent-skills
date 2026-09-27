@@ -1,0 +1,74 @@
+{
+  "skill_name": "app-verification",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use app-verification to build a verification harness for this repo. It's a Next.js app with a Postgres database, agents run it from git worktrees, and there's no doctor command or feature map yet.",
+      "expected_output": "Create mode: an interview of the repo's surface/run/drive/observe/isolate before scaffolding anything, a doctor/seed/verify command set kept inside a project skill folder in the repo, per-worktree port and database isolation wired and proven with two instances side by side before any feature file is written, three to five feature files seeded first rather than every feature at once, and a single end-to-end proof run (doctor, seed, verify against one real feature, evidence captured and confirmed to survive cleanup) before calling the harness done.",
+      "files": [],
+      "assertions": [
+        "States Create mode explicitly rather than starting to write files with no stated mode",
+        "Wires and proves worktree isolation (its own port and database, refusing the main instance's) before writing the first feature file",
+        "Seeds only three to five feature files first, not the whole app's feature set",
+        "Ends with a real doctor-then-seed-then-verify run against one feature, not just generated files nobody executed",
+        "Keeps the verify CLI inside a project-local skill folder rather than a throwaway script"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Run the existing verify harness in features/checkout/ and features/billing/ and tell me if it's safe to merge this branch.",
+      "expected_output": "Maintain mode: doctor run first, every path listed in both feature files checked or explicitly skipped with a named reason (not just the browser path when a CLI or keyboard-shortcut path is also listed), a clean/changed/blocked outcome stated, and a completeness statement naming any uncovered path rather than reporting a bare pass.",
+      "files": [],
+      "assertions": [
+        "Runs doctor before driving anything",
+        "Checks every path listed in both feature files, not only the first one found for each feature",
+        "Any skipped path is named with a reason, not silently omitted from the report",
+        "States one outcome (clean / changed / blocked) rather than a vague 'looks fine'",
+        "Does not report a pass for a path that ran under only one of several listed methods without saying the others were skipped"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The desktop app's native file-drop zone isn't mapped in the feature file yet. Add coverage for it.",
+      "expected_output": "Recognizes the file-drop zone as a native OS path outside browser automation, adds it to the feature file with method computer-use as the last-resort method (not the default), and does not propose computer use for anything in the feature reachable more cheaply.",
+      "files": [],
+      "assertions": [
+        "Assigns method computer-use only to the native file-drop path, not to other paths in the same feature reachable by cli or browser",
+        "States that computer use holds a single screen and should not run concurrently with another computer-use check",
+        "Adds an Expect value that is an observable end state, not 'it works'",
+        "Does not treat computer-use as the default method just because the harness has the tool available"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "A user reported that exporting an invoice as PDF sometimes produces a blank file. Investigate and hand this off.",
+      "expected_output": "Reproduces the bug in a fresh isolated instance on main before doing anything else, then a handoff opening with 'Reproduced' or 'Reproduced but already fixed on main', followed by the root cause, then the specific case no existing test covers, then an instruction to re-run the repro, write a failing test, then fix.",
+      "files": [],
+      "assertions": [
+        "Reproduces in an isolated instance on main before proposing or making any fix",
+        "The handoff opens with 'Reproduced' or 'Reproduced but already fixed on main', not a description of the symptom",
+        "States a root cause naming a file and the faulty assumption, separate from the untested case",
+        "Names the specific case no existing test covers as its own sentence",
+        "Ends with an instruction to re-run the repro, write a failing test, then fix, not just 'fix it'"
+      ]
+    }
+  ],
+  "routing": {
+    "should_trigger": [
+      "Set up a verification harness for this app so every agent can check it the same way.",
+      "Add a doctor command that tells us if the dev instance is even worth driving.",
+      "Give agents a way to prove a feature still works before merging.",
+      "Extend the feature map to cover the new export flow.",
+      "Reproduce this bug report before anyone touches the code.",
+      "Is our verify CLI's worktree isolation actually working, or would two agents step on each other?",
+      "The verification harness feature map is out of date, audit it."
+    ],
+    "near_miss": [
+      "Check this page for accessibility and layout bugs. (ui-verification: a scoped browser probe against UI rules, not the harness itself)",
+      "Add an import-boundary lint rule so nobody imports across modules. (codebase-architecture: repo-wide guardrails, not this skill's harness)",
+      "We have too many flaky tests, prune them. (test-audit: an existing test suite, a different asset from the feature map)",
+      "Write a plan for the new billing feature. (planning: a feature plan, not its eventual verification coverage)",
+      "Can you quickly check if the app boots? (a one-off check with no lasting harness; only routes here if a harness should exist afterward)"
+    ]
+  }
+}

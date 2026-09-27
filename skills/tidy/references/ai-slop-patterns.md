@@ -8,6 +8,7 @@ Focus on distinctively AI-generated patterns, not general code quality (that bel
 
 - Over-commenting
 - Stale comments
+- History-citing comments
 - Invented API
 - Unnecessary error handling
 - Type bypasses
@@ -45,6 +46,19 @@ Comments describing code the diff has since changed. Distinct from over-commenti
 - A "why" comment justifying a constraint the diff removed
 
 **Fix:** Correct the comment, or delete it where the code now says the same thing. Quote both the comment and the line that refutes it; a stale-comment finding citing only the comment cannot be checked. Only comments this diff falsified are in scope; a repo-wide hunt produces noise rather than findings.
+
+## History-citing comments
+
+Comments that justify code by pointing at where the justification supposedly lives, rather than stating it. Distinct from stale comments: the problem is not that the comment has gone false, it is that the reason was never actually written down, only a pointer to a conversation the reader cannot reopen.
+
+**Flag:**
+- `// per review` / `// per PR feedback` / `// as discussed`
+- `// changed after PR #<n>` or a bare issue/PR link standing in for the reason
+- `// used to do X` / `// previously this was Y` with no statement of why the change happened
+- `// workaround because <reviewer> said` / `// <name> wanted it this way`
+- A commit hash or ticket id cited as the explanation instead of the invariant or bug class it fixed
+
+**Fix:** Delete the comment, or replace it with the actual reason in the code's own terms: the invariant it protects, the bug class it prevents, the constraint it satisfies. That version survives the PR being squashed, the branch being deleted, and the reviewer leaving; a name or a PR number does not. If the history itself is the only thing worth keeping (why an odd-looking line is deliberate), put it in the commit message, where `git log` and `git blame` preserve it, not in a comment nobody will go re-fetch it from.
 
 ## Invented API
 
