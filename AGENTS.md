@@ -11,10 +11,10 @@
 ### Primary install (recommended)
 
 ```bash
-npx skills add mblode/agent-skills
+npx skills add mblode/agent-skills -g
 ```
 
-Installs all skills into `~/.claude/skills/` via the `skills` CLI. Works with Claude Code, Codex, Cursor, and OpenCode.
+Installs all skills at user level via the `skills` CLI (see the deploy chain below). Without `-g` the CLI installs into the current project instead. Works with Claude Code, Codex, Cursor, and OpenCode.
 
 Install a single skill:
 
@@ -69,13 +69,12 @@ skills/agent-skills-creator/scripts/validate.sh --all
 
 For the judgement a script cannot make (what to include, how prescriptive to be, when an absolute earns its place), run the `agent-skills-creator` skill.
 
-## Testing
+## Verification
 
-Run the validator on every skill you touch. Run `python3 -m unittest discover -s maintenance/tests` when changing the validation protocol. Authored scenarios validate structurally; behavioral evidence requires separate isolated runs. Compare the full installed skill folder when install behavior changes.
+Run the validator on every skill you touch, and `python3 -m unittest discover -s maintenance/tests` when changing the validation protocol. CI (`.github/workflows/validate.yml`) runs `validate.sh --all` and the unit tests on every pull request and push to `main`. Authored scenarios validate structurally only; behavioral evidence (with and without the skill) requires separate isolated runs, as `agent-skills-creator` describes. Compare the full installed skill folder when install behavior changes. There is no doctor command or feature map; the validator is the only automated proof, so a prose change is unverified until someone runs its scenarios.
 
 ## Gotchas
 
-- Every `SKILL.md` must have YAML frontmatter with both `name` and `description`; skills without it will not be recognized.
 - Reference files are only loaded when explicitly listed in the `SKILL.md`; dropping a file in the folder is not enough.
 - The `cp -R skills/* ~/.claude/skills/` approach bypasses the `~/.agents/skills` symlink chain. Use `npx skills add` instead.
 
@@ -87,6 +86,6 @@ Run the validator on every skill you touch. Run `python3 -m unittest discover -s
 
 ## Maintenance
 
-- When adding or removing a skill, update the `README.md` skill count and add/remove the bullet under the matching category heading.
+- When adding or removing a skill, add or remove its bullet under the matching category heading in `README.md`.
 - When renaming folders or reference files, grep all `SKILL.md` files for stale paths.
 - Verify counts and bullets with `skills/agent-skills-creator/scripts/validate.sh --all`. Don't count with `ls skills/ | wc -l`: git leaves empty directories behind when a skill moves out, which inflates it.
