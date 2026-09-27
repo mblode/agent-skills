@@ -58,12 +58,12 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
 - **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
-- **[test-audit](./skills/test-audit/SKILL.md)**: Prunes low-value tests to a measured target with coverage held, and gates new tests before they land.
+- **[test-audit](./skills/test-audit/SKILL.md)**: Prunes low-value tests across a whole suite to a measured target with coverage held; invoked explicitly for a repo-wide or subsystem-wide campaign.
 
 ### Shipping
 
 - **[planning](./skills/planning/SKILL.md)**: Writes and reviews executable plans with repository evidence, vertical slices, and explicit acceptance criteria.
-- **[tidy](./skills/tidy/SKILL.md)**: Diff or PR review with file:line findings in confirmed and plausible tiers (bugs, structure, AI slop, security), report-only by default; apply mode lands the fixes and simplifies the diff.
+- **[tidy](./skills/tidy/SKILL.md)**: Diff or PR review with file:line findings in confirmed and plausible tiers (bugs, structure, AI slop, security, new-test gating), report-only by default; apply mode lands the fixes and simplifies the diff.
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.

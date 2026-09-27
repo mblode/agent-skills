@@ -1,6 +1,6 @@
 ---
 name: tidy
-description: Reviews a local diff, branch diff, or PR with file:line findings in confirmed and plausible tiers, and in apply mode lands the fixes and diff-scoped simplifications. Use when asked to "review my changes", "code review", "tidy this", "simplify my diff", "deslop this", "structural review", or "security audit". For the PR itself use pr-creator; for CI and review threads use pr-babysitter; for UI defects use ui-design; for repo architecture use codebase-architecture.
+description: Reviews a local diff, branch diff, or PR with file:line findings in confirmed and plausible tiers, gates any test the diff adds or changes, and in apply mode lands the fixes and diff-scoped simplifications. Use when asked to "review my changes", "code review", "tidy this", "simplify my diff", "deslop this", "structural review", "security audit", or "audit these tests in my PR". For the PR itself use pr-creator; for CI and review threads use pr-babysitter; for UI defects use ui-design; for repo architecture use codebase-architecture; for pruning the whole suite to a target use test-audit.
 ---
 
 # Tidy
@@ -8,7 +8,7 @@ description: Reviews a local diff, branch diff, or PR with file:line findings in
 Review the diff, then fix it when asked. One pass produces the report; the same pass, in apply mode, lands the fixes along with the simplifications a clean diff still hides.
 
 - **IS:** review of a local diff, branch diff, PR, or named security scope, returning severity-tiered findings with `file:line` evidence; in apply mode, the smallest complete fixes for those findings plus diff-scoped simplification.
-- **IS NOT:** creating PRs (`pr-creator`), CI failures and review threads (`pr-babysitter`), user-facing UX, accessibility, or rendered quality (`ui-design` Audit mode), library or CLI ergonomics (`dx-audit`), architecture briefs and repo-wide guardrails (`codebase-architecture`), reviewing plans (`planning`), pruning an existing test suite (`test-audit`).
+- **IS NOT:** creating PRs (`pr-creator`), CI failures and review threads (`pr-babysitter`), user-facing UX, accessibility, or rendered quality (`ui-design` Audit mode), library or CLI ergonomics (`dx-audit`), architecture briefs and repo-wide guardrails (`codebase-architecture`), reviewing plans (`planning`), suite-wide test pruning to a measured target (`test-audit`).
 
 ## Report or apply
 
@@ -36,6 +36,7 @@ Conditional loads, in any mode:
 - `references/context-errors.md` when the diff was agent-written, or adds, changes, or removes a module, system boundary, guard, or fallback.
 - `references/security-checklist.md` for auth, input handling, external APIs, uploads, dependency or lockfile changes, or environment config.
 - `references/performance-checklist.md` for fetching, rendering, images, dependencies, or bundle-affecting imports.
+- `references/test-gate.md` when the diff adds or changes a test. A diff with no test changes loads nothing extra here.
 - `agents/openai.yaml` only for the optional second-opinion pass in step 3. Otherwise it is launcher metadata for external runners and never loads.
 
 ## Workflow
@@ -50,7 +51,7 @@ Conditional loads, in any mode:
    - **Outside the diff.** For each new module, guard, or fallback, open what the diff did not: the directory's existing exports, sibling implementations, every writer of the guarded value. A reimplemented helper, a change filed in the wrong system, and a fallback for a state nothing produces all read as clean code until you look at the file the diff never opened. `references/context-errors.md` carries the searches and the evidence each finding needs.
 
    Optional: where a different-model CLI is installed (`codex exec`, `droid exec`, or equivalent), run it read-only with `agents/openai.yaml`'s `default_prompt`, then verdict its findings like your own. Its agreement is not corroboration; both instances read the same diff with the same missing context.
-4. **Verdict.** Every candidate is confirmed (you can name the triggering input or state and the wrong output; quote the line), plausible (the mechanism is real, the trigger uncertain; say what would confirm it), or refuted (factually wrong or already guarded; quote the line that proves it). Plausible is the default: concurrency races, nil on a rare but reachable path, falsy-zero read as missing, an off-by-one on an unexcluded boundary, a regex that lost its anchor are all realistic. Refute only what the code disproves. Drop duplicates, mis-attributions, and pre-existing issues outside any touched function.
+4. **Verdict.** Every candidate is confirmed (you can name the triggering input or state and the wrong output; quote the line), plausible (the mechanism is real, the trigger uncertain; say what would confirm it), or refuted (factually wrong or already guarded; quote the line that proves it). Plausible is the default: concurrency races, nil on a rare but reachable path, falsy-zero read as missing, an off-by-one on an unexcluded boundary, a regex that lost its anchor are all realistic. Refute only what the code disproves. Drop duplicates, mis-attributions, and pre-existing issues outside any touched function. File `references/test-gate.md` findings into the same two tiers, not a separate section.
 5. **Report or apply.** Report per Output, structural blockers under `Must fix before push`, plausible findings marked. In apply mode, continue below.
 
 ## Apply
@@ -71,6 +72,7 @@ Constraints:
 - **No whole-file rollback of unrelated edits.** Scope formatters; `git restore <path>` discards the user's earlier edits in the same file.
 - **No abstraction quota.** Fewer lines is not a win if it hides different lifecycles or drops behaviour. An existing owning subsystem beats a preferred generic pattern.
 - **Tests follow risk.** Add or update a regression check when the edit changes behaviour that can independently regress; not for copy, a literal config change, or framework behaviour covered elsewhere.
+- **Confirmed test-gate findings get deleted or rewritten.** A new or changed test that fails `references/test-gate.md` at confirmed tier does not stay in the diff; delete it, or rewrite it at the boundary the gate names. A plausible gate finding is reported, not auto-deleted.
 - **Stop on evidence.** Once affected checks pass, repeat only for new changes or unresolved concerns. A second pass that keeps adding guards to the same spot means the mechanism, not the guard, is the problem: put the simpler shape to the person who owns the system.
 
 Run the checks the changes affect plus repository-required gates, preserving exit codes and distinguishing baseline failures, then write the summary described under Report or apply.
@@ -136,5 +138,6 @@ For a PR handoff posted through `pr-babysitter` or `gh`, use the same finding sh
 - `pr-creator`: creates or updates the PR after review; commits and PR creation stay there.
 - `pr-babysitter`: monitors CI and inbound review comments, and posts the PR handoff format.
 - `ui-design` Audit mode: UI-level slop, layout, and rendered quality; Deslop mode here covers code-level slop only.
+- `test-audit`: suite-wide test pruning to a measured coverage target across the whole repo. This skill gates only the tests a diff adds or changes; "prune the suite" or "cut 20% of tests" routes there instead.
 
 Maintenance only: `evals/evals.json` holds the regression scenarios and routing prompts for anyone changing this skill; it never loads during a user task.

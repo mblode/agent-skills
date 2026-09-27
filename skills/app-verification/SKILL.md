@@ -99,7 +99,7 @@ Load only when the condition applies.
 
 - `ui-verification`: scoped browser probes against a fixed UI rule catalogue, one finding at a time. This skill's `verify` command can call those probes for the paths they cover; it does not replace them for a rule-by-rule audit.
 - `codebase-architecture`: repo-wide module boundaries, CI guardrails, and the enforcement order this skill's own CI wiring follows.
-- `test-audit`: pruning and gating a durable test suite, a different asset from the feature map here.
+- `test-audit`: suite-wide pruning of a durable test suite, a different asset from the feature map here. Gating a new test in a diff is `tidy`.
 - `planning`: a plan for one feature; a new feature's plan is where its eventual feature file starts.
 
 Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a verification run.
