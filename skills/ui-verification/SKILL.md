@@ -9,7 +9,7 @@ compatibility: Requires access to the target app and browser automation. Bundled
 Owns the browser session. Every other UI skill in this repo reasons about source and infers what the user will see; this one loads the page and measures it.
 
 - **IS:** booting the app, driving it with a browser, and running the probes that decide a rule at runtime: computed boxes, injected failures, observed layout shift, a scripted Tab walk, an axe scan per theme. Output is findings keyed to rule ids with reproducible evidence, plus the clearing re-run after a fix.
-- **IS NOT:** finding defects by reading source or deciding their tier and ship verdict (`ui-design` Audit mode owns both); building or restyling UI (`ui-design` Build); authoring a durable test suite (write Playwright tests); pixel-diff regression against a baseline (Chromatic, Percy); field performance (RUM or CrUX; Lighthouse is a lab tool).
+- **IS NOT:** finding defects by reading source or deciding their tier and ship verdict (`ui-design` Audit mode owns both); building or restyling UI (`ui-design` Build); authoring a durable test suite (write Playwright tests); building or maintaining a whole app's persistent verify CLI, doctor command, and feature map (`app-verification`, call it by name); pixel-diff regression against a baseline (Chromatic, Percy); field performance (RUM or CrUX; Lighthouse is a lab tool).
 
 The division of labour is the point. A static audit reports what the code will probably do; it cannot see a 40px control whose hit area a pseudo-element already expands to 44, or a retry button wired to nothing. This skill reproduces or kills each of those, so a finding arrives with a measurement instead of a confidence.
 
@@ -148,5 +148,6 @@ The ones that cut across probes. Each probe file carries its own false positives
 - `typography-audit`: type findings that need a rendered measure or leading value can be handed here for the measurement.
 - `ax-audit`: agentic surfaces. Its runtime questions use the same session and probes.
 - `ui-animation`: motion craft. This skill can capture the timing, but judging the curve is that skill's.
+- `app-verification`: a durable, per-app harness (a verify CLI, a doctor command, a feature map, worktree isolation) that a repo keeps and every agent reuses; this skill's probes are the kind of check that harness's `verify` can call for the UI paths it covers. Reach for this skill for a one-off browser probe against a fixed UI rule; reach for `app-verification` (call it by name) to give the repo a lasting way to run and prove itself session after session.
 
 Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a verification run.

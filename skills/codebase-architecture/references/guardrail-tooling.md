@@ -8,6 +8,8 @@ The checks worth wiring, what each catches, and how to scope it. TypeScript-firs
 - The standard set
 - Module public-interface boundary
 - Layering and package boundaries
+- One folder per kind of piece, files over registries
+- Order checks by when they fire
 - Structural lint that reflects the filesystem
 - Regenerate-and-diff staleness gates
 - The environment contract
@@ -85,6 +87,28 @@ Three shapes, picked by how many relationships the rule has to express:
 - **Across packages in a turborepo**: `turbo boundaries`. It checks the two package-level failures in the table above by default and enforces `turbo.json` tags transitively. It is experimental and sees nothing inside a package, so it complements the import rule rather than replacing it.
 
 Escape hatches, for repos that already made the choice: on Nx, `@nx/enforce-module-boundaries` with `scope:` and `type:` tags; on Feature-Sliced Design, `steiger` with `@feature-sliced/steiger-plugin` rather than hand-written import rules for the layer order.
+
+## One folder per kind of piece, files over registries
+
+Three ownership rules that keep a single-file edit correct without the editor having to hold the rest of the app in mind:
+
+- **One folder per kind of piece.** Every route, job, migration, or feature flag gets its own folder named for its kind (`routes/`, `jobs/`, `migrations/`, `flags/`), discovered by walking the directory rather than declared by hand in a manifest. Adding one is "add a file," never "also update the list."
+- **Files, not registries.** Prefer a convention the filesystem can prove, a file at a known path found by a glob, over a central registry that names every instance by hand. A registry is a second place that drifts the moment someone adds a file and forgets to also update it; a file convention has nothing to drift from. Where a registry is genuinely unavoidable (an ordered pipeline, a priority nothing else expresses), the completeness spec under "Structural lint that reflects the filesystem" is what keeps it honest, not the next code review.
+- **One writer per stored value, enforced in CI.** Every persisted field, cache entry, or piece of client state has exactly one module that writes it; everything else reads. A second writer is a boundary-lint finding (`no-restricted-imports` or an import-graph rule naming the owning module), not a thing left for a reviewer to notice.
+
+## Order checks by when they fire
+
+Feedback worth more the earlier it arrives, because the person or agent who caused it still has the file open. Wire checks in the order they can fire, and let each rung catch only what the one before it cannot:
+
+1. **Edit time.** The type checker and editor diagnostics: a state that cannot compile.
+2. **Build time.** Bundler and compiler failures: a broken import, a missing export, a type error the editor's incremental pass missed.
+3. **App start.** A boot-time validation pass (see "The environment contract" below): a wiring or config error that only shows once the process actually starts.
+4. **Lint.** The standard set above: structural and stylistic invariants that do not block compilation but do block a merge.
+5. **Tests.** Behavior, the slowest and most expensive rung, and the backstop for whatever the first four cannot express.
+
+A check that could fire at edit time but is only wired at the test rung is not wrong, it is an expensive way to say the same thing; move it up when the tooling allows it. Every failure at every rung names the owner or the API to use instead of the one that broke ("Self-explaining failures" in `enforcement-ladder.md`); a message that only says where it failed teaches nothing about how to fix it.
+
+The thesis underneath all of it: a correct edit to the one file the agent has open should keep the whole app correct. One writer per value, a filesystem-provable convention instead of a registry, and checks ordered from cheapest to most expensive are what buy that property back; an app that needs five other files held in mind to make one edit safely has already lost it.
 
 ## Structural lint that reflects the filesystem
 

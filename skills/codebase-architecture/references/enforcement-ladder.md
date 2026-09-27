@@ -2,6 +2,17 @@
 
 How to introduce a check into a codebase that already violates it. Load when adding any guardrail to an existing repo.
 
+## Order of enforcement
+
+Before picking a rung on the ladder below, pick the mechanism. Strongest to weakest, and the weaker ones exist only for what the stronger ones cannot yet reach:
+
+1. **Make the mistake impossible in the code structure.** A type that cannot represent the invalid state, a folder layout with nowhere to put the wrong thing, a function signature that cannot be called wrong, a single file that owns a value so there is no second place to write it. Nobody has to remember anything, because there is nothing to remember.
+2. **Lint and CI.** An automated, blocking check for what structure alone cannot prevent. This is `guardrail-tooling.md` and the rest of this file.
+3. **Soft rules and skills.** AGENTS.md, a skill, prose guidance. A capable reader follows it, and it decays under context pressure the first time something more urgent competes for attention.
+4. **Human review.** Last, because it is the slowest feedback loop, the easiest to skip under deadline, and the only one that costs a person's attention per violation instead of a machine's.
+
+Treat every review comment as a missing lint rule. When a human catches something in review, ask whether rung 1, 2, or 3 could have caught it first and did not; if a lint rule, a type, or a structural change can express the same thing, that comment should never need to be made again. A repo that keeps re-teaching the same review comment has an enforcement gap, not a training problem.
+
 ## The ladder
 
 Take the first rung that holds.

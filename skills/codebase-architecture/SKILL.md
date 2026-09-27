@@ -8,7 +8,7 @@ description: Designs module contracts, deepens existing boundaries, and installs
 Decide a TypeScript codebase's structure, improve it where change has become expensive, and make it hold. The target is a codebase a reader can hold in their head: few surfaces, one canonical way to do each job, and behaviour where you would first look for it.
 
 - **IS:** folder structures, module contracts, request context and middleware pipelines, frontend/backend boundaries; architecture briefs; domain language and decision records; domain-informed deepening; guardrail tooling, CI gates, and agent wayfinding.
-- **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a plan for one feature (`planning`), a diff-scoped cleanup pass (`tidy`), or structural review of a local diff (`tidy`).
+- **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a plan for one feature (`planning`), a diff-scoped cleanup pass (`tidy`), structural review of a local diff (`tidy`), or a product's own verify CLI, doctor command, and feature map (`app-verification`, call it by name).
 
 ## Contents
 
@@ -116,6 +116,8 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 
 Two halves: **guardrails** stop the wrong thing landing, **wayfinding** makes the right thing cheap to find. Both exist because agents arrive by grep, not by reading docs, so the warning has to live where they land and the rule has to be an exit code rather than a sentence someone might recall.
 
+Enforcement has a strength order, and it decides which mechanism you reach for before it decides which rung of the ladder you pick within it: make the mistake impossible in the code structure first, then lint and CI, then soft rules and skills, and human review last, because it is the slowest and easiest to skip. Treat every review comment as a missing lint rule: if a human caught it, ask why rungs 1 through 3 did not, and close that gap rather than relying on the next reviewer to catch it again. Full detail in [references/enforcement-ladder.md](references/enforcement-ladder.md).
+
 Steps 1 to 3 always run. Steps 4 to 6 run only when their condition holds, and a request to add one check stops at step 3. Running all six for every request loads most of the bundle and is the failure this mode is most prone to.
 
 1. **Survey what exists.** Package scripts, CI steps, hook config, lint config, the instruction file, the docs index. Find three things: checks that run locally but do not gate the merge, checks that run in CI but cannot fail (`verification-tiers.md`, "Commands that lie"), and dormant config nobody invokes. Wire the first, fix the second, delete the third ([references/contagion-markers.md](references/contagion-markers.md)).
@@ -205,5 +207,6 @@ Each rebuttal redirects to the step being skipped.
 - `scaffold-nextjs`, `scaffold-cli`: creating the repo this skill then structures.
 - `multi-tenant-architecture`: tenant identification, isolation, and routing; this skill supplies the module layout underneath.
 - `dx-audit`: the developer-facing surface a package ships outward; `api-design.md` here covers only the contract shape.
+- `app-verification`: builds and maintains the verify CLI, doctor command, and feature map a repo runs itself with; this skill's Harden mode wires the CI checks that harness's own scripts and fixtures should pass. Call it by name.
 
 Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.
