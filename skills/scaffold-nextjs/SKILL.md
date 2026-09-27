@@ -1,7 +1,7 @@
 ---
 name: scaffold-nextjs
 description: "Scaffolds a Next.js turborepo with Blode UI, icons, Ultracite (oxlint/shadcn), workspace hooks, and GitHub/Vercel setup. Use when asked to \"create a Next.js project\", \"bootstrap a turborepo\", or \"start a new web app\". For a page in an existing app use ui-design; for a CLI use scaffold-cli."
-compatibility: Requires a shell, Git, Node.js, pnpm, and package registry access.
+compatibility: Requires a shell, Git, Node.js, npm, and package registry access.
 ---
 
 # Scaffold Next.js
