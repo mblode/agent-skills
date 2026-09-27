@@ -97,9 +97,11 @@ Prefer, in order: a linter or formatter rule, a git hook (lefthook, husky) that 
 A correct-looking instruction file proves nothing: a broken setup and a working one are identical on disk. Ask each tool to quote a rule back.
 
 ```bash
-claude -p --model haiku "From loaded instructions only, no tools: quote the repo's test command."
+claude -p "From loaded instructions only, no tools: quote the repo's test command."
 codex exec --skip-git-repo-check "From loaded instructions only, no tools: quote the repo's test command."
 agent -p "From loaded rules only, no tools: quote the repo's test command."
 ```
+
+Pick a small fast model for the probe; the point is loaded context, not model strength.
 
 Pick a rule that appears nowhere else in the repo, so a correct answer cannot come from reading the code. If a tool cannot answer, its wiring is broken regardless of what the file says. Inside an interactive Claude Code session, `/context` lists the memory files that loaded, alongside the mod's instruction announcement and the loaded-only probe; a missing wrapper is not a failure.
