@@ -18,18 +18,6 @@
       ]
     },
     {
-      "id": 2,
-      "prompt": "I'm about to add a test for the slugify change in src/lib/slug.ts. Is it worth adding, and what should it assert?",
-      "expected_output": "Answers the four gate questions for the change, checks existing slug tests for coverage of the new behavior, extends an existing table case if one exists, and adds at most one test that asserts observable output rather than internal calls, or says why none is needed.",
-      "files": [],
-      "assertions": [
-        "Checks existing tests for slugify before writing a new one",
-        "Extends an existing table-driven case instead of adding a near-duplicate test when one exists",
-        "Asserts on returned output rather than on internal call shapes or mocks",
-        "Does not export a private helper just to test it"
-      ]
-    },
-    {
       "id": 3,
       "prompt": "clean up the tests in src/billing, there's a lot of junk",
       "expected_output": "Proposes a concrete target and budget before starting, measures the baseline, then deletes a coherent batch of high-confidence junk tests with evidence, keeping billing contracts (proration, currency rounding, webhook idempotency) and running the owner tests and coverage afterwards.",
@@ -49,7 +37,6 @@
       "Which of these tests are actually worth keeping?",
       "Our test suite is bloated with mock-heavy tests, audit it",
       "Delete tests that just re-assert the implementation",
-      "Should I even add a test for this one-line change?",
       "Find duplicate tests across the dispatch and outbound suites and consolidate them",
       "Cut the test LOC in half without losing real coverage"
     ],
@@ -60,6 +47,14 @@
       },
       {
         "prompt": "Review my diff for bugs before I push",
+        "expected": "tidy"
+      },
+      {
+        "prompt": "I'm about to add a test for the slugify change in src/lib/slug.ts, is it worth adding?",
+        "expected": "tidy"
+      },
+      {
+        "prompt": "Audit these tests in my PR before I merge",
         "expected": "tidy"
       },
       {

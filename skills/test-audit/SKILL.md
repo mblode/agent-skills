@@ -1,6 +1,6 @@
 ---
 name: test-audit
-description: Prunes low-value tests to a measured target while holding coverage, and gates new tests before they land. Use when asked to "remove useless tests", "prune the test suite", "we have too many tests", "agents keep writing pointless tests", "cut 20% of tests without losing coverage", "audit these tests", or "should this test exist". For a slow pipeline use ci-speedup; for reviewing a diff use tidy.
+description: Prunes low-value tests across a whole suite to a measured target while holding coverage. Invoke explicitly for a repo-wide or subsystem-wide campaign; it has no diff-review trigger. Use when asked to "remove useless tests", "prune the test suite", "we have too many tests", "agents keep writing pointless tests", or "cut 20% of tests without losing coverage". For a slow pipeline use ci-speedup; for reviewing a diff, gating a new test, or "audit these tests in my PR" use tidy.
 compatibility: Needs the repository's test runner and a coverage tool it already supports (Vitest, Jest, c8, pytest-cov, go test -cover, or equivalent).
 ---
 
@@ -8,16 +8,15 @@ compatibility: Needs the repository's test runner and a coverage tool it already
 
 Tests earn their place by catching a credible regression that nothing else catches. Agents write a test for every small change, and most of those re-assert the source, replay a stronger test through a mock, or pin a private call shape. Coverage barely moves when they go; maintenance cost and suite time do.
 
-- **IS:** gating a new or changed test before it lands, sweeping a directory for low-value tests, and campaign-pruning a whole subsystem to a measured target with coverage held, plus deleting the test-only production seams those tests kept alive.
-- **IS NOT:** making CI faster by splitting or sharding (`ci-speedup`), reviewing a feature diff (`tidy`), or writing tests for untested code (though any test that work adds should pass the gate).
+- **IS:** sweeping a directory for low-value tests, and campaign-pruning a whole subsystem or repo to a measured target with coverage held, plus deleting the test-only production seams those tests kept alive.
+- **IS NOT:** gating a test before it lands or reviewing a feature diff (`tidy`), making CI faster by splitting or sharding (`ci-speedup`), or writing tests for untested code.
 
 ## Pick a mode
 
 | Mode | When | Done means |
 |------|------|------------|
-| **Gate** | About to add or change a test, or asked "should this test exist" | Each test passes the four questions and no junk pattern, or is rewritten at the owning boundary, or is not added |
 | **Audit** | A focused sweep of named files or a directory | A handful of high-confidence candidates with full evidence, deleted in one coherent batch with validation green |
-| **Campaign** | A subsystem's whole test surface, or any request with a target ("remove 20%") | The target is met or the ledger shows why it cannot be, coverage held within tolerance, and the preservation review passed. Read `references/campaign.md` first |
+| **Campaign** | A subsystem's or repo's whole test surface, or any request with a target ("remove 20%") | The target is met or the ledger shows why it cannot be, coverage held within tolerance, and the preservation review passed. Read `references/campaign.md` first |
 
 ## Set a target before starting
 
@@ -27,22 +26,9 @@ An open-ended "clean up the tests" stops after a few obvious deletions, because 
 
 Measure the baseline first (`references/coverage.md`), then keep deleting in order of lowest value until the target is met or the coverage budget is spent. Stopping short is a valid result only with a ledger showing that the remaining candidates each guard a named contract. The target is a floor on effort, not permission to cut uncertain tests: the retention bar below still wins over the number.
 
-## The gate
-
-Before adding any test, answer four questions. A missing answer means do not add it yet.
-
-1. What observable behavior, invariant, or independent contract does it protect?
-2. What credible regression makes it fail?
-3. Why does existing coverage not already catch that failure? Each contract has one primary test at the strongest boundary; another layer needs its own distinct risk, such as a transport or lifecycle failure the owner cannot reach. Extend a table-driven case or shared fixture before writing a near-duplicate.
-4. Does it need a production seam (export, flag, wrapper, injection hook) that no production caller needs? If yes, test at the real boundary instead.
-
-Then check it against the junk patterns. A test that would break under a behavior-preserving refactor asserts implementation, not behavior; rewrite it at the owning boundary.
-
-A bug regression test must fail on the pre-fix code for the intended reason, and pass after the fix. One that never demonstrably failed proves the mock, not the fix. One regression at the owner boundary covers the bug; do not replay it at every layer it crosses.
-
 ## Junk patterns
 
-What the gate rejects and what audits hunt:
+What an audit or campaign hunts for:
 
 - assertion-free coverage probes, and tests whose only assertion is "does not throw" on a path that cannot throw
 - self-comparisons, identity copies, and expected values produced by the helper or renderer under test
@@ -120,6 +106,10 @@ Running tests and coverage locally, and deleting tests and test-only seams in th
 
 Maintenance only: `evals/evals.json` holds scenarios and routing prompts for changing this skill; it never loads during a task.
 
+## Related skills
+
+- `tidy`: gates a test the moment a diff adds or changes it, and reviews the rest of the diff alongside it. This skill only sweeps or campaign-prunes the existing suite; "audit these tests in my PR" routes to `tidy`, not here.
+
 ## Sources
 
-Adapted from OpenClaw's `test-audit` skill and its campaign guide ([openclaw/openclaw](https://github.com/openclaw/openclaw/tree/main/.agents/skills/test-audit), MIT), which removed about 400k lines of tests with little change in coverage. Took the gate, junk patterns, retention bar, evidence fields, and campaign order. Left the OpenClaw-specific runners, CI routing, and PR tooling. Authored the target-and-budget framing (an agent told only to "clean up" stops early), the coverage measurement reference, and the AGENTS.md gate handoff.
+Adapted from OpenClaw's `test-audit` skill and its campaign guide ([openclaw/openclaw](https://github.com/openclaw/openclaw/tree/main/.agents/skills/test-audit), MIT), which removed about 400k lines of tests with little change in coverage. Took the junk patterns, retention bar, evidence fields, and campaign order. Left the OpenClaw-specific runners, CI routing, and PR tooling; the per-test gate this skill originally carried moved to `tidy`, which reviews the diff that adds the test. Authored the target-and-budget framing (an agent told only to "clean up" stops early), the coverage measurement reference, and the AGENTS.md gate handoff.

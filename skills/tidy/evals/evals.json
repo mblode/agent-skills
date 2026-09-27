@@ -65,6 +65,19 @@
         "Flags only patterns inside the diff; pre-existing comments outside touched functions are not findings",
         "Runs the type check after the edits and quotes the result"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Audit these tests in my PR before I merge. I added a test in src/lib/slug.spec.ts that mocks the entire slugify module and asserts the mock returned what I told it to return.",
+      "expected_output": "The mock-only test flagged under the test gate as a confirmed finding, since it asserts the mock's own return value rather than real slugify output, with a fix that asserts on the real function's output instead; the rest of the diff reviewed normally, and references/test-gate.md read only because the diff touched a test file.",
+      "files": [],
+      "assertions": [
+        "Reads references/test-gate.md because the diff adds or changes a test, and lists it under Reference evidence",
+        "Flags the mock-only test as confirmed, naming the mocked module and the self-referential assertion",
+        "Fix asserts on the real slugify output rather than the mock's return value",
+        "Does not treat this as a suite-wide prune; no coverage target or campaign language appears",
+        "Files the finding in the same confirmed/plausible tiers as the rest of the report, not a separate section"
+      ]
     }
   ],
   "routing": {
@@ -78,12 +91,21 @@
       "Is this retry wrapper in the worker actually needed? Trace it and remove it if not",
       "Find vulnerabilities in the payments module",
       "My commit message says I added rate limiting, check the diff actually does that",
-      "There are three helpers doing the same thing in these changes, collapse them"
+      "There are three helpers doing the same thing in these changes, collapse them",
+      "Audit these tests in my PR before I merge"
     ],
     "near_miss": [
       {
         "prompt": "Open the PR with a proper description once the diff is clean.",
         "expected": "pr-creator"
+      },
+      {
+        "prompt": "Prune the test suite, we have too many tests and most are junk.",
+        "expected": "test-audit"
+      },
+      {
+        "prompt": "Cut 20% of the tests in the repo without losing coverage.",
+        "expected": "test-audit"
       },
       {
         "prompt": "Rewrite the PR description so it mentions the Linear ticket and reads like a human wrote it.",
