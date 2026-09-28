@@ -18,6 +18,8 @@ The text itself, complete, in the profile's voice, with every supplied fact, lin
 
 Write the shortest true version. Cut it in half, check what the cut lost, restore only a fact, a link, or the point. Length is what this reader needs: a decision-maker gets the decision and the number, the people doing the work get the detail, the platform sets the shape.
 
+The writer spends the time so the reader does not have to: when the ask is short and the draft comes out long, return the tight version or bullets, without padding.
+
 ## Voice
 
 The data root is `GHOSTWRITER_HOME`, default `~/.config/ghostwriter`. Read `soul.md` if present (what is constant across platforms), then `<platform>.md` for the surface at hand. A company is a profile too: `<company>.md` is read when the user writes as that company, and a personal profile is never used as a company voice. Platform slugs are lowercase kebab-case; never read `corpus/`, `evals/`, or `backups/` under the root.
@@ -42,6 +44,8 @@ When the user pastes their own writing and asks for a profile, write `<data-root
 Edit your own draft as the sternest reader: passive voice where the actor matters, a verb buried in a noun, the same phrase twice, filler adverbs, a paragraph that belongs elsewhere, the point arriving late. Then run [references/tells.md](references/tells.md). A word or habit the profile names is never a tell. Never paste profile text into the output.
 
 Never invent a name, number, date, link, decision, availability, experience, motive, or reason the user did not state. An invented "why I built this" is the first thing the user corrects. Never firm up a position they left open; leave `[placeholder]` for a missing fact.
+
+Final check: stand behind every sentence in the draft.
 
 ## Surfaces
 
