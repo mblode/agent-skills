@@ -79,6 +79,19 @@
         "Does not add prescriptive step lists or additional reminders to run tests",
         "Runs validate.sh and reports its result"
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "I hillclimbed our code-review skill for two rounds. Train pass rate went from 71% to 89%, test stayed at 73%. I want to merge the edits, they clearly help.",
+      "expected_output": "Flags this as overfitting to the train split, not a win: train rose while test stayed flat, which is the named revert condition in the hillclimb loop. Recommends reverting the edits rather than merging, checks whether the test movement is inside the measured noise floor before drawing any conclusion from it, and does not treat the train number as evidence on its own.",
+      "files": [],
+      "assertions": [
+        "States plainly that train improving while test is flat is overfitting and the defined revert condition, not a result to ship",
+        "Recommends reverting the edits rather than merging them",
+        "Asks whether the test score's movement is within the measured noise floor before calling it a change at all",
+        "Does not cite the 89% train figure as evidence the edits help",
+        "Does not propose a third round on the same train failures without first diagnosing why train and test diverged"
+      ]
     }
   ],
   "routing": {
