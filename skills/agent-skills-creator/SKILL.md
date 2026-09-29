@@ -30,7 +30,7 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 | `references/rules-folder-structure.md` | Building a rules-based audit/lint skill |
 | `references/improving-existing-skills.md` | Auditing, scoring, simplifying, or rewriting an existing skill |
 | `references/executable-code.md` | Skill includes scripts, injects live context with `!`, depends on packages, or invokes MCP tools |
-| `references/evaluation-and-iteration.md` | Writing `evals/evals.json`, testing the keep decision across models, routing tests, ablating constraints, or reviewing a skill revision |
+| `references/evaluation-and-iteration.md` | Writing `evals/evals.json`, testing the keep decision across models, routing tests, ablating constraints, hillclimbing a skill toward a stated goal, or reviewing a skill revision |
 | `references/adopt-adapt-author.md` | Before authoring or adopting: checking job ownership, choosing public scope, or deciding whether to vendor, adapt, or replace a third-party skill |
 
 The validator is the single local statement of mechanical gates. From the repository root:
@@ -118,7 +118,7 @@ When installation behavior changed, install the edited local source into a dispo
 
 ### Step 8: Evaluate and iterate
 
-`references/evaluation-and-iteration.md`. Write 2-3 scenarios in `evals/evals.json`, add assertions after the first run, and measure with-skill against without-skill in fresh sessions. That comparison is the keep test: the skill must improve the job enough to justify its cost. Test routing separately with should-trigger and near-miss prompts. Test on each target model, and ablate any rule you suspect is dead weight: delete it, rerun the scenarios, keep it only if one regresses.
+`references/evaluation-and-iteration.md`. Write 2-3 scenarios in `evals/evals.json`, add assertions after the first run, and measure with-skill against without-skill in fresh sessions. That comparison is the keep test: the skill must improve the job enough to justify its cost. Test routing separately with should-trigger and near-miss prompts. Test on each target model, and ablate any rule you suspect is dead weight: delete it, rerun the scenarios, keep it only if one regresses. Chasing a specific goal past one round is the hillclimb loop in that reference: a seeded train/test split, one root-cause edit per round from train failures only, keep only if both splits improve, and a report against the pre-loop baseline with a confidence interval, not a raw score.
 
 ## Gotchas
 

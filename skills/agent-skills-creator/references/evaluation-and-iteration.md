@@ -2,14 +2,19 @@
 
 Build evals before docs: they reveal real gaps, not imagined ones. Two things fail independently and are measured separately: whether the skill triggers on the prompts it should (routing), and whether the output is right once it has (quality).
 
+A skill is close to the ideal surface for this ([Anthropic, "Automating eval design and hillclimbing"](https://claude.dev/blog/automating-eval-design-and-hillclimbing/)): a one-file edit that is cheap to try and to revert, and the two scores below attribute cleanly to the two things that can move, the description (routing) and the body (quality), instead of blurring into one undifferentiated "did it get better" number.
+
 ## Contents
 
 - Build Evaluations First
+- Scenario Sourcing and Headroom
 - Workspace Hygiene
 - Routing Evals
 - Ablate Constraints
 - Loop to a Rubric
 - Test Across Models
+- Diagnostics
+- The Hillclimb Loop
 - Iterate with Two Claudes
 - Observe How Claude Navigates
 - Re-Evaluating After a Rewrite
@@ -48,13 +53,27 @@ Store scenarios in `evals/evals.json` inside the skill folder. Use this reposito
 
 Write `prompt` the way a user types it, with real paths and context; vary formality across cases and include one boundary case. Add `assertions` after the first run, not before: you do not know what "good" looks like until you have seen an output. Keep them objective (countable, checkable); style and feel are for human review. Keep contract assertions even when both configurations pass. They guard against regressions; use differentiating assertions to measure added value.
 
-Write each assertion as one requirement a reader can mark pass or fail from the output alone. A grader turns it into a single boolean question, so an assertion with two clauses, or one the reader cannot label the same way twice, measures nothing; split or rewrite it. Graded pass rates mean something only after the grader agrees with your labels on a sample: [agent-evals](https://github.com/mblode/agent-evals) `judge` grades assertions with a cheap evaluation model, reports that agreement, and compares arms run by run: each assertion comes back as added value, contract (passes in both, so keep it), regression, or unmet. Name the arms `without_skill`, `with_skill`, `previous_skill`, or `ablate-<rule>`, and record the model and effort beside each run so the comparison can tell a skill win from a model difference.
+Write each assertion as one requirement a reader can mark pass or fail from the output alone, never a 1-5 scale: a checkable boolean claim is the only thing a grader can score consistently. So an assertion with two clauses, or one the reader cannot label the same way twice, measures nothing; split or rewrite it. Graded pass rates mean something only after the grader agrees with your labels on a sample: [agent-evals](https://github.com/mblode/agent-evals) `judge` grades assertions with a cheap evaluation model, reports that agreement, and compares arms run by run: each assertion comes back as added value, contract (passes in both, so keep it), regression, or unmet. `judge` runs the with-versus-without comparison blind and in randomised order (the judge never sees which transcript came from which arm, and which arm is shown first varies per case) so a positional or identity bias in the judge model cannot inflate one side. Name the arms `without_skill`, `with_skill`, `previous_skill`, or `ablate-<rule>`, and record the model and effort beside each run so the comparison can tell a skill win from a model difference.
 
 Each run needs a clean context, or authoring residue masks gaps in the written instructions. A subagent per case gives that in Claude Code; otherwise use a separate session. Disable the skill for the baseline with `skillOverrides` (`"off"`) rather than deleting it.
 
 `/plugin install skill-creator@claude-plugins-official` automates the loop: isolated runs, assertion grading with evidence, a with-versus-without benchmark, blind A/B between two versions, and description tuning. The `evals/` folder loads only when someone is changing the skill, never during a user task, and SKILL.md should say so where it lists the folder.
 
-Pick the judge from a different model family than the one under test. A same-family judge shares the family's blind spots and tends to prefer its own family's phrasing and structure, which inflates the pass rate on exactly the failures you most need to catch.
+Pick the judge from a different model family than the one under test, and never the model whose output it is grading. A same-family judge shares the family's blind spots and tends to prefer its own family's phrasing and structure, which inflates the pass rate on exactly the failures you most need to catch.
+
+## Scenario Sourcing and Headroom
+
+Source cases in priority order, cheapest and most representative first:
+
+1. Real transcripts or bug reports where the skill's job went wrong (after any retention or privacy review the repository requires).
+2. 5-10 hand-written cases covering the moments of use in the description.
+3. Cases synthesised from those two, anchored in a real repo or a real prompt shape rather than invented from scratch.
+
+Do not build the set only from what today's model fails at. Capability is jagged: one model's failure fingerprint is not the job's difficulty profile, and a suite tuned to it stops measuring the skill the moment the underlying model changes. Include a case you already expect to pass; a suite that is all near-misses cannot tell a real fix from noise.
+
+Check headroom before hillclimbing on it. If with-skill already scores 95% or higher across every scenario, quality is not the lever left: retarget the goal to cost or token count at parity, or add harder cases before spending a round on wording. A scenario every arm fails is the opposite problem, not a hard case: if there is no expert consensus on what the right output even is, fix or cut the scenario before trusting its score.
+
+Low variance matters as much as the score itself. Run each new scenario two or three times before trusting a single result; a case that flips pass/fail across identical runs is ambiguous, has an inconsistent grader verdict, or carries leftover state between trials, and any of the three needs fixing before the case counts toward a decision.
 
 ## Workspace Hygiene
 
@@ -79,6 +98,7 @@ For a rule you suspect is carrying no weight: delete it, rerun the scenarios, an
 - A rule kept without an ablation is a guess, and guesses accumulate into the bloat you are trying to cut
 - A rule whose absence regresses a scenario has evidence for retention; link the scenario and revisit when the task, host, or model changes
 - Opinions are not ablatable this way: a house style has no failing scenario, it is the preference the skill exists to encode
+- Never paste failing-transcript content into the fix. Read the failure, name the general policy it is missing, and write that policy; a rule that quotes or paraphrases one bad output patches a case instead of a cause and regresses the next time the wording changes
 
 An opinion still has a dead state, and ablation cannot see it. A constraint dies when the model stops needing it, which shows up as an ablation that does not regress. An opinion dies when the model stops *following* it, which shows up as nothing at all: removing it regresses no scenario, and the model would not have produced it unprompted either, so both of the tests in `improving-existing-skills.md` vote to keep a line that is changing nothing.
 
@@ -105,6 +125,34 @@ Two axes decide the test matrix, and most skills only think about the first:
 - **Effort level.** Where the host exposes reasoning effort, include the settings used in deployment. The same body is read at the terse end (fewer, more consolidated tool calls, less preamble) and at the exhaustive end. A workflow that only completes because the model volunteered an unstated step is a workflow that breaks at low effort. Run scenarios at supported deployment settings and make required contracts explicit.
 
 A skill that travels across vendors adds a third question: does anything in the body assume one harness's tools, paths, or permission model? That is a portability bug, and it surfaces on another vendor's agent long before it surfaces in an eval.
+
+## Diagnostics
+
+Run these with every baseline, not just the first one; a stale diagnostic hides regressions the same way a stale eval does.
+
+- **Grader consistency.** Grade the same output twice (same case, same arm). A verdict flip means the grader is the noise source, not the skill; tighten the assertion or the judge prompt before trusting the score.
+- **Infrastructure robustness.** A timeout, an API error, or a truncated response is an error, not a fail. Record and report it separately; folding it into the pass rate blames the skill for the harness.
+- **Headroom.** Re-check on every run, not only at setup: a with-skill score that has crept to 95% or higher means quality is no longer the actionable lever, per Scenario Sourcing above.
+
+## The Hillclimb Loop
+
+This is the loop `agent-evals compare` scores automatically once cases and a judge are wired up; the steps below are what it is checking, so run them by hand if the tool is unavailable.
+
+**Setup, once:**
+
+1. State the goal in one sentence: raise the pass rate, or hold it and cut cost/tokens/latency. A goal like "improve the harness" cannot be scored, so it cannot be hillclimbed.
+2. Split scenarios and routing prompts into train and test with a fixed random seed. Every round reads train; test is only for the keep/revert decision.
+3. Measure noise before the first edit: repeat the baseline run a few times and note the spread. If the spread is bigger than the smallest improvement worth shipping, add repeats or cases before iterating; a single-run comparison inside that spread is not a finding.
+
+**Each round:**
+
+1. Read train-set failures only. Test failures stay unseen until the keep/revert check, or the split leaks and every edit looks like a win.
+2. Make one targeted edit that fixes a root cause of a train failure, not a reword of the line that happened to be near it. One edit per round, or a regression cannot be attributed.
+3. Run train and test.
+4. Keep the edit only if both improve. Train up and test flat is overfitting the training cases; revert. Any regression on either split reverts too, no exceptions for "it should still be fine."
+5. After 2-3 flat rounds, or sooner if no single plausible fix could beat the measured noise, stop editing and diagnose instead: bucket the remaining train failures by root cause, separate ambiguous cases and harness errors from real misses, and decide whether the fix is more reps, more cases, or a scenario that needs rewriting rather than another skill edit.
+
+**Finish:** restore the test-best version, report the test score against the pre-loop baseline with a confidence interval (Wilson for a pass rate, bootstrap or a paired test for the delta), and say so plainly when the gain sits inside the noise floor: don't ship a change on a movement its own CI does not clear. `agent-evals routing` reports train/test scores with CIs for should-trigger and near-miss sets the same way; treat a description edit under the same keep/revert rule as a body edit.
 
 ## Iterate with Two Claudes
 
