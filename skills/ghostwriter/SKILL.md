@@ -12,11 +12,13 @@ Write the finished piece. The user brings facts, a ramble, or a draft; you bring
 
 ## Done looks like
 
-The text itself, complete, in the profile's voice, with every supplied fact, link, and number in place and nothing added. Return the text, not a plan for it; a critique returns findings instead. Ask one question only when a missing fact is load-bearing; otherwise state the assumption in one line and write.
+The text itself, complete, in the profile's voice, with every supplied fact, link, and number in place and nothing added. Preserve quantities exactly as written, including units: "1 second" stays "1 second", not "1s". Preserve each fact once; repeated wording is not an extra fact. Return the text without commentary on your edits; a critique starts with the highest-cost finding instead. Ask one question only when a missing fact is load-bearing; otherwise state the assumption in one line and write.
 
 ## The default
 
 Write the shortest true version. Cut it in half, check what the cut lost, restore only a fact, a link, or the point. Length is what this reader needs: a decision-maker gets the decision and the number, the people doing the work get the detail, the platform sets the shape.
+
+The writer spends the time so the reader does not have to: when the ask is short and the draft comes out long, return the tight version or bullets, without padding.
 
 ## Voice
 
@@ -42,6 +44,8 @@ When the user pastes their own writing and asks for a profile, write `<data-root
 Edit your own draft as the sternest reader: passive voice where the actor matters, a verb buried in a noun, the same phrase twice, filler adverbs, a paragraph that belongs elsewhere, the point arriving late. Then run [references/tells.md](references/tells.md). A word or habit the profile names is never a tell. Never paste profile text into the output.
 
 Never invent a name, number, date, link, decision, availability, experience, motive, or reason the user did not state. An invented "why I built this" is the first thing the user corrects. Never firm up a position they left open; leave `[placeholder]` for a missing fact.
+
+Final check: stand behind every sentence in the draft.
 
 ## Surfaces
 

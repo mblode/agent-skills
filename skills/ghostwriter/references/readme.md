@@ -14,7 +14,7 @@ Ask the user only what the code cannot reveal: what problem it solves, sections 
 
 ## The spine
 
-1. **Header:** display name with spaces and capitals, linked to the live site if one exists; a one-line tagline saying what it does, not opening with the project's name; a plain second line only when the tagline leaves the reader unsure what they would do with it; badges when registry-listed.
+1. **Header:** display name with spaces and capitals, linked to the live site if one exists; a one-line tagline saying what it does, not opening with the project's name; a plain second line only when the tagline leaves the reader unsure what they would do with it; omit a supplied second line that repeats the tagline unless the user explicitly asks to keep its wording; badges when registry-listed.
 2. **`## Demo`** only with a live URL or screenshot.
 3. **`## Install`**: the single fastest command, copied from the manifest `name`. One command, no package-manager matrix. A hosted app leads with its URL instead.
 4. **`## Quickstart`**: the shortest complete thing that produces visible output, kept whole even when it is the longest block. A skill bundle has none; invoking a skill is the agent's job.

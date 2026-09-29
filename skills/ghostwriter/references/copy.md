@@ -4,7 +4,7 @@ Read when writing or editing as a company: landing pages, hero and subheads, CTA
 
 ## Brief, then write
 
-Settle purpose (the one action), reader (who, how they arrived), product (the concrete outcome), and voice (the company profile). Infer what the user did not say and mark it so they correct it against real copy. Then write one recommended draft; alternatives only when asked to compare directions. A button task returns labels, not a headline bundle. No company profile is a setup gap: say so, and label the draft provisional.
+Settle purpose (the one action), reader (who, how they arrived), product (the concrete outcome), and voice (the company profile). Infer what the user did not say and mark it so they correct it against real copy. Then write one recommended draft; alternatives only when asked to compare directions. A product category in the brief is context, not a line to paste into the headline or subhead: express its benefit for the reader while keeping the supplied facts and inventing no capabilities. A button task returns labels, not a headline bundle. No company profile is a setup gap: say so, and label the draft provisional.
 
 ## The rules that change the copy
 
