@@ -3,6 +3,7 @@
 ## Contents
 
 - [Root package.json](#root-packagejson)
+- [pnpm-workspace.yaml](#pnpm-workspaceyaml)
 - [turbo.json](#turbojson)
 - [Root lefthook.yml](#root-lefthookyml)
 - [Root .gitignore](#root-gitignore)
@@ -15,16 +16,13 @@
 
 ## Root package.json
 
-Create at `{{name}}/package.json`. Copy the `ultracite` version from `apps/web/package.json` so the two cannot drift, and set `packageManager` to the output of `npm --version` (corepack refuses a mismatch):
+Create at `{{name}}/package.json`. Copy the `ultracite` version from `apps/web/package.json` so the two cannot drift, and set `packageManager` to `pnpm@` plus the output of `pnpm --version` (corepack refuses a mismatch, and turbo needs the field to identify the package manager):
 
 ```json
 {
   "name": "{{name}}",
   "private": true,
-  "packageManager": "npm@{{npm_version}}",
-  "workspaces": [
-    "apps/*"
-  ],
+  "packageManager": "pnpm@{{pnpm_version}}",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
@@ -45,7 +43,18 @@ Create at `{{name}}/package.json`. Copy the `ultracite` version from `apps/web/p
 }
 ```
 
-`check` and `fix` go through turbo so they run inside `apps/web`, where the Oxlint and Oxfmt configs live. `prepare` installs the git hooks from the root `lefthook.yml` on every `npm install`; the `|| true` keeps a CI or Vercel install from failing when there is no `.git` (Vercel builds have none).
+`check` and `fix` go through turbo so they run inside `apps/web`, where the Oxlint and Oxfmt configs live. `prepare` installs the git hooks from the root `lefthook.yml` on every `pnpm install`; the `|| true` keeps a CI or Vercel install from failing when there is no `.git` (Vercel builds have none).
+
+## pnpm-workspace.yaml
+
+Create at `{{name}}/pnpm-workspace.yaml`. pnpm reads workspaces from this file and ignores a `workspaces` field in `package.json`:
+
+```yaml
+packages:
+  - "apps/*"
+```
+
+If create-next-app wrote `apps/web/pnpm-workspace.yaml` (recent versions do, to record which dependency build scripts such as `sharp` and `unrs-resolver` may run), copy its `onlyBuiltDependencies` / `ignoredBuiltDependencies` entries into this file and delete the app copy. pnpm only honours those settings at the workspace root, and a nested `pnpm-workspace.yaml` turns `apps/web` into a second root.
 
 ## turbo.json
 
@@ -114,19 +123,19 @@ pre-commit:
         - "*.css"
         - "*.md"
         - "*.mdx"
-      run: npx oxfmt --write {staged_files}
+      run: pnpm exec oxfmt --write {staged_files}
       stage_fixed: true
     - name: oxlint
       root: "apps/web/"
       glob: "*.{js,jsx,ts,tsx}"
-      run: npx oxlint --fix {staged_files}
+      run: pnpm exec oxlint --fix {staged_files}
       stage_fixed: true
 ```
 
-Verify from the root after `npm install`:
+Verify from the root after `pnpm install`:
 
 ```bash
-npx lefthook run pre-commit --all-files
+pnpm exec lefthook run pre-commit --all-files
 ```
 
 ## Root .gitignore
@@ -187,7 +196,7 @@ Create at `{{name}}/knip.json`:
 }
 ```
 
-Run dead-code analysis on demand with `npx knip` from the root (not a devDependency; npx fetches it). Add workspace-specific entry points as needed (e.g. CLI apps or docs sites with custom entry files).
+Run dead-code analysis on demand with `pnpm dlx knip` from the root (not a devDependency; `pnpm dlx` fetches it). Add workspace-specific entry points as needed (e.g. CLI apps or docs sites with custom entry files).
 
 ## apps/web/package.json scripts
 
@@ -210,7 +219,7 @@ Replace the `scripts` block in `apps/web/package.json`. `ultracite init` left `c
 
 Script names match the tasks in `turbo.json` so turbo can orchestrate them across workspaces. If you add a test runner later, add a matching `test` task to `turbo.json` at the same time; with `node --test`, glob the files (`node --test "lib/**/*.test.ts"`) rather than naming one. Optional: `portless <name> next dev` as the `dev` script gives the app a stable `https://<name>.localhost` origin, so several apps run side by side without port juggling.
 
-Two things Vercel's Linux builders can trip on that a Mac never shows: Tailwind's oxide and lightningcss ship platform-specific binaries, and when the lockfile was generated on macOS an `npm ci` on Linux can miss them. Pin the Linux packages in `optionalDependencies` (`@tailwindcss/oxide-linux-x64-gnu`, `lightningcss-linux-x64-gnu`) at the versions the lockfile resolves if that happens. And set an explicit `browserslist` so CSS output does not change when the default query moves.
+Tailwind's oxide and lightningcss ship platform-specific binaries. `pnpm-lock.yaml` records every platform's optional package, so a lockfile generated on macOS still installs the Linux binaries on Vercel; do not pin `@tailwindcss/oxide-linux-x64-gnu` or `lightningcss-linux-x64-gnu` in `optionalDependencies` (that workaround is for npm lockfiles). Do set an explicit `browserslist` so CSS output does not change when the default query moves.
 
 ## apps/web/next.config.ts
 
@@ -237,7 +246,7 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 ```
 
-`create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present. The others come from Phase 2.2 and must survive the move into `apps/web/`, since dropping `cacheComponents` silently takes `partialPrefetching` with it. No `turbopack.root` is needed: Turbopack infers the workspace root from the lockfile at `{{name}}/package-lock.json`. If the config ever imports a project module (a `basePath` constant, a site URL), import it by relative path: Next compiles `next.config.ts` without `tsconfig` path resolution, so an `@/` alias resolves against the wrong directory. `experimental.useOffline: true` is worth turning on once the app has forms; it holds a navigation or Server Action through a connectivity drop and retries on reconnect instead of throwing.
+`create-next-app` generates this file when React Compiler is selected; verify `reactCompiler: true` is present. The others come from Phase 2.2 and must survive the move into `apps/web/`, since dropping `cacheComponents` silently takes `partialPrefetching` with it. No `turbopack.root` is needed: Turbopack infers the workspace root from the lockfile at `{{name}}/pnpm-lock.yaml`. If the config ever imports a project module (a `basePath` constant, a site URL), import it by relative path: Next compiles `next.config.ts` without `tsconfig` path resolution, so an `@/` alias resolves against the wrong directory. `experimental.useOffline: true` is worth turning on once the app has forms; it holds a navigation or Server Action through a connectivity drop and retries on reconnect instead of throwing.
 
 ## Root AGENTS.md
 
@@ -255,19 +264,23 @@ including ones that only touch root config.
 Run these from this directory, not from `apps/web`; they go through Turborepo:
 
 ```bash
-npm run dev           # start the site
-npm run build         # build every workspace
-npm run lint          # oxlint, including ultracite/oxlint/shadcn
-npm run lint:fix      # oxlint --fix
-npm run format        # oxfmt --write .   (scope to your changes)
-npm run format:check  # oxfmt --check
-npm run check-types   # tsc --noEmit
-npm run check         # lint + format:check + check-types
-npm run fix           # lint:fix + format
+pnpm run dev           # start the site
+pnpm run build         # build every workspace
+pnpm run lint          # oxlint, including ultracite/oxlint/shadcn
+pnpm run lint:fix      # oxlint --fix
+pnpm run format        # oxfmt --write .   (scope to your changes)
+pnpm run format:check  # oxfmt --check
+pnpm run check-types   # tsc --noEmit
+pnpm run check         # lint + format:check + check-types
+pnpm run fix           # lint:fix + format
 ```
 
-`npm run check` is the combined quality gate; the pre-commit hook runs the same
-tools on staged files. `npm run lint` must run inside `apps/web` (turbo does
+pnpm is the package manager (`pnpm-lock.yaml`, `pnpm-workspace.yaml`); do not
+run npm or yarn installs. Add an app dependency with
+`pnpm --filter web add <pkg>`, never at the root.
+
+`pnpm run check` is the combined quality gate; the pre-commit hook runs the same
+tools on staged files. `pnpm run lint` must run inside `apps/web` (turbo does
 that) so Oxlint loads `oxlint.config.ts` and `ultracite/oxlint/shadcn`.
 
 ## Rules
@@ -280,7 +293,8 @@ that) so Oxlint loads `oxlint.config.ts` and `ultracite/oxlint/shadcn`.
 - Ultracite's `ultracite/oxlint/shadcn` preset (`@shadcn/lint`) enforces
   design-system `className` contracts: call sites may add layout classes
   (`mt-4`, `w-full`); restyle in `components/ui/` instead. After UI work,
-  `npx ultracite fix` then `npx ultracite fix --codex` from `apps/web`.
+  `pnpm exec ultracite fix` then `pnpm exec ultracite fix --codex` from
+  `apps/web`.
 ````
 
-Use AGENTS.md directly without a CLAUDE.md wrapper. After the first `npm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; remove any generated duplicate `apps/web/CLAUDE.md`. The Phase 5.1 design-system lint paragraph stays above those markers.
+Use AGENTS.md directly without a CLAUDE.md wrapper. After the first `pnpm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; remove any generated duplicate `apps/web/CLAUDE.md`. The Phase 5.1 design-system lint paragraph stays above those markers.

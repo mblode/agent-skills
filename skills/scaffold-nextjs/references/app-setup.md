@@ -19,10 +19,10 @@
 Run non-interactively with all flags:
 
 ```bash
-npx create-next-app@latest {{name}} --typescript --tailwind --no-linter --no-agents-md --react-compiler --app --no-src-dir --import-alias "@/*" --use-npm
+pnpm create next-app@latest {{name}} --typescript --tailwind --no-linter --no-agents-md --react-compiler --app --no-src-dir --import-alias "@/*" --use-pnpm
 ```
 
-Sets up: TypeScript, Tailwind CSS v4, no linter (Ultracite installs Oxlint and Oxfmt in Phase 5), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, npm.
+Sets up: TypeScript, Tailwind CSS v4, no linter (Ultracite installs Oxlint and Oxfmt in Phase 5), React Compiler, App Router, Turbopack (default in Next.js 16+), no src/ directory, `@/*` import alias, pnpm. It may also write a `pnpm-workspace.yaml` listing which dependency build scripts may run; Phase 6 moves those settings to the turborepo root.
 
 `--no-linter` and `--no-agents-md` matter: taking the `--biome` or `--eslint` default means uninstalling it again in Phase 5, and `--agents-md` (on by default) writes an AGENTS.md and CLAUDE.md that Ultracite then overwrites in Phase 5. Next 16.3 adds its own managed block to those files on the first `next dev` regardless, so nothing is lost by skipping the generator here.
 
@@ -32,7 +32,7 @@ After creation, verify:
 
 ```bash
 cd {{name}}
-npm run dev
+pnpm run dev
 ```
 
 Confirm the app loads at `http://localhost:3000`.
@@ -44,7 +44,7 @@ The generated `.gitignore` already lists `.next/`, `.env*`, and `next-env.d.ts`.
 `create-next-app` installs TypeScript 5. Move to TypeScript 7:
 
 ```bash
-npm install -D typescript@^7
+pnpm add -D typescript@^7
 ```
 
 That is the whole step. No config goes with it: in 16.3, `next build` runs the
@@ -56,8 +56,8 @@ API). `experimental.useTypeScriptCli` exists only to turn the CLI checker back
 Verify:
 
 ```bash
-npx tsc --version   # Version 7.x
-npm run build       # type check runs through tsc, build succeeds
+pnpm exec tsc --version   # Version 7.x
+pnpm run build            # type check runs through tsc, build succeeds
 ```
 
 Behaviour changes to expect:
@@ -101,12 +101,12 @@ experimental: the 16.3 docs describe it as released "to gather feedback before i
 becomes the default". It removes the Babel step from the pipeline, which is where
 most of the React Compiler's build cost lives, so the scaffold turns it on, but
 tell the user it is experimental. The exit is one line: drop the flag and
-`npm install -D babel-plugin-react-compiler`, and `reactCompiler: true` keeps
+`pnpm add -D babel-plugin-react-compiler`, and `reactCompiler: true` keeps
 working through Babel.
 
 With the Rust compiler on, `babel-plugin-react-compiler` is not needed.
 `create-next-app --react-compiler` installed it anyway, so remove it now
-(`npm uninstall babel-plugin-react-compiler`), and add no other Babel
+(`pnpm remove babel-plugin-react-compiler`), and add no other Babel
 transform: any Babel step in the pipeline gives back most of what the Rust path
 saves.
 
@@ -166,9 +166,9 @@ page at its shell so you can see what a visitor gets before data streams in.
 Blode UI is a third-party shadcn/ui registry served at `blode.co/ui` (the `ui.blode.co` subdomain 301s there). Use the hosted `@blode` namespace flow.
 
 ```bash
-npx shadcn@latest init
-npx shadcn@latest registry add @blode=https://blode.co/ui/r/{name}.json
-npm install blode-icons-react
+pnpm dlx shadcn@latest init
+pnpm dlx shadcn@latest registry add @blode=https://blode.co/ui/r/{name}.json
+pnpm add blode-icons-react
 ```
 
 Then open `components.json` and change the icon library before adding any component:
@@ -182,7 +182,7 @@ Then open `components.json` and change the icon library before adding any compon
 `shadcn init` writes `"iconLibrary": "lucide"`. Left alone, every component the CLI adds imports from `lucide-react`, and the replace step below repeats on each add. Now add components:
 
 ```bash
-npx shadcn@latest add @blode/button
+pnpm dlx shadcn@latest add @blode/button
 ```
 
 Order matters: `registry add` must run before any `add @blode/...` call, or the namespace is unknown and the add fails.
@@ -200,7 +200,7 @@ Class merging goes through `cn`, which does the conditional joining and the Tail
 ## Phase 4: Install Agentation
 
 ```bash
-npm install agentation
+pnpm add agentation
 ```
 
 Patch `app/layout.tsx`: add `import { Agentation } from "agentation";` at the top, and render the component before `</body>` behind a dev-only guard, `{process.env.NODE_ENV === "development" && <Agentation />}`. Full pattern:
@@ -229,7 +229,7 @@ export default function RootLayout({
 ## Phase 4.1: Add Google Analytics (optional)
 
 ```bash
-npm install @next/third-parties@latest
+pnpm add @next/third-parties@latest
 ```
 
 Add two lines to the Phase 4 layout: the import, and the `<GoogleAnalytics>` element as a sibling of `<body>` (inside `<html>`, after `</body>`), which is where the Next.js third-parties guide places it:
@@ -271,13 +271,13 @@ SDK:
 1. Run Ultracite init non-interactively (Oxlint + Oxfmt + Lefthook). Scaffolding with `--no-linter` means there is no Biome or ESLint config to remove first; if you inherited one from an older scaffold, delete it and uninstall the dependency before this step, or two linters fight over the same files.
 
 ```bash
-npx ultracite@latest init \
+pnpm dlx ultracite@latest init \
   --linter oxlint \
   --frameworks next react \
   --js-plugins @shadcn/lint \
   --integrations lefthook \
   --agents universal \
-  --pm npm \
+  --pm pnpm \
   --skip-install \
   --quiet
 ```
@@ -299,12 +299,12 @@ Sets up (verified against a real `ultracite@7.12.0 init` run with these flags):
 2. Install, pin, and verify:
 
 ```bash
-npm install
-npx ultracite fix     # oxfmt --write + oxlint --fix
-npx ultracite check   # oxfmt --check + oxlint
+pnpm install
+pnpm exec ultracite fix     # oxfmt --write + oxlint --fix
+pnpm exec ultracite check   # oxfmt --check + oxlint
 ```
 
-Both pass with zero errors. Leave the generated `extends` (including `shadcn`) and `ignorePatterns` intact. Replace the `latest` ranges in `devDependencies` with the versions `npm install` resolved (`npm ls ultracite oxlint oxfmt lefthook @shadcn/lint --depth=0`), so the hook and CI run the same binaries. `ultracite` must be ≥ 7.12. Use AGENTS.md directly and remove any generated duplicate CLAUDE.md wrapper; Claude Code supports AGENTS.md through its built-in mod. On the first `next dev` run from a coding agent's shell, Next 16.3 appends its managed `nextjs-agent-rules` block to `AGENTS.md`; content outside the markers is preserved, `CLAUDE.md` is left alone when it exists, and nothing is written from a plain terminal.
+Both pass with zero errors. Leave the generated `extends` (including `shadcn`) and `ignorePatterns` intact. Replace the `latest` ranges in `devDependencies` with the versions `pnpm install` resolved (`pnpm ls ultracite oxlint oxfmt lefthook @shadcn/lint --depth=0`), so the hook and CI run the same binaries. `ultracite` must be ≥ 7.12. Use AGENTS.md directly and remove any generated duplicate CLAUDE.md wrapper; Claude Code supports AGENTS.md through its built-in mod. On the first `next dev` run from a coding agent's shell, Next 16.3 appends its managed `nextjs-agent-rules` block to `AGENTS.md`; content outside the markers is preserved, `CLAUDE.md` is left alone when it exists, and nothing is written from a plain terminal.
 
 ## Phase 5.1: Enable ultracite/oxlint/shadcn
 
@@ -328,7 +328,7 @@ export default defineConfig({
 });
 ```
 
-If init ran without the flag, or `ultracite` was older than 7.12, upgrade (`npm install -D ultracite@latest`), install the plugin (`npm install -D @shadcn/lint`), and add the `shadcn` import, `extends` entry, and `jsPlugins` hoist yourself. Re-running `npx ultracite@latest init` with the same flags (including `--js-plugins @shadcn/lint`) also updates an existing config.
+If init ran without the flag, or `ultracite` was older than 7.12, upgrade (`pnpm add -D ultracite@latest`), install the plugin (`pnpm add -D @shadcn/lint`), and add the `shadcn` import, `extends` entry, and `jsPlugins` hoist yourself. Re-running `pnpm dlx ultracite@latest init` with the same flags (including `--js-plugins @shadcn/lint`) also updates an existing config.
 
 The preset already turns `shadcn/no-restyle`, `shadcn/no-arbitrary-values`, and `shadcn/require-static-classes` off for `**/components/ui/**` (definitions must restyle). Do not duplicate that override when the default alias is in use. If `components.json` `aliases.ui` points elsewhere, add a matching override for that path and, if needed, `settings.shadcn.ui` on this root config (Oxlint does not merge `settings` from extended configs).
 
@@ -340,17 +340,17 @@ The preset already turns `shadcn/no-restyle`, `shadcn/no-arbitrary-values`, and 
 ## Design-system lint
 
 Ultracite extends `ultracite/oxlint/shadcn` (`@shadcn/lint`). After UI
-changes, run `npx ultracite check`. Findings name the variant, token, or
-file to use instead. Autofix with `npx ultracite fix`; remaining
-diagnostics with `npx ultracite fix --codex` (or `--claude`) when that
-CLI is available. Call sites may add layout classes (`mt-4`, `w-full`);
+changes, run `pnpm exec ultracite check`. Findings name the variant, token,
+or file to use instead. Autofix with `pnpm exec ultracite fix`; remaining
+diagnostics with `pnpm exec ultracite fix --codex` (or `--claude`) when
+that CLI is available. Call sites may add layout classes (`mt-4`, `w-full`);
 appearance belongs in `components/ui/`.
 ```
 
 4. Verify from this directory, not the parent:
 
 ```bash
-npx ultracite check
+pnpm exec ultracite check
 ```
 
 Zero errors. A plugin-load failure usually means Ultracite is older than 7.12, Oxlint is older than 1.80, `@shadcn/lint` is not installed in this package, or `shadcn` is missing from `extends`.
@@ -365,6 +365,7 @@ From the parent directory of `{{name}}`:
 mkdir -p {{name}}-turbo/apps
 mv {{name}} {{name}}-turbo/apps/web
 mv {{name}}-turbo {{name}}
+rm -rf {{name}}/apps/web/node_modules {{name}}/apps/web/pnpm-lock.yaml
 ```
 
-The app is now at `{{name}}/apps/web/`. Root config files are generated in `{{name}}/` during Phase 6. `oxlint.config.ts` and the `@shadcn/lint` dependency move with the app; do not reinstall them at the turborepo root.
+The app is now at `{{name}}/apps/web/`. Root config files are generated in `{{name}}/` during Phase 6. The app's own `node_modules` and lockfile go because the root `pnpm install` replaces them with one workspace lockfile; a stale `apps/web/pnpm-lock.yaml` would make Next.js warn about multiple lockfiles and can pick the wrong workspace root. Leave `apps/web/pnpm-workspace.yaml` (if present) until Phase 6 copies its settings to the root. `oxlint.config.ts` and the `@shadcn/lint` dependency move with the app; do not reinstall them at the turborepo root.

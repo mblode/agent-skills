@@ -77,13 +77,13 @@ AGENTS.md is the shared instruction file; no CLAUDE.md symlink is needed.
 ## Commands
 
 \`\`\`bash
-npm install        # setup (requires Node >= 24.11)
-npm run build      # tsdown, outputs to dist/
-npm run dev        # tsdown --watch
-npm run test       # vitest run --passWithNoTests
-npm run typecheck  # tsc --noEmit
-npm run fix        # ultracite fix: format + lint autofix
-npm run check      # ultracite check: lint (CI)
+pnpm install        # setup (requires Node >= 24.11)
+pnpm run build      # tsdown, outputs to dist/
+pnpm run dev        # tsdown --watch
+pnpm run test       # vitest run --passWithNoTests
+pnpm run typecheck  # tsc --noEmit
+pnpm run fix        # ultracite fix: format + lint autofix
+pnpm run check      # ultracite check: lint (CI)
 \`\`\`
 
 ## Architecture
@@ -97,10 +97,11 @@ src/
 
 ## Gotchas
 
+- **pnpm only**: `pnpm-lock.yaml` is the lockfile and `packageManager` pins the pnpm version. Do not run `npm install` or `yarn`; a second lockfile splits CI caching and release tooling.
 - **ESM only**: This project uses `"type": "module"`. Use `.js` extensions in imports (e.g., `import { foo } from "./foo.js"`); extensionless imports fail the NodeNext typecheck.
 - **Dual build**: `tsdown.config.ts` produces two entry points, `cli.js` (with shebang) and `index.js` (with .d.ts). Do not merge them, and do not add a shebang to `src/cli.ts`.
-- **Linting via ultracite**: Run `npm run fix` (autofix) or `npm run check` (CI lint) instead of calling oxlint or oxfmt directly.
-- **Git hooks via lefthook**: The `prepare` script runs `lefthook install` on every `npm install`; no manual hook setup.
+- **Linting via ultracite**: Run `pnpm run fix` (autofix) or `pnpm run check` (CI lint) instead of calling oxlint or oxfmt directly.
+- **Git hooks via lefthook**: The `prepare` script runs `lefthook install` on every `pnpm install`; no manual hook setup.
 - **No chalk/ora**: Use `import { styleText } from "node:util"` for colors (stable in Node 22.13+) and the `@clack/prompts` spinner for progress indicators.
 
 ## Agent invariants
