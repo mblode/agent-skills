@@ -15,7 +15,7 @@ Run in order after all files are generated.
 ```bash
 cd {{name}}
 git init
-npx ultracite@latest init --linter oxlint --integrations lefthook --pm npm --quiet
+pnpm dlx ultracite@latest init --linter oxlint --integrations lefthook --pm pnpm --quiet
 ```
 
 Then **overwrite the generated `lefthook.yml`** with the version below before committing:
@@ -29,14 +29,14 @@ git commit -m "Initial commit"
 
 ## Replace the generated lefthook.yml
 
-`ultracite init` emits a single job that runs `npx ultracite fix` with **no file arguments**,
+`ultracite init` emits a single job that runs `ultracite fix` with **no file arguments**,
 so every commit formats the whole repo, silently rewriting files the commit never touched,
 including in-progress work elsewhere in the tree. Overwrite it with:
 
 ```yaml
 # Two jobs, not one, for two independent reasons.
 #
-# 1. Scope. `npx ultracite fix` with no file arguments formats the WHOLE repo,
+# 1. Scope. `ultracite fix` with no file arguments formats the WHOLE repo,
 #    so committing one file silently rewrites unrelated files in the working
 #    tree. Passing {staged_files} keeps the fixer to what is being committed.
 #
@@ -54,16 +54,14 @@ pre-commit:
   jobs:
     - name: ultracite
       glob: "*.{js,jsx,ts,tsx}"
-      run: npx ultracite fix {staged_files}
+      run: pnpm exec ultracite fix {staged_files}
       stage_fixed: true
     - name: oxfmt
+      # oxfmt exits non-zero when every file it is given is ignored, and it
+      # ignores lockfiles. pnpm-lock.yaml is YAML, so this glob never hands it
+      # the lockfile; keep yaml out of the glob for that reason.
       glob: "*.{json,jsonc,css}"
-      # oxfmt ignores lockfiles, and exits non-zero when every file it is given
-      # is ignored, so a lockfile-only commit would fail the hook.
-      exclude:
-        - "package-lock.json"
-        - "**/package-lock.json"
-      run: npx oxfmt --write {staged_files}
+      run: pnpm exec oxfmt --write {staged_files}
       stage_fixed: true
 ```
 
@@ -75,7 +73,7 @@ both correct at once.
 ## Command Notes
 
 - `git init` must precede `ultracite init`: the lefthook integration adds a `prepare: lefthook install` script and runs it immediately; `lefthook install` writes into `.git/hooks` and fails without a repo.
-- `npx ultracite init` runs `npm install` itself, then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). `--linter oxlint` skips the linter prompt; `--quiet` suppresses the rest.
+- `ultracite init` runs `pnpm install` itself (from `--pm pnpm`), then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). `--linter oxlint` skips the linter prompt; `--quiet` suppresses the rest.
 - Keep AGENTS.md as the only shared instruction file.
 - The initial commit captures the clean scaffold state, including ultracite-generated files.
 
@@ -85,17 +83,18 @@ Verify every item by running the command and checking its output; do not mark do
 
 ```text
 Validation:
-- [ ] `npm run build` succeeds (produces dist/cli.js and dist/index.js, plus dist/index.d.ts)
+- [ ] `pnpm run build` succeeds (produces dist/cli.js and dist/index.js, plus dist/index.d.ts)
 - [ ] `head -1 dist/cli.js` prints exactly one `#!/usr/bin/env node` shebang
-- [ ] `npm run typecheck` passes with no errors
-- [ ] `npm run check` passes with no errors
-- [ ] `npm run test` passes (0 test files; requires --passWithNoTests in the test script)
+- [ ] `pnpm run typecheck` passes with no errors
+- [ ] `pnpm run check` passes with no errors
+- [ ] `pnpm run test` passes (0 test files; requires --passWithNoTests in the test script)
 - [ ] `node dist/cli.js --version` prints 0.0.1
 - [ ] `node dist/cli.js --help` shows the description and lists the `--output` and `--no-input` global options
 - [ ] `node dist/cli.js --version | cat` prints 0.0.1 with no ANSI escape codes (color is suppressed when stdout is not a TTY)
 - [ ] AGENTS.md exists without a CLAUDE.md wrapper or symlink
 - [ ] `grep -c staged_files lefthook.yml` returns 2 (the generated single-job version was replaced)
-- [ ] a JSON-only commit passes the hook: `touch package.json && git add package.json && npx lefthook run pre-commit` exits 0 (this is the changesets-bot release path)
+- [ ] a JSON-only commit passes the hook: `touch package.json && git add package.json && pnpm exec lefthook run pre-commit` exits 0 (this is the changesets-bot release path)
+- [ ] `pnpm-lock.yaml` exists and `package-lock.json` does not (a stray npm lockfile makes `changeset publish` and the CI cache pick the wrong tool)
 - [ ] `.github/workflows/ci.yml` and `.github/workflows/npm-publish.yml` exist
 - [ ] `skills/{{bin}}/SKILL.md` has frontmatter with name and description
 - [ ] `grep -rn '{{[a-z]' --exclude-dir=node_modules --exclude-dir=.git .` returns nothing (no leftover template placeholders; the pattern skips the `${{ secrets... }}` syntax in workflows)
@@ -105,9 +104,10 @@ Validation:
 
 - `ultracite init` fails or hangs: re-run without `--quiet` to see the blocking prompt, answer interactively, then continue.
 - Claude Code requires its built-in agents-md mod enabled with an AGENTS.md-loading mode; use the agents-md skill if instructions do not load.
-- `npm install` fails: verify Node >= 24.11 with `node --version`; the engines field rejects older versions.
-- `npm install` prints a peer warning for `typescript` against `tsdown`: expected and harmless. `tsdown@0.22.x` still lists its optional `typescript` peer as `^5 || ^6`, but its `.d.ts` engine (`rolldown-plugin-dts`) supports `^7`, so `dist/index.d.ts` still generates. Do not downgrade TypeScript.
-- `npm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).
-- `npm run test` exits 1 with "No test files found": the test script is missing `--passWithNoTests`.
-- `git commit` blocked by a hook, with real lint errors in the output: lefthook is active from `ultracite init`; run `npm run fix` and retry rather than bypassing with `--no-verify`.
-- `git commit` blocked by a hook reporting "No files found to lint" / "Expected at least one target file": this is the empty-set failure, not a lint error, and `npm run fix` cannot clear it. It means `lefthook.yml` still routes non-lintable files (JSON, CSS, or anything oxlint ignores, such as dot-directory configs) into the `ultracite fix` job. Apply the two-job `lefthook.yml` above.
+- `pnpm install` fails with `ERR_PNPM_UNSUPPORTED_ENGINE`: verify Node >= 24.11 with `node --version`; the engines field rejects older versions.
+- `pnpm install` lists ignored build scripts (for example `lefthook`): expected. pnpm skips dependency lifecycle scripts unless approved, and the project's own `prepare: lefthook install` installs the hooks, so there is nothing to approve.
+- `pnpm install` prints a peer warning for `typescript` against `tsdown`: expected and harmless. `tsdown@0.22.x` still lists its optional `typescript` peer as `^5 || ^6`, but its `.d.ts` engine (`rolldown-plugin-dts`) supports `^7`, so `dist/index.d.ts` still generates. Do not downgrade TypeScript.
+- `pnpm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).
+- `pnpm run test` exits 1 with "No test files found": the test script is missing `--passWithNoTests`.
+- `git commit` blocked by a hook, with real lint errors in the output: lefthook is active from `ultracite init`; run `pnpm run fix` and retry rather than bypassing with `--no-verify`.
+- `git commit` blocked by a hook reporting "No files found to lint" / "Expected at least one target file": this is the empty-set failure, not a lint error, and `pnpm run fix` cannot clear it. It means `lefthook.yml` still routes non-lintable files (JSON, CSS, or anything oxlint ignores, such as dot-directory configs) into the `ultracite fix` job. Apply the two-job `lefthook.yml` above.

@@ -22,6 +22,7 @@
   "version": "0.0.1",
   "description": "{{description}}",
   "type": "module",
+  "packageManager": "pnpm@{{pnpm_version}}",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
@@ -47,7 +48,7 @@
     "test": "vitest run --passWithNoTests",
     "changeset": "changeset",
     "changeset:version": "changeset version",
-    "release": "npm run build && changeset publish"
+    "release": "pnpm run build && changeset publish"
   },
   "keywords": [],
   "author": "{{author}}",
@@ -79,6 +80,8 @@
 ```
 
 `ultracite init` (post-scaffold) adds the `oxlint`, `oxfmt`, and `lefthook` devDependencies plus the `check`, `fix`, and `prepare` scripts, which is why this template omits them.
+
+`{{pnpm_version}}` is the output of `pnpm --version`. `pnpm/action-setup` in both workflows reads the pnpm version from `packageManager`, and corepack refuses a mismatch, so keep the field even for a single-package repo.
 
 ## tsconfig.json
 
@@ -135,7 +138,7 @@ export default defineConfig([
 ]);
 ```
 
-`fixedExtension: false` keeps `.js` and `.d.ts`. tsdown's node-platform default emits `.mjs` and `.d.mts`, and then `bin` and `exports` point at files that do not exist; `npx publint` after the build catches it.
+`fixedExtension: false` keeps `.js` and `.d.ts`. tsdown's node-platform default emits `.mjs` and `.d.mts`, and then `bin` and `exports` point at files that do not exist; `pnpm dlx publint` after the build catches it.
 
 `banner` injects the shebang into `dist/cli.js` at build, which is why `src/cli.ts` carries none.
 
@@ -197,7 +200,7 @@ SOFTWARE.
 ```markdown
 # Changesets
 
-Run `npm run changeset` to add a changeset when making changes to {{name}}.
+Run `pnpm run changeset` to add a changeset when making changes to {{name}}.
 
 This generates a changeset file that describes the change and its semver bump type (patch, minor, or major). Changesets are consumed during release to update the version and generate changelog entries.
 ```
@@ -222,36 +225,41 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
+          cache: pnpm
 
       - name: Install
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Changeset Status
         if: github.event_name == 'pull_request'
-        run: npx changeset status --since origin/main
+        run: pnpm exec changeset status --since origin/main
 
       - name: Lint
-        run: npm run check
+        run: pnpm run check
 
       - name: Typecheck
-        run: npm run typecheck
+        run: pnpm run typecheck
 
       - name: Test
-        run: npm run test
+        run: pnpm run test
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 ```
 
 Notes:
 
-- `npm run check` is the ultracite-added lint script; it exists by CI time because post-scaffold `ultracite init` runs before the initial commit.
+- `pnpm run check` is the ultracite-added lint script; it exists by CI time because post-scaffold `ultracite init` runs before the initial commit.
 - `Changeset Status` fails PRs without a changeset on purpose; `fetch-depth: 0` is required for the `--since origin/main` comparison.
+- `pnpm/action-setup` must run before `actions/setup-node`: `cache: pnpm` looks for the pnpm binary to locate its store and fails without it. With no `version` input it installs the version named in `packageManager`.
+- `--frozen-lockfile` is the `npm ci` equivalent: it fails when `pnpm-lock.yaml` is out of date instead of rewriting it.
 
 ## .github/workflows/npm-publish.yml
 
@@ -277,20 +285,27 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-          cache: npm
+          cache: pnpm
       - name: Upgrade npm for OIDC trusted publishing
         run: npm install -g npm@latest
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       - name: Create release PR or publish
         uses: changesets/action@v2
         with:
-          publish-script: npm run release
+          publish-script: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+Notes:
+
+- `changeset publish` detects pnpm from the lockfile and publishes with `pnpm publish`.
+- The `npm install -g npm@latest` step stays on purpose: `pnpm publish` can hand the upload to the npm CLI on `PATH`, and OIDC trusted publishing needs npm 11.5.1 or later.

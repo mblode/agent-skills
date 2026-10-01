@@ -35,18 +35,18 @@ git push -u origin main
 Via the Vercel CLI:
 
 ```bash
-npx vercel --yes
-npx vercel --prod
+pnpm dlx vercel --yes
+pnpm dlx vercel --prod
 ```
 
 Or via the dashboard:
 
 1. Go to [vercel.com/new](https://vercel.com/new) and add a new project.
 2. Import the GitHub repo (`{{repo}}`).
-3. Vercel auto-detects the turborepo and Next.js app in `apps/web`.
+3. Vercel auto-detects the turborepo, the Next.js app in `apps/web`, and pnpm (from `pnpm-lock.yaml`). To build with the exact pnpm version in `packageManager` rather than the one Vercel infers from the lockfile, set the `ENABLE_EXPERIMENTAL_COREPACK=1` environment variable on the project.
 4. Deploy.
 
-Add custom domain `{{domain}}` (dashboard Settings > Domains, or `npx vercel domains add {{domain}}`).
+Add custom domain `{{domain}}` (dashboard Settings > Domains, or `pnpm dlx vercel domains add {{domain}}`).
 
 On a 404 or wrong app, set the project Root Directory to `apps/web` (dashboard Settings > General > Root Directory) and redeploy; Vercel does not always infer the app location in a fresh turborepo.
 
@@ -55,7 +55,7 @@ Optional, once a second workspace exists: add `apps/web/vercel.json` so Vercel s
 ```json
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "npx turbo-ignore"
+  "ignoreCommand": "pnpm dlx turbo-ignore"
 }
 ```
 
@@ -85,16 +85,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
         with:
-          cache: npm
+          cache: pnpm
           node-version: "24"
-      - run: npm ci
-      - run: npm run check
-      - run: npm run build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check
+      - run: pnpm run build
 ```
 
-Pin `node-version` to what Vercel's project settings use, and cache `apps/web/.next/cache` between runs if build time matters (the Next.js CI caching guide has the per-provider snippets).
+`pnpm/action-setup` must come before `actions/setup-node` (the `pnpm` cache needs the binary) and takes its version from `packageManager`. `--frozen-lockfile` fails the run when `pnpm-lock.yaml` is stale instead of rewriting it. Pin `node-version` to what Vercel's project settings use, and cache `apps/web/.next/cache` between runs if build time matters (the Next.js CI caching guide has the per-provider snippets).
 
 ## Phase 8: Pre-launch checklist
 
@@ -134,16 +135,17 @@ After deployment, run these skills in order:
 
 After all phases, verify:
 
-- [ ] `npm run dev` starts from project root (turbo runs apps/web) and the dev overlay reports no instant-navigation insight on the home route
-- [ ] `npm run build` succeeds with no errors, and `npm run start -w web` serves the production build (kill anything on port 3000 first; `next start` on a taken port fails silently while the old server keeps answering)
-- [ ] `npm run check` passes lint, format, and type checks from the root
-- [ ] `npx lefthook run pre-commit --all-files` passes from the root
+- [ ] `pnpm run dev` starts from project root (turbo runs apps/web) and the dev overlay reports no instant-navigation insight on the home route
+- [ ] `pnpm run build` succeeds with no errors, and `pnpm --filter web start` serves the production build (kill anything on port 3000 first; `next start` on a taken port fails silently while the old server keeps answering)
+- [ ] `pnpm run check` passes lint, format, and type checks from the root
+- [ ] `pnpm exec lefthook run pre-commit --all-files` passes from the root
+- [ ] The root holds the only `pnpm-lock.yaml` and `pnpm-workspace.yaml`: none in `apps/web/`, and no `package-lock.json` anywhere
 - [ ] The CI workflow ran green on the first pull request
 - [ ] `apps/web/AGENTS.md` ends with the Next-managed `nextjs-agent-rules` block (written on the first `next dev` from a coding agent) and is committed; any duplicate `apps/web/CLAUDE.md` wrapper is removed; the Phase 5.1 design-system lint paragraph (including `ultracite fix` / `ultracite fix --codex`) is present outside those markers
 - [ ] `babel-plugin-react-compiler` is not in `apps/web/package.json`; `ultracite` (≥ 7.12), `oxlint` (≥ 1.80), `oxfmt`, `lefthook`, and `@shadcn/lint` are pinned, not `latest`
 - [ ] `apps/web/oxlint.config.ts` extends `ultracite/oxlint/{core,next,react,shadcn}` (framework order may vary) and hoists `jsPlugins: shadcn.jsPlugins`. It does not use a hand-rolled `jsPlugins: ["@shadcn/lint"]` plus starter-only `no-restyle` block. `shadcn/no-restyle` stays off for `**/components/ui/**` via the preset (or a matching override when `aliases.ui` is a different path)
 - [ ] `metadataBase` is set to `https://{{domain}}` and `metadata.verification` carries the Search Console token
-- [ ] `git status` is clean after `npm run dev` (no regenerated files left uncommitted)
+- [ ] `git status` is clean after `pnpm run dev` (no regenerated files left uncommitted)
 - [ ] GitHub repo has initial commit pushed
 - [ ] Vercel deployment is live at `{{domain}}`
 - [ ] Favicon appears in browser tab
