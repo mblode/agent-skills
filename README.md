@@ -57,7 +57,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
 - **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
-- **[seo](./skills/seo/SKILL.md)**: SEO/AEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
+- **[seo](./skills/seo/SKILL.md)**: SEO, AEO and GEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
 - **[test-audit](./skills/test-audit/SKILL.md)**: Prunes low-value tests across a whole suite to a measured target with coverage held; invoked explicitly for a repo-wide or subsystem-wide campaign.
 
 ### Shipping
