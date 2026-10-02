@@ -24,7 +24,9 @@ This registry was checked on 2026-09-08; the research table was added on 2026-09
 
 https://ahrefs.com/blog/ai-brand-visibility-correlations/ reports associations from a selected established-brand population, not causal effects or universal coefficients. Use the study's current methodology, engine and sample restrictions rather than copying an undated strongest-predictor claim into instructions.
 
-Distinguish official engine guidance, vendor observational research, a site-specific experiment and house preferences. Official Google guidance describes Google, not every answer engine. An industry study can motivate a test; it cannot establish that a specific action will improve this site's visibility.
+"GEO" as a term comes from Aggarwal et al., "GEO: Generative Engine Optimization", KDD 2024 (https://arxiv.org/abs/2311.09735). Its visibility gains were measured on a benchmark and on Perplexity in 2023; cite it for the definition, not as current evidence that a given tactic works.
+
+Distinguish official engine guidance, vendor observational research, a site-specific experiment and house preferences. Official Google guidance describes Google Search and its AI features, not ChatGPT, Claude, Perplexity or other AI search engines. An industry study can motivate a test; it cannot establish that a specific action will improve this site's visibility.
 
 ## Dated research
 

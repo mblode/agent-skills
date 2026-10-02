@@ -1,6 +1,22 @@
-# Answer Engines
+# AI Search: AEO and GEO
 
-AI discovery has several surfaces: search retrieval, model training, user-triggered fetching and browser agents. Identify which one the request concerns before changing access or interpreting a metric.
+## Terms
+
+The labels are not standardized. Vendors use AEO, GEO, LLMO and "AI SEO" interchangeably, and Perplexity calls itself an answer engine. Map whatever term the user uses to a named list of engines before doing anything, and use these meanings in reports:
+
+| Term | Means here | Engines | Where visibility comes from | Native measurement |
+|---|---|---|---|---|
+| SEO | Search engine optimization. Crawl, index, rank and click in a search engine; in this skill, also the umbrella for every surface people search on | Google Search, Bing | The engine's own index | Search Console, Bing Webmaster Tools |
+| AEO | Answer engine optimization. Being the answer or a cited source in AI answers shown inside a search engine; older usage also covers featured snippets and voice answers | Google AI Overviews and AI Mode, Bing Copilot answers | The same search index as SEO, so SEO foundations carry over | Search Console generative AI report, Bing AI Performance |
+| GEO | Generative engine optimization. Being mentioned and cited when a standalone assistant writes an answer from retrieved sources. The term comes from Aggarwal et al., "GEO: Generative Engine Optimization", KDD 2024 (arXiv 2311.09735), tested on Perplexity | ChatGPT search, Claude, Perplexity, Gemini app | Each vendor's retrieval: its own crawler, a partner index (often Bing) or both; plus what the model recalls from training | None on the site side; repeated prompt panels or a visibility tool (`monitoring.md`) |
+
+"AI search" in this skill means AEO and GEO together. "Answer engine" means any engine that composes an answer rather than a list of links.
+
+They are not separate disciplines with separate tactics. Both rest on the same work as SEO: crawl access, indexable server-rendered text, extractable claims, consistent entity naming and earned third-party coverage. What differs per engine is the crawler to allow, the index it retrieves from, and the report that measures it. Do not sell AEO and GEO as two retainers, and do not report one blended "AI visibility" score across them.
+
+## Surfaces
+
+AI discovery has several surfaces: search retrieval, model training, user-triggered fetching and browser agents. Identify which one the request concerns before changing access or interpreting a metric. Training recall (what a model says without searching) is not retrieval and has no crawler or report to fix; measure it separately.
 
 ## Access policy
 
