@@ -89,9 +89,12 @@ class ValidatorContract(unittest.TestCase):
             file.write('\nSee lost.md in the index.\n')
         self.assertEqual(self.run_validator()[0], 0)
 
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_eval_fixture_markdown_is_exempt_from_reachability(self):
+        fixture = self.skill / 'evals/files/profile/slack.md'
+        fixture.parent.mkdir(parents=True)
+        fixture.write_text('# Slack\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 0, [r for r in rows if r[1] == 'FAIL'])
 
     def test_retired_name_and_dead_link_fail(self):
         maintenance = self.repo / 'maintenance'
@@ -107,3 +110,6 @@ if __name__ == '__main__':
         self.assertEqual(code, 1)
         self.assertTrue(any(r[1] == 'FAIL' and r[3] == 'md-links-resolve' and 'missing.md' in r[4] for r in rows))
 
+
+if __name__ == '__main__':
+    unittest.main()
