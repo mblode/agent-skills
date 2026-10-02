@@ -53,11 +53,14 @@
     },
     {
       "id": 5,
-      "prompt": "Write the hero headline and subhead for the Done Bear landing page. Cold Instagram traffic. It's a to-do app for people with ADHD, 2,100 paying users, syncs with Google Calendar.",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Write the hero headline and subhead for the Done Bear landing page. Cold Instagram traffic. It's a to-do app for people with ADHD, 2,100 paying users, syncs with Google Calendar.",
       "expected_output": "One recommended headline and subhead written from the donebear profile, opening with the reader's problem, keeping 2,100 and Google Calendar, with inferred brief fields marked.",
-      "files": [],
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/donebear.md"
+      ],
       "assertions": [
-        "Reads the donebear profile rather than a personal one",
+        "Uses the donebear voice, not the personal one: no exclamation mark, no emoji, no 'supercharge' or 'productivity'",
         "Headline opens with the reader's problem or motivation, not the product name",
         "2,100 and Google Calendar appear and are not replaced by generic phrases",
         "Does not reuse the phrase 'to-do app for people with ADHD' verbatim",
@@ -66,7 +69,7 @@
     },
     {
       "id": 6,
-      "prompt": "Draft a Slack reply saying I agree and can review the PR tomorrow. (GHOSTWRITER_HOME points at an empty directory.)",
+      "prompt": "Draft a Slack reply saying I agree and can review the PR tomorrow. I haven't set up any ghostwriter profiles yet.",
       "expected_output": "One plain, tell-free Slack line, then a single line saying no slack profile exists yet and offering to write one from 5 to 10 pasted messages.",
       "files": [],
       "assertions": [
@@ -78,15 +81,15 @@
     },
     {
       "id": 7,
-      "prompt": "Here are eight Slack messages I wrote: [eight short messages, two containing a colleague's name and a PR link]. Write my slack profile.",
-      "expected_output": "A slack.md under the data root in the profile shape (Register, Contexts, Message shapes, Language, Anti-patterns, Redacted excerpts, Provenance), written after one path confirmation, with names and links redacted in excerpts.",
+      "prompt": "Here are eight Slack messages I wrote. Show me the slack profile you would write from them; don't save it yet.\n1. yep, on it\n2. merged, deploy's at 3\n3. can you check this when you get a sec? github.com/acme/api/pull/91 (Tom asked for it)\n4. reckon we skip the flag, it's 12 lines\n5. nah that's the old endpoint, use /v2\n6. thanks Priya!\n7. can't do thurs sorry, fri 10am works\n8. lol teh build is red again",
+      "expected_output": "A slack profile in the profile shape (Register, Contexts, Message shapes, Measured, Language, Anti-patterns, Redacted excerpts, Provenance), with names and links redacted, thin evidence named as thin, and no file written.",
       "files": [],
       "assertions": [
-        "Asks once to confirm the write path before writing",
-        "Every excerpt is under 280 characters and contains no colleague name or PR link",
+        "Shows the profile and does not claim to have saved a file",
+        "Every excerpt is under 280 characters and contains no colleague name (Tom, Priya) or PR link",
+        "Includes measured traits taken from the messages (length, lowercase starts, openers), not adjectives alone",
         "Provenance states it is a quick profile from 8 pasted samples",
-        "No rule is derived from a single message",
-        "Does not point the user at an export or training step"
+        "No rule is derived from a single message: the 'teh' typo and the one 'lol' are not stated as habits"
       ]
     },
     {
@@ -123,6 +126,93 @@
         "Adds no capability sections or Install",
         "Keeps the demo URL and the MIT license"
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Reply to Dana's email as me. She asked if I can present the outage review at Thursday's all-hands. Yes, but I need 10 minutes not 5, and I'll cover the 3 root causes.",
+      "expected_output": "A short email in the fixture voice: 'Hey Dana,', the yes and the 10-minute ask first, the 3 root causes, signed 'Cheers,' then 'Sam', straight apostrophes, no dashes.",
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/email.md"
+      ],
+      "assertions": [
+        "Opens with 'Hey Dana,'",
+        "Signs off with 'Cheers,' followed by 'Sam' on the next line, and no other sign-off",
+        "Keeps 10 minutes, 5, and 3 root causes",
+        "Contains no em dash, en dash, or spaced hyphen, and no curly apostrophes",
+        "Body is under 80 words and opens with the answer, not a pleasantry"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Make this sound less like AI. It's the intro to our eng blog post:\n\nIn today's fast-paced landscape, our team embarked on a transformative journey to migrate 14 services to Kubernetes. This wasn't just a migration \u2014 it was a testament to our commitment to reliability. Over 6 months, we reduced deploy times from 40 minutes to 7, ensuring a seamless experience for developers. The results speak for themselves. Let that sink in.",
+      "expected_output": "A plain intro that keeps 14 services, Kubernetes, 6 months, and 40 to 7 minutes, with the inflation, antithesis, participle tail, and closers removed and nothing added.",
+      "files": [],
+      "assertions": [
+        "Keeps 14 services, Kubernetes, 6 months, 40 minutes, and 7",
+        "Contains none of: landscape, journey, testament, seamless, 'speak for themselves', 'let that sink in', 'not just'",
+        "Contains no em dash, en dash, or spaced hyphen",
+        "Adds no reason, number, name, or result that the original did not state",
+        "Returns the rewritten text without a list of what was changed"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Write a LinkedIn post: my team shipped offline mode for the Done Bear iOS app last week. That's all I've got.",
+      "expected_output": "A short post built from the one fact, with placeholders or a one-line note for anything missing, and no invented quote, metric, person, or customer reaction.",
+      "files": [],
+      "assertions": [
+        "Contains no quote attributed to anyone",
+        "Contains no number, percentage, or metric beyond what the user gave",
+        "Names no person or customer and describes no user reaction the user did not state",
+        "Does not open with a staged run-up ('Big news', 'Excited to share', 'Here's the thing')"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Tidy this paragraph for my blog: I tried the beta on my phone - the old one - and it was very slow. Perhaps the cache was cold. It has a setting for that, which I used, and it was fine after that.",
+      "expected_output": "A light edit that keeps Ren's spaced-hyphen aside and plain verbs, because the profile shows them, and keeps every fact.",
+      "files": [
+        "evals/files/dashes/soul.md",
+        "evals/files/dashes/blog.md"
+      ],
+      "assertions": [
+        "Keeps at least one spaced-hyphen aside ( - ), since the profile shows the habit",
+        "Does not replace plain verbs (is, has, used, tried) with elevated ones such as utilise, possesses, features, or attempted",
+        "Keeps the old phone, the slowness, the cold-cache guess as a guess, and the setting fixing it",
+        "Adds no fact, reason, or detail the paragraph did not contain"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). You drafted this Slack message for me: 'Hey team! Quick update: the migration is complete and everything went smoothly 🎉 Let me know if you have any questions!' I sent this instead: 'migration's done, 0 errors. ping me if anything looks off'. Learn from that. Show me the change to my slack profile; don't save it yet.",
+      "expected_output": "A short ledger of the edits (greeting dropped, emoji and exclamations dropped, vague 'smoothly' replaced by '0 errors', lowercase start) and the proposed profile change, shown not saved.",
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/slack.md"
+      ],
+      "assertions": [
+        "Pairs specific original wording with the user's replacement (for example 'everything went smoothly' to '0 errors')",
+        "Names the dropped greeting and the dropped emoji or exclamation marks as changes",
+        "Proposes no rule unrelated to these edits (such as spelling, apostrophes, or email sign-offs)",
+        "Shows the proposed change and does not claim to have saved the profile"
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Reply in Slack. Lee asked: can you review my PR today? Answer: yes, after lunch, around 2.",
+      "expected_output": "One short line in the slack fixture shape, such as 'yep, after lunch, around 2'.",
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/slack.md"
+      ],
+      "assertions": [
+        "The reply is under 80 characters",
+        "Keeps 'around 2' or '2' and the after-lunch timing",
+        "No greeting, sign-off, or 'Happy to help'",
+        "No emoji and no exclamation mark",
+        "Returns one reply with no alternatives or explanation"
+      ]
     }
   ],
   "routing": {
@@ -140,7 +230,8 @@
       "Reply to this review comment in my voice: the reviewer wants the retry moved into the client",
       "Write a PRD for the reminders feature from these notes",
       "Write my email profile from these ten emails",
-      "Write the RFC for splitting the auth service, here are my notes"
+      "Write the RFC for splitting the auth service, here are my notes",
+      "Make this paragraph sound less like AI, it's for my newsletter"
     ],
     "near_miss": [
       {
@@ -158,6 +249,22 @@
       {
         "prompt": "Explain what a mutex is like I'm five",
         "expected": "eli5"
+      },
+      {
+        "prompt": "Turn this outline into a 10-slide deck with speaker notes",
+        "expected": "presentation-creator"
+      },
+      {
+        "prompt": "Write an SEO brief for an article on local-first sync",
+        "expected": "seo"
+      },
+      {
+        "prompt": "Clean up the AI slop in this TypeScript file, too many useless comments",
+        "expected": "tidy"
+      },
+      {
+        "prompt": "Build the landing page hero section in Tailwind from this Figma frame",
+        "expected": "ui-design"
       }
     ]
   }

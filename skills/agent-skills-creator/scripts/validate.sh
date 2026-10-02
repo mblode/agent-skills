@@ -139,6 +139,8 @@ validate_skill() {
   # Hub skills index subfolders (guidelines/, direction/) from a root track file,
   # so a file counts as reachable if SKILL.md or any root .md names it. Without
   # this, deleting a file and its only link passes silently.
+  # Eval fixtures under evals/ are inputs copied into a test workspace, never
+  # loaded by the skill, so they are exempt here and from the TOC check.
   # NUL-delimited throughout: a filename with whitespace otherwise word-splits,
   # which made this check pass and the kebab check miss the very name it exists
   # to catch. Process substitution, not a pipe, so $orphans survives the loop.
@@ -157,7 +159,7 @@ validate_skill() {
       fi
     done
     [ "$named" -eq 1 ] || orphans="$orphans $base"
-  done < <(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' -print0 2>/dev/null)
+  done < <(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' -not -path "$skill_dir/evals/*" -print0 2>/dev/null)
   check house all-md-reachable "unreachable from SKILL.md or a root track file:$orphans" \
     "$(printf '%s' "$orphans" | wc -w | tr -d ' ')"
 
@@ -188,7 +190,7 @@ validate_skill() {
     fl=$(wc -l <"$f" | tr -d ' ')
     [ "${fl:-0}" -le 100 ] && continue
     head -20 "$f" | grep -qiE '^#{2,3} (contents|table of contents)' || no_toc="$no_toc $(basename "$f"):${fl}L"
-  done < <(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' -print0 2>/dev/null)
+  done < <(find "$skill_dir" -name '*.md' -not -name 'SKILL.md' -not -path '*/rules*' -not -path "$skill_dir/evals/*" -print0 2>/dev/null)
   check house toc-over-100-lines "over 100 lines with no Contents heading:$no_toc" \
     "$(printf '%s' "$no_toc" | wc -w | tr -d ' ')"
 

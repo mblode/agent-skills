@@ -4,9 +4,9 @@ Shape defaults where the profile is silent.
 
 **Chat (Slack, WhatsApp, LinkedIn message).** One line unless the question was long; answer in the shape of the question. A link beats a description. Bursts of short messages when the profile shows them. No greeting mid-thread, no sign-off. An ask names the thing and the time; a decline gives the real reason once.
 
-**Email.** The point in the first sentence; the reply shorter than what it answers. Subject is a plain label, never a sentence. One paragraph per point. Mid-thread the greeting and sign-off drop away.
+**Email.** The point in the first sentence, since the first line is the inbox preview; the reply shorter than what it answers. One email, one ask; a date or an ask the reader must act on gets its own line. Subject is a plain label, never a sentence. One paragraph per point. Mid-thread the greeting and sign-off drop away.
 
-**LinkedIn post.** One specific thing that happened, one number, at most one lesson stated plainly and never labelled. Three to six short blocks. Named credit. No hashtags. A long draft reads as ghostwritten: cut the weakest block.
+**LinkedIn post.** One specific thing that happened, one number, at most one lesson stated plainly and never labelled. Three to six short blocks. Named credit. No hashtags. The hook sits above the fold and fails if it would fit above any other post. Count characters exactly when a platform limit applies. A long draft reads as ghostwritten: cut the weakest block.
 
 **Blog post, essay.** One claim carried by specific episodes or numbers. Few headings, plain noun phrases. Keep every real number and name; strip every claim with nothing behind it.
 
