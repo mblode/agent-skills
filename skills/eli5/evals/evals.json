@@ -33,6 +33,53 @@
         "Does not claim persistence across unrelated sessions",
         "Does not repeat activation announcements"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Explain how a git rebase works in about 80% ASD-STE100. Mention git rebase --onto main.",
+      "expected_output": "Controlled-English explanation using the relaxed profile: short sentences, one idea each, active voice, imperative steps, with the command verbatim.",
+      "files": [],
+      "assertions": [
+        "Keeps git rebase --onto main verbatim",
+        "No sentence over 25 words",
+        "Uses one term per concept (does not alternate between synonyms such as commit and change for the same thing)",
+        "Does not announce the profile or label sentences as STE100"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Draw me a diagram of what happens when the browser calls POST /api/login in our app: middleware.ts checks the session cookie, auth.ts verifies the password, then we set a JWT cookie.",
+      "expected_output": "A sequence-style diagram in a renderable format with the supplied names as labels, followed by a short note on how to read it.",
+      "files": [],
+      "assertions": [
+        "Returns a diagram (Mermaid, ASCII, or SVG), not prose alone",
+        "Uses POST /api/login, middleware.ts, auth.ts, and JWT verbatim as labels",
+        "Diagram order matches the supplied order",
+        "Adds no components the user did not mention"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Make a 3b1b style explainer video on how gradient descent finds a minimum. No API keys are set on this machine.",
+      "expected_output": "Plans or builds a Manim video with a local or caption fallback for narration, renders a draft before the final, and reviews frames before delivery.",
+      "files": [],
+      "assertions": [
+        "Uses Manim or names it as the animation tool",
+        "Does not ask the user to paste an API key into the chat",
+        "Picks a local voice or captions as the narration fallback and says which",
+        "Does not claim the narration was listened to or sounds right"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "ELI5 what a DNS record is.",
+      "expected_output": "A short prose explanation. No HTML page, no video, and no unrequested build.",
+      "files": [],
+      "assertions": [
+        "Answers in prose, optionally with a small diagram",
+        "Does not create an HTML page or video",
+        "Offers a richer form in at most one line, or not at all"
+      ]
     }
   ]
 }
