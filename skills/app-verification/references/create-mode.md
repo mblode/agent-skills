@@ -1,6 +1,6 @@
 # Create Mode
 
-Bootstrap a verification harness inside the target repo when none exists. The method (interview, generate, seed the map, prove it, hand off) is pstack's `create-verification-skill`; this reference generalizes it past one company's worktree-adapter conventions and adds the machine-checkable pieces (the contract in the main `SKILL.md`, the feature-map format, the isolation and proof references).
+Bootstrap a verification harness inside the target repo when none exists: interview, generate, seed the map, prove it, hand off.
 
 ## Contents
 
@@ -25,7 +25,7 @@ Answer these from the repo itself before writing anything; a user's one-line req
 
 ## Step 2: scaffold the three commands
 
-Create `doctor`, `seed`, and `verify` per the contract in the main `SKILL.md`, plus a `features/` folder, inside a skill folder in the target repo (the host's project-skill convention, for example `.claude/skills/verify-<app>/`). Shape below; adapt the language and runtime to the repo's own stack, the shape is what matters, not the specific syntax.
+Create `doctor`, `seed`, and `verify` per the contract in the main `SKILL.md`, plus the feature map (`references/feature-map-format.md` covers both layouts), inside a skill folder in the target repo (the host's project-skill convention, for example `.claude/skills/verify-<app>/`). Shape below; adapt the language and runtime to the repo's own stack, the shape is what matters, not the specific syntax.
 
 Language-agnostic naming that keeps the harness discoverable without a registry: a script named exactly `doctor`, `seed`, and `verify` (or `doctor.<ext>`, etc., matching the repo's convention) at the top of the skill folder, never buried behind a generic `run.sh <subcommand>` an agent has to already know to find.
 
@@ -35,7 +35,7 @@ Get `references/worktree-isolation.md` working, and prove it (two instances runn
 
 ## Step 4: seed the feature map
 
-Write the top three to five features first, in `features/<id>.md` per `references/feature-map-format.md`. For each: every user-reachable path, the cheapest method that still exercises it the way a user reaches it (`references/verification-ladder.md`), and the preconditions and gotchas someone would otherwise learn the hard way. Stop at three to five; a map seeded for every feature on day one is usually a map nobody has actually driven yet.
+Write the top three to five features first, per `references/feature-map-format.md`. For each: every user-reachable path, the cheapest method that still exercises it the way a user reaches it (`references/verification-ladder.md`), and the preconditions and gotchas someone would otherwise learn the hard way. Stop at three to five; a map seeded for every feature on day one is usually a map nobody has actually driven yet.
 
 ## Step 5: prove it before calling it done
 
@@ -64,13 +64,18 @@ driver       -> the browser or computer-use tool this harness needs is reachable
 
 Stop naming a check as failed once an earlier one it depends on has already failed; print `blocked by <id>` for it instead of running it and reporting a confusing secondary failure. Every failure line names the exact fix, not just the symptom: `DATABASE_URL points at the main instance's database (myapp), not this worktree's (myapp_w3). Run \`scripts/seed --reset\` after pointing it at the isolated one.` teaches the fix; `db check failed` does not.
 
+Two stages need more than a yes or no:
+
+- **ports.** A port held by a process whose working directory is inside this checkout passes (it is this instance's own dev server, already running). A port held by anything else fails, naming each holder by pid and working directory (`:4100 is held by pid 5123 in /work/app-w2`) and the fix (stop that pid, or give this worktree its own port base). A bare "port in use" sends the agent to kill its own server. Where the port lookup tool is missing, report the port as not checked rather than passing or failing it.
+- **`--json`.** Print `{ "ok": <bool>, "results": [{ "name", "ok", "detail", "fix" }] }` instead of the human table, so a script or a fix job branches on `ok` without scraping text. The exit code stays the same in both modes.
+
 ## Verify CLI shape
 
 Flags worth supporting once the repo's size makes a full run expensive:
 
 - `--feature <id>`: run one feature's full check set, cheapest method first. The default entry point for Maintain mode investigating one thing.
-- `--since <ref>`: map changed files to features by each feature's `Owns` globs (`references/feature-map-format.md`), and run only those. A file matching no feature's globs is itself a finding (an unmapped path), not silently skipped.
-- `--fast`: cli/api checks only, skipping anything that needs a browser or computer use. A development convenience; never treat a `--fast` run as a complete proof (see Gotchas in the main `SKILL.md`).
+- `--since <ref>` (default: the merge base with the main branch): map changed files, plus uncommitted and untracked ones, to features by each feature's owned paths (`references/feature-map-format.md`), and run only those features' checks. A changed file no feature owns splits two ways. A source file (code under the app and package directories, tests included) is **uncovered** and fails the run: add it to the owning feature's paths. Anything else (docs, config, lockfiles, plans) is **exempt**: listed in the proof so a reader sees it, never a failure. Without that split, either every README edit fails the gate or unowned code slips through with it.
+- `--fast`: cli/api checks only, skipping anything that needs a browser or computer use. A development convenience, never a merge gate (main `SKILL.md` Gotchas); the proof records `mode: fast`.
 - `--ci` (or equivalent completeness flag): fail the run if any in-scope path is uncovered without a named reason. This is the flag a merge gate calls; the others are for a human or agent iterating locally.
 
-Report, at minimum, per feature: which paths were covered, which were skipped and why, which failed, and which method verified each covered path. That shape is what `references/maintain-mode.md`'s scoped-proof rule and `references/bug-handoff.md`'s repro steps both build on.
+Report each run twice: a short per-feature summary on the terminal, and a proof file at a fixed, gitignored path in the repo. The proof file's shape and the rule for when a path counts as covered live in `references/maintain-mode.md`. When two features share a check (a whole API suite, say), run it once and reuse the result for both.
