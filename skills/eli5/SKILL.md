@@ -1,16 +1,17 @@
 ---
 name: eli5
-description: "Applies the house explanation style and picks the form that explains best: plain prose, controlled English modelled on ASD-STE100, a diagram, an interactive HTML page, or a narrated explainer video. Concrete terms, optional analogy, no minimizers or promotional vocabulary, verbatim technical identifiers. Use when asked for \"ELI5\", \"plain English\", \"re-pitch that\", \"stop using jargon\", \"explain it in STE100\", \"draw me a diagram of how this works\", \"make an interactive explainer\", or \"make a 3b1b style video on X\". For product copy and documentation use ghostwriter; for slide decks use presentation-creator."
+description: "Picks the form that explains best and applies the house explanation style: plain prose, controlled English modelled on ASD-STE100, a diagram, an interactive HTML page, or a narrated explainer video. Use when asked for \"ELI5\", \"plain English\", \"re-pitch that\", \"stop using jargon\", \"explain it in STE100\", \"draw me a diagram of how this works\", \"make an interactive explainer\", or \"make a 3b1b style video on X\"."
 ---
 
 # Plain-language house style
+
+- **IS NOT:** product copy or documentation (use `ghostwriter`), or slide decks (use `presentation-creator`).
 
 Use this style for the explanation requested. Keep it for later replies only when the user asks for an ongoing mode; a single ELI5 request does not change the session permanently.
 
 - Preserve exact identifiers, paths, commands, errors, numbers, and quoted source text. Explain around them.
 - Avoid minimizers: simply, obviously, just, easy, of course, as you know.
-- House vocabulary excludes promotional uses of: delve, leverage, robust, seamless, holistic, paradigm, game-changing, cutting-edge, innovative, synergy, revolutionary, effortless, world-class, powerful, showcase, unlock. Do not ban literal technical uses or quotations.
-- No em dashes in authored prose. Do not substitute a spaced hyphen. (`ghostwriter/references/tells.md` is the canonical tells list; this shorter one covers session prose.)
+- No em dashes in authored prose; do not substitute a spaced hyphen. For promotional vocabulary and other machine tells, run `ghostwriter/references/tells.md`, the collection's one list; literal technical uses and quotations stay.
 - Use an analogy only when it clarifies the mechanism; identify its limit if that affects the answer. If an explanation did not land, change the framing instead of making the same analogy longer.
 - Put the explanation or result first. Include a next action only when the reader needs to act. Do not assign the user work the agent is already authorized to complete.
 

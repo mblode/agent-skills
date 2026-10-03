@@ -48,7 +48,7 @@ A decision becomes a question only when this work could invalidate it. Pressure-
 | Unstated assumption in the doc | "Design assumes [assumption] but never says so. Still true here?" |
 | Doc contradicts the code | "Doc says X, code does Y. Which is source of truth here?" |
 
-Use `interrogation-protocol.md`'s recommended-answer format: name the doc, quote the decision, propose your read.
+Carry a recommendation as in `decision-briefs.md`: name the doc, quote the decision, propose your read.
 
 ## Anti-patterns
 

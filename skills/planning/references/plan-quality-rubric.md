@@ -1,69 +1,40 @@
 # Plan Quality Rubric
 
-Used in review to find the weakest dimensions for questioning. Score 1-5 only when the user asks for scores; otherwise record findings.
+Six dimensions for plan review. Use them to find the weakest parts of a plan, then fix the gap or ask about it. When a gap is checkable against local code or docs (an unused helper, an unconfirmed library capability, a doc that contradicts the plan), verify it first (`claim-verification.md`) and lead with the evidence instead of a question. Adapt each question to the plan's own sections and names; never ask a generic one verbatim.
 
-## Scoring Scale
+Score 1 to 5 only when the user asks for scores: 5 = specific, no visible gaps; 3 = mentioned, key scenarios unaddressed; 1 = absent. Otherwise record findings. A NOT VERIFIED claim drops its dimension a point and becomes the first question.
 
-| Score | Label | Meaning |
-|-------|-------|---------|
-| 5 | Strong | Addresses this dimension with specifics. No visible gaps. |
-| 4 | Adequate | Covers it but lacks some specificity. Minor gaps only. |
-| 3 | Partial | Mentions it but significant gaps exist. Key scenarios unaddressed. |
-| 2 | Weak | Barely touches it. Multiple critical gaps. |
-| 1 | Missing | Does not address it at all. |
+## 1. Completeness: what must exist that is not mentioned?
 
-## Dimension-Specific Indicators
+- Look for: new API calls or data flows without error handling; state transitions without failure paths; missing cleanup or teardown; no behavior when an external service is down; no validation at boundaries (user input, external APIs); no rollback.
+- Push: "You said 'handle errors appropriately'. Name the three likeliest errors and what the user sees for each."
 
-### Completeness
+## 2. Feasibility: which step needs something unproven or outside your control?
 
-- **5:** Every new flow has explicit error handling. Rollback or recovery documented. Edge cases listed. Cleanup steps present.
-- **4:** Main flows covered. Error handling mentioned but not specific. Minor edge cases missing.
-- **3:** Happy path described. Error handling hand-waved ("handle errors appropriately"). No rollback.
-- **2:** Only the core action described. No failure paths or edge cases.
-- **1:** Describes what to build but not how it handles any non-ideal scenario.
+- Look for: one-sentence steps that hide significant work; libraries or APIs cited without evidence they support the use case (read the docs or types first); performance assumptions without measurement; "then we just..." phrasing; horizontal layers built before a tracer bullet (the thinnest slice that proves the approach end to end).
+- Push: "You said this is 'straightforward'. Describe the implementation in three sentences."
 
-### Feasibility
+## 3. Scope: what is not needed to reach the stated goal?
 
-A good plan delivers a tracer bullet first: a minimum viable slice across the full stack to prove the approach.
+- Look for: abstractions justified by "we might need this later"; several approaches kept "for flexibility"; caching, optimization, or generalization before the basic path works; helpers or wrappers called once; nice-to-haves mixed with requirements.
+- Keep repetition when the proposed abstraction lacks a shared invariant, owner, lifecycle, or failure mode. Ask whether similar call sites encode the same business rule or only the same shape.
+- Push: "What user problem does X solve? Name a specific scenario."
 
-- **5:** Approach validated. Dependencies confirmed. Performance characteristics known. Hardest parts identified with solutions. Tracer bullet or vertical slice identified.
-- **4:** Approach reasonable. Most dependencies verified. One or two unvalidated capability assumptions.
-- **3:** Approach plausible but unproven. Some steps vague. External dependencies mentioned without confirming they support the use case.
-- **2:** Multiple steps rely on unverified assumptions. Key technical questions unanswered. Builds horizontal layers instead of proving a slice.
-- **1:** Approach is aspirational. No evidence it works at the required scale/complexity.
+## 4. Testability: how will each step be shown to work?
 
-### Scope
+- Look for: no verification section; "add tests" without cases; integration points with no contract check; manual-only verification of automatable checks; no way to confirm a migration or deploy succeeded; untested boundary conditions; no assertion at critical state transitions.
+- Push: "Name three specific test cases now. If you can't, the plan doesn't understand its own behavior."
 
-- **5:** Every item serves the stated goal. No "nice to have" mixed with requirements. States what is out of scope. Abstractions earned by repetition, not speculation. New code and dependencies justified against the ladder of least code.
-- **4:** Mostly focused. One or two items could be deferred without affecting the goal.
-- **3:** Several non-essential items. Premature abstractions or optimizations. Designing for hypothetical futures.
-- **2:** Significant feature creep. Multiple items justified by "might need later." Wrong abstractions before the pattern is clear.
-- **1:** Scope far exceeds the goal. Unclear what's core vs optional. Over-engineered.
+## 5. Risk: what is the worst realistic outcome as written?
 
-### Testability
+- Look for: shared state changed without a concurrency story; migrations on large tables without a downtime strategy; changes to authentication or authorization paths; code other teams call (grep for call sites before asking); no feature flag or gradual rollout where the blast radius is wide; removal of code whose reason is unknown (Chesterton's fence: `git log` the file before accepting "it's unused").
+- Push: "You said risk is 'low'. What evidence supports that? Which failure modes did you trace?"
 
-- **5:** Verification section present. Specific test cases or commands listed. Clear "done" criteria. Integration test strategy for external dependencies.
-- **4:** Verification mentioned. Some test cases but not comprehensive. "Done" criteria at high level.
-- **3:** "Add tests" without specifics. Verification section is one line. No integration test strategy.
-- **2:** Testing mentioned in passing. No concrete test cases. No verification commands.
-- **1:** No mention of how to verify the implementation works.
+## 6. Assumptions: what does the plan take for granted?
 
-### Risk
+- Look for: performance claims without measurement; "users will..." without evidence; compatibility assumptions (API versions, browsers, OS features); timing assumptions; reliance on team knowledge or undocumented behavior; no statement of what would invalidate the approach.
+- Push: "If that assumption is false, which parts of the plan survive?"
 
-- **5:** Failure modes identified. Blast radius stated. Mitigations present. Rollout strategy (gradual, feature-flagged) appropriate to risk level.
-- **4:** Major risks identified. Blast radius roughly scoped. One or two mitigations.
-- **3:** Risk acknowledged in general terms. No specific failure modes traced. No mitigation.
-- **2:** Risk minimized ("this is low risk") without evidence. No failure mode analysis.
-- **1:** No risk discussion. Assumes everything works first time.
+## Acting on findings
 
-### Assumptions
-
-- **5:** Assumptions explicitly listed and marked verified or unverified. External conditions stated. Invalidation criteria present.
-- **4:** Key assumptions stated. Most appear verified. One or two implicit assumptions identifiable.
-- **3:** Some assumptions stated but several implicit ones unacknowledged. No invalidation criteria.
-- **2:** Built on multiple unstated assumptions. Claims presented as facts without sources.
-- **1:** No assumptions acknowledged. Reads as if the approach is self-evidently correct.
-
-## Acting on the scores
-
-Use scores to locate gaps when scoring is requested. Fix gaps tied to acceptance criteria or operational consequences. Record unverified claims and unresolved choices; a score is a judgement, not proof. Stop when further changes would add speculative scope or when a user decision is required.
+Fix gaps tied to acceptance criteria or operational consequences. Record unverified claims and unresolved choices; a score is a judgement, not proof. Stop when further changes would add speculative scope or when a user decision is required.

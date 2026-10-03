@@ -189,14 +189,11 @@ Placeholder content left behind from AI generation.
 
 ## Test padding
 
-Tests generated because coverage looks like rigor. The tell: the test cannot fail for a reason anyone would act on.
+Tests generated because coverage looks like rigor. The tell: the test cannot fail for a reason anyone would act on. `test-gate.md` owns the per-test questions (pins changed behavior, can fail, duplicate, snapshot or implementation detail, mock-only) and the delete-or-rewrite rule; flag these slop shapes on top of it:
 
 **Flag:**
 - Render-only tests: presence assertions with no interaction or branch
-- Mock-echo assertions: asserting a mock was called, or returned the value it was mocked to return
-- Change-detector snapshots that fail on any edit rather than on wrong behavior
 - Framework re-tests: proving React renders, the router routes, or the ORM saves
-- Happy-path triplication: the same branch asserted through near-identical cases
 - Diff-mirror tests: the assertion repeats a literal copied from the diff (a config row, flag default, route entry, label, or copy string); a second ledger to maintain, not behavior coverage
 - Export-for-testability: a helper extracted or exported solely so a test can name it, proving nothing about the original behavior
 - Fake integration tests: hand-rolled in-memory emulators of behavior that lives in the real system (schema, validators, indexes, permissions), unable to catch the bug class they claim to cover

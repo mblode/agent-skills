@@ -1,25 +1,13 @@
 # Performance Checklist
 
-Common bottlenecks to flag in review. Load when the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports.
+Bottlenecks a diff shows on its face. Load when the diff touches data fetching, rendering, images, dependencies, or bundle-affecting imports. Budgets and measured vitals are not a review verdict: lab attribution belongs to `ui-verification`, budgets to Lighthouse and field data.
 
 ## Contents
 
-- Performance budgets
 - Database and API bottlenecks
-- React and frontend bottlenecks
+- Frontend bottlenecks
 - Image and asset bottlenecks
 - Bundle size bottlenecks
-
-## Performance Budgets
-
-| Metric | Target |
-|--------|--------|
-| LCP | ≤ 2.5s |
-| INP | ≤ 200ms |
-| CLS | ≤ 0.1 |
-| JS bundle (gzipped) | < 200KB |
-| API response (p95) | < 200ms |
-| Lighthouse Performance | ≥ 90 |
 
 ## Database and API
 
@@ -32,12 +20,10 @@ Common bottlenecks to flag in review. Load when the diff touches data fetching, 
 | No response caching | Missing `Cache-Control` or `stale-while-revalidate` headers on stable data |
 | Blocking the event loop | `readFileSync`, `execSync`, sync crypto or compression inside a request handler or middleware. Use the async API, or do the work once at boot |
 
-## React and Frontend
+## Frontend
 
 | Problem | What to flag |
 |---------|-------------|
-| Unnecessary re-renders | State too high in the tree. Move state down or split components |
-| Large tree re-rendering | Parent state change re-renders all children. Use `children` pattern to isolate |
 | Heavy initial JS | Large page components not code-split. Use `dynamic()` or `lazy()` |
 | Layout shift from async content | Missing explicit dimensions on async-loaded elements |
 | Blocking hydration | Client-heavy components blocking server render. Use RSC or Suspense boundaries |

@@ -1,6 +1,6 @@
 ---
 name: tidy
-description: Reviews a local diff, branch diff, or PR with file:line findings in confirmed and plausible tiers, gates any test the diff adds or changes, and in apply mode lands the fixes and diff-scoped simplifications. Use when asked to "review my changes", "code review", "tidy this", "simplify my diff", "deslop this", "structural review", "security audit", or "audit these tests in my PR". For the PR itself use pr-creator; for CI and review threads use pr-babysitter; for UI defects use ui-design; for repo architecture use codebase-architecture; for pruning the whole suite to a target use test-audit.
+description: Reviews a local diff, branch diff, or PR with file:line findings in confirmed and plausible tiers, gates any test the diff adds or changes, and in apply mode lands the fixes and diff-scoped simplifications. Use when asked to "review my changes", "code review", "tidy this", "simplify my diff", "deslop this", "structural review", "security audit", or "audit these tests in my PR".
 ---
 
 # Tidy

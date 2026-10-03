@@ -1,6 +1,6 @@
 ---
 name: test-audit
-description: Prunes low-value tests across a whole suite to a measured target while holding coverage. Invoke explicitly for a repo-wide or subsystem-wide campaign; it has no diff-review trigger. Use when asked to "remove useless tests", "prune the test suite", "we have too many tests", "agents keep writing pointless tests", or "cut 20% of tests without losing coverage". For a slow pipeline use ci-speedup; for reviewing a diff, gating a new test, or "audit these tests in my PR" use tidy.
+description: Prunes low-value tests across a whole suite to a measured target while holding coverage. Use when asked to "remove useless tests", "prune the test suite", "we have too many tests", "agents keep writing pointless tests", or "cut 20% of tests without losing coverage".
 compatibility: Needs the repository's test runner and a coverage tool it already supports (Vitest, Jest, c8, pytest-cov, go test -cover, or equivalent).
 ---
 
@@ -110,6 +110,6 @@ Maintenance only: `evals/evals.json` holds scenarios and routing prompts for cha
 
 - `tidy`: gates a test the moment a diff adds or changes it, and reviews the rest of the diff alongside it. This skill only sweeps or campaign-prunes the existing suite; "audit these tests in my PR" routes to `tidy`, not here.
 
-## Sources
+## Credit
 
-Adapted from OpenClaw's `test-audit` skill and its campaign guide ([openclaw/openclaw](https://github.com/openclaw/openclaw/tree/main/.agents/skills/test-audit), MIT), which removed about 400k lines of tests with little change in coverage. Took the junk patterns, retention bar, evidence fields, and campaign order. Left the OpenClaw-specific runners, CI routing, and PR tooling; the per-test gate this skill originally carried moved to `tidy`, which reviews the diff that adds the test. Authored the target-and-budget framing (an agent told only to "clean up" stops early), the coverage measurement reference, and the AGENTS.md gate handoff.
+Adapted from OpenClaw's `test-audit` skill ([openclaw/openclaw](https://github.com/openclaw/openclaw/tree/main/.agents/skills/test-audit), MIT). Provenance lives in the repository's maintenance notes.

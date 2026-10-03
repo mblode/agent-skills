@@ -19,7 +19,7 @@ Report structural issues only when the diff worsens a concrete maintenance path:
 
 - a future named change now touches more files or layers than before
 - a feature branch leaks into shared code that does not own the feature
-- a new abstraction has no current caller, invariant, or boundary to protect
+- a new abstraction has no current caller, invariant, or boundary to protect (deletion test: inline it; if the complexity vanishes rather than reappearing at its callers, it was a pass-through)
 - a file crosses the 1000-line threshold because new behavior was added in place
 - a simpler vertical slice could delete branches, state, or orchestration without changing behavior
 - a compatibility path or legacy alias survives with no evidence anything still depends on it
@@ -33,7 +33,7 @@ These eight standards are the source of truth. Every flag and blocker below maps
 2. **1000-line file threshold.** Do not let a PR push a file from under 1000 lines to over without a named structural reason. Prefer extracting helpers, subcomponents, modules, or local abstractions. Waive only when the new section has one responsibility, local tests, and no mixed orchestration/detail code.
 3. **No spaghetti branching growth.** Be highly suspicious of new ad-hoc conditionals, scattered special cases, or one-off branches in unrelated flows; treat them as a design problem, not a stylistic nit. Prefer a dedicated abstraction, helper, state machine, policy object, or separate module.
 4. **Behavior-preserving cleanup.** If behavior can stay the same while structure becomes meaningfully cleaner, flag the smaller shape: fewer branches, shared-code touchpoints, casts, modes, or files in the next related change.
-5. **No unearned indirection.** Treat brittle, ad-hoc, or "magic" behavior as a code-quality issue. Be skeptical of generic mechanisms that hide data-shape assumptions. Flag wrappers that add indirection without clarity.
+5. **No unearned indirection.** Treat brittle, ad-hoc, or "magic" behavior as a code-quality issue. Be skeptical of generic mechanisms that hide data-shape assumptions. Flag wrappers that add indirection without clarity. Count adapters at a new seam: one adapter is a hypothetical seam, two make it real (terms per `codebase-architecture`'s vocabulary).
 6. **Type and boundary cleanliness.** Question unnecessary optionality, `unknown`, `any`, or cast-heavy code when a clearer type boundary could exist. Prefer explicit typed models or shared contracts over loosely-shaped ad-hoc objects. If a branch relies on silent fallback to paper over an unclear invariant, ask whether the boundary should be explicit.
 7. **Keep logic in the canonical layer.** Call out feature logic leaking into shared paths or implementation details leaking through APIs. Prefer existing canonical utilities and helpers over bespoke one-offs, and prefer the stdlib or native platform over both. Push code toward the right package, service, or module instead of normalizing architectural drift.
 8. **Orchestration simplicity.** Treat unnecessary sequential orchestration and non-atomic updates as design smells when the same inputs can be processed independently or one transaction/batch would avoid partial state. Do not over-index on micro-optimizations; flag orchestration when the proposed structure reduces branches, retries, or rollback paths.
