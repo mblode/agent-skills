@@ -37,6 +37,8 @@ done | awk -F: '$2>3'
 
 **Judgment signals:**
 - Consolidation that removes mechanical chaining passes. A `schedule_event` that finds availability and books is one user action with no step the user would want to veto, and fewer tools of that kind is the guidance Anthropic gives for tool sets. The fail is a bundled decision (which role to assign, what counts as stale): that is the step the user will disagree with and the agent cannot change. Test: is there an intermediate step a user would want to see or override?
+- Atomic is not raw. A domain primitive has a blast radius you can state in a sentence. Raw substrate access over production data (arbitrary code eval, a shell on the live host, a SQL or GraphQL passthrough, an untyped SDK call) has the blast radius of the whole system and makes every tool boundary above it advisory, so it fails even though it is maximally "atomic". Some long-tail requests then stop being servable; that is a refusal, not a reason to add the substrate tool back.
+- Graduation passes. A hot path moved into optimized code is fine while the agent still triggers it and can fall back to the domain primitives for edge cases.
 
 **False-positive guards:**
 - Skip atomic transactions (e.g., `transfer_funds`) and `// ax-audit-ignore:granularity-workflow-shaped-tool`.

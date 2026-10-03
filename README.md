@@ -53,7 +53,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 ### Quality
 
-- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 27 rules for tool parity, approval gates, and escape hatches, ship verdict.
+- **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 24 rules for tool parity, approval gates, and escape hatches, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
 - **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.

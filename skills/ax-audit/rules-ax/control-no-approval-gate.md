@@ -41,6 +41,7 @@ rg -n "toolApproval|'user-approval'|needsApproval|permissionMode|elicitation/cre
 - "User-requested" vs. "agent-initiated" matters. "Clean up my inbox" per-email = user-requested. Agent proactively acting = agent-initiated.
 - A single "Are you sure?" for 50 actions is insufficient.
 - Stakes and reversibility alone treat every delete the same. If the gate cannot tell a draft the agent created this turn from a record that predates the session, or an internal target from one that leaves the workspace, it can only be tuned by getting stricter. That is a fail: pass provenance in with the stakes.
+- An explicit user request is already approval. Self-modification (the agent changing its own prompt, tools, or permissions) always needs explicit approval plus an audit log and a rollback, whatever its stakes row says.
 
 **False-positive guards:**
 - Skip `// ax-audit-ignore:control-no-approval-gate`, test, and Storybook files.

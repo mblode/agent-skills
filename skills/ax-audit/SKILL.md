@@ -1,6 +1,6 @@
 ---
 name: ax-audit
-description: Audits agentic products for tool parity, authority, approval payloads, recovery, and trust using 27 rules and a ship verdict. Use when asked for an "AX audit", to review an agent approval flow, or whether an agent can operate the product. For human-facing API ergonomics use dx-audit; for ordinary UI use ui-design.
+description: Audits agentic products for tool parity, authority, approval payloads, recovery, and trust using 24 rules and a ship verdict. Use when asked for an "AX audit", to review an agent approval flow, or whether an agent can operate the product.
 ---
 
 # AX Audit
@@ -44,8 +44,8 @@ Rule greps name the most common identifiers, not every framework's spelling. Whe
 
 | Layer | Folder | Rules | Load when a playbook names |
 |---|---|---|---|
-| 1: Architecture | `rules-arch/` | 12 | `rules-arch/<category>-<slug>.md` |
-| 2: Experience | `rules-ax/` | 15 | `rules-ax/<category>-<slug>.md` |
+| 1: Architecture | `rules-arch/` | 11 | `rules-arch/<category>-<slug>.md` |
+| 2: Experience | `rules-ax/` | 13 | `rules-ax/<category>-<slug>.md` |
 
 Categories: arch = parity, granularity, context, comm; ax = trust, control, context, comm. Shared prefixes are different rules: `rules-arch/comm-no-approval-gate.md` (no gate on the execution path) is not `rules-ax/control-no-approval-gate.md` (gate exists, stakes are wrong).
 
@@ -56,15 +56,15 @@ Run Layer 1 `comm`/`parity` and Layer 2 `control`/`trust` first. They hold the b
 | 1 | arch | Communication | `comm-` | 3 |
 | 2 | arch | Parity | `parity-` | 4 |
 | 3 | ax | Control | `control-` | 4 |
-| 4 | ax | Trust | `trust-` | 4 |
-| 5 | arch | Context | `context-` | 3 |
+| 4 | ax | Trust | `trust-` | 3 |
+| 5 | arch | Context | `context-` | 2 |
 | 6 | ax | Communication | `comm-` | 4 |
-| 7 | ax | Context | `context-` | 3 |
+| 7 | ax | Context | `context-` | 2 |
 | 8 | arch | Granularity | `granularity-` | 2 |
 
 ## Tiers and verdict
 
-Three tiers. Full trigger lists and the generic surface bump live in `references/ship-readiness.md`.
+Three tiers: `release-blocker`, `fix-this-sprint`, `backlog`. Definitions, the generic surface bump, and verdict logic live in `references/ship-readiness.md`.
 
 Precedence: the rule's own surface-override table > the generic bump > `defaultTier`. Apply at most one adjustment.
 
@@ -82,25 +82,22 @@ Render after findings when any agentic feature was detected. Findings serve engi
 |---|---|
 | `references/feature-playbooks.md` | Steps 2-3: detection heuristics, per-feature ordered checks, diff-wide checks |
 | `references/framework-signals.md` | Step 4, when the code uses AI SDK, MCP, the Claude Agent SDK, or AG-UI: where the gate, the stream, the completion signal, and the structured result live in each, with the spec defaults the rules lean on |
-| `references/ship-readiness.md` | Step 5: tier triggers, precedence, verdict logic |
+| `references/ship-readiness.md` | Step 5: tier definitions, precedence, generic surface bump, verdict logic |
 | `references/output-format.md` | Step 6: findings JSON schema, summary schema, terminal rendering |
-| `references/agent-native-principles.md` | A Layer 1 finding needs grounding the rule file does not carry |
-| `references/ax-evolution-curve.md` | Writing the AX Relationship Summary: stage, action depth, costume vs intelligence |
-| `references/invisible-interface.md` | Grounding for structured tool output, approval payload, access scope, unprompted action; also the arguments that stay in `keyGap` |
-| `references/evaluation-scenarios.md` | When changing this skill. Never loads during a user audit |
+| `references/ax-evolution-curve.md` | Writing the AX Relationship Summary: stage, action depth, costume vs intelligence, and the arguments with no rule that land in `keyGap` |
 | `rules-arch/_sections.md` | Layer 1 categories, default tiers, co-firing pairs |
 | `rules-ax/_sections.md` | Layer 2 categories, default tiers, co-firing pairs |
 
 ## Gotchas
 
-- **Scope before rules.** Running all 27 rules repo-wide on a 3-file PR buries a new release-blocker under pre-existing backlog noise; the verdict stops meaning "can this PR merge."
+- **Scope before rules.** Running all 24 rules repo-wide on a 3-file PR buries a new release-blocker under pre-existing backlog noise; the verdict stops meaning "can this PR merge."
 - **The rule's override table is authoritative.** `comm-no-intent-handshake` defaults to `fix-this-sprint` but its table says `release-blocker` on tool execution. Stacking the generic "+1 tier on tool execution" bump on an explicit override double-upgrades backlog findings into blockers.
 - **A stop button not wired to `AbortController.abort()` is a false affordance.** `control-no-escape-hatch` still fails: verify the `abort()` call, not the button label, or the audit passes a UI that lies to users.
 - **A client `stop()` that only closes the stream leaves the executor running.** `useChat().stop()` aborts the fetch. Unless the route passes `req.signal` into `streamText({ abortSignal })` and tool `execute` reads it, the server finishes every remaining tool call after the user pressed Stop. Trace the signal to the loop, not to the button.
 - **Tool annotations are hints, not stakes.** MCP tells clients to treat `annotations` from untrusted servers as untrusted; a gate that auto-approves on a third-party server's `readOnlyHint: true` has handed the gate to that server. `comm-no-approval-gate` fails it. The spec defaults (`destructiveHint: true`, `readOnlyHint: false`) are the fail-closed baseline.
 - **A framework approval flag is the gate's input, not the gate.** AI SDK `toolApproval: "user-approval"` emits a `tool-approval-request` part and waits. A UI that never renders `state === "approval-requested"`, or answers it with `addToolApprovalResponse({ approved: true })` on arrival, has a gate in the type system and none for the user. Check the renderer and the response call, not the option.
 - **Absence checks need a recorded file list.** "Find components lacking X" greps return nothing both when everything passes and when nothing was scanned. List candidate files first (`rg -l <feature-pattern>`), check each for the counter-pattern, and cite the file list as evidence.
-- **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `trust-no-uncertainty-markers`, `control-over-conversational`, and `comm-no-generative-momentum` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`.
+- **`detection: observational` rules cannot fail on grep evidence alone.** `granularity-static-api-mapping`, `control-over-conversational`, `comm-no-generative-momentum`, and the uncertainty-gradient half of `trust-no-confidence-cues` need interaction-flow judgment; on static evidence alone, return `unknown` with a reason, not `fail`.
 - **Gates fail in three separate places.** Absent from the path (`comm-no-approval-gate`), present but mismatched to the stakes (`control-no-approval-gate`), or correct and unreadable (`control-thin-approval-payload`). Report the first that holds and fix in that order.
 - **Interactive gates do not cover unattended runs.** Cron, webhook, and queue entry points reach the same executor with nobody to prompt. `comm-unrequested-action-no-consent` audits that path; evidence names the entry point, not the executor.
 - **`ax-audit-ignore:<slug>` comments count as `suppressed`, not `pass`.** Report the count in the verdict block; a suppression with no reason is itself a `warn`.
@@ -126,4 +123,4 @@ Flag the audit `INCOMPLETE` if any of these hold, and include the counts as evid
 - `product-design`: what the agentic feature should do, before this audit
 - `agents-md`: CLAUDE.md / AGENTS.md instruction files
 
-Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.
+Maintenance only: `evals/evals.json` and `evals/evaluation-scenarios.md` hold regression scenarios for changes to this skill; neither loads during a user task.

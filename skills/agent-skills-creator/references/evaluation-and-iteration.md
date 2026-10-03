@@ -156,15 +156,7 @@ This is the loop `agent-evals compare` scores automatically once cases and a jud
 
 ## Iterate with Two Claudes
 
-**Claude A** authors and refines; **Claude B** runs tasks in a fresh session with the skill loaded.
-
-1. Give B a real task
-2. Watch where B struggles, skips a rule, or surprises you
-3. Report the specific observation to A ("B forgot to filter test accounts")
-4. A suggests targeted edits: stronger language, reordering, new section
-5. Apply and retest
-
-Improve from observed behavior, not assumptions or memory of what Claude "should" need. Give A the failed assertions, the human feedback, and the transcript together; the fix should generalize past the failing case, not patch it.
+**Claude A** authors and refines; **Claude B** runs real tasks in a fresh session with the skill loaded. Hand A the specific observation ("B forgot to filter test accounts") with the failed assertions, the human feedback, and the transcript together, then apply and retest. The fix should generalize past the failing case, not patch it.
 
 ## Observe How Claude Navigates
 
@@ -177,8 +169,6 @@ Watch real sessions for:
 - **Wasted work in transcripts:** unrequested validation, intermediate files nobody uses; the instruction that caused it is a removal candidate
 - **Repeated helper scripts:** every run writes the same parser or chart builder; bundle it in `scripts/`
 
-`name` and `description` drive triggering. If the skill isn't invoked when expected, fix the description's triggers before body content.
-
 ## Re-Evaluating After a Rewrite
 
 After improving a skill (see `improving-existing-skills.md`), rerun evals before shipping against both the pre-edit snapshot and no-skill. The previous version detects regressions; no-skill tests whether the skill still earns its place. Beating the previous version alone is not a keep verdict. Better audit dimensions but worse evals is a regression: dimensions measure form, evals measure behavior.
@@ -187,6 +177,4 @@ Maintain the skill like code: version its body, references, scripts, and evals t
 
 ## Measuring Adoption
 
-Log invocations with a PreToolUse hook and compare actual usage against the trigger rate you expected. Undertriggering is a description problem, not a body problem: fix the "Use when" phrases before touching content. Across an org the same log finds promotion candidates for a shared library.
-
-Use adoption data to choose what to investigate, not what to keep. Invocations and installs measure use; only the with-versus-without comparison establishes added value.
+Log invocations with a PreToolUse hook and compare actual usage against the trigger rate you expected; undertriggering sends you to Routing Evals, and across an org the same log finds promotion candidates for a shared library. Adoption chooses what to investigate, not what to keep: invocations and installs measure use, and only the with-versus-without comparison establishes added value.

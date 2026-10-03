@@ -36,6 +36,9 @@ rg -o 'name:\s*["\x27]\w+' --no-filename --type=ts src/tools/ | sed 's/.*["\x27]
 rg -c 'export (async )?function (POST|PUT|PATCH|DELETE)' --type=ts src/app/api/ | wc -l   # count to cite
 ```
 
+**Judgment signals:**
+- When the agent must operate the same UI a human sees, durable names in the DOM (`data-agent-id`, aria names that match the tool nouns) are its tools. Screenshot-only targeting drifts when the layout shifts; a control with no stable name is a parity gap for that agent.
+
 **False-positive guards:**
 - Skip health-check endpoints (`/api/health`), webhook receivers, test files.
 - Skip files with `// ax-audit-ignore:parity-no-tool-parity`.

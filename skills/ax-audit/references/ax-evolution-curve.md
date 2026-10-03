@@ -44,7 +44,7 @@ Which ax-audit rules matter most at each stage:
 |---|---|
 | Conversational | `control-over-conversational`, `comm-no-progress-signal` |
 | Task-Aware | `comm-no-intent-handshake`, `control-no-escape-hatch`, `control-no-approval-gate`, `control-thin-approval-payload`, `trust-no-escalation-path` |
-| Personally Intelligent | `context-memory-not-visible`, `context-under-contextual`, `trust-no-confidence-cues`, `trust-no-uncertainty-markers`, `trust-undisclosed-access-scope` |
+| Personally Intelligent | `context-memory-not-visible`, `context-starvation`, `trust-no-confidence-cues`, `trust-undisclosed-access-scope` |
 | Socially Embedded | `context-no-adaptive-canvas`, `comm-no-generative-momentum`, `comm-unrequested-action-no-consent` |
 
 Earlier-stage rules still apply at later stages. A Socially Embedded agent lacking an escape hatch is still a finding. Maintain and Partner rungs without standing consent are `comm-unrequested-action-no-consent`.
@@ -66,6 +66,14 @@ When writing the AX Relationship Summary:
 - Thumbs up/down as the only feedback is costume, not a trust mechanism.
 
 Strip the interface and the costume has nothing to hang on. What a user recognises across a chat thread, a phone, a voice, and a notification is character. No single finding can carry that. Put it in `keyGap` when the service behaves like a different product in each place, and in `trustQuestion` when only research can tell you whether it does.
+
+## Arguments with no rule
+
+Three arguments about agents that act through the user's mail, calendar, files, and accounts are real but cannot change a ship verdict, so they belong in the summary, not in a finding (source: <https://designplusai.com/p/invisible-interfaces>):
+
+- **Connectability.** The best interface still loses if the layer where the user lives cannot reach it. That is a strategy gap, not a user-harm gap: a rule for it would sit at `backlog` on every surface. Raise it in `keyGap`.
+- **Considered transparency.** `comm-no-progress-signal` catches showing too little. Showing too much (a raw token and tool-call dump with no summary) needs the rendered flow, so a rule could only return `unknown` on static evidence. Say so in `keyGap`.
+- **Character across surfaces.** Covered under costume vs intelligence above: `keyGap` or `trustQuestion`.
 
 ## Assessment
 

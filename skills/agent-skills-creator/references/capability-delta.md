@@ -25,7 +25,7 @@ Strong model performance is a reason to revisit instructions, not proof that rem
 
 Keep a skill with a distinct trigger only when with-skill evaluations show a worthwhile gain over without-skill on the target job, accounting for tokens and time. Install counts can guide discovery, but aggregate counters do not establish unique users or independent choices and cannot pass this keep test. Without comparative runs, label retention provisional rather than measured.
 
-Cut generic explanations inside the skill. Merge when the remaining payload shares an existing skill's trigger and output contract. Retire when nothing unique remains; record the replacement or native capability and remove routing pointers, README entries, and obsolete fixtures together.
+Cut generic explanations inside the skill. Merge when the remaining payload shares an existing skill's trigger and output contract. Retire when nothing unique remains; record the replacement or native capability and remove routing pointers, README entries, and obsolete fixtures together. Add the retired skill's name and replacement to `maintenance/retired-names.tsv`, where the validator fails any skill still naming it, and record the reason beside the removal so the same skill is not proposed again next quarter.
 
 A domain checklist can remain useful even when every rule is familiar: the user requested consistent coverage. Prefer applicability and detection recipes over lectures explaining the concept. Never delete a shipped application's security, accessibility, or data-integrity requirement merely because the model knows its name.
 

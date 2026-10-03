@@ -4,11 +4,9 @@ What to put in a skill and how hard to say it. The mechanical rules live in `scr
 
 ## Contents
 
-- Don't State the Obvious
-- Don't Instruct Behavior the Model Already Has
+- Cut Constraints, Keep Opinions
 - Judgement Over Rules
 - Don't Fight the Harness or a Sibling
-- Cut Constraints, Keep Opinions
 - Grant Permission, Don't Just Restrict
 - Say Where the Work Ends
 - Open with Boundaries (IS/IS-NOT)
@@ -28,32 +26,24 @@ What to put in a skill and how hard to say it. The mechanical rules live in `scr
 - On-Demand Hooks
 - Composing Skills
 
-## Don't State the Obvious
+## Cut Constraints, Keep Opinions
 
-The agent brings general knowledge, but needs the project facts and procedures that affect this task. Ground new guidance in actual artifacts, corrections, or observed failures.
+A skill's value *is* the opinion it encodes: your team's taste, your product's constraints, where your org deviates from defaults, the project facts and procedures the agent lacks. Ground each line in an actual artifact, correction, or observed failure. The deletion target is guardrails and knowledge duplicating the model's own, not strong wording, and it is the section most often misapplied: deleting the opinion leaves a skill that adds nothing.
 
-- Omit anything Claude would do correctly unsupervised
-- General coding advice ("use descriptive variable names") is noise
-- Standard conventions (2-space indentation, semicolons) are known
-- Target where your org deviates from defaults or Claude consistently errs
+**Keep:** a specific banned-word list, a dark-first deck rule, a house punctuation style, the exact command or observation that establishes the task's completion.
+**Cut:** "write clear prose", "handle errors properly", "use descriptive names", standard conventions (2-space indentation, semicolons), "double-check your answer".
 
-**Test:** for each line, ask "Would removing this cause a mistake?" If not, cut it.
-
-## Don't Instruct Behavior the Model Already Has
-
-The sharpest case of the section above, and the one that costs most, because these instructions do not sit there inertly: they compound with behavior the model already performs and push it past useful.
-
-Generic reminders such as "double-check your answer" or "run the tests before you finish" do not define a task-specific check. Current frontier models test and verify unprompted, so the reminder buys nothing on the first run and produces redundant runs after it. Remove them in a static simplification pass; claim unchanged output quality only after a behavioral comparison. Preserve the exact observation or command that establishes the task's completion.
+Instructions for behavior the model already has do not sit there inertly: they compound with what it already does and push it past useful. "Run the tests before you finish" buys nothing on the first run of a model that verifies unprompted and produces redundant runs after it. Remove these in a static simplification pass; claim unchanged output quality only after a behavioral comparison.
 
 An external check is not this. "Run the test suite and quote the output" and "watch the check fail, then pass" produce evidence the model cannot generate by reasoning, so they stay. The line between the two is whether the instruction names which check and what result counts.
 
-Three related levers skew long by default and are worth setting deliberately:
+Three levers skew long by default and are worth setting deliberately:
 
 - **Calibrate the length of artifacts the skill writes to disk.** Reports, plans, briefs, and docs run long, and a fixed output template invites filling every section instead of dropping the ones the task does not need. Say that length follows the work, not the template. This is a real opinion, unlike "write concisely", which the model already believes it is doing.
 - **Write the quiet form of commands the skill tells Claude to run.** `npm test`, `git log`, and a full build dump hundreds of lines that get re-sent every remaining turn. Prefer `--reporter=dot`, `--quiet`, or `tail`.
 - **Leave orchestration to the host.** Specify independent work and expected results where delegation adds value. Do not prescribe a fixed agent count, a model override, or repeated review rounds for every task.
 
-**Test:** would the model do this unprompted? If yes, the instruction is at best inert and at worst additive. Same test as "Cut Constraints, Keep Opinions" below, pointed at the model's behavior rather than at its knowledge.
+**Test:** for each line, "would removing this cause a mistake?" and "would the model do this unprompted?", never "is this strongly worded?"
 
 ## Judgement Over Rules
 
@@ -71,17 +61,6 @@ The second is shorter, has no exception list to maintain, and gets a densely com
 Before adding a directive, check whether the harness already does it, a sibling skill owns it, or the repo AGENTS.md states it. Overlapping instructions in one context ("leave documentation as appropriate" against "DO NOT add comments") make the model reconcile before it can act, and reconciliation is paid on every invocation.
 
 Route instead of restate: name the sibling in the IS-NOT line, and resolve precedence in advance where a clash is likely. `tidy` states that repository conventions override its defaults when they conflict. The model is told who wins rather than left to arbitrate.
-
-## Cut Constraints, Keep Opinions
-
-The counterweight to the two sections above, and the one most often misapplied. A skill's value *is* the opinion it encodes: your team's taste, your product's constraints, the thing Claude does not do by default. Deleting that leaves a skill that adds nothing.
-
-The deletion target is guardrails duplicating the model's own judgement, not strong wording.
-
-**Keep:** a specific banned-word list, a dark-first deck rule, a house punctuation style. Claude does not share these by default.
-**Cut:** "write clear prose", "handle errors properly", "use good naming". Claude does this unprompted.
-
-The test is "would Claude do this anyway", never "is this strongly worded".
 
 ## Grant Permission, Don't Just Restrict
 
@@ -220,7 +199,7 @@ At session start, Claude scans every description to decide relevance. It is a tr
 
 - Optimize for the words users say when they need the skill: action verbs and domain nouns the model routes on
 - Add quoted user phrases: `"how do I..."`, `"build a..."`, `"fix my..."`
-- Structure: `[Does what] for/using [domain]. [Covers what]. Use when [specific trigger phrases]. For [adjacent job] use [sibling].`
+- Structure: `[Does what] for/using [domain]. [Covers what]. Use when [specific trigger phrases].` Routing to a sibling ("for X use Y") belongs in the body's IS-NOT line, not here.
 - Front-load. Hosts have different listing budgets and truncation policies. The 1024-character spec limit is a ceiling, not a target; a description that states its key use case in the first sentence survives trimming, one that saves the triggers for the end does not.
 - Undertriggering is the common failure, so lean pushy: name the contexts where the skill applies even when the user did not ask for it by name. Use near-miss evaluations to tighten scope when it overtriggers; invocation-control fields are host-specific.
 - Lean pushy on situations, not on domain nouns. A trailing category list ("use when working with databases, queries, models, or persistence") looks like broad coverage and behaves like noise: it matches every adjacent prompt and starves the sibling that should have won. The same words spent on the moment of use ("use when adding or changing a migration, or reviewing its rollout") route more often and collide less.
