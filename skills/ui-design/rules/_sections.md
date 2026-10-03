@@ -50,8 +50,8 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 
 **Impact:** CRITICAL
 **Default tier:** mostly release-blocker
-**Rules:** 10
-**Description:** Semantic structure, accessible names, non-color state cues, media alternatives, document language, and tooltip contracts. Failures exclude assistive-tech users entirely, so run this category first. Contrast ratios are not checked here: axe-core computes them, so run it rather than eyeballing hex values.
+**Rules:** 9
+**Description:** Semantic structure, accessible names, non-color state cues, media alternatives, and tooltip contracts. Attribute presence (`alt`, `<html lang>`, `aria-*`) is jsx-a11y's and axe's; these rules judge what presence checks cannot. Failures exclude assistive-tech users entirely, so run this category first. Contrast ratios are not checked here: axe-core computes them, so run it rather than eyeballing hex values.
 
 ## 6. Keyboard and Interaction (interaction)
 
@@ -106,8 +106,8 @@ Do not reintroduce a second rules folder. A rule that needs the browser says so 
 
 **Impact:** HIGH
 **Default tier:** fix-this-sprint, release-blocker for image-dimension CLS
-**Rules:** 3
-**Description:** Prevent layout shift from images, lazy-load offscreen work, and virtualize long lists. Lighthouse measures CWV; these rules catch the static cause.
+**Rules:** 2
+**Description:** Prevent layout shift from images and virtualize long lists. Lighthouse measures CWV and flags offscreen media that is not lazy-loaded; these rules catch the static cause.
 
 ## 14. Generated-UI Slop (slop)
 
@@ -126,4 +126,4 @@ These pairings often co-fire. Emit both findings with the same `surface` to make
 
 ---
 
-Total: 58 rules across 14 categories.
+Total: 56 rules across 14 categories.

@@ -245,7 +245,6 @@ Toggle dimensions with a state class or inline style; the transition handles the
 
 Slide a panel into an existing container with cross-blur. CSS only, toggle `data-open`.
 
-See also: `component-patterns.md` § Drawers and panels for percentage-based drawer slides.
 
 ```html
 <div class="t-panel" data-open="false">Panel content</div>
@@ -268,6 +267,27 @@ See also: `component-patterns.md` § Drawers and panels for percentage-based dra
 .t-panel[data-open="false"] {
   transition-duration: var(--panel-close-dur);
 }
+```
+
+**Drawer variant.** A drawer that enters from a screen edge uses the move curve and a percentage translate, so one rule fits any height:
+
+```css
+.drawer {
+  transform: translateY(100%);
+  transition: transform 240ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.drawer[data-open="true"] {
+  transform: translateY(0);
+}
+```
+
+```tsx
+<motion.aside
+  initial={{ transform: "translate3d(100%, 0, 0)" }}
+  animate={{ transform: "translate3d(0, 0, 0)" }}
+  exit={{ transform: "translate3d(100%, 0, 0)" }}
+  transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
+/>
 ```
 
 ---
@@ -356,7 +376,6 @@ See also: `contextual-animations.md` § Contextual icon swaps for the Motion/Ani
 
 Origin-aware dropdown with open/close animations. JS handles close-state cleanup.
 
-See also: `component-patterns.md` § Popovers and dropdowns for library transform-origin and scale patterns.
 
 ```html
 <div class="t-dropdown" data-origin="top-left">
@@ -400,13 +419,40 @@ function closeDropdown(el) {
 }
 ```
 
+**Component libraries.** Base UI exposes the trigger-relative origin as `--transform-origin` (Radix: `--radix-popover-content-transform-origin`); use it instead of the `data-origin` table. Where only a side attribute exists, map it:
+
+```css
+.popover { transform-origin: var(--transform-origin); }
+.popover[data-side="top"]    { transform-origin: bottom center; }
+.popover[data-side="bottom"] { transform-origin: top center; }
+.popover[data-side="left"]   { transform-origin: center right; }
+.popover[data-side="right"]  { transform-origin: center left; }
+```
+
+Start from `scale(0.92)` or higher, never `scale(0)`: nothing appears from nothing.
+
+**Tooltips** reuse this shape at 125ms `ease-out` from `scale(0.97)`. Delay the first appearance 300-500ms to prevent accidental activation; once one tooltip in a group is open, the next opens instantly:
+
+```css
+.tooltip {
+  transition: transform 125ms ease-out, opacity 125ms ease-out;
+  transform-origin: var(--transform-origin);
+}
+.tooltip[data-starting-style],
+.tooltip[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+.tooltip[data-instant] {
+  transition-duration: 0ms;
+}
+```
+
 ---
 
 ## Modal dialog
 
-Scale-up modal with softer scale-down on close. Class-based state.
-
-See also: `component-patterns.md` § Modals and dialogs for `@starting-style` entry pattern.
+Scale-up modal with softer scale-down on close. Class-based state. Modals keep `transform-origin: center`: they are app-level state, not anchored to a trigger.
 
 ```html
 <div class="t-modal" role="dialog">Modal content</div>
@@ -441,6 +487,24 @@ function closeModal(el) {
   setTimeout(() => el.classList.remove("is-closing"), dur);
 }
 ```
+
+**Entry without JavaScript.** `@starting-style` animates the first render, so a modal that mounts open needs no class toggle:
+
+```css
+.modal {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+```
+
+`@starting-style` has been Baseline since August 2024, so the `data-mounted` attribute pattern is a fallback for older browsers, not the default. Add it only when the support matrix includes them.
 
 ---
 

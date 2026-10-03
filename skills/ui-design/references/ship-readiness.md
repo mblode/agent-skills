@@ -8,6 +8,7 @@ The audit fixes what it can in the same pass, so tier and verdict answer differe
 
 - [The three tiers](#the-three-tiers)
 - [Tier assignment rules](#tier-assignment-rules)
+- [Severity mapping](#severity-mapping)
 - [Verdict logic](#verdict-logic)
 - [Anti-patterns](#anti-patterns)
 - [Examples](#examples)
@@ -73,6 +74,17 @@ When a rule's default tier conflicts with surface context, use the higher tier:
 | Authenticated app shell | Same |
 | Marketing landing page | Down 1 tier (blocker → sprint; sprint → backlog): usually no data on the line |
 | Internal admin tool | Down 1 tier: different audience tolerance |
+
+## Severity mapping
+
+This file is the one owner of how another vocabulary's severity becomes a tier. When a sibling's finding joins this verdict, map it here, then apply the surface bump above once. Siblings point here rather than keeping their own copy. A `ui-verification` outcome is not a severity: a reproduced finding keeps the tier its rule and surface give it, `not-reproduced` withdraws it, and `unknown` never lowers it.
+
+| Source | Their severity | release-blocker | fix-this-sprint | backlog |
+|---|---|---|---|---|
+| `product-design` review | P0 to P3 | P0 | P1 | P2, P3 |
+| axe-core (via `ui-verification`) | `impact` | `critical` | `serious` | `moderate`, `minor` |
+| `typography-audit` | rule `impact` | never on its own | CRITICAL, HIGH, and any finding that fails a WCAG floor (`brand-color` contrast, body under the readable floor) | MEDIUM-HIGH and below |
+| `ui-animation` review | Block / Approve | never on its own | a Block item (feel-breaking regression, motion delaying keyboard or repeated actions) | everything else |
 
 ## Verdict logic
 

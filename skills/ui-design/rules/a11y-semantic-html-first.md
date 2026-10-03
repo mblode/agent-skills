@@ -10,6 +10,8 @@ detect: static
 
 Use semantic HTML controls first; only add ARIA when native elements cannot express intent. Rebuilding those semantics in ARIA reimplements keyboard behaviour, role, and state by hand, and any gap leaves assistive tech reporting the wrong thing.
 
+The same applies to language: an inline passage in another language carries its own `lang` (`<em lang="fr">`), or a screen reader mispronounces it. The missing `<html lang>` itself is axe's `html-has-lang` and jsx-a11y's to catch, not a rule here.
+
 ## Detection
 
 Search for click handlers attached to non-interactive elements; a hit is confirmed when that element is the only way to trigger the action.

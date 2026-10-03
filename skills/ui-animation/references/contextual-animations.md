@@ -46,23 +46,7 @@ import { AnimatePresence, motion } from "motion/react"
 </button>
 ```
 
-**CSS only:**
-
-```css
-.icon {
-  transition:
-    opacity 150ms ease,
-    scale 150ms ease,
-    filter 150ms ease;
-}
-
-.icon[data-hidden] {
-  opacity: 0;
-  scale: 0.8;
-  filter: blur(4px);
-  pointer-events: none;
-}
-```
+**CSS only:** the Icon swap recipe in `transition-recipes.md` (both icons grid-stacked in one slot, the same three properties).
 
 `mode="wait"` makes the exit finish before the enter starts, so both icons are never visible at once.
 

@@ -20,7 +20,7 @@ In `review` mode, walk the flow once per category in `rules.md`, in this order: 
 
 ## Severity rubric
 
-Report findings ordered by user impact. Use these levels exactly.
+Report findings ordered by user impact. Use these levels exactly. When a finding joins a `ui-design` ship verdict, that skill's `references/ship-readiness.md` maps the level to a tier.
 
 - P0: blocks the primary task, a severe accessibility failure, or unrecoverable user harm (data loss, a permission bypass, a destructive action the user cannot understand or undo).
 - P1: likely task failure, a misleading consequence, a missing critical state, or a major responsive or accessibility defect.

@@ -11,7 +11,7 @@ Covers: general markup and Tailwind CSS authoring rules not specific to one comp
 - Never apply conflicting classes for the same property on one element without a distinguishing variant: no `outline-1 outline-2`, no `outline-black/5 outline-white`; keep only the intended value
 - Always add `role="list"` to `<ul>` and `<ol>` unless a `list-style-*` class (e.g. `list-disc`, `list-decimal`) is applied
 - Never add `hover:*` to non-interactive elements: reserve for buttons, links, and other clickables
-- Never add `transition-*` for hover color/background changes: reserve transitions for elements that move or transform
+- Hover color/background changes on a control may use `transition-colors` (`ui-animation` owns the duration, about 200ms); never `transition-all`, and highlights that sweep across a list or menu as the pointer moves change instantly
 
 ### Tailwind CSS
 

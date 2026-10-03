@@ -18,7 +18,8 @@ The tools in that table stay named exactly as they are. The change is which of t
 |---|---|---|
 | LCP, CLS, INP, FCP, TTFB measurement | **Lighthouse** + **web-vitals** library + **Vercel Agent** | Field + lab measurement; ui-design reads source and inspects a rendered viewport, it does not measure field performance |
 | WCAG 2.x rule violations | **axe-core** (runtime, dispatched to `ui-verification`) + **eslint-plugin-jsx-a11y** (lint) | Authoritative WCAG rule list with structured violations |
-| `alt` text, `aria-*` attribute presence | **eslint-plugin-jsx-a11y** | Catches at write time |
+| `alt`, `<html lang>`, and `aria-*` attribute presence | **eslint-plugin-jsx-a11y** + **axe-core** | Catches at write time and at runtime; the rules here judge an attribute's content, not its presence |
+| Offscreen media not lazy-loaded | **Lighthouse** (`offscreen-images`) | Needs scroll position; the static rule `perf-image-dimensions-and-priority` keeps only the lazy hero |
 | Color contrast ratios | **axe-core** per theme (dispatched to `ui-verification`) + **Storybook a11y addon** | Computed contrast per element, and it differs between light and dark |
 | Visual regression (pixel-level) | **Chromatic** / **Percy** / **Playwright snapshots** | Per-component visual diffs |
 | Bundle size budgets | **size-limit** / **bundle-analyzer** / **next/bundle-analyzer** | Continuous budget tracking |

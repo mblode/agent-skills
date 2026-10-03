@@ -24,7 +24,7 @@ Measure every animation in the diff against these; a violation is a finding. For
 6. **Interruptibility.** Rapidly-triggered or gesture-driven motion (toasts, toggles, drags) must retarget from its current state; prefer CSS transitions or springs over keyframes, which restart from zero. Flag on sight: keyframes on toasts, toggles, or anything added/triggered rapidly.
 7. **GPU-only properties.** Animate `transform` and `opacity` only. Flag on sight: animating `width`/`height`/`margin`/`padding`/`top`/`left`; `transition: all` (unbounded property animation); Framer Motion `x`/`y`/`scale` props on motion that runs while the page is busy; updating a CSS variable on a parent to drive a child transform (style recalc storm).
 8. **Accessibility.** Inspect generated hover gating, including Tailwind v4's built-in media query. Exercise reduced-motion behavior and the same keyboard/touch task. Flag spatial motion without an appropriate reduced-motion alternative.
-9. **Asymmetric enter/exit.** Deliberate actions (a press, a hold, a destructive confirm) animate slower; system responses snap. Flag on sight: symmetric enter/exit timing on a press-and-release or hold interaction.
+9. **Asymmetric enter/exit.** The press itself is instant (`:active` at 0ms); what runs slower is a deliberate phase the user commits to, such as a hold-to-confirm fill or a destructive confirm, while the system's response and the release snap. Occasional surfaces enter slightly slower than they exit; high-frequency ephemeral UI enters at 0ms and fades out briefly (SKILL.md Core rules). Flag on sight: any delay on the press, or symmetric timing on a hold or release interaction.
 10. **Cohesion.** Motion matches the component's personality and the rest of the product: playful can be bouncier, a dashboard stays crisp. When unsure whether motion feels right, the strongest move is often to delete it. Flag on sight: mismatched personality, a jarring crossfade where a subtle blur would bridge two states, or an everything-at-once entrance where a 30-50ms stagger belongs.
 
 ## Remedial preference hierarchy
@@ -66,7 +66,7 @@ Rows add recipe-specific signal beyond the ten standards; for the standard viola
 | Contextual overlay enters from centre | Set `transform-origin` to trigger; animate outward from source |
 | Elements all appear at once | Add stagger delay (30-50ms between items) |
 | Touch target under 44px on interactive element | Add `::before` pseudo-element sized to 44x44px minimum (WCAG 2.5.5) |
-| Hover scale > 1.03 or hover duration > 150ms | Use `scale(1.01-1.02)` and 100-150ms transition |
+| Hover scale > 1.03, or a transform hover slower than 150ms | Use `scale(1.01-1.02)` and 100-150ms transition (colour-only hover keeps 200ms) |
 | Container animates AND children stagger | Pick one entrance: animate the container OR stagger children, not both |
 | Missing close-state cleanup after `setTimeout` | Add `is-closing` class, remove after transition duration |
 | Missing reflow (`void el.offsetWidth`) between class changes | Force reflow before re-adding classes to restart transitions |
@@ -92,6 +92,8 @@ Close with a decision, citing `file:line`:
 
 - **Block**: any feel-breaking regression, motion that delays keyboard or repeated actions, `scale(0)` or `ease-in` on UI, or a non-GPU animation with an easy GPU fix.
 - **Approve**: no feel-breaking regressions, no obvious motion that should be deleted, durations and easing within bounds, interruptibility handled where needed.
+
+When this review joins a `ui-design` audit's ship verdict, that skill's `references/ship-readiness.md` maps Block items to a tier; motion never blocks a release on its own.
 
 Reusable-component library DX (defaults over options, drop-in ergonomics, naming, docs site) is authoring, not review; see the `ui-design` skill.
 

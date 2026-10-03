@@ -8,7 +8,7 @@ tags: letter-spacing, uppercase, tracking, small-caps, word-spacing
 
 Uppercase letters are designed to sit next to lowercase letters, so in all caps they appear too tightly spaced. Add roughly 0.05 to 0.2em of letter-spacing, more for smaller uppercase text and less for larger. Raise `word-spacing` alongside it: as inter-letter gaps approach the inter-word gap, words merge into one run of caps.
 
-Avoid setting multi-line blocks in all uppercase; it significantly reduces reading speed.
+Avoid setting multi-line blocks in all uppercase; it significantly reduces reading speed. In UI built to `ui-design`'s house defaults, eyebrows and table headings are not uppercase at all (sentence case) unless the face is monospace, and monospace uppercase uses `tracking-wide`; the ranges here apply where uppercase is kept.
 
 **Incorrect (uppercase untracked, or tracked without word spacing):**
 

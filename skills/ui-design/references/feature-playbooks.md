@@ -1,11 +1,10 @@
 # Feature Playbooks
 
-Detect each feature from element + filename + route, then run its checks in order. All checks name a file in `rules/`; the category index is `rules/_sections.md`.
-
-**Also run the matching category checks.** Beyond the checks below, run the `rules/` category fitting each surface: any form runs `forms-*` + `a11y-*` (labels, accessible names, error association, overlaid affixes; contrast ratios stay with axe); any list/dashboard runs `a11y-semantic-html-first`, `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`, `type-hover-weight-shift`; hover-only helper UI also runs `a11y-disabled-control-tooltip` and `a11y-tooltip-no-interactive`; any media or image runs `a11y-image-alt-text`, `perf-image-dimensions-and-priority`; any user-facing surface runs `mobile-*`. Motion has no rules here: an animated surface with a timing, easing, or gesture problem is a finding that names `ui-animation`. Category map: `rules/_sections.md`.
+Detect each feature from element + filename + route, then run its checks in order, plus the category checks each surface earns. All checks name a file in `rules/`; the category index is `rules/_sections.md`.
 
 ## Table of contents
 
+- [Category checks](#category-checks)
 - [Feature detection](#feature-detection)
 - [Sign-in / Sign-up](#sign-in--sign-up)
 - [Checkout](#checkout)
@@ -19,6 +18,27 @@ Detect each feature from element + filename + route, then run its checks in orde
 - [Empty state](#empty-state)
 - [Error / 404 / 500 state](#error--404--500-state)
 - [Loading state](#loading-state)
+
+## Category checks
+
+Beyond the per-feature checks below, run the `rules/` files each surface in scope earns. A rule no row reaches is a rule the audit never runs, so a new rule joins a row here when it is added.
+
+| Surface in scope | Also run |
+|---|---|
+| Any user-facing surface | `mobile-*`, `type-readable-scale`, `layout-long-content-safety`, `a11y-semantic-html-first` |
+| A page or layout root (`layout.tsx`, `page.tsx`, a route) | `a11y-skip-link-heading-order` |
+| Any form | `forms-*`, `a11y-*` (labels, accessible names, error association, overlaid affixes; contrast ratios stay with axe) |
+| A list or dashboard | `nav-semantic-links`, `interaction-keyboard-operable`, `interaction-focus-visible`, `type-hover-weight-shift` |
+| A list that can hold hundreds of rows (a feed, a log, an unpaginated table) | `perf-virtualize-large-lists` |
+| A `<table>` or a grid of tabular data | `a11y-data-table-semantics` |
+| Icon-only buttons or links | `a11y-icon-controls-labeled` |
+| Status shown by colour (badges, dots, diff or chart colours) | `a11y-color-only-meaning` |
+| Hover-only helper UI (tooltips, disabled-control hints) | `a11y-disabled-control-tooltip`, `a11y-tooltip-no-interactive` |
+| An image | `a11y-image-alt-text`, `perf-image-dimensions-and-priority` |
+| Video or audio | `a11y-media-captions` |
+| A dark theme or more than one locale exists in the project | `dark-i18n-untested`; `dark-i18n-rtl-untested` when an RTL locale ships or is planned |
+
+Motion has no rules here: an animated surface with a timing, easing, or gesture problem is a finding that names `ui-animation`. The Deslop scope adds `slop-*`. Category map: `rules/_sections.md`.
 
 ## Feature detection
 

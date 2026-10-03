@@ -45,7 +45,7 @@ Emit under `runtime:<signature>` where no ui-design rule owns the class, because
 | Observation | Rule id |
 |---|---|
 | A failed request whose failure renders no user-visible state | `states-no-error-state`, confirmed by `probes/failure-injection.md` |
-| A 404 on an image referenced by the page | `a11y-image-alt-text` only if the alt text is also missing; otherwise a runtime finding |
+| A 404 on an image referenced by the page | A runtime finding; also `a11y-image-alt-text` if the `alt` that now renders in its place is a file name or empty on an informative image |
 
 Report the route, the count, and the first occurrence with its location. A repeated warning firing on every row of a list is one finding with a count.
 

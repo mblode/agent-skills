@@ -1,6 +1,6 @@
 ---
 name: product-design
-description: Specifies interaction choices, action scope, reversibility, recovery, and reachable states. Use when asked to "design the flow", "should delete be undoable", "choose the control", or "review this product decision". For visual implementation use ui-design; for motion use ui-animation; for wording use ghostwriter.
+description: Specifies interaction choices, action scope, reversibility, recovery, and reachable states. Use when asked to "design the flow", "should delete be undoable", "choose the control", or "review this product decision".
 ---
 
 # Product Design
@@ -37,7 +37,7 @@ Resolve one mode from the user's verb and artifact before acting, then load that
 
 Modes chain: shape leads into spec; review leads into harden. When intent is ambiguous, use the narrowest mode the verb supports. A URL, screenshot, route, or component identifies scope; it does not authorize edits.
 
-`references/lint-patterns.md` has no mode: read it when deciding whether a standard belongs in the consuming project's linter or in this skill. `evals/evals.json` never loads during a user task; it is the regression set for anyone changing this skill.
+Whether a standard belongs in the consuming project's linter rather than in this skill is `codebase-architecture`'s enforcement ladder. `evals/evals.json` never loads during a user task; it is the regression set for anyone changing this skill.
 
 ## Workflow
 
@@ -50,7 +50,7 @@ Product design pass:
 - [ ] Step 5: Name object, scope, consequence, and reversibility for each action in scope (spec, action, review)
 - [ ] Step 6: Enumerate reachable states and check coverage (shape, spec, harden)
 - [ ] Step 7: Emit output with a rule ID or labeled coverage gap per finding or decision; route follow-on work to siblings
-- [ ] Step 8: Check the decision contract and identify unresolved product decisions
+- [ ] Step 8: List unresolved product decisions
 ```
 
 Steps 5 and 6 are mode-scoped because their references are: a pure `action` pass has no state matrix to enumerate, and a `shape` pass has no built actions to name yet.
@@ -83,15 +83,6 @@ Five pillars, each naming its rule IDs in `references/rules.md` and the referenc
 ## Review output
 
 In review and harden modes, lead with findings ordered by user impact (P0 to P3), each with location, verification status, rule ID, user consequence, and the smallest concrete fix with the skill that owns it. Keep findings at decision altitude; a line-level code or framework fix is `ui-design` Audit mode's output. Rubric and finding format: `references/interface-quality.md` > Severity rubric.
-
-## Pass self-check
-
-Use these as the decision contract. Report unresolved decisions; omit a separate ceremony when the output already carries them:
-
-- Every finding and non-mechanical decision carries a rule ID that appears verbatim in `references/rules.md`, or an inline coverage gap labeled proposed.
-- The internal brief is present with job, desired outcome, and consequence filled, for shape, spec, and harden.
-- Every destructive or consequential action in scope has its reversibility stated and a matching pattern.
-- Follow-on work is routed by name (`ui-design`, `ui-animation`, `ghostwriter`), never done here.
 
 ## Gotchas
 
