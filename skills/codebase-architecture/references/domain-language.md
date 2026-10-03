@@ -67,7 +67,9 @@ A title and one to three sentences of context, decision, and why. That is the wh
 
 Status, Considered Options, and Consequences are optional and most records will not need them. Add Considered Options only when a rejected alternative is likely to be proposed again; the value of the record is that a decision was made and why, not the completeness of the form.
 
-Number them (`docs/adr/0007-enum-casing.md`) so they can be cited, and never edit one to reflect a new decision. Write a new record that supersedes it; the old reasoning is the record's whole point.
+Number them (`docs/adr/0007-enum-casing.md`) so they can be cited, and never edit one to reflect a new decision. Write a new record that supersedes it; the old reasoning is the record's whole point. Appending a dated re-evaluation that keeps the decision is fine, and it is how the index shows a decision was checked rather than forgotten.
+
+Give each record a **door type** in one line, with what reversing it takes. A one-way door, hard or expensive to walk back (where data lives, what it is keyed by, the tenant model), gets slow deliberation and Considered Options. A two-way door (a library, a tool, a folder layout) is decided fast by whoever is closest, and the line says what undoing it costs ("removing it is inlining the SDK"). Most records should be two-way on purpose. An index table with the door and the status column (accepted, superseded by N, re-evaluated on a date) is the wayfinding entry point for "why is it like this". Spend each record's novelty on at most one thing, and say what it bought.
 
 ## Anti-patterns
 

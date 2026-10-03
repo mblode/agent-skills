@@ -15,15 +15,7 @@ Find domain-informed deepening opportunities in existing code. "Deepening" means
 
 ## Vocabulary
 
-Use these words exactly. Substituting a synonym is not a style slip: it splits one concept across two names in the output, which is the exact failure this analysis exists to find.
-
-- **Module**: anything with an interface and an implementation. Scale-agnostic on purpose: a function, a class, a package, or a slice spanning tiers. _Avoid_: component, service, unit.
-- **Interface**: everything a caller must know to use the module correctly. Not just the type signature: also invariants, ordering constraints, error modes, required configuration. _Avoid_: API, signature (both name only the type-level surface).
-- **Seam**: the place a module's interface lives, where behavior can be altered without editing in that place. _Avoid_: boundary (reserved here for import and layer rules, and for trust boundaries where input is validated).
-- **Depth**: leverage at the interface, meaning how much behavior a caller or a test exercises per unit of interface it has to learn.
-- **Locality**: what maintainers get from depth. Change, bugs, and verification concentrate in one place instead of spreading across callers.
-
-**Rejected framing:** depth as the ratio of implementation lines to interface lines. It is the common definition and the one to drift back toward, and it rewards padding the implementation. A module that grew 200 lines of duplicated branching did not get deeper. Depth is leverage at the interface; measure it by what a caller stops having to know.
+Module, interface, depth, leverage, locality, seam, adapter, and the deletion test are defined in `vocabulary.md`. Use those words exactly in the output.
 
 ## Map the domain language
 
@@ -57,9 +49,9 @@ Each is a concrete, nameable issue, not a vague "this could be cleaner".
 Use this screen to keep the review from becoming generic cleanup advice:
 
 - A candidate must hide more behavior behind a smaller public surface, improve locality, or make tests cross one stable interface.
-- Deletion test: if deleting the module only moves identical complexity elsewhere, it is a pass-through; if deleting it spreads behavior across callers, the module is earning its place and may be worth deepening.
+- Run the deletion test (`vocabulary.md`) on every candidate before scoring it.
 - Friction prompts: understanding one concept requires opening many small files; callers need private sequencing knowledge; pure helpers were extracted only to make tests possible while orchestration bugs remain elsewhere; tests cannot exercise behavior through the public surface.
-- One adapter means a hypothetical seam; two means a real one. A port with a single implementation is indirection you pay for and nothing varies across it. (Distinct from the rule of three for duplicated code below: that one counts copies, this one counts things that differ.)
+- Count adapters at every proposed seam: one adapter is a hypothetical seam (`vocabulary.md`).
 - Do not propose a new seam only because it is aesthetically tidy. A seam needs current variation, a real test adapter, or a named future change it makes local.
 
 ## Dependency and testing checks
@@ -73,7 +65,13 @@ Classify dependencies before suggesting the new shape:
 | Owned remote system | Define a port at the network seam | Production adapter plus in-memory test adapter |
 | True external system | Inject the provider behind a port | Fake or mock adapter, with idempotency and reconciliation for effects |
 
-Testing rule: the deepened interface is the test surface. Keep old shallow-module tests until replacement coverage is green, then delete the tests that only preserve the old structure. Do not expose internal seams just because tests use them.
+A vendor (email, SMS, payments) is the clearest real seam: one port per vendor, one production adapter, one fake, chosen at wiring time by whether the key is present. The fake earns the second-adapter count because it runs in local dev, tests, and agent evals with no keys, and it doubles as the test's inbox (`sent[]`, or a dev-only "last email" route a browser test reads). Keep it one port per vendor, plain: a generic `Notifier` over email and SMS leaks by the second message type, because their fields and idempotency differ. Lint the SDK import to the adapter file, so swapping vendors rewrites one file.
+
+Testing rule: the deepened interface is the test surface (`vocabulary.md`). Keep old shallow-module tests until replacement coverage is green, then delete the tests that only preserve the old structure. Do not expose internal seams just because tests use them.
+
+## Design it twice
+
+Before committing to the interface for the top candidate, draft two or three that differ in kind, not in naming: for example, one call that hides the sequencing, a small set of operations the caller orders, and a data-in, data-out shape. Where the host can run subagents, give each draft to a separate one so they do not converge. Compare them on what the caller stops having to know, which future changes each makes local, and how a test reaches the behaviour. The first interface that comes to mind is usually the shallow one, because it mirrors the current implementation.
 
 ## Rank by leverage
 
@@ -86,6 +84,8 @@ Score each by evidence:
 - Which dependency category applies, and what test seam proves the behavior?
 
 Prefer the opportunity that localizes the most future changes for the least churn. Defer or drop the rest.
+
+When the claimed benefit is that agents will work faster or more correctly in the repo (a new error model, an effect system, a framework swap), measure it rather than argue it. Build the change on a branch, then run the repo's agent evals (`agents-md` covers setting them up) on both arms with the same tasks, models, and starting commit. Compare pass rate and cost: turn counts undercount work done in subagents. Repeat each task, since runs of one task in one arm can differ by tens of percent. Record a grader fault as a separate regrade, never by editing the raw results. Write up the decision with the numbers, even when they show no gain. Equal agent results still leave the adoption cost, and two models of the same concept (two error channels, two data layers) cost an agent more than either one alone.
 
 Record every dropped or deferred opportunity in the output's "Out of scope (deferred)" section with its reason. The list is load-bearing: a future audit reads it first so rejected ideas aren't re-evaluated from scratch, and a stale reason ("no current requirement") signals the item to promote.
 

@@ -1,13 +1,13 @@
 ---
 name: codebase-architecture
-description: Designs module contracts, deepens existing boundaries, and installs enforceable repository guardrails. Use when asked to "design the architecture", "simplify our modules", or "harden the repo". For one feature plan use planning; for diff cleanup use tidy; for tenancy use multi-tenant-architecture.
+description: Designs module interfaces, deepens shallow modules, and installs enforceable repository guardrails and agent wayfinding. Use when asked to "design the architecture", "simplify our modules", "find shallow modules", "harden the repo", or "gate an unattended agent fix job".
 ---
 
 # Codebase Architecture
 
 Decide a TypeScript codebase's structure, improve it where change has become expensive, and make it hold. The target is a codebase a reader can hold in their head: few surfaces, one canonical way to do each job, and behaviour where you would first look for it.
 
-- **IS:** folder structures, module contracts, request context and middleware pipelines, frontend/backend boundaries; architecture briefs; domain language and decision records; domain-informed deepening; guardrail tooling, CI gates, and agent wayfinding.
+- **IS:** folder structures, module interfaces, request context and middleware pipelines, frontend/backend boundaries; architecture briefs; domain language and decision records; domain-informed deepening; guardrail tooling, CI gates, and agent wayfinding.
 - **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a plan for one feature (`planning`), a diff-scoped cleanup pass (`tidy`), structural review of a local diff (`tidy`), or a product's own verify CLI, doctor command, and feature map (`app-verification`, call it by name).
 
 ## Contents
@@ -19,7 +19,6 @@ Decide a TypeScript codebase's structure, improve it where change has become exp
 - Harden mode (make it stick)
 - Validation loop
 - Output template
-- Excuses
 - Gotchas
 - Related skills
 
@@ -58,19 +57,19 @@ Load only when the condition applies.
 
 | Reference | Mode | Read when |
 |-----------|------|-----------|
+| [references/vocabulary.md](references/vocabulary.md) | All | Before naming a module, interface, seam, or adapter in any output; it defines the deletion test |
 | [references/stack-defaults.md](references/stack-defaults.md) | Design | Choosing libraries, tooling, or deploy targets |
-| [references/api-design.md](references/api-design.md) | Design, Deepen | Designing endpoints, module contracts, request context, error shapes, or an agent-facing CLI/SDK surface |
+| [references/api-design.md](references/api-design.md) | Design, Deepen | Designing endpoints, module interfaces, request context, error shapes, or forwarded credentials |
 | [references/distributed-correctness.md](references/distributed-correctness.md) | Design, Deepen | The work provably touches an external system, webhook, retry, audit trail, or money. In Deepen you can grep for it; in Design it is a question about requirements, so confirm before loading rather than inferring it from the product's domain |
 | [references/brief-conventions.md](references/brief-conventions.md) | Design | Writing the conventions, testing, quality-bar, or rollout and rollback sections of the brief |
-| [references/deepening-existing.md](references/deepening-existing.md) | Deepen | Running Deepen: vocabulary, opportunity patterns, output template |
+| [references/deepening-existing.md](references/deepening-existing.md) | Deepen | Running Deepen: opportunity patterns, design it twice, ranking, measuring an agent-facing change, output template |
 | [references/domain-language.md](references/domain-language.md) | Deepen | Writing or fixing a glossary, resolving naming divergence, recording a decision |
 | [references/enforcement-ladder.md](references/enforcement-ladder.md) | Harden | Adding any check to a repo that already violates it |
 | [references/guardrail-tooling.md](references/guardrail-tooling.md) | Harden | Choosing and wiring the actual checks: dead code, duplication, cycles, module and package boundaries, file size, staleness gates |
 | [references/wayfinding.md](references/wayfinding.md) | Harden | Agents cannot find things, or keep re-deriving the same path |
 | [references/contagion-markers.md](references/contagion-markers.md) | Harden | The repo has legacy, generated, dual-path, or deliberately simplified code |
 | [references/verification-tiers.md](references/verification-tiers.md) | Harden | Defining which commands an agent should run, and when |
-| [references/agent-runtime.md](references/agent-runtime.md) | Harden | Configuring session hooks, permissions, or review gating |
-| [references/evaluation-scenarios.md](references/evaluation-scenarios.md) | none | Changing this skill. Never loads during a user task; it is the author's rubric |
+| [references/agent-runtime.md](references/agent-runtime.md) | Harden | Configuring the post-edit hook, the permission allowlist, or a job where an agent drafts fixes unattended |
 
 ## Design mode (new codebase)
 
@@ -80,7 +79,7 @@ Before any of this, ask whether each surface needs to exist. A module, service, 
 2. Choose repo shape:
    - `apps/` for deployable surfaces (`api`, `web`, `admin`).
    - `packages/` for shared libraries (`shared`, `ui`, `icons`, `auth`, `proto`).
-3. Define backend module contracts, each naming its enforcement (import-boundary lint or type check):
+3. Define backend module interfaces, each naming its enforcement (import-boundary lint or type check):
    - `handler`: transport only.
    - `service`: business orchestration.
    - `dao`: database access only.
@@ -108,7 +107,7 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 1. **Map the domain language and decisions.** Read `CONTEXT.md`, `docs/adr/`, or local equivalents if present, then read the code for entities, actions, and contexts as the team names them. Note divergence (one concept, three names; or one name, three concepts). Format and ADR rules in [references/domain-language.md](references/domain-language.md).
 2. **Scope the scan by where change lands.** Deepening pays off on code that keeps changing, so `git log --oneline` over a good stretch of history first and weight the files that keep coming up. An unscoped scan drifts into speculative cleanup.
 3. **Find deepening opportunities.** Look for anemic concepts, shallow modules, leaking seams, naming divergence, duplicated concepts, primitive obsession, misplaced logic, and tests forced past the public interface. Record each with file paths, never a vague smell. Check deletion first on every candidate: a concept with no live caller, a flag whose branch never runs, a layer with one implementation. Deleting it is the deepening, and it is the only move that cannot make the codebase harder to read.
-4. **Rank by leverage.** Prefer opportunities that pass the deletion test, localize named future changes, have low churn, meet a current requirement, and have a viable testing seam. Rank candidates before designing target interfaces; drop speculative cleanups.
+4. **Rank by leverage.** Prefer opportunities that pass the deletion test, localize named future changes, have low churn, meet a current requirement, and have a viable testing seam. Rank candidates before designing target interfaces; drop speculative cleanups. For the top candidate, design the interface twice before picking one.
 5. **Migrate one vertical slice first.** Prove the highest-leverage move end to end through one slice before generalizing.
 6. **Enforce the new seam** with lint, type, or test checks so it cannot decay, then roll out module by module. Continue into Harden mode for the enforcement rung and the check-bites test.
 
@@ -116,7 +115,7 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 
 Two halves: **guardrails** stop the wrong thing landing, **wayfinding** makes the right thing cheap to find. Both exist because agents arrive by grep, not by reading docs, so the warning has to live where they land and the rule has to be an exit code rather than a sentence someone might recall.
 
-Enforcement has a strength order, and it decides which mechanism you reach for before it decides which rung of the ladder you pick within it: make the mistake impossible in the code structure first, then lint and CI, then soft rules and skills, and human review last, because it is the slowest and easiest to skip. Treat every review comment as a missing lint rule: if a human caught it, ask why rungs 1 through 3 did not, and close that gap rather than relying on the next reviewer to catch it again. Full detail in [references/enforcement-ladder.md](references/enforcement-ladder.md).
+Reach for the strongest mechanism first: structure, then lint and CI, then prose, then human review; every review comment is a missing lint rule ([references/enforcement-ladder.md](references/enforcement-ladder.md)).
 
 Steps 1 to 3 always run. Steps 4 to 6 run only when their condition holds, and a request to add one check stops at step 3. Running all six for every request loads most of the bundle and is the failure this mode is most prone to.
 
@@ -125,13 +124,13 @@ Steps 1 to 3 always run. Steps 4 to 6 run only when their condition holds, and a
 3. **Install each check:** pick an enforcement rung for the violations that already exist ([references/enforcement-ladder.md](references/enforcement-ladder.md)), ship it green, then prove it bites (run it, break it on purpose, watch it fail with a message naming the fix, revert). Wire it into both a pre-commit hook and CI.
 4. **Wayfinding** per [references/wayfinding.md](references/wayfinding.md): naming and locality, the add-a-new-X recipe file, the trust-labeled docs index, one canonical instruction file.
 5. **Contagion markers** per [references/contagion-markers.md](references/contagion-markers.md): anything an agent must not copy or must not edit gets a greppable marker at the code site naming what to use instead.
-6. **Runtime ergonomics:** verification tiers in [references/verification-tiers.md](references/verification-tiers.md); session hooks, permission allowlists, and review gating in [references/agent-runtime.md](references/agent-runtime.md).
+6. **Runtime ergonomics:** verification tiers in [references/verification-tiers.md](references/verification-tiers.md); session hooks, the permission allowlist, and unattended fix jobs in [references/agent-runtime.md](references/agent-runtime.md); review gating at rung 4 of the enforcement order.
 
 ## Validation loop
 
 Run the items matching the modes you ran, and record results in the output. Each needs evidence; "looks consistent" is not a pass. An item that cannot execute yet, because nothing is installed or the repo is not writable, is recorded N/A with that reason. Silently passing it is how an unenforced contract ships looking verified.
 
-1. **Consistency** (Design, Deepen): naming, module contracts, and middleware rules read the same across every service. Evidence: a contradiction scan with zero findings.
+1. **Consistency** (Design, Deepen): naming, module interfaces, and middleware rules read the same across every service. Evidence: a contradiction scan with zero findings.
 2. **Enforceability** (all): every contract names its lint rule, type check, or test. Evidence: an enforcement note per contract, and for any check actually installed, the pass, then fail on a deliberate violation, then pass after revert.
 3. **Operability** (Design): observability, health checks, and a rollback path per deployable surface. Evidence: the rollout section names each.
 4. **Quality gates** (whenever code changed): the repo's lint, type-check, and targeted tests (`npm run lint`, `npm run check-types`, `npm run test --workspace=<pkg>` or equivalents). Evidence: passing output, quoted.
@@ -150,7 +149,7 @@ Design mode produces this brief. Deepen mode's ranked-opportunity template is in
 
 ## Context and constraints
 ## Repo shape
-## Backend module contracts
+## Backend module interfaces
 ## Request context and middleware policy
 ## Frontend boundaries
 ## Testing strategy
@@ -161,21 +160,9 @@ Design mode produces this brief. Deepen mode's ranked-opportunity template is in
 
 **Size the brief to the decisions, not to the template.** Drop any heading the project does not face rather than filling it: a single-tenant internal service with no frontend does not owe you a Frontend boundaries section. Each section carries the decision and the constraint that forced it, not a restatement of the conventions in the references. A brief that pads to nine sections costs the review attention that the two contested decisions needed.
 
-## Excuses
-
-Each rebuttal redirects to the step being skipped.
-
-| Excuse | Rebuttal |
-|--------|----------|
-| "The check is obviously configured right." | You have not watched it fail. A misconfigured gate passes on everything and reads as coverage. |
-| "There are too many existing violations to fix." | That is what the enforcement ladder is for. Pick a rung and land it green today rather than a perfect rule next quarter. |
-| "AGENTS.md already says not to do that." | A prompt rule decays under context pressure. If a static tool can check it, it belongs in tooling. |
-| "We'll add the enforcement in a follow-up." | The follow-up is the deadline's first casualty, and the contract decays from the day it ships unenforced. |
-| "CI already runs that tool." | Running is not gating. Read the step: a tool with no threshold, a `warn`-only rule, or a job behind a stale path filter is green on every PR. |
-
 ## Gotchas
 
-### Design and Deepen
+Harden-mode gotchas live in the reference each step loads (`guardrail-tooling.md`, `enforcement-ladder.md`, `contagion-markers.md`, `verification-tiers.md`, `wayfinding.md`).
 
 - Microservices for a team under 5 buy a deploy pipeline, contract versioning, and an on-call surface per service. Start with a modular monorepo; split when a boundary is proven by team or scale pressure.
 - App-level deps in a monorepo's root `package.json` hoist silently, so an app builds locally and breaks when deployed alone. Each app owns its deps.
@@ -184,20 +171,8 @@ Each rebuttal redirects to the step being skipped.
 - Extracting to `packages/` before 3+ apps need the code couples release cycles for nothing. The exception is the contract two surfaces already share (generated types, the RPC schema, branded IDs): that is the interface between them, and it belongs in a package at two apps.
 - Dual-writing to a database and a queue or webhook without an outbox (or CDC) loses or fabricates a notification whenever one side commits and the other fails. See `references/distributed-correctness.md`.
 - An externally-forceable invariant enforced by construction (unsigned type, hard CHECK) crashes or clamps when the outside world forces the state. Represent it, detect it post-factum, recover explicitly.
-- A whole-codebase deepening scan without `git log` hot-spot scoping fills the list with modules nobody touches, and every entry on it is speculative by definition.
 - Relying on `proxy.ts` as the only authorization layer: a matcher-excluded path skips it, and Server Functions post to their page's route, so a matcher change silently removes coverage. Check authorization in the handler or Server Function itself.
-
-### Harden
-
-- `jscpd` without `--threshold` exits 0 on any duplication, and `knip` with too many declared `entry` files hides real dead code behind them. A green step is not a gate until you have watched it fail.
-- Pick cycle tooling that resolves this repository's aliases and workspace edges. Prefer a configured linter rule or dependency-cruiser before adding another graph tool; verify an intentional cycle fails.
-- dependency-cruiser without `options.tsConfig` cannot resolve path aliases, drops those edges, and passes every rule on a graph with half its imports missing.
-- `turbo boundaries` checks cross-package imports and undeclared dependencies only; it sees nothing inside a package, so it does not replace the module boundary rule.
-- A hand-rolled shrink-only baseline (`*-ratchet.mjs` plus `*.baseline.json`) reimplements the `ignore`, allowlist, and `warn` mechanisms knip, the linter, dependency-cruiser, and jscpd already ship, and the baseline becomes the file people edit for a green run.
-- Dormant config or an unused devDep reads to an agent as live convention; a config pointing at a renamed file yields a confident empty result instead of an error.
-- A docs index entry or add-a-new-X recipe written from memory names a moved file, and the agent follows the pointer with full confidence rather than doubting the doc. Grep-verify every path before publishing it.
-- Pre-commit hooks alone are not installed on a fresh clone or in a worktree, which is exactly where agents run. CI is the gate; the hook is the fast signal.
-- A LEGACY marker only in `docs/legacy.md` is never seen by an agent that arrived by grep. The marker goes at the top of the frozen file.
+- A whole-codebase deepening scan without `git log` hot-spot scoping fills the list with modules nobody touches, and every entry on it is speculative by definition.
 
 ## Related skills
 
@@ -209,4 +184,4 @@ Each rebuttal redirects to the step being skipped.
 - `dx-audit`: the developer-facing surface a package ships outward; `api-design.md` here covers only the contract shape.
 - `app-verification`: builds and maintains the verify CLI, doctor command, and feature map a repo runs itself with; this skill's Harden mode wires the CI checks that harness's own scripts and fixtures should pass. Call it by name.
 
-Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.
+Maintenance only: `evals/evals.json` and `evals/evaluation-scenarios.md` hold regression scenarios for changes to this skill; neither loads during a user task.

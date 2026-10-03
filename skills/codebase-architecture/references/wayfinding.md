@@ -4,19 +4,11 @@ Making the right thing cheap to find. Load when agents cannot locate things, kee
 
 ## Contents
 
-- Why this pays
 - Naming and locality
 - Add-a-new-X recipes
 - One canonical instruction file
 - The docs index and trust labels
 - Docs that stay true
-
-## Why this pays
-
-Code cleanliness does not change an agent's pass rate; it changes the cost of every task. Across 660 Claude Code trials over repo pairs matched on architecture, dependencies, and behavior but differing on rule violations and cognitive complexity, the clean side used 7 to 8% fewer tokens and revisited already-edited files 34% less often, with pass rate unchanged within noise (Sonar, [arXiv:2605.20049](https://arxiv.org/abs/2605.20049)). Two mechanisms drive it:
-
-- **Traversal cost.** Agents rebuild context per task by grepping and reading. Predictable names and small files mean the first guess lands; bloated files mean chunked reads and repeated visits.
-- **Convention contagion.** Agents mimic whatever code they read first. A legacy pattern sitting unmarked next to the current one gets copied even when the instruction file says otherwise.
 
 ## Naming and locality
 
@@ -41,13 +33,7 @@ Acceptance is behavioral, not editorial: a fresh-context agent follows one recip
 
 ## One canonical instruction file
 
-Two overlapping instruction files (AGENTS.md and CLAUDE.md, or per-tool variants) read inconsistently and drift apart, and the agent has to reconcile them before it can act.
-
-- Merge into one canonical file and symlink the other to it. One file to update, every tool reads the same content.
-- Never create a second one when the first exists.
-- Update it in the same change that changes the convention, not in a later docs pass.
-- Keep it hand-curated. Hand-written context files measurably beat LLM-generated ones (p=0.038), while generating one raises cost 20 to 23% for no significant accuracy change either way. Generated files mostly parrot documentation the repo already has: they only beat having no file at all once the README and docs are deleted ([arXiv:2602.11988](https://arxiv.org/abs/2602.11988)).
-- Write the requirements the agent cannot discover, not an overview of what it can. Directory enumerations and codebase tours appeared in every generated file in that study and did not reduce the steps taken to reach the relevant code. A specific instruction does land: agents told to use a particular tool used it 1.6 times per task on average, against fewer than 0.01 times when it went unmentioned, so instruction-following is literal enough that a wrong line is as load-bearing as a right one.
+The instruction file itself (which file is canonical, how tools load it, what goes in it) belongs to `agents-md`. From here it needs two things: it indexes the recipe file and the docs index, and it changes in the same commit as the convention it states.
 
 ## The docs index and trust labels
 
@@ -55,7 +41,7 @@ Stale docs are worse than no docs, because an agent cites them confidently. Make
 
 Index every agent-facing doc with two pieces of metadata:
 
-- **A trust label.** *Live* (maintained, believe it), *Reference* (stable background, still true but not actively tended), *Historical* (point-in-time artifact, do not treat as current).
+- **A trust label.** *Live* (maintained, believe it), *Reference* (stable background, still true but not actively tended), *Proposal* (a design or backlog for something not built; nothing in it exists in code until a plan lands it), *Historical* (point-in-time artifact, do not treat as current).
 - **A one-line consult-when scope**, so the agent knows whether to open a doc before paying to read it.
 
 ```markdown
@@ -64,8 +50,11 @@ Index every agent-facing doc with two pieces of metadata:
 | docs/knowledge/common-workflows.md | Live | Adding a new module, screen, query, flag, or locale |
 | docs/knowledge/auth.md | Live | Touching session handling or a protected route |
 | docs/adr/ | Reference | A decision looks arbitrary and you want the reason |
+| docs/briefs/public-api.md | Proposal | Planning the public API; describes nothing that ships yet |
 | docs/migrations/2024-mongo-to-postgres.md | Historical | Reading old code that still assumes Mongo shapes |
 ```
+
+**Say which doc wins.** Two docs will disagree, and an agent that finds both picks whichever it read last. State the precedence in the index: code and the instruction file beat Live docs, Live beats Reference, and Proposal and Historical never override anything; where a specific pair overlaps (research notes against the architecture doc), name the winner in that row.
 
 **A dangling index entry is worse than a missing one.** An index that points at files which do not exist sends the agent looking, and the absence reads as "I have the wrong path" rather than "this does not exist". When an entry names something unwritten, either write it or delete the entry, then grep-verify that every path in the index and the instruction file resolves.
 

@@ -9,7 +9,6 @@ An agent that knows exactly which check to run wastes no tokens running the wron
 - Commands that lie
 - CI runs the same command
 - The boot check
-- Tests that survive parallelism
 
 ## The tier ladder
 
@@ -18,14 +17,14 @@ Name the tiers, publish the routing, and state in the instruction file which tie
 | Tier | Contents | Runs when |
 |---|---|---|
 | `check` | lint, typecheck, format check | Continuously during an edit loop |
-| `verify` | `check` plus unit tests | Before a commit |
-| `verify:full` | `verify` plus integration, boot check, staleness gates | Before a push or in CI |
+| `check:commit` | `check` plus unit tests | Before a commit |
+| `check:full` | `check:commit` plus integration, boot check, staleness gates | Before a push or in CI |
 
-Three tiers is the useful number. Two collapses the edit loop into the test suite; four leaves the agent guessing which to pick.
+Keep every tier under the `check` prefix: `verify` usually already names the repo's run-the-app proof (`app-verification`), and two meanings for one command name send the agent to the wrong one. Three tiers is the useful number. Two collapses the edit loop into the test suite; four leaves the agent guessing which to pick.
 
 ## Latency budgets and file-scoped variants
 
-Encode the budget in test filenames so "run the narrowest relevant tier" is executable rather than a judgment call: `*.test.ts` under 3s, `*.integration.test.ts` under 10s, `*.e2e.test.ts` unbounded and excluded from `verify`.
+Encode the budget in test filenames so "run the narrowest relevant tier" is executable rather than a judgment call: `*.test.ts` under 3s, `*.integration.test.ts` under 10s, `*.e2e.test.ts` unbounded and excluded from `check:commit`.
 
 Publish file-scoped variants too (`lint:file`, typecheck one project, test one path). The agent knows exactly which files it touched, so a per-file check is the fastest loop available to it, and the one it will actually run between edits.
 
@@ -45,7 +44,7 @@ Publish the list in the instruction file or a verify doc, with what to run inste
 
 ## CI runs the same command
 
-CI invokes the same umbrella command a developer runs (`verify:full`), rather than a hand-maintained list of individual steps.
+CI invokes the same umbrella command a developer runs (`check:full`), rather than a hand-maintained list of individual steps.
 
 A separately-maintained CI list drifts: a check gets added locally and never wired, or a step is dropped during a refactor and nobody notices because the absence of a failure looks like success. Where CI must diverge, make the difference explicit and stated rather than emergent.
 
@@ -54,12 +53,3 @@ A separately-maintained CI list drifts: a check gets added locally and never wir
 A check that constructs the app's wiring (dependency container, module graph, route registration) without serving traffic.
 
 It catches the class of error typecheck and unit tests both miss, which is exactly the class agents introduce when they add a dependency or register a new module: everything compiles, every unit test passes, and the app cannot start. Have it load `.env.example` so the environment contract is exercised at the same time.
-
-## Tests that survive parallelism
-
-Guardrails only hold if the suite behind them is trustworthy:
-
-- Unique IDs per test, generated at runtime, never shared fixtures. Shared fixtures collide the moment the suite runs in parallel, and the resulting flake teaches everyone to rerun rather than read.
-- Seeded randomness and a frozen-clock helper, so a failure reproduces.
-- Unit tests stay database-free; anything needing a database is an integration test and named as one.
-- A pluggable interface ships its behavioral spec as an importable contract test suite, so a new adapter (often agent-written) proves conformance by calling one function rather than reimplementing the expectations.
