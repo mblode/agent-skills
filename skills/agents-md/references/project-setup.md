@@ -1,6 +1,6 @@
 # Project Setup
 
-Use when wiring a repo so Claude Code, Codex, and Cursor all work in it, or when the user asks to make a project agent-friendly.
+Use when wiring a repo so Claude Code, Codex, and Cursor all read the same instructions.
 
 Setup is not the audit. The audit judges an existing file; setup decides which files exist and which tool reads each one. Run setup first on a bare repo, then audit the AGENTS.md it produces.
 
@@ -52,7 +52,7 @@ Add only what the repo actually needs.
 
   Migrate each directory: rename a standalone `CLAUDE.md` to `AGENTS.md`; when both exist, merge unique instructions into AGENTS.md and remove the old file. Unlink duplicate symlinks without deleting their targets. Resolve reverse links (`AGENTS.md -> CLAUDE.md`) before removal. Update references to moved files and any scaffold that recreates wrappers. Keep user edits and nested scope intact. Inspect `.claude/CLAUDE.md` and private `CLAUDE.local.md` too; do not publish private content into a shared file. If private overrides must remain, use the both-files mode and report that exception.
 
-  Nested AGENTS.md attaches on text `Read`, with a nested CLAUDE.md taking priority in fallback mode. The mod does not cover `--add-dir` AGENTS.md, prompt mentions, IDE selections, or non-text Read attachments in the same way as engine CLAUDE.md. `/memory` does not list AGENTS.md; verify the instruction announcement and a loaded-only rule probe. External imports require approval the AGENTS.md mod cannot itself request.
+  Nested AGENTS.md attaches on text `Read`, with a nested CLAUDE.md taking priority in fallback mode. The mod does not cover `--add-dir` AGENTS.md, prompt mentions, IDE selections, or non-text Read attachments in the same way as engine CLAUDE.md. `/memory` does not list AGENTS.md; verify the instruction announcement and a loaded-only rule probe.
 - **Codex**: nothing beyond `AGENTS.md`. `AGENTS.override.md` in the same directory wins over `AGENTS.md`, which is useful for a local experiment and a trap when one is committed by accident, so check `git ls-files | grep override` during setup. A repo that must keep `CLAUDE.md` as its only file can be read by Codex with `project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`, but that is per machine, so renaming to `AGENTS.md` is the fix that travels.
 - **Cursor**: `AGENTS.md` covers the prose. Add `.cursor/rules/*.mdc` only for rules that need glob scoping, which `AGENTS.md` cannot express:
 
@@ -82,15 +82,13 @@ npx skills add <owner>/<repo>        # project scope is the default; -g would in
 
 Claude Code reads `.claude/skills/`; Codex and Cursor read `.agents/skills/`. The CLI writes each.
 
-Skills that drive a specific harness do not travel. One that calls a Claude Code tool, spawns `claude -p`, or depends on an MCP server present in only one tool should stay out of the shared set, because in the other tools it advertises a capability that is not there.
+Skills that drive a specific harness do not travel. One that calls a Claude Code tool, spawns `claude -p`, or depends on an MCP server present in only one tool advertises a capability the other tools lack. Keep it out of the shared set, or, when the team wants it shared, name the dependency in its description ("needs the PostHog MCP server") so an agent without it routes elsewhere instead of failing halfway.
 
 Watch the description budget; both tools have one. Claude Code caps the skill listing at 1% of the context window and shortens descriptions to fit (`/doctor` estimates the cost); Codex caps it at 2% of the context window or 8,000 characters, shortens descriptions first, then omits skills with a warning. Either way a large install degrades triggering across every skill, not just the new one. Install what the repo needs, not everything available.
 
 ## Enforcement That Survives Tool Choice
 
-An instruction file is context, not configuration; Claude Code's own docs say so, and the same holds in Codex and Cursor. A rule stated in prose is obeyed unevenly across tools. A rule with an exit code is obeyed by all of them.
-
-Prefer, in order: a linter or formatter rule, a git hook (lefthook, husky) that fires whichever agent made the edit, then a CI check. Tool-native hooks (`.claude/settings.json`, `.cursor/hooks.json`) are the last rung, because they cover one tool only. Move a prose rule down to an exit code whenever the check is mechanical, and delete the prose once the gate exists.
+An instruction file is context, not configuration: a rule in prose is obeyed unevenly across tools, and a rule with an exit code is obeyed by all of them. The order of mechanisms belongs to `codebase-architecture` (`references/enforcement-ladder.md`). The cross-tool point it adds here: a git hook or CI check fires whichever agent made the edit, while `.claude/settings.json` and `.cursor/hooks.json` hooks cover one tool each, so they are the last rung for a shared rule.
 
 ## Verify By Asking, Not By Reading
 

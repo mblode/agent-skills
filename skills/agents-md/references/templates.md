@@ -7,7 +7,6 @@ Structure starters only. Fill with project-specific commands, gotchas, and conve
 - Before/After Example
 - Root file skeleton (single project)
 - Root file skeleton (monorepo)
-- Root file skeleton (multi-language monorepo)
 - Claude Code setup
 - Filling a skeleton
 
@@ -47,13 +46,16 @@ One-line description.
 
 ## Root file skeleton (monorepo)
 
+The bracketed lines apply only when runtimes mix (Node + Python, Node + Rust); drop them otherwise.
+
 ```markdown
 # <Monorepo name>
 
-One-line description.
+One-line description. [<Language A> + <Language B> monorepo using <tooling>.]
 
 ## Commands
 - `<root install/build/test/lint commands>`
+- [`<language-B setup command>`]
 
 ## Workspace map
 Each workspace has its own `AGENTS.md`, loaded when an agent works there:
@@ -62,40 +64,13 @@ Each workspace has its own `AGENTS.md`, loaded when an agent works there:
 
 ## Rules
 - `<cross-workspace rule that affects all workspaces>`
-
-## Do not commit
-<Files/dirs that are runtime inputs or build outputs, not source>
-```
-
-List workspace files as plain paths, not `@import`s. An import would load every workspace file into every Claude Code session, which defeats the split, and Codex and Cursor would see only the literal text.
-
-## Root file skeleton (multi-language monorepo)
-
-For projects mixing runtimes (e.g., Node + Python, Node + Rust):
-
-```markdown
-# <Monorepo name>
-
-One-line description. <Language A> + <Language B> monorepo using <tooling>.
-
-## Commands
-- `<root install/build/test/lint commands>`
-- `<language-B setup command>`
-
-## Workspace map
-Each workspace has its own `AGENTS.md`, loaded when an agent works there:
-- apps/<app>/AGENTS.md
-- packages/<pkg>/AGENTS.md
-
-(`packages/<lang-b-pkg>` is <Language B>-only; see its README for entry points.)
-
-## Rules
-- **Always use `<venv-or-toolchain-path>`, never global `<tool>`**: dependencies may not be on PATH.
-- <Cross-language boundary rule>
+- [**Always use `<venv-or-toolchain-path>`, never global `<tool>`**: dependencies may not be on PATH.]
 
 ## Do not commit
 <Runtime inputs, build outputs, venvs, node_modules, caches>
 ```
+
+List workspace files as plain paths, not `@import`s, or every workspace file loads into every Claude Code session and the split buys nothing.
 
 ## Claude Code setup
 

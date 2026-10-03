@@ -35,6 +35,18 @@
         "Does not copy private notes into shared AGENTS.md",
         "Explains that project CLAUDE.local.md blocks default fallback and both-files mode supports retaining it"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Set this repo up so Claude Code and Codex share our project skills. skills/triage-errors/SKILL.md calls PostHog MCP tools to fetch the top error, and only the Claude Code setup has that MCP server. AGENTS.md also repeats the triage steps the skill holds.",
+      "expected_output": "Flag that triage-errors depends on an MCP server only one tool has, either keep it out of the shared set or name the dependency in its description, and leave one copy of the triage steps with a pointer in the other file.",
+      "files": [],
+      "assertions": [
+        "Identifies the PostHog MCP dependency as a capability Codex lacks",
+        "Keeps the skill out of the shared set or names the MCP dependency in its description",
+        "Does not claim the skill works unchanged in Codex",
+        "Removes the duplicated triage steps from one file and leaves a pointer"
+      ]
     }
   ],
   "routing": {
