@@ -1,6 +1,6 @@
 ---
 name: scaffold-nextjs
-description: "Scaffolds a Next.js turborepo with Blode UI, icons, Ultracite (oxlint/shadcn), workspace hooks, and GitHub/Vercel setup. Use when asked to \"create a Next.js project\", \"bootstrap a turborepo\", or \"start a new web app\". For a page in an existing app use ui-design; for a CLI use scaffold-cli."
+description: "Scaffolds a Next.js turborepo with Blode UI, icons, Ultracite (oxlint/shadcn), workspace hooks, and GitHub/Vercel setup. Use when asked to \"create a Next.js project\", \"bootstrap a turborepo\", or \"start a new web app\"."
 compatibility: Requires a shell, Git, Node.js, pnpm, and package registry access.
 ---
 
@@ -17,7 +17,7 @@ The references encode the house stack and dependency order. Verify version-sensi
 
 | File | Read When |
 |------|-----------|
-| `references/app-setup.md` | Phase 2: create-next-app flags, TypeScript 7 upgrade, Instant Navigations, shadcn + Blode registry, icons, Agentation, Ultracite 7.12+ with `ultracite/oxlint/shadcn`, move into apps/web/ |
+| `references/app-setup.md` | Phase 2: create-next-app flags, TypeScript 7 upgrade, Instant Navigations config and the rules block for `apps/web/AGENTS.md`, shadcn + Blode registry, icons, Agentation, Ultracite 7.12+ with `ultracite/oxlint/shadcn`, move into apps/web/ |
 | `references/turbo-configs.md` | Phase 6: root package.json, pnpm-workspace.yaml, turbo.json, root lefthook.yml, .gitignore, knip.json, workspace scripts, next.config.ts, root and app AGENTS.md |
 | `references/deploy-and-launch.md` | Phase 7 and 8: GitHub, Vercel, CI workflow, metadataBase, verification, security.txt, favicon, OG image, validation checklist |
 
@@ -64,7 +64,7 @@ TypeScript 7 section of `references/app-setup.md`: install `typescript@^7` and c
 
 ### Phase 2.2: Turn on Instant Navigations
 
-Instant Navigations section of `references/app-setup.md`: set `cacheComponents`, `partialPrefetching`, and `experimental.turbopackRustReactCompiler` in `next.config.ts`. Cheap here and expensive later, so do it before any route exists. Read the authoring rules in that section before Phase 3; they govern how every page is written.
+Instant Navigations section of `references/app-setup.md`: set `cacheComponents`, `partialPrefetching`, and `experimental.turbopackRustReactCompiler` in `next.config.ts`. Cheap here and expensive later, so do it before any route exists. Read the Instant Navigations rules block that follows it before Phase 3; it governs how every page is written, and Phase 5.1 appends it to `AGENTS.md`.
 
 ### Phase 3: Install Blode UI components and icons
 
@@ -89,7 +89,7 @@ Move the app into `apps/web/` (commands at the end of `references/app-setup.md`)
 1. Generate root `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `lefthook.yml`, `knip.json`, and `.gitignore` from the templates. Delete `apps/web/lefthook.yml`; git only reads the copy next to `.git`. Move any build-script settings from `apps/web/pnpm-workspace.yaml` into the root file, then delete it.
 2. Update `apps/web/package.json` scripts to the turbo-compatible block and remove its `prepare` script (the root one installs the hooks).
 3. Verify `apps/web/next.config.ts` still has `reactCompiler: true`, `cacheComponents: true`, and `partialPrefetching: true`.
-4. Write the root `AGENTS.md` from the template. Keep the Phase 5.1 design-system lint paragraph in `apps/web/AGENTS.md` outside the Next-managed markers, including `ultracite fix` / `ultracite fix --codex`.
+4. Write the root `AGENTS.md` from the template. Keep the Phase 5.1 Instant Navigations and design-system lint sections in `apps/web/AGENTS.md` outside the Next-managed markers.
 5. Run `pnpm install` from the root, then `pnpm run dev` once from the coding agent's shell. When Next 16.3 detects a coding agent in the environment it appends its managed `nextjs-agent-rules` block to `apps/web/AGENTS.md` (some generators also create a CLAUDE.md wrapper). Commit AGENTS.md and remove any duplicate CLAUDE.md wrapper. From a plain terminal nothing is written; that is fine, the block arrives on the agent's first run.
 6. Verify `pnpm run check`, `pnpm run build`, and `pnpm exec lefthook run pre-commit --all-files` pass from the root, then `pnpm --filter web start` and load the home page from the production build.
 
@@ -114,38 +114,15 @@ A `{{name}}` left in `package.json` fails `pnpm install` (invalid-name error); a
 ## Gotchas
 
 - No `src/` directory. The scaffold uses `--no-src-dir`; adding `src/` later breaks the `@/*` alias and every shadcn component path.
-- Never set `experimental.useTypeScriptCli`. Since 16.3 the CLI checker is the default, and the flag exists only to switch it back off with `false`; setting it to `true` is noise that reads like a requirement.
-- Expect raw `tsc` diagnostics from the CLI checker: no Next.js code frames, and the full `tsconfig.json` project is checked (tests and `.next/dev/types` included), so a type error in a file `next build` used to skip now blocks the build. If you add `node --test` files later, either keep them type-clean or add `**/*.test.ts` to `tsconfig.json` `exclude`.
-- A green `next build` does not mean navigation is instant. Instant navigation validation runs in development only (`validationLevel: 'warning'`) and never fails the build, so validate in `next dev` and read the overlay.
-- With `cacheComponents: true`, any route segment that exports `dynamic`, `dynamicParams`, `revalidate`, or `fetchCache` fails the build; `runtime`, `maxDuration`, `instant`, and `prefetch` remain valid. That includes route handlers such as a hand-written `robots.txt/route.ts`. Put the data access in a separate `'use cache'` function with `cacheLife`, called from the page or the `GET`; the directive cannot sit on the `GET` export itself.
-- `'use cache'` is in-memory per instance on serverless hosts, so on Vercel a cached value computed in one function invocation is not seen by the next. The docs' answer is `'use cache: remote'` for anything that must be shared; use it for the data behind the sitemap and any list page, and keep plain `'use cache'` for values that are cheap to recompute.
-- `generateStaticParams` must return at least one param under Cache Components; an empty array raises `empty-generate-static-params`. Unlisted params get the App Shell on first visit and upgrade in the background.
-- Cache Components keep the previous route's DOM mounted (React `<Activity>`), so a background or theme hung off `body` or `html`, including a `body:has(.marker)` rule, leaks onto the next route. Own backgrounds per route, and key any theme switch off `usePathname()` in React rather than a class on `body`. Dropdowns and form state also survive navigation; clean them up in an effect or derive them from the URL.
 - Never add `output: "standalone"`. It is for self-hosting, and on Vercel it stops `.next/next-server.js.nft.json` being written, so the build compiles every page and then dies in Vercel's onBuildComplete.
-- Never set `runtime = "edge"`; it is deprecated in 16 and Cache Components requires Node.js. For work that must outlive the response (analytics, logging), use `after()` from `next/server` rather than a floating promise, which Node can cut off the moment the response goes out.
 - Add no Turbopack cache config. `turbopackFileSystemCacheForDev`, `turbopackFileSystemCacheForBuild`, and memory eviction (`'auto'`) are on by default in 16.3.
-- `turbopack.root` is not needed here. Turbopack infers the workspace root from the lockfile; set it only when linked packages live outside the repo.
-- `next dev` appends a managed `<!-- BEGIN:nextjs-agent-rules -->` block to the `AGENTS.md` next to the `next` package (so `apps/web/`, not the root), and writes `CLAUDE.md` as `@AGENTS.md` only when neither file exists. It runs only when a coding agent is detected in the environment (`next/dist/server/lib/generate-agent-files.js`), so a plain terminal never triggers it. Keep AGENTS.md, remove any generated CLAUDE.md wrapper, and keep project instructions outside the markers.
-- `create-next-app --react-compiler` installs `babel-plugin-react-compiler` as a devDependency. With `experimental.turbopackRustReactCompiler` on it is unused; remove it after Phase 2.2 so nobody reads it as a requirement.
-- `ultracite init --skip-install` writes `check` and `fix` scripts, sets `"type": "module"`, and adds `oxlint`, `oxfmt`, `lefthook`, and `@shadcn/lint` (the last from `--js-plugins`). It writes no `prepare` script (that happens in the install step it skipped). Pin those tools to the versions the first `pnpm install` resolves before committing, and let the root `prepare` own hook installation. Confirm `ultracite` is ≥ 7.12 (`pnpm ls ultracite --depth=0`); older CLIs reject `--js-plugins @shadcn/lint` or skip the preset. JS plugins need Oxlint ≥ 1.80 and Node ≥ 20.19; if the plugin fails to load, bump `oxlint` rather than dropping `shadcn` from `extends`.
-- No ESLint or Prettier. Ultracite owns lint and format via Oxlint + Oxfmt; a stray `.eslintrc` makes the editor disagree with the lefthook pre-commit hook. Pass `--js-plugins @shadcn/lint` to `ultracite init` (Ultracite ≥ 7.12). That is how 7.12 registers `ultracite/oxlint/shadcn`. Do not replace that preset with `jsPlugins: ["@shadcn/lint"]` plus a starter-only `shadcn/no-restyle` block.
-- Keep Ultracite's `extends` (`core`, `next`, `react`) and `ignorePatterns`, and add `shadcn`. Replacing `oxlint.config.ts` with a README `.oxlintrc.json` example drops the framework presets. Keep `jsPlugins: shadcn.jsPlugins` on the root config: Oxlint already loads the plugin from the preset, but Knip only reads `jsPlugins` off the root and otherwise flags `@shadcn/lint` as unused.
-- The preset turns `shadcn/no-restyle`, `no-arbitrary-values`, and `require-static-classes` off inside `**/components/ui/**`. Do not duplicate that override unless `components.json` `aliases.ui` points elsewhere; then add a matching override for that path or the plugin reports definition files for styling themselves.
+- No ESLint or Prettier. Ultracite owns lint and format via Oxlint + Oxfmt; a stray `.eslintrc` makes the editor disagree with the lefthook pre-commit hook.
 - Run lint and format through the workspace scripts: root `pnpm run check` / `pnpm run fix` (turbo runs them inside `apps/web`), or `pnpm exec ultracite check` from `apps/web`. Running `ultracite`, `oxlint`, or `oxfmt` from the repo root finds no `oxlint.config.ts` there and lints with defaults, which disagrees with the hook and skips the shadcn preset. Remaining design-system findings after `ultracite fix` can go to `pnpm exec ultracite fix --codex` (or `--claude`) from `apps/web`.
 - No manual git hooks. Lefthook owns them; husky or another hook manager double-runs or skips fixes.
-- `lefthook.yml` lives at the repo root, next to `.git`. A copy inside `apps/web/` is read only when lefthook is invoked from that directory, which the git hook never does. The root file scopes each job with `root: "apps/web/"` so staged paths are passed relative to the workspace, where `oxlint.config.ts` and `oxfmt.config.ts` live.
-- The hook runs `oxfmt` and `oxlint` as two jobs with their own globs, not `ultracite fix`. Ultracite exits non-zero when the staged set contains no lintable JS/TS file, so a CSS-only or Markdown-only commit fails the hook outright; two jobs let lefthook skip whichever has nothing to do. The `oxfmt` glob includes `md` and `mdx` so it inspects what `format:check` inspects.
-- pnpm reads the workspace list from the root `pnpm-workspace.yaml`, not a `workspaces` field in `package.json`. A leftover `apps/web/pnpm-workspace.yaml` or `apps/web/pnpm-lock.yaml` from create-next-app makes pnpm treat `apps/web` as its own root, so commands run there resolve a second lockfile. Keep one of each, at the root.
 - pnpm does not hoist dependencies to the root `node_modules`, so a tool resolves only in the workspace that declares it. Run `oxlint`, `oxfmt`, and `@shadcn/lint` through `pnpm exec` inside `apps/web` (the lefthook `root:` and the turbo scripts already do), never by adding them to the root.
 - No app dependencies in the root `package.json` (root holds only `turbo`, `ultracite`, and `lefthook`); they break workspace isolation and turbo cache keys. `@shadcn/lint` stays in `apps/web` with `oxlint.config.ts`. Pin the same `ultracite` version (≥ 7.12) at the root and in `apps/web` so config resolution cannot drift.
-- Never run `pnpm dlx shadcn@latest add @blode/...` before `pnpm dlx shadcn@latest registry add @blode=...`; the unregistered namespace makes the add fail.
-- Never import from `lucide-react`; `blode-icons-react` is Blode UI's icon library and mixed imports bundle two icon sets. `shadcn init` writes `"iconLibrary": "lucide"` into `components.json`; change it to `blode-icons-react` before adding components, and replace any generated `lucide-react` import paths.
 - Never create `apps/web/` by hand. Scaffold at the root first, then move it in Phase 6; hand-building skips create-next-app defaults (Tailwind wiring, alias config).
-- `next-env.d.ts` is generated and belongs in `.gitignore` (create-next-app already lists it). Do not commit it or edit it; custom declarations go in a separate `.d.ts` referenced from `tsconfig.json`.
-- Next.js loads `.env.local` from the app directory (`apps/web/`), not the turborepo root. `vercel env pull apps/web/.env.local` is the pull command, and only `NEXT_PUBLIC_` variables reach the browser, inlined at build time.
-- `node --test` runs a test file directly, where the `@/` alias does not resolve; test files and the modules they import use relative paths, and a test script globs `lib/**/*.test.ts` rather than naming one file, or a new test is never executed while the gate reports green.
-- The root `.gitignore` ignores `.claude/` but un-ignores `.claude/knowledge/` (and `apps/web/.claude/`). Knowledge files are the memory these skills mine; experiment output is what the ignore is for.
-- Check the Vercel Root Directory before dashboard deploys. On a 404 or wrong app, set Root Directory to `apps/web` in Settings > General.
+- `node --test` runs a test file directly, where the `@/` alias does not resolve; test files and the modules they import use relative paths, and a test script globs `lib/**/*.test.ts` rather than naming one file, or a new test is never executed while the gate reports green. The `tsc` build checks the whole project, test files included: keep them type-clean or add `**/*.test.ts` to `tsconfig.json` `exclude`.
 
 ## Skill Handoffs
 

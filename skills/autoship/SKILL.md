@@ -1,6 +1,6 @@
 ---
 name: autoship
-description: Runs a changesets npm release through the version PR, CI publish, and registry verification. Use when asked to "release this package", "autoship", "merge Version Packages", or diagnose a release that did not publish. For feature PRs use pr-creator or pr-babysitter.
+description: Runs a changesets npm release through the version PR, CI publish, and registry verification. Use when asked to "release this package", "autoship", "merge Version Packages", or diagnose a release that did not publish.
 compatibility: Requires a Git checkout, GitHub CLI authentication, Node.js, and a changesets-based npm release workflow.
 ---
 
@@ -20,7 +20,7 @@ One workflow, two successive runs. Misreading it as two workflows causes most au
 3. Merge that PR once every check is green.
 4. The same workflow runs again. With no pending changesets left, the action runs its publish script (`changeset publish`), which publishes to npm and, by default, pushes the git tag and creates a GitHub release.
 
-The local job ends at "push the changeset file". CI owns versioning and publishing; anything versioned locally breaks the loop (see Gotchas).
+The local job ends at "push the changeset file". CI owns versioning and publishing.
 
 The action has two live majors with different input names: `@v1` takes `publish:`, `@v2` takes `publish-script:`. Read the `uses:` line before diagnosing a run that versioned but never published.
 
@@ -43,7 +43,7 @@ The action has two live majors with different input names: `@v1` takes `publish:
 | Watch CI only | 4-5 | Changeset already pushed |
 | Merge Version Packages PR only | 4b-5 | CI already green; merges once preconditions hold |
 | Fix gates only | 2 | Inside a release flow; no changeset needed |
-| Diagnose a release that did not publish | read-only | Failure Recovery table plus `references/version-pr-and-publish.md` |
+| Diagnose a release that did not publish | read-only | `references/version-pr-and-publish.md` (PR-wait timeout checks, publish failure table) |
 
 "Ship it" with no npm release context routes to `pr-creator`.
 
@@ -63,7 +63,7 @@ Copy this checklist to track progress:
 Autoship progress:
 - [ ] Step 1: Create changeset (default patch)
 - [ ] Step 2: Fix lint, types, tests, format
-- [ ] Step 3: Commit and push the changeset (never `changeset version` locally)
+- [ ] Step 3: Commit and push the changeset
 - [ ] Step 4a: Watch CI on the pushed commit
 - [ ] Step 4b: Find and merge the Version Packages PR
 - [ ] Step 5: Watch the publish run, verify on npm
@@ -82,13 +82,13 @@ Autoship progress:
 - Discover commands from `package.json` scripts (`check`, `lint`, `typecheck`, `test`, `format`, `fix`); in non-npm repos check `Makefile`, `Cargo.toml`, `pyproject.toml`, `go.mod`.
 - Run lint, typecheck, test, format. After any code change, re-run from the first gate: a type fix routinely breaks lint, and a lint autofix can break a test.
 - Scope auto-fixers to changed files where supported, then check `git status`: broad `fix`/`format` scripts reformat files outside the change (MDX is a frequent casualty). Undo only fixer changes introduced by this run, preserving pre-existing edits in the same files.
-- Cap the loop at 5 fix iterations per gate, reporting the remaining error count each pass; then stop and report (Failure Recovery).
+- Cap the loop at 5 fix iterations per gate, reporting the remaining error count each pass; then stop and report the gate, remaining error count, and last error output.
 
 ### Step 3: Commit and push the changeset
 
 - Stage the changeset file and in-scope fixes by explicit path; sweep `git status --porcelain` for hook artifacts (a root `schema.gql` is a known one) before committing.
 - Commit (`chore: add <type> changeset for <package>`) and push.
-- The pushed commit must still contain `.changeset/*.md`. Running `changeset version` locally consumes it (see Gotchas).
+- The pushed commit must still contain `.changeset/*.md` (first Gotcha).
 
 ### Step 4a: Watch CI on the pushed commit
 
@@ -115,15 +115,7 @@ Autoship progress:
 
 ## Failure Recovery
 
-| Failure point | Response |
-|---------------|----------|
-| Gate still failing after 5 iterations | Stop. Report the gate, remaining error count, last error output |
-| CI fails after the changeset push | Flaky or infra: `gh run rerun <id> --failed`, max 3. Real: fix, push, fresh watch |
-| "Changeset Status" check fails | No changeset: Step 1. Consumed (a local `changeset version` ran): revert the bump and `CHANGELOG.md` edit, re-add the changeset file. Rerunning cannot fix consumed state |
-| Version Packages PR absent after 10 minutes | `gh run view` the release run: "not permitted to create or approve pull requests" means the repo setting is off (Gotchas). Otherwise confirm pending changesets on the default branch and a `changesets/action` step in `.github/workflows/` |
-| Release run green but nothing published | `uses: changesets/action@v2` with the v1 `publish:` input, or no publish input at all. Check the run's "Unexpected input(s)" warning |
-| Merge precondition fails | Stop and report. Never override failing checks or resolve conflicts in the bot PR |
-| Publish run fails | Match the log against the publish failure table; report the fix; stop |
+Stop and report on a gate still failing after 5 iterations or any failed merge precondition; never override failing checks or resolve conflicts in the bot PR. Diagnosis lives with each stage: CI and Changeset Status failures in `references/ci-polling.md`, a missing Version Packages PR and publish failures in `references/version-pr-and-publish.md`.
 
 ## Gotchas
 

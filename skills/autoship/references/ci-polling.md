@@ -56,7 +56,7 @@ Each state change surfaces a new block; act on the first `TERMINAL:` line. Any c
 | Flaky test | Intermittent, passes on re-run, known flaky names | `gh run rerun <id> --failed`, restart the watch |
 | Infrastructure | Network timeout, runner lost, service unavailable | `gh run rerun <id>`, restart the watch |
 | Real failure | Consistent, reproducible, tied to the change | Fix, commit, push, start a fresh watch on the new SHA |
-| Release workflow failed on the changeset push | Log says "not permitted to create or approve pull requests", or the action errored | Repo settings or workflow config, not code; see SKILL.md Gotchas and Failure Recovery |
+| Release workflow failed on the changeset push | Log says "not permitted to create or approve pull requests", or the action errored | Repo settings or workflow config, not code; see the SKILL.md Gotchas and the PR-wait timeout checks in `references/version-pr-and-publish.md` |
 
 Retry flaky and infrastructure failures up to 3 times, then report. The publish run (Step 5) is never retried blind; its failure table lives in `references/version-pr-and-publish.md`.
 

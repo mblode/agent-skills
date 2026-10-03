@@ -183,7 +183,7 @@ next-env.d.ts
 .vscode/
 ```
 
-`.env.local` lives in `apps/web/`, where Next.js reads it, and `apps/web/.gitignore` already ignores `.env*`; `vercel env pull apps/web/.env.local` is the pull command.
+`.env.local` lives in `apps/web/`, where Next.js reads it, and `apps/web/.gitignore` already ignores `.env*`; `vercel env pull apps/web/.env.local` is the pull command. Only `NEXT_PUBLIC_` variables reach the browser, inlined at build time.
 
 ## knip.json
 
@@ -297,4 +297,4 @@ that) so Oxlint loads `oxlint.config.ts` and `ultracite/oxlint/shadcn`.
   `apps/web`.
 ````
 
-Use AGENTS.md directly without a CLAUDE.md wrapper. After the first `pnpm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; remove any generated duplicate `apps/web/CLAUDE.md`. The Phase 5.1 design-system lint paragraph stays above those markers.
+Use AGENTS.md directly without a CLAUDE.md wrapper. After the first `pnpm run dev` from the coding agent's shell, confirm `apps/web/AGENTS.md` ends with the `<!-- BEGIN:nextjs-agent-rules -->` block and commit it; remove any generated duplicate `apps/web/CLAUDE.md`. The Phase 5.1 Instant Navigations and design-system lint sections stay above those markers.

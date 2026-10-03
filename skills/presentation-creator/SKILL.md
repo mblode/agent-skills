@@ -1,6 +1,6 @@
 ---
 name: presentation-creator
-description: Builds decks with a story spine, house visual system, setting-specific density, and speaker notes. Use when asked to "create a presentation", "write a pitch deck", or "turn this doc into slides". Defaults to Marp; use an available presentation tool for editable PowerPoint. For product UI use ui-design.
+description: Builds decks with a story spine, house visual system, setting-specific density, and speaker notes. Use when asked to "create a presentation", "write a pitch deck", or "turn this doc into slides". Defaults to Marp; use an available presentation tool for editable PowerPoint.
 ---
 
 # Presentation Creator
@@ -8,7 +8,7 @@ description: Builds decks with a story spine, house visual system, setting-speci
 Bold, minimal slide decks with a story underneath: spine to final QA.
 
 - **IS:** slide decks end to end: story spine, slide sequence, slide copy, visual system, speaker notes, investor pitch decks, and decks built as a web app; output as Marp markdown (default), Slidev or reveal.js markdown, or a Next.js deck app.
-- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (available presentation/PPTX skill or tool; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose and marketing copy outside slides (`ghostwriter`), or product UI (`ui-design`), or a spoken talk script (`ghostwriter`).
+- **IS NOT:** producing or editing the `.pptx`/`.potx` file itself (available presentation/PPTX skill or tool; hand it the finished outline, copy, and notes from this skill), charts inside a slide (external `dataviz` where installed), long-form prose, marketing copy, or a spoken talk script outside slides (`ghostwriter`), or product UI (`ui-design`).
 
 ## Workflow
 
@@ -86,24 +86,14 @@ Deck-level checks below the table:
 
 Fix observed defects and inspect affected slides again. If rendering is unavailable, label visual verification unrun.
 
-## Core principles
-
-- **Story before slides:** the spine decides which slides exist. Write the ending first.
-- **Take a position:** a deck nobody could disagree with has not said anything.
-- **Headlines do the work:** the complete claim, not a topic label. "Q3: revenue up 40%. Here's how." beats "Q3 performance overview".
-- **Impact through scale, not weight:** large light type beats small bold type.
-- **One colour system, held for the whole deck:** full-bleed palettes where a palette owns the entire slide, or dark with one accent per section. Either is the rhythm the audience tracks position by.
-- **Demo it live where you can:** a working demo on a web deck, not a screenshot of one; a recording where the demo cannot run offline.
-
 ## Gotchas
 
 - **Dark deck in a bright room:** the default dark system relies on the room. Under daylight or a weak projector the black background goes grey and white body text washes out. Ask about the venue in Step 1; take the light "paper" palette or a white background when the answer is bright, and test on the projector, not the laptop.
-- **Contrast checked at headline size only:** a saturated full-bleed pair that reads at 100px fails at 20px caption size. Check the smallest text on the slide: 4.5:1 for body and captions, 3:1 for 24px-plus text, from the actual hex values. Record the ratio in the QA table.
+- **Contrast checked at headline size only:** a saturated full-bleed pair that reads at 100px fails at 20px caption size. Measure the smallest text on the slide from the actual hex values against the Step 8 thresholds.
 - **Export "PPTX" from Marp or Slidev and call it done:** both rasterise each slide into an image inside the `.pptx`. Text is not selectable or editable, so the deck the client wanted to edit is a stack of pictures. When editable PowerPoint is the deliverable, route to the `pptx` skill.
 - **Notes and directives both live in HTML comments in Marp:** `<!-- _class: lead -->` is a directive, `<!-- Open with the outage story -->` is a presenter note. A note that starts with a `key: value` line silently becomes a directive.
 - **Fixed pixel type on a web deck:** a deck sized for the presenter's laptop is a different deck on the projector and unreadable on the phone it gets forwarded to. Size in `clamp()`; Marp and `.pptx` decks are fixed canvases and take pt sizes instead.
 - **Presented-deck density on a pitch deck sent by email:** a 3-words-per-slide deck forwarded with no presenter is unreadable. Route to `pitch-decks.md` at Step 1, not after the deck is built. The inverse also fails: a 60-word slide on a demo-day stage.
-- **Sparse headlines on pitch decks:** "Traction" tells a skimming investor nothing. Write the claim: "1,000+ customers, $10M ARR".
 - **Skipping the spine:** jumping straight to slides produces a list of facts with no arc, then a rewrite once the missing narrative shows. Spine and ending first.
 - **Speaker notes as a script:** a verbatim script gets read aloud and sounds flat. Notes are prompts: key point, talk-track bullets, transition line.
 - **Accents outside the section system:** section colours are wayfinding; a random mid-section accent reads as a topic change that never happened. On a full-bleed deck the slide is the accent; the colour changes at the slide boundary, not inside it.

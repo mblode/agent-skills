@@ -58,6 +58,4 @@ done
 
 ## Safe-retry posture
 
-- Treat a hang or transient git error as retryable: apply the recovery above, then retry once or twice with backoff.
-- Abort the current phase (and notify the user) only if it still fails after recovery + retries; never let one transient git failure kill the monitor.
-- Keep recovery changes session-local (`git config core.fsmonitor false` affects local repo config only); don't push config changes as part of a PR.
+Abort the current phase and notify only when a command still fails after recovery and retries; one transient git failure never kills the monitor. Recovery config such as `core.fsmonitor false` stays in the local repo and is never pushed with the PR.

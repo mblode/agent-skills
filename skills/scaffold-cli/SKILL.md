@@ -1,6 +1,6 @@
 ---
 name: scaffold-cli
-description: Scaffolds a TypeScript CLI and npm package with the house toolchain, dual tsdown outputs, CLI contracts, changesets, and publishing templates. Use when asked to "scaffold a CLI" or "start an npm package". For an existing package release use autoship; for existing API ergonomics use dx-audit.
+description: Scaffolds a TypeScript CLI and npm package with the house toolchain, dual tsdown outputs, CLI contracts, changesets, and publishing templates. Use when asked to "scaffold a CLI" or "start an npm package".
 compatibility: Requires a shell, Git, Node.js, pnpm, and npm registry access. Remote publishing requires the relevant account authentication.
 ---
 
@@ -112,10 +112,6 @@ For a local scaffold, stop after Step 7. If the user already requested remote se
 
 - **tsdown emits `.mjs` by default.** With `platform: node` (the default) `fixedExtension` is on, so a config without `outputOptions.entryFileNames: "[name].js"` builds `dist/cli.mjs`, `dist/index.mjs`, and `dist/index.d.mts`, and `bin` and `exports` point at files that do not exist. The `outputOptions` block in the template is what keeps them `.js`; do not trim it as noise.
 - **No shebang in `src/cli.ts`.** tsdown's `banner` injects `#!/usr/bin/env node`; a source shebang doubles it in `dist/cli.js`. The two build entries stay separate: the CLI entry has the banner and `dts: false`, the library entry has `dts: true` and no banner.
-- **`ultracite init --quiet` without `--linter oxlint` installs Biome.** Quiet mode defaults the linter to Biome instead of prompting, so the repo silently ends up on the wrong toolchain. Pass every flag in the post-scaffold command.
-- **`git init` before `ultracite init`.** Init adds `prepare: lefthook install` and runs it at once; `lefthook install` writes into `.git/hooks` and fails without a repo.
-- **Replace the generated `lefthook.yml` before the first commit.** It runs `ultracite fix` with no file arguments, so a one-line change reformats the whole tree (31 files in the reference repo), and its `**/*.ts` globs never match root files, so `package.json` and `tsdown.config.ts` edits bypass the hook entirely. Adding `{staged_files}` alone makes it worse: a JSON-only commit (the shape of the changesets bot's Version Packages commit) then hits oxlint with no lintable file and exits 1. Use the version in `references/post-scaffold.md`, with `*.{...}` globs, never `**/`.
-- **`touch <file> && git add <file>` stages nothing.** An unchanged file has no staged diff, so the hook skips and the check proves nothing. Exercise the hook with `pnpm exec lefthook run pre-commit --file <path>`.
 - **`"test": "vitest run"` without `--passWithNoTests`** exits 1 on a repo with zero test files, so the first CI run goes red.
 - **`@changesets/cli@3` pairs with `changesets/action@v2` and the `publish-script:` input.** `@v1` cannot drive changesets v3, and `@v2` given the v1 `publish:` input versions the package and then completes green without publishing. The templates carry the matching pair; do not downgrade one side.
 - **npm cannot register a trusted publisher for a package that does not exist yet.** The first release run fails `E404` or `ENEEDAUTH` until Step 8's one-time manual `pnpm publish` has created the package and the workflow is registered. That publish happens before any changeset exists, so it is the one manual publish `autoship`'s rules do not forbid.

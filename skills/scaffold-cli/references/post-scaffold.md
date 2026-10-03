@@ -31,7 +31,9 @@ git commit -m "Initial commit"
 
 `ultracite init` emits a single job that runs `ultracite fix` with **no file arguments**,
 so every commit formats the whole repo, silently rewriting files the commit never touched,
-including in-progress work elsewhere in the tree. Overwrite it with:
+including in-progress work elsewhere in the tree, and its `**/` globs never match root files, so
+`package.json` and `tsdown.config.ts` edits bypass the hook. Overwrite it with (keep the `*.{...}`
+globs, never `**/`):
 
 ```yaml
 # Two jobs, not one, for two independent reasons.
@@ -73,7 +75,7 @@ both correct at once.
 ## Command Notes
 
 - `git init` must precede `ultracite init`: the lefthook integration adds a `prepare: lefthook install` script and runs it immediately; `lefthook install` writes into `.git/hooks` and fails without a repo.
-- `ultracite init` runs `pnpm install` itself (from `--pm pnpm`), then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). `--linter oxlint` skips the linter prompt; `--quiet` suppresses the rest.
+- `ultracite init` runs `pnpm install` itself (from `--pm pnpm`), then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). `--linter oxlint` is required: under `--quiet` the linter defaults to Biome instead of prompting, so the repo silently lands on the wrong toolchain.
 - Keep AGENTS.md as the only shared instruction file.
 - The initial commit captures the clean scaffold state, including ultracite-generated files.
 
@@ -93,7 +95,7 @@ Validation:
 - [ ] `node dist/cli.js --version | cat` prints 0.0.1 with no ANSI escape codes (color is suppressed when stdout is not a TTY)
 - [ ] AGENTS.md exists without a CLAUDE.md wrapper or symlink
 - [ ] `grep -c staged_files lefthook.yml` returns 2 (the generated single-job version was replaced)
-- [ ] a JSON-only commit passes the hook: `touch package.json && git add package.json && pnpm exec lefthook run pre-commit` exits 0 (this is the changesets-bot release path)
+- [ ] a JSON-only commit passes the hook: `pnpm exec lefthook run pre-commit --file package.json` exits 0 (this is the changesets-bot release path; `touch` plus `git add` stages nothing on an unchanged file, so the hook would skip and prove nothing)
 - [ ] `pnpm-lock.yaml` exists and `package-lock.json` does not (a stray npm lockfile makes `changeset publish` and the CI cache pick the wrong tool)
 - [ ] `.github/workflows/ci.yml` and `.github/workflows/npm-publish.yml` exist
 - [ ] `skills/{{bin}}/SKILL.md` has frontmatter with name and description
