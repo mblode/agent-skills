@@ -96,7 +96,7 @@ export const config = {
 Edge Config was renamed Global Config. Package `@vercel/global-config` (drop-in for `@vercel/edge-config`), env var `GLOBAL_CONFIG` (legacy `EDGE_CONFIG` still read by the new SDK; the legacy SDK cannot read newly connected stores).
 
 - Store only `keyFor(hostname) -> { id, slug, plan, hostname }`, written after the domain verifies. 1 MB per store on every plan, 3 stores per project, up to 10 s write propagation, writes 250 per month on Hobby and 100 per hour on Pro and Enterprise. Onboarding many domains on Hobby exhausts the write quota; the database stays the source of truth and Global Config is a write-through cache.
-- Key names match `^[\w-]+$` (256 chars): encode dots in hostnames.
+- Key names match `^[\w-]+$` (256 chars): hash the hostname as `keyFor` does; replacing separators with `_` lets two hostnames share a key.
 - Prefer `getAll()` over several `get()` calls; each SDK call is one billable read.
 - The confirmation screen after a domain verifies reads the database, not Global Config, because of the propagation window.
 

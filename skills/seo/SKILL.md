@@ -45,12 +45,9 @@ For AI visibility, the owner builds crawl access, content and extractable struct
 
 | File | Read when |
 |---|---|
-| [references/audit.md](references/audit.md) | Crawling, diagnosing or prioritizing a site audit |
-| [references/indexing-policy.md](references/indexing-policy.md) | Canonicals, redirects, exclusions, duplicate or programmatic pages |
+| [references/audit.md](references/audit.md) | Crawling, diagnosing or prioritizing a site audit; canonicals, redirects, exclusions and programmatic pages; hreflang; CDN, response headers or preview environments affecting discovery |
 | [references/nextjs-implementation.md](references/nextjs-implementation.md) | Implementing App Router metadata, sitemaps, rendering, status codes, Markdown twins, or schema; verify APIs against the installed Next.js docs |
 | [references/answer-engines.md](references/answer-engines.md) | SEO, AEO and GEO terms, AI visibility, crawler policies, owned versus earned coverage, Markdown alternatives or `llms.txt` |
-| [references/internationalisation.md](references/internationalisation.md) | Language/region variants and hreflang |
-| [references/technical-hardening.md](references/technical-hardening.md) | CDN access, response headers, errors or preview environments affect discovery |
 | [references/validation-evidence.md](references/validation-evidence.md) | Verifying findings, a built page or a deployed correction |
 | [references/research-protocol.md](references/research-protocol.md) | Keyword/prompt metrics, opportunity selection and question maps |
 | [references/brief-template.md](references/brief-template.md) | Producing a writer brief |
