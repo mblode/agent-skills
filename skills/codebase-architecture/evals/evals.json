@@ -22,12 +22,25 @@
         "Does not introduce a second registry",
         "Does not claim guardrails were installed"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a scheduled GitHub Actions job where a coding agent reads new production error issues and opens fix PRs on its own.",
+      "expected_output": "An unattended fix job whose gates run in the workflow, not the prompt: reproduce first, a test in the diff, protected paths, check and test re-run outside the model, a read-only agent job separate from the job that pushes, caps with fingerprint dedupe, isolated settings with a budget, and a draft PR a person merges.",
+      "files": [],
+      "assertions": [
+        "Refuses a diff with no test and a diff touching CI, agent settings, or instruction files",
+        "Re-runs the repo's check and test commands in the workflow rather than trusting the agent's report",
+        "Separates the job that runs the agent from the only job allowed to push",
+        "Opens a draft PR and merges nothing automatically"
+      ]
     }
   ],
   "routing": {
     "should_trigger": [
       "Harden a repository whose CI runs jscpd without a failure threshold. A seeded duplicate currently exits zero. Keep scope to that gate.",
-      "Design a plan only for an internal service. Existing code already supplies an auth policy registry and request context."
+      "Design a plan only for an internal service. Existing code already supplies an auth policy registry and request context.",
+      "Add a scheduled GitHub Actions job where a coding agent reads new production error issues and opens fix PRs on its own."
     ],
     "near_miss": [
       {

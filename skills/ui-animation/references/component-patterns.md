@@ -1,11 +1,9 @@
 # Component Animation Patterns
 
+Popovers, dropdowns, tooltips, drawers, and modals live with their recipes in `transition-recipes.md`.
+
 ## Contents
 - [Buttons](#buttons)
-- [Popovers and dropdowns](#popovers-and-dropdowns)
-- [Tooltips](#tooltips)
-- [Drawers and panels](#drawers-and-panels)
-- [Modals and dialogs](#modals-and-dialogs)
 - [Toasts](#toasts)
 - [Crossfade transitions](#crossfade-transitions)
 - [Lists and stagger](#lists-and-stagger)
@@ -41,102 +39,6 @@ Mask imperfect crossfade between button states with blur:
 ```
 
 Blur under 20px; heavy blur is expensive, especially in Safari.
-
-## Popovers and dropdowns
-
-Scale in from the trigger point, not from center; the default `transform-origin: center` is wrong for popovers.
-
-```css
-/* Base UI. Radix exposes the same thing as --radix-popover-content-transform-origin */
-.popover {
-  transform-origin: var(--transform-origin);
-}
-
-/* Data attribute fallback */
-.popover[data-side="top"]    { transform-origin: bottom center; }
-.popover[data-side="bottom"] { transform-origin: top center; }
-.popover[data-side="left"]   { transform-origin: center right; }
-.popover[data-side="right"]  { transform-origin: center left; }
-```
-
-Start at `scale(0.92)`, never `scale(0)`: nothing appears from nothing.
-
-```css
-.menu {
-  transform: scale(0.92);
-  opacity: 0;
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.menu[data-open="true"] {
-  transform: scale(1);
-  opacity: 1;
-}
-```
-
-## Tooltips
-
-Delay first appearance (300-500ms) to prevent accidental activation. Once one tooltip is open, subsequent ones open instantly.
-
-```css
-.tooltip {
-  transition: transform 125ms ease-out, opacity 125ms ease-out;
-  transform-origin: var(--transform-origin);
-}
-.tooltip[data-starting-style],
-.tooltip[data-ending-style] {
-  opacity: 0;
-  transform: scale(0.97);
-}
-.tooltip[data-instant] {
-  transition-duration: 0ms;
-}
-```
-
-## Drawers and panels
-
-Use the move easing curve. Percentage `translateY`/`translateX` adapts to any height.
-
-```css
-.drawer {
-  transform: translateY(100%);
-  transition: transform 240ms cubic-bezier(0.25, 1, 0.5, 1);
-}
-.drawer[data-open="true"] {
-  transform: translateY(0);
-}
-```
-
-```tsx
-<motion.aside
-  initial={{ transform: "translate3d(100%, 0, 0)" }}
-  animate={{ transform: "translate3d(0, 0, 0)" }}
-  exit={{ transform: "translate3d(100%, 0, 0)" }}
-  transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
-/>
-```
-
-## Modals and dialogs
-
-**Exception: modals keep `transform-origin: center`.** They're app-level state, not anchored to a trigger.
-
-Use `@starting-style` for entry animations without JavaScript:
-
-```css
-.modal {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1),
-              transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
-
-  @starting-style {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-}
-```
-
-`@starting-style` has been Baseline since August 2024, so the `data-mounted` attribute pattern is a fallback for browsers older than that, not the default. Ship the CSS above and add the attribute path only when the support matrix actually includes those browsers.
 
 ## Toasts
 

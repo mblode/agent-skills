@@ -41,14 +41,13 @@ User need: get help from the agent, trust its output, control what it does. Chec
 
 1. **`comm-no-progress-signal`** (release-blocker): streaming/thinking indicator visible during the response; never a frozen UI.
 2. **`control-no-escape-hatch`** (release-blocker): chat-triggered actions are interruptible mid-execution and reversible after completion.
-3. **`context-no-injection`** (rules-arch, release-blocker): sessions initialize with dynamic context (preferences, recent activity, project state), not a bare static prompt.
-4. **`trust-no-confidence-cues`** (fix-this-sprint): output includes rationale or sources so the user can verify correctness.
-5. **`trust-no-uncertainty-markers`** (fix-this-sprint): agent hedges when uncertain rather than presenting guesses as fact.
-6. **`comm-no-intent-handshake`** (fix-this-sprint): non-trivial or destructive actions confirmed before execution.
-7. **`control-thin-approval-payload`** (fix-this-sprint): chat-triggered approvals show the call's arguments, not just the tool's name; the user approves an act, not a category.
-8. **`control-over-conversational`** (fix-this-sprint): parallel direct-manipulation controls exist for common actions; users not forced into chat.
-9. **`context-memory-not-visible`** (fix-this-sprint): the user can see and edit what the agent remembers across sessions.
-10. **`comm-no-generative-momentum`** (backlog): blank-canvas entry points offer an agent-generated draft when the agent has the context.
+3. **`context-starvation`** (rules-arch, release-blocker when sessions load no cross-session or page context): sessions initialize with dynamic context (preferences, recent activity, project state), not a bare static prompt.
+4. **`trust-no-confidence-cues`** (fix-this-sprint): output includes rationale or sources so the user can verify correctness, and marks guesses as less certain than supported claims.
+5. **`comm-no-intent-handshake`** (fix-this-sprint): non-trivial or destructive actions confirmed before execution.
+6. **`control-thin-approval-payload`** (fix-this-sprint): chat-triggered approvals show the call's arguments, not just the tool's name; the user approves an act, not a category.
+7. **`control-over-conversational`** (fix-this-sprint): parallel direct-manipulation controls exist for common actions; users not forced into chat.
+8. **`context-memory-not-visible`** (fix-this-sprint): the user can see and edit what the agent remembers across sessions.
+9. **`comm-no-generative-momentum`** (backlog): blank-canvas entry points offer an agent-generated draft when the agent has the context.
 
 ## Agent Tool Execution / Action Panel
 
@@ -65,7 +64,7 @@ User need: understand what the agent is doing, stop it if wrong, trust the outco
 9. **`parity-unstructured-tool-output`** (rules-arch, release-blocker on this surface): tool handlers return a typed result whose failure branch is machine-readable, never prose with a success status.
 10. **`comm-no-intent-handshake`** (release-blocker on this surface): ambiguous or multi-interpretation requests get a playback/confirmation before the agent acts.
 11. **`trust-undisclosed-access-scope`** (release-blocker on this surface): the accounts and scopes the agent acts through are visible and individually revocable; undisclosed reach on an autonomous surface is the case the user cannot discover by watching.
-12. **`context-under-contextual`** (fix-this-sprint on this surface): the agent uses available context (current page, selection, recent actions) instead of asking redundant questions.
+12. **`context-starvation`** (rules-arch, fix-this-sprint on this surface): the agent uses available context (current page, selection, recent actions) instead of asking redundant questions.
 13. **`granularity-static-api-mapping`** (rules-arch, backlog): evolving APIs use discover + access tools, not one hard-coded tool per endpoint.
 
 ## Agent Configuration / System Prompt Editor
@@ -93,4 +92,4 @@ User need: see what the agent has done, what it's doing now, and what went wrong
 
 ## Coverage
 
-All 27 rules are reachable: 10 via chat, 13 via tool execution, 6 via config, 7 via dashboard, 1 diff-wide (rules repeat across playbooks; unique total = 27). To add a rule, copy `rules-<layer>/_template.md` as the starting structure, then add the rule to at least one playbook or it will never run.
+All 24 rules are reachable: 9 via chat, 13 via tool execution, 6 via config, 7 via dashboard, 1 diff-wide (rules repeat across playbooks; unique total = 24). To add a rule, copy `rules-<layer>/_template.md` as the starting structure, then add the rule to at least one playbook or it will never run.

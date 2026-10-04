@@ -56,7 +56,7 @@ Ablate one rule at a time. Keep a rule only if a scenario below regresses withou
 
 **Expected behavior:**
 - Feature detection finds nothing
-- Stops. Does not run the 27 rules
+- Stops. Does not run the 24 rules
 - Routes to `ui-design` Audit mode
 - Does not file AX findings about the missing spinner
 

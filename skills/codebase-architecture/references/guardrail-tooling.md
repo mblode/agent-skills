@@ -36,6 +36,8 @@ Two defaults that produce green runs proving nothing:
 - `jscpd` exits 0 whatever it finds until `--threshold` (or `threshold` in `.jscpd.json`) is set. A bare `jscpd src` step in CI is a report wearing a gate's clothing.
 - `knip` is zero-config for anything its plugins recognise: Next.js routes, Vitest, `package.json` `main` and `bin`, and most tool configs. Declare `entry` only for what no plugin sees (ad-hoc scripts, codegen inputs, custom tool configs). Leave those out and knip reports them and everything only they reach as unused; declare too many and real dead code hides behind them.
 
+- In a turborepo where packages export TypeScript source with no build step, `check-types` and `test` in a dependent package do not hash the source of the packages they import, so a changed contract can replay a cached green. Add a no-op `transit` task that depends on `^transit`, and make those tasks depend on it, so each one's hash includes its dependencies'.
+
 Madge is the tool most answers reach for on cycles. It has had no release since 2024. Prefer the linter rule, which already runs in the edit loop, or dependency-cruiser, which is maintained and covers layering too.
 
 ## Module public-interface boundary
@@ -64,7 +66,7 @@ Which module may depend on which is a separate concern from what is reachable. L
 
 Three shapes, picked by how many relationships the rule has to express:
 
-- **A few layers** (handler, service, dao): `no-restricted-imports` per layer directory, one `overrides` entry per layer with the imports it may not take. Readable at three layers, unreadable at ten modules.
+- **A few layers** (handler, service, dao): `no-restricted-imports` per layer directory, one `overrides` entry per layer with the imports it may not take. Readable at three layers, unreadable at ten modules. Oxlint `overrides` replace a rule's options rather than merging them, so an override that adds one banned pattern silently drops every pattern the base config set: each override restates the full rule config (keep shared patterns in a constant and spread them in), and an exception override resets the rule explicitly. Write that in a comment above `overrides`, because the next editor will assume merging.
 - **A dependency matrix across many modules**: dependency-cruiser. `npx depcruise --init` writes `.dependency-cruiser.cjs`; each `forbidden` rule carries a `comment` the reporter prints, so the failure explains itself. Point `options.tsConfig` at the repo's tsconfig or path aliases fail to resolve, the edge is silently dropped, and the rule passes on nothing.
 
   ```js

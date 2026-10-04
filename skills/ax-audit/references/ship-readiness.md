@@ -10,41 +10,13 @@ Every finding gets one of three tiers, deciding whether the PR ships, waits, or 
 
 ## The three tiers
 
-### ⛔ release-blocker: fix before merge
+Each rule's `defaultTier` and surface-override table say where its findings land; this file owns what the tiers mean.
 
-Cause user harm, unsafe autonomous behavior, or unrecoverable agent actions in production. Triggers:
-- **No escape hatch**: agent takes actions the user cannot interrupt, undo, or override; locked into an autonomous workflow with no way out.
-- **No approval gate on high-stakes actions**: agent autonomously runs destructive, financial, or external actions (deleting records, sending emails, charging cards) without confirmation.
-- **No escalation path**: high-stakes decisions with no human handoff; failures cascade without intervention.
-- **Silent execution**: multi-step task with no progress indication; user cannot tell if it is working, stalled, or failed.
-- **Heuristic completion**: completion detected by idle time, not an explicit signal; downstream steps race (fire too early or too late).
-- **Broken tool parity**: user can do something the agent cannot, or vice versa; breaks the mental model of what the agent can do.
-- **Missing CRUD**: entity has create but no delete, or read but no update; agent gets stuck mid-workflow with no way to correct or clean up.
-The next four are blockers on the agent tool execution surface and one tier lower elsewhere, because each is a property of code that acts rather than code that reports:
-
-- **Unconsented proactive execution**: a scheduled, webhook, or queued run reaches the executor missing a standing boundary, a notice the user can act on, or both; the interactive gates do not cover it, because nobody was there to prompt.
-- **Undisclosed reach**: the agent acts through accounts and scopes the user cannot see or individually revoke; the one thing watching the agent work will never reveal.
-- **Approval with nothing to decide on**: a gate that fires correctly and renders only the tool's name, so the user approves a category rather than an act.
-- **Tool output that misreports its own state**: failures returned as prose with a success status; every capability above the tool is guessing, silently.
-
-### ⚠️ fix-this-sprint: merge but log issue
-
-Degrade the agentic experience but don't block shipping. Need a tracking issue before merge, resolved within the current sprint. Triggers:
-- Agent output with no confidence cues or reasoning (functional but trust-eroding)
-- No intent handshake before non-trivial actions (agent acts without confirming it understood the request)
-- Chat-only interface for button-worthy actions (common tasks buried in free-text input)
-- Agent uses context but user cannot see or edit what is remembered (opaque but not dangerous)
-- System prompt missing resource injection (agent under-informed for the task)
-- Config tools bundled instead of atomic (inflexible; user cannot grant fine-grained permissions)
-
-### 📋 backlog: track, ship
-
-Real but low-stakes. Ship the PR, log a backlog issue, prioritize by frequency or impact later. Triggers:
-- Interface does not reshape with agent task progression (static but functional)
-- Agent does not leverage all available context (underperforms but does not break)
-- No generative momentum on blank-canvas surfaces (missed proactive-suggestion opportunity)
-- Static API mapping instead of dynamic discovery (less flexible when tools change)
-- No checkpoint/resume for long-running tasks (risky on interruption but rare in practice)
+| Tier | Meaning | Use for |
+|---|---|---|
+| ⛔ `release-blocker` | Fix before merge | User harm, unsafe autonomous behavior, or an agent action the user cannot recover from |
+| ⚠️ `fix-this-sprint` | Merge with a tracking issue, resolved this sprint | Degrades the agentic experience or erodes trust without harm |
+| 📋 `backlog` | Ship and log | Real but low-stakes; prioritize later by frequency or impact |
 
 ## Tier assignment rules
 

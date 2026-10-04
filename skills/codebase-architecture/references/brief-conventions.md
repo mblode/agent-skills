@@ -37,6 +37,7 @@ A convention that cannot name all four is a preference, and preferences do not g
 ## Testing shapes
 
 - **Test data isolation:** integration and E2E tests generate unique tenant, user, and resource IDs per run. Enforcement: fixture helper plus a test for hard-coded shared IDs.
+- **Reproducible failures:** randomness is seeded and time comes from a frozen-clock helper, so a red run replays. Enforcement: lint ban on bare `Math.random` and `Date.now` in test files, or the helper as the only import.
 - **Invariant testing:** core invariants hold for any generated input and are asserted after every step of a generated operation sequence, not only at the end. Enforcement: property-based tests plus a harness that injects between-step assertions.
 - **Idempotency testing:** every operation that touches the outside world produces no second effect when replayed. Enforcement: a test middleware that repeats each declared operation and asserts no change from the second call.
 - **Crash and resume testing:** long multi-step flows survive dying between any two steps. Enforcement: tests that inject a failure at each step and assert the flow resumes to a consistent state.

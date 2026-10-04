@@ -141,7 +141,7 @@ After all phases, verify:
 - [ ] `pnpm exec lefthook run pre-commit --all-files` passes from the root
 - [ ] The root holds the only `pnpm-lock.yaml` and `pnpm-workspace.yaml`: none in `apps/web/`, and no `package-lock.json` anywhere
 - [ ] The CI workflow ran green on the first pull request
-- [ ] `apps/web/AGENTS.md` ends with the Next-managed `nextjs-agent-rules` block (written on the first `next dev` from a coding agent) and is committed; any duplicate `apps/web/CLAUDE.md` wrapper is removed; the Phase 5.1 design-system lint paragraph (including `ultracite fix` / `ultracite fix --codex`) is present outside those markers
+- [ ] `apps/web/AGENTS.md` ends with the Next-managed `nextjs-agent-rules` block (written on the first `next dev` from a coding agent) and is committed; any duplicate `apps/web/CLAUDE.md` wrapper is removed; the Phase 5.1 Instant Navigations and design-system lint sections (including `ultracite fix` / `ultracite fix --codex`) are present outside those markers
 - [ ] `babel-plugin-react-compiler` is not in `apps/web/package.json`; `ultracite` (≥ 7.12), `oxlint` (≥ 1.80), `oxfmt`, `lefthook`, and `@shadcn/lint` are pinned, not `latest`
 - [ ] `apps/web/oxlint.config.ts` extends `ultracite/oxlint/{core,next,react,shadcn}` (framework order may vary) and hoists `jsPlugins: shadcn.jsPlugins`. It does not use a hand-rolled `jsPlugins: ["@shadcn/lint"]` plus starter-only `no-restyle` block. `shadcn/no-restyle` stays off for `**/components/ui/**` via the preset (or a matching override when `aliases.ui` is a different path)
 - [ ] `metadataBase` is set to `https://{{domain}}` and `metadata.verification` carries the Search Console token

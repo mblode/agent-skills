@@ -60,7 +60,19 @@ Duration changes perceived performance independently of actual speed:
 
 ## Finding opportunities: where motion is missing
 
-Questions 1 and 2 above judge a candidate someone already proposed. This section is the sweep that produces candidates in the first place: given an interface, where would motion genuinely help? Run every hit back through questions 1 and 2, and expect to reject most of them. A short list of high-conviction opportunities beats a long wishlist, and an opportunity finder that suggests motion everywhere produces exactly the sluggish, over-animated interfaces the rest of this skill exists to prevent.
+For "where should this animate", not "animate this". The pass reports and never implements: a surviving suggestion goes back to the SKILL.md workflow to be built.
+
+```text
+Discovery progress:
+- [ ] Step 1: Recon the stack, existing motion tokens, and product personality
+- [ ] Step 2: Sweep every seam class below
+- [ ] Step 3: Gate each candidate through questions 1 and 2
+- [ ] Step 4: Report survivors and rejections
+```
+
+**Recon first.** Identify the motion library (if any), the easing and duration tokens already in use, and how often each surface is visited. Suggestions extend the existing vocabulary rather than introducing a parallel one, and a dense dashboard earns fewer and subtler suggestions than a playful consumer app.
+
+Questions 1 and 2 above judge a candidate someone already proposed. The sweep produces candidates in the first place: given an interface, where would motion genuinely help? Run every hit back through questions 1 and 2, and expect to reject most of them. A short list of high-conviction opportunities beats a long wishlist, and an opportunity finder that suggests motion everywhere produces exactly the sluggish, over-animated interfaces the rest of this skill exists to prevent.
 
 Sweep these seam classes. The skill is done sweeping when each has either yielded candidates with `file:line` evidence or been explicitly cleared.
 
@@ -75,4 +87,4 @@ Sweep these seam classes. The skill is done sweeping when each has either yielde
 
 The last row is where the delight budget lives, and it is the only tier where bounce, generous stagger, or a longer beat are welcome.
 
-**Report both halves.** A discovery pass caps at five to seven suggestions ordered by leverage, and it must also list two to five places deliberately *not* suggested, each naming the question that killed it ("command palette open/close: keyboard-initiated, 100+/day, never animate"). The rejected list is what separates a discovery pass from an animation wishlist. Where the interface is already close to right, saying so is the correct result, not a failure.
+**Report both halves.** A discovery pass caps at five to seven suggestions ordered by leverage, each with `file:line`, what happens today, the named purpose, the frequency tier, and exact values (property, duration, curve) from the SKILL.md easing and transition tables, closing with the single highest-leverage one; and it must also list two to five places deliberately *not* suggested, each naming the question that killed it ("command palette open/close: keyboard-initiated, 100+/day, never animate"). The rejected list is what separates a discovery pass from an animation wishlist. Where the interface is already close to right, saying so is the correct result, not a failure.

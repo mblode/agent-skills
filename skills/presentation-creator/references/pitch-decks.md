@@ -26,7 +26,7 @@ Company name, the company in one declarative sentence (Sequoia's "company purpos
 Who feels the pain, why it is urgent, what they do about it today. Lead with a customer quote or a number.
 
 ### 3. Solution
-Product in 30 seconds, as before and after, not a feature list. One screenshot at most.
+Product in 30 seconds, as before and after for the customer, not a feature list. One screenshot at most.
 
 ### 4. Why now
 What changed that makes this possible or necessary this year. Sequoia's question; a deck with no answer reads as a good idea anyone could have had five years ago.
@@ -67,17 +67,6 @@ Financial projections and roadmap go in an appendix after the ask, clearly separ
 - 2-3 bullets per section, each a complete thought. Bold the key phrase, explain after.
 - Charts over tables over bullets over paragraphs.
 - Metrics as text on the slide, not baked into an image: search, screen readers, and the associate's copy-paste all read text. Define acronyms on first use; slide titles match the expected categories so a skimmer finds Traction where they look for it.
-
-## Common mistakes
-
-| Mistake | Fix |
-|---------|-----|
-| No clear ask | Explicit slide with amount, use, milestones, next step |
-| Features over benefits | Lead with the outcome for the customer |
-| TAM fantasy | Bottom-up calculation from customers times price |
-| No traction proof | Chart, logos, or testimonials; a number in the headline |
-| Too many slides | The 10-slide frame; everything else in a separated appendix |
-| Presented-deck copy in a sent deck | Every headline passes the forwardable test |
 
 ## Format guidelines
 

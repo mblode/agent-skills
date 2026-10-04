@@ -53,7 +53,7 @@ Store scenarios in `evals/evals.json` inside the skill folder. Use this reposito
 
 Write `prompt` the way a user types it, with real paths and context; vary formality across cases and include one boundary case. Add `assertions` after the first run, not before: you do not know what "good" looks like until you have seen an output. Keep them objective (countable, checkable); style and feel are for human review. Keep contract assertions even when both configurations pass. They guard against regressions; use differentiating assertions to measure added value.
 
-Write each assertion as one requirement a reader can mark pass or fail from the output alone, never a 1-5 scale: a checkable boolean claim is the only thing a grader can score consistently. So an assertion with two clauses, or one the reader cannot label the same way twice, measures nothing; split or rewrite it. Graded pass rates mean something only after the grader agrees with your labels on a sample: [agent-evals](https://github.com/mblode/agent-evals) `judge` grades assertions with a cheap evaluation model, reports that agreement, and compares arms run by run: each assertion comes back as added value, contract (passes in both, so keep it), regression, or unmet. `judge` runs the with-versus-without comparison blind and in randomised order (the judge never sees which transcript came from which arm, and which arm is shown first varies per case) so a positional or identity bias in the judge model cannot inflate one side. Name the arms `without_skill`, `with_skill`, `previous_skill`, or `ablate-<rule>`, and record the model and effort beside each run so the comparison can tell a skill win from a model difference.
+Write each assertion as one requirement a reader can mark pass or fail from the output alone, never a 1-5 scale: a checkable boolean claim is the only thing a grader can score consistently. So an assertion with two clauses, or one the reader cannot label the same way twice, measures nothing; split or rewrite it. Graded pass rates mean something only after the grader agrees with your labels on a sample: Run them with the [agent-evals](https://github.com/mblode/agent-evals) CLI (the `agent-evals` skill owns its commands and verdicts): `judge <skill>` runs both arms and grades each assertion with a separate judge model; `judge score --compare` (Jev) measures grader agreement against human labels and labels each assertion added value, contract (passes in both, so keep it), regression, or unmet. `judge` runs the with-versus-without comparison blind and in randomised order (the judge never sees which transcript came from which arm, and which arm is shown first varies per case) so a positional or identity bias in the judge model cannot inflate one side. Name the arms `without_skill`, `with_skill`, `previous_skill`, or `ablate-<rule>`, and record the model and effort beside each run so the comparison can tell a skill win from a model difference.
 
 Each run needs a clean context, or authoring residue masks gaps in the written instructions. A subagent per case gives that in Claude Code; otherwise use a separate session. Disable the skill for the baseline with `skillOverrides` (`"off"`) rather than deleting it.
 
@@ -86,7 +86,7 @@ Seeing a skill trigger says Claude found it, not that it does the job; never tri
 - **Should-trigger:** 8-10 prompts a user would type when they need this skill, phrased differently each time and none quoting the description verbatim
 - **Near-miss:** 8-10 prompts that look adjacent but belong to a named sibling skill, or to no skill
 
-A near-miss that routes here is a boundary problem: sharpen the IS-NOT line and the "For X use `sibling`" clause in both descriptions. A should-trigger that misses is a vocabulary problem: add the words the prompt used, and take out a clause of equal weight so the description does not grow. Run both sets against the whole installed listing, not one skill in isolation: the failure the model actually sees is two descriptions claiming the same prompt, or a listing so long the host has trimmed the trigger clause off the end. `skill-creator`'s description-tuning mode generates both sets, measures the hit rate, and proposes edits; a hand-kept JSONL of `{"prompt", "expected"}` pairs does the same job across a whole bundle.
+A near-miss that routes here is a boundary problem: sharpen both descriptions to their own moment of use and give each a "For X use `sibling`" edge (Module Lens rule 5 in `improving-existing-skills.md`). A should-trigger that misses is a vocabulary problem: add the words the prompt used, and take out a clause of equal weight so the description does not grow. Run both sets against the whole installed listing, not one skill in isolation: the failure the model actually sees is two descriptions claiming the same prompt, or a listing so long the host has trimmed the trigger clause off the end. `skill-creator`'s description-tuning mode generates both sets, measures the hit rate, and proposes edits; `agent-evals routing` does the same across a whole bundle from its JSONL corpus (case schema in its README). No runner reads the `routing` block of `evals/evals.json`; a prompt that must be scored goes into that corpus.
 
 ## Ablate Constraints
 
@@ -136,7 +136,7 @@ Run these with every baseline, not just the first one; a stale diagnostic hides 
 
 ## The Hillclimb Loop
 
-This is the loop `agent-evals compare` scores automatically once cases and a judge are wired up; the steps below are what it is checking, so run them by hand if the tool is unavailable.
+Run it with the agent-evals CLI: `judge` (body) or `routing` (description) as the runner and `compare` as the gate. The `agent-evals` skill owns the flags, seeds, intervals and verdicts; this section owns what to change each round and when to stop. Apply the keep/revert rules by hand only without the CLI.
 
 **Setup, once:**
 
@@ -152,19 +152,11 @@ This is the loop `agent-evals compare` scores automatically once cases and a jud
 4. Keep the edit only if both improve. Train up and test flat is overfitting the training cases; revert. Any regression on either split reverts too, no exceptions for "it should still be fine."
 5. After 2-3 flat rounds, or sooner if no single plausible fix could beat the measured noise, stop editing and diagnose instead: bucket the remaining train failures by root cause, separate ambiguous cases and harness errors from real misses, and decide whether the fix is more reps, more cases, or a scenario that needs rewriting rather than another skill edit.
 
-**Finish:** restore the test-best version, report the test score against the pre-loop baseline with a confidence interval (Wilson for a pass rate, bootstrap or a paired test for the delta), and say so plainly when the gain sits inside the noise floor: don't ship a change on a movement its own CI does not clear. `agent-evals routing` reports train/test scores with CIs for should-trigger and near-miss sets the same way; treat a description edit under the same keep/revert rule as a body edit.
+**Finish:** restore the test-best version, report the test score against the pre-loop baseline with a confidence interval (Wilson for a pass rate, bootstrap or a paired test for the delta), and say so plainly when the gain sits inside the noise floor: don't ship a change on a movement its own CI does not clear. With `agent-evals routing` as the runner, treat a description edit under the same keep/revert rule as a body edit.
 
 ## Iterate with Two Claudes
 
-**Claude A** authors and refines; **Claude B** runs tasks in a fresh session with the skill loaded.
-
-1. Give B a real task
-2. Watch where B struggles, skips a rule, or surprises you
-3. Report the specific observation to A ("B forgot to filter test accounts")
-4. A suggests targeted edits: stronger language, reordering, new section
-5. Apply and retest
-
-Improve from observed behavior, not assumptions or memory of what Claude "should" need. Give A the failed assertions, the human feedback, and the transcript together; the fix should generalize past the failing case, not patch it.
+**Claude A** authors and refines; **Claude B** runs real tasks in a fresh session with the skill loaded. Hand A the specific observation ("B forgot to filter test accounts") with the failed assertions, the human feedback, and the transcript together, then apply and retest. The fix should generalize past the failing case, not patch it.
 
 ## Observe How Claude Navigates
 
@@ -177,8 +169,6 @@ Watch real sessions for:
 - **Wasted work in transcripts:** unrequested validation, intermediate files nobody uses; the instruction that caused it is a removal candidate
 - **Repeated helper scripts:** every run writes the same parser or chart builder; bundle it in `scripts/`
 
-`name` and `description` drive triggering. If the skill isn't invoked when expected, fix the description's triggers before body content.
-
 ## Re-Evaluating After a Rewrite
 
 After improving a skill (see `improving-existing-skills.md`), rerun evals before shipping against both the pre-edit snapshot and no-skill. The previous version detects regressions; no-skill tests whether the skill still earns its place. Beating the previous version alone is not a keep verdict. Better audit dimensions but worse evals is a regression: dimensions measure form, evals measure behavior.
@@ -187,6 +177,4 @@ Maintain the skill like code: version its body, references, scripts, and evals t
 
 ## Measuring Adoption
 
-Log invocations with a PreToolUse hook and compare actual usage against the trigger rate you expected. Undertriggering is a description problem, not a body problem: fix the "Use when" phrases before touching content. Across an org the same log finds promotion candidates for a shared library.
-
-Use adoption data to choose what to investigate, not what to keep. Invocations and installs measure use; only the with-versus-without comparison establishes added value.
+Log invocations with a PreToolUse hook and compare actual usage against the trigger rate you expected; undertriggering sends you to Routing Evals, and across an org the same log finds promotion candidates for a shared library. Adoption chooses what to investigate, not what to keep: invocations and installs measure use, and only the with-versus-without comparison establishes added value.

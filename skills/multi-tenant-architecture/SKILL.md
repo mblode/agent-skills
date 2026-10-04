@@ -15,7 +15,7 @@ description: Designs tenant isolation, hostname routing, custom-domain lifecycle
 - Workflow (order matters)
 - Gotchas
 - Output schema
-- Pre-commit checklist
+- Evidence commands
 - Related skills
 
 ## Platform dispatch (decide first)
@@ -37,8 +37,7 @@ description: Designs tenant isolation, hostname routing, custom-domain lifecycle
 | [vercel-domains.md](references/vercel-domains.md) | Vercel chosen: SDK domain lifecycle, DNS targets, verification, wildcard nameservers, SSL, troubleshooting (step 7) |
 | [data-isolation.md](references/data-isolation.md) | Step 3 on either platform: shared schema with RLS, schema-per-tenant, database-per-tenant, and the Postgres/Supabase/Drizzle policy pattern |
 | [psl.md](references/psl.md) | Step 1 when tenants publish content or run code on sibling subdomains: eligibility, submission, interim cookie controls |
-| [limits-and-quotas.md](references/limits-and-quotas.md) | Step 8: dated snapshot of Cloudflare, Vercel, and Neon limits to map onto plans |
-| `agents/openai.yaml` | Never during a task: launcher metadata for external runners |
+| [limits-and-quotas.md](references/limits-and-quotas.md) | Step 8: Cloudflare, Vercel, and Neon limit names with the official source for each, to map onto plans |
 
 ## Workflow (order matters)
 
@@ -91,28 +90,18 @@ Multi-tenant progress:
 - `robots.txt`, `sitemap.xml`, `llms.txt` are route handlers inside the tenant segment with explicit `Content-Type`; nothing tenant-specific lives in `/public`. Their content is `seo` territory.
 
 8. Surface limits as plans and capture evidence
-- Fill the limits-to-plan table from [limits-and-quotas.md](references/limits-and-quotas.md), re-checking each source URL and dating it; enforce at the routing layer (Cloudflare `limits`, Vercel plan header plus server checks).
+- Fill the limits-to-plan table from [limits-and-quotas.md](references/limits-and-quotas.md), reading each current value from its source URL and dating it; enforce at the routing layer (Cloudflare `limits`, Vercel plan header plus server checks).
 - Nothing long-running in the request path: Cloudflare Queues or Workflows, Vercel background functions or cron.
 - Every tenant operation (create tenant, add domain, verify, remove) works over HTTP with the same authority as the UI; if it only works in the dashboard, the platform leaks into the UI.
-- Run the evidence commands in the pre-commit checklist and paste results into the output.
+- Run the evidence commands and paste results into the output.
 
 ## Gotchas
 
-- Tenant headers set on the response instead of the request: `NextResponse.next({ headers })` sends `x-tenant-id` to the browser and `headers()` in Server Components reads nothing. Use `NextResponse.next({ request: { headers: requestHeaders } })`.
-- Forwarding inbound tenant headers: `curl -H "x-tenant-id: <other>"` then serves another tenant's data. Delete or overwrite `x-tenant-*` on every path through the proxy, including paths that skip resolution.
-- The starter kit matcher `'/((?!api|_next|[\\w-]+\\.\\w+).*)'` excludes every root file with an extension, so `robots.txt` and `sitemap.xml` skip the proxy and every tenant gets the platform's `/public` copy. Match them, and rewrite them into the tenant segment.
-- Next.js 16 renamed `middleware.ts` to `proxy.ts` (export `proxy`, Node.js runtime, a `runtime` config option throws). `npx @next/codemod@canary middleware-to-proxy .` migrates. A matcher that excludes a path also skips Server Function POSTs on it, so tenant checks live in the data layer too.
-- Global Config (formerly Edge Config) key names must match `^[\w-]+$`; `tenant_acme.com` is rejected. Use a collision-free encoding or hash; replacing dots with underscores can map different hostnames to the same key. Writes propagate in up to 10 s, so a "domain connected" screen that reads Global Config right after the write shows stale state; read the database there. The legacy `@vercel/edge-config` SDK cannot read stores connected after the rename (they create `GLOBAL_CONFIG`, not `EDGE_CONFIG`).
-- RLS is bypassed by superusers and `BYPASSRLS` roles; table owners bypass it unless `FORCE ROW LEVEL SECURITY` is enabled. An app connecting as the migration role sees every tenant with policies "on". Connect as a separate role, add `ALTER TABLE ... FORCE ROW LEVEL SECURITY`, and test with `SET ROLE app_user`.
-- `SET app.tenant_id = ...` outside a transaction on a pooled connection persists into the next request. Use `set_config('app.tenant_id', $1, true)` inside the transaction; with PgBouncer in transaction mode it is the only safe form.
-- Wildcard `*.acme.app` on Vercel without Vercel nameservers never gets a certificate: DNS-01 needs Vercel to write `_acme-challenge`. Point `ns1.vercel-dns.com` and `ns2.vercel-dns.com` first and re-add MX records.
-- `/.well-known` is reserved on Vercel and cannot be rewritten or redirected; a proxy that rewrites every path into `/s/[slug]` breaks HTTP-01 and custom-domain certificates never issue. Pass it through first.
-- Cloudflare for SaaS: the fallback origin must be a proxied record in the SaaS zone; a custom hostname equal to the zone name is unsupported; `_cf-custom-hostname` pre-validation does not work when the customer's zone is also on Cloudflare (O2O, marked by `cf-connecting-o2o: 1`).
-- Untrusted dispatch namespaces (default) have no `request.cf` and no `caches.default`, so tenant code reading `request.cf.country` throws. Trusted mode restores them but shares one cache across every tenant Worker in the namespace.
-- KV is eventually consistent (up to 60 s, negative lookups cached): a hostname added after the dispatch Worker's first lookup 404s for a minute. Fall back to D1 on miss during onboarding.
-- PSL rejects domains with under two years of registration left; the `_psl.<suffix>` TXT stays in place after merge; browsers ship the list on their own release cycles. Listing also kills `Domain=acme.app` cookies, including your own cross-subdomain SSO if it lives there.
+Platform and data gotchas live in the reference for that step; these fire before any reference loads.
+
+- Forwarding inbound tenant headers: `curl -H "x-tenant-id: <other>"` then serves another tenant's data. Delete or overwrite `x-tenant-*` on every path through the proxy or dispatch Worker, including paths that skip resolution (`/.well-known`, the brand site).
+- A hostname map keyed in a restricted alphabet (Global Config allows only `^[\w-]+$`) needs a collision-free encoding or a hash; replacing dots with underscores maps `a-b.example.com` and `a.b-example.com` to one key. Keep the original hostname in the record and compare it on read.
 - Starting path-based with custom domains on the roadmap means URL rewrites, cookie changes, and DNS migration later.
-- Domain quotas and charges vary by provider and plan. Put current official limits and their access dates in the plan table before setting pricing.
 
 ## Output schema
 
@@ -164,18 +153,9 @@ Length follows the decisions: drop any section the project does not face rather 
 |---|---|---|---|
 ```
 
-## Pre-commit checklist
+## Evidence commands
 
-- [ ] Platform chosen with rationale; multi-project or Cloudflare chosen if tenants ship code
-- [ ] Tenant workloads off the brand domain; dashboard on a separate apex; PSL decision recorded
-- [ ] Identification strategy chosen; custom-domain upgrade path defined
-- [ ] Isolation model defined for compute and data, including the per-plan variant
-- [ ] Routing tenant-blind: unknown host -> 404; `/.well-known` passes through; static files vary per tenant
-- [ ] Inbound `x-tenant-*` stripped; context set by the proxy or dispatch Worker only; data layer enforces tenant
-- [ ] Custom-domain lifecycle defined end to end, including removal
-- [ ] Limits table dated from official URLs; enforcement points named; long work off the request path
-
-Evidence commands (run against local or preview; mark N/A with a reason):
+Run against local or preview before calling the design done; mark N/A with a reason.
 
 | Check | Command | Expected |
 |---|---|---|

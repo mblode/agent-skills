@@ -55,7 +55,7 @@ Pick the destination by who needs it and when. Guidance needed in fewer than ~30
 - Reference material -> `docs/*.md`, linked by plain relative path
 - Claude-only or Cursor-only detail tied to file types -> `.claude/rules/*.md` with `paths:` or `.cursor/rules/*.mdc` with `globs:`
 
-Do not reach for `@import` to shrink the file. Imported content is expanded at launch, so the context cost is unchanged, and Codex and Cursor never see it. Use AGENTS.md directly; do not add a CLAUDE.md wrapper.
+Not an `@import` (it still loads at launch) and not a CLAUDE.md wrapper.
 
 ## Step 5: Validate before finalizing
 
@@ -77,6 +77,5 @@ Do not reach for `@import` to shrink the file. Imported content is expanded at l
 
 - Preserving large sections "just in case"; they re-bloat the file and bury commands
 - Replacing one template dump with another
-- Splitting into `@import`s and reporting the root line count as the win; the loaded context did not change
 - Keeping contradictory rules to avoid conflict with file history
 - Adding style advice linters already enforce; agents see lint output anyway

@@ -8,11 +8,12 @@ One file per feature, written from the user's point of view, so a human skimming
 - [Template](#template)
 - [Field-by-field](#field-by-field)
 - [Worked example](#worked-example)
+- [Colocated JSON variant](#colocated-json-variant)
 - [Keeping the map honest](#keeping-the-map-honest)
 
 ## File layout
 
-`features/<id>.md`, one file per feature, `id` kebab-case and stable once assigned. Renaming an id breaks the same way renaming a database column would: `verify`'s history and any proof record reference features by id, not by title, so a rename severs that history rather than continuing it. A sibling `features/README.md` indexes every file with a one-line summary, matching the docs-index pattern this collection uses elsewhere.
+`features/<id>.md`, one file per feature, `id` kebab-case and stable once assigned. Renaming an id breaks the same way renaming a database column would: `verify`'s history and every proof record reference features by id, not by title, so a rename severs that history rather than continuing it; treat it as a breaking change. A sibling `features/README.md` indexes every file with a one-line summary. A repo whose features already live in per-module folders can colocate the map instead (below); pick one layout per repo.
 
 ## Template
 
@@ -32,7 +33,8 @@ Preconditions: <baseline state every path below assumes, e.g. signed in as the s
 ### <path-id>: <what the user does>
 
 - Method: cli | browser | computer-use | manual
-- Drive: <exact command, spec name and grep, or selector; the cheapest thing that still exercises this the way a user would>
+- Drive: <exact command, or spec name and grep; the cheapest thing that still exercises this the way a user would>
+- Selectors: <stable role locators or test ids the check drives; required when Method is browser or computer-use>
 - Expect: <an observable end state, not "works">
 - Gotchas: <traps specific to this path>
 
@@ -52,7 +54,8 @@ Preconditions: <baseline state every path below assumes, e.g. signed in as the s
 - **Reach.** Every way a user gets to this feature, in the user's terms: a menu label and its click path, the URL, a keyboard shortcut, a CLI subcommand. A feature reachable three ways and documented for one is a map that looks complete and is not.
 - **Paths.** One entry per user-reachable action inside the feature (create, edit, delete, export, the keyboard-only variant, the CLI equivalent). Each path is independently checkable and independently skippable; do not fold three ways of doing the same thing into one path entry, or a skip on the browser way silently reads as a skip on all three.
 - **Method.** `cli` or `api` for anything reachable that way, `browser` for a page a browser must render, `computer-use` reserved for native/desktop/OS paths nothing else reaches, `manual` for a path nothing yet drives (`references/verification-ladder.md` has the full ladder and when to escalate).
-- **Drive.** Exact enough that a fresh agent runs it without guessing: a real command, a real spec file and test name, a real selector (prefer a role or data attribute over a CSS position). "Click the button" is not a Drive value; `role=button[name="New invoice"]` is.
+- **Drive.** Exact enough that a fresh agent runs it without guessing: a real command, or a real spec file and test name. "Click the button" is not a Drive value.
+- **Selectors.** The stable locators an agent driving the screen by hand would use: a role and accessible name or a test id, never a CSS position. `role=button[name="New invoice"]` is a selector; `div:nth-child(3) > button` is not. Required on any path a browser or computer-use check drives, because that is exactly the path an agent may have to drive without the spec when the spec breaks. Shortcuts the path offers go here too, in words (`n opens the composer when the list has focus`).
 - **Expect.** An observable end state a check can assert against: "the new row appears in the list without a reload," not "it works." A path with no assertable Expect is not yet checkable, whatever its Method claims.
 - **Gotchas.** Traps specific to this path (a keypress that types into a focused textbox instead of triggering the shortcut, a toast that dismisses before a slow screenshot captures it) live under the path; traps that apply to the whole feature live in the feature-level Gotchas section at the bottom.
 
@@ -76,6 +79,7 @@ Preconditions: signed in as the seeded default user
 
 - Method: browser
 - Drive: spec `e2e/notes.spec.ts`, grep "creates a note from the button"
+- Selectors: `role=button[name="New note"]`, `role=textbox[name="Title"]`
 - Expect: the new note appears at the top of the list without a reload, and its title matches what was typed
 - Gotchas: the save button is disabled until the title field loses focus once; clicking it immediately after typing does nothing and is not a bug
 
@@ -83,6 +87,7 @@ Preconditions: signed in as the seeded default user
 
 - Method: browser
 - Drive: spec `e2e/notes.spec.ts`, grep "creates a note from the shortcut"
+- Selectors: `role=list[name="Notes"]`; shortcut `n` when the list has focus
 - Expect: same as create-via-button
 - Gotchas: pressing `n` while a text field already has focus types the character instead of opening the composer; the shortcut only fires when focus is on the list itself
 
@@ -97,8 +102,41 @@ Preconditions: signed in as the seeded default user
 The note list is virtualized past 50 rows; a check that scrolls to find a note by text needs to scroll the virtualized container, not the page.
 ```
 
+## Colocated JSON variant
+
+When each feature already has a home folder (an API module, a route group), a `feature.json` beside its code keeps ownership next to what it owns and lets a schema validator parse it. Same fields, machine-shaped:
+
+```json
+{
+  "id": "notes",
+  "title": "Create note",
+  "paths": ["src/features/notes/"],
+  "preconditions": ["signed in as the seeded default user"],
+  "userPaths": [
+    { "path": "create via button", "selectors": ["role=button[name=\"New note\"]"], "shortcuts": [] },
+    { "path": "create via cli", "selectors": [], "shortcuts": [] }
+  ],
+  "checks": [
+    { "path": "create via button", "method": "browser", "spec": "e2e/notes.spec.ts", "grep": "creates a note from the button" },
+    { "path": "create via cli", "method": "cli", "command": "pnpm run test src/notes/cli.test.ts" }
+  ],
+  "gotchas": []
+}
+```
+
+`userPaths` is the coverage set and `checks` prove it; a path can have several checks (one per method). An entry in `paths` ending in `/` owns everything under it; anything else owns one file. A `feature.json` always belongs to its own feature. Reject unknown keys (a strict schema), so a misspelled field fails instead of being ignored.
+
 ## Keeping the map honest
 
-- A path whose Method claims `browser` but whose Drive names a spec that does not exist is a broken promise, not a passing check; `verify` should fail loudly on a Drive value it cannot resolve, the same way a broken import fails a build.
-- Run a completeness pass (part of `verify`, or a standalone `check-features` style step) that fails when a source file matches no feature's `Owns` glob, or when a feature file's Drive value points at a command or spec name that no longer exists. A map that only humans proofread drifts within a quarter; a map a script walks does not.
-- Adding a feature is "add a file under `features/`," never "also register it somewhere else." A registry of feature ids invites the same drift the map itself exists to prevent.
+A map that only humans proofread drifts within a quarter; a map a script walks does not. Run a completeness check in the repo's pre-push or CI check (not only inside `verify`), and fail, each message naming its fix, when:
+
+1. A feature file does not parse, or does not match the schema.
+2. A module or route folder that should carry a feature file has none.
+3. Two features share an id.
+4. An owned path does not exist.
+5. A check names a path that is not in the feature's user paths.
+6. A check cannot resolve what it runs: a cli command whose script, workspace or file argument is missing (or that does not match the one shape `verify` knows how to run), a spec file that does not exist or sits outside the e2e folder, or a grep that matches no test title in that spec.
+7. A path with a browser or computer-use check has no selectors.
+8. A source file belongs to no feature.
+
+A Drive value `verify` cannot resolve is a broken promise, not a passing check; it should fail as loudly as a broken import fails a build. Adding a feature is "add one file," never "also register it somewhere else": a registry of feature ids invites the drift the map exists to prevent.

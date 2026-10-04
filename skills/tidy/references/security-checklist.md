@@ -18,16 +18,13 @@ Three-tier classification for security-relevant changes. Load when the diff touc
 
 ## Always Do
 
-For every change handling user input, authentication, or external data:
+For every change handling user input, authentication, or external data, check what the OWASP table and the class sweep below do not name:
 
-- **Parameterize queries:** never interpolate user input into SQL, ORM, or NoSQL queries
-- **Validate and sanitize input:** schema validation (Zod, Yup) at system boundaries; reject unexpected shapes early
-- **Encode output:** escape user content before rendering in HTML, URLs, or shell commands; use framework auto-escaping (React JSX, Next.js Server Components); avoid `dangerouslySetInnerHTML`
-- **Use HTTPS everywhere:** enforce TLS for external calls; reject plain HTTP in API clients
-- **Hash passwords with bcrypt/scrypt/argon2:** never plaintext, MD5, or SHA-family hashes for passwords
+- **Validate input at system boundaries:** schema validation (Zod, Yup) server-side; reject unexpected shapes early
 - **Set security headers:** `Content-Security-Policy`, `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`
 - **Secure cookies:** `HttpOnly`, `Secure`, `SameSite=Strict` (or `Lax` with justification)
-- **Audit dependencies:** run `npm audit` or equivalent; flag known vulnerabilities in dependency changes
+
+Parameterized queries, output encoding, TLS, password hashing (bcrypt, scrypt, or argon2), and dependency audits are checked through those two tables.
 
 ## Ask First
 
@@ -63,7 +60,7 @@ Diff-mode shortcut: the highest-yield categories to eyeball on a changed line, n
 |---|---|
 | A01 Broken Access Control | Missing ownership checks, direct object references without auth, a role check on the client only |
 | A02 Security Misconfiguration | Debug mode in production, default credentials, permissive CORS, a security header removed |
-| A03 Software Supply Chain Failures | New dependency for a one-liner, unpinned or `latest` version, a package with a `postinstall` script, lockfile churn the diff does not explain, a CI workflow granting write permissions |
+| A03 Software Supply Chain Failures | A changed dependency that `npm audit` (or equivalent) flags as known-vulnerable, a new dependency for a one-liner, unpinned or `latest` version, a package with a `postinstall` script, lockfile churn the diff does not explain, a CI workflow granting write permissions |
 | A04 Cryptographic Failures | Unencrypted PII, `Math.random` for tokens, MD5 or SHA for passwords, missing TLS |
 | A05 Injection | String concatenation with user input in queries or shell commands; XSS via unescaped content, `dangerouslySetInnerHTML`, `innerHTML` |
 | A07 Authentication Failures | Weak session config, missing token rotation, insecure password storage, `===` on secrets instead of a constant-time compare |

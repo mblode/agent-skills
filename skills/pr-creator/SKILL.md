@@ -1,6 +1,6 @@
 ---
 name: pr-creator
-description: Creates or updates GitHub PRs with house-style titles and bodies, issue linking, repository templates, and draft state. Use when asked to "create a PR", "rewrite the PR description", "polish this PR", "commit and push", or "commit". For code fixes use tidy; for CI and review threads use pr-babysitter.
+description: Creates or updates GitHub PRs with house-style titles and bodies, issue linking, repository templates, and draft state. Use when asked to "create a PR", "open a PR", "rewrite the PR description", or "polish this PR".
 compatibility: Requires Git and authenticated GitHub access. The documented command workflow uses GitHub CLI.
 ---
 
@@ -123,7 +123,7 @@ gh pr view --json url,title   # confirm the update; return the url
 
 - `gh pr create` on a branch with no upstream: in a TTY it blocks on a "Where should we push?" prompt; from a non-interactive harness it aborts with `you must first push the current branch to a remote, or use the --head flag`. Either way, `git push -u origin HEAD` first.
 - Non-interactive `gh pr create` needs both `--title` and `--body` (or `--fill`); without them it exits with `must provide --title and --body (or --fill) when not running interactively`. `--fill` copies commit messages verbatim, which is exactly the changelog body this skill exists to avoid.
-- Quote the heredoc delimiter (`<<'EOF'`). Unquoted `<<EOF` lets the shell expand backticks and `$vars` in the body, corrupting the description or running commands.
+- If a body or commit message goes through a shell heredoc instead of `--body-file`, quote the delimiter (`<<'EOF'`). Unquoted `<<EOF` lets the shell expand backticks and `$vars` in the text, corrupting it or running commands.
 - Two different failures look alike: on the default branch, `gh pr create` aborts with `must be on a branch named differently than "main"`; on a branch with nothing new against the base it fails with `No commits between main and <branch>`. The first needs a branch, the second a commit.
 - A branch with an open PR fails `gh pr create` with `a pull request for branch ... into branch main already exists`. `gh pr view --json state` first; `OPEN` means `gh pr edit`. A `MERGED` or `CLOSED` result is a stale PR, so create a new one.
 - Derive the Linear ID from the branch, uppercased: Linear's default branch format is `username/abc-123-title-slug`, so `mblode/abc-123-add-auth` gives `ABC-123`. Never guess an ID: Linear links the PR to whatever ID the title contains, and a wrong one moves someone else's issue.
@@ -132,8 +132,7 @@ gh pr view --json url,title   # confirm the update; return the url
 
 ## Related skills
 
-- `tidy`: run before creating to check the diff for bugs.
-- `tidy`: applies fixes to the code in the diff; this skill edits only the PR and its commits.
+- `tidy`: run before creating to check the diff for bugs and fix them; this skill edits only the PR and its commits.
 - `pr-babysitter`: hand off after creation to watch CI, conflicts, and review comments.
 - `autoship`: npm release pipeline (changesets, version PR, publish); "ship it" without release context routes here instead.
 

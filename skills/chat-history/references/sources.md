@@ -35,4 +35,5 @@ For exports, pass `--session` when reading a hit to avoid mixing conversations. 
 - Missing files and unsupported Cursor schemas are errors, not "no history". Older `ItemTable`-only Cursor layouts need a separately verified adapter; do not guess SQL or export the global database wholesale.
 - Malformed matching JSONL records and malformed Cursor records produce diagnostics and are skipped. A read can therefore have partial coverage.
 - JSONL literal search operates on serialized text. Unicode escapes and escaped quotes may need simpler candidate terms followed by decoded context inspection.
+- Grok web chats and Grok Bot cloud conversations are not retrieved; there is no account-API adapter.
 - No returned records establish only that these terms did not match the selected accessible sources under the applied filters.

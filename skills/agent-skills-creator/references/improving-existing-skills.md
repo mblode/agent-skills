@@ -6,6 +6,7 @@ Audit-then-rewrite protocol for a shipped skill. Use when asked to improve, audi
 
 - Relationship to the Creation Workflow
 - Should This Skill Still Exist
+- Module Lens
 - Audit Dimensions
 - Rewrite Procedure
 - Structure Normalization Decision Table
@@ -39,17 +40,19 @@ Do not edit during Phase A; mid-edit findings cause inconsistent half-rewrites.
 
 ## Should This Skill Still Exist
 
-Answer this before scoring anything, because the eleven dimensions all assume the answer is yes.
+Answer this before scoring anything, because the eleven dimensions all assume the answer is yes. Run the without-skill arm of the eval, not just the with-skill arm, then take the keep, merge, or retire decision in `capability-delta.md`. A skill loses value with no edit as failures get fixed upstream, and nothing else in this protocol asks whether it still earns its place.
 
-A skill's entire value is the delta between the model with it and the model without it. Only one side of that subtraction is in this repo. The other side moves on its own: every constraint was written against a failure, and failures get fixed upstream, so a skill loses value with no edit, no bug report, and no signal that anything changed. `authoring-tips.md` applies this reasoning line by line under "Don't Instruct Behavior the Model Already Has"; it applies to whole skills too, and nothing else in this protocol asks the question.
+## Module Lens
 
-So run the without-skill arm of the eval, not just the with-skill arm. Three outcomes:
+Treat every skill, reference, and section as a module with an interface (its load condition) and a body. Five collection rules, so the next audit repeats them:
 
-- **The delta is real.** Proceed to the dimensions.
-- **The delta is small and concentrated.** The skill has become one or two paragraphs wearing a bundle. Cut it to those, or fold them into a sibling that already routes on the same prompts, and delete the folder.
-- **The delta is gone.** Retire it. Removing a skill that no longer changes behavior is a better outcome than rewriting it, and it is the one this protocol otherwise has no path to: every other branch here terminates in a rewrite. Record the reason next to the removal the way `adopt-adapt-author.md` records a rejection, or the same skill gets proposed again next quarter.
+1. **Deletion test per skill, reference, and section.** Delete it in your head. If the agent would do the same thing anyway, or a sibling already says it, it was a pass-through: cut it. If it would reappear across prompts or siblings, it earns its keep.
+2. **A gotcha stays in SKILL.md only if it fires before its reference loads.** Otherwise it lives in the reference only. The same fact in SKILL.md and in a reference that always loads is paid twice.
+3. **Files that never load during a task live in `evals/` or `maintenance/`, never in `references/`.** Evaluation scenarios go to the skill's `evals/`; Sources, Rejected, and provenance sections go to `maintenance/sources/<skill>.md`.
+4. **One owner per fact across the collection; siblings point.** Canonical owners: the tells list is `ghostwriter` `references/tells.md`; enforcement order is `codebase-architecture` `references/enforcement-ladder.md`; instruction-file wiring is `agents-md`; worktree isolation is `app-verification` `references/worktree-isolation.md`; copy rule IDs are `product-design`; severity mapping is `ui-design` `references/ship-readiness.md`; running evals and the keep/overfit/regression/within-noise verdicts belong to the `agent-evals` skill (agent-evals repo), and what to change each round to `evaluation-and-iteration.md` here. A script's `--help` or a tool description owns its own flags; SKILL.md points to it rather than restating them.
+5. **Descriptions carry triggers first; a sibling edge stays only where routing shows a collision.** Keep a "For X use `other-skill`" clause in the description for a pair that a routing run confuses, or that it would confuse without the clause; move every other edge to the body's IS-NOT line, where it costs nothing until the skill loads. Measure before cutting an edge: the classifier reads these clauses, and removing tidy's "for UI defects use ui-design" sent UI review prompts to tidy on every run.
 
-Retirement needs the README bullet and count updated, so it reuses Step 6 of the Creation Workflow exactly as a rewrite does.
+When unsure whether a cut loses behaviour, keep it and record it as deferred. Never cut floor content: security, accessibility, data integrity, destructive-operation safety.
 
 ## Audit Dimensions
 
@@ -57,7 +60,7 @@ Use these dimensions to locate substantive gaps. Score 1-5 when an audit score i
 
 | # | Dimension | What 5/5 looks like |
 |---|-----------|---------------------|
-| 1 | Trigger coverage | Third-person description; "Use when..." with quoted user phrases; disambiguated from siblings; no longer than it takes to say when it applies |
+| 1 | Trigger coverage | Third-person description; "Use when..." with quoted user phrases; triggers distinct from siblings' without IS-NOT routing; no longer than it takes to say when it applies |
 | 2 | Boundary clarity | IS/IS-NOT opener present and accurate where sibling skills exist |
 | 3 | Structure conformity | Pattern matches content; files in pattern-correct folders |
 | 4 | Signal density | Every line passes "would removing this cause Claude to make a mistake?"; one term per concept |
@@ -74,7 +77,7 @@ Use these dimensions to locate substantive gaps. Score 1-5 when an audit score i
 Execute in order: correctness, then triggers, then structure, then deletion, then polish. Reordering causes rework, for example density-cutting a section you later move.
 
 1. **Stale fixes.** Anything contradicting repo AGENTS.md or reality (install commands, paths, rule counts, CLI flags, frontmatter fields the target runtime rejects). Bugs; fix before stylistic work.
-2. **Description.** Third-person opener of what it does, capability summary, "Use when..." triggers with quoted user phrases, key use case first, and no longer than that takes. Read it in the listing next to its siblings: if two descriptions could route the same prompt, both need an edge ("For X, use `other-skill`"), and a description that claims a whole domain rather than a moment of use gets cut to the moment. Check with a should-trigger and near-miss prompt set, not by rereading.
+2. **Description.** Third-person opener of what it does, capability summary, "Use when..." triggers with quoted user phrases, key use case first, and no longer than that takes. Read it in the listing next to its siblings: if two descriptions could route the same prompt, sharpen each to its own moment of use and put the "for X, use `other-skill`" edge in the IS-NOT line (Module Lens rule 5); a description that claims a whole domain rather than a moment of use gets cut to the moment. Check with a should-trigger and near-miss prompt set, not by rereading.
 3. **Boundary opener.** Add or repair the IS/IS-NOT pair after the H1.
 4. **Structure.** Apply the decision table below. After a move, update every link and grep all SKILL.md repo-wide for the old path.
 5. **Signal-density cut.** Delete lines Claude would do anyway; dedupe SKILL.md/reference overlap; merge near-duplicate sections.

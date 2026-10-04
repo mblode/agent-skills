@@ -1,6 +1,6 @@
 ---
 name: ci-speedup
-description: Cuts the wait from push to green by measuring a pipeline's critical path from run timestamps, then splitting, sharding, trimming setup and sharing test module state, with a before/after ledger. Use when asked to "speed up CI", "CI is slow", "why does a PR take 15 minutes", "CI is the bottleneck", or when agents merge faster than checks finish. For a red build use pr-babysitter; for a new package's pipeline use scaffold-cli.
+description: Cuts the wait from push to green by measuring a pipeline's critical path from run timestamps, then splitting, sharding, trimming setup and sharing test module state, with a before/after ledger. Use when asked to "speed up CI", "CI is slow", "why does a PR take 15 minutes", "CI is the bottleneck", or when agents merge faster than checks finish.
 compatibility: Reads run and job timings through the GitHub CLI or a GitHub MCP server; other CI hosts need their equivalent API. Local re-timing needs the repo's toolchain installed.
 ---
 
@@ -71,14 +71,10 @@ Write the ledger from `references/ledger.md` into the repository's docs: before,
 
 ## Gotchas
 
-- `cancel-in-progress: true` on the default branch cancels the superseded run's deploy mid-rollout. Cancel on pull requests only; default-branch pushes queue.
-- The same setting cancels your own measurement: a push to the pull request while its run is in flight throws that run away. Hold docs-only commits until the measured run completes.
+- `cancel-in-progress: true` on the default branch cancels the superseded run's deploy mid-rollout; cancel on pull requests only. On a pull request the same setting cancels your own measurement: a push while its run is in flight throws that run away. Hold docs-only commits until the measured run completes.
 - A queued default-branch run that gets replaced never runs its checks, so change detection against the previous commit skips work that never passed. Compare against the last commit that finished successfully.
 - Every workspace's tests in one job through a task runner with no remote cache is oversubscription, not caching: twenty test processes on four cores, each with its own workers. A 0:47 suite took 3:04 there. Read the per-workspace duration lines before blaming the tests.
-- A `Duration` line where import plus environment is several times the tests figure says the suite boots the module graph per file. Sharding halves that bill without lowering it; `isolate: false` on the files that tolerate it does.
-- Under a shared registry the files that break are rarely at fault. `vi.mock`, fake timers and `vi.stubGlobal` registered by one file outlive it, and the failures land in later files with no mocks of their own (31 of 222 failed, most of them victims). Isolate by the calls a file makes, not by which files went red.
 - A restored dependency cache can be slower than a fresh install (Linear measured restore at four times the install). Time both; a 2.6 GB `node_modules` is not worth trying.
-- Excluding containers from a service stack saves their pulls, not the boot: seven fewer Supabase containers took the step from 2:47 to 2:11, and database init and health waits were the rest. Predict from the step's log, not the container count.
 - Overlapping two IO-bound steps on a hosted runner returns less than their sum: a background service boot cut the post-install wait from 2:11 to 0:34 while the install grew from 1:32 to 2:28.
 - A background boot must resolve its project the way the reading step does. `supabase start --workdir <dir>` booted a default project under another container name and `supabase status` found nothing.
 - Vitest and Playwright shard by file count, so two shards differ by a minute and the same shard varies by a minute between runs. Read median and p90 before adding a shard; splitting the long files rebalances, another shard does not.

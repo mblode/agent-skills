@@ -19,23 +19,6 @@ Scannable prompts for natural delivery, not scripts to read verbatim.
 **Transition:** [Bridge to next slide]
 ```
 
-### Example
-
-```markdown
-### Slide 5: Speed is a feature
-
-**Key point:** Being fast is a competitive advantage, not just a nice-to-have.
-
-**Open with:** "This slide captures something we keep rediscovering..."
-
-**Talk track:**
-- Every time we ship faster, customers notice and tell us
-- Our competitors take months for changes we do in days
-- Speed compounds, fast shipping builds momentum and morale
-
-**Transition:** "So how do we protect that speed as we scale?"
-```
-
 ## Notes by slide type
 
 **statement / question**: Expand on the headline: what led to this conclusion, what's the implication. For questions, pause and let it land before answering.
@@ -61,6 +44,4 @@ The output format reads notes from one place each: Marp and Slidev take an HTML 
 
 ## Context adjustments
 
-- **Internal**: informal, reference shared history, challenge directly, be candid about what's hard
-- **External**: build credibility first, prove before concluding, leave room for questions
-- **Recorded/async**: tighter, less tangential, stronger signposting; notes clarify what's not obvious from slides alone
+Internal notes can lean on shared history and be candid about what is hard; external notes prove before concluding; recorded or async notes are tighter, with stronger signposting.

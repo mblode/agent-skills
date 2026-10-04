@@ -12,7 +12,7 @@ Personalisation and mobile-first conversion. Load alongside `cro.md` when buildi
 
 ## AI personalisation
 
-Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conversion by 25-40%, and the gap is widening: personalisation is becoming table stakes, not a competitive advantage.
+Personalisation amplifies a page that already converts; it does not rescue one that does not.
 
 ### What to personalise
 
@@ -46,7 +46,7 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 
 ## Mobile-first conversion
 
-62% of ecommerce traffic is mobile. Design mobile-first, then enhance for desktop.
+Most marketing traffic arrives on phones. Design mobile-first, then enhance for desktop.
 
 ### Layout rules
 
@@ -55,9 +55,9 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 - **Thumb-zone CTA placement.** Primary actions in the bottom-centre, reachable without stretching.
 - **Sticky CTA.** Keep the primary CTA visible as the user scrolls. A fixed bottom bar or floating button keeps the action one tap away.
 
-### The 70% rule
+### Above the mobile fold
 
-70% of mobile users don't scroll to mid-page. This changes section ordering:
+Most mobile visitors never reach mid-page, so section order changes:
 
 - CTA must appear above the fold on mobile.
 - Social proof must appear within the first two scroll-lengths.
@@ -77,6 +77,6 @@ Non-personalised B2B landing pages convert at 1-3%. Personalised pages lift conv
 
 Three conversion levers belong to sibling skills; name the lever, then route the work.
 
-- **Page speed.** Pages under 1 second convert roughly 3x better than 5+ seconds, so mobile speed is a conversion decision. Core Web Vitals (LCP/INP/CLS), `font-display`, WebP/AVIF, and third-party script budgets: route to `seo`.
+- **Page speed.** Mobile speed is a conversion decision. Core Web Vitals (LCP/INP/CLS), `font-display`, WebP/AVIF, and third-party script budgets: route to `seo`.
 - **Accessible copy.** Descriptive link and CTA text and plain-language reading level: route to `ghostwriter`. The a11y checks (WCAG link purpose, heading hierarchy, contrast): route to `ui-design` or `typography-audit`.
 - **Microcopy.** Button labels, form help text, privacy reassurance, error messages: route to `ghostwriter`.

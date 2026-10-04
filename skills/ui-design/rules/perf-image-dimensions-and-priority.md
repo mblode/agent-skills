@@ -18,7 +18,7 @@ Search for `<img>` tags with no `width` attribute, which is the layout-shift hal
 rg -nUP '<img\b(?![^>]*\bwidth=)[^>]*>' -g '*.tsx' -g '*.jsx' src/
 ```
 
-An image whose box is already reserved in CSS (`aspect-video`, `aspect-[16/9]`, a fixed `h-` plus `w-`, or `<Image fill>` in a sized parent) matches but does not shift. The priority half is not greppable on its own: identify the first-viewport image, then confirm it carries `priority` or `fetchPriority="high"`.
+An image whose box is already reserved in CSS (`aspect-video`, `aspect-[16/9]`, a fixed `h-` plus `w-`, or `<Image fill>` in a sized parent) matches but does not shift. The priority half is not greppable on its own: identify the first-viewport image, then confirm it carries `priority` or `fetchPriority="high"` and no `loading="lazy"` (a lazy hero waits for layout before it fetches). Lazy-loading offscreen media is Lighthouse's to flag, not this rule's.
 
 **Incorrect (layout shift risk):**
 

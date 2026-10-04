@@ -98,7 +98,7 @@ Honor `Accept: text/markdown` on the HTML URL:
 
 `text/plain` or HTML with a markdown body is a warn. Serve the same source the HTML was built from so `markdown-content-parity` holds. Mark human-only chrome with `data-markdown-ignore` rather than drifting the two copies.
 
-Cache `llms.txt` and markdown with `max-age` of 300–3600 plus `ETag` or `Last-Modified`. Multi-day `max-age` with no revalidation fails `cache-header-hygiene`.
+Cache `llms.txt` and markdown with `max-age` of 300 to 3600 plus `ETag` or `Last-Modified`. Multi-day `max-age` with no revalidation fails `cache-header-hygiene`.
 
 ## Size and structure
 

@@ -17,7 +17,7 @@ This file defines the 4 categories of agentic experience audit rules. Each rule 
 ## 3. Context & Memory (context)
 
 **Default tier:** mostly fix-this-sprint to backlog
-**Why critical:** Agents that don't show what they remember feel opaque. Agents that don't use available context feel stupid. Interfaces that don't reshape with task progression feel static. All three erode the relationship depth that makes agent products defensible.
+**Why critical:** Agents that don't show what they remember feel opaque. Interfaces that don't reshape with task progression feel static. Both erode the relationship depth that makes agent products defensible.
 
 ## 4. Agent Communication (comm)
 
@@ -29,16 +29,15 @@ This file defines the 4 categories of agentic experience audit rules. Each rule 
 ## Rule index
 
 ```
-trust-no-confidence-cues          trust-no-uncertainty-markers      trust-no-escalation-path
-trust-undisclosed-access-scope
+trust-no-confidence-cues          trust-no-escalation-path          trust-undisclosed-access-scope
 control-no-escape-hatch           control-no-approval-gate          control-over-conversational
 control-thin-approval-payload
-context-memory-not-visible        context-no-adaptive-canvas        context-under-contextual
+context-memory-not-visible        context-no-adaptive-canvas
 comm-no-intent-handshake          comm-no-progress-signal           comm-no-generative-momentum
 comm-unrequested-action-no-consent
 ```
 
-Total: 15 rules.
+Total: 13 rules.
 
 ---
 
@@ -46,10 +45,9 @@ Total: 15 rules.
 
 These pairings often co-fire on the same surface:
 
-- **no-confidence-cues + no-uncertainty-markers**: both address "why should I trust this." Different targets: rationale vs. hedging.
 - **no-escape-hatch + no-approval-gate**: for autonomous actions, both fire. Approval gate may partially satisfy escape hatch.
 - **no-progress-signal + no-intent-handshake**: long-running tasks that didn't confirm scope AND show no progress are doubly opaque.
-- **memory-not-visible + under-contextual**: complementary. One says the agent knows things the user can't see; the other says it doesn't know things it should.
+- **memory-not-visible + context-starvation (arch)**: complementary. One says the agent knows things the user can't see; the other says it doesn't know things it should.
 - **over-conversational + no-generative-momentum**: paradoxical pairing. Forcing chat where buttons would do, while failing to offer drafts where blanks would benefit.
 - **no-approval-gate + thin-approval-payload**: sequential, not simultaneous. The first asks whether the treatment matches the stakes, the second whether the prompt carries enough to decide. A surface with no gate at all is the first finding only; the second has nothing to inspect until a gate exists.
 - **undisclosed-access-scope + memory-not-visible**: what the agent can reach versus what it has kept. Different disclosures, so file both when both fail, each with its own evidence. Merging them hides whichever the team did not think of.

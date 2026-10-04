@@ -1,6 +1,6 @@
 ---
 name: dx-audit
-description: Audits libraries, CLIs, and SDKs using 38 rules for public contracts, package exports, piped output, errors, and configuration. Use when asked to "audit my CLI", "review my SDK", or diagnose package type resolution. For public site or docs agent scores use agent-ready; for agentic product trust use ax-audit; for docs prose use ghostwriter.
+description: Audits libraries, CLIs, and SDKs using 38 rules for public contracts, package exports, piped output, errors, and configuration. Use when asked to "audit my CLI", "review my SDK", or diagnose package type resolution.
 ---
 
 # DX Audit
@@ -88,7 +88,7 @@ Capability gates, applied inside a selected prefix:
 
 ### 4. Rank root causes, not instances
 
-- Order CRITICAL, HIGH, MEDIUM by each cited rule's frontmatter `impact`, copied exactly. Impact is the rule's declared consequence, not a confidence score.
+- Order CRITICAL, HIGH, MEDIUM by each cited rule's frontmatter `impact`, copied exactly. Impact is the rule's declared consequence, not a confidence score: exit 0 on failure in one subcommand is still HIGH, because the CI gate it defeats is the same. Open the rule file before citing it, since an id cited from memory drifts from the file, and drop the citation if no such file exists.
 - Merge repeated instances of one root cause into one finding with up to three representative locations. Missing JSDoc, error codes, or `--json` across a surface is one finding, not one per symbol.
 - A missing feature with no current consumer path is not a defect.
 - Targeted mode: every CRITICAL finding, then the highest-value remainder up to five total; summarize the rest by category.
@@ -123,7 +123,6 @@ Re-open every touched or cited location, rerun the same probes and focused proje
 | `rules/_sections.md` | Every audit, for prefix applicability and priority |
 | `rules/<prefix>-*.md` | A candidate has evidence, or exhaustive mode |
 | `references/standards-map.md` | A finding needs an external citation, the user asks why something is a rule, or a borderline call needs a tie-break |
-| `references/evaluation-scenarios.md` | Changing this skill; never during a user task |
 | `rules/_template.md` | Adding or editing a rule |
 
 ## Gotchas
@@ -132,8 +131,6 @@ Re-open every touched or cited location, rerun the same probes and focused proje
 - **`process.stdout.isTTY` is `undefined` under a pipe, not `false`.** A guard written as `isTTY === false` never disables color or spinners when piped, so ANSI codes reach the redirected file. Probe with `| cat` rather than trusting the guard.
 - **`process.exit(1)` right after `console.log` can truncate the output it was meant to explain.** stdout writes are asynchronous when piped, so a CLI that prints usage and calls `exit()` can emit nothing under `| cat`. The fix is `process.exitCode = 1` and a natural return (`cli-exit-codes`).
 - **An `exports` map that reads correctly can still resolve wrong.** `"require"` pointing at a `.js` file under `"type": "module"` masquerades as CJS, and a `types` condition listed after `import` is never reached. `publint` and `attw` catch both; reading the map does not (`onboard-exports-resolve-typed`).
-- **A rule id cited from memory drifts from the file.** The frontmatter title and impact are the contract. Open the file before citing it, and drop the citation if no such file exists.
-- **Downgrading an impact because the instance feels small hides a class of defect.** Exit 0 on failure in one subcommand is still HIGH; the CI gate it defeats is the same. Copy the frontmatter value.
 
 ## Related skills
 
@@ -146,4 +143,4 @@ Re-open every touched or cited location, rerun the same probes and focused proje
 - `agents-md`: AGENTS.md and CLAUDE.md instruction files
 - `codebase-architecture`: repository structure and module contracts inside the repo, rather than the surface a package ships outward
 
-Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.
+Maintenance only: `evals/evals.json` and `evals/evaluation-scenarios.md` hold regression scenarios for changes to this skill; neither loads during a user task.

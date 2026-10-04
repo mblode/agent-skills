@@ -1,39 +1,34 @@
 # Agent Runtime
 
-Configuration that makes a session productive from its first turn, and merge gating that matches the risk of the change. Load when configuring session hooks, permissions, or review gating.
+What the harness runs around an agent: the edit hook, and jobs where an agent changes code with no person watching. Load when configuring session hooks, the permission allowlist, or an unattended fix job. Worktree bootstrap (ports, databases, env files per checkout) belongs to `app-verification` (`references/worktree-isolation.md`); review gating is rung 4 of `enforcement-ladder.md`.
 
-## Hooks
+## The post-edit hook
 
-Every manual setup step is a failed or slow session. Three hooks cover most of it:
+Run the formatter and the autofixing linter on the file just written, after every edit. The tree stays clean by construction, and a formatting gate never fails on agent-authored code. Keep pre-commit for what a per-file hook cannot see: whole-repo checks, cross-file rules, and the staged set.
 
-- **Session start:** install dependencies when they are missing. A fresh worktree becomes productive with zero instructions, and the agent never spends a turn diagnosing a missing module as a code error.
-- **After a write or edit:** run the formatter and autofixer on the file just written. The tree stays clean by construction rather than by the agent remembering, and a formatting gate can never fail on agent-authored code.
-- **Before a destructive command:** block what should never run unattended, where the repo has such commands.
+Two details decide whether the hook teaches or just tidies:
 
-The post-edit hook largely subsumes a pre-commit formatting hook, and catches the same failure earlier and cheaper. Keep pre-commit for what a per-file hook cannot see: whole-repo checks, cross-file rules, and anything needing the staged set.
+- **Exit blocking when lint errors survive the autofix.** Formatting is silent and always exits 0, but the linter's leftover output goes to stderr with the harness's blocking exit code (2 in Claude Code), so the agent reads the violation on the turn it caused it. A hook that swallows the output fixes what it can and hides the rest until CI.
+- **Skip what the tool cannot read.** Exit 0 when the edited path no longer exists or its extension is not one the linter handles; a hook that errors on a Markdown edit trains everyone to disable it.
 
-The harness owns the settings file's schema and matcher syntax. Decide what belongs in it and why; do not restate mechanics the harness already documents.
+A session-start hook that installs dependencies when they are missing keeps a fresh worktree from spending its first turn diagnosing a missing module as a code error.
 
-## Permission allowlist
+Allowlist the read-only commands an agent runs constantly (status, log, diff, typecheck, lint, test, search). Each approval prompt is a stall, and a session spent approving `git status` twenty times trains everyone toward blanket approval, the outcome the prompts exist to prevent. Allowlist by command shape, not prefix breadth: `git diff` is read-only; `git` is not.
 
-Allowlist the read-only commands an agent runs constantly (status, log, diff, typecheck, lint, test, ripgrep, ls). Each approval prompt is a stall, and a session spent approving `git status` twenty times trains everyone toward blanket approval, which is the outcome the prompts exist to prevent.
+Where the repo has commands that should never run unattended (a production migration, a force push, a data wipe), add a pre-command hook that blocks them. The harness owns the settings file's schema and matcher syntax; do not restate it here.
 
-Allowlist by command shape, not by prefix breadth. `git diff` is read-only; `git` is not.
+## Unattended fix jobs
 
-## Worktree bootstrap
+A scheduled or event-driven job where an agent reproduces a failure and drafts a fix, with no person in the loop until review. The agent's own report is not the gate; the workflow around it is. Each rule below is a check the workflow runs, not an instruction in the prompt.
 
-For parallel agent fleets, a bootstrap script that copies environment files, reuses dependency and codegen artifacts from the main checkout when lockfiles match, and offsets ports so worktrees never collide. Without the port offset, the second agent's dev server fails in a way that looks like a code bug.
+- **Reproduce before fixing.** The job's first verdict is reproduced, already fixed on the default branch, or could not reproduce. Only "reproduced" continues to a fix; "already fixed" closes the issue with no fix run, and both other verdicts post the report as a comment. Parse the verdict from a fixed first line, and treat anything else (including a run that returned nothing) as could not reproduce.
+- **The diff must add a test.** Refuse a change with no test file in it. This only proves a test exists, so the reviewer confirms it fails without the fix, and the job's PR says so.
+- **Protected paths.** Refuse a diff that touches CI workflows, agent settings, infrastructure, scripts, the eval harness, the instruction files, or the review rubric. An agent that can edit its own gate has no gate. Check the patch again in the job that applies it, because the job that ran the agent is not trusted.
+- **Re-run check and test outside the model.** The workflow runs the repo's check and test commands itself on the agent's change; "the agent said they pass" is not evidence. Add the browser suite when the change touches the web app, and attach its recording.
+- **Split read-only from write.** The job that runs the agent runs code the agent wrote, so it holds nothing worth stealing: no cloud login, no OIDC token, a read-only repository token, and only the model key. It hands a patch to a separate job that runs no repository code and is the only one allowed to push and open the draft PR. Nothing in the loop merges or deploys.
+- **Caps and dedupe.** Limit fix attempts per run and per day, and give each failure a fingerprint; an open issue, or one closed recently, mutes its fingerprint so the same error does not open a second issue or a second fix. Run the watcher that opens issues in a single concurrency group so two runs cannot race.
+- **Isolated settings and a budget.** Start the agent with project settings only (no user settings), no MCP servers unless the task needs one, an explicit tool allowlist with shell restricted to the repo's own scripts and read-only git, a non-interactive permission mode, a per-run spend cap, and no session persistence. Pin the CLI version. Record the run's cost in the PR or comment.
+- **Untrusted evidence.** Error text and issue bodies go into the prompt inside a delimited data block with any closing delimiter stripped from the content, so a log line cannot end the block and issue instructions.
+- **A person merges.** The job opens a draft. A PR opened with the default workflow token may start no CI or review bots; use a narrowly scoped token for that step if they must run.
 
-## Blast-radius review rubric
-
-A checked-in rubric, read from the base ref, telling the automated reviewer which changes it may approve and which must escalate to a human. Without one, the reviewer applies generic defaults: uniformly cautious, so nothing merges unattended, or uniformly permissive, so nothing is gated.
-
-Two explicit lists, not a severity score:
-
-**Auto-approve:** features, bug fixes, refactors, tests, documentation, styling, copy and translation additions, analytics events, feature-flag default changes.
-
-**Escalate to a human:** billing and payments, authentication and authorization, data deletion, migrations touching stored data, build, signing, and release configuration, permission and entitlement changes, anything altering a public contract.
-
-The escalation list is the one worth arguing over, and its shape generalises: money, identity, destructive data operations, persisted-data shape, and anything that ships to users outside the normal deploy path. Everything else is reversible by the rollback path, which is why it can merge unattended.
-
-Verify the rubric the same way as any other gate: open a documentation-only change (auto-approves) and a migration (escalates). A rubric nobody has watched escalate is not known to work.
+Prove the gates the same way as any other check: feed the job an issue that is already fixed (closes, no PR), and a fix with no test (comment, no PR).

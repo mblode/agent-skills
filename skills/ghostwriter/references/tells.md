@@ -1,6 +1,6 @@
 # Machine tells
 
-The pass you run on your own draft before returning it. It removes what marks prose as machine-written, not what makes it the user's.
+The pass you run on your own draft before returning it. It removes what marks prose as machine-written, not what makes it the user's. This is the collection's one tells and house-vocabulary list; other skills point here rather than keep their own.
 
 The test: a model writes for the widest reader and subject; a person writes for one. A sentence that could sit unchanged in someone else's post or another project's docs says nothing about this one. Cut what fails, listed here or not.
 
@@ -48,7 +48,7 @@ These survive a word-level pass.
 
 ## Vocabulary
 
-The test is whether the word would survive in a press release and die in a text message. One is a word; a cluster is a tell. Current examples: delve, leverage, robust, seamless, unlock, empower, showcase, elevate, streamline, foster, nuanced, crucial, pivotal, enhance, testament, tapestry, vibrant, meticulous, intricate, interplay, garner, underscore and highlight as verbs, "align with", "deep dive", "actionable", "learnings", "landscape" and "journey" as metaphors. Rewrite the sentence around the specific instead of swapping the word for its neighbour. Engineering metaphor nouns are the same tell in a PRD or a ticket: substrate, wedge, vector, primitive, harness, surface, north star, flywheel, gold-plating. Name the mechanism.
+The test is whether the word would survive in a press release and die in a text message. One is a word; a cluster is a tell. Current examples: delve, leverage, robust, seamless, unlock, empower, showcase, holistic, paradigm, synergy, game-changing, cutting-edge, innovative, revolutionary, effortless, world-class, powerful, elevate, streamline, foster, nuanced, crucial, pivotal, enhance, testament, tapestry, vibrant, meticulous, intricate, interplay, garner, underscore and highlight as verbs, "align with", "deep dive", "actionable", "learnings", "landscape" and "journey" as metaphors. Rewrite the sentence around the specific instead of swapping the word for its neighbour. Engineering metaphor nouns are the same tell in a PRD or a ticket: substrate, wedge, vector, primitive, harness, surface, north star, flywheel, gold-plating. Name the mechanism.
 
 ## Three tests
 
@@ -58,4 +58,4 @@ The test is whether the word would survive in a press release and die in a text 
 
 ## Keep
 
-An oddly specific detail, mixed feelings the user has not resolved, dated slang, an in-joke, a first-person choice they could explain, an aside or self-correction. A flagged word inside a quotation, a title, or a line that discusses it. Plain human habits: is and has, "very", "perhaps", "in order to", a superlative, a 30-word sentence beside a 4-word one. Never swap in a rarer word, upgrade "stuff" to "elements", or add a typo to seem human. The profile's own dashes, emoji, and exclamation rates beat every ban here. A tell-free draft that stopped sounding like the user has failed.
+An oddly specific detail, mixed feelings the user has not resolved, dated slang, an in-joke, a first-person choice they could explain, an aside or self-correction. A flagged word inside a quotation, a title, a line that discusses it, or a literal technical use (a robust estimator, leverage in finance). Plain human habits: is and has, "very", "perhaps", "in order to", a superlative, a 30-word sentence beside a 4-word one. Never swap in a rarer word, upgrade "stuff" to "elements", or add a typo to seem human. The profile's own dashes, emoji, and exclamation rates beat every ban here. A tell-free draft that stopped sounding like the user has failed.

@@ -26,7 +26,7 @@ Cialdini's seven principles for landing pages. Each is a tool, not a trick; misu
 | **Scarcity** | Limited-time offers, remaining seats, closing deadlines | Fake countdown timers that reset on refresh; permanent "last chance" banners |
 | **Unity** | In-group language ("fellow founders"), shared identity framing | Exclusionary language that alienates adjacent audiences |
 
-Urgency (a subset of scarcity) lifts conversion substantially when real, and destroys credibility when fabricated. For the figure and other CTA conversion stats, see the canonical "CTA statistics" table in `testing.md`.
+Urgency (a subset of scarcity) lifts conversion substantially when real, and destroys credibility when fabricated.
 
 ---
 

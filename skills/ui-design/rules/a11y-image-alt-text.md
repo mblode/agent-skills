@@ -1,29 +1,31 @@
 ---
-title: Give Every Image a Correct Alt Attribute
+title: Match Alt Text to the Image's Role
 id: a11y-image-alt-text
 category: a11y
 defaultTier: release-blocker
 detect: static
 ---
 
-## Give Every Image a Correct Alt Attribute
+## Match Alt Text to the Image's Role
 
-Every `<img>` needs an `alt`: describe the purpose for informative images, use an empty `alt=""` for decorative ones so screen readers skip them. A missing `alt` makes the file name get read aloud. The `alt` is also what renders when the image itself fails to load.
+An informative image's `alt` states what the image tells the reader; a decorative image's `alt` is empty (`alt=""`) so screen readers skip it. An `alt` that names the file, says "image of", or describes a decoration makes a screen reader read noise aloud, and it is also what renders when the image fails to load.
+
+Whether an `alt` exists at all is a write-time lint (`jsx-a11y/alt-text`) and an axe check (`image-alt`); this rule judges the `alt` that is there, which neither tool can.
 
 ## Detection
 
-Search for `<img>` tags with no `alt` attribute anywhere in the tag, including tags split across lines.
+Search for `alt` values that restate the medium, name a file, or describe ornament.
 
 ```bash
-rg -nUP '<img\b(?![^>]*\balt=)[^>]*>' -g '*.tsx' -g '*.jsx' -g '*.html' src/
+rg -nP 'alt="(?i:(?:image|picture|photo|graphic|icon) of|[^"]*\.(?:png|jpe?g|svg|webp)|[^"]*(?:decorative|divider|background|spacer|swirl))[^"]*"' -g '*.tsx' -g '*.jsx' -g '*.html' src/
 ```
 
-A wrapper that forwards props (`<img {...rest} />`) matches while every call site passes `alt`, so check the callers before reporting. The grep also cannot judge an `alt` that exists but is wrong, so read the decorative images separately: `alt="decorative swirl divider"` needs to become `alt=""`.
+The grep misses the subtler failure: an informative image (a chart, a screenshot that carries the point) whose `alt` names the subject but not the finding. Read the `alt` of every chart and screenshot in scope against what the surrounding copy needs it to say.
 
-**Incorrect (missing alt, and decorative image announced):**
+**Incorrect (chart named but not read; decorative image announced):**
 
 ```tsx
-<img src="/chart.png" />
+<img src="/chart.png" alt="Chart" />
 <img src="/divider.svg" alt="decorative swirl divider" />
 ```
 

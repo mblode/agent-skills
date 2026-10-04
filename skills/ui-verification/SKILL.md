@@ -1,6 +1,6 @@
 ---
 name: ui-verification
-description: Runs scoped browser probes for focus, hit targets, overflow, themes, request failures, and performance attribution, with evidence linked to UI rule IDs. Use when asked to "verify this in the browser", "reproduce this finding", or "check the fix". For source audits and severity use ui-design; field metrics require RUM or CrUX.
+description: Runs scoped browser probes for focus, hit targets, overflow, themes, request failures, and performance attribution, with evidence linked to UI rule IDs. Use when asked to "verify this in the browser", "reproduce this UI finding", or "re-measure after the UI fix".
 compatibility: Requires access to the target app and browser automation. Bundled JavaScript recipes use the Playwright page API.
 ---
 
@@ -46,7 +46,7 @@ Each file is one probe: what it measures, the driver calls, the false positives 
 
 | Probe | Measures | Primary for |
 |---|---|---|
-| [probes/axe-scan.md](./probes/axe-scan.md) | axe-core violations per route and theme, including computed contrast | contrast, accessible names, landmarks, document language |
+| [probes/axe-scan.md](./probes/axe-scan.md) | axe-core violations per route and theme, including computed contrast | contrast, accessible names, landmarks |
 | [probes/target-size.md](./probes/target-size.md) | Bounding box and effective hit area of every visible interactive element | `interaction-target-size` |
 | [probes/focus-walk.md](./probes/focus-walk.md) | Scripted Tab traversal, focus-ring pixel delta, dialog trap and restoration | `focus-*`, `interaction-focus-visible`, `interaction-keyboard-operable` |
 | [probes/layout-shift.md](./probes/layout-shift.md) | Attributed `layout-shift` entries with the data response held open | `states-layout-shift`, `perf-image-dimensions-and-priority` |

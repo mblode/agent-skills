@@ -1,6 +1,6 @@
 ---
 name: chat-history
-description: Recovers decisions, previous fixes, research, and subsequent actions from past AI conversations. Use when asked to "search past chats", "we fixed this before", "what followed this prompt", "why did the plan change", or use Claude Code Search for historical context. Supports local Claude Code, Codex, Grok, Cursor, and explicit ChatGPT or Claude exports.
+description: Recovers decisions, previous fixes, research, and what followed a prompt from past AI conversations, with source evidence. Use when asked to "search past chats", "we fixed this before", "what followed this prompt", or "why did the plan change". Reads local Claude Code, Codex, Grok, and Cursor history plus explicit ChatGPT or Claude exports.
 compatibility: Works with Codex, Grok, Cursor, and Claude Code agents that have shell and filesystem access; requires Python 3.9+ with SQLite, and ripgrep. No ccs installation, hosted service, or harness-specific API required. Cloud agents need the history files supplied to their environment.
 ---
 
@@ -8,10 +8,6 @@ compatibility: Works with Codex, Grok, Cursor, and Claude Code agents that have 
 
 - **IS:** recover historical context with source evidence: prior fixes, decision trails, exact passages and what followed, research across sessions.
 - **IS NOT:** browsing history, automatic memory writing, or proof of current repository or production state. For Obsidian notes use `obsidian`; for recent computer activity use an available computer-history capability.
-
-## Agent compatibility
-
-The same skill and bundled script run in Codex, Grok, Cursor, and Claude Code. The model does not select the source adapter: every host can search every accessible supported source. No vendor SDK, host-specific tool names, or Claude-only substitutions are required. Read [host setup](references/hosts.md) when installing, moving between hosts, or diagnosing unavailable tools.
 
 ## Workflow
 

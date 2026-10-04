@@ -1,6 +1,6 @@
 ---
 name: ui-design
-description: Designs and builds React/Next/Tailwind UI and audits visual and interaction defects. Use when asked to "build a landing page", "extract our design system", "add dark mode", "make this responsive", "remove UI slop", or "audit this component". For product decisions use product-design; for browser measurements use ui-verification; for motion use ui-animation.
+description: Designs and builds React/Next/Tailwind UI and audits visual and interaction defects. Use when asked to "build a landing page", "extract our design system", "add dark mode", "make this responsive", "remove UI slop", or "audit this component".
 ---
 
 # UI Design
@@ -8,11 +8,11 @@ description: Designs and builds React/Next/Tailwind UI and audits visual and int
 Owns everything that touches the built artifact: pick the visual direction, implement it in code, and audit what shipped.
 
 - **IS:** choosing visual direction (palettes, type scales, tokens, layout systems, CRO strategy, brand boards), building UI in code, and auditing built React or Next frontends for user-facing defects with `file:line` evidence, applied fixes, and a ship verdict.
-- **IS NOT:** deciding what an interface should do before it exists (use `product-design`); non-UI correctness and code quality (use `tidy`); agentic-app review (use `ax-audit`); deep typography or motion passes (use `typography-audit`, `ui-animation`); the wording of a string (use `ghostwriter`).
+- **IS NOT:** deciding what an interface should do before it exists (use `product-design`); non-UI correctness and code quality (use `tidy`); agentic-app review (use `ax-audit`); deep typography or motion passes (use `typography-audit`, `ui-animation`); measuring the rendered page in a browser (use `ui-verification`); the wording of a string (use `ghostwriter`).
 
 ## Contents
 
-- [Routing boundary](#routing-boundary)
+- [Existing brand and specs](#existing-brand-and-specs)
 - [Modes](#modes)
 - [Direction mode](#direction-mode)
 - [Extract mode](#extract-mode)
@@ -22,13 +22,9 @@ Owns everything that touches the built artifact: pick the visual direction, impl
 - [Quality Bar](#quality-bar)
 - [Verify](#verify)
 - [Gotchas](#gotchas)
-- [Sources](#sources)
 - [Related skills](#related-skills)
 
-## Routing boundary
-
-`product-design` owns action semantics, scope, reversibility, and contested state choices. `ui-design` builds and styles those states. `ui-animation` owns timing, gestures, and measured motion. A routine missing loading or error state stays with the UI build; a gesture replacing a control needs a product decision and an accessible alternative before its physics.
-
+## Existing brand and specs
 
 For brand positioning, identity changes, or a system spanning campaigns and physical applications, that is out of scope; name the open brand question and apply the identity the company already has. Direction mode applies that identity to UI; it does not reopen an approved brand.
 
@@ -82,7 +78,7 @@ Load when the marketing track has a conversion goal. Skip for pure brand/portfol
 | File | Read when |
 |------|-----------|
 | [direction/cro.md](./direction/cro.md) | Persuasion tactics, social proof, page length, or a CRO plan |
-| [direction/testing.md](./direction/testing.md) | Optimising a page or planning experiments: prioritisation, significance rules, the CTA statistics table |
+| [direction/testing.md](./direction/testing.md) | Optimising a page or planning experiments: what to test first, significance rules, scroll-map reading |
 | [direction/modern.md](./direction/modern.md) | Personalisation and mobile-first conversion |
 
 For "create a brand kit" or a brand direction board, load [direction/brand-kit-prompt.md](./direction/brand-kit-prompt.md); its Rendering section covers the `imagegen` handoff and the text-only fallback.
@@ -209,27 +205,10 @@ Reference calibration: **Linear** (restrained, dense without clutter, keyboard-f
 - Loading `guidelines/` or `direction/` during an audit turns findings into redesign proposals. The Verify step's file list is how you catch it.
 - Marketing track on a product surface puts hero sections and campaign copy on dashboards, so operators cannot find status or actions. `product-ui.md`'s utility-copy section exists for this failure.
 - Loading CRO references for a brand or portfolio page biases toward conversion furniture (badge strips, sticky CTAs, urgency banners) the brief never asked for.
-- Quoting the references' conversion stats as promises ("this will lift conversions 34%") misrepresents them; they are directional priors for prioritising tests.
 - Skipping `colors.md` in Build mode produces the stock Tailwind look: indigo accents and `gray-*` neutrals, both banned as defaults.
 - Assigning `release-blocker` liberally stops the verdict gating merges. Reserve it for data loss, broken critical paths, and dark patterns. No `slop-` rule is ever a release-blocker.
 - Reporting one issue from several rules inflates the count and splits the fix. Keep the most concrete framing: "missing error state" beats "the page is hard to use".
 - The suppression comment is `ui-audit-ignore:` even though this skill is named `ui-design`. It is spelled that way in users' repositories, and renaming it would silently un-suppress every suppression anyone has written.
-
-## Sources
-
-Taken as compact audit rules and build bullets, not as vendored skills:
-
-- Rauno Freiberg, [Web Interface Guidelines](https://interfaces.rauno.me): disabled-control tooltips, hover tooltips without interactive content, overlaid input affixes, stable hover weight, immediate toggles, `user-select` on controls.
-- Jakub Krehel and Gustavo Fior craft notes: OKLCH ramps, optical compensation on dark surfaces, faint grain against banding, squircles on icon tiles only. Nested radius, hit areas, interruptible motion, and image outlines already lived in this collection.
-- Paco Coursey: theme-toggle transition gating already lived in `ui-animation`. SVG-plus-backdrop blur stays in `materials.md`.
-
-Rejected (same trigger as skills already in this repo, so installing them would reconcile two owners):
-
-- `npx skills add jakubkrehel/skills` (`better-ui`, `better-typography`, `better-interface`)
-- `npx skills add emilkowalski/skill` (`emil-design-eng`, `animate`, `review-animations`)
-- `npx skills add gustavo-fior/craft` (`craft-design-engineering`)
-
-Taste essays (Developing Taste, The Concept of Taste) and Disney's 12 principles were left out: they are generic coaching the model already has. Benji Taylor's Agentation belongs with `ax-audit` when a product is annotating a UI for agents, not with visual polish.
 
 ## Related skills
 
@@ -242,6 +221,4 @@ Taste essays (Developing Taste, The Concept of Taste) and Disney's 12 principles
 - `ghostwriter`: landing-page copy, message match, persuasion frameworks.
 - `seo`: meta descriptions and page titles.
 
-Maintenance only: when changing audit routing or anti-slop behavior, run the scenarios in `evaluations/` as a regression rubric.
-
-Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.
+Maintenance only: `evals/` holds the regression scenarios (`evals.json`, plus `merge-routing.json` and `refine-ai-ui.json` for audit routing and anti-slop behavior) and their fixtures; none of it loads during a user task.

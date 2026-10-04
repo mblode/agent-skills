@@ -6,7 +6,7 @@ defaultTier: backlog
 surfaces: agent-chat
 ax-pattern: Generative Momentum
 detection: observational
-related: control-over-conversational, context-under-contextual
+related: control-over-conversational, context-starvation
 ---
 
 ## Blank-canvas surface with no agent-generated starting content

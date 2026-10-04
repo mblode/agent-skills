@@ -27,7 +27,6 @@ A primary rule that the probe could not run for stays `unknown`. A confirming ru
 | `a11y-color-only-meaning` | axe-scan | confirming |
 | `a11y-data-table-semantics` | axe-scan | confirming |
 | `a11y-disabled-control-tooltip` | axe-scan, focus-walk | confirming |
-| `a11y-document-language` | axe-scan | confirming |
 | `a11y-icon-controls-labeled` | axe-scan | confirming |
 | `a11y-image-alt-text` | axe-scan | confirming |
 | `a11y-media-captions` | axe-scan | confirming |
@@ -63,7 +62,6 @@ A primary rule that the probe could not run for stays `unknown`. A confirming ru
 | `nav-live-region-feedback` | failure-injection, axe-scan | confirming |
 | `nav-semantic-links` | focus-walk, axe-scan | confirming |
 | `perf-image-dimensions-and-priority` | layout-shift, web-vitals | primary |
-| `perf-lazy-load-offscreen` | console-network | confirming |
 | `perf-virtualize-large-lists` | see below | confirming |
 | `slop-affordance-mismatch` | theme-locale-matrix | capture-only |
 | `slop-decoration-no-role` | theme-locale-matrix | capture-only |
@@ -89,10 +87,9 @@ The two rules the audit corpus already marks `detect: rendered`, `states-layout-
 
 ## One-line runtime confirmations
 
-Three rules are settled by a single evaluate call rather than a probe file. Run them alongside whichever probe is already on the route:
+Two rules are settled by a single evaluate call rather than a probe file. Run them alongside whichever probe is already on the route:
 
 - **`perf-virtualize-large-lists`**: count the rendered rows against the payload length. A thousand records and a thousand DOM nodes is the defect; a thousand records and forty nodes is a working virtualiser.
-- **`perf-lazy-load-offscreen`**: record image and iframe requests issued before any scroll. An asset below the fold fetched at load is the finding, and `probes/console-network.md` already holds the request log.
 - **`forms-use-form-status-misuse`**: hold the submit response open. The bug is a pending state that never appears because the status hook is always false in the component that owns the form, and holding the response is what makes its absence visible.
 
 ## What no probe decides

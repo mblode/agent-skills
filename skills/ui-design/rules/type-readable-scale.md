@@ -34,8 +34,8 @@ body {
 
 ```css
 body {
-  font-size: clamp(0.95rem, 0.2vw + 0.9rem, 1.125rem);
+  font-size: 1rem; /* 16px at every breakpoint; no vw term, so browser zoom still scales it */
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 ```

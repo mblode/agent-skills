@@ -5,6 +5,7 @@
 - [Phase 2: Create Next.js app](#phase-2-create-nextjs-app)
 - [Phase 2.1: Upgrade to TypeScript 7](#phase-21-upgrade-to-typescript-7)
 - [Phase 2.2: Turn on Instant Navigations](#phase-22-turn-on-instant-navigations)
+- [Instant Navigations rules (apps/web AGENTS.md)](#instant-navigations-rules-appsweb-agentsmd)
 - [Phase 3: Install Blode UI components and icons](#phase-3-install-blode-ui-components-and-icons)
 - [Phase 4: Install Agentation](#phase-4-install-agentation)
 - [Phase 4.1: Add Google Analytics (optional)](#phase-41-add-google-analytics-optional)
@@ -110,7 +111,25 @@ With the Rust compiler on, `babel-plugin-react-compiler` is not needed.
 transform: any Babel step in the pipeline gives back most of what the Rust path
 saves.
 
-What the flags change, and what to write from day one:
+The authoring rules these flags impose are the Instant Navigations block below. Read it now, before Phase 3: it governs how every page is written.
+
+Verify with `next dev` rather than the build. Instant navigation validation runs
+in development only and never fails `next build`, so a green build is not
+evidence. Load each route and confirm the dev overlay reports none. The
+Navigation Inspector in the Next.js DevTools ("Pause on navigations") freezes the
+page at its shell so you can see what a visitor gets before data streams in.
+
+## Instant Navigations rules (apps/web AGENTS.md)
+
+Phase 5.1 appends this block to `AGENTS.md`, after Ultracite has written the file, so every later agent working in the app reads the same rules.
+
+```md
+## Instant Navigations
+
+`cacheComponents`, `partialPrefetching`, and `reactCompiler` stay on in
+`next.config.ts`. Validate in `next dev` and read the overlay: instant
+navigation validation never fails `next build`.
+
 - Nothing is cached unless a function says `'use cache'`. Add it at the data
   access, with `cacheLife` for how long and `cacheTag` for what invalidates it.
   On Vercel that cache is per function instance; anything that must be shared
@@ -120,6 +139,8 @@ What the flags change, and what to write from day one:
   `revalidate`, and `fetchCache` are build errors under Cache Components, in
   pages and route handlers alike. A `'use cache'` helper plus `cacheLife`
   replaces them; the directive goes on the helper, never on a `GET` export.
+  A hand-written `robots.txt/route.ts` counts. `runtime`, `maxDuration`,
+  `instant`, and `prefetch` remain valid.
 - `generateStaticParams` must return at least one param, or the build raises
   `empty-generate-static-params`. Unlisted params get the App Shell on first
   visit and upgrade in the background.
@@ -143,8 +164,8 @@ What the flags change, and what to write from day one:
   `"use client"` page.
 - The previous route stays mounted as hidden DOM during navigation (React
   `<Activity>`), so backgrounds and themes belong to the route, never to
-  `body` or `html`, and any theme switch keys off `usePathname()` rather than
-  a class on `body`. Component state survives back navigation too; reset it in
+  `body` or `html` (a `body:has(.marker)` rule leaks too), and any theme
+  switch keys off `usePathname()` rather than a class on `body`. Component state survives back navigation too; reset it in
   an effect or derive it from the URL.
 - Keep filesystem-reading modules apart from the constants client components
   and `proxy.ts` import. A lazy-loaded footer that imports the project list
@@ -154,12 +175,10 @@ What the flags change, and what to write from day one:
   `'use cache'` inside it; runtime data (`cookies()`, `params`) needs a dynamic
   marker in the page, or the build raises
   `blocking-prerender-metadata-runtime`.
-
-Verify with `next dev` rather than the build. Instant navigation validation runs
-in development only and never fails `next build`, so a green build is not
-evidence. Load each route and confirm the dev overlay reports none. The
-Navigation Inspector in the Next.js DevTools ("Pause on navigations") freezes the
-page at its shell so you can see what a visitor gets before data streams in.
+- Never set `runtime = "edge"`: deprecated in 16, and Cache Components needs
+  Node.js. Work that must outlive the response (analytics, logging) goes in
+  `after()` from `next/server`, never a floating promise.
+```
 
 ## Phase 3: Install Blode UI components and icons
 
@@ -334,7 +353,7 @@ The preset already turns `shadcn/no-restyle`, `shadcn/no-arbitrary-values`, and 
 
 2. Pin `@shadcn/lint` (and `oxlint` if you bumped it) to the resolved versions, the same pin Phase 5 applied to `ultracite`, `oxfmt`, and `lefthook`.
 
-3. Append this to `AGENTS.md` (outside any later Next-managed markers):
+3. Append the Instant Navigations block above and this one to `AGENTS.md` (outside any later Next-managed markers):
 
 ```md
 ## Design-system lint

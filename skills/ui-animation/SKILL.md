@@ -1,6 +1,6 @@
 ---
 name: ui-animation
-description: Builds, reviews, and measures UI motion, including springs, gestures, scroll effects, curve fitting from recordings, and sparse interface sound. Use when asked to "add animation", "match this easing", "reverse engineer this motion", "add a click sound", or find animation opportunities. For action semantics use product-design; for visual layout use ui-design.
+description: Builds, reviews, and measures UI motion, including springs, gestures, scroll effects, curve fitting from recordings, and sparse interface sound. Use when asked to "add animation", "match this easing", "reverse engineer this motion", "add a click sound", or find animation opportunities.
 ---
 
 # UI Animation
@@ -8,19 +8,13 @@ description: Builds, reviews, and measures UI motion, including springs, gesture
 - **IS:** designing, implementing, reviewing, debugging UI motion (springs, gestures, drag, easing, CSS transitions, keyframes, Motion), sweeping an interface for the moments that would genuinely benefit from motion, measuring motion from a recording (extract frames, track, fit curves) to emit code plus a handoff spec, naming a described motion effect (reverse-lookup vocabulary), and gating sparse interface sound.
 - **IS NOT:** choosing overall visual direction, palettes, or typography (use `ui-design` Direction mode), auditing a whole page's UI quality (use `ui-design` Audit mode), or named text-effect specs (use the external `animate-text` skill where installed).
 
-## Routing boundary
-
-`product-design` owns action semantics, scope, reversibility, and contested state choices. `ui-design` builds and styles those states. `ui-animation` owns timing, gestures, and measured motion. A routine missing loading or error state stays with the UI build; a gesture replacing a control needs a product decision and an accessible alternative before its physics.
-
-
 ## Reference files
 
 | File | Read when |
 | --- | --- |
-| [references/discovery-workflow.md](references/discovery-workflow.md) | Finding worthwhile opportunities for motion in an existing interface |
-| [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character; also the seam list for a Discovery sweep |
+| [references/decision-framework.md](references/decision-framework.md) | Default: deciding whether/why to animate, picking easing character; also the Discovery sweep ("where should this animate") |
 | [references/spring-animations.md](references/spring-animations.md) | Spring physics, Motion `useSpring`, configuring spring params, Apple damping/response values, asymmetric open/close character, interruption mechanics |
-| [references/component-patterns.md](references/component-patterns.md) | Buttons, popovers, tooltips, drawers, modals, toasts with animation |
+| [references/component-patterns.md](references/component-patterns.md) | Buttons, toasts, crossfades, list stagger and removal, hover, step forms, Motion layout morphs and auto height, 3D |
 | [references/clip-path-techniques.md](references/clip-path-techniques.md) | clip-path for reveals, tabs, hold-to-delete, comparison sliders |
 | [references/gesture-drag.md](references/gesture-drag.md) | Drag, swipe-to-dismiss, momentum, pointer capture, velocity handoff, momentum projection, rotary/knob drag, detents, carousel `touch-action` |
 | [references/scroll-animations.md](references/scroll-animations.md) | Scroll-triggered reveals, scrubbed/scroll-driven animation (`animation-timeline`, `useScroll`), parallax, sticky scrollytelling, and when a scroll animation shouldn't exist |
@@ -29,12 +23,11 @@ description: Builds, reviews, and measures UI motion, including springs, gesture
 | [references/svg-animation.md](references/svg-animation.md) | Animating vector art: line drawing (`stroke-dashoffset`), SVG transform-origin traps, path morphing, shakes, ambient life |
 | [references/review-format.md](references/review-format.md) | Reviewing animation code: ten standards (each with flag-on-sight triggers), Before/After/Why table, Block/Approve verdict |
 | [references/contextual-animations.md](references/contextual-animations.md) | Contextual icon swaps, word-level stagger entrances, peripheral de-emphasis, fixed-offset exits |
-| [references/transition-recipes.md](references/transition-recipes.md) | Installing a CSS transition: container morph, card resize, badge, dropdown, modal, panel, page slide, icon swap, number pop-in, odometer roll, text swap, success, avatar hover, error shake |
+| [references/transition-recipes.md](references/transition-recipes.md) | Installing a CSS transition: container morph, card resize, badge, dropdown and tooltip (with library origin variables), modal (with `@starting-style` entry), panel and drawer, page slide, icon swap, number pop-in, odometer roll, text swap, success, avatar hover, error shake |
 | [references/measurement-guide.md](references/measurement-guide.md) | Reverse-engineer: what to measure, eye vs script, reading `metrics.json`, choosing an ROI |
 | [references/curve-fitting.md](references/curve-fitting.md) | Reverse-engineer: reading `fit_curves.py` output, spring vs bezier, judging fit error, asymmetric open/close |
 | [references/code-output.md](references/code-output.md) | Reverse-engineer: emitting code for CSS, Motion/Framer Motion, SwiftUI, React Native, UIKit |
 | [references/choreography.md](references/choreography.md) | Reverse-engineer: multi-element/multi-phase motion: staggers, blur-before-move, per-edge settling |
-| [references/live-tuning.md](references/live-tuning.md) | Dialling a curve in live when there is no reference to fit against: the DevTools bezier editor, retiming in the Animations panel, when a control-panel library earns a dependency |
 | [references/vocabulary.md](references/vocabulary.md) | Naming a motion effect the user describes vaguely ("what's it called when...") |
 | [references/interface-sfx.md](references/interface-sfx.md) | Click sounds, interface audio, UI SFX, haptic-plus-sound, or "why is the web afraid of sound" |
 
@@ -80,7 +73,7 @@ description: Builds, reviews, and measures UI motion, including springs, gesture
 | Modals, drawers               | 200-350ms    | `cubic-bezier(0.22, 1, 0.36, 1)` |
 | Move/slide on screen          | 200-300ms    | `cubic-bezier(0.25, 1, 0.5, 1)`  |
 | Page transitions              | 250-400ms    | enter or move curve              |
-| Hover (colour/opacity)        | 200ms        | `ease`                           |
+| Hover (colour/opacity), one control | 200ms   | `ease`                           |
 | Hover (transform/scale)       | 100-150ms    | enter curve                      |
 | Illustrative/marketing        | Up to 1000ms | Spring or custom                 |
 
@@ -122,7 +115,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 
 ## Spatial and sequencing
 
-- Popover `transform-origin` at the trigger (modals stay `center`), dialog/menu entrances from `scale(0.9-0.96)` not `scale(0)` (small popovers at the low end, full dialogs at the high end: a large surface already travels far in absolute pixels), and 30-50ms staggers (total under 300ms, most important element leading). Full rules and code in [references/component-patterns.md](references/component-patterns.md) and [references/contextual-animations.md](references/contextual-animations.md).
+- Popover `transform-origin` at the trigger (modals stay `center`), dialog/menu entrances from `scale(0.9-0.96)` not `scale(0)` (small popovers at the low end, full dialogs at the high end: a large surface already travels far in absolute pixels), and 30-50ms staggers (total under 300ms, most important element leading). Full rules and code in [references/transition-recipes.md](references/transition-recipes.md) and [references/contextual-animations.md](references/contextual-animations.md).
 - **Paired elements rule:** elements that animate together (modal + overlay, tooltip + arrow, FAB + label) must share easing and duration. Mismatched timing is the usual cause of "something feels off".
 
 ## Accessibility
@@ -150,6 +143,7 @@ High-signal failures not covered above:
 - Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.
 - Scroll-revealing product UI, above-the-fold content, or every section of a page: scroll reveals belong to a few chosen moments on marketing surfaces, run once, and never re-animate on scroll-up (see [references/scroll-animations.md](references/scroll-animations.md)).
 - Easing or duration on scrubbed (scroll-driven) motion: scroll position is the clock, so any curve or duration makes it lag the scrollbar. `linear` and no duration is correct there, and only there.
+- Reduced motion handled only in CSS: Motion's JS-driven animations ignore a `@media (prefers-reduced-motion)` block, so the CSS gate passes review while spatial travel still plays. Wrap the app in `<MotionConfig reducedMotion="user">` or branch on `useReducedMotion()`. The opposite overcorrection, a global `* { transition: none !important }` under reduce, also strips the opacity and colour feedback that reduced motion keeps.
 - Installing `framer-motion` for new work: the package is now `motion` and React imports come from `motion/react`. The old package still resolves, so a mixed codebase compiles while shipping two copies of the library.
 
 ## Workflow
@@ -166,7 +160,7 @@ Animation progress:
 ```
 
 1. Answer the four questions in [references/decision-framework.md](references/decision-framework.md): animate? purpose? easing? speed?
-2. Pick duration from the easing defaults table above. If the value is contested or the component is hard to reach, dial it live in the DevTools bezier editor rather than guessing, then bake the result into source ([references/live-tuning.md](references/live-tuning.md)).
+2. Pick duration from the easing defaults table above. If the value is contested, dial it live in the DevTools bezier editor (Chrome or Firefox; Safari has none) against the real component, then paste the literal into source beside the other timing constants: a DevTools edit dies on navigation.
 3. Choose implementation: CSS transition > WAAPI > spring > keyframe > JS.
 4. Load the reference for your component or technique.
 5. When reviewing, apply the strict posture in [references/review-format.md](references/review-format.md): measure against the ten standards, output the Before/After/Why table, then a tiered verdict ending in a Block/Approve decision.
@@ -184,7 +178,7 @@ Produce evidence for each check (DevTools observations, not "looks fine"):
 
 ## Discovery workflow
 
-For "where should this animate", load `references/discovery-workflow.md` and `references/decision-framework.md`. Report opportunities supported by purpose and usage frequency. Implement a suggestion only when implementation is in scope.
+For "where should this animate", run the Discovery sweep in `references/decision-framework.md`. Report opportunities supported by purpose and usage frequency, plus the rejected ones. Implement a suggestion only when implementation is in scope.
 
 ## Reverse-engineer workflow
 
@@ -220,11 +214,6 @@ Reverse-engineer progress:
 - Screen recordings drop frames and iOS/QuickTime captures are variable-frame-rate; consecutive identical rows are duplicated frames, not a pause. Re-record at a steadier rate if plateaus dominate.
 - Measure open and close as separate clips and report two curves; never fit one and reuse it reversed (see `references/choreography.md`). Treat a fit `error` above 0.08 as suspect.
 
-Maintenance only: when changing Discovery routing or the gate, run the scenarios in `evaluations/` as a regression rubric. They never load during a user task.
-
-## Sources
-
-Interface SFX gating taken from Craft (gustavo-fior) and Raphael Salaja's web-sound writing. Novelty 90/10 split, one-shot intro gating, and `animation-play-state` on loops taken from Rauno Freiberg. Rejected vendoring emilkowalski/skills and gustavo-fior/craft: trigger collision with this skill. Clip-path and proportional scale already lived here.
 
 ## Related skills
 
@@ -233,4 +222,4 @@ Interface SFX gating taken from Craft (gustavo-fior) and Raphael Salaja's web-so
 - `ui-design` Audit mode: page/feature-level UI quality audit. Motion craft and fixes belong here.
 - Optional external `animate-text` skill where installed: curated named text effects (typewriter, line reveal, stagger builds) with exact JSON specs.
 
-Maintenance only: `evals/evals.json` contains regression scenarios for changes to this skill; it does not load during a user task.
+Maintenance only: `evals/` holds the regression scenarios (`evals.json`, and `discovery-mode.json` for Discovery routing and the gate) and their fixtures; none of it loads during a user task.

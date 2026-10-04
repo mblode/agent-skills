@@ -1,6 +1,6 @@
 ---
 name: agent-skills-creator
-description: Creates and improves portable Agent Skills with a validator, routing scenarios, and evidence-based keep, cut, merge, or retire decisions. Use when asked to "write a skill", "update all skills", "audit my SKILL.md", "remove redundant instructions", or fix skill triggering. For AGENTS.md or CLAUDE.md use agents-md.
+description: Creates and improves portable Agent Skills with a validator, routing scenarios, and evidence-based keep, cut, merge, or retire decisions. Use when asked to "write a skill", "update all skills", "audit my SKILL.md", "remove redundant instructions", or fix skill triggering.
 compatibility: Repository validation requires Bash, Ruby with YAML and JSON, Perl, and standard Unix utilities.
 ---
 
@@ -28,7 +28,7 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 | `references/skill-patterns.md` | Choosing a structural pattern |
 | `references/format-specification.md` | Directory layout, spec versus Claude Code-only frontmatter, body substitutions, loading semantics, which host reads the skill from where and what each can do, naming |
 | `references/rules-folder-structure.md` | Building a rules-based audit/lint skill |
-| `references/improving-existing-skills.md` | Auditing, scoring, simplifying, or rewriting an existing skill |
+| `references/improving-existing-skills.md` | Auditing, scoring, simplifying, or rewriting an existing skill; the Module Lens rules for a collection audit |
 | `references/executable-code.md` | Skill includes scripts, injects live context with `!`, depends on packages, or invokes MCP tools |
 | `references/evaluation-and-iteration.md` | Writing `evals/evals.json`, testing the keep decision across models, routing tests, ablating constraints, hillclimbing a skill toward a stated goal, or reviewing a skill revision |
 | `references/adopt-adapt-author.md` | Before authoring or adopting: checking job ownership, choosing public scope, or deciding whether to vendor, adapt, or replace a third-party skill |
@@ -70,19 +70,7 @@ Decide where the skill will run before adding any other field. Use portable fiel
 
 ### Step 3: Write SKILL.md body
 
-`references/authoring-tips.md` carries the judgement. Apply:
-
-- Open with an IS/IS-NOT pair when adjacent skills exist or scope creep is likely ("Open with Boundaries")
-- Add only context the agent lacks ("Don't State the Obvious"); use consistent terminology
-- Phrase guidance as an outcome, reserving absolutes for safety, data loss, format contracts, and observed failures ("Judgement Over Rules")
-- Check nothing here contradicts the harness, a sibling skill, or the repo AGENTS.md; route instead of restate ("Don't Fight the Harness or a Sibling")
-- Keep the opinions that make the skill worth invoking; cut only what the target agent already does unprompted ("Cut Constraints, Keep Opinions"). On current frontier models over-prescription is not merely wasted tokens: instructions carried forward from older models are often too prescriptive and lower output quality, so the constraint cut is correctness work
-- Match degrees of freedom to fragility: prose for open-ended work, exact commands for fragile or destructive ops ("Degrees of Freedom")
-- Reach for named content patterns: template for fixed output, examples only where style is the deliverable, conditional for decision points
-- Write the permission side of the envelope, not only the restriction: grant a known-safe loop with the reason it is safe, and keep confirmation for what deploys, sends, spends, or writes outside the working tree ("Grant Permission, Don't Just Restrict")
-- State the workflow dependencies, what the finished state includes, and the completion evidence; scope and evidence are different sentences ("Say Where the Work Ends"). Keep a stop-for-review step only where the decision is genuinely the user's; current frontier models honor a mandatory pause literally and end the task there. Add a checklist only when it helps track a long or resumable task
-- Put the deliverable, routing, and task-specific constraints first; loading and compaction behavior depend on the host. A skill with several workflows makes SKILL.md a router (mode choice, shared contract, one pointer per workflow) and keeps each workflow's body in its own reference ("Use the File System for Progressive Disclosure")
-- Build a Gotchas section from observed failures: the highest-signal content in any skill
+Read `references/authoring-tips.md` first: it carries the judgement on what to include, how hard to say it, the permission and completion scope, degrees of freedom, content patterns, and progressive disclosure. Build the Gotchas section from observed failures; it is the highest-signal content in any skill.
 
 ### Step 4: Add reference or rule files
 
@@ -104,13 +92,7 @@ Output separates **format** requirements from **house** conventions, including r
 
 ### Step 6: Update README.md
 
-Add a bullet under the matching category heading, and bump the skill count near the top of the README:
-
-```markdown
-- **[<skill-name>](./skills/<skill-name>/SKILL.md)**: <one-line description>
-```
-
-Categories: Architecture, Design, Writing, Quality, Shipping, Authoring. `validate.sh` verifies the bullet and the count. A repo that also ships `docs/skills.mdx` needs the same bullet there; the check is conditional on that file existing, so it stays silent in a repo without one.
+Add the skill's bullet under the matching category heading and bump the count; `validate.sh` checks both and names what is missing. Where the repo also ships `docs/skills.mdx`, add the same bullet there.
 
 ### Step 7: Smoke-test
 
@@ -118,29 +100,24 @@ When installation behavior changed, install the edited local source into a dispo
 
 ### Step 8: Evaluate and iterate
 
-`references/evaluation-and-iteration.md`. Write 2-3 scenarios in `evals/evals.json`, add assertions after the first run, and measure with-skill against without-skill in fresh sessions. That comparison is the keep test: the skill must improve the job enough to justify its cost. Test routing separately with should-trigger and near-miss prompts. Test on each target model, and ablate any rule you suspect is dead weight: delete it, rerun the scenarios, keep it only if one regresses. Chasing a specific goal past one round is the hillclimb loop in that reference: a seeded train/test split, one root-cause edit per round from train failures only, keep only if both splits improve, and a report against the pre-loop baseline with a confidence interval, not a raw score.
+`references/evaluation-and-iteration.md`. Write 2-3 scenarios in `evals/evals.json`, add assertions after the first run, and measure with-skill against without-skill in fresh sessions. That comparison is the keep test: the skill must improve the job enough to justify its cost. Test routing separately with should-trigger and near-miss prompts. Test on each target model, and ablate any rule you suspect is dead weight: delete it, rerun the scenarios, keep it only if one regresses. Chasing a goal past one round is The Hillclimb Loop in that reference, run with the agent-evals CLI.
 
 ## Gotchas
 
 - The installed copy under `~/.agents/skills/<name>/` is a copy, not a link to your repo. Editing the repo changes nothing in a running session, and the stale copy loads silently, so a skill can be several commits behind while appearing correct. Verify that an evaluation loads the edited local source.
 - A reference-chain failure calls for moving the load condition into SKILL.md, not disguising the same dependency with different wording.
-- `toc-over-100-lines` wants `## Contents` inside the first 20 lines of any reference over 100 lines. A TOC further down does not count, and the file fails while looking fine.
-- `readme-skill-count` compares the README's stated count against `find skills -maxdepth 2 -name SKILL.md`. Adding a reference file to an existing skill does not change it; only adding or removing a skill does.
 - `--agent` on `skills add` is variadic and space-separated (`--agent codex cursor`); it consumes arguments until the next one starting with `-`. A comma-separated list is validated element-wise and rejected whole as one invalid name. Do not conclude from an empty `~/.codex/skills` that the install failed: any agent whose `skillsDir` is `.agents/skills` is treated as universal and installed to `~/.agents/skills/`, which those agents read directly.
+- `toc-over-100-lines` wants `## Contents` inside the first 20 lines of any reference over 100 lines. A Contents heading further down does not count, so the file fails while looking fine.
 - A description that omits "Use when" fails `description-triggers` outright, but a description that has the phrase and the wrong trigger words fails nothing and simply never routes. The validator cannot see this; only a routing eval can.
 - `description-length` passes anything under 1024 characters, and a collection of descriptions that each pass can still overrun the host's listing budget together, at which point the host shortens every one of them and the "Use when" clauses go first. Judge a description in the listing next to its siblings, not alone.
 - A step reading "stop here and present the result for review" ends the task on current frontier models even when the user asked for the whole job and is not watching. The step reads as a safety rule, so it is rarely questioned during a constraint cut, and the skill ships stopping one implementation short.
 
 ## Anti-patterns
 
-- Usage examples standing in for an expressive interface; name the parameters and enums instead
-- A rule stated in SKILL.md and again in a script's `--help`, a tool description, or a rule file
 - Dumping the full specification into the SKILL.md body instead of a reference file
 - Time-sensitive content ("before August 2025, use..."), including model names as the reason a rule exists
 - A `context: fork` skill whose body is guidelines rather than a task; the subagent gets conventions and no prompt, and returns nothing
 - Vague names (`helper`, `utils`, `tools`, `documents`, `data`) that give the model nothing to route on
-- Magic numbers in scripts with no justifying comment
-- Shipping without testing across the capability tiers and effort levels the skill will actually run under; what reads well to a frontier model may underspecify a small fast one, and a step the model only volunteers at high effort is a step the workflow does not really have
 
 ## Related Skills
 

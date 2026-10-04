@@ -1,6 +1,6 @@
 ---
 name: agent-ready
-description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make this agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief. For docs prose use ghostwriter; for CLI/SDK ergonomics use dx-audit; for agentic product UX use ax-audit; for crawler policy, Next.js markdown routes, and AEO measurement use seo.
+description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make our site agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief.
 compatibility: The verification script needs Bash and curl. Scanner commands need Node.js and npm registry access.
 ---
 
@@ -9,7 +9,7 @@ compatibility: The verification script needs Bash and curl. Scanner commands nee
 Turn a public agent-readiness score, or a log of agents failing to navigate, into shipped, verified HTTP and docs changes.
 
 - **IS:** ingesting Mintlify Agent Score / AFDocs, [Is Agentic](https://is-agentic.com/), [Is It Agent Ready](https://isitagentready.com/), or [url-discovery-bench](https://github.com/mintlify/url-discovery-bench) findings, plus server-side evidence of agent 404s, inspecting the repo, implementing the matching protocols, adding tests, and verifying live responses.
-- **IS NOT:** rewriting docs prose (`ghostwriter`), package/CLI/SDK ergonomics (`dx-audit`), whether an in-product agent can be trusted (`ax-audit`), or search ranking, crawler policy, and Next.js `llms.txt`/markdown routes (`seo`). Do not vendor [vercel-labs/is-agentic](https://github.com/vercel-labs/is-agentic); that skill retrieves reports. This one implements the product.
+- **IS NOT:** rewriting docs prose (`ghostwriter`), package/CLI/SDK ergonomics (`dx-audit`), whether an in-product agent can be trusted (`ax-audit`), search ranking, crawler policy, and Next.js `llms.txt`/markdown routes (`seo`; this skill owns the AFDocs and Is Agentic contract those routes must satisfy), or repo instruction files (`agents-md`). Do not vendor [vercel-labs/is-agentic](https://github.com/vercel-labs/is-agentic); that skill retrieves reports. This one implements the product.
 
 ## Contents
 
@@ -18,8 +18,6 @@ Turn a public agent-readiness score, or a log of agents failing to navigate, int
 - [Priority](#priority)
 - [Output](#output)
 - [Gotchas](#gotchas)
-- [Related skills](#related-skills)
-- [Sources](#sources)
 
 ## Workflow
 
@@ -87,24 +85,8 @@ Finish with remaining items that need a product decision, DNS access, or credent
 - One `llms.txt` advertised three ways (`rel="llms-txt"` from a proxy, `rel="https://llmstxt.org/rel/llms-txt"` from framework headers, `rel="describedby"` from a layout `<link>`) leaves the scanner reading whichever layer wins on that response. Pick the rel set the scanners probe and emit it from one place.
 - `llms.txt` that lists HTML while `.md` twins exist steers agents away from markdown and is scored worse than linking `.md` from the start.
 - A directive in `<head>`, nav, or past 50% of the HTML body does not count. Put it in the document body, near the top, server-rendered.
-- Returning markdown with `Content-Type: text/plain` or `text/html` is a warn, not a pass. Set `text/markdown; charset=utf-8` and `Vary: Accept`.
 - A dashboard with no agent traffic proves nothing: agents run no JavaScript, and Search Console and SERP tools count searchers, not agents. Server logs of `.md`, `llms.txt`, and AI user agent requests are the only readership measure; without a log drain the honest number is No data, not a client-side proxy.
 - Bot protection tuned for crawlers (challenge pages, WAF bot rules, tight rate limits on `text/markdown` routes) blocks the agents you are optimizing for, and they cannot pass a challenge. Exempt the machine-readable routes or serve them from paths the rules do not cover.
-- Mentioning a CLI or MCP server in `llms.txt` without a published package or live endpoint is a partial that you cannot fix with copy. Ship it or stop advertising it.
-- Empty `/.well-known/` documents and stub OpenAPI files fail typed-schema checks. Advertise only what exists.
-- Cross-host redirects for `llms.txt` or docs URLs fail agents that do not follow them. Same-host 3xx, or serve the file on the docs host.
 - Coverage fail vs curated index: regenerate from the sitemap when the site intends parity; if the index is intentional, say so and do not pad it with marketing URLs.
 
-## Related skills
-
-- `ghostwriter`: page quality after the machine-readable path works
-- `seo`: App Router `llms.txt` and markdown routes, sitemaps, robots, crawler policy, and AEO measurement. This skill owns the AFDocs/Is Agentic contract those routes must satisfy.
-- `dx-audit`: the CLI or SDK once it exists as a package
-- `ax-audit`: in-product agent trust, not public HTTP discovery
-- `agents-md`: repo instruction files, not public `llms.txt`
-
 Maintenance only: `evals/evals.json` is for changing this skill, not for a user task.
-
-## Sources
-
-Drew process and check lists from [AFDocs / Agent-Friendly Documentation Spec](https://www.agentdocsspec.com/), [Mintlify Agent Score](https://www.mintlify.com/score), [Is Agentic](https://is-agentic.com/methodology), and [Is It Agent Ready](https://isitagentready.com/llms.txt). Priority order and the navigation findings come from Mintlify's [2026 State of Knowledge Report](https://www.mintlify.com/state-of-knowledge/2026) and its open-source [url-discovery-bench](https://github.com/mintlify/url-discovery-bench). Left their scoring UIs and the official Is Agentic retrieve-a-report skill. Authored the inspect-then-implement loop, skip rules for absent surfaces, and verification contract.

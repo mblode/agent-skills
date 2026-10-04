@@ -4,7 +4,7 @@ Reference for A/B testing, heatmap analysis, and conversion optimisation loops. 
 
 ## The CRO loop
 
-Measure → Hypothesise → Test → Implement → Repeat. Most teams optimise ad-hoc; only 39.6% have a documented CRO strategy. Structure the loop instead:
+Measure → Hypothesise → Test → Implement → Repeat. Most teams optimise ad hoc; structure the loop instead:
 
 1. **Measure:** find the weakest conversion point via analytics (bounce rate, scroll depth, click maps)
 2. **Hypothesise:** state what's wrong and why, with a predicted outcome
@@ -19,12 +19,12 @@ Prioritised by typical impact on conversion rate. Test high-leverage elements fi
 | Priority | Element | Why it matters |
 |----------|---------|----------------|
 | 1 | **Headline** | First thing read; determines whether the rest gets read |
-| 2 | **CTA text** | Personalised CTAs convert 202% better than generic |
+| 2 | **CTA text** | Specific, personalised CTA text outperforms generic labels |
 | 3 | **Hero image/video** | Sets emotional tone; context-of-use images outperform stock |
 | 4 | **Social proof placement** | Moving proof above the fold or near the CTA shifts conversion significantly |
 | 5 | **Form length** | Every field removed reduces friction; test 3-field vs 5-field |
 | 6 | **Page length** | Short vs long; see `cro.md` for the decision matrix |
-| 7 | **CTA colour/size** | Lower-leverage but easy to test; button size change can yield +90% |
+| 7 | **CTA colour/size** | Lower-leverage but easy to test |
 
 ## A/B vs multivariate
 
@@ -48,7 +48,7 @@ Heatmaps and scroll maps show where attention actually goes, not where you assum
 
 ### Key findings
 
-- **Most mobile users don't scroll to mid-page** (see the "70% rule" in `modern.md`). Strongest proof or CTA below the mobile fold is never seen by most visitors.
+- **Most mobile users don't scroll to mid-page** (see "Above the mobile fold" in `modern.md`). Strongest proof or CTA below the mobile fold is never seen by most visitors.
 - **Desktop scroll depth is deeper** but drops off sharply after the hero and first support section.
 - **Dead clicks** reveal where users expect interactivity but find none: a missed CTA opportunity.
 
@@ -58,21 +58,3 @@ Heatmaps and scroll maps show where attention actually goes, not where you assum
 2. **Create separate mobile and desktop strategies.** Mobile users scan faster and scroll less, so prioritise differently.
 3. **Test section order.** Move testimonials above features, or features above the problem statement, and measure.
 4. **Identify drop-off cliffs.** A section where 60% stop scrolling is boring or confusing: fix or remove it.
-
-### Real example
-
-Scroll maps showed 70% of a local service business's mobile users never reached the mid-page offer; moving it above the fold doubled conversions within one month.
-
-## CTA statistics
-
-Directional, not guaranteed; every audience is different. Test your own variants, starting with the highest-leverage changes.
-
-| Change | Impact on conversion |
-|--------|---------------------|
-| Personalised CTA (vs generic) | +202% |
-| Single CTA per page (vs multiple) | +266% |
-| Adding urgency (real, limited-time) | +332% |
-| Increasing button size | +90% CTR |
-| Changing button colour | +21% |
-| Mobile-optimised CTA | +32.5% |
-| Inline CTA (vs sidebar) | +121% CTR |

@@ -1,6 +1,6 @@
 # API and Interface Design
 
-Contract-first patterns for REST APIs, module boundaries, request context, and TypeScript interfaces. Load when designing endpoints, defining module contracts, wiring request context, or reviewing API surface changes.
+Interface-first patterns for REST APIs, module interfaces, request context, and errors. Load when designing endpoints, defining a module's interface, wiring request context, or reviewing API surface changes. "Interface" means the broad sense in `vocabulary.md`: types plus invariants, ordering, error modes, and configuration.
 
 ## Contents
 
@@ -8,7 +8,7 @@ Contract-first patterns for REST APIs, module boundaries, request context, and T
 - Format contracts
 - Request context
 - Errors as a contract
-- Agent-facing surfaces
+- Forwarded credentials
 
 ## Core Principles
 
@@ -16,9 +16,9 @@ Contract-first patterns for REST APIs, module boundaries, request context, and T
 
 Every observable behavior will be depended on by someone, regardless of the documented contract. Be intentional about what you expose; implementation details leak into de facto contracts.
 
-### Contract first
+### Interface first
 
-Define the interface before any handler. The interface, not prose about it, is the contract:
+Define the interface before any handler. Its types are the part a compiler can hold, so write them as code, not prose; the invariants, ordering, and error modes the types cannot express go beside them as doc comments and tests:
 
 ```ts
 interface TaskAPI {
@@ -34,7 +34,9 @@ interface TaskAPI {
 
 ### Branded IDs
 
-Identifiers in the contract are branded, not bare strings: `type TaskId = string & { readonly __brand: 'TaskId' }`, so a `UserId` cannot be passed where a `TaskId` is expected.
+Identifiers in the contract are branded, not bare strings: `type TaskId = string & { readonly __brand: 'TaskId' }`, so a `UserId` cannot be passed where a `TaskId` is expected. Parse them once at the edge (the session lookup, contract inputs, the create path) and never cast.
+
+The same trick carries authority. A privileged service takes an `AdminActor`, a subtype produced only by one assertion function, and does no check of its own, so a router that skips the check fails to compile. Test it at the type level, not just at runtime: `expectTypeOf(removeMember).parameter(1).toEqualTypeOf<AdminActor>()`. Otherwise a fix that adds a runtime role check inside the service passes every behavioural test while the type proof erodes.
 
 ### Consistent error semantics
 
@@ -79,10 +81,8 @@ Whoever debugs a failure works from the output alone, and a structured failure i
 - Log the raw error object and let serializers extract type, stack, and cause. Never catch-log-rethrow: middleware already logs unhandled errors once, and the duplicate sends whoever is debugging after two failures that are one.
 - The ambient request context above auto-enriches every log line with request and correlation IDs, so a failure is traceable from log output with no per-call-site work.
 
-## Agent-Facing Surfaces
+## Forwarded Credentials
 
-A CLI, SDK, or MCP server that agents drive needs the contract to be discoverable and the output to be machine-parseable, not just human-readable.
+When one surface calls another (an assistant calling your API, a gateway forwarding to a service), forward the requesting user's scoped credential, never a service credential. Reject a request on any transport that cannot enforce the credential's scope (for example, a scope-restricted key hitting a WebSocket path that cannot narrow it) rather than silently widening access.
 
-- **Self-describing spec.** Expose a no-auth command that emits the interface as a progressive, token-budgeted JSON tree: a top-level overview (commands, global flags, output shape) drills into a subcommand summary, then a full per-command spec (arguments, options, output schema, examples). The agent orients from the contract itself instead of scraping `--help` or docs.
-- **Scriptable output contract.** Make the same flags work on every command: `--json` for structured output, `--format text|json|csv`, `--dry-run` to preview a mutation without applying it, `--quiet` implies JSON. Auto-switch to JSON when stdout is not a TTY, and suppress interactive prompts when piped, so an agent gets structured output by default.
-- **Forward the caller's credential.** When one surface calls another (an assistant calling your API, a gateway forwarding to a service), forward the requesting user's scoped credential, never a service credential. Reject a request on any transport that cannot enforce the credential's scope (for example, a scope-restricted key hitting a WebSocket path that cannot narrow it) rather than silently widening access.
+The scriptable-output contract for a CLI or SDK that agents drive (`--json`, `--dry-run`, TTY detection, a self-describing spec) belongs to `dx-audit` and `scaffold-cli`.

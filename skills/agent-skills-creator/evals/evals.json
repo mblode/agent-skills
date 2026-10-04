@@ -92,6 +92,19 @@
         "Does not cite the 89% train figure as evidence the edits help",
         "Does not propose a third round on the same train failures without first diagnosing why train and test diverged"
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "Audit all our skills for duplication and dead weight; several repeat the same tells list and one keeps a sources file in references/.",
+      "expected_output": "A module-lens collection audit: a deletion test per section, one owner per fact with the copies turned into pointers, never-load files moved out of references/, sibling edges kept where routing collides, uncertain cuts deferred, floor content kept, and routing measured before and after any description change.",
+      "files": [],
+      "assertions": [
+        "Applies a deletion test per section, not only per skill",
+        "Keeps one owner per fact and turns the duplicates into pointers",
+        "Moves never-loaded files to evals/ or maintenance/",
+        "Measures routing before and after cutting any description edge, or says it is unmeasured",
+        "Records uncertain cuts as deferred and keeps security and data-integrity content"
+      ]
     }
   ],
   "routing": {

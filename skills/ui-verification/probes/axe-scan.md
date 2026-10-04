@@ -30,10 +30,10 @@ Emit each violation under the ui-design rule it corresponds to, so the finding j
 | axe violation id | Rule id |
 |---|---|
 | `color-contrast`, `color-contrast-enhanced` | no static rule; emit as `axe:color-contrast` with the theme in `observed` |
-| `image-alt`, `role-img-alt`, `input-image-alt` | `a11y-image-alt-text` |
+| `image-alt`, `role-img-alt`, `input-image-alt` | no static rule (presence is jsx-a11y's); emit as `axe:<id>` |
 | `button-name`, `link-name`, `aria-command-name` | `a11y-icon-controls-labeled` |
 | `label`, `form-field-multiple-labels`, `select-name` | `forms-labels-and-autocomplete` |
-| `html-has-lang`, `html-lang-valid`, `valid-lang` | `a11y-document-language` |
+| `html-has-lang`, `html-lang-valid`, `valid-lang` | no static rule (presence is jsx-a11y's); emit as `axe:<id>` |
 | `th-has-data-cells`, `td-headers-attr`, `table-fake-caption` | `a11y-data-table-semantics` |
 | `heading-order`, `region`, `landmark-one-main`, `bypass` | `a11y-skip-link-heading-order` |
 | `video-caption`, `audio-caption` | `a11y-media-captions` |
@@ -44,7 +44,7 @@ Anything not in the table keeps its axe id under `axe:<id>`. Do not invent a rul
 ## What axe does not settle
 
 - **Colour as the only carrier of meaning.** axe computes contrast, not semantics: a red border and a green border both pass contrast while being indistinguishable to a viewer who cannot tell them apart. For `a11y-color-only-meaning`, check that each status element carries a non-colour differentiator (an icon, a glyph, or a word) inside its accessible name, and capture the page with `filter: grayscale(1)` on the root as evidence for a human. The grayscale capture is evidence, not a verdict.
-- **Whether the accessible name is any good.** `button-name` passes on `aria-label="button"`. Read the names the scan returns and flag the useless ones.
+- **Whether the accessible name is any good.** `button-name` passes on `aria-label="button"`, and `image-alt` passes on `alt="image.png"`. Read the names and alts the scan returns and flag the useless ones; a bad `alt` is `a11y-image-alt-text`.
 - **Focus order and restoration.** axe checks landmarks and tab indexes, never where focus went after an action. That is `probes/focus-walk.md`.
 
 ## False positives to guard

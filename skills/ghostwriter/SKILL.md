@@ -1,6 +1,6 @@
 ---
 name: ghostwriter
-description: Writes, rewrites, and critiques anything written, as the user or as a company, and returns finished text for messages, posts, review comments, tickets, PRDs, design docs, talk scripts, copy, docs, and READMEs, in the voice a private profile shows, with the machine tells stripped. Works with no profile, writes one from pasted samples, and updates it from the user's edits. Use when asked to "write this in my voice", "turn this ramble into a message", "draft a Slack reply", "make this sound less like AI", "write the hero copy", "write the README", "critique my draft", "cut this in half", or "write my slack profile". For the product decision behind a label use product-design.
+description: Writes, rewrites, and critiques messages, posts, review comments, tickets, PRDs, design docs, talk scripts, docs, READMEs, and copy as the user or their company, in a private profile's voice with machine tells stripped. Use when asked to "write this in my voice", "draft a Slack reply", "make this sound less like AI", "write the README", "critique my draft", or "write my Slack profile".
 ---
 
 # Ghostwriter

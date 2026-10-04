@@ -7,11 +7,22 @@ How to introduce a check into a codebase that already violates it. Load when add
 Before picking a rung on the ladder below, pick the mechanism. Strongest to weakest, and the weaker ones exist only for what the stronger ones cannot yet reach:
 
 1. **Make the mistake impossible in the code structure.** A type that cannot represent the invalid state, a folder layout with nowhere to put the wrong thing, a function signature that cannot be called wrong, a single file that owns a value so there is no second place to write it. Nobody has to remember anything, because there is nothing to remember.
-2. **Lint and CI.** An automated, blocking check for what structure alone cannot prevent. This is `guardrail-tooling.md` and the rest of this file.
+2. **Lint and CI.** An automated, blocking check for what structure alone cannot prevent. This is `guardrail-tooling.md` and the rest of this file. When the linter cannot express the rule (Oxlint has no `no-restricted-syntax`, for example), write a test that scans for it before dropping to prose: one that reads the schema and fails on any timestamp column without a time zone, or greps the source for a raw `fetch` with no timeout signal. It rides the existing test command and names the offending file.
 3. **Soft rules and skills.** AGENTS.md, a skill, prose guidance. A capable reader follows it, and it decays under context pressure the first time something more urgent competes for attention.
 4. **Human review.** Last, because it is the slowest feedback loop, the easiest to skip under deadline, and the only one that costs a person's attention per violation instead of a machine's.
 
 Treat every review comment as a missing lint rule. When a human catches something in review, ask whether rung 1, 2, or 3 could have caught it first and did not; if a lint rule, a type, or a structural change can express the same thing, that comment should never need to be made again. A repo that keeps re-teaching the same review comment has an enforcement gap, not a training problem.
+
+### Rung 4 in practice: a blast-radius rubric
+
+Where an automated reviewer gates merges, give it a checked-in rubric, read from the base ref so a PR cannot edit its own gate, saying which changes it may approve and which must escalate to a human. Without one it applies generic defaults: uniformly cautious, so nothing merges unattended, or uniformly permissive, so nothing is gated.
+
+Two explicit lists, not a severity score:
+
+- **Auto-approve:** features, bug fixes, refactors, tests, documentation, styling, copy and translation additions, analytics events, feature-flag default changes.
+- **Escalate to a human:** billing and payments, authentication and authorization, data deletion, migrations touching stored data, build, signing, and release configuration, permission and entitlement changes, anything altering a public contract.
+
+The escalation list is the one worth arguing over, and its shape generalises: money, identity, destructive data operations, persisted-data shape, and anything that ships to users outside the normal deploy path. Everything else is reversible by the rollback path, which is why it can merge unattended. Prove it like any gate: a documentation-only change auto-approves and a migration escalates.
 
 ## The ladder
 
@@ -21,7 +32,7 @@ Take the first rung that holds.
 2. **Scope with the tool's own config.** Every tool in this category ships one: `knip.json` `ignore` and `ignoreDependencies`, jscpd `ignore` globs, dependency-cruiser `pathNot`. The exclusion sits next to the rule, so anyone reading the config sees what is exempt.
 
    **Not the linter's `ignorePatterns`** (ESLint and Oxlint both have one). It removes those files from *every* rule, not the one you are adding, so trading 400 long files for 400 unlinted files leaves the repo worse while looking like you followed the ladder. Rung 2 holds for the linter only when the violations sit in directories that should be unlinted anyway (generated output, vendored code); carve those out first and they come off the count before you pick a rung for the rest.
-3. **Allowlist or downgrade in the linter.** An `overrides` entry (Oxlint's `.oxlintrc.json`, or an ESLint flat-config object scoped with `files`) naming the current offenders, or start the rule at `warn` and promote to `error` once burned down. Use this when the violations are a known finite list you intend to shrink. Prefer `error` plus an allowlist over a blanket `warn`: `warn` fails to block the next new violation, which is the whole point of adding the rule.
+3. **Allowlist or downgrade in the linter.** An `overrides` entry (Oxlint's `.oxlintrc.json`, or an ESLint flat-config object scoped with `files`) naming the current offenders (in Oxlint the override replaces the rule's options; see `guardrail-tooling.md`), or start the rule at `warn` and promote to `error` once burned down. Use this when the violations are a known finite list you intend to shrink. Prefer `error` plus an allowlist over a blanket `warn`: `warn` fails to block the next new violation, which is the whole point of adding the rule.
 
    List explicit paths, never globs, so the exemption cannot silently cover a file written tomorrow, and so growing it shows up as added lines in a diff a reviewer reads. That review is the only thing holding the list down. An allowlist has the same pull as the baseline file below (under deadline, the cheapest green is appending your path), and it does not even fail when it grows; what it has instead is that every addition is visible, attributable, and in the same file as the rule it defeats.
 4. **Report-only, non-blocking CI.** The rule runs and prints, nothing fails. Lowest value, but it beats not running: the number is visible and the wiring is done for the day someone burns the list down.

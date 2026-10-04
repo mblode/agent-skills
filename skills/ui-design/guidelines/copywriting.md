@@ -10,9 +10,8 @@ Covers: headings, taglines, subtitles, descriptions, labels, list items, button 
 
 ## UI microcopy
 
-- Name actions verb + noun ("Delete member", "Deploy project"), never bare "Confirm", "OK", or a lone verb.
-- Write errors as what happened + what to do next: "Build failed. Bundle exceeds 50 MB. Reduce it or raise the limit."
-- Toasts name the specific thing changed, no trailing period, never say "successfully": "Project deleted", not "Successfully deleted the project."
-- Empty states point to the first action: "No deployments yet. Push to your Git repository to create one."
-- In-progress states use the present participle plus a real ellipsis character: "Deploying…", "Saving…", never three periods.
-- Sentence case everywhere: labels, buttons, titles, tabs, body, helper text, and toasts. Final wording belongs to `ghostwriter`.
+What an action label, error, toast, empty state, or loading line must say is decided by `product-design`'s copy rule IDs (`rule/destructive-names-action`, `rule/error-states-recovery`, `rule/success-state-specific`, `rule/empty-state-action`, `rule/loading-state-specific`); final wording is `ghostwriter`'s. The house formatting a build applies on top:
+
+- Toasts carry no trailing period and never say "successfully": "Project deleted".
+- In-progress text uses a real ellipsis character, never three periods: "Saving…".
+- Sentence case everywhere: labels, buttons, titles, tabs, body, helper text, and toasts.
