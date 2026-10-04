@@ -1,6 +1,6 @@
 ---
 name: app-verification
-description: Builds and maintains a repo's own verification harness (verify CLI, doctor, worktree isolation, feature map, seed data). Use when asked to "build a verification harness", "add a doctor command" or "prove every feature still works".
+description: Builds and maintains a repo's own verification harness (verify CLI, doctor, worktree isolation, feature map, seed data) and a reproduce-first bug handoff. Use when asked to "build a verification harness", "add a doctor command", "prove every feature still works", or "reproduce this bug report".
 compatibility: Create mode needs a shell and the target repo's own toolchain (whatever starts, seeds, and drives that app). Native and desktop proof paths need a computer-use tool as the last-resort method. Runs only when called by name; see Invocation below.
 ---
 
