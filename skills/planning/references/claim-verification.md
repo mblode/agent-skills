@@ -5,7 +5,7 @@ Verify claims with local evidence, not at face value. Load during plan review wh
 ## Contents
 
 - When to use
-- Workflow (hypothesis, evidence surface, artifact, verdict)
+- Workflow (hypothesis, evidence surface, artifacts, verdict)
 - Verifying against documentation
 - Output format
 - Worked example: the Verify move in a review
@@ -20,10 +20,65 @@ Verify claims with local evidence, not at face value. Load during plan review wh
 
 ## Workflow
 
-1. **Restate as a falsifiable hypothesis:** condition, metric, threshold. "Nobody uses this" becomes "`legacyHelper` has zero call sites outside its own test file". If the claim cannot be restated that way, say so and skip it.
-2. **Pick the smallest direct evidence surface:** search for existence and call sites, line counts for size, `git log`/`git blame` for history, the test runner for behavior, a timed request or script for runtime, the type checker or linter for static claims.
-3. **Capture the artifact verbatim:** exact command plus raw output, no paraphrase. For a change claim ("this is faster"), capture the baseline first, then the treatment with the same command on the same machine.
-4. **Verdict:** VERIFIED (evidence supports it within threshold), NOT VERIFIED (evidence contradicts it), or INCONCLUSIVE (insufficient or mixed evidence, for example 3 of 5 requests under 200ms with a 350ms outlier; say which threshold definition decides it).
+### 1. Restate as falsifiable hypothesis
+
+Convert the claim into a testable statement: condition, metric, threshold.
+
+| Claim | Falsifiable hypothesis |
+|-------|----------------------|
+| "This function is small" | `getUser` in `src/user.ts` is under 50 lines |
+| "The API is fast" | `GET /api/users` responds in under 200ms locally |
+| "We have good test coverage" | `src/auth/` directory has co-located test files for >80% of modules |
+| "Nobody uses this" | `legacyHelper` has zero call sites outside its own test file |
+| "This is thread-safe" | Concurrent writes to `cache.ts` don't produce data races under `--race` |
+
+If it can't be restated falsifiably (too vague or unfalsifiable), say so and skip verification.
+
+### 2. Identify the minimal evidence surface
+
+Choose the smallest, most direct source:
+
+| Evidence type | Tools | When to use |
+|--------------|-------|-------------|
+| Code existence | `grep -r`, `find`, file reading | "Does X exist?", "Is Y used?" |
+| Code metrics | `wc -l`, `tokei`, line counting | "How big is X?", "How many files?" |
+| History | `git log`, `git blame`, `git shortlog` | "When was X added?", "Who wrote Y?" |
+| Test output | `npm test`, `pytest`, `cargo test` | "Does X pass?", "Is Y covered?" |
+| Runtime behavior | `curl`, `time`, script execution | "How fast is X?", "What does Y return?" |
+| Static analysis | `tsc --noEmit`, `eslint`, `oxlint` | "Does X compile?", "Are there warnings?" |
+
+### 3. Capture baseline artifact
+
+Run the command and save raw output verbatim (exact command plus full output, no paraphrase). For before/after comparisons, capture the baseline first.
+
+### 4. Capture treatment artifact (if comparing)
+
+For change claims ("this is faster", "this reduces complexity"), capture the treatment state with the same command on the same machine.
+
+### 5. Compare and verdict
+
+Compare the artifacts. Three outcomes:
+
+**VERIFIED**: evidence supports the claim within threshold.
+```
+Claim: "getUser is under 50 lines"
+Evidence: wc -l src/user.ts → getUser function spans lines 12-38 (26 lines)
+Verdict: VERIFIED, 26 lines, well under 50
+```
+
+**NOT VERIFIED**: evidence contradicts the claim.
+```
+Claim: "Nobody uses legacyHelper"
+Evidence: grep -r "legacyHelper" src/ → 4 call sites in 3 files
+Verdict: NOT VERIFIED, 4 active call sites found
+```
+
+**INCONCLUSIVE**: insufficient evidence or mixed signals.
+```
+Claim: "The API responds in under 200ms"
+Evidence: 5 curl requests → 180ms, 210ms, 190ms, 350ms, 185ms
+Verdict: INCONCLUSIVE, 3/5 under 200ms but p95 is 350ms. Depends on the threshold definition.
+```
 
 ## Verifying against documentation
 
@@ -84,7 +139,7 @@ Tone throughout: reference the specific section and claim, no preamble praise, f
 
 ## Integration with plan review
 
-In review, verify the plan's load-bearing checkable claims before asking anything; a NOT VERIFIED claim becomes the first question.
+In review, verify the plan's load-bearing checkable claims before asking anything; a NOT VERIFIED claim drops its dimension a point and becomes the first question.
 
 In an interview, when the user responds with a verifiable claim:
 

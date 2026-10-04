@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Creates and reviews executable implementation plans grounded in repository evidence, with vertical slices, explicit decisions, and verification criteria. Use when asked to "plan this feature", "stress-test this plan", "grill me", or "split this into tickets".
+description: Creates and reviews executable implementation plans grounded in repository evidence, with vertical slices, explicit decisions, and verification criteria. Use when asked to "plan this feature", "stress-test this plan", "grill me", or "split this into tickets". For architecture use codebase-architecture; for code review use tidy.
 ---
 
 # Planning
@@ -18,10 +18,12 @@ For architecture contracts use `codebase-architecture`; for code findings use `t
 
 | File | Read when |
 |---|---|
-| `references/decision-briefs.md` | Choosing which question to ask, running an interview, or presenting a consequential decision: measuring options, previews, recording the answer |
+| `references/decision-briefs.md` | Presenting a consequential decision to the human: measuring options, previews, recording the answer |
+| `references/interrogation-protocol.md` | Choosing which question to ask about an unresolved choice, or the user requested an interview |
 | `references/doc-grounding.md` | ADRs, specifications, or library docs constrain the approach |
 | `references/handoff-plans.md` | Another session or person will execute the plan |
-| `references/plan-quality-rubric.md` | Reviewing completeness, feasibility, scope, testability, risk, and assumptions, or turning a review gap into a focused question |
+| `references/plan-quality-rubric.md` | Reviewing completeness, feasibility, scope, testability, risk, and assumptions |
+| `references/questioning-framework.md` | A review gap needs a focused user question |
 | `references/claim-verification.md` | A plan claim can be checked against code or documentation |
 | `references/splitting.md` | Decomposing work into executable tickets |
 
@@ -50,7 +52,7 @@ A handoff is self-contained. Replace "as discussed" with the decision. Preserve 
 
 Resolve gaps supported by code, the task, or operational constraints. Do not add speculative requirements to improve a self-score. Scores are optional unless requested; when used, mark unverified claims and explain residual gaps rather than iterating until every cell says 5/5.
 
-Repeat review only after a substantive edit or new evidence. A user decision that remains unanswered is recorded at the affected step; continue independent work. If the user says to skip questions, draft from available evidence and label the assumptions; do not argue for an interview they declined.
+Repeat review only after a substantive edit or new evidence. A user decision that remains unanswered is recorded at the affected step; continue independent work. If the user says to skip questions, draft from available evidence and label the assumptions.
 
 ## Gotchas
 
