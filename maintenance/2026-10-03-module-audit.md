@@ -87,3 +87,34 @@ save-md and typography-audit (apart from its three contradiction fixes) were not
 - multi-tenant-architecture: did not move the 'Sources' sections out of cloudflare-platform.md, vercel-platform.md, vercel-domains.md, data-isolation.md and psl.md into maintenance/sources/ (collection rule 3). Those references still hold numbers whose only date is the 'Accessed 2026-09-01' line, so moving them would leave those values undated. They need the same names-plus-source treatment first; plan section 8 does not list this work
 - Did not trim the IS-NOT routing from either description (collection rule 5). seo's description is the only place that names Mintlify Agent Score -> agent-ready, and both skills have near_miss routing evals that rely on that wording. A description change should be re-run against the routing evals
 - Did not move seo/references/sources.md out of references/. It loads at task time ('a claim depends on current engine behavior'), and audit.md cites it from the hreflang and spam-policy sections
+
+## Measured, 2026-10-04
+
+agent-evals (claude-opus-5-5 under test, claude-sonnet-5-5 as judge, `--runs 3 --seed 7`), main against this branch. Calls ran through an isolated wrapper because `--bare` fails under host-managed auth, which agent-evals#14 fixes in the CLI. Result directories were kept in the session scratchpad and are not committed.
+
+**Routing**, 396 cases: all 98.6% to 98.0%. `compare` gave within-noise and found three new confusion pairs, each caused by a cut description phrase:
+
+| Confusion | Cause | Fix |
+|---|---|---|
+| ui-design to tidy, 3 of 3 runs | tidy's sibling edges were cut | edges restored |
+| ghostwriter to presentation-creator, 3 of 3 runs | "talk scripts" was cut | restored |
+| app-verification to none, 1 of 3 runs | the bug-handoff trigger was cut | restored |
+
+Module Lens rule 5 now keeps any description edge that routing shows is needed.
+
+**Judge**, per skill:
+
+| Skill | With skill, main to branch | Verdict | Action |
+|---|---|---|---|
+| planning | train 61.9% to 42.9% | regression | reverted to main |
+| ax-audit | 100% to 100% | within-noise | kept |
+| agents-md | 78.8% to 77.8% (shared cases flat; new e4 added) | within-noise | kept |
+| app-verification | 21.1% to 28.6% | within-noise (test up) | kept |
+| pr-babysitter | 15.4% to 15.4% | within-noise | kept |
+| ui-design | 86.7% to 86.7% | within-noise | kept |
+| codebase-architecture | 72.2% to 86.7% (new e3 at 3/3) | split changed, not comparable by `compare` | kept |
+| agent-skills-creator | 36.1% to 33.3% (after its follow-up edits) | within-noise | kept |
+
+Several suites are dominated by assertions that fail in both arms (SUSPECT): 13 in app-verification, 11 in pr-babysitter and 20 in agent-skills-creator. The judge sees only the final response, so process assertions and assertions that need fixtures (a live PR, app code) cannot pass. Tightening those suites is the next step before any hillclimb.
+
+The other 20 skills have measured routing but unmeasured bodies. A confirmation routing run on the fixed branch was stopped partway, after 488 scored calls, when the merge was requested.
