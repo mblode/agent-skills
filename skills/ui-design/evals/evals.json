@@ -40,12 +40,17 @@
     "should_trigger": [
       "Improve the spacing of one existing settings panel. It has consistent tokens but no design-system.md.",
       "Is this existing checkout ready to ship? Return a review only. A rendered-rule candidate needs browser evidence but no browser is connected.",
-      "Audit this settings row: a disabled Invoice button wrapped in a hover Tooltip that says you need billing access. Report only."
+      "Audit this settings row: a disabled Invoice button wrapped in a hover Tooltip that says you need billing access. Report only.",
+      "Stress-test this member list component with worst-case data and show me where it breaks."
     ],
     "near_miss": [
       {
         "prompt": "Prove this hit-target finding in the running browser.",
         "expected": "ui-verification"
+      },
+      {
+        "prompt": "Stress-test this plan for the billing migration before we start.",
+        "expected": "planning"
       }
     ]
   }
