@@ -152,7 +152,7 @@ What a screenshot shows, the CSS cause behind it, and the fix. Most breaks trace
 | A translated button label overflows | A fixed-width button | Width from content, with `min-width` rather than a fixed `width` |
 | Diacritics or tall scripts clipped top or bottom | Tight `line-height` with `overflow: hidden` | Looser `line-height`, or no clipping on text boxes |
 | Scrolling a long list stutters | Every row rendered at once | Virtualize or paginate, and say which |
-| Raw `<b>`, `&amp;`, or `**text**` on screen | The wrong escaping layer, or `dangerouslySetInnerHTML` on user data | Escape once, at render |
+| `&amp;amp;` on screen, or a trusted rich-text field showing raw `<b>` | Escaping twice (encoded upstream, then again at render), or a sanitized rich-text field rendered as plain text | Escape once, at render; sanitize trusted rich text, then render it as markup. User-typed `&amp;` or `**bold**` showing literally is correct, not a break |
 
 ## Truncate, wrap, or clamp
 
