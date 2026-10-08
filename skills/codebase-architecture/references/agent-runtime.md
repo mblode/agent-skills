@@ -1,6 +1,6 @@
 # Agent Runtime
 
-What the harness runs around an agent: the edit hook, and jobs where an agent changes code with no person watching. Load when configuring session hooks, the permission allowlist, or an unattended fix job. Worktree bootstrap (ports, databases, env files per checkout) belongs to `app-verification` (`references/worktree-isolation.md`); review gating is rung 4 of `enforcement-ladder.md`.
+What the harness runs around an agent: the edit hook, and jobs where an agent changes code with no person watching. Load when configuring session hooks, the permission allowlist, an unattended fix job, or a job that triages alerts. Worktree bootstrap (ports, databases, env files per checkout) belongs to `app-verification` (`references/worktree-isolation.md`); review gating is rung 4 of `enforcement-ladder.md`.
 
 ## The post-edit hook
 
@@ -32,3 +32,15 @@ A scheduled or event-driven job where an agent reproduces a failure and drafts a
 - **A person merges.** The job opens a draft. A PR opened with the default workflow token may start no CI or review bots; use a narrowly scoped token for that step if they must run.
 
 Prove the gates the same way as any other check: feed the job an issue that is already fixed (closes, no PR), and a fix with no test (comment, no PR).
+
+## Alert triage
+
+A job where an agent reads a fired monitoring alert, with no person watching, and decides what it is before anything is fixed. An alert is not yet a failure, so triage has its own verdicts, parsed from a fixed first line like the fix job's; anything else counts as a real failure, so a bad parse can never silence an alert. The job runs under the fix job's other rules (read-only split from write, isolated settings, untrusted evidence, caps and dedupe in a single concurrency group), and every issue or draft it opens carries the alert's fingerprint, so an open or recently closed one mutes the next.
+
+- **Real failure.** The alert caught a real defect. Open an issue for the fix job above, which runs it under every rule there, starting with its own reproduce step.
+- **Alert is wrong.** The system is healthy and the alert's definition (its threshold, window, or query) is wrong. Open a draft PR that changes only that one alert's definition. Its body shows the recent datapoints, and that the new definition still fires on the last real failure (or on a replayed known-bad sample if the alert has never caught one), so deleting, disabling, or muting the alert never qualifies. This draft is the one exception to the fix job's test rule and to infrastructure being a protected path; the workflow refuses it if it touches anything besides that definition, and a person still merges it.
+- **Noise.** A one-off blip that needs no change. Resolve the alert with the report attached. A second Noise on the same fingerprint within the dedupe window is Alert is wrong.
+
+Route every alert to one quiet channel, where every alert is worth a look. An alert that keeps firing with nothing to do trains people to skim the channel, and the next real failure lands in the noise; Alert is wrong is how the channel stays quiet.
+
+Prove it with a flapping alert (a draft touching only its definition), an Alert is wrong diff that also edits a workflow (refused, no PR), and a run that returns nothing (an issue opens).

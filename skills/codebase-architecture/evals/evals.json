@@ -29,10 +29,22 @@
       "expected_output": "An unattended fix job whose gates run in the workflow, not the prompt: reproduce first, a test in the diff, protected paths, check and test re-run outside the model, a read-only agent job separate from the job that pushes, caps with fingerprint dedupe, isolated settings with a budget, and a draft PR a person merges.",
       "files": [],
       "assertions": [
-        "Refuses a diff with no test and a diff touching CI, agent settings, or instruction files",
+        "Refuses a code fix with no test and any diff touching CI, agent settings, infrastructure, or instruction files, naming the one exception: an alert-triage draft that changes only one alert definition",
         "Re-runs the repo's check and test commands in the workflow rather than trusting the agent's report",
         "Separates the job that runs the agent from the only job allowed to push",
         "Opens a draft PR and merges nothing automatically"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add a scheduled job where a coding agent reads our monitoring alerts as they fire and decides what to do with each one, with no one watching.",
+      "expected_output": "An alert triage job with its own verdicts, separate from the fix job's: a real failure goes to the fix job as an issue, a wrong alert gets a draft PR changing only that alert's definition, and noise is resolved, with dedupe by fingerprint and a person merging every draft.",
+      "files": [],
+      "assertions": [
+        "Gives triage its own verdicts (real failure, alert is wrong, noise), separate from the fix job's reproduce verdicts, and treats an unparsable verdict as a real failure",
+        "Hands a real failure to the fix job as an issue under every fix-job gate",
+        "Limits an alert-is-wrong draft to that one alert's definition with its recent datapoints, refuses a wider diff, never deletes or mutes the alert, and leaves the merge to a person",
+        "Dedupes by alert fingerprint, and treats repeated noise on one fingerprint as alert is wrong"
       ]
     }
   ],
@@ -40,7 +52,8 @@
     "should_trigger": [
       "Harden a repository whose CI runs jscpd without a failure threshold. A seeded duplicate currently exits zero. Keep scope to that gate.",
       "Design a plan only for an internal service. Existing code already supplies an auth policy registry and request context.",
-      "Add a scheduled GitHub Actions job where a coding agent reads new production error issues and opens fix PRs on its own."
+      "Add a scheduled GitHub Actions job where a coding agent reads new production error issues and opens fix PRs on its own.",
+      "Add a scheduled job where a coding agent reads our monitoring alerts as they fire and decides what to do with each one, with no one watching."
     ],
     "near_miss": [
       {
