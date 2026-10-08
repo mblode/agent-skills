@@ -34,6 +34,17 @@
         "Asks about how far the feature will grow rather than a bare extend-or-new question",
         "Records the resolved decision with who, why, and the flip condition"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Plan adding a --json flag to the export command. The repo's docs/README.md index marks docs/cli.md as Current and docs/history.md as Archived. Just write the plan.",
+      "expected_output": "A plan whose contract names docs/cli.md as a current doc this change makes wrong, updated in the same PR, and leaves the archived doc alone.",
+      "files": [],
+      "assertions": [
+        "Names docs/cli.md as a doc that changes in the same PR",
+        "Does not list docs/history.md as a doc to update",
+        "Does not add a line or size budget to the plan"
+      ]
     }
   ],
   "routing": {

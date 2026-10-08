@@ -21,6 +21,7 @@ At a pinned commit, record:
 - test declaration count and test plus support line count for the scope
 - line and branch coverage, total and per production file (`coverage.md`)
 - every test file's pass or fail state, with baseline failures in their own list
+- every skipped declaration in a third list, each one unskipped and run once (SKILL.md, "Misplaced and skipped tests")
 
 The target and budget are fixed here, in writing, before any deletion: "remove 20% of declarations in `packages/api`, line and branch coverage within 2 points, no per-file drop over 5 points on a file with a retained contract". Suite wall time is worth recording too, because it is often the number the user cares about.
 
