@@ -21,7 +21,7 @@ Checked once in Phase 1, first rung that applies. The mechanism and its ID go in
 | Rung | Available when | Wakes the agent on |
 |------|----------------|--------------------|
 | 1. Harness PR subscription | A PR-subscription tool is exposed, or the web session's Auto-fix toggle is on | Review comments, CI failures, check-suite success, pushed by GitHub |
-| 2. Monitor tool | `Monitor` is in the tool list | A `CHANGED` or `TERMINAL` line from the watch script below |
+| 2. Monitor tool | `Monitor` is in the tool list | Any line the watch script below emits |
 | 3. Cron | `CronCreate` is in the tool list | Every tick |
 | 4. None | Neither | Nothing. Run one-shot modes only and say so |
 
@@ -41,7 +41,7 @@ Stop with the matching unsubscribe tool (`Claude_Code_Remote:unsubscribe_pr_acti
 
 Start it with `persistent: true` (the default watch ends at its timeout) and a `description` naming the PR. Monitor commands run under the same permission rules as Bash.
 
-The script polls, fingerprints PR state, and emits one line only when the fingerprint changes. Once the PR merges, it polls the merge SHA's `watch/*` statuses instead (see [Post-merge Watch](#post-merge-watch)). It never fixes or classifies anything; react to each emitted line per the table below.
+The script polls, fingerprints PR state, and emits one line only when the fingerprint changes. Once the PR merges, it polls the merge SHA's `watch/*` statuses instead (see [Post-merge Watch](#post-merge-watch)). It never fixes or classifies anything; on each `CHANGED` line, run phases 2-5, which diff against the state file for the detailed comparison and write it back. React to the other lines per the table below.
 
 Substitute `{N}`, `{owner}`, `{repo}`, and the interval (respect inline overrides like "poll every 5 minutes"):
 
@@ -163,7 +163,7 @@ Auto-merge: no
 
 ## Post-merge Watch
 
-A merged PR is followed, not dropped. A repo with a post-merge watch posts one `watch/<env>` commit status per environment (`watch/staging`, `watch/production`) on the merge SHA, and only after that environment's deploy and checks finish. There is no fixed timeout: wait for the status.
+A merged PR is followed, not dropped, and phases 2-5 no longer run on it. A repo with a post-merge watch posts one `watch/<env>` commit status per environment (`watch/staging`, `watch/production`) on the merge SHA, and only after that environment's deploy and checks finish. There is no fixed timeout: wait for the status.
 
 1. Merge SHA: `gh pr view {N} --json mergeCommit --jq .mergeCommit.oid`.
 2. Does the repo run a watch? Read the first parent, `gh api repos/{owner}/{repo}/commits/{sha} --jq '.parents[0].sha'`, then its `watch/*` contexts: `gh api "repos/{owner}/{repo}/commits/{parent}/status?per_page=100" --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]'`. The merge SHA cannot answer this, because nothing posts there until its own deploy finishes. An empty list: report "no post-merge watch" and stop. Otherwise that list is the set of environments to wait for.
@@ -173,7 +173,7 @@ A merged PR is followed, not dropped. A repo with a post-merge watch posts one `
 
 A failed watch is reported, never repaired from here: the repo's watch owns holding promotion and rolling back, so do not re-run a deploy, revert the merge, or push a fix to the base branch.
 
-Per rung: the Monitor watch script does all of this after its `MERGED` line. A harness subscription cannot see these statuses, so switch to a Monitor or cron on merge. Cron runs one check per tick. With no rung, check once, report the current statuses, and say this runtime cannot keep polling.
+Per rung: the Monitor watch script does all of this after its `MERGED` line. A harness subscription switches to a Monitor or cron on merge (see its limits above). Cron runs one check per tick. With no rung, check once, report the current statuses, and say this runtime cannot keep polling.
 
 ## State File Format
 
