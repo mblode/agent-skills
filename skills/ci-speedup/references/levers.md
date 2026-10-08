@@ -16,7 +16,19 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 **Change detection compares against the last verified commit.** On the default branch, `github.event.before` may be a push that was cancelled out of the queue and never checked. Compare against the head of the newest successful run of the workflow on the branch; anything else falls back to the full suite.
 
-**Path filters keep the default branch whole.** Before merging a filter, walk the default-branch run where none of the filtered paths changed: the deploy and every required check must still report, or the merge queue waits forever. Never gate a repo-wide or required step, and never swap a native path filter for a hand-rolled changed-files check, which sees less.
+**One required check, gated by job.** Make a `ci-ok` job the only required check. It `needs` every other job, `changes` included, and runs `if: always()` so it reports after a failure or a skip upstream. It exits 1 when any need is `failure` or `cancelled` and treats `skipped` as passed; a `ci-ok` that never exits 1 lets a red pull request merge.
+
+```yaml
+ci-ok:
+  needs: [changes, static, test]
+  if: always()
+  runs-on: ubuntu-latest
+  steps:
+    - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+      run: exit 1
+```
+
+A `changes` job decides what runs, comparing against the last verified commit as above and running everything when it cannot tell. Each work job `needs` it and skips through a job-level `if` on its outputs (`if: needs.changes.outputs.web == 'true'`). A job skipped by `if` still reports, so `ci-ok` turns green. A workflow-level `paths:` or `paths-ignore:` filter does not: when no listed path changes the workflow never starts, and a required check on it stays pending forever. Never gate a repo-wide step such as a whole-tree format check. Before merging a gate, walk the default-branch run where none of the gated paths changed: `ci-ok` and the deploy must still report.
 
 **Decide without a working tree.** A gating job that only needs the diff can use `fetch-depth: 1` plus a fetch of the base SHA, or no checkout when the decision comes from the API. Linear took theirs from 26 to 8 seconds.
 
