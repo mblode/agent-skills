@@ -12,6 +12,7 @@
         "Quotes the test runner's duration breakdown (import, environment, tests) for the slowest suite",
         "Predicts the new chain's minutes before pushing and compares against the PR run afterwards",
         "Keeps existing incident-derived guards (concurrency groups, change detection, migration checks) in place",
+        "Makes a ci-ok aggregator the only required check: it needs every job, runs if: always(), fails when any need is failure or cancelled, and treats skipped as passed",
         "Writes a ledger with before, changes, after, and not-taken sections",
         "Ledger includes a trend row (test count, median, p90, minutes per hundred files) and when the next round is due"
       ]
