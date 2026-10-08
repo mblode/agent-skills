@@ -9,6 +9,7 @@ Grouped by the class of time each one removes. For each lever: what must be true
 - Execution
 - Toolchain
 - Deploy stage
+- What comes next
 - Cost accounting
 - Sources
 
@@ -28,7 +29,7 @@ ci-ok:
       run: exit 1
 ```
 
-A `changes` job decides what runs, comparing against the last verified commit as above and running everything when it cannot tell. Each work job `needs` it and skips through a job-level `if` on its outputs (`if: needs.changes.outputs.web == 'true'`). A job skipped by `if` still reports, so `ci-ok` turns green. A workflow-level `paths:` or `paths-ignore:` filter does not: when no listed path changes the workflow never starts, and a required check on it stays pending forever. Never gate a repo-wide step such as a whole-tree format check. Before merging a gate, walk the default-branch run where none of the gated paths changed: `ci-ok` and the deploy must still report.
+A `changes` job decides what runs, comparing a pull request against its base and the default branch against the last verified commit above, and running everything when it cannot tell. Each work job `needs` it and skips through a job-level `if` on its outputs (`if: needs.changes.outputs.web == 'true'`). A job skipped by `if` still reports, so `ci-ok` turns green. A workflow-level `paths:` or `paths-ignore:` filter does not: when no listed path changes the workflow never starts, and a required check on it stays pending forever. Never gate a repo-wide step such as a whole-tree format check. Before merging a gate, read two runs. Where none of the gated paths changed, `ci-ok` and the deploy must still report. Where they did, the gated job must run: an `if` on a misspelled output is always false, so the job always skips and `ci-ok` stays green.
 
 **Decide without a working tree.** A gating job that only needs the diff can use `fetch-depth: 1` plus a fetch of the base SHA, or no checkout when the decision comes from the API. Linear took theirs from 26 to 8 seconds.
 
