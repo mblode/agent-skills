@@ -9,6 +9,7 @@ Watch setup for monitor mode: the watch ladder, the Monitor watch script, the cr
 - [Monitor Watch Script](#monitor-watch-script)
 - [Cron Fallback](#cron-fallback)
 - [Post-merge Watch](#post-merge-watch)
+  - [Production smoke test](#production-smoke-test)
 - [State File Format](#state-file-format)
 - [Auto-Detection Defaults](#auto-detection-defaults)
 - [Stopping](#stopping)
@@ -156,8 +157,8 @@ Emitted lines:
 | `TERMINAL: PR CLOSED` | PR closed without merging; the script exits and the watch ends | Report the final summary, stop |
 | `MERGED: {sha}` | PR merged; the script moves on to the merge SHA's `watch/*` statuses | Report the merge, write the merge SHA to the state file |
 | `WATCH: {context=state ...}` | A `watch/*` status on the merge SHA changed | Report the transition ("watch/staging passed, waiting on watch/production") |
-| `TERMINAL: no post-merge watch` | The base the PR merged onto has no `watch/*` status | Report "no post-merge watch", stop |
-| `TERMINAL: WATCH PASSED {context=state ...}` / `TERMINAL: WATCH FAILED {context=state ...}` | Every expected `watch/*` context passed, or one reads `failure` or `error`; the script exits | Report per [Post-merge Watch](#post-merge-watch), stop |
+| `TERMINAL: no post-merge watch` | The base the PR merged onto has no `watch/*` status | Report "no post-merge watch", run the [production smoke test](#production-smoke-test), stop |
+| `TERMINAL: WATCH PASSED {context=state ...}` / `TERMINAL: WATCH FAILED {context=state ...}` | Every expected `watch/*` context passed, or one reads `failure` or `error`; the script exits | Report per [Post-merge Watch](#post-merge-watch); after a pass, run the production smoke test first; stop |
 
 Transient `gh` failures skip the iteration and retry next interval; they never emit.
 
@@ -197,10 +198,20 @@ A merged PR is followed, not dropped, and phases 2-5 no longer run on it. A repo
 1. Merge SHA: `gh pr view {N} --json mergeCommit --jq .mergeCommit.oid`.
 2. Does the repo run a watch? Find the base the PR merged onto: the first parent, `gh api repos/{owner}/{repo}/commits/{sha} --jq '.parents[0].sha'`, except after a rebase merge. There the merge SHA is the last of the PR's n rebased commits, so its first parent is the PR's own commit and the base is n commits back (`commits?sha={sha}&per_page=1&page={n+1}`; one commit per page because a rebase merge can carry 100 commits, more than one page holds). A single-parent merge SHA whose author date equals the PR head commit's `authoredDate` is a rebase: a rebase keeps author dates, a squash stamps a new one. Then read the base's `watch/*` contexts: `gh api "repos/{owner}/{repo}/commits/{base}/status?per_page=100" --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]'`. The merge SHA cannot answer this, because nothing posts there until its own deploy finishes. An empty list: report "no post-merge watch" and stop. Otherwise wait for every `watch/*` context found on the base or the nine commits before it (`gh api "repos/{owner}/{repo}/commits?sha={base}&per_page=10"`): the base can be mid-deploy, with `watch/staging` posted and `watch/production` not yet, and its list alone would call the watch passed after staging.
 3. Poll `gh api "repos/{owner}/{repo}/commits/{sha}/status?per_page=100"` (the latest status per context) every interval. Stop at the first `failure` or `error` on any `watch/*` context. Done when every expected context reads `success`. One environment passing while another is still out is a transition: report it.
-4. Report the result: each context's state, and for a failure its `description` and `target_url`. Post it as one comment on the PR only when the user authorized PR comments (the standing rule in SKILL.md); otherwise report it in the session. "No post-merge watch" is a session line only, never a PR comment.
-5. Write the merge SHA and the watch result to the state file, then stop the mechanism per [Stopping](#stopping).
+4. Unless the watch failed, run the [production smoke test](#production-smoke-test).
+5. Report the result: each context's state, and for a failure its `description` and `target_url`, plus the smoke test's outcome and evidence. Post it as one comment on the PR only when the user authorized PR comments (the standing rule in SKILL.md); otherwise report it in the session. "No post-merge watch" is a session line only, never a PR comment.
+6. Write the merge SHA, the watch result, and the smoke result to the state file, then stop the mechanism per [Stopping](#stopping).
 
-A failed watch is reported, never repaired from here: the repo's watch owns holding promotion and rolling back, so do not re-run a deploy, revert the merge, or push a fix to the base branch.
+A failed watch or smoke test is reported, never repaired from here: the repo's watch owns holding promotion and rolling back, so do not re-run a deploy, revert the merge, or push a fix to the base branch.
+
+### Production smoke test
+
+A green watch says the repo's own checks passed; the smoke test confirms this PR's change actually works in production. Run it once the merge SHA is live there:
+
+- **When:** after `watch/production` passes. With no post-merge watch, once a production deployment of the merge SHA reports success: `gh api "repos/{owner}/{repo}/deployments?sha={sha}&environment=production"`, then that deployment's `statuses` (a Vercel or similar deploy check on the merge SHA counts too). Wait for it the way the watch waits, with no fixed timeout. Nothing in the repo shows a production deploy: say so and claim nothing.
+- **What:** the repo's own production smoke command when its docs or scripts name one. Otherwise exercise what the PR changed on the production URL (the deployment's `environment_url`, or the URL the repo documents): request the changed page or endpoint and check the changed behaviour is there, not just a 200.
+- **Read-only:** no sign-ups, purchases, form submissions, emails, or writes to production data. A change that can only be proven by writing is reported as unverified, with the step that would prove it.
+- **Evidence:** the command or URL, the status, and the line or value that shows the change. "Looks fine" is not a result.
 
 Per rung: the Monitor watch script does all of this after its `MERGED` line. A harness subscription switches to a Monitor or cron on merge (see its limits above). Cron runs one check per tick. With no rung, check once, report the current statuses, and say this runtime cannot keep polling.
 

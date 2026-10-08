@@ -54,10 +54,11 @@
     {
       "id": 5,
       "prompt": "Babysit PR 77 until it's deployed. It merged a minute ago.",
-      "expected_output": "The merge commit's first parent carries no watch/* commit status, so the run reports \"no post-merge watch\" and stops instead of waiting for a status that will never post.",
+      "expected_output": "The merge commit's first parent carries no watch/* commit status, so the run reports \"no post-merge watch\" instead of waiting for a status that will never post. Nothing shows a production deploy either, so it says the change could not be smoke-tested in production and claims nothing.",
       "assertions": [
         "Checks the base the PR merged onto (the merge commit's first parent) for watch/* statuses rather than the merge SHA itself",
         "Reports \"no post-merge watch\" and stops when that parent has no watch/* status",
+        "Says production could not be smoke-tested because nothing shows a production deploy of the merge SHA, and does not claim the change works",
         "Leaves no Monitor watch, cron job, or subscription running for PR 77",
         "Posts no comment on PR 77"
       ],
@@ -77,9 +78,10 @@
     {
       "id": 7,
       "prompt": "Watch PR 640 through the deploy. It merged five minutes ago and the repo posts watch/staging and watch/production.",
-      "expected_output": "The same post-merge watch as case 4, but the user never authorized PR comments, so the passed or failed result is reported in the session and nothing is posted on the PR.",
+      "expected_output": "The same post-merge watch as case 4; after watch/production passes, a read-only production smoke test of what the PR changed. The user never authorized PR comments, so the watch and smoke results are reported in the session and nothing is posted on the PR.",
       "assertions": [
         "Reports each watch/* context's final state in the session",
+        "After watch/production passes, smoke-tests the PR's change on the production URL read-only and reports the URL or command, the status, and the value that shows the change",
         "Posts no comment on PR 640"
       ],
       "files": []
@@ -102,6 +104,18 @@
       "assertions": [
         "Finds the base with commits?sha={sha}&per_page=1&page=101, not a single 100-entry page",
         "Does not fall back to the merge SHA's first parent or report \"no post-merge watch\" because the PR has 100 commits"
+      ],
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "PR 905 merged an hour ago and changed the pricing page heading. The repo has no watch/* statuses, but GitHub shows a production deployment of the merge commit. Check it actually worked.",
+      "expected_output": "No post-merge watch, so the run waits for the production deployment of the merge SHA, takes its environment_url, and requests the pricing page read-only, confirming the new heading is served rather than only a 200.",
+      "assertions": [
+        "Reads the production deployment for the merge SHA (deployments?sha={sha}&environment=production and its statuses) before smoke-testing",
+        "Requests the changed pricing page on the production URL and checks the new heading text, not just the status code",
+        "Makes no writes to production: no form submissions, sign-ups, or purchases",
+        "Reports the URL, status, and matched heading as evidence"
       ],
       "files": []
     }
