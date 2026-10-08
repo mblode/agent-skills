@@ -8,7 +8,7 @@ compatibility: Needs the repository's test runner and a coverage tool it already
 
 Tests earn their place by catching a credible regression that nothing else catches. Agents write a test for every small change, and most of those re-assert the source, replay a stronger test through a mock, or pin a private call shape. Coverage barely moves when they go; maintenance cost and suite time do.
 
-- **IS:** sweeping a directory for low-value tests, and campaign-pruning a whole subsystem or repo to a measured target with coverage held, plus deleting the test-only production seams those tests kept alive.
+- **IS:** sweeping a directory for low-value, misplaced, and skipped tests, and campaign-pruning a whole subsystem or repo to a measured target with coverage held, plus deleting the test-only production seams those tests kept alive.
 - **IS NOT:** gating a test before it lands or reviewing a feature diff (`tidy`), making CI faster by splitting or sharding (`ci-speedup`), or writing tests for untested code.
 
 ## Pick a mode
@@ -42,6 +42,13 @@ What an audit or campaign hunts for:
 - capability tests that restate declared flags instead of exercising what the flag promises
 - negative controls that pass for an unrelated reason, such as a rejection from a different guard
 - names that promise more than the assertions check: judge the test by its assertions, not its title
+
+## Misplaced and skipped tests
+
+Two more finding kinds. Neither is a removal candidate on that fact alone, and a move or an unskip is not a deletion toward the target.
+
+- **Misplaced:** the test lives in one owner's suite but only exercises another's, such as a slug-format check in `routes/posts.test.ts` that never touches the route and only calls `lib/slug.ts`. Move it to the canonical owner's suite, as "Edit shape" says for retained regressions.
+- **Skipped:** the test is disabled, such as `it.skip('prorates refunds on downgrade')`, `xit`, `@pytest.mark.skip`, or `t.Skip()`. Unskip it and run it first; never remove it on sight. If it passes, leave it enabled and judge it like any other test. If it fails, treat it as a possible product bug under the retention bar: reproduce it and fix the owner. A conditional skip with a real platform or environment reason is not a finding.
 
 ## Retention bar
 

@@ -34,6 +34,17 @@
         "Asks about how far the feature will grow rather than a bare extend-or-new question",
         "Records the resolved decision with who, why, and the flip condition"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Plan adding a --json flag to the export command. The repo's docs/README.md index marks docs/cli.md as Current and docs/history.md as Archived. Just write the plan.",
+      "expected_output": "A plan whose contract names docs/cli.md as a current doc this change makes wrong, updated in the same PR, and leaves the archived doc alone.",
+      "files": [],
+      "assertions": [
+        "Names docs/cli.md as a doc that changes in the same PR",
+        "Does not list docs/history.md as a doc to update",
+        "Does not add a line or size budget to the plan"
+      ]
     }
   ],
   "routing": {
@@ -48,5 +59,16 @@
         "expected": "tidy"
       }
     ]
+  },
+  "baseline": {
+    "date": "2026-10-09",
+    "method": "Case 4 only. Fresh general-purpose subagents (claude-opus-5-5) wrote a plan with and without the working-copy SKILL.md, two runs per arm, graded by hand. Run twice: once on the prompt alone, once on a small CLI fixture repo whose docs/README.md marks docs/cli.md Current and docs/history.md Archived, with the prompt cut to 'Plan adding a --json flag to tally export. Just write the plan.' and no mention of docs.",
+    "results": {
+      "4": {
+        "without_skill": "3/3, 3/3 (prompt); 3/3, 3/3 (fixture)",
+        "with_skill": "3/3, 3/3 (prompt); 3/3, 3/3 (fixture)",
+        "notes": "No headroom on this model: without the skill, both fixture runs read docs/README.md and planned the docs/cli.md update in the same change. The Docs bullet is a contract here, not a measured gain; a smaller model is the untested case."
+      }
+    }
   }
 }

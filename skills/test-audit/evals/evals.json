@@ -28,6 +28,20 @@
         "Keeps tests that guard money, idempotency, or migration contracts",
         "Runs the billing tests and coverage after deleting and reports both"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Audit the tests in packages/payments. Some look like junk, routes/checkout.test.ts has a few cases that only call lib/currency.ts, and refunds.test.ts has three it.skip blocks nobody remembers adding.",
+      "expected_output": "Junk deletions with evidence as usual. Currency cases the lib/currency.ts suite does not already cover move there; a case it already covers is consolidated with that keeper named. Each it.skip block is unskipped and run before any judgement; a passing one stays enabled and is judged like any other test, a failing one is reproduced and fixed at the refund code. A move or an unskip is not a deletion toward the target.",
+      "files": [],
+      "assertions": [
+        "Moves each currency case the lib/currency.ts suite does not already cover into that suite, rather than deleting it",
+        "Unskips and runs each skipped test before judging it",
+        "Does not list a skipped test as a removal candidate on sight",
+        "Treats a skipped test that fails once unskipped as a possible product bug and reproduces it",
+        "Fixes the refund code for a skipped test that fails once unskipped, rather than leaving the test skipped",
+        "Does not count a move or an unskip as a deletion toward the target"
+      ]
     }
   ],
   "routing": {
@@ -84,6 +98,11 @@
         "without_skill": "2/4",
         "with_skill": "4/4",
         "notes": "Without the skill: no numeric target; removed only dead and duplicate tests and ended on a question to the user."
+      },
+      "4": {
+        "without_skill": "5/6, 5/6",
+        "with_skill": "6/6, 6/6",
+        "notes": "Run 2026-10-09 on claude-opus-5-5, same plan-only proxy, two runs per arm. Both arms unskipped and ran the skips first, moved uncovered currency cases, and exempted conditional skips unprompted. Without the skill, both runs left a failing unskipped test skipped with an issue instead of fixing the owner."
       }
     }
   }

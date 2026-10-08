@@ -44,6 +44,7 @@ Include only sections this change needs:
 - **Decisions:** a decision log: question, choice, who decided and when, measured evidence per option, and what would flip it; assumptions that remain unverified.
 - **Boundaries:** exclusions only where an adjacent change would plausibly be mistaken for scope.
 - **Verification:** a command, test scenario, or observation tied to each material acceptance criterion, including expected failure behavior.
+- **Docs:** which current docs (those the repository marks as kept true, such as a "Current" entry in its docs index) this change makes wrong, updated in the same PR.
 - **Recovery:** rollback or recovery for migrations and irreversible writes.
 
 A handoff is self-contained. Replace "as discussed" with the decision. Preserve user corrections in the file, not just the chat. Split tickets by shippable outcome, not database/backend/frontend layers.
