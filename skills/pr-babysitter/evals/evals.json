@@ -44,7 +44,7 @@
       "expected_output": "Post-merge watch: merge SHA from mergeCommit, the expected environments read from the first parent's watch/* statuses, the merge SHA's watch/* statuses polled with no fixed timeout, a stop at the first failure or error, and the result posted on the PR because the user asked for it.",
       "assertions": [
         "Reads the merge SHA with gh pr view 512 --json mergeCommit and does not stop because the PR is MERGED",
-        "Reads the merge commit's first parent (commits/{sha} --jq '.parents[0].sha') and takes its watch/* contexts as the environments to wait for",
+        "Reads the merge commit's first parent (commits/{sha} --jq '.parents[0].sha') for watch/* statuses, and waits for every watch/* context on it or the commits just before it, so a parent still mid-deploy cannot end the watch after staging",
         "Polls the watch/* commit statuses on the merge SHA with no fixed timeout or deadline",
         "Stops at the first watch/* status in failure or error and names its context, description, and target_url",
         "Posts one result comment on PR 512, and does not re-run a deploy, revert the merge, or push to the base branch"
@@ -71,6 +71,16 @@
         "Classifies the github-actions[bot] comment carrying <!-- pr-evidence --> as noise with the reason ignore-noise-marker",
         "Reports zero findings and opens no fix item for it",
         "Posts no reply to it and does not announce it as a new review comment"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Watch PR 640 through the deploy. It merged five minutes ago and the repo posts watch/staging and watch/production.",
+      "expected_output": "The same post-merge watch as case 4, but the user never authorized PR comments, so the passed or failed result is reported in the session and nothing is posted on the PR.",
+      "assertions": [
+        "Reports each watch/* context's final state in the session",
+        "Posts no comment on PR 640"
       ],
       "files": []
     }

@@ -31,15 +31,15 @@ Cloud and remote sessions expose `Claude_Code_Remote:subscribe_pr_activity` (own
 
 Three limits of this rung:
 
-- GitHub emits no webhook when the base branch advances into a conflict. Pair the subscription with a Monitor poll of `gh pr view --json mergeable,mergeStateStatus` every 10 minutes (a base branch rarely moves faster, and the watch has nothing else to do), or check conflicts on every event that does arrive.
-- PR activity carries no commit statuses on the base branch, so it never sees the post-merge watch. On merge, unsubscribe and start the Monitor watch script (it skips straight to the post-merge part), or cron.
+- GitHub emits no webhook when the base branch advances into a conflict. Pair the subscription with a Monitor poll of `gh pr view --json state,mergeable,mergeStateStatus` every 10 minutes (a base branch rarely moves faster, and the watch has nothing else to do), or check conflicts on every event that does arrive.
+- PR activity carries no commit statuses on the base branch, so it never sees the post-merge watch, and it may not wake on the merge itself. When the paired poll or an event shows `state` MERGED, unsubscribe, start the Monitor watch script (it skips straight to the post-merge part) or cron, and rewrite the state file's `Watch` line with the new mechanism and ID so Stopping finds it.
 - If the subscribe call reports that a PR Steward already watches this PR, this session receives no events. Do not claim monitor mode; say the PR is already covered and offer the one-shot modes, because two agents pushing fixes to one branch trip each other's leases.
 
 Stop with the matching unsubscribe tool (`Claude_Code_Remote:unsubscribe_pr_activity` or `github:unsubscribe_pr_activity`).
 
 ## Monitor Watch Script
 
-Start it with `persistent: true` (the default watch ends at its timeout) and a `description` naming the PR. Monitor commands run under the same permission rules as Bash.
+Start it with `persistent: true` where the Monitor tool offers it; otherwise give it the longest timeout the tool allows and re-arm the same script on each expiry (after a merge it resumes at `MERGED`). Give it a `description` naming the PR. Monitor commands run under the same permission rules and shell as Bash, so the script avoids names zsh reserves, such as `status`.
 
 The script polls, fingerprints PR state, and emits one line only when the fingerprint changes. Once the PR merges, it polls the merge SHA's `watch/*` statuses instead (see [Post-merge Watch](#post-merge-watch)). It never fixes or classifies anything; on each `CHANGED` line, run phases 2-5, which diff against the state file for the detailed comparison and write it back. React to the other lines per the table below.
 
@@ -91,23 +91,35 @@ until sha=$(gh pr view "$PR" --repo "$OWNER/$REPO" --json mergeCommit \
   sleep "$INTERVAL"
 done
 echo "MERGED: $sha"
+watch_contexts() {
+  gh api "repos/$OWNER/$REPO/commits/$1/status?per_page=100" \
+    --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]' 2>/dev/null
+}
 until parent=$(gh api "repos/$OWNER/$REPO/commits/$sha" --jq '.parents[0].sha' 2>/dev/null) \
-  && want=$(gh api "repos/$OWNER/$REPO/commits/$parent/status?per_page=100" \
-    --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]' 2>/dev/null); do
+  && want=$(watch_contexts "$parent") \
+  && earlier=$(gh api "repos/$OWNER/$REPO/commits?sha=$parent&per_page=10" \
+    --jq '.[1:][].sha' 2>/dev/null); do
   sleep "$INTERVAL"
 done
 if [ "$want" = "[]" ]; then echo "TERMINAL: no post-merge watch"; exit 0; fi
+# The parent can be mid-deploy (watch/staging posted, watch/production not yet),
+# so the commits before it fill in the environments still to come.
+while read -r c; do
+  [ -n "$c" ] || continue
+  until more=$(watch_contexts "$c"); do sleep "$INTERVAL"; done
+  want=$(jq -c --argjson more "$more" '. + $more | unique' <<<"$want")
+done <<<"$earlier"
 prev=""
 # No timeout: a watch/<env> status lands only once that environment's checks end.
 while true; do
-  status=$(gh api "repos/$OWNER/$REPO/commits/$sha/status?per_page=100" 2>/dev/null) \
+  combined=$(gh api "repos/$OWNER/$REPO/commits/$sha/status?per_page=100" 2>/dev/null) \
     || { sleep "$INTERVAL"; continue; }
   line=$(jq -r --argjson want "$want" '
     [.statuses[] | select(.context | startswith("watch/"))] as $w
     | ($w | map("\(.context)=\(.state)") | sort | join(" ")) as $s
     | if any($w[]; .state == "failure" or .state == "error") then "TERMINAL: WATCH FAILED \($s)"
       elif ($want - [$w[] | select(.state == "success") | .context]) == [] then "TERMINAL: WATCH PASSED \($s)"
-      else $s end' <<<"$status")
+      else $s end' <<<"$combined")
   case "$line" in TERMINAL:*) echo "$line"; exit 0 ;; esac
   if [ "$line" != "$prev" ]; then echo "WATCH: $line"; fi
   prev="$line"
@@ -166,7 +178,7 @@ Auto-merge: no
 A merged PR is followed, not dropped, and phases 2-5 no longer run on it. A repo with a post-merge watch posts one `watch/<env>` commit status per environment (`watch/staging`, `watch/production`) on the merge SHA, and only after that environment's deploy and checks finish. There is no fixed timeout: wait for the status.
 
 1. Merge SHA: `gh pr view {N} --json mergeCommit --jq .mergeCommit.oid`.
-2. Does the repo run a watch? Read the first parent, `gh api repos/{owner}/{repo}/commits/{sha} --jq '.parents[0].sha'`, then its `watch/*` contexts: `gh api "repos/{owner}/{repo}/commits/{parent}/status?per_page=100" --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]'`. The merge SHA cannot answer this, because nothing posts there until its own deploy finishes. An empty list: report "no post-merge watch" and stop. Otherwise that list is the set of environments to wait for.
+2. Does the repo run a watch? Read the first parent, `gh api repos/{owner}/{repo}/commits/{sha} --jq '.parents[0].sha'`, then its `watch/*` contexts: `gh api "repos/{owner}/{repo}/commits/{parent}/status?per_page=100" --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]'`. The merge SHA cannot answer this, because nothing posts there until its own deploy finishes. An empty list: report "no post-merge watch" and stop. Otherwise wait for every `watch/*` context found on the parent or the nine commits before it (`gh api "repos/{owner}/{repo}/commits?sha={parent}&per_page=10"`): the parent can be mid-deploy, with `watch/staging` posted and `watch/production` not yet, and its list alone would call the watch passed after staging.
 3. Poll `gh api "repos/{owner}/{repo}/commits/{sha}/status?per_page=100"` (the latest status per context) every interval. Stop at the first `failure` or `error` on any `watch/*` context. Done when every expected context reads `success`. One environment passing while another is still out is a transition: report it.
 4. Report the result: each context's state, and for a failure its `description` and `target_url`. Post it as one comment on the PR only when the user authorized PR comments (the standing rule in SKILL.md); otherwise report it in the session. "No post-merge watch" is a session line only, never a PR comment.
 5. Write the merge SHA and the watch result to the state file, then stop the mechanism per [Stopping](#stopping).
@@ -205,7 +217,7 @@ Write to `.claude/pr-babysitter/babysit-pr-{N}.md` (create the folder; never sta
 - **Merge Gate:** {verdict or none}
 - **Newest Comment:** {timestamp}
 - **Merge SHA:** {sha, once merged}
-- **Watch:** {watch/staging=success watch/production=pending, or no post-merge watch}
+- **Post-merge Watch:** {watch/staging=success watch/production=pending, or no post-merge watch}
 - **Checks:**
   - {check_name}: {pass|fail|pending|skipping|cancel} ({platform})
 
@@ -239,6 +251,6 @@ Overrides given inline when invoking: "babysit PR #42, poll every 5 minutes, ena
 ## Session Lifecycle
 
 - Monitor watches, cron jobs, and subscriptions are session-scoped
-- Monitor watch: ends on `TaskStop`, session exit, or script exit (`TERMINAL` line); without `persistent: true` it dies at the default timeout
+- Monitor watch: ends on `TaskStop`, session exit, or script exit (`TERMINAL` line); without `persistent: true` it also dies at its timeout, so re-arm it
 - Cron: 7-day expiry; restored on `--resume` if unexpired. Background Monitor tasks are never restored on resume
 - An event or tick arriving while the agent is busy is handled when it goes idle; there is no catch-up for missed fires
