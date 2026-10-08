@@ -94,6 +94,16 @@
         "Does not report \"no post-merge watch\" when that base carries watch/* statuses"
       ],
       "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "PR 815 was rebase-merged with 100 commits, GitHub's limit. Watch it through the deploy.",
+      "expected_output": "The base sits 100 commits back from the merge SHA, past one 100-entry page, so the lookup pages one commit at a time and reads page 101 instead of skipping the rebase branch.",
+      "assertions": [
+        "Finds the base with commits?sha={sha}&per_page=1&page=101, not a single 100-entry page",
+        "Does not fall back to the merge SHA's first parent or report \"no post-merge watch\" because the PR has 100 commits"
+      ],
+      "files": []
     }
   ]
 }
