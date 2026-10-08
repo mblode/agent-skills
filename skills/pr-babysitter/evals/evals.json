@@ -37,6 +37,87 @@
         "Reports 'ready to merge' without calling gh pr merge"
       ],
       "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "PR 512 just merged. Keep watching it through staging and production, and post the result on the PR when it's done.",
+      "expected_output": "Post-merge watch: merge SHA from mergeCommit, the expected environments read from the first parent's watch/* statuses, the merge SHA's watch/* statuses polled with no fixed timeout, a stop at the first failure or error, and the result posted on the PR because the user asked for it.",
+      "assertions": [
+        "Reads the merge SHA with gh pr view 512 --json mergeCommit and does not stop because the PR is MERGED",
+        "Reads watch/* statuses on the base the PR merged onto (the merge commit's first parent, commits/{sha} --jq '.parents[0].sha'), and waits for every watch/* context on it or the commits just before it, so a base still mid-deploy cannot end the watch after staging",
+        "Polls the watch/* commit statuses on the merge SHA with no fixed timeout or deadline",
+        "Stops at the first watch/* status in failure or error and names its context, description, and target_url",
+        "Posts one result comment on PR 512, and does not re-run a deploy, revert the merge, or push to the base branch"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Babysit PR 77 until it's deployed. It merged a minute ago.",
+      "expected_output": "The merge commit's first parent carries no watch/* commit status, so the run reports \"no post-merge watch\" instead of waiting for a status that will never post. Nothing shows a production deploy either, so it says the change could not be smoke-tested in production and claims nothing.",
+      "assertions": [
+        "Checks the base the PR merged onto (the merge commit's first parent) for watch/* statuses rather than the merge SHA itself",
+        "Reports \"no post-merge watch\" and stops when that parent has no watch/* status",
+        "Says production could not be smoke-tested because nothing shows a production deploy of the merge SHA, and does not claim the change works",
+        "Leaves no Monitor watch, cron job, or subscription running for PR 77",
+        "Posts no comment on PR 77"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Triage the new comments on PR 230. The only one since the last pass is from github-actions[bot]; its body starts with <!-- pr-evidence --> and holds the UI recording from the CI evidence job.",
+      "expected_output": "The comment matches the <!-- pr-evidence --> noise marker, so it is ignored with ignore-noise-marker: no finding, no fix item, no reply, and no new-comment notification.",
+      "assertions": [
+        "Classifies the github-actions[bot] comment carrying <!-- pr-evidence --> as noise with the reason ignore-noise-marker",
+        "Reports zero findings and opens no fix item for it",
+        "Posts no reply to it and does not announce it as a new review comment"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Watch PR 640 through the deploy. It merged five minutes ago and the repo posts watch/staging and watch/production.",
+      "expected_output": "The same post-merge watch as case 4; after watch/production passes, a read-only production smoke test of what the PR changed. The user never authorized PR comments, so the watch and smoke results are reported in the session and nothing is posted on the PR.",
+      "assertions": [
+        "Reports each watch/* context's final state in the session",
+        "After watch/production passes, smoke-tests the PR's change on the production URL read-only and reports the URL or command, the status, and the value that shows the change",
+        "Posts no comment on PR 640"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "PR 702 was merged with Rebase and merge (3 commits). Watch it through staging and production.",
+      "expected_output": "The merge SHA is the last of three rebased commits, so its first parent is the PR's own commit with no status. The run detects the rebase (a single-parent merge SHA whose author date equals the PR head's authoredDate), reads watch/* statuses on the commit three back, and waits for them instead of reporting no post-merge watch.",
+      "assertions": [
+        "Detects the rebase merge from the merge SHA's single parent and an author date equal to the PR head commit's authoredDate",
+        "Reads watch/* statuses on the commit 3 first-parent steps back from the merge SHA, not on its first parent",
+        "Does not report \"no post-merge watch\" when that base carries watch/* statuses"
+      ],
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "PR 815 was rebase-merged with 100 commits, GitHub's limit. Watch it through the deploy.",
+      "expected_output": "The base sits 100 commits back from the merge SHA, past one 100-entry page, so the lookup pages one commit at a time and reads page 101 instead of skipping the rebase branch.",
+      "assertions": [
+        "Finds the base with commits?sha={sha}&per_page=1&page=101, not a single 100-entry page",
+        "Does not fall back to the merge SHA's first parent or report \"no post-merge watch\" because the PR has 100 commits"
+      ],
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "PR 905 merged an hour ago and changed the pricing page heading. The repo has no watch/* statuses, but GitHub shows a production deployment of the merge commit. Check it actually worked.",
+      "expected_output": "No post-merge watch, so the run waits for the production deployment of the merge SHA, takes its environment_url, and requests the pricing page read-only, confirming the new heading is served rather than only a 200.",
+      "assertions": [
+        "Reads the production deployment for the merge SHA (deployments?sha={sha}&environment=production and its statuses) before smoke-testing",
+        "Requests the changed pricing page on the production URL and checks the new heading text, not just the status code",
+        "Makes no writes to production: no form submissions, sign-ups, or purchases",
+        "Reports the URL, status, and matched heading as evidence"
+      ],
+      "files": []
     }
   ]
 }
