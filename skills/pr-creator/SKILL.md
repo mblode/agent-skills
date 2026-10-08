@@ -8,7 +8,7 @@ compatibility: Requires Git and authenticated GitHub access. The documented comm
 
 Write PR descriptions like a developer posting in Slack, not an AI summarizing a diff. The reviewer has none of your context, so the body answers what the diff cannot: why, what it costs if wrong, and where you want their view. The diff answers what changed.
 
-- **IS:** creating or updating a GitHub PR's title, body, draft state, and reviewers, plus the commit restructuring and review path that make a large diff readable.
+- **IS:** creating or updating a GitHub PR's title, body, draft state, and reviewers, attaching visuals for a UI change, plus the commit restructuring and review path that make a large diff readable.
 - **IS NOT:** changing the code in the diff or reviewing it for bugs (use `tidy`), watching CI and review comments after the PR exists (use `pr-babysitter`), or cutting npm releases (use `autoship`).
 
 ## Reference Files
@@ -31,6 +31,7 @@ PR creation progress:
 - [ ] Draft title and body against Rules and Anti-patterns
 - [ ] git push -u origin HEAD
 - [ ] gh pr create (or gh pr edit); then gh pr view --json url,title and return the URL
+- [ ] UI change with a video or screenshots? gh pr edit <n> --attach <file> after the final body, then gh pr view <n> --json body
 ```
 
 Do not ask the user to approve the description first; the point is speed. They can ask for a rewrite and you run `gh pr edit`.
@@ -119,6 +120,24 @@ gh pr edit --title "ABC-123: Add auth flow" --body-file /tmp/pr-body.md
 gh pr view --json url,title   # confirm the update; return the url
 ```
 
+### UI change: attach visuals
+
+Visuals are optional. When the diff changes what a user sees (markup, styles, copy, or assets) and you have a short MP4 or WebM, an image, or a before and after pair, attach them so the reviewer sees the change without checking out the branch. Pick whichever shows it best: a video for motion or a flow, one image for a static change, before and after for a visual diff. A local file path in the body is not an attachment.
+
+```bash
+gh pr edit 42 --attach ./demo.mp4   # after the last body rewrite
+
+# Before and after: label them in the body, where `**Before**` sits above
+# `![Before](./before.png)`, and attach on the same call so gh swaps each
+# local path for its uploaded URL. A `#Before` suffix is only alt text.
+gh pr edit 42 --body-file /tmp/pr-body.md --attach ./before.png --attach ./after.png
+
+gh pr view 42 --json body   # always, even after a non-zero exit
+```
+
+- **Order.** `gh pr edit --body-file` replaces the body, uploaded URL included. Attach after the last rewrite, or pass `--attach` on the same call as the final `--body-file` (gh replaces a local path the body references with the uploaded URL, and appends any other attachment). Any later rewrite copies the uploaded URL from the read-back into the new body file.
+- **Read back.** The body must hold an uploaded `/user-attachments/assets/...` URL for each file (host `github.com`, or `SUBDOMAIN.ghe.com` on data-residency GHE Cloud): a video as a bare URL on its own line, which GitHub renders as a player, and an image inside `![alt](...)`. If some uploads fail, gh still edits the PR with the ones that landed and exits non-zero, so read the body before retrying: re-attach only what is missing, and report what landed.
+
 ## Gotchas
 
 - `gh pr create` on a branch with no upstream: in a TTY it blocks on a "Where should we push?" prompt; from a non-interactive harness it aborts with `you must first push the current branch to a remote, or use the --head flag`. Either way, `git push -u origin HEAD` first.
@@ -128,6 +147,7 @@ gh pr view --json url,title   # confirm the update; return the url
 - A branch with an open PR fails `gh pr create` with `a pull request for branch ... into branch main already exists`. `gh pr view --json state` first; `OPEN` means `gh pr edit`. A `MERGED` or `CLOSED` result is a stale PR, so create a new one.
 - Derive the Linear ID from the branch, uppercased: Linear's default branch format is `username/abc-123-title-slug`, so `mblode/abc-123-add-auth` gives `ABC-123`. Never guess an ID: Linear links the PR to whatever ID the title contains, and a wrong one moves someone else's issue.
 - Plain `git diff` omits committed changes. Use the actual PR base with three-dot diff; do not assume `main`, especially for stacked PRs.
+- `--attach` needs gh 2.99.0 or later (`gh --version`), a user token (an installation `ghs_` token cannot upload), push access to the repository (a contributor's PR from a fork can be created but not given attachments), and github.com or GHE Cloud; GHES has no attachments. When any of these is missing, say the visuals could not be attached and where they are, rather than linking a local path in the body.
 - Restructure commits before the first push. Force-pushing a rewritten branch under an open PR marks existing inline comments "outdated" and the reviewer loses their thread.
 
 ## Related skills

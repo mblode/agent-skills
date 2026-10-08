@@ -22,12 +22,48 @@
         "Uses Part of ABC-123 rather than claiming the issue is complete",
         "Does not fabricate validation results"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "PR #42 changes the settings page layout and ./demo.mp4 shows it. Rewrite the PR body to match the final diff and attach the recording.",
+      "expected_output": "Rewrite the body, then attach the video so the rewrite cannot drop it, and confirm the uploaded URL from the live body.",
+      "files": [],
+      "assertions": [
+        "Runs gh pr edit --attach after the final --body-file rewrite, or on the same call",
+        "Reads the body back with gh pr view 42 --json body",
+        "The final body still holds the uploaded user-attachments URL, not a local path"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I ran gh pr edit 42 --attach ./before.mp4 --attach ./after.mp4 and it exited 1 partway. Make sure the PR shows both recordings.",
+      "expected_output": "Read the live body before retrying, re-attach only the missing recording, and read back again.",
+      "files": [],
+      "assertions": [
+        "Reads the body with gh pr view 42 --json body before any retry",
+        "Re-attaches only the recording missing from the body, not both",
+        "Reports which recordings landed instead of claiming success from the exit code"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "PR #42 restyles the pricing card. I have before.png and after.png but no video. Add them to the PR.",
+      "expected_output": "Attach the before and after screenshots without asking for a video, then read the body back.",
+      "files": [],
+      "assertions": [
+        "Labels Before and After visibly in the body with ![...](./before.png) references, attaching both on the same gh pr edit 42 --body-file call",
+        "Does not ask for or require a video",
+        "Reads the body back with gh pr view 42 --json body and finds both image URLs"
+      ]
     }
   ],
   "routing": {
     "should_trigger": [
       "Update only the body of the existing PR. Its base is release/next, and this local checkout also has an unpushed experimental commit.",
-      "Create a PR for a partial implementation of ABC-123. The repository template requires Summary and Validation sections."
+      "Create a PR for a partial implementation of ABC-123. The repository template requires Summary and Validation sections.",
+      "PR #42 changes the settings page layout and ./demo.mp4 shows it. Rewrite the PR body to match the final diff and attach the recording.",
+      "I ran gh pr edit 42 --attach ./before.mp4 --attach ./after.mp4 and it exited 1 partway. Make sure the PR shows both recordings.",
+      "PR #42 restyles the pricing card. I have before.png and after.png but no video. Add them to the PR."
     ],
     "near_miss": [
       {
