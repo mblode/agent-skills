@@ -44,7 +44,7 @@
       "expected_output": "Post-merge watch: merge SHA from mergeCommit, the expected environments read from the first parent's watch/* statuses, the merge SHA's watch/* statuses polled with no fixed timeout, a stop at the first failure or error, and the result posted on the PR because the user asked for it.",
       "assertions": [
         "Reads the merge SHA with gh pr view 512 --json mergeCommit and does not stop because the PR is MERGED",
-        "Reads the merge commit's first parent (commits/{sha} --jq '.parents[0].sha') for watch/* statuses, and waits for every watch/* context on it or the commits just before it, so a parent still mid-deploy cannot end the watch after staging",
+        "Reads watch/* statuses on the base the PR merged onto (the merge commit's first parent, commits/{sha} --jq '.parents[0].sha'), and waits for every watch/* context on it or the commits just before it, so a base still mid-deploy cannot end the watch after staging",
         "Polls the watch/* commit statuses on the merge SHA with no fixed timeout or deadline",
         "Stops at the first watch/* status in failure or error and names its context, description, and target_url",
         "Posts one result comment on PR 512, and does not re-run a deploy, revert the merge, or push to the base branch"
@@ -56,7 +56,7 @@
       "prompt": "Babysit PR 77 until it's deployed. It merged a minute ago.",
       "expected_output": "The merge commit's first parent carries no watch/* commit status, so the run reports \"no post-merge watch\" and stops instead of waiting for a status that will never post.",
       "assertions": [
-        "Checks the merge commit's first parent for watch/* statuses rather than the merge SHA itself",
+        "Checks the base the PR merged onto (the merge commit's first parent) for watch/* statuses rather than the merge SHA itself",
         "Reports \"no post-merge watch\" and stops when that parent has no watch/* status",
         "Leaves no Monitor watch, cron job, or subscription running for PR 77",
         "Posts no comment on PR 77"
@@ -81,6 +81,17 @@
       "assertions": [
         "Reports each watch/* context's final state in the session",
         "Posts no comment on PR 640"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "PR 702 was merged with Rebase and merge (3 commits). Watch it through staging and production.",
+      "expected_output": "The merge SHA is the last of three rebased commits, so its first parent is the PR's own commit with no status. The run detects the rebase (a single-parent merge SHA whose author date equals the PR head's authoredDate), reads watch/* statuses on the commit three back, and waits for them instead of reporting no post-merge watch.",
+      "assertions": [
+        "Detects the rebase merge from the merge SHA's single parent and an author date equal to the PR head commit's authoredDate",
+        "Reads watch/* statuses on the commit 3 first-parent steps back from the merge SHA, not on its first parent",
+        "Does not report \"no post-merge watch\" when that base carries watch/* statuses"
       ],
       "files": []
     }

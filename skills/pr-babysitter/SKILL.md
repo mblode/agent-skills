@@ -25,7 +25,7 @@ Standing rules, every mode:
 - Resolve `scripts/fetch-comments.sh` relative to this installed SKILL.md. `${CLAUDE_SKILL_DIR}` below is a Claude Code adapter, not a portable environment variable.
 
 - No setup questions. Auto-detect the PR, the CI platforms, and the defaults (poll every 2 minutes, auto-resolve noise, no auto-merge), then start. Overrides arrive inline: "poll every 5 minutes", "enable auto-merge".
-- Skip closed PRs. Skip drafts (`isDraft`) unless asked. A merged PR goes on to the repo's post-merge watch: wait for the `watch/<env>` commit statuses on the merge SHA, stop at the first `failure` or `error`, and report the result (Post-merge Watch in `references/monitoring-setup.md`). If the merge commit's first parent has no `watch/*` status, report "no post-merge watch" and stop.
+- Skip closed PRs. Skip drafts (`isDraft`) unless asked. A merged PR goes on to the repo's post-merge watch: wait for the `watch/<env>` commit statuses on the merge SHA, stop at the first `failure` or `error`, and report the result (Post-merge Watch in `references/monitoring-setup.md`). If the base it merged onto (the merge commit's first parent, or for a rebase merge the commit before the PR's rebased commits) has no `watch/*` status, report "no post-merge watch" and stop.
 - Comment triage runs autonomously; the plan file is an audit trail, not an approval gate.
 - Speak only on transitions. A quiet poll says nothing.
 

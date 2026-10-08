@@ -85,7 +85,7 @@ while true; do
 done
 
 # Post-merge watch. The merge SHA has no watch/* status until its deploy and
-# checks finish, so only the first parent can show the repo runs a watch.
+# checks finish, so only the base it landed on can show the repo runs a watch.
 until sha=$(gh pr view "$PR" --repo "$OWNER/$REPO" --json mergeCommit \
     --jq '.mergeCommit.oid // empty' 2>/dev/null) && [ -n "$sha" ]; do
   sleep "$INTERVAL"
@@ -95,14 +95,30 @@ watch_contexts() {
   gh api "repos/$OWNER/$REPO/commits/$1/status?per_page=100" \
     --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]' 2>/dev/null
 }
-until parent=$(gh api "repos/$OWNER/$REPO/commits/$sha" --jq '.parents[0].sha' 2>/dev/null) \
-  && want=$(watch_contexts "$parent") \
-  && earlier=$(gh api "repos/$OWNER/$REPO/commits?sha=$parent&per_page=10" \
+until pr_info=$(gh pr view "$PR" --repo "$OWNER/$REPO" --json commits \
+    --jq '"\(.commits | length) \(.commits[-1].authoredDate)"' 2>/dev/null) \
+  && sha_info=$(gh api "repos/$OWNER/$REPO/commits/$sha" \
+    --jq '"\(.parents | length) \(.commit.author.date) \(.parents[0].sha)"' 2>/dev/null); do
+  sleep "$INTERVAL"
+done
+read -r n pr_date <<<"$pr_info"
+read -r parents sha_date base <<<"$sha_info"
+# A rebase merge of n commits leaves the merge SHA as the last rebased commit,
+# so its first parent is the PR's own and the base is n back. A rebase keeps
+# author dates; a squash stamps a new one.
+if [ "$parents" = 1 ] && [ "$n" -gt 1 ] && [ "$n" -lt 100 ] && [ "$sha_date" = "$pr_date" ]; then
+  until base=$(gh api "repos/$OWNER/$REPO/commits?sha=$sha&per_page=$((n + 1))" \
+      --jq ".[$n].sha // empty" 2>/dev/null) && [ -n "$base" ]; do
+    sleep "$INTERVAL"
+  done
+fi
+until want=$(watch_contexts "$base") \
+  && earlier=$(gh api "repos/$OWNER/$REPO/commits?sha=$base&per_page=10" \
     --jq '.[1:][].sha' 2>/dev/null); do
   sleep "$INTERVAL"
 done
 if [ "$want" = "[]" ]; then echo "TERMINAL: no post-merge watch"; exit 0; fi
-# The parent can be mid-deploy (watch/staging posted, watch/production not yet),
+# The base can be mid-deploy (watch/staging posted, watch/production not yet),
 # so the commits before it fill in the environments still to come.
 while read -r c; do
   [ -n "$c" ] || continue
@@ -139,7 +155,7 @@ Emitted lines:
 | `TERMINAL: PR CLOSED` | PR closed without merging; the script exits and the watch ends | Report the final summary, stop |
 | `MERGED: {sha}` | PR merged; the script moves on to the merge SHA's `watch/*` statuses | Report the merge, write the merge SHA to the state file |
 | `WATCH: {context=state ...}` | A `watch/*` status on the merge SHA changed | Report the transition ("watch/staging passed, waiting on watch/production") |
-| `TERMINAL: no post-merge watch` | The merge commit's first parent has no `watch/*` status | Report "no post-merge watch", stop |
+| `TERMINAL: no post-merge watch` | The base the PR merged onto has no `watch/*` status | Report "no post-merge watch", stop |
 | `TERMINAL: WATCH PASSED {context=state ...}` / `TERMINAL: WATCH FAILED {context=state ...}` | Every expected `watch/*` context passed, or one reads `failure` or `error`; the script exits | Report per [Post-merge Watch](#post-merge-watch), stop |
 
 Transient `gh` failures skip the iteration and retry next interval; they never emit.
@@ -178,7 +194,7 @@ Auto-merge: no
 A merged PR is followed, not dropped, and phases 2-5 no longer run on it. A repo with a post-merge watch posts one `watch/<env>` commit status per environment (`watch/staging`, `watch/production`) on the merge SHA, and only after that environment's deploy and checks finish. There is no fixed timeout: wait for the status.
 
 1. Merge SHA: `gh pr view {N} --json mergeCommit --jq .mergeCommit.oid`.
-2. Does the repo run a watch? Read the first parent, `gh api repos/{owner}/{repo}/commits/{sha} --jq '.parents[0].sha'`, then its `watch/*` contexts: `gh api "repos/{owner}/{repo}/commits/{parent}/status?per_page=100" --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]'`. The merge SHA cannot answer this, because nothing posts there until its own deploy finishes. An empty list: report "no post-merge watch" and stop. Otherwise wait for every `watch/*` context found on the parent or the nine commits before it (`gh api "repos/{owner}/{repo}/commits?sha={parent}&per_page=10"`): the parent can be mid-deploy, with `watch/staging` posted and `watch/production` not yet, and its list alone would call the watch passed after staging.
+2. Does the repo run a watch? Find the base the PR merged onto: the first parent, `gh api repos/{owner}/{repo}/commits/{sha} --jq '.parents[0].sha'`, except after a rebase merge. There the merge SHA is the last of the PR's n rebased commits, so its first parent is the PR's own commit and the base is n commits back (`commits?sha={sha}&per_page={n+1}`, the last entry). A single-parent merge SHA whose author date equals the PR head commit's `authoredDate` is a rebase: a rebase keeps author dates, a squash stamps a new one. Then read the base's `watch/*` contexts: `gh api "repos/{owner}/{repo}/commits/{base}/status?per_page=100" --jq '[.statuses[] | select(.context | startswith("watch/")) | .context]'`. The merge SHA cannot answer this, because nothing posts there until its own deploy finishes. An empty list: report "no post-merge watch" and stop. Otherwise wait for every `watch/*` context found on the base or the nine commits before it (`gh api "repos/{owner}/{repo}/commits?sha={base}&per_page=10"`): the base can be mid-deploy, with `watch/staging` posted and `watch/production` not yet, and its list alone would call the watch passed after staging.
 3. Poll `gh api "repos/{owner}/{repo}/commits/{sha}/status?per_page=100"` (the latest status per context) every interval. Stop at the first `failure` or `error` on any `watch/*` context. Done when every expected context reads `success`. One environment passing while another is still out is a transition: report it.
 4. Report the result: each context's state, and for a failure its `description` and `target_url`. Post it as one comment on the PR only when the user authorized PR comments (the standing rule in SKILL.md); otherwise report it in the session. "No post-merge watch" is a session line only, never a PR comment.
 5. Write the merge SHA and the watch result to the state file, then stop the mechanism per [Stopping](#stopping).
