@@ -131,7 +131,7 @@ gh pr view 42 --json body   # always, even after a non-zero exit
 ```
 
 - **Order.** `gh pr edit --body-file` replaces the body, uploaded URL included. Attach after the last rewrite, or pass `--attach` on the same call as the final `--body-file` (the attachment is appended to the new body). Any later rewrite copies the uploaded URL from the read-back into the new body file.
-- **Read back.** The body must hold a `https://github.com/user-attachments/assets/...` URL on its own line, which GitHub renders as a video player. If some uploads fail, gh still edits the PR with the ones that landed and exits non-zero, so read the body before retrying: re-attach only what is missing, and report what landed.
+- **Read back.** The body must hold an uploaded `/user-attachments/assets/...` URL on its own line (host `github.com`, or `SUBDOMAIN.ghe.com` on data-residency GHE Cloud), which GitHub renders as a video player. If some uploads fail, gh still edits the PR with the ones that landed and exits non-zero, so read the body before retrying: re-attach only what is missing, and report what landed.
 
 ## Gotchas
 
@@ -142,7 +142,7 @@ gh pr view 42 --json body   # always, even after a non-zero exit
 - A branch with an open PR fails `gh pr create` with `a pull request for branch ... into branch main already exists`. `gh pr view --json state` first; `OPEN` means `gh pr edit`. A `MERGED` or `CLOSED` result is a stale PR, so create a new one.
 - Derive the Linear ID from the branch, uppercased: Linear's default branch format is `username/abc-123-title-slug`, so `mblode/abc-123-add-auth` gives `ABC-123`. Never guess an ID: Linear links the PR to whatever ID the title contains, and a wrong one moves someone else's issue.
 - Plain `git diff` omits committed changes. Use the actual PR base with three-dot diff; do not assume `main`, especially for stacked PRs.
-- `--attach` needs gh 2.99.0 or later (`gh --version`), a user token (an installation `ghs_` token cannot upload), and github.com or GHE Cloud; GHES has no attachments. When any of these is missing, say the recording could not be attached and where it is, rather than linking a local path in the body.
+- `--attach` needs gh 2.99.0 or later (`gh --version`), a user token (an installation `ghs_` token cannot upload), push access to the repository (a contributor's PR from a fork can be created but not given attachments), and github.com or GHE Cloud; GHES has no attachments. When any of these is missing, say the recording could not be attached and where it is, rather than linking a local path in the body.
 - Restructure commits before the first push. Force-pushing a rewritten branch under an open PR marks existing inline comments "outdated" and the reviewer loses their thread.
 
 ## Related skills
