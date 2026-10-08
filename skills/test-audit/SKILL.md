@@ -45,7 +45,7 @@ What an audit or campaign hunts for:
 
 ## Misplaced and skipped tests
 
-Two more finding kinds. Neither is a removal candidate, and neither counts toward the deletion target.
+Two more finding kinds. Neither is a removal candidate, and a move or an unskip is not a deletion toward the target.
 
 - **Misplaced:** the test lives in one owner's suite but only exercises another's, such as a slug-format check in `routes/posts.test.ts` that never touches the route and only calls `lib/slug.ts`. Move it to the canonical owner's suite, as "Edit shape" says for retained regressions.
 - **Skipped:** the test is disabled, such as `it.skip('prorates refunds on downgrade')`, `xit`, `@pytest.mark.skip`, or `t.Skip()`. Unskip it and run it first; never remove it on sight. If it passes, leave it enabled and judge it like any other test. If it fails, treat it as a possible product bug under the retention bar: reproduce it and fix the owner. A conditional skip with a real platform or environment reason is not a finding.

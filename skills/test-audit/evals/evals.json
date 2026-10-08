@@ -32,14 +32,14 @@
     {
       "id": 4,
       "prompt": "Audit the tests in packages/payments. Some look like junk, routes/checkout.test.ts has a few cases that only call lib/currency.ts, and refunds.test.ts has three it.skip blocks nobody remembers adding.",
-      "expected_output": "Junk deletions with evidence as usual. The currency cases move to the lib/currency.ts suite instead of being deleted. Each it.skip block is unskipped and run before any judgement; a passing one stays enabled and is judged like any other test, a failing one is reproduced and treated as a possible product bug. Neither kind counts toward the deletion target.",
+      "expected_output": "Junk deletions with evidence as usual. The currency cases move to the lib/currency.ts suite instead of being deleted. Each it.skip block is unskipped and run before any judgement; a passing one stays enabled and is judged like any other test, a failing one is reproduced and treated as a possible product bug. A move or an unskip is not a deletion toward the target.",
       "files": [],
       "assertions": [
         "Moves the currency cases to the lib/currency.ts suite rather than deleting them",
         "Unskips and runs each skipped test before judging it",
         "Does not list a skipped test as a removal candidate on sight",
         "Treats a skipped test that fails once unskipped as a possible product bug and reproduces it",
-        "Does not count moved or unskipped tests toward the deletion target"
+        "Does not count a move or an unskip as a deletion toward the target"
       ]
     }
   ],
