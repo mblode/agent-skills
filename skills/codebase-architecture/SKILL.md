@@ -69,7 +69,7 @@ Load only when the condition applies.
 | [references/wayfinding.md](references/wayfinding.md) | Harden | Agents cannot find things, or keep re-deriving the same path |
 | [references/contagion-markers.md](references/contagion-markers.md) | Harden | The repo has legacy, generated, dual-path, or deliberately simplified code |
 | [references/verification-tiers.md](references/verification-tiers.md) | Harden | Defining which commands an agent should run, and when |
-| [references/agent-runtime.md](references/agent-runtime.md) | Harden | Configuring the post-edit hook, the permission allowlist, or a job where an agent drafts fixes unattended |
+| [references/agent-runtime.md](references/agent-runtime.md) | Harden | Configuring the post-edit hook, the permission allowlist, or a job where an agent drafts fixes or triages alerts unattended |
 
 ## Design mode (new codebase)
 
@@ -115,7 +115,7 @@ Goal: domain-informed deepening, not a rewrite. Load [references/deepening-exist
 
 Two halves: **guardrails** stop the wrong thing landing, **wayfinding** makes the right thing cheap to find. Both exist because agents arrive by grep, not by reading docs, so the warning has to live where they land and the rule has to be an exit code rather than a sentence someone might recall.
 
-Reach for the strongest mechanism first: structure, then lint and CI, then prose, then human review; every review comment is a missing lint rule ([references/enforcement-ladder.md](references/enforcement-ladder.md)).
+Reach for the strongest mechanism first: structure, then lint and CI, then prose, then human review; every review comment, incident, or repeated mistake is a missing check ([references/enforcement-ladder.md](references/enforcement-ladder.md)).
 
 Steps 1 to 3 always run. Steps 4 to 6 run only when their condition holds, and a request to add one check stops at step 3. Running all six for every request loads most of the bundle and is the failure this mode is most prone to.
 
@@ -124,7 +124,7 @@ Steps 1 to 3 always run. Steps 4 to 6 run only when their condition holds, and a
 3. **Install each check:** pick an enforcement rung for the violations that already exist ([references/enforcement-ladder.md](references/enforcement-ladder.md)), ship it green, then prove it bites (run it, break it on purpose, watch it fail with a message naming the fix, revert). Wire it into both a pre-commit hook and CI.
 4. **Wayfinding** per [references/wayfinding.md](references/wayfinding.md): naming and locality, the add-a-new-X recipe file, the trust-labeled docs index, one canonical instruction file.
 5. **Contagion markers** per [references/contagion-markers.md](references/contagion-markers.md): anything an agent must not copy or must not edit gets a greppable marker at the code site naming what to use instead.
-6. **Runtime ergonomics:** verification tiers in [references/verification-tiers.md](references/verification-tiers.md); session hooks, the permission allowlist, and unattended fix jobs in [references/agent-runtime.md](references/agent-runtime.md); review gating at rung 4 of the enforcement order.
+6. **Runtime ergonomics:** verification tiers in [references/verification-tiers.md](references/verification-tiers.md); session hooks, the permission allowlist, unattended fix jobs, and alert triage in [references/agent-runtime.md](references/agent-runtime.md); review gating at rung 4 of the enforcement order.
 
 ## Validation loop
 
