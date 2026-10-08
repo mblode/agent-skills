@@ -1,6 +1,6 @@
 ---
 name: codebase-architecture
-description: Designs module interfaces, deepens shallow modules, and installs enforceable repository guardrails and agent wayfinding. Use when asked to "design the architecture", "simplify our modules", "find shallow modules", "harden the repo", or "gate an unattended agent fix job".
+description: Designs module interfaces, deepens shallow modules, and installs enforceable repository guardrails and agent wayfinding. Use when asked to "design the architecture", "simplify our modules", "find shallow modules", "harden the repo", "gate an unattended agent fix job", or "triage alerts with an agent".
 ---
 
 # Codebase Architecture
