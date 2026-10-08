@@ -29,7 +29,7 @@
       "expected_output": "An unattended fix job whose gates run in the workflow, not the prompt: reproduce first, a test in the diff, protected paths, check and test re-run outside the model, a read-only agent job separate from the job that pushes, caps with fingerprint dedupe, isolated settings with a budget, and a draft PR a person merges.",
       "files": [],
       "assertions": [
-        "Refuses a code fix with no test, and any diff touching CI, agent settings, infrastructure, or instruction files; names the one exception, an alert-triage draft that changes only one alert definition and that a person still merges",
+        "Refuses a code fix with no test and any diff touching CI, agent settings, infrastructure, or instruction files, naming the one exception: an alert-triage draft that changes only one alert definition",
         "Re-runs the repo's check and test commands in the workflow rather than trusting the agent's report",
         "Separates the job that runs the agent from the only job allowed to push",
         "Opens a draft PR and merges nothing automatically"
