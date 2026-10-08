@@ -126,12 +126,16 @@ Visuals are optional. When the diff changes what a user sees (markup, styles, co
 
 ```bash
 gh pr edit 42 --attach ./demo.mp4   # after the last body rewrite
-gh pr edit 42 --attach './before.png#Before' --attach './after.png#After'
+
+# Before and after: label them in the body, where `**Before**` sits above
+# `![Before](./before.png)`, and attach on the same call so gh swaps each
+# local path for its uploaded URL. A `#Before` suffix is only alt text.
+gh pr edit 42 --body-file /tmp/pr-body.md --attach ./before.png --attach ./after.png
 
 gh pr view 42 --json body   # always, even after a non-zero exit
 ```
 
-- **Order.** `gh pr edit --body-file` replaces the body, uploaded URL included. Attach after the last rewrite, or pass `--attach` on the same call as the final `--body-file` (the attachment is appended to the new body). Any later rewrite copies the uploaded URL from the read-back into the new body file.
+- **Order.** `gh pr edit --body-file` replaces the body, uploaded URL included. Attach after the last rewrite, or pass `--attach` on the same call as the final `--body-file` (gh replaces a local path the body references with the uploaded URL, and appends any other attachment). Any later rewrite copies the uploaded URL from the read-back into the new body file.
 - **Read back.** The body must hold an uploaded `/user-attachments/assets/...` URL for each file (host `github.com`, or `SUBDOMAIN.ghe.com` on data-residency GHE Cloud): a video as a bare URL on its own line, which GitHub renders as a player, and an image inside `![alt](...)`. If some uploads fail, gh still edits the PR with the ones that landed and exits non-zero, so read the body before retrying: re-attach only what is missing, and report what landed.
 
 ## Gotchas

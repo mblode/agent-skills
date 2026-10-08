@@ -51,7 +51,7 @@
       "expected_output": "Attach the before and after screenshots without asking for a video, then read the body back.",
       "files": [],
       "assertions": [
-        "Attaches before.png and after.png with gh pr edit 42 --attach, labelled Before and After",
+        "Labels Before and After visibly in the body with ![...](./before.png) references, attaching both on the same gh pr edit 42 --body-file call",
         "Does not ask for or require a video",
         "Reads the body back with gh pr view 42 --json body and finds both image URLs"
       ]
