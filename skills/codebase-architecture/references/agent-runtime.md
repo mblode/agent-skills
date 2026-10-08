@@ -35,12 +35,12 @@ Prove the gates the same way as any other check: feed the job an issue that is a
 
 ## Alert triage
 
-A job where an agent reads a fired monitoring alert, with no person watching, and decides what it is before anything is fixed. An alert is not yet a failure, so triage has its own verdicts, parsed from a fixed first line like the fix job's; anything else counts as a real failure, so a bad parse can never silence an alert.
+A job where an agent reads a fired monitoring alert, with no person watching, and decides what it is before anything is fixed. An alert is not yet a failure, so triage has its own verdicts, parsed from a fixed first line like the fix job's; anything else counts as a real failure, so a bad parse can never silence an alert. The triage job runs under the fix job's other rules: read-only split from write, isolated settings, untrusted evidence, caps and dedupe.
 
-- **Real failure.** The alert caught a real defect. Open an issue for the fix job above, which runs it under every rule there, starting with its own reproduce step.
-- **Alert is wrong.** The system is healthy and the alert's definition (its threshold, window, or query) is wrong. Open a draft PR that changes only that one alert's definition, with its recent datapoints in the body so the reviewer sees what it fires on. This is the one exception to the fix job's test rule and to infrastructure being a protected path; the workflow refuses the diff if it touches anything besides that alert's definition, and a person still merges it.
-- **Noise.** A one-off blip that needs no change. Close it with the report as a comment. A second Noise on the same alert fingerprint is Alert is wrong.
+- **Real failure.** The alert caught a real defect. Open an issue carrying the alert's fingerprint for the fix job above, which runs it under every rule there, starting with its own reproduce step.
+- **Alert is wrong.** The system is healthy and the alert's definition (its threshold, window, or query) is wrong. Open a draft PR that changes only that one alert's definition, with its recent datapoints in the body so the reviewer sees what it fires on, including that it would still have fired on the last real failure. Deleting, disabling, or muting the alert is never Alert is wrong. This is the one exception to the fix job's test rule and to infrastructure being a protected path; the workflow refuses the diff if it touches anything besides that alert's definition, and a person still merges it.
+- **Noise.** A one-off blip that needs no change. Resolve the alert with the report attached. A second Noise on the same fingerprint within the dedupe window is Alert is wrong.
 
 Route every alert to one quiet channel, where every alert is worth a look. An alert that keeps firing with nothing to do trains people to skim the channel, and the next real failure lands in the noise; Alert is wrong is how the channel stays quiet.
 
-Prove it with a flapping alert (a draft touching only its definition) and an Alert is wrong diff that also edits a workflow (refused, no PR).
+Prove it with a flapping alert (a draft touching only its definition), an Alert is wrong diff that also edits a workflow (refused, no PR), and a run that returns nothing (an issue opens).
