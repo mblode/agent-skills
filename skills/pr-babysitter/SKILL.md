@@ -6,7 +6,7 @@ compatibility: Requires a Git checkout, authenticated GitHub CLI, and jq. Contin
 
 # PR Babysitter
 
-- **IS:** keeping one open PR moving: conflicts, CI across GitHub Actions/Buildkite/Vercel/Fly.io, inbound review comments, and merge readiness, as a background monitor or as one-shot fixes.
+- **IS:** keeping one open PR moving: conflicts, CI across GitHub Actions/Buildkite/Vercel/Fly.io, inbound review comments, and merge readiness, then following the merge through the repo's post-merge watch, as a background monitor or as one-shot fixes.
 - **IS NOT:** opening or editing the PR (`pr-creator`), reviewing or fixing the diff itself (`tidy`), or npm release PRs (`autoship` watches its own release CI; never babysit a release or Version Packages PR it drives).
 
 ## Mode Selection
@@ -25,7 +25,7 @@ Standing rules, every mode:
 - Resolve `scripts/fetch-comments.sh` relative to this installed SKILL.md. `${CLAUDE_SKILL_DIR}` below is a Claude Code adapter, not a portable environment variable.
 
 - No setup questions. Auto-detect the PR, the CI platforms, and the defaults (poll every 2 minutes, auto-resolve noise, no auto-merge), then start. Overrides arrive inline: "poll every 5 minutes", "enable auto-merge".
-- Skip closed or merged PRs. Skip drafts (`isDraft`) unless asked.
+- Skip closed PRs. Skip drafts (`isDraft`) unless asked. A merged PR goes on to the repo's post-merge watch: wait for the `watch/<env>` commit statuses on the merge SHA, stop at the first `failure` or `error`, and report the result (Post-merge Watch in `references/monitoring-setup.md`). If the merge commit's first parent has no `watch/*` status, report "no post-merge watch" and stop.
 - Comment triage runs autonomously; the plan file is an audit trail, not an approval gate.
 - Speak only on transitions. A quiet poll says nothing.
 
@@ -33,7 +33,7 @@ Standing rules, every mode:
 
 | File | Read when |
 |------|-----------|
-| `references/monitoring-setup.md` | Phase 1 and Stopping: watch ladder, Monitor watch script, cron fallback, state file format, defaults, stop and lifecycle |
+| `references/monitoring-setup.md` | Phase 1, a merged PR, and Stopping: watch ladder, Monitor watch script, cron fallback, post-merge watch, state file format, defaults, stop and lifecycle |
 | `references/merge-conflicts.md` | Phase 2: `mergeStateStatus` table, rebase workflow, lockfile and generated-file resolution, abort criteria |
 | `references/ci-platforms.md` | Phase 3: `gh pr checks` fields and exit codes, per-platform log and retry commands, Buildkite auth chain, failure classification |
 | `scripts/fetch-comments.sh` | Comment triage: run `${CLAUDE_SKILL_DIR}/scripts/fetch-comments.sh {N}` first. One JSON document of every review, thread, and issue comment; `--help` prints the output shape |
@@ -57,6 +57,7 @@ PR babysit progress:
 - [ ] Phase 3: CI check (diagnose, fix, gate, push)
 - [ ] Phase 4: Comment check (triage new comments)
 - [ ] Phase 5: Readiness check (report transitions, write state file)
+- [ ] After merge: post-merge watch until watch/* passes, fails, or is absent
 ```
 
 ### Phase 1: Initialize
@@ -97,7 +98,7 @@ Bare `--force` is never used. A refused lease means someone else pushed: abort a
 
 1. Count open threads and threads awaiting my reply (newest comment not mine, in any resolution state, minus a reviewer who resolved their own last comment).
 2. Compare both counts and the newest `updated_at` across review and issue comments against the state file. An edited-in-place bot comment and a reply on a resolved thread both have to register.
-3. Any increase: notify "N new review comments on PR #{N}" and run the Comment Triage Workflow.
+3. Any increase: run the Comment Triage Workflow, then notify "N new review comments on PR #{N}", counting only comments that are not noise. A poll whose new comments are all noise (such as the sticky `<!-- pr-evidence -->` comment, edited on every push) is a quiet poll.
 
 ### Phase 5: Readiness Check
 

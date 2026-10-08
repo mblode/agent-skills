@@ -239,8 +239,9 @@ Always ignore, on a positive marker match only; no actionable findings:
 | `vercel[bot]` | Body starts with `[vc]: #` | Deployment status tables with base64 metadata |
 | `renovate[bot]` | Author match | Dependency update descriptions, artifact failures |
 | `dependabot[bot]` | Author match | Dependency bump descriptions, `@dependabot` commands |
+| `github-actions[bot]` (CI `evidence` job) | `<!-- pr-evidence -->` in body | One sticky comment with the PR's UI recording, edited on every push |
 
-Match the **content marker**, not the login: the Linear bot's login has already drifted once (from `linear[bot]`) while `<!-- linear-linkback -->` survived.
+Match the **content marker**, not the login: the Linear bot's login has already drifted once (from `linear[bot]`) while `<!-- linear-linkback -->` survived. `github-actions[bot]` is shared, so only the `<!-- pr-evidence -->` marker makes its comment noise; the same login's DangerJS comment is a reviewer.
 
 Removed from this table on purpose: `chatgpt-codex-connector[bot]` is an active reviewer above. Only its zero-finding and rate-limit bodies are noise.
 

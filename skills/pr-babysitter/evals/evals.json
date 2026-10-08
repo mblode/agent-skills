@@ -37,6 +37,42 @@
         "Reports 'ready to merge' without calling gh pr merge"
       ],
       "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "PR 512 just merged. Keep watching it through staging and production, and post the result on the PR when it's done.",
+      "expected_output": "Post-merge watch: merge SHA from mergeCommit, the expected environments read from the first parent's watch/* statuses, the merge SHA's watch/* statuses polled with no fixed timeout, a stop at the first failure or error, and the result posted on the PR because the user asked for it.",
+      "assertions": [
+        "Reads the merge SHA with gh pr view 512 --json mergeCommit and does not stop because the PR is MERGED",
+        "Reads the merge commit's first parent (commits/{sha} --jq '.parents[0].sha') and takes its watch/* contexts as the environments to wait for",
+        "Polls the watch/* commit statuses on the merge SHA with no fixed timeout or deadline",
+        "Stops at the first watch/* status in failure or error and names its context, description, and target_url",
+        "Posts one result comment on PR 512, and does not re-run a deploy, revert the merge, or push to the base branch"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Babysit PR 77 until it's deployed. It merged a minute ago.",
+      "expected_output": "The merge commit's first parent carries no watch/* commit status, so the run reports \"no post-merge watch\" and stops instead of waiting for a status that will never post.",
+      "assertions": [
+        "Checks the merge commit's first parent for watch/* statuses rather than the merge SHA itself",
+        "Reports \"no post-merge watch\" and stops when that parent has no watch/* status",
+        "Leaves no Monitor watch, cron job, or subscription running for PR 77",
+        "Posts no comment on PR 77"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Triage the new comments on PR 230. The only one since the last pass is from github-actions[bot]; its body starts with <!-- pr-evidence --> and holds the UI recording from the CI evidence job.",
+      "expected_output": "The comment matches the <!-- pr-evidence --> noise marker, so it is ignored with ignore-noise-marker: no finding, no fix item, no reply, and no new-comment notification.",
+      "assertions": [
+        "Classifies the github-actions[bot] comment carrying <!-- pr-evidence --> as noise with the reason ignore-noise-marker",
+        "Reports zero findings and opens no fix item for it",
+        "Posts no reply to it and does not announce it as a new review comment"
+      ],
+      "files": []
     }
   ]
 }
