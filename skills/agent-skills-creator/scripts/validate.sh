@@ -198,13 +198,14 @@ validate_skill() {
   bad_names=""
   while IFS= read -r -d '' f; do
     b="$(basename "$f" .md)"
-    if [ "$b" = "SKILL" ] || [ "$b" = "_sections" ] || [ "$b" = "_template" ]; then continue; fi
+    # NOTICE.md carries legal attribution, not authored workflow content.
+    if [ "$b" = "SKILL" ] || [ "$b" = "NOTICE" ] || [ "$b" = "_sections" ] || [ "$b" = "_template" ]; then continue; fi
     printf '%s' "$b" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || bad_names="$bad_names ${b// /<space>}"
   done < <(find "$skill_dir" -name '*.md' -print0 2>/dev/null)
   check house kebab-case-filenames "not kebab-case:$bad_names" "$(printf '%s' "$bad_names" | wc -w | tr -d ' ')"
 
   # Root-level track files belong to the simple/hub pattern only.
-  root_md=$(find "$skill_dir" -maxdepth 1 -name '*.md' -not -name 'SKILL.md' 2>/dev/null | wc -l | tr -d ' ')
+  root_md=$(find "$skill_dir" -maxdepth 1 -name '*.md' -not -name 'SKILL.md' -not -name 'NOTICE.md' 2>/dev/null | wc -l | tr -d ' ')
   if [ "$root_md" -eq 0 ]; then
     record PASS house root-md-hub-only ""
   elif grep -qiE '^#{2,3} (modes|tracks)' "$md"; then

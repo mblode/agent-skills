@@ -89,6 +89,20 @@ class ValidatorContract(unittest.TestCase):
             file.write('\nSee lost.md in the index.\n')
         self.assertEqual(self.run_validator()[0], 0)
 
+    def test_legal_notice_is_not_a_workflow_track(self):
+        (self.skill / 'NOTICE.md').write_text('MIT License\n\nCopyright Example\n')
+        self.md.write_text(self.md.read_text() + '\nLicense attribution: [notice](NOTICE.md).\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 0, rows)
+
+        # A notice does not grant an exemption to ordinary root content.
+        (self.skill / 'GUIDE.md').write_text('# Guide\n')
+        self.md.write_text(self.md.read_text() + '\nRead [guide](GUIDE.md).\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 1)
+        for check in ['kebab-case-filenames', 'root-md-hub-only']:
+            self.assertTrue(any(r[1] == 'FAIL' and r[3] == check for r in rows), rows)
+
     def test_eval_fixture_markdown_is_exempt_from_reachability(self):
         fixture = self.skill / 'evals/files/profile/slack.md'
         fixture.parent.mkdir(parents=True)
