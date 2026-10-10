@@ -103,6 +103,18 @@ class ValidatorContract(unittest.TestCase):
         for check in ['kebab-case-filenames', 'root-md-hub-only']:
             self.assertTrue(any(r[1] == 'FAIL' and r[3] == check for r in rows), rows)
 
+    def test_notice_cannot_make_workflow_guidance_reachable(self):
+        reference = self.skill / 'references/hidden.md'
+        reference.parent.mkdir()
+        reference.write_text('# Hidden workflow\n')
+        (self.skill / 'NOTICE.md').write_text('MIT attribution mentions hidden.md.\n')
+        self.md.write_text(self.md.read_text() + '\nLicense attribution: [notice](NOTICE.md).\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 1)
+        self.assertTrue(any(r[1] == 'FAIL' and r[3] == 'all-md-reachable' for r in rows), rows)
+        self.md.write_text(self.md.read_text() + '\nRead [workflow](references/hidden.md).\n')
+        self.assertEqual(self.run_validator()[0], 0)
+
     def test_eval_fixture_markdown_is_exempt_from_reachability(self):
         fixture = self.skill / 'evals/files/profile/slack.md'
         fixture.parent.mkdir(parents=True)

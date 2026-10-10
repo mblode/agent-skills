@@ -153,6 +153,7 @@ validate_skill() {
     # unreachable even when SKILL.md named it. -F so a dot is literal.
     for root_md in "$skill_dir"/*.md; do
       [ -f "$root_md" ] || continue
+      [ "$(basename "$root_md")" = "NOTICE.md" ] && continue
       if grep -qF -- "$base" "$root_md"; then
         named=1
         break
