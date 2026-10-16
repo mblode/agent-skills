@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audience preferences</title>
+<style>body{font:16px system-ui;margin:32px}label{display:flex;align-items:center;gap:8px}input{width:20px;height:20px} @media(max-width:600px){body[data-revision="head"] input{transform:translateY(18px)}}</style>
+<body><h1>Audience preferences</h1><label><input type="checkbox">Send me audience updates</label><button>Continue</button>
+<script>document.body.dataset.revision=new URLSearchParams(location.search).get('revision')||'head';document.querySelector('button').onclick=()=>document.querySelector('h1').textContent='Preferences saved';</script></body></html>

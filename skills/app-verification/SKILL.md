@@ -80,6 +80,7 @@ Load only when the condition applies.
 | [references/feature-map-format.md](references/feature-map-format.md) | Both | Writing or reading a feature file, renaming a feature id, or building the map's completeness check |
 | [references/verification-ladder.md](references/verification-ladder.md) | Both | Choosing a method for a path, marking a path `manual`, or deciding whether a native/desktop path needs computer use |
 | [references/worktree-isolation.md](references/worktree-isolation.md) | Both | Setting up or checking port, database, env-file, and browser-profile isolation, or seeding test accounts and a sign-in shortcut |
+| [references/reusable-checks.md](references/reusable-checks.md) | Both | Adding repeatable API requests, scenario assertions, checked cleanup, or capture adapters |
 | [references/bug-handoff.md](references/bug-handoff.md) | Maintain | Investigating a bug report |
 
 ## Gotchas

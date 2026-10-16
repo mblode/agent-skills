@@ -75,11 +75,11 @@ A proof is a claim, and like any claim it needs to say what it excludes as clear
 
 Aggregate per user path, not per check:
 
-- **Covered** only when at least one of its checks ran and every check that ran passed.
+- **Covered** only when at least one of its checks asserted the path's expected result and every check that ran passed. Action-only steps do not cover a scenario; record them as unchecked, mapping to skipped coverage with a reason.
 - **Failed** when any check that ran failed; the entry names the command and exit code.
-- **Skipped**, with the reason, when none of its checks ran (no check listed, `--fast` dropped it, or the method is one `verify` does not drive). A check that did not run is listed as skipped even when another method covered the same path, so the record shows what was not driven.
+- **Skipped**, with the reason, when none of its checks asserted the expected result (no check listed, actions only, `--fast` dropped it, or the method is one `verify` does not drive). A check that did not run is listed as skipped even when another method covered the same path, so the record shows what was not driven.
 
-`ok` is false on any failed check or any uncovered source file; exempt files never flip it. `dirty` records whether the working tree had uncommitted changes when it ran, so a reader can tell a proof of `sha` from a proof of `sha` plus local edits. `mode` is `fast` or `full`. Never hand-edit a proof; re-run `verify`.
+`ok` is false on any failed check, failed or unverified cleanup, or any uncovered source file; exempt files never flip it. `dirty` records whether the working tree had uncommitted changes when it ran, so a reader can tell a proof of `sha` from a proof of `sha` plus local edits. `mode` is `fast` or `full`. Never hand-edit a proof; re-run `verify`.
 
 ## Bug investigation
 
