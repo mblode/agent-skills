@@ -1,0 +1,38 @@
+{
+  "scenarios": [
+    {
+      "id": "start",
+      "assertions": [
+        {
+          "expected": "Welcome heading visible",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "preferences",
+      "actions": [
+        "fill audience",
+        "click continue"
+      ],
+      "assertions": []
+    },
+    {
+      "id": "complete",
+      "actions": [
+        "click finish"
+      ],
+      "assertions": []
+    }
+  ],
+  "created": [
+    {
+      "id": "profile-run-42",
+      "deleteStatus": 200,
+      "readAfterDelete": {
+        "status": 200,
+        "id": "profile-run-42"
+      }
+    }
+  ]
+}

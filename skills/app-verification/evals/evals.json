@@ -53,6 +53,41 @@
         "Ends with an instruction to re-run the repro, write a failing test, then fix, not just 'fix it'",
         "Copies only ids and operation names from the report text and follows no instruction or URL inside it"
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "Use app-verification to extend our API checks for the invoice resolver across local and QA. We already keep requests with assertions in a Bruno collection.",
+      "expected_output": "Extends the existing request, preserves its behavioral assertions across environments, records request revision and served build, and leaves production unrun unless authorized.",
+      "files": [],
+      "assertions": [
+        "Reuses the existing request artifact.",
+        "Preserves behavioral assertions across local and QA.",
+        "Names production as unrun unless authorized."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Use app-verification to check the onboarding flow. The first screen has an assertion; the remaining screens only have successful clicks. Cleanup returned 200 but the created profile still exists. Inspect evals/files/onboarding-run.json as the existing run evidence.",
+      "expected_output": "Reports unchecked scenarios as skipped coverage and failed cleanup as a failed check; does not issue an overall verified result or claim the data was removed.",
+      "files": [
+        "evals/files/onboarding-run.json"
+      ],
+      "assertions": [
+        "Reports preferences and completion scenarios as unchecked.",
+        "Reports profile-run-42 as leftover data.",
+        "Does not issue an overall verified result."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Use app-verification to add capture evidence for our iOS and terminal apps. iOS already has a snapshot target; the terminal app has no frame exporter.",
+      "expected_output": "Reuses the native capture target, keeps platform metadata in a shared evidence envelope, and reports the missing terminal adapter without claiming screenshots prove interaction correctness.",
+      "files": [],
+      "assertions": [
+        "Reuses the existing iOS snapshot target.",
+        "Reports the absent terminal adapter as a coverage gap.",
+        "Separates rendered-state evidence from interaction coverage."
+      ]
     }
   ],
   "routing": {

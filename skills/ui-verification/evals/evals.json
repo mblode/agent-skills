@@ -50,6 +50,42 @@
         "Names the missing ordering condition",
         "Proposes a controlled overlapping-request probe"
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "Review the onboarding checkbox change at mobile and desktop widths. Functional tests pass, but the mobile checkbox is visibly offset from its label. Capture the base and branch and tell me what changed. Serve evals/files/onboarding.html locally; use ?revision=base and ?revision=head.",
+      "expected_output": "Opens the captured images, describes the unexpected alignment defect separately from functional results, and records matched capture conditions.",
+      "files": [
+        "evals/files/onboarding.html"
+      ],
+      "assertions": [
+        "Reports the mobile checkbox alignment defect from inspected image evidence.",
+        "Records the revision of each capture.",
+        "Does not use passing functional tests as proof of visual correctness."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Verify the loading and loaded stories for the billing panel. Both screenshots are identical because the loading story never activates its fixture. Serve evals/files/billing.html locally with ?state=loading and ?state=loaded.",
+      "expected_output": "Investigates the duplicate pixels, checks the intended state, reports a capture or fixture problem, and reruns after correcting it rather than declaring the product broken.",
+      "files": [
+        "evals/files/billing.html"
+      ],
+      "assertions": [
+        "Investigates whether the loading fixture activated.",
+        "Reports the duplicate state as a harness problem rather than a confirmed product defect.",
+        "Records whether the corrected capture reached the loading state."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Compare the two theme captures. They intentionally render the same monochrome logo. There is no base capture for this new component.",
+      "expected_output": "Explains the intentional duplicate, inspects the new component directly, and does not manufacture a baseline or call identical pixels a failure.",
+      "files": [],
+      "assertions": [
+        "Explains why the logo captures are intentionally identical.",
+        "Reports after-only evidence without inventing a baseline."
+      ]
     }
   ],
   "routing": {
@@ -60,7 +96,9 @@
       "Did the fix actually work? Re-check the layout shift on the dashboard.",
       "Capture both themes on the settings page so I can see the dark-mode contrast.",
       "Check the contrast on this page for real, not from the hex values.",
-      "The audit says the modal doesn't restore focus. Reproduce it."
+      "The audit says the modal doesn't restore focus. Reproduce it.",
+      "Review the before and after screenshots of this UI change.",
+      "The loading and loaded story captures look identical. Verify that they reached their intended states."
     ],
     "near_miss": [
       "Audit this component for UX bugs. (ui-design: reading source is not this skill)",
