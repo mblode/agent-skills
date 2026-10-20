@@ -37,7 +37,7 @@ For substantial mixed work, track only the applicable steps:
 - [ ] Implement authorized corrections or deliver the requested research/brief.
 - [ ] Recheck the changed behavior, identify the tested environment, and report remaining gaps.
 
-Prioritize crawl/index defects before cosmetic metadata changes. Page titles, headings and content structure follow the page's purpose and reader intent. Descriptive non-brand terms help category discovery; brand-led portfolio and product pages can be appropriate. Neither a fixed title character count nor question-shaped headings are ranking requirements.
+Prioritize crawl/index defects before cosmetic metadata changes. Page titles, headings and content structure follow the page's purpose and reader intent. Descriptive non-brand terms help category discovery; brand-led portfolio and product pages can be appropriate. Neither a fixed title character count nor question-shaped headings are ranking requirements. A title or description rewrite is a positioning change, not a technical fix: follow `references/metadata-copy.md` and keep copy out of the technical-fix commits.
 
 For AI visibility, the owner builds crawl access, content and extractable structure; independent reviews, comparisons and coverage are earned, and they supply most of what answers say about a brand. Fix the owned layers first, then say where the remaining leverage sits instead of padding the site. Original evidence, useful comparisons and honest product limitations earn their place ahead of manufactured keyword permutations. Research likely reader questions; do not present invented query fan-outs as engine telemetry or create a page for every variation.
 
@@ -48,6 +48,7 @@ For AI visibility, the owner builds crawl access, content and extractable struct
 | [references/audit.md](references/audit.md) | Crawling, diagnosing or prioritizing a site audit; canonicals, redirects, exclusions and programmatic pages; hreflang; CDN, response headers or preview environments affecting discovery |
 | [references/nextjs-implementation.md](references/nextjs-implementation.md) | Implementing App Router metadata, sitemaps, rendering, status codes, Markdown twins, or schema; verify APIs against the installed Next.js docs |
 | [references/answer-engines.md](references/answer-engines.md) | SEO, AEO and GEO terms, AI visibility, crawler policies, owned versus earned coverage, Markdown alternatives or `llms.txt` |
+| [references/metadata-copy.md](references/metadata-copy.md) | Writing or changing page titles, meta descriptions or social titles; deciding whether a metadata edit is mechanical or needs owner sign-off |
 | [references/validation-evidence.md](references/validation-evidence.md) | Verifying findings, a built page or a deployed correction |
 | [references/research-protocol.md](references/research-protocol.md) | Keyword/prompt metrics, opportunity selection and question maps |
 | [references/brief-template.md](references/brief-template.md) | Producing a writer brief |
@@ -74,6 +75,7 @@ Sending recaps to others, scheduling recurring work, spending on tools and produ
 - Prompt demand, measured citations, mentions, AI impressions and referral sessions are different quantities. Preserve engine, source, match type, scope and window.
 - One prompt run, or one score averaged across engines, is not a visibility measurement. Repeat each prompt, report per engine, and keep recall separate from citations.
 - Schema, `llms.txt` and fixed answer-block lengths are not measured citation levers. Keep them for their real consumers; do not sell them as AI visibility.
+- An audit PR that also rewrote titles on priority and campaign pages was sent back with those rewrites reverted, because the wording was the owner's positioning call. Ship mechanical metadata fixes and list the rest for the owner.
 - A vendor Search Console connector may under-report. Reconcile property, filters and aggregation against native Search Console before diagnosing a drop.
 
 Maintenance only: `evals/evals.json` holds behavioral scenarios and routing prompts. It is loaded when changing the skill, not during ordinary SEO work.
