@@ -1,0 +1,42 @@
+# ci-speedup sources
+
+Provenance for `skills/ci-speedup`. Never loads during a task. Numbers in the skill are cited inline as "(Source, year)"; the URLs live here.
+
+## Public sources
+
+- Anthropic, [Redesigning source control at Anthropic](https://www.anthropic.com/engineering/redesigning-source-control) (2026): the calibration point for the no-queue regime (30,000+ changes a day, post-merge and pre-deploy testing instead of a merge queue) and the claim that build and CI infrastructure, not code writing, is the bottleneck at agent scale; automated bisect and revert pipelines and Claude fixing landing conflicts, behind `merge-loop.md`.
+- Anthropic, [How Anthropic secures its AI-native software development lifecycle](https://claude.com/blog/how-anthropic-secures-its-ai-native-software-development-lifecycle) (2026): test and CI as the painful bottleneck, risk tiers that keep strict human approval on some code, new automated reviewers running in shadow first, proof-backed review findings (16% to 54% substantive comments) and a risk-weighted human audit sample of automated approvals, all used in `merge-loop.md`.
+- Claude Code docs, [Code Review](https://code.claude.com/docs/en/code-review), [Code Review costs](https://code.claude.com/docs/en/code-review-costs) and [GitHub Actions](https://code.claude.com/docs/en/github-actions): review-bot cost per push versus once per PR, `allowed_bots` loop prevention, max turns, timeouts and concurrency for bots.
+- Vercel, [Introducing eve](https://vercel.com/blog/introducing-eve) (2026), the [eve repository](https://github.com/vercel/eve) and its GitHub channel docs (`docs/channels/github.mdx` in the `eve` npm package): the agent-runtime row in `merge-loop.md`, including that CI hooks dispatch only when a pull request is attached. Public preview; re-check before each update.
+- Devin docs, [Automations](https://docs.devin.ai/product-guides/automations): webhook-triggered sessions and the 200 KB payload truncation in `merge-loop.md`.
+- Uber, [SubmitQueue rework (ICSE-SEIP 2025)](https://arxiv.org/abs/2501.03440) and [Slashing CI costs at Uber](https://www.uber.com/blog/slashing-ci-costs-at-uber/): speculation tree with predicted build times; the resource and wait reductions cited for speculative queues.
+- Google TAP, [Taming Google-scale continuous testing](https://research.google/pubs/taming-google-scale-continuous-testing/) (2017): the 1.23% of test runs that found a breakage, behind moving low-yield checks off the merge path; test selection by dependency distance.
+- Google, [Flake-aware culprit finding](https://hackthology.com/flake-aware-culprit-finding.html) (ICST 2023): noisy bisection that tolerates flakes, and the share of breakages with no real culprit.
+- Chromium LUCI Bisection (public Chromium documentation): precedent for automatic culprit revert on compile and test failures, with a dispute link on each revert.
+- GitHub, [Managing a merge queue](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue): queue settings, the `merge_group` trigger, ejection and group rebuilds, queue jumping.
+- GitHub, [How GitHub uses merge queue to ship hundreds of changes every day](https://github.blog/engineering/engineering-principles/how-github-uses-merge-queue-to-ship-hundreds-of-changes-every-day) (2024): the low-failure-rate queue calibration point (about 2,500 PRs a month, groups of 30+).
+- GitLab, [Merge trains](https://docs.gitlab.com/ci/pipelines/merge_trains/): parallel train pipelines and what a failure or "merge immediately" restarts.
+- Zuul, [Gating](https://zuul-ci.org/docs/zuul/9.4.0/gating.html): speculative gating equivalent to serial testing, worst case serial, window caps concurrency.
+- Trunk, [Merge fast or merge cheap](https://trunk.io/blog/merge-fast-or-merge-cheap-fine-tuning-merge-queues-to-handle-an-increase-in-prs-f) (vendor): batching trades CI time per PR against time to merge.
+- Meta, [Predictive test selection](https://engineering.fb.com/2018/11/21/developer-tools/predictive-test-selection/) (2018): catching nearly all faulty changes while running a third of dependent tests; the model for selection that only adds tests above path rules.
+- Google Testing Blog, [Flaky tests at Google and how we mitigate them](https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html) (2016): flake prevalence numbers in `flakes.md`.
+- Slack, [Handling flaky tests at scale: auto detection and suppression](https://slack.engineering/handling-flaky-tests-at-scale-auto-detection-suppression) (2022): stability numbers in `flakes.md`; hiding flaky results leaked real breakages, disabling execution by PR with an owner and ticket worked.
+- Uber, [Flaky tests overhaul](https://www.uber.com/blog/flaky-tests-overhaul/): flake ownership and tracking at thousands of diffs a day.
+- Julien Danjou, [Merge queues built for humans](https://julien.danjou.info/blog/merge-queues-built-for-humans/) and Mergify, [Merge queues and AI coding agents](https://mergify.com/blog/merge-queues-and-ai-coding-agents) (vendor): the naive serial queue breaks at agent volume, not queuing itself; speculation, batching with bisection, scoped queues.
+- exe.dev, [Replace your CI](https://blog.exe.dev/replace-your-ci): the objection that post-merge failures arrive after the agent's context is gone, answered in the skill by routing each re-land back to an agent as a new task.
+- Linear, [AI coding has made CI a bottleneck, so we reworked ours to keep up](https://linear.app/now/ci-bottleneck-reworked) (2026): every number attributed to Linear in `levers.md` and `ledger.md` (shared module registry, `tsgo`, third-party runners, checkout and cache-write savings, shard balancing, the per-test cost trend).
+
+Mitchell Hashimoto's position that merge queues are untenable at agent-scale churn came up in research without a stable URL; the skill does not cite it.
+
+## Generalised practice
+
+Everything else (the lane model and placement rule, exact-head merging, `ci-ok` scope, change detection from the last green ancestor, red-main classification and attribution, auto-revert guards, bot hygiene, queue repair bounds, supersede deploys, verified ancestors, the Docker and CDK traps, memory-bound tests in parallel worktrees, per-lever attribution) generalises the maintainer's own practice on production pipelines. It is written as mechanisms and observed failures, with no numbers from those pipelines.
+
+The batching formulas (runs per PR, optimum batch size, speculation throughput) are first-order derivations, not measurements; the skill presents them as estimates to check against measured `merge_group` failure rates.
+
+## Left out on purpose
+
+- Bazel and content-addressed build systems: they pay for compiled languages; for a JavaScript monorepo the cheaper wins are `tsgo`, syntax-only linting and setup work.
+- Retry playbooks: one PR's red build and its rerun belong to `pr-babysitter`; the skill sets only the system flake and retry policy.
+- Host-specific queue and plugin tuning: changes per CI vendor and ages quickly.
+- Dependency upgrade ladders: a migration, not a CI lever.

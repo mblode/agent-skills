@@ -29,7 +29,7 @@ A scheduled or event-driven job where an agent reproduces a failure and drafts a
 - **Caps and dedupe.** Limit fix attempts per run and per day, and give each failure a fingerprint; an open issue, or one closed recently, mutes its fingerprint so the same error does not open a second issue or a second fix. Run the watcher that opens issues in a single concurrency group so two runs cannot race.
 - **Isolated settings and a budget.** Start the agent with project settings only (no user settings), no MCP servers unless the task needs one, an explicit tool allowlist with shell restricted to the repo's own scripts and read-only git, a non-interactive permission mode, a per-run spend cap, and no session persistence. Pin the CLI version. Record the run's cost in the PR or comment.
 - **Untrusted evidence.** Error text and issue bodies go into the prompt inside a delimited data block with any closing delimiter stripped from the content, so a log line cannot end the block and issue instructions.
-- **A person merges.** The job opens a draft. A PR opened with the default workflow token may start no CI or review bots; use a narrowly scoped token for that step if they must run.
+- **A person merges.** The job opens a draft and never merges. The one exception is a separate merge controller that verifies the PR itself and merges only on low-risk paths (the merge loop in `ci-speedup`). A PR opened with the default workflow token may start no CI or review bots; use a narrowly scoped token for that step if they must run.
 
 Prove the gates the same way as any other check: feed the job an issue that is already fixed (closes, no PR), and a fix with no test (comment, no PR).
 

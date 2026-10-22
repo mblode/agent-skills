@@ -1,0 +1,52 @@
+{
+ "run": {
+  "id": 1004,
+  "event": "pull_request",
+  "status": "completed",
+  "conclusion": "cancelled",
+  "run_attempt": 1,
+  "created_at": "2026-09-28T08:00:00Z",
+  "run_started_at": "2026-09-28T08:00:00Z",
+  "updated_at": "2026-09-28T08:00:00Z",
+  "head_branch": "feature/faster-tests",
+  "head_sha": "00000000000000000000000000000000000003ec"
+ },
+ "jobs": [
+  {
+   "id": 31,
+   "run_id": 1004,
+   "run_attempt": 1,
+   "name": "changes",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-09-28T08:00:02Z",
+   "started_at": "2026-09-28T08:00:12Z",
+   "completed_at": "2026-09-28T08:00:27Z",
+   "steps": []
+  },
+  {
+   "id": 32,
+   "run_id": 1004,
+   "run_attempt": 1,
+   "name": "test (1/2)",
+   "status": "completed",
+   "conclusion": "cancelled",
+   "created_at": "2026-09-28T08:00:27Z",
+   "started_at": "2026-09-28T08:00:40Z",
+   "completed_at": "2026-09-28T08:02:00Z",
+   "steps": []
+  },
+  {
+   "id": 33,
+   "run_id": 1004,
+   "run_attempt": 1,
+   "name": "test (2/2)",
+   "status": "completed",
+   "conclusion": "cancelled",
+   "created_at": "2026-09-28T08:00:27Z",
+   "started_at": null,
+   "completed_at": null,
+   "steps": []
+  }
+ ]
+}

@@ -1,0 +1,102 @@
+{
+ "run": {
+  "id": 1001,
+  "event": "push",
+  "status": "completed",
+  "conclusion": "success",
+  "run_attempt": 1,
+  "created_at": "2026-10-01T10:00:00Z",
+  "run_started_at": "2026-10-01T10:00:00Z",
+  "updated_at": "2026-10-01T10:00:00Z",
+  "head_branch": "main",
+  "head_sha": "00000000000000000000000000000000000003e9"
+ },
+ "jobs": [
+  {
+   "id": 1,
+   "run_id": 1001,
+   "run_attempt": 1,
+   "name": "changes",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-01T10:00:02Z",
+   "started_at": "2026-10-01T10:00:10Z",
+   "completed_at": "2026-10-01T10:00:25Z",
+   "steps": [
+    {
+     "name": "Checkout",
+     "status": "completed",
+     "conclusion": "success",
+     "number": 1,
+     "started_at": "2026-10-01T10:00:11Z",
+     "completed_at": "2026-10-01T10:00:20Z"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "run_id": 1001,
+   "run_attempt": 1,
+   "name": "test (1/2)",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-01T10:00:25Z",
+   "started_at": "2026-10-01T10:00:40Z",
+   "completed_at": "2026-10-01T10:05:10Z",
+   "steps": [
+    {
+     "name": "pnpm install",
+     "status": "completed",
+     "conclusion": "success",
+     "number": 2,
+     "started_at": "2026-10-01T10:00:45Z",
+     "completed_at": "2026-10-01T10:01:45Z"
+    },
+    {
+     "name": "pnpm test",
+     "status": "completed",
+     "conclusion": "success",
+     "number": 3,
+     "started_at": "2026-10-01T10:01:45Z",
+     "completed_at": "2026-10-01T10:05:05Z"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "run_id": 1001,
+   "run_attempt": 1,
+   "name": "test (2/2)",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-01T10:00:25Z",
+   "started_at": "2026-10-01T10:00:35Z",
+   "completed_at": "2026-10-01T10:04:20Z",
+   "steps": []
+  },
+  {
+   "id": 4,
+   "run_id": 1001,
+   "run_attempt": 1,
+   "name": "deploy",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-01T10:05:10Z",
+   "started_at": "2026-10-01T10:05:20Z",
+   "completed_at": "2026-10-01T10:08:00Z",
+   "steps": []
+  },
+  {
+   "id": 5,
+   "run_id": 1001,
+   "run_attempt": 1,
+   "name": "docs",
+   "status": "completed",
+   "conclusion": "skipped",
+   "created_at": "2026-10-01T10:00:02Z",
+   "started_at": null,
+   "completed_at": null,
+   "steps": []
+  }
+ ]
+}

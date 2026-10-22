@@ -39,7 +39,105 @@
       "assertions": [
         "Reports runner-minute change alongside wall-clock change for each lever",
         "Prefers levers that lower both numbers before proposing shards",
-        "States an estimated monthly minute cost for any shard added"
+        "States an estimated monthly minute cost for any shard added",
+        "States cost per merged change in runner-minutes (PR runs, queue runs, main run, reruns), not only per-run minutes"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We run about 40 coding agents against one repo. GitHub merge queue is on, CI takes 25 minutes, and the queue is now 6 hours behind. PRs keep getting kicked out of the queue and re-entering. How do we fix this?",
+      "expected_output": "Computes the serial ceiling against the arrival rate, measures the merge-queue failure rate from merge_group runs and quarantines flakes before sizing a batch, sizes the batch from the measured rate, limits the queue to merge-breakable checks, states the speculation cost, and names when to switch to post-merge checks instead.",
+      "files": [],
+      "assertions": [
+        "Computes the serial ceiling (60/25 = 2.4 merges per hour) and compares it with the measured arrival rate",
+        "Measures the queue failure rate p from merge_group runs before choosing a batch size",
+        "Quarantines flaky tests before turning on or enlarging batching",
+        "Derives the batch size from about 0.35/p rather than picking a number",
+        "Limits the queue run to merge-breakable checks and does not re-run PR-only checks such as lint of the diff",
+        "States the runner-minute cost of speculative builds, including discarded ones",
+        "Names the condition that flips the recommendation to no queue with post-merge checks",
+        "Does not propose requiring branches to be up to date before merging"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Main has been red for 3 hours. The last 6 CI runs on main show as cancelled because new merges kept coming in. Which PR broke it, and how do we stop this happening again?",
+      "expected_output": "Treats cancelled runs as no verdict, walks first-parent history per failing check to its last finished run, reverts only when that run is the direct parent and otherwise reports the range and bisects, and designs coalesced main runs plus guarded auto-revert for deterministic checks with re-land handed to an agent.",
+      "files": [],
+      "assertions": [
+        "Treats the cancelled runs as no verdict, not as failures",
+        "Walks back first-parent history per failing check to that check's last finished run",
+        "Reverts only when the last finished run is the direct parent, and otherwise reports the commit range and bisects with re-runs",
+        "Limits auto-revert to deterministic checks",
+        "Lists at least three revert guards, including a kill switch that ships off",
+        "Sets main runs to coalesce and never cancels a main run that has started",
+        "Hands the re-land of the reverted change back to an agent as a new task with the log and culprit evidence"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Our agents open about 300 PRs a day. CI is 12 minutes and every commit on main deploys to production automatically. Should we turn on a merge queue?",
+      "expected_output": "Computes utilisation from the arrival rate and CI minutes, asks for or measures the failure and merge-breakage rates, requires a deploy gate that ships only verified commits before choosing no queue, recommends one option with its flip conditions, and keeps destructive migrations behind a pre-merge guard.",
+      "files": [],
+      "assertions": [
+        "Computes utilisation u = λ·T/60 from the stated volume and CI minutes",
+        "Asks for or measures the failure rate p and the merge-breakage rate p_mb",
+        "Requires a deploy gate that deploys only verified commits before recommending no queue",
+        "Recommends exactly one option",
+        "States the conditions that would flip the recommendation",
+        "Keeps migrations or other irreversible changes behind a pre-merge guard"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Our Playwright e2e job fails about 1 in 5 runs and the agents just hit rerun until it goes green. What should our policy be?",
+      "expected_output": "Measures flakes as pass and fail on the same SHA from run history, quarantines by disabling execution with an owner and expiry, limits automatic retries to infra exits, records the rerun rate as flake evidence, and checks whether exit 137 OOM kills are behind the failures.",
+      "files": [],
+      "assertions": [
+        "Identifies flakes as pass and fail on the same SHA, measured from run history",
+        "Quarantines by disabling the test's execution, with an owner and an expiry",
+        "Does not propose continue-on-error as the fix",
+        "Limits automatic retries to infrastructure exits",
+        "Records the rerun rate as flake evidence rather than counting reruns as passes",
+        "Checks whether failures are exit 137 or OOM kills before treating them as flakes"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "CI is the bottleneck for our team. It takes 9 minutes, but PRs sit about 6 hours between opening and merging. Make CI faster.",
+      "expected_output": "Measures per-PR stage timestamps from open to deploy, names a wait stage as the constraint, declines to shard first, and sets a re-measure date.",
+      "files": [],
+      "assertions": [
+        "Measures per-PR stage timings from open to merge or deploy before changing the pipeline",
+        "Names a wait stage (review, approval, or queue) as the constraint",
+        "Does not propose sharding or faster runners as the first change",
+        "Sets a re-measure date"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Our deploys take 20 minutes, we merge about 30 PRs an hour, and the deploy queue is 10 hours behind. Fix it.",
+      "expected_output": "Supersedes queued deploys with the newest validated build through a gate inside the deploy lock, never cancels a running rollout, batches only purely additive migrations, and deploys a fixed verified-ancestor SHA with the same image digest from staging to production.",
+      "files": [],
+      "assertions": [
+        "Deploys the newest validated build and skips the older queued builds it contains",
+        "Never cancels a rollout that has started",
+        "Batches builds only when every added migration is purely additive",
+        "Deploys a fixed verified-ancestor SHA and promotes the same image digest from staging to production"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "We want a fully agentic merge system: agents merge their own PRs, a bot watches main, reverts what breaks it and gets an agent to re-land the fix. We are thinking of building it on Vercel's eve. Design it.",
+      "expected_output": "Separates a deterministic controller (merge permission, classification, attribution, revert trigger, deploy gate) from agent tasks (re-land, source conflicts, flake quarantine and fix), defines the task contract with an idempotency key and forbidden actions, verifies agent PRs for skipped tests, rolls out through a shadow-first autonomy ladder, and notes that eve's GitHub CI hooks are PR-scoped so main failures must reach it from a schedule or a controller POST.",
+      "files": [],
+      "assertions": [
+        "Keeps the revert, merge and deploy decisions in code, never in the model",
+        "Keys re-land tasks on (check, culprit SHA) so one breakage yields one task",
+        "Forbids the re-land agent from skipping or deleting tests and checks the PR for it",
+        "Starts in shadow or dry-run with a replay of past red episodes before any automatic write",
+        "States that eve's CI hooks need an attached pull request, so a red push to main reaches the agent another way",
+        "Includes a circuit breaker or write cap for revert bursts"
       ]
     }
   ],
@@ -52,7 +150,15 @@
       "Shard our test job",
       "Is our Supabase start step in CI necessary at 3 minutes",
       "Profile the CI workflow and tell me where the time goes",
-      "Apply the Linear CI bottleneck article to our repo"
+      "Apply the Linear CI bottleneck article to our repo",
+      "do we need a merge queue now that agents open 200 PRs a day",
+      "main keeps going red and nobody knows which PR did it",
+      "set up auto-revert for broken main builds",
+      "our merge queue is backed up for hours",
+      "what's the policy for flaky e2e tests blocking merges",
+      "where do our PRs actually wait between open and deploy",
+      "Design a self-healing bot that reverts whatever breaks main and has an agent re-land it",
+      "Main keeps failing on flaky e2e tests across everyone's PRs; fix how we handle it"
     ],
     "near_miss": [
       {
@@ -60,24 +166,57 @@
         "expected": "pr-babysitter"
       },
       {
-        "prompt": "Set up GitHub Actions for this new npm package",
-        "expected": "scaffold-cli"
+        "prompt": "This test flaked on my PR, rerun it and get it merged",
+        "expected": "pr-babysitter"
+      },
+      {
+        "prompt": "Resolve conflicts on PR 812",
+        "expected": "pr-babysitter"
       },
       {
         "prompt": "Publish the CLI release and watch the publish workflow",
         "expected": "autoship"
       },
       {
+        "prompt": "The Version Packages PR is stuck",
+        "expected": "autoship"
+      },
+      {
+        "prompt": "Add a lint rule so agents stop importing internal packages, and gate it in CI",
+        "expected": "codebase-architecture"
+      },
+      {
+        "prompt": "Gate an unattended agent fix job that runs on alerts",
+        "expected": "codebase-architecture"
+      },
+      {
+        "prompt": "Prune 20% of our tests",
+        "expected": "test-audit"
+      },
+      {
         "prompt": "Review this workflow change for bugs",
-        "expected": "pr-reviewer"
+        "expected": "tidy"
+      },
+      {
+        "prompt": "Set up GitHub Actions for this new npm package",
+        "expected": "scaffold-cli"
       },
       {
         "prompt": "The deploy failed with a health check timeout, roll it back",
         "expected": "none"
+      },
+      {
+        "prompt": "Should this PR auto-merge or need a human?",
+        "expected": "none"
+      },
+      {
+        "prompt": "Set up an agent that drafts fixes for failing PR checks overnight with no one watching",
+        "expected": "codebase-architecture"
       }
     ]
   },
   "baseline": {
+    "status": "stale: recorded before the 2026-10 rebuild (scenarios 4 to 9, flakes, deploy and merge-path references); re-run the with-versus-without comparison on scenarios 2 and 4 to 8 before relying on it",
     "date": "2026-09-21",
     "model": "a small fast model (fresh subagent contexts, no repository access)",
     "scenario": 2,

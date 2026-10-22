@@ -67,7 +67,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 - **[pr-creator](./skills/pr-creator/SKILL.md)**: PRs with short human descriptions, Linear IDs, templates, drafts, tidied commits.
 - **[pr-babysitter](./skills/pr-babysitter/SKILL.md)**: Watches an open PR: conflicts, CI, comments. Fixes what it can.
 - **[autoship](./skills/autoship/SKILL.md)**: npm releases with changesets: fix loop, CI watch, Version Packages merge, OIDC publish verify.
-- **[ci-speedup](./skills/ci-speedup/SKILL.md)**: Measures a pipeline's critical path as median and p90 over runs, then splits, shards, trims setup, and shares test module state, with a ledger and trend.
+- **[ci-speedup](./skills/ci-speedup/SKILL.md)**: Finds where changes wait from push to deploy, then fixes the critical path, check placement, merge queue or post-merge revert, flaky tests, and deploy rate, and designs the agentic merge loop that reverts and re-lands without a human, with a ledger.
 
 ### Authoring
 

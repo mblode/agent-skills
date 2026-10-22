@@ -1,0 +1,76 @@
+{
+ "run": {
+  "id": 1002,
+  "event": "push",
+  "status": "completed",
+  "conclusion": "success",
+  "run_attempt": 2,
+  "created_at": "2026-10-02T09:00:00Z",
+  "run_started_at": "2026-10-02T09:20:00Z",
+  "updated_at": "2026-10-02T09:20:00Z",
+  "head_branch": "main",
+  "head_sha": "00000000000000000000000000000000000003ea"
+ },
+ "jobs": [
+  {
+   "id": 11,
+   "run_id": 1002,
+   "run_attempt": 1,
+   "name": "changes",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-02T09:00:02Z",
+   "started_at": "2026-10-02T09:00:30Z",
+   "completed_at": "2026-10-02T09:00:45Z",
+   "steps": []
+  },
+  {
+   "id": 12,
+   "run_id": 1002,
+   "run_attempt": 1,
+   "name": "test (1/2)",
+   "status": "completed",
+   "conclusion": "failure",
+   "created_at": "2026-10-02T09:00:45Z",
+   "started_at": "2026-10-02T09:01:00Z",
+   "completed_at": "2026-10-02T09:06:30Z",
+   "steps": []
+  },
+  {
+   "id": 13,
+   "run_id": 1002,
+   "run_attempt": 1,
+   "name": "test (2/2)",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-02T09:00:45Z",
+   "started_at": "2026-10-02T09:00:55Z",
+   "completed_at": "2026-10-02T09:04:40Z",
+   "steps": []
+  },
+  {
+   "id": 14,
+   "run_id": 1002,
+   "run_attempt": 2,
+   "name": "test (1/2)",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-02T09:20:00Z",
+   "started_at": "2026-10-02T09:20:40Z",
+   "completed_at": "2026-10-02T09:25:20Z",
+   "steps": []
+  },
+  {
+   "id": 15,
+   "run_id": 1002,
+   "run_attempt": 2,
+   "name": "deploy",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-02T09:25:20Z",
+   "started_at": "2026-10-02T09:25:30Z",
+   "completed_at": "2026-10-02T09:28:40Z",
+   "steps": []
+  }
+ ]
+}

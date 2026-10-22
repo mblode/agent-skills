@@ -1,0 +1,52 @@
+{
+ "run": {
+  "id": 1003,
+  "event": "merge_group",
+  "status": "completed",
+  "conclusion": "failure",
+  "run_attempt": 1,
+  "created_at": "2026-10-03T14:00:00Z",
+  "run_started_at": "2026-10-03T14:00:00Z",
+  "updated_at": "2026-10-03T14:00:00Z",
+  "head_branch": "gh-readonly-queue/main/pr-42-0000000000000000000000000000000000000abc",
+  "head_sha": "00000000000000000000000000000000000003eb"
+ },
+ "jobs": [
+  {
+   "id": 21,
+   "run_id": 1003,
+   "run_attempt": 1,
+   "name": "changes",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-03T14:00:02Z",
+   "started_at": "2026-10-03T14:01:30Z",
+   "completed_at": "2026-10-03T14:01:45Z",
+   "steps": []
+  },
+  {
+   "id": 22,
+   "run_id": 1003,
+   "run_attempt": 1,
+   "name": "test (1/2)",
+   "status": "completed",
+   "conclusion": "failure",
+   "created_at": "2026-10-03T14:01:45Z",
+   "started_at": "2026-10-03T14:02:00Z",
+   "completed_at": "2026-10-03T14:06:00Z",
+   "steps": []
+  },
+  {
+   "id": 23,
+   "run_id": 1003,
+   "run_attempt": 1,
+   "name": "test (2/2)",
+   "status": "completed",
+   "conclusion": "cancelled",
+   "created_at": "2026-10-03T14:01:45Z",
+   "started_at": "2026-10-03T14:02:05Z",
+   "completed_at": "2026-10-03T14:03:00Z",
+   "steps": []
+  }
+ ]
+}
