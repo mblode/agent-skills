@@ -60,7 +60,7 @@ One diagram answers one question. Write that question as the caption, then draw 
 - Label edges with a verb or the data that moves ("POST /login", "JWT").
 - About 12 nodes or fewer. Split a bigger picture into an overview and one detail diagram.
 - Add two or three sentences after the diagram: where to start reading and the one thing to notice.
-- Check the syntax when a renderer is available (for example `npx -y @mermaid-js/mermaid-cli`). A diagram that does not render is worse than prose.
+- Check the syntax when a renderer is available (for example `pnpm dlx @mermaid-js/mermaid-cli`). A diagram that does not render is worse than prose.
 
 ## HTML page
 

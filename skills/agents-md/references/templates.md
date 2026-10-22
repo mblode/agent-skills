@@ -14,7 +14,7 @@ Structure starters only. Fill with project-specific commands, gotchas, and conve
 
 **Bad (generic template):** no commands, generic advice ("Write clean code. Use TypeScript properly."), no gotchas; the agent learns nothing new.
 
-**Good (execution-first):** copy-paste commands with ports (`npm run dev` starts port 3000), specific gotchas with fixes (use `PaymentIntent.create()` not `Charge.create()`; validate webhook signatures; run migrations before tests), and implementation-affecting conventions (payment amounts are in cents, not dollars).
+**Good (execution-first):** copy-paste commands with ports (`pnpm dev` starts port 3000), specific gotchas with fixes (use `PaymentIntent.create()` not `Charge.create()`; validate webhook signatures; run migrations before tests), and implementation-affecting conventions (payment amounts are in cents, not dollars).
 
 See `root-content-guidance.md` (Common anti-patterns) and `quality-criteria.md` (Automatic fails) for the full catalogue.
 
@@ -79,7 +79,7 @@ Use these AGENTS.md skeletons directly with Claude Code's enabled built-in `agen
 ## Filling a skeleton
 
 - 3-8 gotchas from real failures beats 20 hypothetical ones
-- Daily commands include the quiet, targeted form (`npx vitest run <file> --reporter=dot`), not only the full-suite script
+- Daily commands include the quiet, targeted form (`pnpm vitest run <file> --reporter=dot`), not only the full-suite script
 - Point at an exemplar file path where one exists, instead of paraphrasing what it already shows
 - Keep the root within 60-150 lines; anything a single directory owns goes in that directory's `AGENTS.md`
 - State the outcome and let the surrounding code pick the path; reserve absolutes for safety, data loss, format contracts, and failures already observed here

@@ -5,25 +5,25 @@ Use when the user wants to clean up, canonicalize, or normalize Tailwind class l
 ## Workflow
 
 1. Identify Tailwind class strings in the requested files or components.
-2. Canonicalize them with `npx @tailwindcss/cli canonicalize`.
+2. Canonicalize them with `pnpm dlx @tailwindcss/cli canonicalize`.
 3. Apply the changed strings back to the source.
 4. Run the project's formatter or relevant checks when available.
 
 ## Commands
 
-- `npx @tailwindcss/cli canonicalize` collapses shorthands (`mt-2 mr-2 mb-2 ml-2` → `m-2`), resolves overrides (`py-3 p-1 px-3` → `p-3`), canonicalizes arbitrary values to named utilities, and sorts classes; pass `--css path/to/input.css` if the project uses a custom CSS entry file.
+- `pnpm dlx @tailwindcss/cli canonicalize` collapses shorthands (`mt-2 mr-2 mb-2 ml-2` → `m-2`), resolves overrides (`py-3 p-1 px-3` → `p-3`), canonicalizes arbitrary values to named utilities, and sorts classes; pass `--css path/to/input.css` if the project uses a custom CSS entry file.
 
   Single class string:
 
   ```sh
-  npx @tailwindcss/cli canonicalize "mt-2 mr-2 mb-2 ml-2"
+  pnpm dlx @tailwindcss/cli canonicalize "mt-2 mr-2 mb-2 ml-2"
   # m-2
   ```
 
   Multiple strings as positional args (each on its own line):
 
   ```sh
-  npx @tailwindcss/cli canonicalize "py-3 p-1 px-3" "mt-2 mr-2 mb-2 ml-2"
+  pnpm dlx @tailwindcss/cli canonicalize "py-3 p-1 px-3" "mt-2 mr-2 mb-2 ml-2"
   # p-3
   # m-2
   ```
@@ -31,7 +31,7 @@ Use when the user wants to clean up, canonicalize, or normalize Tailwind class l
   Pipe strings via stdin (one per line):
 
   ```sh
-  echo "py-3 p-1 px-3\nmt-2 mr-2 mb-2 ml-2" | npx @tailwindcss/cli canonicalize
+  echo "py-3 p-1 px-3\nmt-2 mr-2 mb-2 ml-2" | pnpm dlx @tailwindcss/cli canonicalize
   # p-3
   # m-2
   ```
@@ -39,14 +39,14 @@ Use when the user wants to clean up, canonicalize, or normalize Tailwind class l
   `--format json` or `--format jsonl` gives structured output with `input`/`output`/`changed` fields:
 
   ```sh
-  npx @tailwindcss/cli canonicalize --format json "py-3 p-1 px-3"
+  pnpm dlx @tailwindcss/cli canonicalize --format json "py-3 p-1 px-3"
   # [{ "input": "py-3 p-1 px-3", "output": "p-3", "changed": true }]
   ```
 
   `--stream` processes stdin line-by-line without buffering:
 
   ```sh
-  npx @tailwindcss/cli canonicalize --stream
+  pnpm dlx @tailwindcss/cli canonicalize --stream
   ```
 
 ## Verify

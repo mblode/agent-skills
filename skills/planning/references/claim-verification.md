@@ -43,7 +43,7 @@ Choose the smallest, most direct source:
 | Code existence | `grep -r`, `find`, file reading | "Does X exist?", "Is Y used?" |
 | Code metrics | `wc -l`, `tokei`, line counting | "How big is X?", "How many files?" |
 | History | `git log`, `git blame`, `git shortlog` | "When was X added?", "Who wrote Y?" |
-| Test output | `npm test`, `pytest`, `cargo test` | "Does X pass?", "Is Y covered?" |
+| Test output | `pnpm test`, `pytest`, `cargo test` | "Does X pass?", "Is Y covered?" |
 | Runtime behavior | `curl`, `time`, script execution | "How fast is X?", "What does Y return?" |
 | Static analysis | `tsc --noEmit`, `eslint`, `oxlint` | "Does X compile?", "Are there warnings?" |
 

@@ -344,7 +344,7 @@ The suppression token is literally `ui-audit-ignore:`, matching what already exi
 
 | Where the audit runs | Adapter |
 |---|---|
-| Local terminal (`npm run audit`, agent CLI) | terminal |
+| Local terminal (`pnpm run audit`, agent CLI) | terminal |
 | Claude Code chat | terminal |
 | CI gating (block merge on remaining release-blockers) | JSON + jq |
 | Status dashboard | JSON |

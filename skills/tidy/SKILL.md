@@ -129,7 +129,7 @@ For a PR handoff posted through `pr-babysitter` or `gh`, use the same finding sh
 
 - `git diff @{u}` fails with "no upstream configured" on a fresh branch, and a diff against `main` on a stale checkout includes everyone else's commits. Diff against `git merge-base HEAD origin/<default>` and state the range.
 - Line numbers counted off `git diff` hunk headers land off by the hunk offset. Take the number from `grep -n` or the file; a reviewer who cannot find the cited line discards the rest of the report.
-- Skipping the baseline makes pre-existing failures look like regressions, and a full `npm test` dumps hundreds of lines re-sent every turn. Run the quiet form and quote the last line.
+- Skipping the baseline makes pre-existing failures look like regressions, and a full `pnpm test` dumps hundreds of lines re-sent every turn. Run the quiet form and quote the last line.
 - One broken helper reported once per call site reads as three problems and gets three patches while the helper stays broken. Report it once and list the call sites under it.
 - An `@path` line in `REVIEW.md` is literal text to Claude Code Review, which does not expand imports there. Read the file the same way, or the two reports disagree and the author trusts neither.
 

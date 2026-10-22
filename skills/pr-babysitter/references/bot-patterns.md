@@ -41,7 +41,7 @@ Classify by **content first**, then username. `github-actions[bot]` is a shared 
 | Check-only | Appears in PR checks but has left no comments | Skip while that holds |
 | Unlisted / unknown | Not in any table below | Triage as an active reviewer, per the section above |
 
-Identity hints, never verdicts: a `[bot]` login suffix and GraphQL `author { __typename } == "Bot"` both suggest automation, but machine users such as `developer-platform-actions` are plain `User` logins, and `github-actions[bot]` is shared across unrelated workflows. Content decides.
+Identity hints, never verdicts: a `[bot]` login suffix and GraphQL `author { __typename } == "Bot"` both suggest automation, but machine users (a team's deploy or approval account) are plain `User` logins, and `github-actions[bot]` is shared across unrelated workflows. Content decides.
 
 ## Shared identity: github-actions bot
 
@@ -58,7 +58,7 @@ Severity: parse from the HTML comment metadata:
 ```
 <!--
   0 failure:
-  1 warning:  Multiple MFEs are...
+  1 warning:  This PR is large...
   DangerID: danger-id-Danger;
 -->
 ```
@@ -68,29 +68,13 @@ Severity: parse from the HTML comment metadata:
 
 Body is an HTML table of actionable warnings; treat as real findings. Updates in place: the same comment ID gets new content on each push, so compare `updated_at`, not just the ID.
 
-### Schema compatibility checker: active reviewer
-
-Detection:
-- heading with a schema filename in `<code>` tags (e.g. `## <code>profileShareIntended_2-0-2.schema.json</code>`)
-- `### ⚠️ Warnings` or `### 🔴 Errors` section headers
-- table columns: Field, Type, Status, Details
-
-Severity markers in the Status column:
-- `🟡 Warning` → minor
-- `🔴 Error` → major (breaking changes)
-- `> 💡 **Tip**:` blockquotes are informational, not findings
-
-### Event-lib RC trigger: noise
-
-Detection: single-line comment starting with "Event-lib RC version is triggered", then a Buildkite URL.
-
 ### Changeset releases: noise
 
 Detection: comment body starts with "This PR was opened by the [Changesets release]" or contains a `# Releases` heading with version changelogs.
 
 ### Empty-body approvals: noise (any automation identity)
 
-Detection: a review with state `APPROVED`, an empty body, and no inline comments of its own, from any automation identity. Keyed on shape, not login: `github-actions[bot]`, `developer-platform-actions`, and any other machine account qualify. Skip it as a finding, but record that it fired: it is often the evidence that a merge gate cleared.
+Detection: a review with state `APPROVED`, an empty body, and no inline comments of its own, from any automation identity. Keyed on shape, not login: `github-actions[bot]`, a team's approval machine user, and any other machine account qualify. Skip it as a finding, but record that it fired: it is often the evidence that a merge gate cleared.
 
 An empty-body `APPROVED` that **does** have inline comments is not this pattern. Triage the inline comments.
 
@@ -202,28 +186,22 @@ Always a `COMMENTED` review, never `APPROVED` or `CHANGES_REQUESTED`, so its ver
 
 A comment that states a verdict about whether the PR **may merge** (auto-approval, merge freeze, release window, CODEOWNERS coverage) is a readiness-check input, not a finding. Record the verdict, never open a fix item from it, never reply to it, never resolve it.
 
-The entries below are one organization's gates, kept as worked examples of the shape. A repo with its own gate bot gets a new entry here with the same fields: detection marker, verdict table, and what would flip the verdict.
+The entries below are worked examples of the shape. A repo with its own gate bot gets a new entry here with the same fields: detection marker, verdict table, and what would flip the verdict.
 
-### Auto-approval assessment (`linktree-stamp[bot]`)
+### LLM auto-approval assessment (an organization's own gate bot)
 
-Detection: an **issue-level comment**, not a review, containing `<!-- stamp-assessment -->`. Heading is `## ✅ Auto-Approval Assessment ([`<sha>`](...))` or `## 👀 Auto-Approval Assessment (...)`.
+Detection: an **issue-level comment**, not a review, carrying the bot's HTML marker (for example `<!-- ...-assessment -->`), with a heading that names the assessed commit SHA.
 
 **Edited in place on each commit:** the comment ID never changes and only the body does, so a state comparison keyed on comment IDs sees nothing new. Compare `updated_at`, and compare the commit SHA in the heading against the head SHA to spot a stale assessment.
 
-| `**Verdict:**` | Meaning | Handling |
-|----------------|---------|----------|
-| `Auto-approved (LLM assessment)` | the gate will approve | Satisfied gate, record it |
-| `Human review required` | no auto-approval, a human must review | **Blocking merge gate.** Name the `**Path criteria:**` value that forced it |
+| Verdict | Meaning | Handling |
+|---------|---------|----------|
+| Auto-approved | the gate will approve | Satisfied gate, record it |
+| Human review required | no auto-approval, a human must review | **Blocking merge gate.** Name the criterion (often a path rule) that forced it |
 
-Carry these fields verbatim into the report when present: `**Custom criteria:**`, `**Path criteria:**`, `**Change type:**`, `**Blast radius:**`, `**Sensitive domains:**`.
+Carry the gate's stated criteria (path, change type, blast radius, sensitive domains) verbatim into the report when present. Its reasoning bullets are context, not findings; do not open fix items from them. A per-path review section that reports anything other than a clean pass is findings: triage it at Major. Strip the bot's help footer.
 
-`### Reasoning` bullets are context, not findings. Do not open fix items from them.
-
-`### <emoji> Path-specific review: <criteria>` sections: 🟢 means that path review found nothing. **Any other colour, or an explicit issue list, means treat the section body as findings and triage at Major.**
-
-Strip the `> If you're unsure ... post in #ask-developer-platform` footer.
-
-The approving identity is separate: `developer-platform-actions` posts the empty-body `APPROVED` review once the gate clears. That review is noise as a finding and evidence as a gate.
+The approving identity is often separate: a machine user posts the empty-body `APPROVED` review once the gate clears. That review is noise as a finding and evidence as a gate.
 
 ### mergefreeze
 
@@ -250,7 +228,6 @@ Removed from this table on purpose: `chatgpt-codex-connector[bot]` is an active 
 Appear in `gh pr checks` but have left no comments. Nothing to triage:
 
 - **Buildkite**: CI pipeline checks (`buildkite/{project}/{step}`)
-- **Telemetry service attributes**: service metadata validation from `blstrco/telemetry`
 
 Check-only means "has posted no comments on this PR", which is an observation about today, not a property of the bot. **A review or an inline comment from any of these promotes it to active reviewer**, triaged on content under the unlisted-reviewer procedure.
 

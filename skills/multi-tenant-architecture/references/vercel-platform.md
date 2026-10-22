@@ -20,7 +20,7 @@ Applies to steps 4 to 7 when Vercel is the chosen platform. Domain onboarding an
 
 ## Proxy tenant resolution
 
-Next.js 16 renamed `middleware.ts` to `proxy.ts` (exported function `proxy`, Node.js runtime, setting `runtime` throws). On Next.js 15 keep `middleware.ts`, export `middleware`, and add `runtime: 'nodejs'` to `config` so database clients work. Migrate with `npx @next/codemod@canary middleware-to-proxy .`.
+Next.js 16 renamed `middleware.ts` to `proxy.ts` (exported function `proxy`, Node.js runtime, setting `runtime` throws). On Next.js 15 keep `middleware.ts`, export `middleware`, and add `runtime: 'nodejs'` to `config` so database clients work. Migrate with `pnpm dlx @next/codemod@canary middleware-to-proxy .`.
 
 ```ts
 // proxy.ts

@@ -4,8 +4,8 @@ Default baseline; deviate only when a project constraint requires it, and record
 
 This is the most perishable file in the bundle: it is a preference, not a finding, and library choices rot faster than anything else here. **Last reviewed: 2026-09.** Treat it as stale if that date is more than a year old, and confirm the choice against the ecosystem before writing it into a brief.
 
-- Turborepo + npm workspaces.
-- Next.js App Router + React. Request interception lives in `proxy.ts` (Next 16 renamed `middleware.ts`; the codemod is `npx @next/codemod@canary middleware-to-proxy .`).
+- Turborepo + pnpm workspaces.
+- Next.js App Router + React. Request interception lives in `proxy.ts` (Next 16 renamed `middleware.ts`; the codemod is `pnpm dlx @next/codemod@canary middleware-to-proxy .`).
 - Tailwind CSS + shadcn/ui.
 - React Hook Form + TanStack Query (Connect Query where the API is ConnectRPC).
 - ConnectRPC + protobuf types.

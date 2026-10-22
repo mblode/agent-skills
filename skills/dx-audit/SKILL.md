@@ -48,7 +48,7 @@ Start from `git diff` against the normal base and keep only changed files reacha
 2. Direct public dependencies and the nearest tests that pin behavior.
 3. Safe probes against the local build:
    - CLI: `--help`, `--version`, one success path, one invalid-input path, and the same command with stdout piped (`| cat`) to see non-TTY behavior. Never trigger a real mutation to test DX; use `--dry-run` where it exists.
-   - Package: `npx publint` and `npx @arethetypeswrong/cli --pack .` after a build. These inspect packaging, but packing may invoke lifecycle scripts. Inspect those scripts first or use a disposable checkout before calling `--pack`.
+   - Package: `pnpm dlx publint` and `pnpm dlx @arethetypeswrong/cli --pack .` after a build. These inspect packaging, but packing may invoke lifecycle scripts. Inspect those scripts first or use a disposable checkout before calling `--pack`.
 4. The prior release contract, only when the diff changes a public export, signature, or return shape.
 
 Stop when the behavior is proven, disproven, private, or out of scope. External research is for an explicit comparison request or a named uncertainty local evidence cannot resolve; `references/standards-map.md` carries the standards this skill already leans on.
@@ -127,7 +127,7 @@ Re-open every touched or cited location, rerun the same probes and focused proje
 
 ## Gotchas
 
-- **`npx <pkg>` and a global install probe the registry copy, not the working tree.** `--help`, exit codes, and error strings then describe a released version. Build, then invoke the local entry point (`node ./dist/cli.js`).
+- **`pnpm dlx <pkg>` (or `npx`) and a global install probe the registry copy, not the working tree.** `--help`, exit codes, and error strings then describe a released version. Build, then invoke the local entry point (`node ./dist/cli.js`).
 - **`process.stdout.isTTY` is `undefined` under a pipe, not `false`.** A guard written as `isTTY === false` never disables color or spinners when piped, so ANSI codes reach the redirected file. Probe with `| cat` rather than trusting the guard.
 - **`process.exit(1)` right after `console.log` can truncate the output it was meant to explain.** stdout writes are asynchronous when piped, so a CLI that prints usage and calls `exit()` can emit nothing under `| cat`. The fix is `process.exitCode = 1` and a natural return (`cli-exit-codes`).
 - **An `exports` map that reads correctly can still resolve wrong.** `"require"` pointing at a `.js` file under `"type": "module"` masquerades as CJS, and a `types` condition listed after `import` is never reached. `publint` and `attw` catch both; reading the map does not (`onboard-exports-resolve-typed`).

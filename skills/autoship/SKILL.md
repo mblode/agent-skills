@@ -75,11 +75,11 @@ Autoship progress:
 - Inspect pending changesets and their package coverage. Reuse those covering the requested release; add one only for uncovered changes. Ask only if unrelated pending releases make the publish scope ambiguous.
 - Default to `patch`; `minor` or `major` only on explicit user instruction.
 - Write the file directly (the interactive prompt needs a TTY); the summary is user-facing changelog text inferred from `git log --oneline -10`.
-- `npx changeset status` validates the file: a misspelled package name fails here instead of in CI.
+- `pnpm changeset status` validates the file: a misspelled package name fails here instead of in CI.
 
 ### Step 2: Fix lint, types, tests, format
 
-- Discover commands from `package.json` scripts (`check`, `lint`, `typecheck`, `test`, `format`, `fix`); in non-npm repos check `Makefile`, `Cargo.toml`, `pyproject.toml`, `go.mod`.
+- Discover commands from `package.json` scripts (`check`, `lint`, `typecheck`, `test`, `format`, `fix`); in non-Node repos check `Makefile`, `Cargo.toml`, `pyproject.toml`, `go.mod`.
 - Run lint, typecheck, test, format. After any code change, re-run from the first gate: a type fix routinely breaks lint, and a lint autofix can break a test.
 - Scope auto-fixers to changed files where supported, then check `git status`: broad `fix`/`format` scripts reformat files outside the change (MDX is a frequent casualty). Undo only fixer changes introduced by this run, preserving pre-existing edits in the same files.
 - Cap the loop at 5 fix iterations per gate, reporting the remaining error count each pass; then stop and report the gate, remaining error count, and last error output.
@@ -119,11 +119,11 @@ Stop and report on a gate still failing after 5 iterations or any failed merge p
 
 ## Gotchas
 
-- **Never run `npx changeset version` locally.** It consumes `.changeset/*.md`, so the pushed commit has no pending changeset, "Changeset Status" fails, and no Version Packages PR opens. Recovery is reverting the bump, not rerunning CI.
-- Never run `npm publish` directly. It bypasses changesets, skips the changelog and tag, and leaves the Version Packages PR describing an already-shipped version, which then fails with "You cannot publish over the previously published versions".
+- **Never run `pnpm changeset version` locally.** It consumes `.changeset/*.md`, so the pushed commit has no pending changeset, "Changeset Status" fails, and no Version Packages PR opens. Recovery is reverting the bump, not rerunning CI.
+- Never run `pnpm publish` or `npm publish` directly. It bypasses changesets, skips the changelog and tag, and leaves the Version Packages PR describing an already-shipped version, which then fails with "You cannot publish over the previously published versions".
 - Never hand-edit `CHANGELOG.md` or the `package.json` `version`. CI generates both in the Version Packages PR; local edits make the bot PR `CONFLICTING`.
 - `changesets/action@v2` renamed every input (`publish` to `publish-script`, `version` to `version-script`, `title` to `pr-title`, `commit` to `commit-message`, `branch` to `pr-base-branch`). The old names are ignored with only a warning, so a `@v2` workflow still using `publish:` opens the Version PR and then completes green without publishing anything.
-- `setup-node` with `node-version: 22` ships npm 10.9.x. Trusted publishing needs npm 11.5.1 or later, so `changeset publish` fails `ENEEDAUTH` even with `id-token: write` set. Use Node 24 or add `npm install -g npm@latest` before publishing.
+- `setup-node` with `node-version: 22` ships npm 10.9.x. Trusted publishing needs npm 11.5.1 or later, so `changeset publish` fails `ENEEDAUTH` even with `id-token: write` set (pnpm hands the upload to the npm CLI on `PATH`). Use Node 24 or add `npm install -g npm@latest` before publishing.
 - A workflow authenticating with an `NPM_TOKEN` secret that holds a classic token fails `ENEEDAUTH`: npm revoked every classic token on 9 December 2025. Move to trusted publishing rather than minting a new token; write-capable granular tokens expire within 90 days.
 - npm does not validate a trusted publisher when you save it. A workflow filename that differs from `.github/workflows/<file>.yml` by case or extension surfaces only at publish time, as `ENEEDAUTH`.
 - New personal repos block Actions from opening PRs. The release run fails with "GitHub Actions is not permitted to create or approve pull requests" and no Version PR appears. Fix: Settings, Actions, General, "Allow GitHub Actions to create and approve pull requests" (an org-level setting can override it). Red tier: report it, do not change settings unasked.

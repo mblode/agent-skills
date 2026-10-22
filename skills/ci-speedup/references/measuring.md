@@ -66,7 +66,7 @@ One table per measured run, in the ledger and the pull request description:
 
 | Job | Step | Seconds | Class |
 |-----|------|---------|-------|
-| test | npm ci | 81 | setup |
+| test | pnpm install | 81 | setup |
 | test | check-types | 54 | toolchain |
 | test | turbo run test | 407 | execution |
 | e2e | supabase start | 167 | setup |

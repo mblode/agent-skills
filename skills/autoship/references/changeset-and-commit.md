@@ -4,7 +4,7 @@ Mechanics for Steps 1-3. The decisions (bump type, gate order, what to stage) ar
 
 ## Writing the changeset file
 
-`npx changeset` (or `npm run changeset`) prompts interactively, so write the file directly. Any filename works; the id below only needs to be unique.
+`pnpm changeset` prompts interactively, so write the file directly. Any filename works; the id below only needs to be unique.
 
 ```bash
 ID=$(node -e "console.log(Math.random().toString(36).slice(2,10))")
@@ -19,7 +19,7 @@ EOF2
 
 - Quote the package name; a scoped name (`@scope/pkg`) is invalid YAML unquoted and the action fails on parse.
 - The description ships verbatim in `CHANGELOG.md` and is the only thing consumers read about this version. Write the change, not the commit log.
-- `npx changeset status` (read-only) prints the release plan and errors on a package name that is not in the workspace. Run it before committing; the same error in CI costs a full round trip.
+- `pnpm changeset status` (read-only) prints the release plan and errors on a package name that is not in the workspace. Run it before committing; the same error in CI costs a full round trip.
 
 ## Discovering gate commands
 
@@ -31,10 +31,10 @@ jq -r '.scripts | to_entries[] | "\(.key): \(.value)"' package.json
 
 | Gate | Typical script | Auto-fixer |
 |------|----------------|------------|
-| Lint | `npm run check` or `npm run lint` | `npm run fix`, or `npx oxlint --fix <paths>` / `npx eslint --fix <paths>` |
-| Type-check | `npm run typecheck` or `npx tsc --noEmit` | none; fix by hand |
-| Test | `npm test` | none; fix the code. Deleting or skipping a test to get green ships the bug under a green badge |
-| Format | `npm run format` or `npx oxfmt <paths>` / `npx prettier --write <paths>` | is the fixer |
+| Lint | `pnpm check` or `pnpm lint` | `pnpm fix`, or `pnpm oxlint --fix <paths>` / `pnpm eslint --fix <paths>` |
+| Type-check | `pnpm typecheck` or `pnpm tsc --noEmit` | none; fix by hand |
+| Test | `pnpm test` | none; fix the code. Deleting or skipping a test to get green ships the bug under a green badge |
+| Format | `pnpm format` or `pnpm oxfmt <paths>` / `pnpm prettier --write <paths>` | is the fixer |
 
 Prefer the quiet form where the runner has one (`vitest run --reporter=dot`); a full test dump is re-sent on every remaining turn.
 

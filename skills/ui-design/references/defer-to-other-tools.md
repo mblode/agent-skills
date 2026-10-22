@@ -23,7 +23,7 @@ The tools in that table stay named exactly as they are. The change is which of t
 | Color contrast ratios | **axe-core** per theme (dispatched to `ui-verification`) + **Storybook a11y addon** | Computed contrast per element, and it differs between light and dark |
 | Visual regression (pixel-level) | **Chromatic** / **Percy** / **Playwright snapshots** | Per-component visual diffs |
 | Bundle size budgets | **size-limit** / **bundle-analyzer** / **next/bundle-analyzer** | Continuous budget tracking |
-| Dependency vulnerabilities | **npm audit** / **Dependabot** / **Snyk** | CVE matching |
+| Dependency vulnerabilities | **pnpm audit** / **Dependabot** / **Snyk** | CVE matching |
 | Generic bug review | **CodeRabbit** / **Vercel Agent** | LLM PR review of whole diff |
 | TypeScript errors | **tsc** | Type system |
 | ESLint rules | **eslint** | Lint at write time |

@@ -27,7 +27,7 @@ Rule categories in audit priority order. The ID in parentheses is the filename p
 ## 5. Install and First Run (onboard)
 
 **Impact:** HIGH
-**Description:** The path from `npm install` to a working first import or command: every export resolves with types under the module systems the package claims, a minimal install footprint with peer dependencies stated, tree-shakeable ESM, zero-config defaults, a quickstart that runs as pasted, and no environment setup before first success. Friction here is where most evaluations end.
+**Description:** The path from `pnpm add` to a working first import or command: every export resolves with types under the module systems the package claims, a minimal install footprint with peer dependencies stated, tree-shakeable ESM, zero-config defaults, a quickstart that runs as pasted, and no environment setup before first success. Friction here is where most evaluations end.
 
 ## 6. Config Ergonomics (config)
 

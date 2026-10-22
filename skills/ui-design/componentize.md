@@ -4,7 +4,7 @@ Use when componentizing, extracting, or organizing UI code into reusable compone
 
 ## Load First
 
-- For Tailwind class cleanup (standalone or finishing pass), load [canonicalize-tailwind.md](./canonicalize-tailwind.md) for the `npx @tailwindcss/cli canonicalize` workflow and commands.
+- For Tailwind class cleanup (standalone or finishing pass), load [canonicalize-tailwind.md](./canonicalize-tailwind.md) for the `pnpm dlx @tailwindcss/cli canonicalize` workflow and commands.
 - Component extraction needs no companion files.
 
 ## Workflow

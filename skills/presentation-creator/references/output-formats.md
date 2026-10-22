@@ -66,9 +66,9 @@ Directive mechanics that matter:
 Export with marp-cli. PDF, PPTX, and images need Chrome, Edge, or Firefox installed:
 
 ```bash
-npx @marp-team/marp-cli deck.md -o deck.html
-npx @marp-team/marp-cli deck.md --pdf --pdf-notes -o deck.pdf
-npx @marp-team/marp-cli deck.md --notes -o notes.txt
+pnpm dlx @marp-team/marp-cli deck.md -o deck.html
+pnpm dlx @marp-team/marp-cli deck.md --pdf --pdf-notes -o deck.pdf
+pnpm dlx @marp-team/marp-cli deck.md --notes -o notes.txt
 ```
 
 ## Slidev

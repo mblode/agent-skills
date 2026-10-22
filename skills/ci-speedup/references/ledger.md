@@ -18,7 +18,7 @@ Measured <date>, runs <ids>. Wall-clock is push to last job complete.
 | Pull request: test | 10:30 |
 | Main: test -> deploy | 15:50 |
 
-Test job: npm ci 81s, lint 36s, check-types 54s, tests 407s (manage-frontend 395s: import 192s, environment 134s, tests 36s).
+Test job: pnpm install 81s, lint 36s, check-types 54s, tests 407s (web 395s: import 192s, environment 134s, tests 36s).
 
 ## Changes
 

@@ -40,7 +40,7 @@ An external check is not this. "Run the test suite and quote the output" and "wa
 Three levers skew long by default and are worth setting deliberately:
 
 - **Calibrate the length of artifacts the skill writes to disk.** Reports, plans, briefs, and docs run long, and a fixed output template invites filling every section instead of dropping the ones the task does not need. Say that length follows the work, not the template. This is a real opinion, unlike "write concisely", which the model already believes it is doing.
-- **Write the quiet form of commands the skill tells Claude to run.** `npm test`, `git log`, and a full build dump hundreds of lines that get re-sent every remaining turn. Prefer `--reporter=dot`, `--quiet`, or `tail`.
+- **Write the quiet form of commands the skill tells Claude to run.** `pnpm test`, `git log`, and a full build dump hundreds of lines that get re-sent every remaining turn. Prefer `--reporter=dot`, `--quiet`, or `tail`.
 - **Leave orchestration to the host.** Specify independent work and expected results where delegation adds value. Do not prescribe a fixed agent count, a model override, or repeated review rounds for every task.
 
 **Test:** for each line, "would removing this cause a mistake?" and "would the model do this unprompted?", never "is this strongly worded?"

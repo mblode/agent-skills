@@ -67,7 +67,7 @@ Which module may depend on which is a separate concern from what is reachable. L
 Three shapes, picked by how many relationships the rule has to express:
 
 - **A few layers** (handler, service, dao): `no-restricted-imports` per layer directory, one `overrides` entry per layer with the imports it may not take. Readable at three layers, unreadable at ten modules. Oxlint `overrides` replace a rule's options rather than merging them, so an override that adds one banned pattern silently drops every pattern the base config set: each override restates the full rule config (keep shared patterns in a constant and spread them in), and an exception override resets the rule explicitly. Write that in a comment above `overrides`, because the next editor will assume merging.
-- **A dependency matrix across many modules**: dependency-cruiser. `npx depcruise --init` writes `.dependency-cruiser.cjs`; each `forbidden` rule carries a `comment` the reporter prints, so the failure explains itself. Point `options.tsConfig` at the repo's tsconfig or path aliases fail to resolve, the edge is silently dropped, and the rule passes on nothing.
+- **A dependency matrix across many modules**: dependency-cruiser. `pnpm add -D dependency-cruiser && pnpm depcruise --init` writes `.dependency-cruiser.cjs`; each `forbidden` rule carries a `comment` the reporter prints, so the failure explains itself. Point `options.tsConfig` at the repo's tsconfig or path aliases fail to resolve, the edge is silently dropped, and the rule passes on nothing.
 
   ```js
   // .dependency-cruiser.cjs
@@ -133,7 +133,7 @@ Ship it with its existing violation fixed in the same change, including the impo
 Anything derived from a source of truth gets a CI step that re-derives it and fails on a dirty diff:
 
 ```bash
-npm run codegen
+pnpm codegen
 git diff --exit-code src/generated
 ```
 

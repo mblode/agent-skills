@@ -35,8 +35,8 @@ Agent-ready progress:
 A pasted scorecard is the spec. If none is present and the user named a public URL, gather one:
 
 ```bash
-npx afdocs check <docs-url> --format scorecard --sampling deterministic
-npx is-agentic <domain> --json
+pnpm dlx afdocs check <docs-url> --format scorecard --sampling deterministic
+pnpm dlx is-agentic <domain> --json
 ```
 
 Is It Agent Ready: `POST https://isitagentready.com/api/scan` with `{"url":"<origin>","format":"agent"}`. Prefer the user's pasted report over a new scan when both exist.

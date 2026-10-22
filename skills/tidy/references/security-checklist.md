@@ -60,7 +60,7 @@ Diff-mode shortcut: the highest-yield categories to eyeball on a changed line, n
 |---|---|
 | A01 Broken Access Control | Missing ownership checks, direct object references without auth, a role check on the client only |
 | A02 Security Misconfiguration | Debug mode in production, default credentials, permissive CORS, a security header removed |
-| A03 Software Supply Chain Failures | A changed dependency that `npm audit` (or equivalent) flags as known-vulnerable, a new dependency for a one-liner, unpinned or `latest` version, a package with a `postinstall` script, lockfile churn the diff does not explain, a CI workflow granting write permissions |
+| A03 Software Supply Chain Failures | A changed dependency that `pnpm audit` (or equivalent) flags as known-vulnerable, a new dependency for a one-liner, unpinned or `latest` version, a package with a `postinstall` script, lockfile churn the diff does not explain, a CI workflow granting write permissions |
 | A04 Cryptographic Failures | Unencrypted PII, `Math.random` for tokens, MD5 or SHA for passwords, missing TLS |
 | A05 Injection | String concatenation with user input in queries or shell commands; XSS via unescaped content, `dangerouslySetInnerHTML`, `innerHTML` |
 | A07 Authentication Failures | Weak session config, missing token rotation, insecure password storage, `===` on secrets instead of a constant-time compare |
@@ -96,7 +96,7 @@ Walk the codebase one class at a time: search for the pattern, then confirm each
 | File handling | upload handlers, path joins with user input, `fs` reads/writes from request data | path traversal blocked, type/size validated, stored outside web root |
 | XSS & output encoding | `dangerouslySetInnerHTML`, `innerHTML`, unescaped templating, `res.send` of user data | output escaped/sanitized at render |
 | Crypto | custom crypto, `Math.random` for tokens, weak/legacy algorithms, ECB mode | vetted primitives, CSPRNG for tokens, modern algorithms |
-| Dependencies & supply chain | `package.json`/lockfile, postinstall scripts, unpinned versions | no known-vulnerable or unexpected packages; `npm audit` clean of highs |
+| Dependencies & supply chain | `package.json`/lockfile, postinstall scripts, unpinned versions | no known-vulnerable or unexpected packages; `pnpm audit` clean of highs |
 | Error handling & info leak | stack traces to client, verbose errors, debug flags | generic client errors; details logged server-side only |
 | Rate limiting & DoS | unbounded loops over user input, missing limits on expensive endpoints | abuse-prone endpoints bounded/limited |
 

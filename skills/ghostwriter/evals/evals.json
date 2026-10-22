@@ -3,11 +3,11 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Turn this into a Slack message for the platform channel: ok so the rspack thing is done for mfe-admin-shell, refresh is like 1 second now instead of 12, i think we should roll it to the other apps but maybe not the checkout one yet? not sure. PR is github.com/acme/mfe/pull/482",
+      "prompt": "Turn this into a Slack message for the platform channel: ok so the rspack thing is done for admin-web, refresh is like 1 second now instead of 12, i think we should roll it to the other apps but maybe not the checkout one yet? not sure. PR is github.com/acme/web/pull/482",
       "expected_output": "One finished Slack message in the user's slack register, shorter than the ramble, keeping the numbers and the link, with the checkout question left open.",
       "files": [],
       "assertions": [
-        "Keeps 1 second, 12, mfe-admin-shell, and the PR link verbatim",
+        "Keeps 1 second, 12, admin-web, and the PR link verbatim",
         "The checkout rollout stays a question or a maybe; it is not stated as a decision",
         "No em dash or spaced hyphen",
         "Returns one message with no alternatives, preamble, or explanation"

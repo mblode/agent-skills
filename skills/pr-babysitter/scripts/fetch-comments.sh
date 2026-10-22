@@ -343,7 +343,7 @@ def anchor($t; $first):
       | map(. as $login | {
           login: $login,
           isMe: ($login == ($me | canon)),
-          # Hint, not a verdict: machine users such as developer-platform-actions
+          # Hint, not a verdict: machine users (deploy or approval accounts)
           # have no [bot] suffix and report as User.
           isBot: (([$raw[] | select(canon == $login) | test("\\[bot\\]$")] | any)
                   or ([$t[] | .comments[] | select((.author | canon) == $login) | .isBot]

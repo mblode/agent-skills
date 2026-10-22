@@ -30,4 +30,4 @@ Compare only compatible conditions. A missing adapter is skipped coverage with a
 
 ## Sources
 
-Adapted from the user-supplied `verify-skills.tgz` bundle: `verify-backend` for reusable request artifacts, `verify-flow` for checked cleanup, and `verify-ui` for capture adapters. No vendor code is included. Personal collection paths, Linktree build/auth conventions and mandatory Bruno usage are excluded. The bundle's one-assertion overall pass is replaced with scenario-level coverage. Existing isolation and failure-injection guidance remains authoritative.
+Adapted from a private set of verification skills: reusable request artifacts, checked cleanup, and capture adapters. No vendor code is included. Organization-specific paths, build and auth conventions, and tool mandates are excluded. The bundle's one-assertion overall pass is replaced with scenario-level coverage. Existing isolation and failure-injection guidance remains authoritative.

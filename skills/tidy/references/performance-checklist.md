@@ -43,7 +43,7 @@ Bottlenecks a diff shows on its face. Load when the diff touches data fetching, 
 |---------|-------------|
 | Large dependencies | Heavy libraries with lighter alternatives (`lodash` to native, `moment` to `date-fns`) |
 | Importing entire libraries | Barrel imports pulling in unused code. Use named imports, verify tree-shaking |
-| Duplicate dependencies | Same package at multiple versions. Check `npm ls`, deduplicate |
+| Duplicate dependencies | Same package at multiple versions. Check `pnpm why <pkg>`, deduplicate |
 
 ## Red Flags
 

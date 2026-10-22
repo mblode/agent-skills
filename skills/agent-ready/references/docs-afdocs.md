@@ -1,6 +1,6 @@
 # Docs: AFDocs and Mintlify Agent Score
 
-Read when the report is Mintlify Agent Score, `npx afdocs`, or any `llms.txt` / markdown / truncation finding.
+Read when the report is Mintlify Agent Score, `pnpm dlx afdocs`, or any `llms.txt` / markdown / truncation finding.
 
 Follow the published formats exactly. Do not invent page copy; reuse titles and URLs already in the docs. Ask for source files when a listed page is not in the repo.
 
@@ -18,7 +18,7 @@ Follow the published formats exactly. Do not invent page copy; reuse titles and 
 ## Baseline
 
 ```bash
-npx afdocs check <docs-url> --format scorecard --sampling deterministic
+pnpm dlx afdocs check <docs-url> --format scorecard --sampling deterministic
 ```
 
 Iterate with `--checks <id>` plus its dependencies. `llms-txt-valid` needs `llms-txt-exists`. Markdown size, fence, and parity checks need `.md` URLs or `Accept: text/markdown`.

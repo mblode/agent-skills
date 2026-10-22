@@ -28,19 +28,21 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
-        with: { node-version: 24, registry-url: https://registry.npmjs.org, cache: npm }
-      - run: npm ci
+        with: { node-version: 24, registry-url: https://registry.npmjs.org, cache: pnpm }
+      - run: npm install -g npm@latest   # OIDC trusted publishing needs npm 11.5.1+
+      - run: pnpm install --frozen-lockfile
       - uses: changesets/action@v2
         with:
-          publish-script: npm run release
+          publish-script: pnpm run release
 ```
 
-- `release` is typically `npm run build && changeset publish`. `changeset publish` calls `npm publish` per package; with `id-token: write`, npm 11.5.1+, and a trusted publisher configured on npmjs.com for this repo and this workflow filename, no token is involved and provenance is attached automatically (`NPM_CONFIG_PROVENANCE` and `--provenance` are redundant).
-- The same workflow on `@v1` uses `publish: npm run release` and `env: GITHUB_TOKEN`. Both majors default the PR title to "Version Packages" and the head branch to `changeset-release/<base>`; v2 also defaults `create-github-releases` and `push-git-tags` to true.
+- `release` is typically `pnpm build && changeset publish`. `changeset publish` detects pnpm from the lockfile and publishes each package with `pnpm publish`, which can hand the upload to the npm CLI on `PATH`; with `id-token: write`, npm 11.5.1+, and a trusted publisher configured on npmjs.com for this repo and this workflow filename, no token is involved and provenance is attached automatically (`NPM_CONFIG_PROVENANCE` and `--provenance` are redundant).
+- The same workflow on `@v1` uses `publish: pnpm run release` and `env: GITHUB_TOKEN`. Both majors default the PR title to "Version Packages" and the head branch to `changeset-release/<base>`; v2 also defaults `create-github-releases` and `push-git-tags` to true.
 - v2 no longer writes `.npmrc` from `NPM_TOKEN`; token auth on v2 means the workflow sets `NODE_AUTH_TOKEN` itself, and only a granular token works (classic tokens are revoked).
 - Repository setting required for the PR to open: Settings, Actions, General, "Allow GitHub Actions to create and approve pull requests".
-- Any `changeset:version` npm script is invoked by the action, never locally.
+- Any `changeset:version` package script is invoked by the action, never locally.
 
 ## Finding the Version Packages PR
 

@@ -84,7 +84,7 @@ Write the ledger from `references/ledger.md` into the repository's docs: before,
 - A Docker registry cache pushed to the same tag as the image never hits: the push overwrites the cache manifests and `cache-from` finds a regular image. The cache ref is its own tag.
 - `RUN --mount=type=cache` without an `id` shares one directory between parallel builds of different images and corrupts it under the default `sharing=shared`. Name every mount.
 - Editing the deploy line in the workflow does nothing when it calls a wrapper script that owns the real command. Find where the command runs before re-timing.
-- `turbo run typecheck`, `lerna run`, and `npm run -ws --if-present` silently skip workspaces that lack the script; a green root command proves nothing about a workspace that never ran. Validate per workspace.
+- `turbo run typecheck`, `lerna run`, and `pnpm -r run <script>` silently skip workspaces that lack the script; a green root command proves nothing about a workspace that never ran. Validate per workspace.
 
 ## Related Skills
 

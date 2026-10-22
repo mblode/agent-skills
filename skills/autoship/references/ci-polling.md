@@ -62,9 +62,9 @@ Retry flaky and infrastructure failures up to 3 times, then report. The publish 
 
 ## The Changeset Status Check
 
-Changesets repos typically run `npx changeset status --since origin/<base>` on pull requests (a step in the main CI job, or the `changesets/action/pr-status` sub-action), failing a PR that changes publishable code without a pending `.changeset/*.md`. It needs `fetch-depth: 0` on checkout; a shallow clone makes `--since` fail on every PR.
+Changesets repos typically run `pnpm changeset status --since origin/<base>` on pull requests (a step in the main CI job, or the `changesets/action/pr-status` sub-action), failing a PR that changes publishable code without a pending `.changeset/*.md`. It needs `fetch-depth: 0` on checkout; a shallow clone makes `--since` fail on every PR.
 
-- **"Some packages have been changed but no changesets were found", exit 1:** the PR adds no changeset. Fix: Step 1 (or `npx changeset add --empty` when the change needs no release).
+- **"Some packages have been changed but no changesets were found", exit 1:** the PR adds no changeset. Fix: Step 1 (or `pnpm changeset add --empty` when the change needs no release).
 - **Changeset consumed:** a local `changeset version` ran, so the file is gone and `package.json` is already bumped. Fix: revert the bump and the `CHANGELOG.md` edit, re-add the changeset file, push. Rerunning CI cannot fix state that is wrong at the commit.
 
 Read this check first when a release-related PR fails CI.

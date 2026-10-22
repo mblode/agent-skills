@@ -24,7 +24,7 @@ Stop and report instead of continuing if any of these is false when you check it
 
 - `src/auth/session.ts` still exports `refreshToken(userId)` with a single argument
 - The `users.email` column has a unique index (`\d users` in psql)
-- `npm test -- --reporter=dot` passes on `main` before any change
+- `pnpm test --reporter=dot` passes on `main` before any change
 ```
 
 A STOP condition names the assumption and how to check it. "If anything looks off" is not a STOP condition; the executor cannot check it.

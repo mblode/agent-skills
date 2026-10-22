@@ -39,10 +39,10 @@ Adjust paths to the repo. Expect:
 After docs edits, rerun:
 
 ```bash
-npx afdocs check "$DOCS_URL" --sampling deterministic --format scorecard
+pnpm dlx afdocs check "$DOCS_URL" --sampling deterministic --format scorecard
 ```
 
-After API edits, rerun `npx is-agentic <domain> --json` against the deployed origin if the user authorized a deploy; otherwise report local curl as preview evidence and name that the scanner still sees production.
+After API edits, rerun `pnpm dlx is-agentic <domain> --json` against the deployed origin if the user authorized a deploy; otherwise report local curl as preview evidence and name that the scanner still sees production.
 
 ## Server logs
 
