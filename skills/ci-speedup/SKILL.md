@@ -52,7 +52,7 @@ Symbols used across every file: λ = arrival rate (merges/hour); T = merge-path 
 | `references/main-health.md` | Main is red, or designing detection, attribution, auto-revert or re-land |
 | `references/merge-loop.md` | Designing the agentic merge system: what code decides versus what agents repair, post-merge batching, the agent task contract, the autonomy ladder, loop health, and the agent runtime (Claude in Actions, eve, Devin). Read with `main-health.md` and `bots.md` |
 | `references/github-build.md` | Installing or adapting the loop on GitHub: Anthropic's design mapped to rulesets and workflows, setup order, how the controller keeps state, checkout cost, verifying an install |
-| `assets/github/` | The templates `github-build.md` installs into `.github/`: `merge-loop.json`, the `loop.sh` controller, and the `pr`, `main-verify`, `merge-loop`, `agent-task`, `deploy`, `superfan` and `audit-sample` workflows, with the ruleset and CODEOWNERS |
+| `assets/github/` | The templates `github-build.md` installs into `.github/`: `merge-loop.json`, the `loop.sh` controller, the Managed Agents agent and environment, and the `pr`, `main-verify`, `merge-loop`, `agent-task`, `deploy`, `superfan` and `audit-sample` workflows, with the ruleset and CODEOWNERS |
 | `references/bots.md` | Building or changing any bot that writes: revert, repair, re-queue, re-land |
 | `references/flakes.md` | Intermittent failures, retry or quarantine policy, and before batching or bisecting |
 | `references/deploy.md` | Deploy is the constraint, or deploys trail merges |
@@ -114,7 +114,7 @@ The user's call, because each spends money or changes what every other change mu
 
 - spending: paid runners, higher queue concurrency or speculation depth on a metered plan
 - repository settings: rulesets, required checks, enabling the merge queue
-- creating the GitHub App, storing its key and the model key, and raising `MERGE_LOOP_RUNG` above 0
+- creating the GitHub App, storing its key and the model key, creating the Managed Agents agent and environment, turning on Claude Code Review, and raising `MERGE_LOOP_RUNG` above 0
 - merging anything to main
 
 Done means a mergeable change, after-numbers from real runs or a bot replay, a decision record with its flip conditions, and a ledger row with a re-measure date.

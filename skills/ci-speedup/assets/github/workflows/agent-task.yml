@@ -1,8 +1,9 @@
-# One agent task per dispatch: reland, conflict or flake. The agent job runs
-# agent-written code, so it holds a read-only token and the model key only; the
-# publish job runs no repository code from the agent, checks the change, and pushes
-# with the App token. Swap the agent job for a POST to eve or Devin if the agent
-# lives there; keep publish, because its checks are the guarantee.
+# One agent task per dispatch: reland, conflict or flake. The agent runs in a Claude
+# Managed Agents session, so no agent-written code runs on a runner: the agent job
+# starts the session with a read-only repository token, waits, and downloads the git
+# bundle the agent wrote. The publish job checks the change and pushes with the App
+# token. To run the agent on Devin or eve instead, replace the agent job's run step
+# and keep publish, because its checks are the guarantee.
 name: agent-task
 run-name: agent-task ${{ inputs.kind }} pr=${{ inputs.pr }} check=${{ inputs.check }} sha=${{ inputs.sha }}
 
@@ -40,60 +41,42 @@ jobs:
       fromJSON(vars.MERGE_LOOP_RUNG || '0') >= 4 ||
       (inputs.kind == 'reland' && fromJSON(vars.MERGE_LOOP_RUNG || '0') >= 2)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     permissions:
       contents: read
       actions: read
-      pull-requests: read
+      issues: write
+      pull-requests: write
     outputs:
-      changed: ${{ steps.commit.outputs.changed }}
+      changed: ${{ steps.run.outputs.changed }}
     steps:
       - uses: actions/checkout@v7
         with:
-          fetch-depth: 0
+          sparse-checkout: .github
           persist-credentials: false
-      # Copy the controller before the tree changes to agent-authored content.
-      - run: cp .github/merge-loop/loop.sh .github/merge-loop.json "$RUNNER_TEMP/"
-      - env:
+      - id: run
+        env:
           GH_TOKEN: ${{ github.token }}
-          MERGE_LOOP_CONFIG: ${{ runner.temp }}/merge-loop.json
+          # The session clones with this token through Anthropic's git proxy; it never
+          # enters the sandbox, is read-only, and expires when this job ends.
+          REPO_TOKEN: ${{ github.token }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MERGE_LOOP_AGENT_ID: ${{ vars.MERGE_LOOP_AGENT_ID }}
+          MERGE_LOOP_ENVIRONMENT_ID: ${{ vars.MERGE_LOOP_ENVIRONMENT_ID }}
           KIND: ${{ inputs.kind }}
           CHECK: ${{ inputs.check }}
           SHA: ${{ inputs.sha }}
           PR: ${{ inputs.pr }}
           EVIDENCE: ${{ inputs.evidence }}
         run: |
-          git config user.name "merge-loop"
-          git config user.email "merge-loop@users.noreply.github.com"
-          bash "$RUNNER_TEMP/loop.sh" prepare "$KIND" "$CHECK" "$SHA" "$PR" "$EVIDENCE"
-      - uses: ./.github/actions/setup
-      - env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          MERGE_LOOP_CONFIG: ${{ runner.temp }}/merge-loop.json
-        run: |
-          cfg="$RUNNER_TEMP/merge-loop.json"
-          prompt=$(bash "$RUNNER_TEMP/loop.sh" prompt)
-          npx -y @anthropic-ai/claude-code@2.1.308 -p "$prompt" \
-            --permission-mode acceptEdits \
-            --allowedTools "$(jq -r .agents.allowed_tools "$cfg")" \
-            --max-budget-usd "$(jq -r .agents.max_budget_usd "$cfg")" \
-            --output-format json > "$RUNNER_TEMP/agent.json"
-          jq -r '.result // empty' "$RUNNER_TEMP/agent.json" >> "$GITHUB_STEP_SUMMARY"
-      - id: commit
-        env:
-          KIND: ${{ inputs.kind }}
-        run: |
-          git add -A
-          if [ "$KIND" = conflict ] && git rev-parse -q --verify MERGE_HEAD >/dev/null; then
-            git commit --no-edit
-          elif git diff --cached --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
+          bash .github/merge-loop/loop.sh prepare "$KIND" "$CHECK" "$SHA" "$PR" "$EVIDENCE"
+          bash .github/merge-loop/loop.sh agent-run
+          if [ -s "$RUNNER_TEMP/work.bundle" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "$(jq -r '"merge-loop \(.kind): \(.check) \(.sha) \(.pr)"' "$RUNNER_TEMP/meta.json")"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
-          git bundle create "$RUNNER_TEMP/work.bundle" HEAD ^origin/main
-          echo "changed=true" >> "$GITHUB_OUTPUT"
-      - if: steps.commit.outputs.changed == 'true'
+      - if: steps.run.outputs.changed == 'true'
         uses: actions/upload-artifact@v7
         with:
           name: agent-work

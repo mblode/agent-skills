@@ -141,7 +141,7 @@
     {
       "id": 11,
       "prompt": "Set up our GitHub repo to work like Anthropic's merge system: no merge queue, post-merge testing, automatic bisect and revert, Claude fixing conflicts and re-landing. We use pnpm and deploy from main.",
-      "expected_output": "Installs assets/github into .github, adapts merge-loop.json and the setup action to the repository's real check commands, marks only deterministic checks as revert drivers, applies the ruleset without the up-to-date requirement, routes pushes and PRs through a GitHub App token, leaves the App, secrets and rung changes to the user, starts at rung 0, and proves the loop on a throwaway repository before the real one.",
+      "expected_output": "Installs assets/github into .github, adapts merge-loop.json and the setup action to the repository's real check commands, marks only deterministic checks as revert drivers, applies the ruleset without the up-to-date requirement, routes pushes and PRs through a GitHub App token, runs repair agents in Managed Agents sessions whose only output is a git bundle, leaves the App, secrets, agent creation and rung changes to the user, starts at rung 0, and proves the loop on a throwaway repository before the real one.",
       "files": [],
       "assertions": [
         "Copies the templates from assets/github rather than writing workflows from scratch",
@@ -150,6 +150,7 @@
         "Uses a GitHub App token for pushes and PRs because GITHUB_TOKEN events start no workflows",
         "Applies the ruleset with strict status checks off and no merge queue",
         "Leaves creating the App, storing secrets and raising MERGE_LOOP_RUNG above 0 to the user",
+        "Runs the repair agent in a Claude Managed Agents session with a read-only repository token and a session budget, and pushes only from the publish job",
         "Starts at rung 0 and verifies on a throwaway repository or by replaying past red runs"
       ]
     }

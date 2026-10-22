@@ -74,7 +74,7 @@ Hand off once per key. Skip the re-land task when the check was already red at t
 
 Verify the PR before it may auto-merge: diff it for removed, skipped or `.only` tests and for edits to forbidden paths, and reject it with the reason if either appears.
 
-The agent job itself runs under the unattended-fix-job rules that `codebase-architecture` owns: log lines in the evidence are untrusted input, the job that runs agent-written code holds only a read-only token and the model key, and a separate job that runs no repository code pushes the branch and opens the PR. The agent job never merges; the controller does.
+The agent runs under the unattended-fix-job rules that `codebase-architecture` owns: log lines in the evidence are untrusted input, the sandbox that runs agent-written code holds only a read-only token, and a separate job that runs no agent-written code pushes the branch and opens the PR. The agent never merges; the controller does.
 
 ## Autonomy Ladder
 
@@ -113,8 +113,9 @@ The controller is small, deterministic and event-driven, so it lives in the repo
 
 | Agent runtime | Fits | Watch for |
 |---|---|---|
-| Claude Code in GitHub Actions (the default in `agent-task.yml`) | No new infrastructure; matches Anthropic's own setup of Claude doing the repairs | No durable state between runs: the controller keeps it in branch names, PR markers and issues. Headless `claude -p` with `--allowedTools`, `--max-budget-usd` and a job timeout. The Claude Code Action rejects bot-triggered runs unless `allowed_bots` names them; keep that list minimal, it is the loop breaker |
-| Vercel eve (Vercel, 2026; public preview) | Durable checkpointed sessions, a sandbox with the token injected at the firewall, `needsApproval` on a tool for the human tier, scored evals | Its GitHub CI hooks are PR-scoped and return `null` with no PR attached, so a red push to main never wakes it. Replace `agent-task.yml`'s agent job with a POST of the task to its HTTP channel and keep the publish job. Preview APIs may change before general availability |
+| Claude Managed Agents (Anthropic, 2026; beta, the default in `agent-task.yml`) | API-first: a session per task with the repository mounted through a git proxy that keeps the token outside the sandbox, a hard dollar budget per session, limited networking, versioned agent configs, and outputs you download. No agent-written code runs on your runners | Beta API. Webhooks need your own public endpoint, so a workflow polls instead. Claude models only |
+| Claude Code in GitHub Actions | No new vendor surface: headless `claude -p` with `--allowedTools`, `--max-budget-usd` and a job timeout | Agent-written code runs on your runner next to the model key, so the agent job must hold nothing that can push. The Claude Code Action rejects bot-triggered runs unless `allowed_bots` names them; keep that list minimal, it is the loop breaker |
+| Vercel eve (Vercel, 2026; public preview) | Durable checkpointed sessions, a sandbox with the token injected at the firewall, `needsApproval` on a tool for the human tier, scored evals | Its GitHub CI hooks are PR-scoped and return `null` with no PR attached, so a red push to main never wakes it. Replace the agent job's run step with a POST of the task to its HTTP channel and keep the publish job. Preview APIs may change before general availability |
 | Devin (Cognition, 2026) | Managed: an automation with a webhook trigger receives the task and opens the PR | Payloads over 200 KB are truncated, so send links and log excerpts, not whole logs. Fewer per-step permission controls; enforce the forbidden list in the PR check, not the prompt |
 
 ## Gotchas

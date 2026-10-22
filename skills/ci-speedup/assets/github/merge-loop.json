@@ -34,6 +34,7 @@
     ]
   },
   "agents": {
+    "install": "corepack enable && pnpm install --frozen-lockfile",
     "forbidden_paths": [
       ".github/*",
       "AGENTS.md",
@@ -41,7 +42,6 @@
       "migrations/*",
       "infra/*"
     ],
-    "allowed_tools": "Read,Edit,Write,Glob,Grep,Bash(pnpm:*),Bash(git diff:*),Bash(git status:*),Bash(git log:*)",
     "max_budget_usd": 5
   },
   "tests": {
