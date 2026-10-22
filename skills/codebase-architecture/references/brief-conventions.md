@@ -23,7 +23,7 @@ A convention that cannot name all four is a preference, and preferences do not g
 ## Convention shapes
 
 - **Quality bar:** the product qualities the architecture protects, usually reliability, speed, clarity, efficacy, and efficiency. Enforcement: release checklist plus targeted tests, monitoring, and rollback gates.
-- **Surface-area budget:** every new module, route, job, entrypoint, feature flag, setting, and deployable surface adds relationship cost. Enforcement: the brief names the new relationships, ownership, tests, observability, and deletion or sunset path before the surface is accepted.
+- **Surface-area budget:** every new module, route, job, entrypoint, feature flag, setting, and deployable surface adds relationship cost. Enforcement: the brief names the new relationships, ownership, tests, observability, and deletion or sunset path before the surface is accepted. A cache, queue, or second datastore is a new stateful component and pays the same budget, plus its invalidation or drain story; it is accepted only after an index or query fix was measured and shown insufficient.
 - **Complete vertical slices:** a slice ships with its contracts, error paths, user-facing states, observability, and rollback path. Enforcement: PR template or release gate rejects happy-path-only slices.
 - **Entropy control:** old flows, duplicate paths, and low-value features are deleted, sunset, or marked legacy with an owner and review date. Enforcement: legacy registry, deprecation grep, or scheduled cleanup check.
 - **Domain language:** one canonical name per business concept; aliases listed only for migration. Enforcement: domain glossary plus tests or lint for generated API and schema names.
