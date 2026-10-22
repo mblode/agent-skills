@@ -49,6 +49,7 @@ jobs:
       pull-requests: write
     outputs:
       changed: ${{ steps.run.outputs.changed }}
+      session: ${{ steps.run.outputs.session }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -115,4 +116,5 @@ jobs:
           SHA: ${{ inputs.sha }}
           PR: ${{ inputs.pr }}
           EVIDENCE: ${{ inputs.evidence }}
-        run: bash .github/merge-loop/loop.sh publish "$KIND" "$CHECK" "$SHA" "$PR" "$EVIDENCE" "$RUNNER_TEMP/work/work.bundle"
+          SESSION: ${{ needs.agent.outputs.session }}
+        run: bash .github/merge-loop/loop.sh publish "$KIND" "$CHECK" "$SHA" "$PR" "$EVIDENCE" "$RUNNER_TEMP/work/work.bundle" "$SESSION"

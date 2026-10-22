@@ -33,7 +33,7 @@ Usage: loop.sh <command> [args]
   prompt                                    print the agent task prompt
   agent-create [dir]                        create the Managed Agents environment and agent once
   agent-run                                 run a prepared task in a session, download its bundle
-  publish <kind> <check> <sha> <pr> <evidence> <bundle>
+  publish <kind> <check> <sha> <pr> <evidence> <bundle> [session]
                                             guard, push and open the agent's PR
   scan-conflicts                            dispatch repair for conflicted ready PRs
   sample <n>                                open a risk-weighted audit sample issue
@@ -481,7 +481,7 @@ cmd_prepare() {
           --json headRefName,headRefOid,isCrossRepository --jq '[.headRefName, .headRefOid, .isCrossRepository] | @tsv')
         [ "$cross" = false ] || die "PR #$pr comes from a fork; out of scope"
         printf 'git fetch --quiet origin main %s\ngit switch --quiet --detach %s\n' "$base_oid" "$base_oid"
-        printf 'git merge --no-commit --no-ff origin/main || true\n'
+        printf 'git merge --no-commit --no-ff -m %q origin/main || true\n' "Merge main into #$pr (merge-loop conflict repair)"
         ;;
       *) die "unknown kind: $kind" ;;
     esac
@@ -565,7 +565,7 @@ cmd_agent_create() {
 # REPO_TOKEN is a read-only token; Anthropic's git proxy holds it outside the sandbox.
 cmd_agent_run() {
   need_repo
-  local meta="$TMP/meta.json" kind check pr f id ids=() resources body session status idle=0 deadline cost bundle=""
+  local meta="$TMP/meta.json" kind check pr f id ids=() resources body session status="" stop="" deadline cost said why bundle=""
   kind=$(jq -r .kind "$meta")
   check=$(jq -r .check "$meta")
   pr=$(jq -r .pr "$meta")
@@ -585,42 +585,68 @@ cmd_agent_run() {
       initial_events: [{type: "user.message", content: [{type: "text", text: $prompt}]}]}')
   session=$(api POST /v1/sessions -H 'content-type: application/json' -d "$body" | jq -r .id)
   note "agent session $session"
-  # Idle twice in a row means the turn ended (end_turn, budget_reached or retries_exhausted):
-  # with every tool on always_allow and no custom tools, nothing waits on this job.
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then echo "session=$session" >>"$GITHUB_OUTPUT"; fi
+  # Idle with any stop reason but requires_action ends the turn (client patterns: the
+  # session also idles briefly between tool calls, with requires_action).
   deadline=$((SECONDS + ${MERGE_LOOP_AGENT_MINUTES:-50} * 60))
   while :; do
     sleep 20
     status=$(api GET "/v1/sessions/$session" | jq -r .status)
-    case $status in
-      terminated) break ;;
-      idle) idle=$((idle + 1)); [ "$idle" -lt 2 ] || break ;;
-      *) idle=0 ;;
-    esac
+    [ "$status" != terminated ] || break
+    if [ "$status" = idle ]; then
+      session_events "$session" >"$TMP/events.jsonl"
+      stop=$(jq -rs '[.[] | select(.type == "session.status_idle")] | last | .stop_reason.type // empty' "$TMP/events.jsonl")
+      [ "$stop" = requires_action ] || break
+    fi
     if [ "$SECONDS" -ge "$deadline" ]; then
       api POST "/v1/sessions/$session/events" -H 'content-type: application/json' -d '{"events":[{"type":"user.interrupt"}]}' >/dev/null || true
-      note "agent session $session timed out"
+      stop=timeout
       break
     fi
   done
+  session_events "$session" >"$TMP/events.jsonl"
   cost=$(api GET "/v1/sessions/$session" | jq -r '.usage.list_cost.amount // "0"')
-  note "agent session $session ended $status, list cost \$$(awk -v c="$cost" 'BEGIN { printf "%.2f", c / 100 }')"
+  note "agent session $session ended $status (${stop:-no stop reason}), list cost \$$(awk -v c="$cost" 'BEGIN { printf "%.2f", c / 100 }')"
+  # The agent's last message is untrusted text: quote it, never run or parse it.
+  said=$(jq -rs '[.[] | select(.type == "agent.message")] | last | [.content[]? | .text // empty] | join("\n")' "$TMP/events.jsonl" |
+    head -c 2000 | sed 's/^/> /')
+  if [ -n "$said" ]; then note "$said"; fi
   for _ in 1 2 3; do # outputs are indexed a few seconds after the session idles
     bundle=$(api GET "/v1/files?scope_id=$session" | jq -r '[.data[] | select(.filename == "work.bundle")][0].id // empty')
     [ -z "$bundle" ] || break
     sleep 5
   done
   for id in "${ids[@]}"; do api DELETE "/v1/files/$id" >/dev/null || true; done
-  if [ -n "$bundle" ]; then
+  if [ -n "$bundle" ]; then # finish.sh wrote it, so it is a committed state; publish judges it
     api GET "/v1/files/$bundle/content" -o "$TMP/work.bundle"
     return
   fi
+  case $stop in
+    budget_reached) why="hit its \$$(conf '.agents.max_budget_usd') budget before finishing" ;;
+    timeout) why="timed out after ${MERGE_LOOP_AGENT_MINUTES:-50} minutes" ;;
+    retries_exhausted) why="failed after the platform's retries" ;;
+    *) why="produced no change" ;;
+  esac
+  why="the $kind agent $why (session $session)"
+  if [ -n "$said" ]; then why=$(printf '%s. Its last message:\n\n%s' "$why" "$said"); fi
   if [ "$kind" = conflict ]; then
     ensure_labels
     gh pr edit "$pr" -R "$REPO" --add-label "$PREFIX:escalated" >/dev/null
-    gh pr comment "$pr" -R "$REPO" --body "Conflict repair produced no change (session $session). $(conf '.escalate')" >/dev/null
+    gh pr comment "$pr" -R "$REPO" --body "$(printf 'Conflict repair stopped: %s\n\n%s' "$why" "$(conf '.escalate')")" >/dev/null
   else
-    escalate "$check" "the $kind agent produced no change (session $session)"
+    escalate "$check" "$why"
   fi
+}
+
+# Every event of a session, one JSON object per line, following the page cursor.
+session_events() {
+  local resp page=""
+  while :; do
+    resp=$(api GET "/v1/sessions/$1/events" -G --data-urlencode "limit=100" ${page:+--data-urlencode "page=$page"})
+    jq -c '.data[]' <<<"$resp"
+    page=$(jq -r '.next_page // empty' <<<"$resp")
+    [ -n "$page" ] || break
+  done
 }
 
 rung_allows() {
@@ -635,11 +661,11 @@ rung_allows() {
 # inputs and the branch is derived here, because the agent could rewrite any file it wrote.
 cmd_publish() {
   need_repo
-  local kind=${1:?kind} check=${2:-} sha=${3:-} pr=${4:-} evidence=${5:-} bundle=${6:?bundle}
+  local kind=${1:?kind} check=${2:-} sha=${3:-} pr=${4:-} evidence=${5:-} bundle=${6:?bundle} session=${7:-}
   local branch base_oid="" cross head found title body url meta
   if ! rung_allows "$kind"; then note "rung $RUNG does not allow $kind tasks; nothing published"; return 0; fi
   git fetch --quiet origin main
-  git fetch --quiet "$bundle" "HEAD:refs/remotes/agent/head"
+  git fetch --quiet "$bundle" "+HEAD:refs/remotes/agent/head"
   head=$(git rev-parse refs/remotes/agent/head)
   case $kind in
     reland | flake)
@@ -681,7 +707,7 @@ cmd_publish() {
   if [ "$kind" = conflict ]; then
     git push --quiet origin "$head:refs/heads/$branch"
     as_app gh pr edit "$pr" -R "$REPO" --remove-label "$PREFIX:conflict"
-    as_app gh pr comment "$pr" -R "$REPO" --body "Merged main and resolved the conflicts ($kind task, run ${GITHUB_RUN_ID:-local})."
+    as_app gh pr comment "$pr" -R "$REPO" --body "Merged main and resolved the conflicts ($kind task, run ${GITHUB_RUN_ID:-local}, agent session ${session:-none})."
     return
   fi
 
@@ -693,8 +719,8 @@ cmd_publish() {
   fi
   meta=$(jq -nc --arg kind "$kind" --arg check "$check" --arg sha "$sha" --arg pr "$pr" \
     '{kind: $kind, check: $check, culprit: $sha, orig_pr: $pr}')
-  body=$(printf '%s task from the merge loop.\n\n- Check: `%s`\n- Commit: %s\n- Evidence: %s\n\n<!-- merge-loop %s -->\n' \
-    "$kind" "$check" "$sha" "$evidence" "$meta")
+  body=$(printf '%s task from the merge loop.\n\n- Check: `%s`\n- Commit: %s\n- Evidence: %s\n- Agent session: %s\n\n<!-- merge-loop %s -->\n' \
+    "$kind" "$check" "$sha" "$evidence" "${session:-none}" "$meta")
   ensure_labels
   url=$(as_app gh pr create -R "$REPO" --base main --head "$branch" --label "$PREFIX" --title "$title" --body "$body")
   if [ "$RUNG" -ge 3 ] && [ "$(cmd_tier origin/main "$head")" = low ]; then
