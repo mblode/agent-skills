@@ -38,7 +38,7 @@ Symbols used across every file: λ = arrival rate (merges/hour); T = merge-path 
 
 **Lanes and placement.** Every check runs in one lane: author pre-push, PR gate (exact head), merge path (the merged tree, or nothing), post-merge main (coalesced runs; drives auto-revert), pre-deploy (the exact artifact) or nightly (never a merge verdict). Place each check by asking, in order: irreversible if it ships (block before merge, human tier); merge-breakable, meaning its result can change when merged with other PRs (run it on the merged tree; otherwise at the PR head only); deterministic (only these may drive auto-revert); and what it adds to T against what it catches. The classification table and the YAML are in `references/lanes.md`.
 
-**Queue or no queue.** Start from utilisation u = λ·T/60. Below 0.5, a merge queue with batch 1 to 4 that re-proves only merge-breakable checks gives the strongest main health cheaply. At 0.5 and above, measure p from `merge_group` runs before sizing anything, because flakes count as failures: they shrink the best batch size and make bisection eject innocent PRs. When λ outruns what batching and speculation can carry inside C, the agent-scale default is no global queue: merge on evidence for the exact head, run the full suite post-merge with coalesced runs, auto-revert deterministic failures only and hand each re-land to an agent as a new task, deploy only verified ancestors, and keep a pre-merge guard and a human merge for irreversible classes. Neither "require branches up to date" nor "require green main before merging" is ever the answer: both serialise merges. The batching math, the flip conditions back to a queue, the host settings and the calibration points live in `references/merge-path.md`.
+**The default architecture: no merge queue.** PRs merge on evidence for their exact head; main verifies itself after merge in coalesced runs, so each run is a batch; deterministic failures are bisected and reverted by code, and the re-land, conflict and flake repairs go to agents as new tasks; deploys follow the newest verified commit; humans own the high-risk tier, the kill switch and a sampled audit. This is the shape Anthropic runs at 30,000+ merges a day, and it holds at low volume too, where each batch is one commit. Never answer with "require branches up to date" or "require green main before merging": both serialise merges. Flip to a merge queue only when the red budget cannot be met, deploys cannot be limited to verified commits, breakages are mostly nondeterministic, or main cannot be reverted; the flip conditions and the queue math are in `references/merge-path.md`, and the GitHub implementation is in `assets/github/` with `references/github-build.md`.
 
 ## Reference Files
 
@@ -48,9 +48,11 @@ Symbols used across every file: λ = arrival rate (merges/hour); T = merge-path 
 | `references/measuring.md` | Pipeline duration is the constraint, or Step 5 is crediting an after-run: run, job and step timings, the three ratios, the critical path, `merge_group` runs, failure and rerun share, queue time, after-run rules |
 | `references/levers.md` | Choosing duration levers: setup, execution, toolchain and image-build levers, what each needs to be true, and the traps |
 | `references/lanes.md` | Placing a check; editing `on:`, `if:`, `needs:` or `concurrency:`; changing required checks; a gate that passes while checking nothing |
-| `references/merge-path.md` | Queue or no queue, queue sizing, a backed-up queue, ejections, conflicts, merge policy |
+| `references/merge-path.md` | Whether a flip condition calls for a merge queue, queue sizing, a backed-up queue, ejections, conflicts, merge policy |
 | `references/main-health.md` | Main is red, or designing detection, attribution, auto-revert or re-land |
-| `references/merge-loop.md` | Designing or building the end-to-end agentic merge system: what code decides versus what agents repair, post-merge batching, the agent task contract, the autonomy ladder, loop health, and choosing a runtime (Actions with Claude, eve, Devin). Read with `main-health.md` and `bots.md` |
+| `references/merge-loop.md` | Designing the agentic merge system: what code decides versus what agents repair, post-merge batching, the agent task contract, the autonomy ladder, loop health, and the agent runtime (Claude in Actions, eve, Devin). Read with `main-health.md` and `bots.md` |
+| `references/github-build.md` | Installing or adapting the loop on GitHub: Anthropic's design mapped to rulesets and workflows, setup order, how the controller keeps state, checkout cost, verifying an install |
+| `assets/github/` | The templates `github-build.md` installs into `.github/`: `merge-loop.json`, the `loop.sh` controller, and the `pr`, `main-verify`, `merge-loop`, `agent-task`, `deploy`, `superfan` and `audit-sample` workflows, with the ruleset and CODEOWNERS |
 | `references/bots.md` | Building or changing any bot that writes: revert, repair, re-queue, re-land |
 | `references/flakes.md` | Intermittent failures, retry or quarantine policy, and before batching or bisecting |
 | `references/deploy.md` | Deploy is the constraint, or deploys trail merges |
@@ -92,7 +94,7 @@ State the predicted change in X, R and C, one recommended option, and the measur
 
 ### Step 4: Change it on a branch
 
-Edit workflow, test and bot configuration in one branch, and re-time locally whatever can be measured without pushing. A change that makes a shard fail is a finding, not a reason to skip the shard. Dry-run every bot that writes by replaying the red episodes from Step 2 and listing what it would have reverted, repaired or re-queued. Building the agentic merge loop: build the controller from `references/merge-loop.md`, ship it at rung 0 with the kill switch off, and promote only on replay numbers.
+Edit workflow, test and bot configuration in one branch, and re-time locally whatever can be measured without pushing. A change that makes a shard fail is a finding, not a reason to skip the shard. Dry-run every bot that writes by replaying the red episodes from Step 2 and listing what it would have reverted, repaired or re-queued. Building the merge loop: on GitHub, install `assets/github/` by the setup order in `references/github-build.md`, adapt `merge-loop.json` and the setup action to the repository, prove it on a throwaway repository first, ship it at rung 0, and promote only on replay numbers.
 
 Keep the guards. Change detection, concurrency groups, merge checks and deploy gates usually exist because of a past incident; move them, never drop them, and keep the comment that cites the incident next to the guard.
 
@@ -112,7 +114,7 @@ The user's call, because each spends money or changes what every other change mu
 
 - spending: paid runners, higher queue concurrency or speculation depth on a metered plan
 - repository settings: rulesets, required checks, enabling the merge queue
-- turning a bot's kill switch on
+- creating the GitHub App, storing its key and the model key, and raising `MERGE_LOOP_RUNG` above 0
 - merging anything to main
 
 Done means a mergeable change, after-numbers from real runs or a bot replay, a decision record with its flip conditions, and a ledger row with a re-measure date.

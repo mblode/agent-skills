@@ -1,0 +1,171 @@
+# The controller. Code decides (classify, attribute, bisect, revert); agents only repair.
+# Rung comes from the repository variable MERGE_LOOP_RUNG: 0 = shadow (decisions go to the
+# job summary only), 1 = reverts, 2 = re-land tasks, 3 = auto-merge low-risk re-lands,
+# 4 = conflict and flake repair. Setting it to 0 is the kill switch.
+name: merge-loop
+
+on:
+  workflow_run:
+    workflows: [main-verify]
+    types: [completed]
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  MERGE_LOOP_RUNG: ${{ vars.MERGE_LOOP_RUNG || '0' }}
+
+jobs:
+  attribute:
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      issues: read
+      pull-requests: read
+    outputs:
+      action: ${{ steps.attribute.outputs.action }}
+      check: ${{ steps.attribute.outputs.check }}
+      command: ${{ steps.attribute.outputs.command }}
+      shas: ${{ steps.attribute.outputs.shas }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+      - id: attribute
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          bash .github/merge-loop/loop.sh attribute "$RUN_ID" > decision.json
+          cat decision.json
+          {
+            echo "action=$(jq -r .action decision.json)"
+            echo "check=$(jq -r .check decision.json)"
+            echo "command=$(jq -r .command decision.json)"
+            echo "shas=$(jq -c .shas decision.json)"
+          } >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: decision
+          path: decision.json
+
+  # Run the failing check on every commit in the range at once: wall-clock is one run,
+  # cost is one run per commit. The head is included, so its result is also the re-run.
+  bisect:
+    needs: attribute
+    if: needs.attribute.outputs.action == 'bisect'
+    name: bisect (${{ matrix.sha }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        sha: ${{ fromJSON(needs.attribute.outputs.shas) }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ matrix.sha }}
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - id: run
+        continue-on-error: true
+        env:
+          COMMAND: ${{ needs.attribute.outputs.command }}
+        run: bash -c "$COMMAND"
+      - if: always()
+        env:
+          OUTCOME: ${{ steps.run.outcome }}
+          SHA: ${{ matrix.sha }}
+        run: echo "$OUTCOME" > "result-$SHA"
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bisect-${{ matrix.sha }}
+          path: result-${{ matrix.sha }}
+
+  act:
+    needs: [attribute, bisect]
+    if: always() && needs.attribute.result == 'success' && needs.attribute.outputs.action != 'none'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+      issues: write
+      pull-requests: write
+    steps:
+      - id: app
+        if: env.MERGE_LOOP_RUNG != '0'
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.MERGE_LOOP_CLIENT_ID }}
+          private-key: ${{ secrets.MERGE_LOOP_PRIVATE_KEY }}
+      # Pushes and PRs use the App token: GITHUB_TOKEN events start no workflows,
+      # so a revert pushed with it would never run its own checks.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          token: ${{ steps.app.outputs.token || github.token }}
+      - uses: actions/download-artifact@v8
+        with:
+          path: results
+          merge-multiple: true
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          LOOP_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          git config user.name "merge-loop"
+          git config user.email "merge-loop@users.noreply.github.com"
+          bash .github/merge-loop/loop.sh decide results/decision.json results > final.json
+          bash .github/merge-loop/loop.sh act final.json
+
+  after-revert:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged &&
+      startsWith(github.event.pull_request.head.ref, 'merge-loop/revert-')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: bash .github/merge-loop/loop.sh after-revert "$PR"
+
+  # Every push to main can turn ready PRs into conflicts; repair is an agent task.
+  conflict-scan:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    concurrency:
+      group: merge-loop-conflict-scan
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      actions: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash .github/merge-loop/loop.sh scan-conflicts

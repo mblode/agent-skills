@@ -1,0 +1,12 @@
+name: setup
+description: The toolchain every job uses. Replace with the repository's own setup.
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v6
+    - uses: actions/setup-node@v7
+      with:
+        node-version: lts/*
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+      shell: bash

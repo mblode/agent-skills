@@ -1,0 +1,5 @@
+# Human review only where a wrong merge is expensive to undo. Everything else
+# merges on checks; the ruleset's require_code_owner_review enforces these lines.
+/migrations/  @your-org/db-owners
+/infra/       @your-org/platform
+/.github/     @your-org/platform

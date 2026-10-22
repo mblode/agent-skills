@@ -1,0 +1,48 @@
+# Deploy only verified commits. Each green main-verify run proves every commit up to its
+# head, so deploy that head. Superseded pending deploys are dropped by the concurrency
+# group, so a backlog collapses to the newest verified commit. Pre-deploy checks run on
+# the exact artifact that ships.
+name: deploy
+
+on:
+  workflow_run:
+    workflows: [main-verify]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  deploy:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      # A re-run of an older verify run can finish green after a newer one deployed.
+      - id: current
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: echo "deploy=$(bash .github/merge-loop/loop.sh deploy-current "$SHA")" >> "$GITHUB_OUTPUT"
+      - if: steps.current.outputs.deploy == 'yes'
+        uses: ./.github/actions/setup
+      - if: steps.current.outputs.deploy == 'yes'
+        name: build
+        run: bash .github/merge-loop/loop.sh run-deploy build
+      - if: steps.current.outputs.deploy == 'yes'
+        name: smoke
+        run: bash .github/merge-loop/loop.sh run-deploy smoke
+      - if: steps.current.outputs.deploy == 'yes'
+        name: release
+        run: bash .github/merge-loop/loop.sh run-deploy release

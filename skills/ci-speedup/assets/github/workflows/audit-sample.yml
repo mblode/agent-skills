@@ -1,0 +1,25 @@
+# Humans audit a sample of merges nobody approved, weighted towards the larger ones.
+name: audit-sample
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          MERGE_LOOP_RUNG: ${{ vars.MERGE_LOOP_RUNG || '0' }}
+        run: bash .github/merge-loop/loop.sh sample 5

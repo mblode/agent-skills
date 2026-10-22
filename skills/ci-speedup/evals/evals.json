@@ -46,16 +46,14 @@
     {
       "id": 4,
       "prompt": "We run about 40 coding agents against one repo. GitHub merge queue is on, CI takes 25 minutes, and the queue is now 6 hours behind. PRs keep getting kicked out of the queue and re-entering. How do we fix this?",
-      "expected_output": "Computes the serial ceiling against the arrival rate, measures the merge-queue failure rate from merge_group runs and quarantines flakes before sizing a batch, sizes the batch from the measured rate, limits the queue to merge-breakable checks, states the speculation cost, and names when to switch to post-merge checks instead.",
+      "expected_output": "Computes the serial ceiling against the arrival rate, recommends retiring the queue for the post-merge default (exact-head merges, coalesced main verification, bisect and auto-revert of deterministic checks, verified-only deploys), checks the flip conditions before doing so, and only if one holds sizes the queue from a measured merge_group failure rate after quarantining flakes.",
       "files": [],
       "assertions": [
         "Computes the serial ceiling (60/25 = 2.4 merges per hour) and compares it with the measured arrival rate",
-        "Measures the queue failure rate p from merge_group runs before choosing a batch size",
-        "Quarantines flaky tests before turning on or enlarging batching",
-        "Derives the batch size from about 0.35/p rather than picking a number",
-        "Limits the queue run to merge-breakable checks and does not re-run PR-only checks such as lint of the diff",
-        "States the runner-minute cost of speculative builds, including discarded ones",
-        "Names the condition that flips the recommendation to no queue with post-merge checks",
+        "Recommends removing the merge queue in favour of post-merge verification with auto-revert, unless a named flip condition holds",
+        "Checks the flip conditions: red budget, deploys limited to verified commits, deterministic breakages, cheap reverts",
+        "If the queue stays, measures p from merge_group runs and quarantines flakes before sizing a batch",
+        "Requires deploys to ship only commits whose post-merge run passed",
         "Does not propose requiring branches to be up to date before merging"
       ]
     },
@@ -77,14 +75,14 @@
     {
       "id": 6,
       "prompt": "Our agents open about 300 PRs a day. CI is 12 minutes and every commit on main deploys to production automatically. Should we turn on a merge queue?",
-      "expected_output": "Computes utilisation from the arrival rate and CI minutes, asks for or measures the failure and merge-breakage rates, requires a deploy gate that ships only verified commits before choosing no queue, recommends one option with its flip conditions, and keeps destructive migrations behind a pre-merge guard.",
+      "expected_output": "Recommends no merge queue with post-merge verification and auto-revert, makes a deploy gate that ships only verified commits a precondition because every main commit currently deploys, keeps irreversible changes behind a pre-merge guard, and names the flip conditions back to a queue.",
       "files": [],
       "assertions": [
-        "Computes utilisation u = λ·T/60 from the stated volume and CI minutes",
-        "Asks for or measures the failure rate p and the merge-breakage rate p_mb",
-        "Requires a deploy gate that deploys only verified commits before recommending no queue",
+        "Recommends no merge queue, with post-merge verification and auto-revert",
+        "Requires a deploy gate that deploys only verified commits before dropping pre-merge protection",
+        "Asks for or measures the merge-breakage rate p_mb and time to revert to check the red budget",
         "Recommends exactly one option",
-        "States the conditions that would flip the recommendation",
+        "States the conditions that would flip the recommendation to a queue",
         "Keeps migrations or other irreversible changes behind a pre-merge guard"
       ]
     },
@@ -139,6 +137,21 @@
         "States that eve's CI hooks need an attached pull request, so a red push to main reaches the agent another way",
         "Includes a circuit breaker or write cap for revert bursts"
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Set up our GitHub repo to work like Anthropic's merge system: no merge queue, post-merge testing, automatic bisect and revert, Claude fixing conflicts and re-landing. We use pnpm and deploy from main.",
+      "expected_output": "Installs assets/github into .github, adapts merge-loop.json and the setup action to the repository's real check commands, marks only deterministic checks as revert drivers, applies the ruleset without the up-to-date requirement, routes pushes and PRs through a GitHub App token, leaves the App, secrets and rung changes to the user, starts at rung 0, and proves the loop on a throwaway repository before the real one.",
+      "files": [],
+      "assertions": [
+        "Copies the templates from assets/github rather than writing workflows from scratch",
+        "Fills merge-loop.json with the repository's actual check commands and marks flaky checks deterministic: false",
+        "Keeps the 'check (<name>)' job and 'check' step names the controller depends on",
+        "Uses a GitHub App token for pushes and PRs because GITHUB_TOKEN events start no workflows",
+        "Applies the ruleset with strict status checks off and no merge queue",
+        "Leaves creating the App, storing secrets and raising MERGE_LOOP_RUNG above 0 to the user",
+        "Starts at rung 0 and verifies on a throwaway repository or by replaying past red runs"
+      ]
     }
   ],
   "routing": {
@@ -158,7 +171,8 @@
       "what's the policy for flaky e2e tests blocking merges",
       "where do our PRs actually wait between open and deploy",
       "Design a self-healing bot that reverts whatever breaks main and has an agent re-land it",
-      "Main keeps failing on flaky e2e tests across everyone's PRs; fix how we handle it"
+      "Main keeps failing on flaky e2e tests across everyone's PRs; fix how we handle it",
+      "Make our GitHub repo merge like Anthropic does: no merge queue, test after merge, auto bisect and revert"
     ],
     "near_miss": [
       {
@@ -216,7 +230,7 @@
     ]
   },
   "baseline": {
-    "status": "stale: recorded before the 2026-10 rebuild (scenarios 4 to 9, flakes, deploy and merge-path references); re-run the with-versus-without comparison on scenarios 2 and 4 to 8 before relying on it",
+    "status": "stale: recorded before the 2026-10 rebuild (scenarios 4 to 11, the no-queue default, flakes, deploy, merge-path and the GitHub build); re-run before trusting the delta",
     "date": "2026-09-21",
     "model": "a small fast model (fresh subagent contexts, no repository access)",
     "scenario": 2,

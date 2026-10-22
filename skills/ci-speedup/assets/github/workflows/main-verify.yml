@@ -1,0 +1,50 @@
+# Post-merge verification. One run at a time; pushes that land while it runs collapse
+# into one pending run, so each run verifies every commit since the last one (the batch).
+# Never cancel-in-progress here: a cancelled run leaves its commits without a verdict.
+name: main-verify
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: main-verify-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      checks: ${{ steps.plan.outputs.checks }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+      - id: plan
+        run: echo "checks=$(jq -c '.checks | keys' .github/merge-loop.json)" >> "$GITHUB_OUTPUT"
+
+  # Job and step names are the controller's contract: "check (<name>)" with a step
+  # named "check". A failure in any other step is classified as infrastructure.
+  check:
+    needs: plan
+    name: check (${{ matrix.check }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        check: ${{ fromJSON(needs.plan.outputs.checks) }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: check
+        env:
+          CHECK: ${{ matrix.check }}
+        run: bash .github/merge-loop/loop.sh run-check "$CHECK"

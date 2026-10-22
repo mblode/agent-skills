@@ -1,0 +1,70 @@
+{
+  "verify_workflow": "main-verify.yml",
+  "checks": {
+    "lint": {
+      "command": "pnpm lint",
+      "deterministic": true
+    },
+    "typecheck": {
+      "command": "pnpm typecheck",
+      "deterministic": true
+    },
+    "test": {
+      "command": "pnpm test",
+      "pr_command": "pnpm turbo run test --affected",
+      "deterministic": true
+    },
+    "e2e": {
+      "command": "pnpm e2e",
+      "deterministic": false
+    }
+  },
+  "deploy": {
+    "build": "pnpm build",
+    "smoke": "pnpm smoke",
+    "release": "echo 'replace with the release command'"
+  },
+  "risk": {
+    "high_paths": [
+      "migrations/*",
+      "infra/*",
+      ".github/*",
+      "*/auth/*",
+      "*.tf"
+    ]
+  },
+  "agents": {
+    "forbidden_paths": [
+      ".github/*",
+      "AGENTS.md",
+      "CLAUDE.md",
+      "migrations/*",
+      "infra/*"
+    ],
+    "allowed_tools": "Read,Edit,Write,Glob,Grep,Bash(pnpm:*),Bash(git diff:*),Bash(git status:*),Bash(git log:*)",
+    "max_budget_usd": 5
+  },
+  "tests": {
+    "paths": [
+      "*.test.*",
+      "*.spec.*",
+      "*/__tests__/*",
+      "e2e/*"
+    ],
+    "case_regex": "^[[:space:]]*(it|test)(\\.[A-Za-z]+)*\\(",
+    "skip_regex": "\\.(skip|only|todo)\\(|(^|[^[:alnum:]_])x(it|test|describe)\\("
+  },
+  "limits": {
+    "bisect_max": 16,
+    "reverts_per_hour": 3,
+    "writes_per_hour": 10
+  },
+  "audit": {
+    "bot_logins": [
+      "copilot-pull-request-reviewer",
+      "claude",
+      "github-actions"
+    ]
+  },
+  "escalate": "@your-org/merge-loop-owners"
+}

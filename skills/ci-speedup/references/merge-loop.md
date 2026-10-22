@@ -109,15 +109,13 @@ Runaway guards, all in code:
 
 ## Choosing a Runtime
 
-The controller and the agents can run in different places. The controller is small, deterministic and event-driven; the agent needs a sandbox, a checkout and a long session. Check each option's current docs before building: these products change monthly.
+The controller is small, deterministic and event-driven, so it lives in the repository's own CI next to the events and the App token; on GitHub that is `loop.sh` in `assets/github/`. The agent needs a sandbox, a checkout and a long session, and can live elsewhere. Whatever runs the agent, the controller's checks on the resulting PR are the guarantee, not the agent's instructions. Check each option's current docs before building: these products change monthly.
 
-| Runtime | Fits | Watch for |
+| Agent runtime | Fits | Watch for |
 |---|---|---|
-| GitHub Actions with the Claude Code Action (Anthropic, 2026) | Controller and agent with no new infrastructure: `workflow_run` on main pushes, `schedule`, `pull_request_target` for conflicted PRs | No durable state between runs: keep it in marker comments and labels. The action rejects bot-triggered runs unless `allowed_bots` names them; keep that list minimal, it is the loop breaker. Pass `--max-turns` in `claude_args`, set `timeout-minutes`, and give each PR a `concurrency` group |
-| Vercel eve (Vercel, 2026; public preview) | The agent side: durable checkpointed sessions, cron schedules, a sandbox with the repo checked out and the token injected at the firewall, `needsApproval` on a tool for the human tier, subagents per task kind, scored evals | Its GitHub CI hooks are PR-scoped and must return `null` when no PR is attached, so a red push to main never wakes the agent. Feed it from a schedule or from an Actions step that POSTs the controller's task to its HTTP channel. Preview APIs may change before general availability |
-| Devin (Cognition, 2026) | The agent side, managed: an automation with a webhook trigger receives the controller's task and opens the PR | Payloads over 200 KB are truncated, so send links and log excerpts, not whole logs. Fewer per-step permission controls; enforce the forbidden list in the PR check, not the prompt |
-
-A sound default: the controller as a workflow in the repository's own CI, next to the events and the App token, and the agent runtime chosen by where you want sessions, approvals and traces to live. Whatever runs the agent, the controller's checks on the resulting PR are the guarantee, not the agent's instructions.
+| Claude Code in GitHub Actions (the default in `agent-task.yml`) | No new infrastructure; matches Anthropic's own setup of Claude doing the repairs | No durable state between runs: the controller keeps it in branch names, PR markers and issues. Headless `claude -p` with `--allowedTools`, `--max-budget-usd` and a job timeout. The Claude Code Action rejects bot-triggered runs unless `allowed_bots` names them; keep that list minimal, it is the loop breaker |
+| Vercel eve (Vercel, 2026; public preview) | Durable checkpointed sessions, a sandbox with the token injected at the firewall, `needsApproval` on a tool for the human tier, scored evals | Its GitHub CI hooks are PR-scoped and return `null` with no PR attached, so a red push to main never wakes it. Replace `agent-task.yml`'s agent job with a POST of the task to its HTTP channel and keep the publish job. Preview APIs may change before general availability |
+| Devin (Cognition, 2026) | Managed: an automation with a webhook trigger receives the task and opens the PR | Payloads over 200 KB are truncated, so send links and log excerpts, not whole logs. Fewer per-step permission controls; enforce the forbidden list in the PR check, not the prompt |
 
 ## Gotchas
 
