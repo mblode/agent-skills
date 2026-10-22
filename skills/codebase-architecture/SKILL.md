@@ -82,7 +82,7 @@ Before any of this, ask whether each surface needs to exist. A module, service, 
 3. Define backend module interfaces, each naming its enforcement (import-boundary lint or type check):
    - `handler`: transport only.
    - `service`: business orchestration.
-   - `dao`: database access only.
+   - `dao`: database access only; only DAOs import the db package, and each table has one owning module whose service is the only writer. Query rules in [references/api-design.md](references/api-design.md), "Data Access".
    - `mapper`: DB/proto/domain transformations.
    - `constants` and `types`: module-local contracts.
 4. Define request context and middleware:
@@ -132,7 +132,7 @@ Run the items matching the modes you ran, and record results in the output. Each
 
 1. **Consistency** (Design, Deepen): naming, module interfaces, and middleware rules read the same across every service. Evidence: a contradiction scan with zero findings.
 2. **Enforceability** (all): every contract names its lint rule, type check, or test. Evidence: an enforcement note per contract, and for any check actually installed, the pass, then fail on a deliberate violation, then pass after revert.
-3. **Operability** (Design): observability, health checks, and a rollback path per deployable surface. Evidence: the rollout section names each.
+3. **Operability** (Design): per deployable surface, health checks, a rollback path, and observability that shows slow or stuck (p95/p99 latency per route; queue depth and oldest-job age per job type). Slow, retryable, or third-party work runs as a durable job whose state is a row in the app's existing database, not a new queue or store; call modules directly and use an event only when the caller must neither wait for nor know the consumer ([references/distributed-correctness.md](references/distributed-correctness.md)). Every automated job has a killswitch that needs no deploy; every feature states whether it fails open or closed when a dependency is down. Evidence: the rollout section names each; an event or queue between modules names why a direct call would not do.
 4. **Quality gates** (whenever code changed): the repo's lint, type-check, and targeted tests (`npm run lint`, `npm run check-types`, `npm run test --workspace=<pkg>` or equivalents). Evidence: passing output, quoted.
 5. **CI and local agree** (Harden): the CI step invokes the same umbrella command a developer runs, or the difference is deliberate and stated.
 6. **No dangling pointers, and a recipe works cold** (Harden): a grep proving every path named in the docs index and instruction file exists, plus a fresh-context agent following one add-a-new-X recipe end to end with no further guidance.

@@ -222,28 +222,18 @@ Class merging goes through `cn`, which does the conditional joining and the Tail
 pnpm add agentation
 ```
 
-Patch `app/layout.tsx`: add `import { Agentation } from "agentation";` at the top, and render the component before `</body>` behind a dev-only guard, `{process.env.NODE_ENV === "development" && <Agentation />}`. Full pattern:
+Put the dev-only guard in a client module, not in `app/layout.tsx`. `agentation` is a `"use client"` package, so importing it from the server layout can ship it to the client even when the guard renders nothing. Create `components/dev-tools.tsx`:
 
 ```tsx
+"use client";
+
 import { Agentation } from "agentation";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-        {process.env.NODE_ENV === "development" && <Agentation />}
-      </body>
-    </html>
-  );
-}
+export const DevTools = () =>
+  process.env.NODE_ENV === "development" ? <Agentation /> : null;
 ```
+
+Then import it in `app/layout.tsx` and render `<DevTools />` before `</body>`. Check with `pnpm build && grep -rl agentation .next/static`, which prints nothing.
 
 ## Phase 4.1: Add Google Analytics (optional)
 

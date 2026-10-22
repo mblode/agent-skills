@@ -8,6 +8,7 @@ Interface-first patterns for REST APIs, module interfaces, request context, and 
 - Format contracts
 - Request context
 - Errors as a contract
+- Data access
 - Forwarded credentials
 
 ## Core Principles
@@ -80,6 +81,12 @@ Whoever debugs a failure works from the output alone, and a structured failure i
 - Domain errors stay transport-agnostic. Middleware owns the mapping to HTTP or RPC status, so services never pick status codes ad hoc.
 - Log the raw error object and let serializers extract type, stack, and cause. Never catch-log-rethrow: middleware already logs unhandled errors once, and the duplicate sends whoever is debugging after two failures that are one.
 - The ambient request context above auto-enriches every log line with request and correlation IDs, so a failure is traceable from log output with no per-call-site work.
+
+## Data Access
+
+- Index for the product's most common query shape (usually `(tenant_id, filter, sort)`) and confirm it with `EXPLAIN`.
+- Every list query has a `LIMIT` and a deterministic order ending in a unique column (`ORDER BY created_at, id`); the list envelope above is its contract.
+- Let the database hold invariants it can hold: a unique constraint or `INSERT ... ON CONFLICT` instead of check-then-insert, which races under concurrent requests; a foreign key instead of an orphan sweep.
 
 ## Forwarded Credentials
 

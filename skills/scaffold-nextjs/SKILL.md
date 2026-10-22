@@ -72,7 +72,7 @@ Blode UI section of `references/app-setup.md`: `shadcn init`, register the `@blo
 
 ### Phase 4: Install Agentation
 
-Agentation section of `references/app-setup.md`: install the package, patch `app/layout.tsx` with the dev-only `<Agentation />` guard. Optionally add Google Analytics via `@next/third-parties`.
+Agentation section of `references/app-setup.md`: install the package, add the client `DevTools` component that holds the dev-only guard and render it in `app/layout.tsx`. Optionally add Google Analytics via `@next/third-parties`.
 
 ### Phase 5: Install Ultracite
 

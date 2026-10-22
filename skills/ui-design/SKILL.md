@@ -29,7 +29,7 @@ Owns everything that touches the built artifact: pick the visual direction, impl
 
 For brand positioning, identity changes, or a system spanning campaigns and physical applications, that is out of scope; name the open brand question and apply the identity the company already has. Direction mode applies that identity to UI; it does not reopen an approved brand.
 
-Before choosing styles, read the project's existing `design.md`, `design-system.md`, or brand guide when present. Check its scope and source against the implemented theme; report drift instead of creating a second competing specification.
+Before choosing styles, read the project's existing `design.md`, `design-system.md`, or brand guide when present. Check its scope and source against the implemented theme; report drift instead of creating a second competing specification. A spec started from a client's assets records only what they supplied and marks each gap "Not supplied"; never fill gaps with your own defaults unless the client approves.
 
 ## Modes
 
