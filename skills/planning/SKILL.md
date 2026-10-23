@@ -32,7 +32,7 @@ For architecture contracts use `codebase-architecture`; for code findings use `t
 1. Identify the requested outcome and authoritative plan path. Use the host's plan file where one exists. A durable handoff goes at the project path, default `docs/plans/<slug>.md`; name which copy is authoritative.
 2. Inspect the modules, tests, and decisions that constrain this change. Resolve questions the repository answers yourself. Ask only when an unresolved choice materially changes scope, behavior, or a hard-to-reverse action. Routine assumptions belong in the draft. Before asking, measure the options and name what would flip your recommendation; when that hinge is a fact only the human has, ask about it directly (`references/decision-briefs.md`).
 3. Choose the smallest vertical slice that exercises the real boundary. Name the existing code or platform capability it extends. A new dependency or abstraction needs a current requirement the existing mechanism cannot satisfy.
-4. Write the plan with the contract below. Review the consequential claims once against the rubric; fix evidenced gaps directly. Interview mode can explore competing approaches, but has no minimum question count.
+4. Write the plan with the contract below. Review the consequential claims once against the rubric; fix evidenced gaps directly. A handoff plan also gets the stranger test in `references/handoff-plans.md`. Interview mode can explore competing approaches, but has no minimum question count.
 5. Return the plan path, unresolved decisions, and verification limits. Use the host's approval mechanism when its mode requires it. Do not add a second approval question for the plan's own review.
 
 ## Plan contract

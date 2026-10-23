@@ -55,6 +55,10 @@ Name a notes file next to the plan (`<plan>.notes.md`) and instruct the executor
 
 A deviation that would reverse a logged decision, or that the executor finds crosses its `Flips if:` hinge, is not the conservative option: stop and report, because the human decided on facts that no longer hold. Any other deviation never pauses the work: take the conservative option, log it, keep going. The notes file is what review reads afterwards; a handoff without one loses every decision made during execution, and the reviewer has only the diff to reconstruct them from.
 
+## Testing the plan before handoff
+
+The planner cannot find the plan's gaps by re-reading it: every gap is filled from the conversation it remembers. Before handing off, give one fresh subagent only the plan path and the repository, never a summary of the chat, and ask it to list each step where it would have to guess, choose between options, or find a file the plan does not name. Each guess is a decision missing from the plan; write it into the plan and leave the subagent's opinions on the design out. One round is enough unless the fixes were substantive.
+
 ## Reviewing the result
 
 After implementation, the adversarial check is a fresh subagent reading only the diff, the plan, and the notes file: every requirement implemented, every listed edge case tested, nothing outside the plan's scope changed. Tell it to report gaps that affect correctness or the stated requirements, not style; a reviewer asked to find gaps will find some, and chasing every one over-engineers the result.
