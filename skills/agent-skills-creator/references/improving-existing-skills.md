@@ -21,16 +21,16 @@ Copy this checklist to track progress:
 
 ```text
 Skill improvement progress:
-- [ ] Phase A: Read everything (SKILL.md, every linked file, repo AGENTS.md, README entry), capture available eval results or mark the baseline unrun, decide the skill should still exist
+- [ ] Phase A: Read the affected workflow (SKILL.md, relevant linked files, repo AGENTS.md, README entry), capture available eval results or mark the baseline unrun, decide the skill should still exist
 - [ ] Phase B: Score the eleven audit dimensions (before)
 - [ ] Phase C: Rewrite in the ordered procedure
 - [ ] Phase D: Validate (scripts/validate.sh + re-run the same evals + re-score)
 - [ ] Phase E: Re-score dimensions (after), update README one-liner, ship
 ```
 
-### Phase A: Read everything first
+### Phase A: Read the affected workflow first
 
-- Read SKILL.md fully, then every linked file (references, tracks, rules layers).
+- Read SKILL.md fully, then the references the affected workflow loads. For a whole-skill audit, cover every linked file; for a targeted fix, follow its callers and contracts without loading unrelated modes.
 - Rules-based skills: read `_sections.md`, `_template.md`, and 2+ sample rules per category.
 - Read the repo AGENTS.md and the skill's README entry; source of truth for install commands and conventions.
 - `ls -R` the folder; `validate.sh` reports orphan files, so run it here to seed the audit.

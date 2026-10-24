@@ -13,7 +13,9 @@ Checks that must pass before any commit the monitor pushes, plus the stray-artif
 
 ## When the gate runs
 
-Run after applying a fix (Phase 3 CI fix, or a triage review-comment fix) and **before** that fix's commit/push. On failure: fix, re-run, do not push until green. Local verification; CI is the backstop, not the first line of defence.
+Apply the repository and user's check policy first, including any rule reserving tests for the final push. After a fix, run the permitted checks affected by it; a status poll, comment reply, or unchanged input does not require another run. Do not bypass a failing required gate.
+
+Record the checked revision or diff, command, result, and relevant environment in the monitor's state file. Reuse that evidence until those inputs change. A new head still needs the checks required by branch protection; do not present an older result as a current-head pass.
 
 ## Detect available checks
 
@@ -41,10 +43,10 @@ Run in increasing cost order; stop and fix on the first failure.
 
 1. **type-check**: fastest signal on a fix. Scope to changed files where the tooling supports it, else run the project script.
 2. **lint**: scope to changed files (`eslint <files>`, `oxlint <files>`) when possible.
-3. **test**: run the project test script. Scope to affected tests where an affected mode exists, else run the full suite. Use the quiet reporter (`--reporter=dot`, `--silent`) or capture a log and inspect its tail while preserving the original exit status: the full output is re-sent on every later turn of the monitor.
-4. **knip**: run last (project-wide by design). Handling is the `knip` item of the failure classification in `ci-platforms.md`.
+3. **test**: run affected tests at the point allowed by the repository and user's policy. Use the full suite only when required or when the affected scope cannot be established. Use a quiet reporter or capture a log and inspect the failure excerpt while preserving the original exit status.
+4. **knip**: run when the fix affects dependency or export reachability, CI reported a knip failure, or the repository requires it. Handling is the `knip` item of the failure classification in `ci-platforms.md`.
 
-**All present checks must pass before committing.** A type-check failure may be a stale-dependency issue, not a code bug; check the stale-dependency branch in `ci-platforms.md` first.
+**Required checks must pass at the repository's prescribed gate.** A type-check failure may be a stale-dependency issue, not a code bug; check the stale-dependency branch in `ci-platforms.md` first.
 
 ## Stray-artifact sweep
 
@@ -75,6 +77,6 @@ Inspect the commit diff separately from the working tree. Uncommitted artifacts 
 
 ## Gate failure handling
 
-- **Lint/type/test failure on the fix**: read the error, fix, re-run the gate. Do not push.
+- **Lint/type/test failure on the fix**: read the error and fix it. Repeat the affected check only as permitted by the repository and user's policy; do not push past a failing gate.
 - **Failure unrelated to the fix** (flaky test, pre-existing type error elsewhere): note it; don't expand scope to fix unrelated breakage in a comment-triage commit. If it blocks the gate, surface it to the user instead of pushing past it.
 - **Gate can't run** (no scripts, missing deps): say so in the notification; rely on CI and flag that local verification was unavailable.

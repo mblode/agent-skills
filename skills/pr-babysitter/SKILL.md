@@ -13,7 +13,7 @@ compatibility: Requires a Git checkout, authenticated GitHub CLI, and jq. Contin
 
 | Invocation | Mode |
 |------------|------|
-| "babysit", "watch this PR", "monitor", "keep it green" | Monitor: Phase 1 once, then phases 2-5 on every event or tick |
+| "babysit", "watch this PR", "monitor", "keep it green" | Monitor: Phase 1 once, then affected phases on state changes |
 | "fix CI", "why is CI red", "loop on CI" | One-shot Phase 3 loop |
 | "resolve conflicts", "rebase onto main", "update the branch" | One-shot Phase 2 |
 | "address the comments", "reply to the reviewers", "triage review comments" | One-shot Comment Triage Workflow |
@@ -28,25 +28,26 @@ Standing rules, every mode:
 - Skip closed PRs. Skip drafts (`isDraft`) unless asked. A merged PR goes on to the repo's post-merge watch: wait for the `watch/<env>` commit statuses on the merge SHA, stop at the first `failure` or `error`, and report the result (Post-merge Watch in `references/monitoring-setup.md`). If the base it merged onto (the merge commit's first parent, or for a rebase merge the commit before the PR's rebased commits) has no `watch/*` status, report "no post-merge watch". Either way, once the merge is live in production, smoke-test the change there read-only (Production smoke test in the same reference), report that too, and stop.
 - Comment triage runs autonomously; the plan file is an audit trail, not an approval gate.
 - Speak only on transitions. A quiet poll says nothing.
+- Reuse the existing watcher for the same PR. A changed fingerprint triggers only the affected phases: a new comment needs triage, not another full verification run. Do not add a model-driven sleep/status loop beside the watcher.
 
 ## Reference Files
 
 | File | Read when |
 |------|-----------|
 | `references/monitoring-setup.md` | Phase 1, a merged PR, and Stopping: watch ladder, Monitor watch script, cron fallback, post-merge watch, state file format, defaults, stop and lifecycle |
-| `references/merge-conflicts.md` | Phase 2: `mergeStateStatus` table, rebase workflow, lockfile and generated-file resolution, abort criteria |
+| `references/merge-conflicts.md` | Phase 2: `mergeStateStatus` table, branch update workflow, lockfile and generated-file resolution, abort criteria |
 | `references/ci-platforms.md` | Phase 3: `gh pr checks` fields and exit codes, per-platform log and retry commands, Buildkite auth chain, failure classification |
 | `scripts/fetch-comments.sh` | Comment triage: run `${CLAUDE_SKILL_DIR}/scripts/fetch-comments.sh {N}` first. One JSON document of every review, thread, and issue comment; `--help` prints the output shape |
 | `references/github-api.md` | Comment triage: script output contract, thread accounting, anchor ladder, awaiting-reply rule, reply and resolve |
 | `references/bot-patterns.md` | Comment triage: reviewer detection, severity mapping, merge gates, noise markers, dedup, false positives |
 | `references/fix-plan-template.md` | Comment triage: plan file format and the legal ignore reasons |
-| `references/verification-gate.md` | Before any commit: lint, type-check, test, `knip`, stray-artifact sweep |
+| `references/verification-gate.md` | Before committing or pushing: permitted check timing, evidence reuse, stray-artifact sweep |
 | `references/git-resilience.md` | A git command hangs or fails transiently (fsmonitor wedge, stale `index.lock`, network blip) |
 | `evals/evals.json` | Only when changing this skill; never during a PR task |
 
 ## Monitor Loop
 
-Phase 1 runs once in the foreground and starts the watch. Every event or tick then runs phases 2-5, diffs against the state file, and speaks only when something changed.
+Phase 1 runs once in the foreground and starts the watch. Compare each event or tick with the state file, then run only the phases whose inputs changed. Recheck required readiness evidence before declaring the PR ready; speak only when something changed.
 
 Copy this checklist to track progress:
 
@@ -74,15 +75,15 @@ PR babysit progress:
 `gh pr view --json mergeable,mergeStateStatus`. `DIRTY` resolves; `BEHIND` updates; `UNKNOWN` means GitHub is still computing, recheck next tick; anything else moves on.
 
 ```bash
-git fetch origin {base} && git rebase origin/{base}
-git push --force-with-lease --force-if-includes
+git fetch origin {base} && git merge origin/{base}
+git push
 ```
 
-- Clean rebase: push, notify.
-- Conflicts only in lockfiles, generated files, or changelogs: regenerate per the reference, continue the rebase, push.
-- Conflicts in source logic, migrations, or API contracts: `git rebase --abort`, then notify with the files and what each side changed. Human intent decides those.
+- Clean merge: push after the required checks, notify.
+- Conflicts only in lockfiles, generated files, or changelogs: regenerate per the reference, complete the merge, then push after the required checks.
+- Conflicts in source logic, migrations, or API contracts: `git merge --abort`, then notify with the files and what each side changed. Human intent decides those.
 
-Bare `--force` is never used. A refused lease means someone else pushed: abort and notify rather than overwrite their commits. More than one author on the branch means a rebase rewrites their commits: merge `origin/{base}` instead.
+Follow the user's and repository's branch policy. Default to one merge, preserving existing commits; rebase only when explicitly required and the branch is exclusively owned. Never force-push someone else's branch or stash a shared dirty tree to make an update proceed.
 
 ### Phase 3: CI Check
 
@@ -137,7 +138,7 @@ Early exit only when open threads, awaiting-reply threads, actionable reviews, a
 2. Ignored threads: one-line reply, then resolve.
 3. Questions: post the answer, leave the thread open. The reviewer resolves it.
 4. Resolved threads with an unanswered human reply: reply in place, do not unresolve, note it in the report.
-5. Fixes, one commit per logical group. Run the verification gate before each commit and stage only that group's files.
+5. Fixes, one commit per logical group. Apply the verification gate’s check policy and reuse valid evidence; stage only that group's files.
 6. Reply, then resolve, each fixed thread.
 7. Re-run the script and report: open threads, threads still awaiting my reply, questions answered but not yet acknowledged, and current CI status. The re-run is the evidence; "addressed everything" is not.
 
