@@ -185,7 +185,7 @@
     },
     {
       "id": 15,
-      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). You drafted this Slack message for me: 'Hey team! Quick update: the migration is complete and everything went smoothly 🎉 Let me know if you have any questions!' I sent this instead: 'migration's done, 0 errors. ping me if anything looks off'. Learn from that. Show me the change to my slack profile; don't save it yet.",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). You drafted this Slack message for me: 'Hey team! Quick update: the migration is complete and everything went smoothly \ud83c\udf89 Let me know if you have any questions!' I sent this instead: 'migration's done, 0 errors. ping me if anything looks off'. Learn from that. Show me the change to my slack profile; don't save it yet.",
       "expected_output": "A short ledger of the edits (greeting dropped, emoji and exclamations dropped, vague 'smoothly' replaced by '0 errors', lowercase start) and the proposed profile change, shown not saved.",
       "files": [
         "evals/files/profile/soul.md",
@@ -212,6 +212,33 @@
         "No greeting, sign-off, or 'Happy to help'",
         "No emoji and no exclamation mark",
         "Returns one reply with no alternatives or explanation"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Rewrite this for the team wiki so a new engineer can follow it: Session token refresh failure handling path currently drops the retry state the client queue expects, so the worker swallows the 401 and returns. Baseline auth service state transition latency validation is still open. Fix: retry budget 3, backoff 200ms.",
+      "expected_output": "Plain sentences a new engineer parses on first read, keeping the 401, the retry budget of 3, the 200ms backoff, and the open latency check, with the noun stacks unpacked.",
+      "files": [],
+      "assertions": [
+        "Keeps 401, 3 retries, and 200ms",
+        "Contains no run of three or more consecutive nouns such as 'session token refresh failure handling' or 'state transition latency validation'",
+        "Does not say the worker 'swallows' anything; uses a literal verb such as ignores, drops, or returns",
+        "The latency check stays open; it is not stated as done or scheduled",
+        "Adds no cause, number, owner, or result the original did not state",
+        "Contains no em dash, en dash, or spaced hyphen"
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "We just spent this session adding a --dry-run flag to the harbor CLI. While working we called the check that skips uploads 'the ghost pass', and we went back and forth on whether to log skipped files before settling on yes. Update the README's Options section with the new flag. Current section:\n\n## Options\n\n- **--branch:** deploy a specific branch instead of the current one.",
+      "expected_output": "The Options section with one new bullet saying --dry-run runs without uploading and logs the files it skips, in the reader's terms, and the --branch bullet unchanged.",
+      "files": [],
+      "assertions": [
+        "Keeps the --branch bullet unchanged",
+        "Adds one --dry-run bullet in the same '- **flag:** what it does.' shape",
+        "Says a dry run does not upload and that skipped files are logged",
+        "Does not contain 'ghost pass', 'this session', 'we decided', 'as discussed', or any account of how the flag was built",
+        "Returns the section only, with no commentary on the edit"
       ]
     }
   ],

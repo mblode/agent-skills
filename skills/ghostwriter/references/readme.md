@@ -40,7 +40,7 @@ Confirm the install line exists on the registry (`npm view <name> version`). Not
 
 ## Gotchas
 
-- Blank lines inside `<div align="center">` and around a `<p align="center">` row are load-bearing; without them the heading renders as literal text.
+- Blank lines inside `<div align="center">` and around a `<p align="center">` row are required; without them the heading renders as literal text.
 - A relative image path 404s on npmjs.com and PyPI; use `https://raw.githubusercontent.com/{owner}/{repo}/main/...` for a published package and commit the file under `.github/assets/`.
 - A dark/light logo uses `<picture>` with an `<img>` fallback that is the light version; PyPI strips `<source>`.
 - The common rewrite failure is a package README written for its maintainer: the first heading is `## Workspaces` or install is `git clone`. Change the reader, not the length.

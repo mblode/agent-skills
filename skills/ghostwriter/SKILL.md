@@ -12,15 +12,17 @@ Write the finished piece. The user brings facts, a ramble, or a draft; you bring
 
 ## Done looks like
 
-The text itself, complete, in the profile's voice, with every supplied fact, link, and number in place and nothing added. Preserve quantities exactly as written, including units: "1 second" stays "1 second", not "1s". Preserve each fact once; repeated wording is not an extra fact. Return the text without commentary on your edits; a critique starts with the highest-cost finding instead. Ask one question only when a missing fact is load-bearing; otherwise state the assumption in one line and write.
+The text itself, complete, in the profile's voice, with every supplied fact, link, and number in place and nothing added. Preserve quantities exactly as written, including units: "1 second" stays "1 second", not "1s". Preserve each fact once; repeated wording is not an extra fact. Return the text without commentary on your edits; a critique starts with the highest-cost finding instead. Ask one question only when a missing fact would change what the piece says; otherwise state the assumption in one line and write.
 
 ## The default
 
-Write the shortest true version. Cut it in half, check what the cut lost, restore only a fact, a link, or the point. Length is what this reader needs: a decision-maker gets the decision and the number, the people doing the work get the detail, the platform sets the shape.
+Write the shortest true version. Cut it in half, check what the cut lost, restore only a fact, a link, or the point. Cut sentences, claims, and backstory, never the small words that let a sentence parse on first read ("that", articles, prepositions). A noun stack the reader has to unpack is longer to read, not shorter. Length is what this reader needs: a decision-maker gets the decision and the number, the people doing the work get the detail, the platform sets the shape.
 
 The writer spends the time so the reader does not have to: when the ask is short and the draft comes out long, return the tight version or bullets, without padding.
 
-Before drafting anything longer than a chat line, write a private brief: the facts in order, the ask, what is still open, and a `[placeholder]` per missing fact. Draft from the brief and the profile, never from your own polished outline; an outline already in assistant voice carries its tells into the draft.
+Before drafting anything longer than a chat line, write a private brief: the reader (who, what they already know, what they will do next), the one point, the facts in order, the ask, what is still open, and a `[placeholder]` per missing fact. The point gets the weight; everything else is subordinate to it, and detail goes where the reader acts. Draft from the brief and the profile, never from your own polished outline; an outline already in assistant voice carries its tells into the draft.
+
+Right before drafting any piece, reread two excerpts of the same surface and shape, and write the piece as the next one in that run. A voice imitated from the user's own text beats a voice rebuilt from rules.
 
 ## Voice
 
@@ -46,7 +48,7 @@ When the user pastes their own writing and asks for a profile, write `<data-root
 
 ## Before returning
 
-Edit your own draft as the sternest reader: passive voice where the actor matters, a verb buried in a noun, the same phrase twice, filler adverbs, a paragraph that belongs elsewhere, the point arriving late. Check the length against the profile's measured range, or the size of the question when there is none. Then run [references/tells.md](references/tells.md). A word or habit the profile names is never a tell. Never paste profile text into the output.
+First read the whole draft once, aloud in the user's voice, as its reader. Wherever you stumble, reread, or lose the point, rewrite that sentence from the brief; this one read catches what no single rule does (pacing, emphasis, a sentence that parses only on the second try). Then edit as the sternest reader: passive voice where the actor matters, a verb buried in a noun, the same phrase twice, filler adverbs, a paragraph that belongs elsewhere, the point arriving late. Check the length against the profile's measured range, or the size of the question when there is none. Then run [references/tells.md](references/tells.md). A word or habit the profile names is never a tell, apart from "load-bearing", which is never written. Never paste profile text into the output.
 
 Never invent a name, number, date, link, quote, statistic, citation, decision, availability, experience, motive, or reason the user did not state, and never put words in a real person's mouth. An invented "why I built this" is the first thing the user corrects. Diff the draft against the brief: nothing added, nothing dropped. Never firm up a position they left open; leave `[placeholder]` for a missing fact.
 
@@ -72,6 +74,6 @@ Maintenance only: [evals/evals.json](evals/evals.json) holds scenarios and routi
 ## Gotchas
 
 - A draft in a persona the user did not expect means the data root was unreadable; check `GHOSTWRITER_HOME`.
-- On casual surfaces (chat, blog) a draft drifts to a generic average voice even with a profile loaded. Hold it against two excerpts before returning.
+- On casual surfaces (chat, blog) a draft drifts to a generic average voice even with a profile loaded and excerpts reread. Hold it against the same two excerpts before returning.
 - Stripping every tell can strip the user: their own dashes, slang, "very", or a long sentence beside a short one are voice. The profile decides.
 - Never draft an emotionally weighted message to a partner (an apology, a fight, a big decision), even with a profile; decline and say why. Logistics are fine.
