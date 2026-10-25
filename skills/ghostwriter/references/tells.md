@@ -6,6 +6,8 @@ The test: a model writes for the widest reader and subject; a person writes for 
 
 Weight the tells. Structure tells earn an edit at one sighting. A lone hedge, passive, or clipped sentence is a habit until other tells share the passage; leave it. Word lists date with every model release; the structural habits persist, so they lead.
 
+Most tells share four causes, and fixing a cause clears several tells at once: writing for the prompter instead of the reader (leaked context, re-explaining, coined labels), no single point (every line at one pitch), compressing past what the reader can parse (noun stacks, dropped "that"), and pleasing a skim instead of serving a read (headings, bold, slogans). A passage with three tells is rewritten from the brief, not patched tell by tell; patching every flagged clause is how a rule list flattens a voice.
+
 ## Structure
 
 - **Padding:** the reply is longer than the question or the profile's measured length. The most reliable tell left. Cut to the reader's need.
@@ -14,6 +16,7 @@ Weight the tells. Structure tells earn an edit at one sighting. A lone hedge, pa
 - **Closers and fragments:** a last line that restates or applauds what came before ("That's the real win.", "Let that sink in.", "The results speak for themselves."), runs of dramatic fragments ("No config. No waiting."). End on the last fact.
 - **Run-ups:** "Here's the thing.", "The kicker?", "Let's break this down", "what struck me was", a standalone "Honestly?" or "Look,", a rhetorical question as an opener. State the thing.
 - **Re-explaining what the reader has:** a reply that restates the problem and walks the diagnosis before the decision. Lead with the decision; keep the one fact they lack.
+- **Leaked context:** a name, label, or detail that exists only in this conversation: a term coined while working ("the dedupe gate"), a decision the reader never saw, "as discussed", a README line about why the last change was made. Use the reader's own term, define it once, or cut it.
 - **Writing about the document:** "this section covers", "the table below compares", "compiled from". Describe the subject.
 - **Copula avoidance:** "serves as", "stands as", "features", "boasts" where "is" or "has" is the word.
 - **Participle tails:** "ensuring a smooth rollout", "highlighting the team's commitment". Keep the fact, cut at the comma.
@@ -29,6 +32,7 @@ Weight the tells. Structure tells earn an edit at one sighting. A lone hedge, pa
 - **Inflation:** an ordinary fact dressed as significant ("a testament to", "a pivotal moment", "reflects a broader shift", "sets the stage for"). Keep the fact, drop the significance.
 - **Vague attribution:** "experts say", "observers note", "industry reports", one source made to sound like many. Name the source or cut the claim.
 - **Formula endings:** "the future looks bright", "exciting times ahead", "despite these challenges". End on the last concrete thing.
+- **Filler facts:** true details the reader assumes or will never use ("supports 64-bit Windows", an edge case in a high-level spec), usually pulled from code or context rather than supplied. Keep what the user gave you; cut what you added that changes no decision.
 - **Gap-filling:** "while details are limited", "likely began", "as of my last update". Say what is unknown, leave a `[placeholder]`, or cut.
 
 ## Chat residue
@@ -44,14 +48,28 @@ These survive a word-level pass.
 - **Over-smoothing:** real messages carry a typo, a dropped word, a comma splice. Keep the roughness the profile shows; never fake it. Apostrophes are a device fingerprint; match what the profile records.
 - **Performed cleverness and wisdom-shaped sentences:** a witty phrase or an insight-sounding line with no specific claim. Make it concrete or cut it.
 - **Uniform confidence:** every line at the same pitch. Real writing has a flat line beside a strong one.
-- **Over-compression:** halving left dropped articles, verbless fragments, arrows, or abbreviations the reader has to decode. Cutting words is not the goal; removing what is not the user's is. Write the sentence back out.
+
+## Parsing
+
+Halving under pressure produces sentences that are short and slow: each word is plain, but the reader parses twice. Cutting words is not the goal; removing what is not the user's is. A profile whose excerpts are dense on purpose (tickets, commit messages) sets its own floor; the test is whether its reader parses the sentence on first read.
+
+- **Noun stacks:** three or more nouns in a row ("session token refresh failure handling"). Unpack with a verb and prepositions: "handling failures when the session token refreshes".
+- **Things acting like people:** code, documents, or ideas given a person's verb ("the cache swallows the error", "the docstring promises", "the worksheet hoped to teach", "where this asymmetry bites"). Use the literal verb: returns, drops, says, causes.
+- **Nouns made into verbs on the spot:** "footnote it", "calendar it", "inventory cushions price spikes". Use the ordinary verb phrase: "add a footnote", "put it in the calendar".
+- **Coined pairings:** two or three ordinary words joined into a phrase no reader has met ("reader-patience budget", "a gear trap", "the papercut people feel"). Use the phrase people already say for the idea; a fresh phrase is for a fresh idea, not a familiar one.
+- **Unclear "it" or "this":** a pronoun with two candidates behind it ("XYZ is built on ABC. 123 refers to it."). Repeat the noun.
+- **Dropped "that":** a relative clause with its "that" cut where the clause runs long or the next word is unexpected ("the file the job reads at startup fails"). Put it back.
+- **Subject far from verb:** a long modifier between them. Move them together or split the sentence.
+- **Missing object:** a verb that needs one, used without it ("the form submits", "the build caches"). Name the object or the actor.
+- **Over-compression:** dropped articles, verbless fragments, arrows, or abbreviations the reader has to decode. Write the sentence back out.
 
 ## Vocabulary
 
-The test is whether the word would survive in a press release and die in a text message. One is a word; a cluster is a tell. Current examples: delve, leverage, robust, seamless, unlock, empower, showcase, holistic, paradigm, synergy, game-changing, cutting-edge, innovative, revolutionary, effortless, world-class, powerful, elevate, streamline, foster, nuanced, crucial, pivotal, enhance, testament, tapestry, vibrant, meticulous, intricate, interplay, garner, underscore and highlight as verbs, "align with", "deep dive", "actionable", "learnings", "landscape" and "journey" as metaphors. Rewrite the sentence around the specific instead of swapping the word for its neighbour. Engineering metaphor nouns are the same tell in a PRD or a ticket: substrate, wedge, vector, primitive, harness, surface, north star, flywheel, gold-plating. Name the mechanism.
+The test is whether the word would survive in a press release and die in a text message. One is a word; a cluster is a tell. Current examples: delve, leverage, robust, seamless, unlock, empower, showcase, holistic, paradigm, synergy, game-changing, cutting-edge, innovative, revolutionary, effortless, world-class, powerful, elevate, streamline, foster, nuanced, crucial, pivotal, enhance, testament, tapestry, vibrant, meticulous, intricate, interplay, garner, underscore and highlight as verbs, "align with", "deep dive", "actionable", "learnings", "landscape" and "journey" as metaphors. Rewrite the sentence around the specific instead of swapping the word for its neighbour. Engineering metaphor nouns are the same tell in a PRD or a ticket: substrate, wedge, vector, primitive, harness, surface, north star, flywheel, gold-plating. Name the mechanism. Metaphors borrowed from another field read the same way: smoking gun, moving parts, double-edged sword. Never write "load-bearing", whatever a profile or excerpt shows; say what breaks without the thing.
 
-## Three tests
+## Four tests
 
+- **Cold read:** could this reader act on it with none of this conversation's context? A term they would have to ask about fails.
 - **Transplant:** could the sentence move unchanged into someone else's piece on another topic? Then it says nothing here.
 - **Boring version:** paraphrase it plainly. If what is left is "things are changing", cut it.
 - **Deletion:** delete it. If the only loss is that something sounded impressive, it was applause.
