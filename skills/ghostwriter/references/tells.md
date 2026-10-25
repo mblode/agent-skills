@@ -32,6 +32,7 @@ Most tells share four causes, and fixing a cause clears several tells at once: w
 - **Inflation:** an ordinary fact dressed as significant ("a testament to", "a pivotal moment", "reflects a broader shift", "sets the stage for"). Keep the fact, drop the significance.
 - **Vague attribution:** "experts say", "observers note", "industry reports", one source made to sound like many. Name the source or cut the claim.
 - **Formula endings:** "the future looks bright", "exciting times ahead", "despite these challenges". End on the last concrete thing.
+- **Filler facts:** true details the reader assumes or will never use ("supports 64-bit Windows", an edge case in a high-level spec), usually pulled from code or context rather than supplied. Keep what the user gave you; cut what you added that changes no decision.
 - **Gap-filling:** "while details are limited", "likely began", "as of my last update". Say what is unknown, leave a `[placeholder]`, or cut.
 
 ## Chat residue
@@ -53,7 +54,10 @@ These survive a word-level pass.
 Halving under pressure produces sentences that are short and slow: each word is plain, but the reader parses twice. Cutting words is not the goal; removing what is not the user's is. A profile whose excerpts are dense on purpose (tickets, commit messages) sets its own floor; the test is whether its reader parses the sentence on first read.
 
 - **Noun stacks:** three or more nouns in a row ("session token refresh failure handling"). Unpack with a verb and prepositions: "handling failures when the session token refreshes".
-- **Things acting like people:** code or systems given a person's verb ("the handler decides", "the cache swallows the error"). Use the literal verb: returns, drops, ignores.
+- **Things acting like people:** code, documents, or ideas given a person's verb ("the cache swallows the error", "the docstring promises", "the worksheet hoped to teach", "where this asymmetry bites"). Use the literal verb: returns, drops, says, causes.
+- **Nouns made into verbs on the spot:** "footnote it", "calendar it", "inventory cushions price spikes". Use the ordinary verb phrase: "add a footnote", "put it in the calendar".
+- **Coined pairings:** two or three ordinary words joined into a phrase no reader has met ("reader-patience budget", "a gear trap", "the papercut people feel"). Use the phrase people already say for the idea; a fresh phrase is for a fresh idea, not a familiar one.
+- **Unclear "it" or "this":** a pronoun with two candidates behind it ("XYZ is built on ABC. 123 refers to it."). Repeat the noun.
 - **Dropped "that":** a relative clause with its "that" cut where the clause runs long or the next word is unexpected ("the file the job reads at startup fails"). Put it back.
 - **Subject far from verb:** a long modifier between them. Move them together or split the sentence.
 - **Missing object:** a verb that needs one, used without it ("the form submits", "the build caches"). Name the object or the actor.

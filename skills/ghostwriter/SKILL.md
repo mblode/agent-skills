@@ -75,5 +75,6 @@ Maintenance only: [evals/evals.json](evals/evals.json) holds scenarios and routi
 
 - A draft in a persona the user did not expect means the data root was unreadable; check `GHOSTWRITER_HOME`.
 - On casual surfaces (chat, blog) a draft drifts to a generic average voice even with a profile loaded and excerpts reread. Hold it against the same two excerpts before returning.
+- A draft written deep in a long working session picks up the session's coined terms and compression; the difficult constructions measured in model text are stronger in long chat and coding sessions than in single-prompt writing. Draft from the brief and the profile as if the session were not there.
 - Stripping every tell can strip the user: their own dashes, slang, "very", or a long sentence beside a short one are voice. The profile decides.
 - Never draft an emotionally weighted message to a partner (an apology, a fight, a big decision), even with a profile; decline and say why. Logistics are fine.
