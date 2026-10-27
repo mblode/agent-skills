@@ -36,7 +36,7 @@ Paid visibility tools (Profound, Peec, Semrush, Ahrefs Brand Radar, Otterly) mos
 
 A single prompt run is a sample of one: answers and cited sources change between identical runs and from week to week. Treat each prompt as a survey question.
 
-- For an API panel, use `scripts/prompt-panel.py` (`--help`): it calls each provider directly, enforces five runs, records method and locale, and scores named versus cited, owned versus owned off-domain. Keep the prompts file and dated results in the site's repo, not the raw answers.
+- Reuse the site's established panel and prompt list when one exists; a second list splits the series. Otherwise, for an API panel, use `scripts/prompt-panel.py` (`--help`): it calls each provider directly, enforces five runs, records method and locale, and scores named versus cited, owned versus owned off-domain. Keep the prompts file and dated results in the site's repo, not the raw answers.
 - Track only prompts whose answer would change revenue or a decision, not glossary questions. Under a fixed call budget, cut prompts before cutting runs below five.
 - Run each prompt at least five times in clean sessions (more when the rate is near a decision threshold) and report mention and citation rates with the run count, not a point estimate.
 - Record separately whether the brand was cited as a source and whether it was named in the recommended shortlist. A page can be cited while a competitor is recommended.
