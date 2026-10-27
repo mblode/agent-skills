@@ -1,6 +1,7 @@
 ---
 name: seo
 description: Audits and fixes technical SEO, researches search demand, creates content briefs, and measures SEO, AEO and GEO performance. Use when asked to "audit SEO", "fix indexing", "improve AI visibility", "do AEO or GEO", "check keyword volume", "write an SEO brief", or "why did organic traffic drop". For Mintlify Agent Score, AFDocs, or Is Agentic reports use agent-ready. For writing the article use ghostwriter; for visual redesign use ui-design.
+compatibility: The prompt panel script needs Python 3 and provider API keys in the environment.
 ---
 
 # SEO
