@@ -56,7 +56,7 @@ Done when every in-scope failing check has a code or content change (or an expli
 | File | Read when |
 |------|-----------|
 | [references/docs-afdocs.md](references/docs-afdocs.md) | Mintlify Agent Score, AFDocs, `llms.txt`, `.md` URLs, the index link in markdown twins, Accept negotiation, page size, auth gates, non-docs knowledge surfaces |
-| [references/api-surfaces.md](references/api-surfaces.md) | Is Agentic API findings: JSON errors, OpenAPI, versioning, rate limits, function calling, CLI, MCP |
+| [references/api-surfaces.md](references/api-surfaces.md) | Any Is Agentic report: essential checks (content without JavaScript, agent-friendly 404s), JSON errors, OpenAPI, versioning, rate limits, function calling, CLI, MCP |
 | [references/site-discovery.md](references/site-discovery.md) | Is It Agent Ready: robots, sitemap, Link headers, DNS-AID, well-known catalogs, bot rules |
 | [references/verification.md](references/verification.md) | Step 6: `check-surfaces.sh`, curl recipes, server-log measurement, url-discovery-bench, and what counts as evidence |
 
@@ -80,6 +80,7 @@ Finish with remaining items that need a product decision, DNS access, or credent
 
 ## Gotchas
 
+- `is-agentic.com/scan/<domain>` shows the last stored snapshot, which can be months old. Check the snapshot date and press Rescan (or run the CLI) before treating it as the brief, and rescan again to verify.
 - A `.md` twin has no navigation: the conversion stripped it with the chrome. Emit the `llms.txt` link from the twin route so no page can miss it; a per-page edit drifts.
 - Markdown twins are a route in one app. When the changelog or blog lives in a separate marketing app on the same origin, it stays HTML-only without anyone deciding that; walk every app, not only the one with the twin route.
 - One `llms.txt` advertised three ways (`rel="llms-txt"` from a proxy, `rel="https://llmstxt.org/rel/llms-txt"` from framework headers, `rel="describedby"` from a layout `<link>`) leaves the scanner reading whichever layer wins on that response. Pick the rel set the scanners probe and emit it from one place.

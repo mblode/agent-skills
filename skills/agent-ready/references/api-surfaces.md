@@ -1,11 +1,12 @@
-# APIs, OpenAPI, MCP, and CLIs (Is Agentic)
+# Is Agentic: essential checks, APIs, MCP, and CLIs
 
-Read when the report is Is Agentic / Ora, or findings mention JSON errors, OpenAPI, versioning, rate limits, function calling, developer-portal search, or a CLI/MCP gap.
+Read when the report is Is Agentic / Ora, or findings mention content without JavaScript, agent-friendly 404s, JSON errors, OpenAPI, versioning, rate limits, function calling, developer-portal search, or a CLI/MCP gap.
 
 Recommended checks apply only when scan evidence already shows an API, OAuth, GraphQL, MCP, or developer portal. If the probe found no API, do not invent one. Improve docs discovery instead.
 
 ## Contents
 
+- Essential checks
 - JSON errors
 - OpenAPI error model
 - Versioning and deprecation
@@ -14,6 +15,21 @@ Recommended checks apply only when scan evidence already shows an API, OAuth, Gr
 - Discoverability
 - CLI
 - MCP
+
+## Essential checks
+
+Essentials share 80 points, recommended checks 20, and bonus signals add up to 5, so fix essentials first. The public website always gets these six:
+
+| Check | Passes when | Fix |
+|-------|-------------|-----|
+| Content is available without JavaScript | The homepage's raw HTML has an H1 and 500+ characters of text | Server-render the main content. A client-only hero with no H1 scores partial even when the page looks full in a browser |
+| Not blocked from AI agents | `ChatGPT-User`, `OAI-SearchBot`, `Claude-User`, and `PerplexityBot` can fetch | `site-discovery.md` bot rules; check WAF challenges, not only `robots.txt` |
+| Redirects resolve cleanly | Sampled pages have no meta-refresh stub, JavaScript-redirect stub, or cross-domain hop | Same-host HTTP 3xx |
+| Content is available without signing in | Sampled pages are readable logged out | Move gated public docs out from behind auth, or serve a public twin |
+| Markdown content negotiation | The canonical URL serves `text/markdown` on `Accept` with `Vary: Accept` | `docs-afdocs.md` |
+| Agent-friendly 404s | An unknown path returns HTTP 404 with a markdown body that guides the agent | Keep the 404 status; give the not-found body a short markdown section linking `llms.txt`, search, and the docs index |
+
+When the scan finds the surface, these join the essentials: OpenAPI spec published, OAuth 2.0 support, scoped permissions (named scopes on the OpenAPI security scheme), JSON error responses, and MCP resources exposed (see MCP below).
 
 ## JSON errors
 
@@ -94,6 +110,8 @@ Only if an MCP server already exists or the user asked to publish one.
 Advertise the live transport URL in a server card (current well-known paths scanners still probe: `/.well-known/mcp/server-card.json`, compatibility copies at `/.well-known/mcp.json` / `/mcp/server-card`). Include `serverInfo` (name, version, description) and the transports you actually serve.
 
 Auth belongs in RFC 9728 protected-resource metadata when the endpoint returns 401, not as a fictional card field. Anonymous read-only servers skip OAuth documents.
+
+A server that advertises the `resources` capability must return at least one resource from `resources/list`, each readable with a valid `mimeType` and non-empty content. A tool-only server omits the capability and the check becomes N/A. A card whose transport the scanner cannot connect to fails this check outright.
 
 List the MCP URL in `llms.txt` and, when you have an RFC 9727 catalog, in `/.well-known/api-catalog`.
 
