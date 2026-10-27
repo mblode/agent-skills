@@ -13,7 +13,7 @@ Bind each metric to the actual property, hostname and project path. Verify nativ
 | How often do people ask the topic? | Vendor Exact prompt demand metric | Demand is not the site's share of visibility |
 | Is AI influence arriving without a referral? | Branded search impressions, direct sessions in the campaign window, and a self-reported "how did you hear" answer | Leading indicators, not proof of AI attribution; keep each as its own series |
 | Does discovery produce useful outcomes? | Analytics landing sessions, qualified visits, signups, activation or revenue | Preserve attribution definitions and windows; missing/referrer-stripped visits prevent complete AI attribution |
-| Do the agent-readable surfaces answer? | Scanner scorecards and `agent-ready`'s `check-surfaces.sh` output | Says whether `llms.txt`, markdown twins and headers work, not whether any engine cites them; agent readership itself needs server logs, and without a log drain it is `No data` |
+| Do the agent-readable surfaces answer? | Scanner scorecards and `agent-ready`'s `scripts/check-surfaces.sh` output, or the equivalent curl probes | Says whether `llms.txt`, markdown twins and headers work, not whether any engine cites them; agent readership itself needs server logs, and without a log drain it is `No data` |
 
 Inspect current native capabilities using `sources.md`, not a frozen vendor checklist. Google generative AI reports may expose different dimensions for Search and Discover. Where a connector omits a native report, use an available browser/export or report that gap rather than silently substituting overall search data.
 
@@ -28,7 +28,7 @@ Paid visibility tools (Profound, Peec, Semrush, Ahrefs Brand Radar, Otterly) mos
 | AI referral sessions | GA4 "AI Assistant" channel (from May 2026, not backfilled, excludes AI Overviews and AI Mode, which stay Organic); PostHog's AI channel type; `utm_source=chatgpt.com` | A floor: apps that strip the referrer land in Direct |
 | Crawler and agent fetches | Cloudflare AI Crawl Control (dashboard, CSV, GraphQL), Vercel or other log drains, raw CDN logs | User agents can be spoofed; verify against the vendors' published IP lists (OpenAI, Anthropic, Perplexity and Google publish JSON ranges). `Google-Extended` is a robots token, never a log entry |
 | Answers and citations from consumer apps | A visibility tool, or a signed-out browser run you control | What users see. Vendors scrape the apps precisely because APIs differ |
-| Answers from APIs | OpenAI Responses `web_search`, Anthropic web search, Perplexity Sonar, Gemini grounding (roughly $5 to $14 per 1,000 searches) | A different system from the app: one 2026 study found the OpenAI API recovered about a quarter of the URLs ChatGPT cited. Label it "OpenAI API", never "ChatGPT" |
+| Answers from APIs | OpenAI Responses `web_search`, Anthropic web search, Perplexity Sonar, Gemini grounding (roughly $5 to $14 per 1,000 searches) | A different system from the app: one 2026 study found the OpenAI API recovered about a quarter of the URLs ChatGPT cited. Label it "OpenAI API", never "ChatGPT". Set the locale explicitly (OpenAI `user_location`, or the provider's equivalent) and record it. Cited links from the OpenAI API carry `utm_source=openai`, which separates API-driven visits from `utm_source=chatgpt.com` app visits. Call each provider directly: a model gateway (Vercel AI Gateway was observed doing this with Perplexity) can drop the citation URLs and leave a mention-only series |
 | Google AI Overviews and AI Mode result pages | SERP APIs such as DataForSEO or SerpApi (about $1 to $4 per 1,000 pages) | Third-party scraping; Google served altered pages to scrapers from mid-September 2026, so check the provider's status before trending |
 | Prompt volume | None for an individual; vendors license consumer clickstream panels and model the rest | Treat vendor volumes as rough relative demand at topic level, never per-prompt counts. Proxies: Bing grounding queries, Search Console queries |
 
@@ -36,20 +36,24 @@ Paid visibility tools (Profound, Peec, Semrush, Ahrefs Brand Radar, Otterly) mos
 
 A single prompt run is a sample of one: answers and cited sources change between identical runs and from week to week. Treat each prompt as a survey question.
 
-- Track only prompts whose answer would change revenue or a decision, not glossary questions.
+- Track only prompts whose answer would change revenue or a decision, not glossary questions. Under a fixed call budget, cut prompts before cutting runs below five.
 - Run each prompt at least five times in clean sessions (more when the rate is near a decision threshold) and report mention and citation rates with the run count, not a point estimate.
 - Record separately whether the brand was cited as a source and whether it was named in the recommended shortlist. A page can be cited while a competitor is recommended.
 - Keep each engine, and Google AI Overviews versus AI Mode, on its own line; engines retrieve from different indexes and cite different source types.
 - Use real buyer questions with the persona and use case, plus at least one follow-up turn where alternatives or price are asked.
 - Store the raw answer with cited URLs, engine, model, mode, locale, timestamp and collection method. Never mix collection methods (API, SERP provider, browser) in one trend line, and never infer a citation without a URL.
-- Classify cited sources by type (see `answer-engines.md`) and record the attributes the answer associates with the brand; those are what content can change.
-- Record recall without retrieval separately from citations. They measure different things and are never summed.
+- Classify cited sources by type (see `answer-engines.md`); the owner's profiles on other hosts (a GitHub repository, an app store listing, a docs host) are owned off-domain, not third-party and record the attributes the answer associates with the brand; those are what content can change.
+- Record recall without retrieval separately from citations. They measure different things and are never summed. A recall prompt names the brand, so score it by whether the answer is correct about the brand, not by whether the name appears.
 
 Third-party rank and AI-visibility tools that scrape results can lose collection without notice. Check the vendor's collection status before trending its data, and prefer native reports.
 
 ## Diagnose a change
 
-Use complete, comparable windows with matching filters, data freshness and aggregation. Check reporting lag, weekdays/seasonality, campaigns, releases, migrations and tracking changes before attributing movement to ranking. Segment by brand/non-brand, page group, country, device and search appearance where supported and relevant. Do not average positions across incompatible populations.
+Use complete, comparable windows with matching filters. When the user asks for "the past N months", include the partial current month only labelled with its end date, and never compare it with complete months as a trend. Match data freshness and aggregation. Check reporting lag, weekdays/seasonality, campaigns, releases, migrations and tracking changes before attributing movement to ranking. Segment by brand/non-brand, page group, country, device and search appearance where supported and relevant. Do not average positions across incompatible populations.
+
+A before/after window around a bundle of changes credits the whole bundle. Attribute by page instead: compare the pages that gained AI-feature impressions or citations with what shipped on each, and do not credit `llms.txt`, Markdown twins or schema for a gain that landed on newly published or rewritten pages.
+
+On a young or growing site every search number rises together, so a rise in AI Overview impressions alone says little. Divide AI-feature impressions by ordinary search impressions for the same window and report that share beside the raw count; it shows whether AI answers grow faster than search overall.
 
 Report absolute counts alongside percentage changes. Moving from 5 clicks to 4 is a one-click change, not sufficient evidence of a material incident by itself. Set alert thresholds from baseline volume, normal variance, persistence and business impact; no universal 20% threshold. For sparse data, extend the observation window or report uncertainty rather than inventing significance.
 

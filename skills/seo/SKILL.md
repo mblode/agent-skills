@@ -59,7 +59,7 @@ For AI visibility, the owner builds crawl access, content and extractable struct
 
 Findings go in chat unless a file is requested. Writer briefs go to the requested project destination; retain prior dated briefs when producing a new revision. Keep scratch crawls and exports out of the repository. No em dashes in authored reports or briefs.
 
-Report what changed, why, exact verification evidence, and what remains unmeasured. A successful local build, ready deployment, public URL probe, Google index record and measured conversion are different evidence. Name the strongest state actually verified.
+For a measurement request, report per property: a table per source with the window and method, a `No data` list with each reason, and what the numbers mean for the next decision. For a fix, report what changed, why, exact verification evidence, and what remains unmeasured. A successful local build, ready deployment, public URL probe, Google index record and measured conversion are different evidence. Name the strongest state actually verified.
 
 Sending recaps to others, scheduling recurring work, spending on tools and production deployment follow the user's authorization and host rules. Reuse an existing matching monitor rather than creating another owner or schedule.
 
