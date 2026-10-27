@@ -1,6 +1,6 @@
 # Sources and Freshness
 
-This registry was checked on 2026-09-08; the research table was added on 2026-09-23. Treat the date as provenance, not a promise that vendor behavior remains unchanged. Reopen the relevant official page when deciding a volatile feature, API, policy or reporting capability. Record the source and access date beside consequential claims.
+This registry was checked on 2026-09-08; the research table was added on 2026-09-23 and extended, with the measurement-access rows, on 2026-10-27. Treat the date as provenance, not a promise that vendor behavior remains unchanged. Reopen the relevant official page when deciding a volatile feature, API, policy or reporting capability. Record the source and access date beside consequential claims.
 
 ## Primary guidance
 
@@ -18,6 +18,12 @@ This registry was checked on 2026-09-08; the research table was added on 2026-09
 | Structured-data eligibility | https://developers.google.com/search/docs/appearance/structured-data/sd-policies |
 | Scaled content abuse and other spam policies | https://developers.google.com/search/docs/essentials/spam-policies |
 | Core Web Vitals | https://web.dev/articles/vitals |
+| Search Console generative AI report (UI and CSV only, impressions only) | https://support.google.com/webmasters/answer/16984139 |
+| Search Console API search types (no AI type) | https://developers.google.com/webmaster-tools/v1/searchanalytics/query |
+| GA4 AI Assistant channel | https://support.google.com/analytics/answer/9756891 |
+| Cloudflare AI Crawl Control analytics | https://developers.cloudflare.com/ai-crawl-control/features/analyze-ai-traffic |
+| Perplexity crawlers and IP lists | https://docs.perplexity.ai/guides/bots |
+| Google crawler IP verification | https://developers.google.com/search/docs/crawling-indexing/verifying-googlebot |
 | Next.js implementation | Installed `next/dist/docs` first; https://nextjs.org/docs/app as fallback |
 
 ## Research, not ranking contracts
@@ -45,3 +51,9 @@ These figures reached this registry through Man of Many's 2026 Guide to GEO (21 
 | Brand search volume was the strongest tested predictor of AI brand mentions, at a correlation of about 0.33 | Kevin Indig, Growth Memo, 75,000 brands, 4 May 2026 | Strongest, not strong; correlational |
 | Retrieval snippet test for whether an assistant can retrieve a page | Myriam Jessier and Chris Green, September 2026 | Proves retrievability, not trust or citation |
 | Scraper-based rank and AI-visibility tools lost collection from mid-September 2026 | Search Engine Roundtable, 18 September 2026 | Unconfirmed by Google; may ease |
+| The OpenAI Responses API plus Google results recovered about 26 to 28% of the URLs ChatGPT cited; 41 to 45% of ChatGPT's retrieved pages appeared in only 1 of 20 runs | arXiv 2610.15382, October 2026 | Preprint; why API panels are their own series |
+| About 65% of cited sources changed day to day; the authors recommend at least 7 runs per prompt per day | arXiv 2604.07585, April 2026 | Preprint; panel sizing |
+| Only 3 of 54 GEO-paper tactic cases were significant on replication; no technique was stable across platforms over time | C-SEO Bench, arXiv 2506.11097, 2025; survey arXiv 2607.14035, July 2026 | Why the 2023 percentages are not levers |
+| AI Overviews excluded the self-ranking brand from the recommendation 69% of the time (June), then cited 38% fewer such listicles and excluded the brand 83% of the time (September) | Lily Ray, Search Engine Land, June 2026; follow-up on X, about 30 September 2026 | Google only |
+| Web mentions correlated 0.664 with AI Overview visibility against 0.218 for backlinks | Ahrefs, 75,000 brands, via a 2026 compilation | Correlational; primary not reopened |
+| Profound, Peec, Semrush, Ahrefs and Otterly collect answers from consumer interfaces, not model APIs; prompt volumes come from licensed clickstream panels plus modelling | Vendor methodology pages, checked 2026-10-27 | Vendor self-description |

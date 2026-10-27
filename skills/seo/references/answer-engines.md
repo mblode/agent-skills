@@ -49,6 +49,18 @@ Diagnose the category before recommending distribution. Run the buyer's real que
 
 Seek useful independent reviews, demonstrations, research and community contributions when they fit the audience. Do not prescribe fabricated mentions, seeded thin listicles, scaled AI-generated pages, or a quota of backlinks or videos. Correlation studies are dated hypotheses with selection criteria, not causal recipes or promised visibility gains. Identify engine, sample and outcome before applying a study to a small project, and discount research sold by the vendor of the recommended fix.
 
+## Tactics by evidence
+
+Sort a proposed tactic before recommending it. Most studies are correlational and many are run by vendors of the fix; this sorting is as of October 2026 and the dated studies live in `sources.md`.
+
+| Evidence | Tactics |
+|---|---|
+| Backed (official guidance or consistent independent data) | Allow the search and user-fetch crawlers; server-render the substantive text, since the AI crawlers run no JavaScript; rank organically for the sub-searches an engine runs for a question (query fan-out), which is ordinary SEO; earn independent mentions, reviews, comparisons and video, which correlate with AI visibility far more than backlinks; maintain the pages that answer a question, because cited pages skew recently updated |
+| Plausible, untested | Self-contained passages under a clear heading; question headings and visible FAQ sections (studies disagree); review-site profiles; Wikipedia and Wikidata accuracy; IndexNow and Bing indexing for engines that retrieve from Bing |
+| Snake oil | `llms.txt` or schema as a citation lever; percentage boosts quoted from the 2023 GEO paper (a 2025 replication found 3 of 54 cases significant); self-ranking "best X" listicles, which Google's AI Overviews increasingly cite less and recommend a competitor from; seeded Reddit or forum posts; scaled AI-generated pages; LLM-only pages or bot-only content; restamped dates; one blended "AI visibility score"; per-prompt volume figures |
+
+Google's own guidance warns against breaking content into bite-sized chunks for AI. Write the passage for the reader; if it also stands alone, that is a side effect, not the goal.
+
 ## Optional machine-readable surfaces
 
 `llms.txt` and Markdown alternatives can help tools that use them. They are not Google ranking requirements or evidence of citations. Add them for a real consumer and keep them aligned with the visible source rather than duplicating a second content system. A Markdown twin carries the same words and facts as the HTML; content served only to bots is cloaking under Google's spam policies. Schema is likewise for rich-result eligibility and entity identity, not a citation lever. Mintlify Agent Score, AFDocs, and Is Agentic scorecards belong to `agent-ready`; this file is crawler policy, canonicals, and how Next.js should cache the twin.
