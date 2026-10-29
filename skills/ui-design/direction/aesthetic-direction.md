@@ -8,16 +8,30 @@ AI slop is plausible defaults compounding without a shared reason, not one forbi
 
 Two bullets are absolute regardless of count, because they misinform rather than merely underwhelm: invented proof, and product framing that shows something the product does not do, including settings or modes the brief never stated.
 
-- A fashionable font chosen for category signalling rather than the product's tone, including decorative monospace on developer tools.
+- A fashionable font chosen for category signalling rather than the product's tone: Instrument Serif or another trending display serif set with tight negative tracking, or decorative monospace on developer tools.
 - Purple, cyan, or sunset gradients, glow, blur, glass, grids, and noise used as atmosphere without a content or brand role.
-- Repeated card grids, pill clusters, oversized numerals, numbered rails, giant wordmarks, and symmetric sections that flatten the real priority.
+- Repeated card grids, pill clusters, oversized numerals, numbered rails, giant wordmarks, and symmetric sections that flatten the real priority. The same section shape (heading, subtitle, three cards) repeated down the page is this bullet even when each instance looks fine.
 - Fake browser chrome, fabricated dashboards, empty split panels, generic device frames, and invented logo strips, testimonials, or statistics standing in for authentic product proof. Real, checkable proof is not this bullet.
 - Decoration stacked on controls and content that still use unowned default shape, weight, hierarchy, and states.
 - An eyebrow label above more than two section headings on one page. Keep the one that says what its heading cannot.
-- `01`, `02`, `03` on cards or steps that have no real order.
+- `01`, `02`, `03` on cards, steps, or sections that have no real order, including `§ 02` and `[03]` section numbering on a page nobody navigates by number.
 - A north-east arrow (↗) on a link or button that stays on the site; the glyph means "leaves".
+- Uppercase, letter-spaced subtitles, captions, and labels. Tracking is a fix for short caps, not a texture; widened spacing on lowercase text, or caps on anything longer than a few words, is decoration.
+- Case that changes from element to element: Title Case headings, sentence-case buttons, UPPERCASE labels. Pick one convention (sentence case by default) and hold it everywhere.
+- One word per headline set in italic, often in a contrasting serif, for flavour ("Ship *faster*"). Italic should carry emphasis the sentence needs; on every heading it is a tic.
+- Monospace spread past code and data onto labels, nav, buttons, metadata, and stats, so it no longer marks anything as code.
+- Code-flavoured furniture on pages that are not about code: file-path breadcrumbs (`~/app/features`), `//` comment labels, `$` prompts, and terminal frames around marketing copy.
+- Emoji in headings, buttons, list items, or body copy standing in for icons or tone.
+- A pulsing dot ("Live", "Now in beta", "All systems operational") with nothing live behind it. Animate a status only when it changes.
+- Tags and badges ("New", "AI-powered", "Beta") sprinkled on cards and headings where they filter nothing and mark no state.
+- A border around every group: bordered cards inside bordered sections inside bordered panels, with dividers between rows that spacing already separates. Group with space first; use a border when the edge means something.
+- A handful of greys and opacities (`/40`, `/50`, `/60`, `/70`) where two or three text levels would do. Each extra step is a hierarchy level the reader has to decode.
+- Interface detail beyond what it communicates: mock panels and cards packed with meta rows, counters, icons, and micro-labels nobody reads.
+- Diagrams, node graphs, and flowcharts for an idea a sentence carries. The more nodes and arrows, the worse: detail stands in for an explanation. Show the product, or say it plainly.
+- ASCII art or box-drawing illustrations used as hero or section imagery.
 - Headings stacked from two-to-four-word fragments ("Same file. Different flights. Both edits kept.") or stock lines any brand could print ("Stay in sync. Keep it simple."). Write one sentence about this product.
 - The brief's few facts restated as hero, feature cards, stats, and FAQ to fill the template. Say each fact once and cut the sections that have nothing new.
+- More text than the reader needs: a paragraph under every heading, a caption under every card, a footnote under every stat. Cut what the layout or the heading already says.
 - Settings, modes, roles, integrations, app navigation, or competitor claims the brief never stated. This is product framing that shows something the product does not do, so it is absolute.
 - Not a signal but a bug: `href="#"`, a "Start free trial" that scrolls to an anchor, or an anchor with no matching `id`. Link the real route, or leave the CTA out and say the route is missing.
 
