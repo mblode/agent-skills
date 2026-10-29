@@ -28,10 +28,12 @@ Two bullets are absolute regardless of count, because they misinform rather than
 - A handful of greys and opacities (`/40`, `/50`, `/60`, `/70`) where two or three text levels would do. Each extra step is a hierarchy level the reader has to decode.
 - Interface detail beyond what it communicates: mock panels and cards packed with meta rows, counters, icons, and micro-labels nobody reads.
 - Diagrams, node graphs, and flowcharts for an idea a sentence carries. The more nodes and arrows, the worse: detail stands in for an explanation. Show the product, or say it plainly.
-- ASCII art or box-drawing illustrations used as hero or section imagery.
+- ASCII art, dithering, or box-drawing illustrations used as hero or section imagery.
+- Cards whose only accent is a coloured left border (`border-l-4` in a brand hue), on content that is not a callout. A left rule means "aside" or "warning"; on every card it means nothing.
+- Headings far larger than the content they head: display sizes on a section with three lines under it. Size is a priority signal, and it runs out when every heading spends it.
 - Headings stacked from two-to-four-word fragments ("Same file. Different flights. Both edits kept.") or stock lines any brand could print ("Stay in sync. Keep it simple."). Write one sentence about this product.
 - The brief's few facts restated as hero, feature cards, stats, and FAQ to fill the template. Say each fact once and cut the sections that have nothing new.
-- More text than the reader needs: a paragraph under every heading, a caption under every card, a footnote under every stat. Cut what the layout or the heading already says.
+- More text than the reader needs: a paragraph under every heading, a caption under every card, a footnote under every stat, a small grey annotation beside every element. Cut what the layout or the heading already says.
 - Settings, modes, roles, integrations, app navigation, or competitor claims the brief never stated. This is product framing that shows something the product does not do, so it is absolute.
 - Not a signal but a bug: `href="#"`, a "Start free trial" that scrolls to an anchor, or an anchor with no matching `id`. Link the real route, or leave the CTA out and say the route is missing.
 
