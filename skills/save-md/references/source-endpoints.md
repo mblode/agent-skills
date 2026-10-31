@@ -131,10 +131,13 @@ Auto-generated VTT repeats each line across two cues (once with word timings, on
 
 Third-party readers are off by default: they see every URL you send, and one served a stale cached copy in testing. Use Firecrawl only for a page the rows above cannot reach (a JavaScript-only page, a Cloudflare challenge, Medium), only when `FIRECRAWL_API_KEY` is already set, and only after the user has said third-party fetching is fine for this source. Never send a private, internal, or signed URL.
 
+A plain `curl -sSL` of a JavaScript-only page still answers `200 text/html`; the tell is HTML without the main text in its elements. On `quotes.toscrape.com/js/` the quotes sit in an inline `<script>`, not in the page markup.
+
 ```bash
 curl -sS https://api.firecrawl.dev/v2/scrape \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" -H 'Content-Type: application/json' \
-  -d '{"url":"<url>","formats":["markdown"]}' | jq -r '.data.markdown' > <file>.md
+  -d '{"url":"<url>","formats":["markdown"],"maxAge":0,"origin":"mblode-agent-skills"}' \
+  | jq -er 'if (.data.markdown // "") | test("\\S") then .data.markdown else error(.error // "no markdown") end' > <file>.md
 ```
 
-The endpoint was `v2` on 23 Sep 2026; check docs.firecrawl.dev if it answers 404. Add `fetched_via: firecrawl` to the frontmatter so the provenance says a third party rendered it. A page Firecrawl also cannot render is a stop.
+`maxAge: 0` requests a fresh scrape instead of Firecrawl's cached result (kept for up to two days by default), so the saved body is as of the `date` in the frontmatter. An API error or empty Markdown exits non-zero with the reason on stderr; discard the file then. The endpoint was `v2` on 31 Oct 2026; check the [scrape reference](https://docs.firecrawl.dev/api-reference/endpoint/scrape?utm_source=mblode-agent-skills&utm_medium=integration) if it answers 404. Add `fetched_via: firecrawl` to the frontmatter so the provenance says a third party rendered it. A page Firecrawl also cannot render is a stop.
