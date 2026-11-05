@@ -86,6 +86,23 @@
         "Explains why the logo captures are intentionally identical.",
         "Reports after-only evidence without inventing a baseline."
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "The invoice editor passed its acceptance criteria and CI. Try to break it like a real user before I merge. Preview is at https://pr-412.preview.example.dev with seeded test accounts; the ticket is in .captain/tasks/t-412.md.",
+      "expected_output": "A charter written from the ticket, each named path driven end to end on the preview, then pressure on navigation, double submit, permissions, concurrent edits, and inputs; every finding replayed in a fresh context with numbered steps and the test account; findings split into defects and contract gaps under explore:<slug>; no code edits, no tier or verdict, nothing sent outside the preview.",
+      "files": [],
+      "assertions": [
+        "Reads the ticket for intent and does not open the implementation diff before exploring",
+        "Drives each path the ticket names end to end before trying edge cases",
+        "Every reported finding has numbered reproduction steps and the test account used",
+        "Each reported finding was replayed in a fresh browser context, or is marked unknown with reason flaky",
+        "Labels each finding as defect or contract-gap",
+        "Routes each contract gap to the task owner as a question, not to the builder as a failure",
+        "Uses rule values of the form explore:<slug> and assigns no tier or ship verdict",
+        "Edits no source file during the pass",
+        "Takes no action against a production URL or a live payment or email provider"
+      ]
     }
   ],
   "routing": {
@@ -98,7 +115,9 @@
       "Check the contrast on this page for real, not from the hex values.",
       "The audit says the modal doesn't restore focus. Reproduce it.",
       "Review the before and after screenshots of this UI change.",
-      "The loading and loaded story captures look identical. Verify that they reached their intended states."
+      "The loading and loaded story captures look identical. Verify that they reached their intended states.",
+      "Try to break the new checkout flow like a real user would, it already passes its tests.",
+      "Do an exploratory test of the invite flow on the preview before I merge."
     ],
     "near_miss": [
       "Audit this component for UX bugs. (ui-design: reading source is not this skill)",

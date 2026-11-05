@@ -77,5 +77,6 @@ Use emphasis markers ("IMPORTANT:", "YOU MUST", "NEVER") only on rules agents sk
 - "Use TypeScript." in an all-TypeScript repo -> remove
 - "NEVER write comments." -> "match the comment density of the file you are editing"; the absolute is wrong in every densely commented file
 - "Remember I prefer X." -> auto-memory's job, not a shared repo file's
-- 300+ line root file -> move directory-specific sections into nested files or path-scoped rules and procedures into skills, not into `@import`s
+- Root file over the Size Budget in SKILL.md -> move directory-specific sections into nested files or path-scoped rules and procedures into skills, not into `@import`s
+- "Update (March): we switched to X" under the old rule -> rewrite the rule as X; the old version stays in git, not in the file. A version scope such as "on Node 22 and later" is not history and stays
 - Commands copied from stale CI config -> verify against the manifest or delete

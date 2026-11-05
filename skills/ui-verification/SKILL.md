@@ -1,6 +1,6 @@
 ---
 name: ui-verification
-description: Runs scoped browser probes for focus, hit targets, overflow, themes, request failures, and performance attribution, with evidence linked to UI rule IDs. Use when asked to "verify this in the browser", "reproduce this UI finding", "re-measure after the UI fix", or "review before and after screenshots".
+description: Runs scoped browser probes for focus, hit targets, overflow, themes, request failures, and performance attribution, with evidence linked to UI rule IDs, plus an exploratory pass that uses a finished feature like a real user. Use when asked to "verify this in the browser", "reproduce this UI finding", "re-measure after the UI fix", "review before and after screenshots", or "try to break this feature".
 compatibility: Requires access to the target app and browser automation. Bundled JavaScript recipes use the Playwright page API.
 ---
 
@@ -8,7 +8,7 @@ compatibility: Requires access to the target app and browser automation. Bundled
 
 Owns the browser session. Every other UI skill in this repo reasons about source and infers what the user will see; this one loads the page and measures it.
 
-- **IS:** booting the app, driving it with a browser, and running the probes that decide a rule at runtime: computed boxes, injected failures, observed layout shift, a scripted Tab walk, an axe scan per theme. Output is findings keyed to rule ids with reproducible evidence, plus the clearing re-run after a fix.
+- **IS:** booting the app, driving it with a browser, and running the probes that decide a rule at runtime: computed boxes, injected failures, observed layout shift, a scripted Tab walk, an axe scan per theme. Output is findings keyed to rule ids with reproducible evidence, plus the clearing re-run after a fix. Also the exploratory pass: a fresh tester driving a finished feature like a user to find the cases its contract never listed.
 - **IS NOT:** finding defects by reading source or deciding their tier and ship verdict (`ui-design` Audit mode owns both); building or restyling UI (`ui-design` Build); authoring a durable test suite (write Playwright tests); building or maintaining a whole app's persistent verify CLI, doctor command, and feature map (`app-verification`, call it by name); persistent pixel-baseline approval workflows (Chromatic, Percy); field performance (RUM or CrUX; Lighthouse is a lab tool).
 
 The division of labour is the point. A static audit reports what the code will probably do; it cannot see a 40px control whose hit area a pseudo-element already expands to 44, or a retry button wired to nothing. This skill reproduces or kills each of those, so a finding arrives with a measurement instead of a confidence.
@@ -35,6 +35,7 @@ The division of labour is the point. A static audit reports what the code will p
 | A `ui-design` audit emitted findings and the user wants them confirmed | Run only the probes those rule ids map to, in `references/rule-coverage.md` |
 | No audit ran; the user points at a route or a running app | Detect features, run the full battery on the resolved routes |
 | A fix just landed for a previously reproduced finding | Run the clearing re-run only (step 5) |
+| A feature's acceptance checks pass and the user wants it tried like a real user, or asks to "try to break it" | Read [references/exploratory-test.md](references/exploratory-test.md): a fresh-context pass against a test environment that finds what the contract never listed |
 | The user asks for captures across themes or widths | `probes/theme-locale-matrix.md`, then visual review below |
 | The user asks to review a UI change or named screenshot states | Read [references/visual-review.md](references/visual-review.md) for matched before/after inspection and suspicious duplicates |
 | A `design-system.md` claims a scale and someone needs it checked | Read the claimed values off computed styles on a real page; a theme value the build overrides never reaches the browser |
@@ -111,7 +112,7 @@ Three outcomes, and the middle one is the one that earns this skill its keep.
 
 A `not-reproduced` result is a real deliverable, not a wasted run. It is what removes the false positives a large rule corpus asserts with `file:line` confidence, and it feeds the rejection section `ui-design` already requires.
 
-Where a probe finds something no static rule predicted, emit it as a new finding against the rule id the probe is primary for. Where no rule covers it (an axe violation with no ui-design counterpart, a console error), emit it under `axe:<violation-id>` or `runtime:<signature>` and say plainly that it came from the browser and not the corpus.
+Where a probe finds something no static rule predicted, emit it as a new finding against the rule id the probe is primary for. Where no rule covers it (an axe violation with no ui-design counterpart, a console error), emit it under `axe:<violation-id>`, `runtime:<signature>`, or `explore:<slug>` from an exploratory pass, and say plainly that it came from the browser and not the corpus.
 
 ## 5. Clearing re-run
 

@@ -6,14 +6,14 @@ Use when an AGENTS.md is bloated, stale, or low-signal.
 
 Refactor when any are true:
 
-- Root file over ~150 lines and hard to scan (Claude Code's own ceiling is 200; Codex stops reading at 32 KiB across all files)
+- Over the Size Budget in SKILL.md (root lines, or bytes across the launch path)
 - Commands missing, stale, or contradictory
 - Contains framework docs or copy-pasted templates
 - Generic guidance that doesn't prevent real mistakes
 
 ## Step 1: Snapshot and isolate essentials
 
-Record current line count, then extract only what every task needs:
+Record the Size Budget measurements from SKILL.md, then extract only what every task needs:
 
 - Run/test/build/lint commands
 - Critical environment/setup requirements
@@ -33,6 +33,7 @@ Remove:
 - Exhaustive file maps
 - Generic advice ("write clean code", "use best practices")
 - Outdated commands and dead links
+- Dated change notes, "Update:" paragraphs, and "previously" notes: rewrite the rule to its current form and delete the history. A date or version that limits when a rule applies stays (full-audit check 47)
 - Restatements of default agent behavior ("read before editing", "run the tests")
 - Facts auto-memory owns: user preferences, personal feedback, evolving project status
 
@@ -78,4 +79,5 @@ Not an `@import` (it still loads at launch) and not a CLAUDE.md wrapper.
 - Preserving large sections "just in case"; they re-bloat the file and bury commands
 - Replacing one template dump with another
 - Keeping contradictory rules to avoid conflict with file history
+- Finishing under budget with no rule for staying there; the Size Budget's one-in, one-out rule is what stops the next PR from re-growing the file
 - Adding style advice linters already enforce; agents see lint output anyway

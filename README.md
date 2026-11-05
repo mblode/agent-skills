@@ -41,7 +41,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 - **[product-design](./skills/product-design/SKILL.md)**: What the interface should do, before anyone builds it.
 - **[ui-design](./skills/ui-design/SKILL.md)**: Visual direction, design-system extraction, Tailwind builds, screenshot to markup, dark mode, responsive, and a React and Next.js UX audit with a ship verdict.
-- **[ui-verification](./skills/ui-verification/SKILL.md)**: Runs nine browser probes, reviews before/after captures and suspicious duplicate states, then proves the fix cleared.
+- **[ui-verification](./skills/ui-verification/SKILL.md)**: Runs nine browser probes, reviews before/after captures and suspicious duplicate states, proves the fix cleared, and runs an exploratory pass that tries a finished feature like a real user.
 - **[app-verification](./skills/app-verification/SKILL.md)**: Builds and maintains a product's own verify CLI, doctor command, feature map, and worktree isolation, with reusable API checks, checked flow cleanup, and a reproduce-first bug handoff. Call by name.
 - **[ui-animation](./skills/ui-animation/SKILL.md)**: Springs, gestures, easing, and curves pulled from a screen recording.
 - **[presentation-creator](./skills/presentation-creator/SKILL.md)**: Decks with a story spine, speaker notes, and a contrast-checked QA pass, as Marp markdown, a web app, or a handoff to pptx.
@@ -73,7 +73,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 - **[chat-history](./skills/chat-history/SKILL.md)**: Recover decisions, previous fixes, and context from past AI conversations with fast local search and source evidence.
 
-- **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, migrates to native AGENTS.md without Claude wrappers, then audits and refactors instructions with grades.
+- **[agents-md](./skills/agents-md/SKILL.md)**: Wires a repo so Claude Code, Codex and Cursor read the same instructions, migrates to native AGENTS.md without Claude wrappers, then audits and refactors instructions with grades and holds them to a size budget.
 - **[agent-skills-creator](./skills/agent-skills-creator/SKILL.md)**: Creates and audits skills by their added value, with portable workflows, a validator, and regression scenarios.
 - **[save-md](./skills/save-md/SKILL.md)**: Writes a named source as a markdown file the next turn can reread.
 
