@@ -39,7 +39,7 @@ Codex reads root first, so half its ceiling leaves room for the nested files bet
 find . \( -name AGENTS.md -o -name AGENTS.override.md \) -not -path '*/node_modules/*' -exec wc -l {} +
 
 # Bytes on one launch path: run once per directory agents start in (root, and each package)
-d=<launch-dir>; while :; do f=$d/AGENTS.override.md; [ -f "$f" ] || f=$d/AGENTS.md; [ -f "$f" ] && echo "$f"; [ "$d" = . ] && break; d=$(dirname "$d"); done | xargs wc -c
+d=<launch-dir relative to root>; while :; do f=$d/AGENTS.override.md; [ -f "$f" ] || f=$d/AGENTS.md; [ -f "$f" ] && echo "$f"; [ "$d" = . ] || [ "$d" = / ] && break; d=$(dirname "$d"); done | xargs wc -c
 
 # Project skill descriptions, per tool (Claude Code reads .claude/skills, Codex reads .agents/skills)
 for d in .claude/skills .agents/skills; do [ -d "$d" ] || continue; printf '%s: ' "$d"; awk 'FNR==1{f=0;d=0} /^---$/{f++;next} f!=1{next} /^[A-Za-z_-]+:/{d=/^description:/} d' "$d"/*/SKILL.md | wc -c; done

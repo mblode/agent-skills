@@ -31,12 +31,13 @@ One per run, alongside `audit`. Without it a reader cannot tell a clean run from
     "dataFixture": "seed/invoices-24",
     "probesRun": ["axe-scan", "target-size", "focus-walk", "failure-injection"],
     "probesSkipped": [{ "probe": "web-vitals", "reason": "dev build only; no production server available" }],
-    "artifactDir": ".ui-verification/2026-09-04T0912Z"
+    "artifactDir": ".ui-verification/2026-09-04T0912Z",
+    "contractGaps": []
   }
 }
 ```
 
-`probesSkipped` is required and is not allowed to be inferred from absence. A probe missing from both arrays is a reporting bug.
+`contractGaps` is present when an exploratory pass ran. `probesSkipped` is required and is not allowed to be inferred from absence. A probe missing from both arrays is a reporting bug.
 
 ## The verification block
 
@@ -121,16 +122,17 @@ A finding from `references/exploratory-test.md` uses the same verification block
 |---|---|---|
 | `steps` | always | numbered steps a person can follow from a fresh session, ending at the observed behaviour |
 | `account` | always | the test user, role, and seed the steps ran as |
-| `class` | always | `defect` (should work per the contract or ordinary expectation) or `contract-gap` (nobody decided; goes to the contract owner as a question) |
+| `class` | always | `defect` (should work per the contract or ordinary expectation); a `contract-gap` is not a finding (see below) |
 
 Only `class: defect` enters `findings`, as a `fail` that `ui-design` tiers; `expected` holds what the contract or the user expected. A `contract-gap` never enters `findings`: it goes in `session.contractGaps[]` with `steps`, `account`, `observed`, and the question for the contract owner, so no verdict counts it and nobody fixes it into a guessed behaviour. Add `exploratory` to `session.probesRun` when the pass ran.
 
 ## Terminal rendering
 
-Same adapter, two additions:
+Same adapter, three additions:
 
 - Each reproduced finding gains one line under its fix line: `Probe: <probe> · <route> · <width>px <theme> · <observed>`.
 - The footer gains a session line before the defer-to block: driver, build mode, routes, probes run, probes skipped with reasons.
+- The footer gains a "Contract gaps" block after the session line: one line per entry in `session.contractGaps[]`, giving the question, the route, and the account.
 - `SHIP VERDICT` is omitted on a standalone run, per SKILL.md.
 
 ## Self-check additions
