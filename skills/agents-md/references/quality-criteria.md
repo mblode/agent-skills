@@ -63,7 +63,7 @@ Score each AGENTS.md root file against this checklist. Standard: the file helps 
 
 ## D. Signal-to-noise and bloat control (9)
 
-34. Root file concise for repo complexity (60-150 lines for active app repos; 200 is Claude Code's stated ceiling, and Codex stops reading at 32 KiB across all instruction files)
+34. Root file and launch-path total within the Size Budget in SKILL.md, and project skill descriptions counted in the always-loaded cost
 35. No full framework documentation pasted inline
 36. No copy-pasted full templates
 37. No exhaustive file tree or "every file" inventory

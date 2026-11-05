@@ -81,5 +81,5 @@ Use these AGENTS.md skeletons directly with Claude Code's enabled built-in `agen
 - 3-8 gotchas from real failures beats 20 hypothetical ones
 - Daily commands include the quiet, targeted form (`pnpm vitest run <file> --reporter=dot`), not only the full-suite script
 - Point at an exemplar file path where one exists, instead of paraphrasing what it already shows
-- Keep the root within 60-150 lines; anything a single directory owns goes in that directory's `AGENTS.md`
+- Keep the root within the Size Budget in SKILL.md; anything a single directory owns goes in that directory's `AGENTS.md`
 - State the outcome and let the surrounding code pick the path; reserve absolutes for safety, data loss, format contracts, and failures already observed here

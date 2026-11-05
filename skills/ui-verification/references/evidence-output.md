@@ -9,6 +9,7 @@ The delta this skill adds to `ui-design`'s finding document, and nothing else. T
 - [How a probe result changes a finding](#how-a-probe-result-changes-a-finding)
 - [Artifacts](#artifacts)
 - [The clearing re-run](#the-clearing-re-run)
+- [Exploratory findings](#exploratory-findings)
 - [Terminal rendering](#terminal-rendering)
 - [Self-check additions](#self-check-additions)
 
@@ -111,6 +112,18 @@ A fix is proved by the probe, not by the diff. Re-run with every condition ident
 ```
 
 Keep the before artifact. Writing the after capture over the before is how a report loses its own argument. A re-run that still reproduces is recorded as `clearedBy.result: "reproduced"` on an `applied` finding, which is the evidence `ui-design`'s revert-on-failed-fix rule runs on.
+
+## Exploratory findings
+
+A finding from `references/exploratory-test.md` uses the same verification block with `probe: "exploratory"` and `rule: "explore:<slug>"`, plus three fields:
+
+| Field | Required when | Description |
+|---|---|---|
+| `steps` | always | numbered steps a person can follow from a fresh session, ending at the observed behaviour |
+| `account` | always | the test user, role, and seed the steps ran as |
+| `class` | always | `defect` (should work per the contract or ordinary expectation) or `contract-gap` (nobody decided; goes to the contract owner as a question) |
+
+`observed` is the behaviour in words plus the artifact that shows it; there is often no threshold, so `expected` holds what the contract or the user expected, or `null` for a `contract-gap`. Add `exploratory` to `session.probesRun` when the pass ran.
 
 ## Terminal rendering
 

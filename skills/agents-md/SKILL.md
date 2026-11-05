@@ -21,7 +21,31 @@ AGENTS.md is the tool-agnostic source of truth. Claude Code's built-in `agents-m
 
 - Repo has no agent instructions, or targets a tool it is not wired for -> **Setup**: `references/project-setup.md` decides which files exist and which tool reads each one, then Writing From Scratch below fills the root file, then Audit scores it.
 - A file exists and the question is quality -> **Audit**, below.
-- A file exists and is bloated, stale, or scored badly -> **Refactor**, `references/refactor-workflow.md`.
+- A file exists and is over the Size Budget below, stale, or scored badly -> **Refactor**, `references/refactor-workflow.md`.
+
+## Size Budget
+
+Instruction files load into every session, so each line is paid on every task, and they grow by accretion: every change adds a line and none removes one. This section owns the numbers; other files point here.
+
+| What | Budget | Ceiling |
+|---|---|---|
+| Root `AGENTS.md` | 150 lines (60-150 for an active app repo) | 200 lines, Claude Code's stated limit |
+| Project instruction files on the launch path, together | 16 KiB | 32 KiB, where Codex stops adding files (`project_doc_max_bytes`) |
+
+Half the Codex ceiling leaves room for the nested files below the launch directory, which a full root crowds out silently. Measure in every mode, before and after editing:
+
+```bash
+find . -name AGENTS.md -not -path '*/node_modules/*' -exec wc -lc {} +
+cat .claude/skills/*/SKILL.md .agents/skills/*/SKILL.md 2>/dev/null | grep '^description:' | wc -c
+```
+
+The second line is the other always-loaded cost: every project skill's description sits in every session. Report it beside the file sizes, and treat a set of project skills that duplicates root, or whose descriptions would claim most prompts, as bloat on the same footing as a long root file.
+
+Holding the budget:
+
+- At or over budget, adding a line means removing or moving one. Each new line names what it replaces, or the line that moved to a nested file or skill to make room.
+- When a rule changes, rewrite it where it stands. A dated entry, an "Update:" paragraph, or a "previously" note leaves both versions in the file, and agents follow whichever they read first. History lives in git.
+- Over the ceiling is a Refactor, whatever else the request was.
 
 ## Reference Files
 
@@ -30,7 +54,7 @@ AGENTS.md is the tool-agnostic source of truth. Claude Code's built-in `agents-m
 | `references/project-setup.md` | Setting a repo up for Claude Code, Codex, and Cursor; deciding which files exist and what each tool actually loads |
 | `references/quick-checklist.md` | Every audit; default 12-check triage |
 | `references/quality-criteria.md` | Quick audit fails, file is high-risk, or full scoring requested |
-| `references/refactor-workflow.md` | File is bloated (root over ~150 lines), stale, or below target |
+| `references/refactor-workflow.md` | File is over the Size Budget, stale, or below target |
 | `references/root-content-guidance.md` | Deciding what stays in root and where moved content goes so it still loads |
 | `references/repo-evals.md` | Measuring whether instruction changes make agents faster or more correct in this repo |
 | `references/templates.md` | Drafting or rebuilding a file from scratch |
@@ -108,7 +132,7 @@ For an audit request, propose the diffs. A request to improve, refactor, or writ
 
 ### Step 7: Apply and report
 
-Apply approved edits, re-score with the same checklist, report before/after scores and line counts. Per future PR, add at most one new gotcha, only if it prevented or fixed a real mistake.
+Apply approved edits, re-score with the same checklist, report before/after scores and the Size Budget measurements. Per future PR, add at most one new gotcha, only if it prevented or fixed a real mistake.
 
 ## Make Drift a Gate
 
@@ -138,6 +162,7 @@ The identifier check proves existence, not visibility: a documented middleware m
 ## Related Skills
 
 - `agent-skills-creator`: authoring and improving SKILL.md files (different format and rules).
+- `close-out`: rewrites instruction files and docs to match one finished change, and holds this skill's Size Budget while doing it.
 - External `cadence-advise` skill where installed: proposes AGENTS.md/CLAUDE.md edits from observed session history; complements this skill's file-first audit.
 - `ghostwriter`: human-facing documentation; AGENTS.md content that belongs in docs should move there.
 - `codebase-architecture` (Harden mode): the rest of the repo an agent works in. A rule a linter can enforce belongs there as an exit code, not here as prose, and it owns the docs tree this file indexes.
