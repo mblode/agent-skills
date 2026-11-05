@@ -162,7 +162,6 @@ The identifier check proves existence, not visibility: a documented middleware m
 ## Related Skills
 
 - `agent-skills-creator`: authoring and improving SKILL.md files (different format and rules).
-- `close-out`: rewrites instruction files and docs to match one finished change, and holds this skill's Size Budget while doing it.
 - External `cadence-advise` skill where installed: proposes AGENTS.md/CLAUDE.md edits from observed session history; complements this skill's file-first audit.
 - `ghostwriter`: human-facing documentation; AGENTS.md content that belongs in docs should move there.
 - `codebase-architecture` (Harden mode): the rest of the repo an agent works in. A rule a linter can enforce belongs there as an exit code, not here as prose, and it owns the docs tree this file indexes.
