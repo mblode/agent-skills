@@ -30,22 +30,28 @@ Instruction files load into every session, so each line is paid on every task, a
 | What | Budget | Ceiling |
 |---|---|---|
 | Root `AGENTS.md` | 150 lines (60-150 for an active app repo) | 200 lines, Claude Code's stated limit |
-| Project instruction files on the launch path, together | 16 KiB | 32 KiB, where Codex stops adding files (`project_doc_max_bytes`) |
+| Project instruction files on the path from root to a launch directory, together | 16 KiB | 32 KiB, where Codex stops adding files (`project_doc_max_bytes`) |
 
-Half the Codex ceiling leaves room for the nested files below the launch directory, which a full root crowds out silently. Measure in every mode, before and after editing:
+Codex reads root first, so half its ceiling leaves room for the nested files between root and the launch directory, which a full root crowds out silently. Measure in every mode, before and after editing:
 
 ```bash
-find . -name AGENTS.md -not -path '*/node_modules/*' -exec wc -lc {} +
-cat .claude/skills/*/SKILL.md .agents/skills/*/SKILL.md 2>/dev/null | grep '^description:' | wc -c
+# Lines per instruction file
+find . \( -name AGENTS.md -o -name AGENTS.override.md \) -not -path '*/node_modules/*' -exec wc -l {} +
+
+# Bytes on one launch path: run once per directory agents start in (root, and each package)
+d=<launch-dir>; while :; do f=$d/AGENTS.override.md; [ -f "$f" ] || f=$d/AGENTS.md; [ -f "$f" ] && echo "$f"; [ "$d" = . ] && break; d=$(dirname "$d"); done | xargs wc -c
+
+# Project skill descriptions, per tool (Claude Code reads .claude/skills, Codex reads .agents/skills)
+for d in .claude/skills .agents/skills; do [ -d "$d" ] || continue; printf '%s: ' "$d"; awk 'FNR==1{f=0;d=0} /^---$/{f++;next} f!=1{next} /^[A-Za-z_-]+:/{d=/^description:/} d' "$d"/*/SKILL.md | wc -c; done
 ```
 
-The second line is the other always-loaded cost: every project skill's description sits in every session. Report it beside the file sizes, and treat a set of project skills that duplicates root, or whose descriptions would claim most prompts, as bloat on the same footing as a long root file.
+The last command is the other always-loaded cost: every project skill's description sits in every session of the tool that reads that folder. Report it per tool beside the file sizes, and treat a set of project skills that duplicates root, or whose descriptions would claim most prompts, as bloat on the same footing as a long root file.
 
 Holding the budget:
 
-- At or over budget, adding a line means removing or moving one. Each new line names what it replaces, or the line that moved to a nested file or skill to make room.
-- When a rule changes, rewrite it where it stands. A dated entry, an "Update:" paragraph, or a "previously" note leaves both versions in the file, and agents follow whichever they read first. History lives in git.
-- Over the ceiling is a Refactor, whatever else the request was.
+- At or over budget, adding a line means removing or moving one. The commit or PR that adds it names the line it replaced, or where that line moved.
+- When a rule changes, rewrite it where it stands. A dated change note, an "Update:" paragraph, or a "previously" note leaves both versions in the file, and agents follow whichever they read first. History lives in git. A date or version that limits when a rule applies ("on Node 22 and later") stays.
+- Over a ceiling, Refactor is the top finding: apply it when the request allows edits, otherwise propose it as the first diff.
 
 ## Reference Files
 
@@ -150,7 +156,6 @@ The identifier check proves existence, not visibility: a documented middleware m
 - A project `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md` can suppress the default AGENTS.md fallback across the project. Removing only the root wrapper may not fix loading. Check the built-in mod and `/config` Project instructions, then verify loaded files.
 - `@import` moves text, not cost, and reaches Claude Code only. Imported files expand into context at launch (a 400-line file split into five imports still loads 400 lines), Codex and Cursor see the line as plain text, an import inside a code span or fence never loads, chains stop at four hops, and an external import from AGENTS.md needs an approval the mod cannot raise. Each failure is silent, so a rule every tool must obey stays inline.
 - Nested files do not load the same way per tool. Claude Code loads a subdirectory's file when it reads files there; Codex concatenates only the files on the path from repo root to the launch directory. A rule that lives only in `packages/api/AGENTS.md` is invisible to a Codex session started at the root and to any Claude Code task that never opens that subtree. Universal rules go in root.
-- Codex stops adding instruction files once the concatenated total reaches `project_doc_max_bytes` (32 KiB by default), root first. A bloated root file silently crowds out every nested file beneath it.
 - Project-specific commands in `~/.claude/CLAUDE.md` or `~/.codex/AGENTS.md` load in every repo, so one project's `pnpm dev` becomes noise or a wrong command everywhere else.
 - A committed `AGENTS.override.md` replaces `AGENTS.md` in that directory for Codex, so one checked in by accident silently swaps the rule set while the AGENTS.md everyone edits looks correct.
 - Audit `CLAUDE.local.md` only for broken commands and contradictions with the shared file; it's gitignored personal config, and it exists only in the worktree that created it.

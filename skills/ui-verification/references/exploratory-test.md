@@ -10,7 +10,6 @@ A fresh tester uses the feature the way a user would, after the written checks p
 - Charter
 - When to stop
 - Each finding
-- In a pipeline
 
 ## When It Runs
 
@@ -20,7 +19,7 @@ Against a test, preview, or staging environment with seeded data. Never producti
 
 ## Who Runs It
 
-A fresh context, not the session that built the feature. Where the host lets you choose, use a different model from the one that wrote the code, because the builder's blind spots are the cases it already steered around.
+A fresh context, not the session that built the feature: the builder's blind spots are the cases it already steered around.
 
 The tester reads what the feature is for (the task contract, ticket, or PR description) and the routes it lives on, not the diff. Reading the implementation first teaches the tester which cases are handled, and it stops trying the rest.
 
@@ -49,9 +48,5 @@ Stop when every charter path has been driven and pressed on, and the last round 
 - **Reproduce before reporting.** Replay the exact steps in a fresh browser context. A replay that shows the defect makes it `reproduced`. One that will not repeat after two tries is `unknown` with `reason: "flaky"`, steps kept.
 - **Record steps a person can follow:** a numbered list, the account and seed used, and the screenshot and console and network logs in the artifact layout from `references/evidence-output.md`.
 - **Classify it.** A `defect` is behaviour the contract or ordinary user expectation says should work. A `contract-gap` is a case nobody decided, such as two users editing the same invoice. Send a gap to the contract owner as a question with the observed behaviour, never to the builder as a failure: a gap reported as a bug gets "fixed" into whichever behaviour the builder guesses.
-- **Emit it under `explore:<slug>`** with the exploratory fields in `references/evidence-output.md`. No tier and no verdict; `ui-design` owns both.
+- **Emit it under `explore:<slug>`** with the exploratory fields in `references/evidence-output.md`: a defect as a finding, a contract gap in `session.contractGaps[]`. No tier and no verdict; `ui-design` owns both.
 - **Do not fix during the pass.** A fix changes the app under test and blurs which steps reproduce. Name each reproduced defect as a candidate regression test; writing the durable test belongs to the repo's suite.
-
-## In a Pipeline
-
-An orchestrated run whose steps are plain English needs one step after its verifier: "Once the acceptance criteria pass, run ui-verification in exploratory mode against the preview URL from a fresh session, and send defects to the worker and contract gaps to the task owner."

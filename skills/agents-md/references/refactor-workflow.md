@@ -33,7 +33,7 @@ Remove:
 - Exhaustive file maps
 - Generic advice ("write clean code", "use best practices")
 - Outdated commands and dead links
-- Dated entries, "Update:" paragraphs, and "previously" notes: rewrite the rule to its current form and delete the history
+- Dated change notes, "Update:" paragraphs, and "previously" notes: rewrite the rule to its current form and delete the history. A date or version that limits when a rule applies stays (full-audit check 47)
 - Restatements of default agent behavior ("read before editing", "run the tests")
 - Facts auto-memory owns: user preferences, personal feedback, evolving project status
 

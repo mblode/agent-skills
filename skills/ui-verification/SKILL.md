@@ -112,7 +112,7 @@ Three outcomes, and the middle one is the one that earns this skill its keep.
 
 A `not-reproduced` result is a real deliverable, not a wasted run. It is what removes the false positives a large rule corpus asserts with `file:line` confidence, and it feeds the rejection section `ui-design` already requires.
 
-Where a probe finds something no static rule predicted, emit it as a new finding against the rule id the probe is primary for. Where no rule covers it (an axe violation with no ui-design counterpart, a console error), emit it under `axe:<violation-id>` or `runtime:<signature>` and say plainly that it came from the browser and not the corpus.
+Where a probe finds something no static rule predicted, emit it as a new finding against the rule id the probe is primary for. Where no rule covers it (an axe violation with no ui-design counterpart, a console error), emit it under `axe:<violation-id>`, `runtime:<signature>`, or `explore:<slug>` from an exploratory pass, and say plainly that it came from the browser and not the corpus.
 
 ## 5. Clearing re-run
 

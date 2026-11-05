@@ -26,6 +26,6 @@ Quick grade:
 Automatic fail regardless of score:
 
 - Commands are mostly broken/stale
-- Over a Size Budget ceiling in SKILL.md: root over 200 lines, or project instruction files on the launch path over 32 KiB together
+- Over a Size Budget ceiling in SKILL.md (root lines, or launch-path bytes)
 - Content is mostly generic advice, template text, or restatements of default agent behavior
 - The intended tool does not load the shared instructions: check Claude Code version, built-in mod, Project instructions mode, and leftover project Claude files; absence of a CLAUDE.md wrapper is not a failure

@@ -89,7 +89,7 @@
     },
     {
       "id": 8,
-      "prompt": "The invoice editor passed its acceptance criteria and CI. Try to break it like a real user before I merge. Preview is at https://pr-412.preview.example.dev with seeded test accounts; don't read the diff, the ticket is in .captain/tasks/t-412.md.",
+      "prompt": "The invoice editor passed its acceptance criteria and CI. Try to break it like a real user before I merge. Preview is at https://pr-412.preview.example.dev with seeded test accounts; the ticket is in .captain/tasks/t-412.md.",
       "expected_output": "A charter written from the ticket, each named path driven end to end on the preview, then pressure on navigation, double submit, permissions, concurrent edits, and inputs; every finding replayed in a fresh context with numbered steps and the test account; findings split into defects and contract gaps under explore:<slug>; no code edits, no tier or verdict, nothing sent outside the preview.",
       "files": [],
       "assertions": [
@@ -97,7 +97,8 @@
         "Drives each path the ticket names end to end before trying edge cases",
         "Every reported finding has numbered reproduction steps and the test account used",
         "Each reported finding was replayed in a fresh browser context, or is marked unknown with reason flaky",
-        "Labels each finding as defect or contract-gap, and routes contract gaps to the task owner as questions",
+        "Labels each finding as defect or contract-gap",
+        "Routes each contract gap to the task owner as a question, not to the builder as a failure",
         "Uses rule values of the form explore:<slug> and assigns no tier or ship verdict",
         "Edits no source file during the pass",
         "Takes no action against a production URL or a live payment or email provider"

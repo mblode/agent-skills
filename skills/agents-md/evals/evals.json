@@ -56,10 +56,9 @@
       "assertions": [
         "Reports root line count and launch-path byte total both before and after the edit",
         "Reports the combined size of the project skill descriptions as part of the always-loaded cost",
-        "Rewrites each 'Update:' or 'used to' note as the current rule rather than keeping both versions",
         "The edited root AGENTS.md contains no dated entry and no 'previously' or 'used to' note",
         "The edited root AGENTS.md is 150 lines or fewer, or the report names each remaining line over budget and why it stays",
-        "States the one-in, one-out rule as the mechanism that keeps the file from re-growing"
+        "The edited root AGENTS.md contains a one-line rule that an addition at or over budget removes or moves a line"
       ]
     }
   ],

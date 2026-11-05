@@ -66,7 +66,7 @@ Appended to any finding a probe touched:
 | `probe` | always | the probe file's name without `.md` |
 | `route`, `viewport`, `theme` | always | the exact conditions. A measurement without them is not reproducible |
 | `result` | always | `reproduced \| not-reproduced \| unknown` |
-| `observed` | result is `reproduced` | the measurement, in units |
+| `observed` | result is `reproduced` | the measurement, in units; for `probe: exploratory`, the behaviour in words plus the artifact that shows it |
 | `expected` | when the rule has a threshold | the threshold the measurement is judged against |
 | `evidence` | result is `reproduced` or `not-reproduced` | artifact paths that exist on disk |
 | `reruns` | always | how many times the probe ran. A reported fail is at least 2 |
@@ -83,7 +83,7 @@ Appended to any finding a probe touched:
 | `not-reproduced` | Withdraw only when the probe exercised the alleged trigger. Record the trigger and measurement in `consideredAndRejected`; otherwise retain an `unknown` finding naming the missing condition |
 | `unknown` | Stays as a finding with `result: "unknown"` and the probe's `reason`. It never becomes a `pass` |
 
-A probe that found something no static rule predicted enters as a new finding against the rule it is primary for. Where no rule owns it, use `axe:<violation-id>` or `runtime:<signature>` as the `rule` value and say in the text that it came from the browser rather than from the corpus. Do not stretch a rule id to make a browser finding look like a predicted one.
+A probe that found something no static rule predicted enters as a new finding against the rule it is primary for. Where no rule owns it, use `axe:<violation-id>`, `runtime:<signature>`, or `explore:<slug>` from an exploratory pass as the `rule` value and say in the text that it came from the browser rather than from the corpus. Do not stretch a rule id to make a browser finding look like a predicted one.
 
 ## Artifacts
 
@@ -115,7 +115,7 @@ Keep the before artifact. Writing the after capture over the before is how a rep
 
 ## Exploratory findings
 
-A finding from `references/exploratory-test.md` uses the same verification block with `probe: "exploratory"` and `rule: "explore:<slug>"`, plus three fields:
+A finding from `references/exploratory-test.md` uses the same verification block with `probe: "exploratory"` and `rule: "explore:<slug>"`, plus three fields. `route` is the route where the observed behaviour appears, even when the steps cross several.
 
 | Field | Required when | Description |
 |---|---|---|
@@ -123,7 +123,7 @@ A finding from `references/exploratory-test.md` uses the same verification block
 | `account` | always | the test user, role, and seed the steps ran as |
 | `class` | always | `defect` (should work per the contract or ordinary expectation) or `contract-gap` (nobody decided; goes to the contract owner as a question) |
 
-`observed` is the behaviour in words plus the artifact that shows it; there is often no threshold, so `expected` holds what the contract or the user expected, or `null` for a `contract-gap`. Add `exploratory` to `session.probesRun` when the pass ran.
+Only `class: defect` enters `findings`, as a `fail` that `ui-design` tiers; `expected` holds what the contract or the user expected. A `contract-gap` never enters `findings`: it goes in `session.contractGaps[]` with `steps`, `account`, `observed`, and the question for the contract owner, so no verdict counts it and nobody fixes it into a guessed behaviour. Add `exploratory` to `session.probesRun` when the pass ran.
 
 ## Terminal rendering
 
