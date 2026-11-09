@@ -92,7 +92,7 @@ Output separates **format** requirements from **house** conventions, including r
 
 ### Step 6: Update README.md
 
-Add the skill's bullet under the matching category heading and bump the count; `validate.sh` checks both and names what is missing. Where the repo also ships `docs/skills.mdx`, add the same bullet there.
+Add the skill's bullet under the matching category heading, and bump the skill count where the README states one; `validate.sh` checks both and names what is missing. Where the repo also ships `docs/skills.mdx`, add the same bullet there.
 
 ### Step 7: Smoke-test
 
