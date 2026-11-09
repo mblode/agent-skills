@@ -89,23 +89,5 @@
         "Separates rendered-state evidence from interaction coverage."
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Set up a verification harness for this app so every agent can check it the same way.",
-      "Add a doctor command that tells us if the dev instance is even worth driving.",
-      "Give agents a way to prove a feature still works before merging.",
-      "Extend the feature map to cover the new export flow.",
-      "Use our verify harness to reproduce this bug report in an isolated instance before anyone touches the code.",
-      "Is our verify CLI's worktree isolation actually working, or would two agents step on each other?",
-      "The verification harness feature map is out of date, audit it."
-    ],
-    "near_miss": [
-      "Check this page for accessibility and layout bugs. (ui-verification: a scoped browser probe against UI rules, not the harness itself)",
-      "Add an import-boundary lint rule so nobody imports across modules. (codebase-architecture: repo-wide guardrails, not this skill's harness)",
-      "We have too many flaky tests, prune them. (test-audit: an existing test suite, a different asset from the feature map)",
-      "Write a plan for the new billing feature. (planning: a feature plan, not its eventual verification coverage)",
-      "Can you quickly check if the app boots? (a one-off check with no lasting harness; only routes here if a harness should exist afterward)"
-    ]
-  }
+  ]
 }

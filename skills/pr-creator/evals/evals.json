@@ -56,20 +56,5 @@
         "Reads the body back with gh pr view 42 --json body and finds both image URLs"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Update only the body of the existing PR. Its base is release/next, and this local checkout also has an unpushed experimental commit.",
-      "Create a PR for a partial implementation of ABC-123. The repository template requires Summary and Validation sections.",
-      "PR #42 changes the settings page layout and ./demo.mp4 shows it. Rewrite the PR body to match the final diff and attach the recording.",
-      "I ran gh pr edit 42 --attach ./before.mp4 --attach ./after.mp4 and it exited 1 partway. Make sure the PR shows both recordings.",
-      "PR #42 restyles the pricing card. I have before.png and after.png but no video. Add them to the PR."
-    ],
-    "near_miss": [
-      {
-        "prompt": "Diagnose the red CI job on this existing PR.",
-        "expected": "pr-babysitter"
-      }
-    ]
-  }
+  ]
 }
