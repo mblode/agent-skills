@@ -54,7 +54,7 @@ Read each step's reference when you reach it:
 | 6. Notes | [references/speaker-notes.md](references/speaker-notes.md) | Per-slide note structure, delivery cues, notes by slide type |
 | 7. Emit | [references/output-formats.md](references/output-formats.md) | Marp syntax and export, Slidev and reveal.js equivalents, the `pptx` handoff, where notes live in each |
 | 7. Emit (web) | [references/web-deck.md](references/web-deck.md) | Route-per-slide structure, navigation, layout primitives, motion, live demos |
-| Changing this skill | `evals/evals.json` | Behavioural scenarios with assertions, plus should-trigger and near-miss routing prompts. Never loads during a user task |
+| Changing this skill | `evals/evals.json` | Behavioural scenarios with assertions. Never loads during a user task |
 
 Read `web-deck.md` only after the copy exists. Primitives designed before the outline get shaped around slide 3 and fight every slide after it.
 

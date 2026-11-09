@@ -37,18 +37,5 @@
         "Documents ultracite fix and ultracite fix --codex for remaining design-system findings"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Scaffold a Next.js turborepo with Blode UI. Port 3000 belongs to an unrelated local project.",
-      "The installed Next.js rejects a flag in the scaffold reference. The current bundled documentation names its replacement.",
-      "Scaffold a Next.js turborepo with Blode UI and wire the house lint stack."
-    ],
-    "near_miss": [
-      {
-        "prompt": "Build a pricing page inside the existing Next.js app.",
-        "expected": "ui-design"
-      }
-    ]
-  }
+  ]
 }

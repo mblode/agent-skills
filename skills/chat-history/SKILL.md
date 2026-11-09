@@ -46,4 +46,4 @@ Run the appropriate subcommand's `--help` for its interface. Stdout is NDJSON, s
 - CLI availability and account rate limits are independent of local transcript availability. Read the files without resuming an agent session.
 - Session forks and subagents can duplicate text. Directory search skips nested `subagents/`; inspect an explicit subagent file with `read` when a parent points to relevant work. ChatGPT exports follow the selected branch.
 
-Maintenance only: `evals/evals.json`, `evals/routing.jsonl`, and `evals/test_history.py` define behavioral scenarios, routing cases, and executable adapter tests. They are not loaded during retrieval. Read [verification notes](references/verification.md) when changing this skill or assessing its tested coverage.
+Maintenance only: `evals/evals.json` and `evals/test_history.py` define behavioral scenarios and executable adapter tests. They are not loaded during retrieval. Read [verification notes](references/verification.md) when changing this skill or assessing its tested coverage.

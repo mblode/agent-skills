@@ -106,24 +106,5 @@
         "Records uncertain cuts as deferred and keeps security and data-integrity content"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "How do I write a skill for our release process?",
-      "Improve this skill, it never seems to change what the agent does.",
-      "Audit my SKILL.md against the format spec.",
-      "Why doesn't my skill trigger when I ask about deployments?",
-      "Rightsize this skill, it's gotten bloated.",
-      "Which frontmatter fields can I use if this has to work on claude.ai too?",
-      "Should I install the popular react-best-practices skill or write our own?",
-      "Codex is cutting our skill descriptions short and picking the wrong one, can you tighten them?",
-      "Our skill stops after the first draft and asks for review, make it finish the job."
-    ],
-    "near_miss": [
-      "Rewrite our CLAUDE.md so Codex and Cursor read the same instructions. (agents-md owns instruction files)",
-      "Audit our docs folder for Diataxis compliance. (ghostwriter owns documentation quality)",
-      "Write the README for this skills repo. (ghostwriter)",
-      "Configure a PreToolUse hook in settings.json. (update-config; a hook inside a skill's frontmatter is this skill's, a repo-level hook is not)"
-    ]
-  }
+  ]
 }

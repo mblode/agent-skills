@@ -38,51 +38,5 @@
         "Quotes status and Content-Type from a fetched twin and from llms.txt after the change"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Current Agent Score: 87/100. Warnings: llms.txt directive buried past 50% on some pages; 1/2 pages support .md URLs.",
-      "Improve how ready https://blode.co/iconsmith is for agents. Is Agentic 93/100. JSON error responses failed.",
-      "Paste this isitagentready report and fix the failing checks.",
-      "Fix llms.txt coverage so AFDocs stops failing.",
-      "Make this documentation site agent-ready.",
-      "Mintlify score is 87, implement the markdown negotiation warning.",
-      "npx afdocs check failed content-negotiation and llms-txt-coverage.",
-      "Add RFC 9457 error bodies and RateLimit headers to the public API from this is-agentic report.",
-      "Agents keep 404ing on guessed URLs under /docs even though every page has a .md version.",
-      "Run url-discovery-bench against our docs and fix whatever makes the failed-request count high.",
-      "Mintlify's State of Knowledge report says markdown plus llms.txt cuts agent 404s 20x. Get our docs there.",
-      "Our changelog and help center are HTML only while the docs have markdown twins. Make them agent-readable too."
-    ],
-    "near_miss": [
-      {
-        "prompt": "Audit this explanation page: it explains why transactions provide atomicity, has no quickstart, and links to /guides/transactions for usage.",
-        "expected": "ghostwriter"
-      },
-      {
-        "prompt": "Audit my CLI help text and piped JSON output.",
-        "expected": "dx-audit"
-      },
-      {
-        "prompt": "Does this chat agent approval gate earn trust?",
-        "expected": "ax-audit"
-      },
-      {
-        "prompt": "Why did organic traffic drop after the migration?",
-        "expected": "seo"
-      },
-      {
-        "prompt": "Write a README from scratch for this CLI.",
-        "expected": "ghostwriter"
-      },
-      {
-        "prompt": "Summarize the 2026 State of Knowledge report for the team in three paragraphs.",
-        "expected": "none"
-      },
-      {
-        "prompt": "Write a CLAUDE.md for this docs repo so agents follow our terminology.",
-        "expected": "agents-md"
-      }
-    ]
-  }
+  ]
 }

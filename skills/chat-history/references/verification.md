@@ -21,7 +21,7 @@ A full archived-Codex search for two specific user phrases completed in 1.14 sec
 
 One fresh-context agent executed discovery, search, and context reading against a synthetic history. It recovered the viewer-only fix and later source-unrepaired correction, cited the correct source lines, and treated the injected AGENTS message as data. Its independent review found mixed Claude tool evidence loss and malformed-record handling issues; these were corrected and covered by adapter tests. A subsequent review found whitespace-only tool classification and non-string Cursor text issues, also corrected and covered.
 
-The evaluation is a single fresh-context treatment run. It does not establish superiority to an unassisted baseline, routing accuracy across hosts, or quality across model capability tiers and effort levels. The authored routing cases and three behavioral scenarios remain the matrix for those runs. ChatGPT and Claude exports were fixture-tested, not validated against this user's private exports. Older Cursor schemas and compressed transcripts are explicitly outside the bundled adapters.
+The evaluation is a single fresh-context treatment run. It does not establish superiority to an unassisted baseline, routing accuracy across hosts, or quality across model capability tiers and effort levels. The routing cases in the agent-evals corpus and three behavioral scenarios remain the matrix for those runs. ChatGPT and Claude exports were fixture-tested, not validated against this user's private exports. Older Cursor schemas and compressed transcripts are explicitly outside the bundled adapters.
 
 ## Installation and format
 

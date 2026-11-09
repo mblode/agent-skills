@@ -34,18 +34,5 @@
         "Does not create AudioContext on page load"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Review a Tailwind v4 modal animation. Generated hover CSS already includes @media (hover: hover). Keyboard focus moves immediately; a 120ms opacity transition continues afterward. Reduced motion uses an immediate state change.",
-      "Match a recording extracted at 60fps using the bundled fitting scripts. The fitting default is 30fps.",
-      "Add a click sound to every button on the dashboard, including list-row hovers."
-    ],
-    "near_miss": [
-      {
-        "prompt": "Should swipe-to-delete be undoable?",
-        "expected": "product-design"
-      }
-    ]
-  }
+  ]
 }

@@ -80,4 +80,4 @@ Sending recaps to others, scheduling recurring work, spending on tools and produ
 - An audit PR that also rewrote titles on priority and campaign pages was sent back with those rewrites reverted, because the wording was the owner's positioning call. Ship mechanical metadata fixes and list the rest for the owner.
 - A vendor Search Console connector may under-report. Reconcile property, filters and aggregation against native Search Console before diagnosing a drop.
 
-Maintenance only: `evals/evals.json` holds behavioral scenarios and routing prompts. It is loaded when changing the skill, not during ordinary SEO work.
+Maintenance only: `evals/evals.json` holds behavioral scenarios. It is loaded when changing the skill, not during ordinary SEO work.

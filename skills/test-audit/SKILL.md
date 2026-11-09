@@ -111,7 +111,7 @@ Running tests and coverage locally, and deleting tests and test-only seams in th
 | `references/campaign.md` | Campaign mode, or any target-driven prune larger than one directory |
 | `references/coverage.md` | Measuring the baseline, per-file and per-test coverage, the budget check, and mutation spot checks |
 
-Maintenance only: `evals/evals.json` holds scenarios and routing prompts for changing this skill; it never loads during a task.
+Maintenance only: `evals/evals.json` holds scenarios for changing this skill; it never loads during a task.
 
 ## Related skills
 

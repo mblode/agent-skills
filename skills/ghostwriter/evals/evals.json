@@ -241,58 +241,5 @@
         "Returns the section only, with no commentary on the edit"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Reply to this email as me, I can do Thursday at 2",
-      "Clean up my ramble into a Linear ticket",
-      "Write a LinkedIn post about the meetup, 60 people came",
-      "Does this Slack message land or is it too soft?",
-      "Cut this doc in half but keep the numbers",
-      "Write the password reset email for Done Bear",
-      "Rewrite our getting-started page, the examples are stale",
-      "Write a README for the new CLI package",
-      "Critique this essay draft, no rewriting yet",
-      "Turn these notes into a message to the team",
-      "Reply to this review comment in my voice: the reviewer wants the retry moved into the client",
-      "Write a PRD for the reminders feature from these notes",
-      "Write my email profile from these ten emails",
-      "Write the RFC for splitting the auth service, here are my notes",
-      "Make this paragraph sound less like AI, it's for my newsletter"
-    ],
-    "near_miss": [
-      {
-        "prompt": "Should the delete button be undoable or need a confirm dialog?",
-        "expected": "product-design"
-      },
-      {
-        "prompt": "Update AGENTS.md with the new test command",
-        "expected": "agents-md"
-      },
-      {
-        "prompt": "Write the PR description for this branch",
-        "expected": "pr-creator"
-      },
-      {
-        "prompt": "Explain what a mutex is like I'm five",
-        "expected": "eli5"
-      },
-      {
-        "prompt": "Turn this outline into a 10-slide deck with speaker notes",
-        "expected": "presentation-creator"
-      },
-      {
-        "prompt": "Write an SEO brief for an article on local-first sync",
-        "expected": "seo"
-      },
-      {
-        "prompt": "Clean up the AI slop in this TypeScript file, too many useless comments",
-        "expected": "tidy"
-      },
-      {
-        "prompt": "Build the landing page hero section in Tailwind from this Figma frame",
-        "expected": "ui-design"
-      }
-    ]
-  }
+  ]
 }
