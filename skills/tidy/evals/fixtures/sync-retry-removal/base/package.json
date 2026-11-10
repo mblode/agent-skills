@@ -1,0 +1,14 @@
+{
+  "name": "marlow-notes",
+  "version": "2.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "start:workers": "node dist/workers/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3"
+  }
+}

@@ -6,6 +6,7 @@
       "prompt": "Look over my branch before I push. Heads up that main is already red on the flaky auth test, so don't wait for green. I added a formatDuration helper in src/lib/time.ts.",
       "expected_output": "A read-only report in the Local review format: the new helper flagged against the live duration formatter already exported next door, the failing auth test shown as baseline, and an unchanged working tree.",
       "files": [],
+      "fixture": "evals/fixtures/duration-helper",
       "assertions": [
         "Edits no file",
         "Does not require a green suite to begin; the auth failure appears in the Baseline line, not as a finding",
@@ -19,6 +20,7 @@
       "prompt": "Review this diff, it removes the retry wrapper around the sync write in src/workers/sync.ts since the write is idempotent now. Don't change anything, just tell me if it's safe.",
       "expected_output": "A report that traces the writers of the delayed state outside the diff, finds the scheduler that can still produce it, and reports the removal as a regression with the trigger named.",
       "files": [],
+      "fixture": "evals/fixtures/sync-retry-removal",
       "assertions": [
         "Reads outside the diff to find every writer of the state the retry handled",
         "Names the trigger and the consequence for the removed guard",
@@ -33,6 +35,7 @@
       "prompt": "Tidy this up. Two of the route handlers I touched each normalize the Stripe response by hand, and I'm pretty sure there's a mapper for that somewhere in src/payments.",
       "expected_output": "Both handlers rewritten onto the shared mapper after confirming it has live callers and matching semantics, the affected tests run with the result quoted, and a summary of what changed and what was left.",
       "files": [],
+      "fixture": "evals/fixtures/payment-mapper",
       "assertions": [
         "Confirms the shared mapper has live callers and handles the boundary cases the hand-rolled code handled before switching to it",
         "Applies the change rather than only reporting it",
@@ -46,6 +49,7 @@
       "prompt": "Simplify this diff. There's a guard in src/cache/read.ts for an empty snapshot that I think is dead now. Careful, I have unrelated uncommitted edits in that same file I still need.",
       "expected_output": "The guard kept because a background worker outside the diff still writes the empty snapshot, the uncertainty reported with the writer named, and the user's other edits in the file untouched.",
       "files": [],
+      "fixture": "evals/fixtures/snapshot-guard",
       "assertions": [
         "Inspects the writers of the snapshot state, including the background worker outside the diff",
         "Does not delete the guard while a writer of the reachable state exists; reports the writer and the uncertainty instead",
@@ -58,6 +62,7 @@
       "prompt": "deslop this branch, the agent left comments everywhere and there's a bunch of `as any`",
       "expected_output": "Findings grouped by slop category with file:line, comments and casts fixed at the source without changing runtime behavior, and stale comments quoted alongside the line that refutes them.",
       "files": [],
+      "fixture": "evals/fixtures/deslop-branch",
       "assertions": [
         "Reads references/ai-slop-patterns.md and references/severity-rubric.md and lists them under Reference evidence with excerpts",
         "Groups findings by category, not by file",
@@ -71,6 +76,7 @@
       "prompt": "Audit these tests in my PR before I merge. I added a test in src/lib/slug.spec.ts that mocks the entire slugify module and asserts the mock returned what I told it to return.",
       "expected_output": "The mock-only test flagged under the test gate as a confirmed finding, since it asserts the mock's own return value rather than real slugify output, with a fix that asserts on the real function's output instead; the rest of the diff reviewed normally, and references/test-gate.md read only because the diff touched a test file.",
       "files": [],
+      "fixture": "evals/fixtures/slug-mock-spec",
       "assertions": [
         "Reads references/test-gate.md because the diff adds or changes a test, and lists it under Reference evidence",
         "Flags the mock-only test as confirmed, naming the mocked module and the self-referential assertion",
