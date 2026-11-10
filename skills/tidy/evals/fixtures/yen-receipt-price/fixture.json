@@ -1,0 +1,5 @@
+{
+  "name": "birchline-bookings",
+  "branch": "fix-yen-receipts",
+  "message": "Fix yen amounts in receipt emails"
+}
