@@ -1,0 +1,17 @@
+{
+  "name": "dunlin-notes",
+  "version": "1.9.3",
+  "description": "Keep release notes in a JSON file and list them from a terminal",
+  "type": "module",
+  "bin": {
+    "dunlin": "bin/dunlin.js"
+  },
+  "files": ["bin", "src"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

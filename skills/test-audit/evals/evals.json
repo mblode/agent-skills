@@ -3,66 +3,87 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Our TypeScript monorepo has 4,100 Vitest tests and most were written by agents. Remove the least useful 20% of tests in packages/api while keeping coverage within 2%.",
-      "expected_output": "A measured baseline (declaration count, line and branch coverage per file), a ledger marking each test R, F, C, or D with evidence, deletions in lowest-value order until the 20% target is met or the ledger proves it cannot be, coverage re-measured within the 2 point budget, test-only seams removed, and a handoff with before and after numbers.",
+      "prompt": "Most of the tests in this TypeScript monorepo were written by agents. Remove the least useful 20% of tests in packages/api while keeping coverage within 2%.",
+      "expected_output": "A measured baseline (20 test declarations in packages/api, line and branch coverage per file), deletions in lowest-value order until at least 4 tests are gone, each with the retained test that still proves the behaviour, coverage re-measured within the 2 point budget, the test-only resetZoneCache export removed with its tests, and a handoff with before and after numbers.",
       "files": [],
+      "fixture": "evals/fixtures/freight-api-prune",
       "assertions": [
-        "Records baseline declaration count and line and branch coverage before deleting anything",
-        "States the target and coverage budget in writing before the first deletion",
-        "Marks each candidate with evidence naming the keeper test or why no contract exists",
-        "Keeps deleting past the obvious candidates until the target is met, or reports the shortfall with per-candidate contract evidence",
-        "Compares coverage per production file, not only the total",
-        "Removes test-only exports or seams that the deleted tests kept alive",
-        "Reports production line changes separately from test line changes",
-        "Does not delete a test that fails on the baseline without investigating it as a product bug"
+        "States that packages/api had 20 test declarations before the prune",
+        "Reports deleting at least 4 tests from packages/api",
+        "Compares line coverage for packages/api before the deletions with coverage after them",
+        "Names a retained test as the remaining proof for a behaviour whose duplicate test was deleted",
+        "Removes the resetZoneCache export from rates.ts"
       ]
     },
     {
       "id": 3,
       "prompt": "clean up the tests in src/billing, there's a lot of junk",
-      "expected_output": "Proposes a concrete target and budget before starting, measures the baseline, then deletes a coherent batch of high-confidence junk tests with evidence, keeping billing contracts (proration, currency rounding, webhook idempotency) and running the owner tests and coverage afterwards.",
+      "expected_output": "Proposes a concrete target and budget, then deletes a coherent batch of high-confidence junk tests (type checks, copied constants, self-comparisons, an export inventory, a stub that answers for the code) while keeping the proration, currency rounding, even-split, and webhook replay tests, and reports the billing tests run afterwards.",
       "files": [],
+      "fixture": "evals/fixtures/billing-junk-sweep",
       "assertions": [
-        "Proposes a numeric target and coverage budget rather than an open-ended cleanup",
-        "Proceeds on the proposed target without waiting for confirmation",
-        "Keeps tests that guard money, idempotency, or migration contracts",
-        "Runs the billing tests and coverage after deleting and reports both"
+        "States how many tests, or what share of them, it removed or proposes to remove",
+        "Reports tests deleted from src/billing rather than only proposing a list",
+        "Keeps the test that a replayed webhook event id is applied only once",
+        "Keeps the test that a split total adds back up to the cent",
+        "Reports the result of running the remaining billing tests after the deletions"
       ]
     },
     {
       "id": 4,
       "prompt": "Audit the tests in packages/payments. Some look like junk, routes/checkout.test.ts has a few cases that only call lib/currency.ts, and refunds.test.ts has three it.skip blocks nobody remembers adding.",
-      "expected_output": "Junk deletions with evidence as usual. Currency cases the lib/currency.ts suite does not already cover move there; a case it already covers is consolidated with that keeper named. Each it.skip block is unskipped and run before any judgement; a passing one stays enabled and is judged like any other test, a failing one is reproduced and fixed at the refund code. A move or an unskip is not a deletion toward the target.",
+      "expected_output": "Each it.skip block is unskipped and run before any judgement. Two pass and stay enabled. The second-partial-refund test fails because issueRefund compares the request with the full payment amount instead of what is left, so refunds.ts is fixed and the test stays enabled. The yen case moves into lib/currency.test.ts, the dollars case is consolidated into the existing currency test, and a move or an unskip is not counted as a deletion.",
       "files": [],
+      "fixture": "evals/fixtures/payments-skips-misplaced",
       "assertions": [
-        "Moves each currency case the lib/currency.ts suite does not already cover into that suite, rather than deleting it",
-        "Unskips and runs each skipped test before judging it",
-        "Does not list a skipped test as a removal candidate on sight",
-        "Treats a skipped test that fails once unskipped as a possible product bug and reproduces it",
-        "Fixes the refund code for a skipped test that fails once unskipped, rather than leaving the test skipped",
-        "Does not count a move or an unskip as a deletion toward the target"
+        "Reports that the skipped test about a second partial refund larger than what is left fails once enabled",
+        "Attributes that failure to issueRefund in refunds.ts comparing the request with the full payment amount instead of the amount left",
+        "Reports changing refunds.ts so that test passes, rather than leaving it skipped",
+        "Moves the yen case from routes/checkout.test.ts into lib/currency.test.ts rather than deleting it",
+        "Reports the other two previously skipped refund tests as passing once enabled"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "we have too many tests. cut 30% of the tests in src/scheduler without losing coverage",
+      "expected_output": "A baseline of 15 tests, then a ledger showing that all but the export check guard a named behaviour: retry defaults and ceilings, the lease journal order that crash recovery reads, lease release on failure, and the saved state key. One test is deleted and the shortfall against the 30% target is reported with the reason each remaining test stays.",
+      "files": [],
+      "fixture": "evals/fixtures/scheduler-contract-suite",
+      "assertions": [
+        "States that the 30% target was not met",
+        "Reports deleting no more than two tests",
+        "Keeps the test that pins the lease journal order",
+        "Keeps the test that the saved state contains the next_run_at key",
+        "Deletes the test that only checks parseInterval is exported"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "The tests under src/notify feel like they mostly test their own mocks. Sort it out.",
+      "expected_output": "The dedupe test that injects its own deduplicating fake, the injected clock test, the deliver call-shape replay, and the test that only calls its own mock are deleted with the retained test named for each behaviour. The __setDedupeForTests, __setNowForTests, and currentTime exports go with them. The digest and retry tests that use a real fake transport stay, and the notify tests are run afterwards.",
+      "files": [],
+      "fixture": "evals/fixtures/notify-mock-tests",
+      "assertions": [
+        "States that the 'dedupes notifications' test passes because its injected fake does the deduplication itself",
+        "Removes the __setDedupeForTests export from src/notify/digest.ts",
+        "Keeps the sender test that reports the failure after the second failed send",
+        "Deletes the 'transport mock records deliveries' test, which only calls its own mock",
+        "Reports the result of running the notify tests after the change"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Coverage says five tests in src/inventory/reserve.test.ts add zero unique lines: 'reserve returns ok for a valid request', 'reserving reduces available', 'refuses to reserve more than is available', 'release adds stock back', and 'unknown sku is rejected'. Delete them.",
+      "expected_output": "Four of the five are deleted with the stronger retained test named for each. 'refuses to reserve more than is available' stays: the full-day replay test executes the insufficient-stock branch but only checks the log length, so this test holds the only check on the oversell guard. The file is run afterwards.",
+      "files": [],
+      "fixture": "evals/fixtures/reserve-zero-unique",
+      "assertions": [
+        "Keeps the 'refuses to reserve more than is available' test",
+        "States that the full-day replay test runs the insufficient-stock branch without checking its result",
+        "Deletes the other four named tests",
+        "Names a retained test that still checks the behaviour of at least one deleted test",
+        "Reports the result of running reserve.test.ts after the deletions"
       ]
     }
-  ],
-  "baseline": {
-    "date": "2026-09-24",
-    "method": "Plan-only proxy: fresh general-purpose subagents wrote their plan of work with and without the skill loaded; no fixture repository was executed. Graded by hand against the assertions.",
-    "results": {
-      "1": {
-        "without_skill": "3/8",
-        "with_skill": "8/8",
-        "notes": "Without the skill: aggregate coverage only, no keeper named per deletion, no test-only seam removal, production lines not separated."
-      },
-      "3": {
-        "without_skill": "2/4",
-        "with_skill": "4/4",
-        "notes": "Without the skill: no numeric target; removed only dead and duplicate tests and ended on a question to the user."
-      },
-      "4": {
-        "without_skill": "5/6, 5/6",
-        "with_skill": "6/6, 6/6",
-        "notes": "Run 2026-10-09 on claude-opus-5-5, same plan-only proxy, two runs per arm. Both arms unskipped and ran the skips first, moved uncovered currency cases, and exempted conditional skips unprompted. Without the skill, both runs left a failing unskipped test skipped with an issue instead of fixing the owner."
-      }
-    }
-  }
+  ]
 }

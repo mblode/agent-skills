@@ -1,0 +1,50 @@
+{
+  "name": "plover-dates",
+  "version": "0.0.1",
+  "description": "Work out business days and public holidays from the command line",
+  "type": "module",
+  "packageManager": "pnpm@10.12.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "plover": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE.md"],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "start": "node dist/cli.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "Tobias Lindqvist",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fieldnote-tools/plover-dates.git"
+  },
+  "homepage": "https://github.com/fieldnote-tools/plover-dates#readme",
+  "bugs": {
+    "url": "https://github.com/fieldnote-tools/plover-dates/issues"
+  },
+  "engines": {
+    "node": ">=24.11"
+  },
+  "dependencies": {
+    "commander": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "tsdown": "^0.22.4",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

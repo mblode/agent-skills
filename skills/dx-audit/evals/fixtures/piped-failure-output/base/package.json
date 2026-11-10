@@ -1,0 +1,18 @@
+{
+  "name": "petrel-push",
+  "version": "3.1.0",
+  "description": "Push record manifests to a Petrel workspace",
+  "type": "module",
+  "bin": {
+    "petrel": "dist/cli.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT"
+}

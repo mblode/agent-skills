@@ -1,0 +1,14 @@
+{
+  "name": "sorrel-tally",
+  "version": "1.2.0",
+  "description": "Summarise expense CSV exports from a terminal",
+  "type": "module",
+  "bin": {
+    "tally": "bin/tally.js"
+  },
+  "files": ["bin", "src"],
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT"
+}
