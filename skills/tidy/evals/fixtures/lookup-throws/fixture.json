@@ -1,0 +1,5 @@
+{
+  "name": "copperline-inventory",
+  "branch": "find-product-throws",
+  "message": "Throw ProductNotFoundError from findProduct instead of returning null"
+}

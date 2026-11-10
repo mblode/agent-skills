@@ -1,0 +1,5 @@
+{
+  "name": "pennywren-expenses",
+  "branch": "resilient-receipt-save",
+  "message": "Keep expense submission working when receipt storage is down"
+}

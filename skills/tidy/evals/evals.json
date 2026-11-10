@@ -85,6 +85,90 @@
         "Does not treat this as a suite-wide prune; no coverage target or campaign language appears",
         "Files the finding in the same confirmed/plausible tiers as the rest of the report, not a separate section"
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Can you review my branch before I push? It's a harmless cleanup of createReservation in src/reservations/create.ts, the route already does those checks.",
+      "expected_output": "A read-only report that flags the removed party-size validation as a regression because the waitlist CSV import calls createReservation without the route's checks, names the corrupted seat count a bad row produces, and clears the removed unknown-slot check as dead code.",
+      "files": [],
+      "fixture": "evals/fixtures/party-size-cleanup",
+      "assertions": [
+        "Reports the removed party-size check in src/reservations/create.ts as a regression",
+        "Names the waitlist CSV import as a caller that reaches createReservation without the route's validation",
+        "States a concrete wrong outcome for a bad party size, such as a NaN or negative seat count that lets a slot overbook",
+        "Does not report the removed unknown-slot check as a regression",
+        "Edits no file"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Review my branch please. I changed findProduct in src/catalog/lookup.ts to throw instead of returning null and updated the product route to match.",
+      "expected_output": "A read-only report that greps the callers of findProduct, finds the reorder planner still relying on a null return, and reports that one unknown SKU now aborts the nightly reorder instead of being skipped.",
+      "files": [],
+      "fixture": "evals/fixtures/lookup-throws",
+      "assertions": [
+        "Identifies src/orders/reorder.ts as a caller of findProduct that the diff did not update",
+        "States that an unknown SKU now throws out of the reorder run where it used to be skipped",
+        "Proposes a fix that restores skipping unknown SKUs in the reorder planner",
+        "Does not report the updated product route as broken",
+        "States the range reviewed as a ref pair or merge-base range"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Review this before I open a PR. Expense submissions kept failing whenever receipt storage had a blip, so saveReceipt in src/receipts/save.ts handles the error itself now.",
+      "expected_output": "A read-only report that flags the new catch as a discarded error: saveReceipt returns a receipt key after a failed upload, so submitExpense records the key and discards the only copy of the file, with a fix that lets the caller see the failure.",
+      "files": [],
+      "fixture": "evals/fixtures/receipt-upload-catch",
+      "assertions": [
+        "Flags the new catch in src/receipts/save.ts as swallowing the storage failure while still returning a receipt key",
+        "Names src/expenses/submit.ts as the caller that treats the failed upload as a success",
+        "States that the temporary upload is discarded even though the receipt was never stored",
+        "Proposes a fix that lets the caller tell a failed upload from a stored one",
+        "Edits no file"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "tidy this branch before I push, I added signature verification for the carrier webhooks in src/webhooks/verify.ts",
+      "expected_output": "The hand-rolled hex encoder and constant-time comparison replaced with node:crypto built-ins while a wrong-length signature still returns false, the webhook tests run with their result reported, and nothing committed.",
+      "files": [],
+      "fixture": "evals/fixtures/signature-verify",
+      "assertions": [
+        "Replaces the hand-rolled comparison with timingSafeEqual from node:crypto",
+        "Replaces the hand-rolled hex encoder with the built-in hex output of the digest or Buffer",
+        "States that a signature of the wrong length is still rejected rather than throwing",
+        "Runs the webhook tests after the edit and reports their actual result",
+        "Does not commit, push, or open a PR"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Tidy this up for me. The branch adds scheduled ticket exports by email and a JSON option on the existing download.",
+      "expected_output": "The delivery registry and strategy interface removed so the scheduled export calls the mailer directly, because email is its only strategy and call site; the formatter lookup kept because the download and the scheduled export both use it; tests run and nothing committed.",
+      "files": [],
+      "fixture": "evals/fixtures/scheduled-export",
+      "assertions": [
+        "Removes or inlines the delivery strategy registry from src/export/delivery.ts",
+        "Cites email being the only registered strategy or the single call site as the reason for removing the registry",
+        "Leaves the formatter lookup in src/export/formatters.ts in place",
+        "Runs the export tests after the edit and reports their actual result",
+        "Does not commit, push, or open a PR"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Review my changes on this branch before I push. It adds a preview page so people can see where a short link goes.",
+      "expected_output": "A read-only report with no findings: the link target interpolated into the preview markup is escaped by the html template tag and limited to http and https at creation, both outside the diff, so the branch is ready to push.",
+      "files": [],
+      "fixture": "evals/fixtures/link-preview",
+      "assertions": [
+        "States plainly that the branch is ready to push",
+        "Does not report the link target interpolated in src/http/handlers/preview.ts as an injection or escaping defect",
+        "Lists no finding that asks for a code change",
+        "Edits no file",
+        "States the range reviewed as a ref pair or merge-base range"
+      ]
     }
   ]
 }
