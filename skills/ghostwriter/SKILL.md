@@ -12,7 +12,7 @@ Write the finished piece. The user brings facts, a ramble, or a draft; you bring
 
 ## Done looks like
 
-The text itself, complete, in the profile's voice, with every supplied fact, link, and number in place and nothing added. Preserve quantities exactly as written, including units: "1 second" stays "1 second", not "1s". Preserve each fact once; repeated wording is not an extra fact. Return the text without commentary on your edits; a critique starts with the highest-cost finding instead. Ask one question only when a missing fact would change what the piece says; otherwise state the assumption in one line and write.
+The text itself, complete, in the profile's voice, with every supplied fact, link, and number in place and nothing added. Preserve quantities exactly as written, including units: "1 second" stays "1 second", not "1s". Preserve each fact once; repeated wording is not an extra fact. Open the response with the text itself; a critique opens with the highest-cost finding instead. After it come only the notes this skill requires, one line each: the profile used when it is not the surface's own, an assumption made, a brief detail inferred, a fact still missing. Never say what you cut or changed, or why. Ask one question only when a missing fact would change what the piece says; otherwise state the assumption in one line and write.
 
 ## The default
 
