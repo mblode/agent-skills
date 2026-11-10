@@ -26,7 +26,7 @@
         "Reads outside the diff to find every writer of the state the retry handled",
         "Names the trigger and the consequence for the removed guard",
         "Does not accept fewer lines as proof of safety",
-        "Reads references/context-errors.md before applying its rubric, and lists only reference files actually read in this session under Reference evidence",
+        "Lists references/context-errors.md under Reference evidence",
         "Each reference listed under Reference evidence carries a short quoted excerpt",
         "Edits no file"
       ]
@@ -66,7 +66,7 @@
       "files": [],
       "fixture": "evals/fixtures/deslop-branch",
       "assertions": [
-        "Reads references/ai-slop-patterns.md and references/severity-rubric.md and lists them under Reference evidence with excerpts",
+        "Lists references/ai-slop-patterns.md under Reference evidence",
         "Groups findings by category, not by file",
         "Fixes `as any` at the type's source or with a type guard rather than a different cast",
         "Flags only patterns inside the diff; pre-existing comments outside touched functions are not findings",
