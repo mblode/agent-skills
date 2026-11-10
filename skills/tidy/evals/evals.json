@@ -26,7 +26,7 @@
         "Names the trigger and the consequence for the removed guard",
         "Does not accept fewer lines as proof of safety",
         "Reads references/context-errors.md before applying its rubric, and lists only reference files actually read in this session under Reference evidence",
-        "Pairs each claimed reference read with an excerpt present in the successful tool result",
+        "Each reference listed under Reference evidence carries a short quoted excerpt",
         "Edits no file"
       ]
     },
@@ -39,7 +39,8 @@
       "assertions": [
         "Confirms the shared mapper has live callers and handles the boundary cases the hand-rolled code handled before switching to it",
         "Applies the change rather than only reporting it",
-        "Runs the checks the change affects and quotes the last line of the result; does not rerun an unrelated full suite without cause",
+        "Runs the tests the change affects after the edit and reports their actual result",
+        "Quotes the last line of the check output rather than paraphrasing it",
         "Summary lists what was applied, what was left and why, and the check results",
         "Does not commit, push, or open a PR"
       ]
@@ -68,7 +69,7 @@
         "Groups findings by category, not by file",
         "Fixes `as any` at the type's source or with a type guard rather than a different cast",
         "Flags only patterns inside the diff; pre-existing comments outside touched functions are not findings",
-        "Runs the type check after the edits and quotes the result"
+        "Attempts the type check after the edits and reports its actual outcome, including a command that could not run"
       ]
     },
     {
