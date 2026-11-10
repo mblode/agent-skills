@@ -55,7 +55,7 @@
         "Returns a diagram (Mermaid, ASCII, or SVG), not prose alone",
         "Uses POST /api/login, middleware.ts, auth.ts, and JWT verbatim as labels",
         "Diagram order matches the supplied order",
-        "Adds no components the user did not mention"
+        "The diagram has no participant beyond the browser, the POST /api/login route, middleware.ts, and auth.ts (no database or user store)"
       ]
     },
     {

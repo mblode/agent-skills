@@ -10,7 +10,8 @@
         "Keeps 1 second, 12, admin-web, and the PR link verbatim",
         "The checkout rollout stays a question or a maybe; it is not stated as a decision",
         "No em dash or spaced hyphen",
-        "Returns one message with no alternatives, preamble, or explanation"
+        "Gives exactly one version of the message, with no alternative wordings",
+        "Adds no commentary on its wording or edits"
       ]
     },
     {
@@ -23,7 +24,7 @@
         "Contains no invented numbers, names, tools, or quotes beyond one night, 3 years, and Claude Code",
         "Any headings are plain noun phrases; no lists or tables",
         "No em dash or spaced hyphen",
-        "Returns the post text only"
+        "Adds no commentary on the post beyond at most one line about which voice profile was used"
       ]
     },
     {
@@ -35,20 +36,24 @@
         "Opens with the highest-cost finding, not a compliment or a summary of what works",
         "Contains no praise or reassurance sentence",
         "Names the buried ask and the hedge stack as findings",
-        "Gives an edit for each finding and does not include a rewritten message"
+        "Gives an edit for each finding",
+        "Does not include a full rewritten message"
       ]
     },
     {
       "id": 4,
       "prompt": "Write the README for this repo. package.json: name @acme/harbor, bin harbor, description 'Ship a preview URL for every branch', repository github.com/acme/harbor, license MIT, private not set.",
       "expected_output": "A CLI README from the manifest: install from the published name, a runnable quickstart, badges because it is published, no invented origin story, and the readme profile's markup if one exists.",
-      "files": [],
+      "files": [
+        "evals/files/harbor/package.json",
+        "evals/files/harbor/harbor.js"
+      ],
       "assertions": [
         "Install line uses @acme/harbor, not the repo name",
         "Quickstart is complete and runnable as pasted",
         "Contains no sentence explaining why the author built it",
         "No Contributing, Development, Tech Stack, or Workspaces section",
-        "Heading names are Install, Quickstart, License"
+        "Includes headings named exactly Install, Quickstart, and License"
       ]
     },
     {
@@ -64,7 +69,8 @@
         "Headline opens with the reader's problem or motivation, not the product name",
         "2,100 and Google Calendar appear and are not replaced by generic phrases",
         "Does not reuse the phrase 'to-do app for people with ADHD' verbatim",
-        "Returns one recommended draft with inferred fields marked"
+        "Returns one recommended headline and subhead, with no alternative options",
+        "Marks which brief details it inferred rather than was given"
       ]
     },
     {
@@ -89,7 +95,8 @@
         "Every excerpt is under 280 characters and contains no colleague name (Tom, Priya) or PR link",
         "Includes measured traits taken from the messages (length, lowercase starts, openers), not adjectives alone",
         "Provenance states it is a quick profile from 8 pasted samples",
-        "No rule is derived from a single message: the 'teh' typo and the one 'lol' are not stated as habits"
+        "Does not state the 'teh' typo as a habit or rule",
+        "Does not state 'lol' as a habit or regular trait"
       ]
     },
     {
@@ -150,7 +157,7 @@
       "files": [],
       "assertions": [
         "Keeps 14 services, Kubernetes, 6 months, 40 minutes, and 7",
-        "Contains none of: landscape, journey, testament, seamless, 'speak for themselves', 'let that sink in', 'not just'",
+        "The rewritten intro itself contains none of: landscape, journey, testament, seamless, 'speak for themselves', 'let that sink in', 'not just'",
         "Contains no em dash, en dash, or spaced hyphen",
         "Adds no reason, number, name, or result that the original did not state",
         "Returns the rewritten text without a list of what was changed"
@@ -224,7 +231,7 @@
         "Contains no run of three or more consecutive nouns such as 'session token refresh failure handling' or 'state transition latency validation'",
         "Does not say the worker 'swallows' anything; uses a literal verb such as ignores, drops, or returns",
         "The latency check stays open; it is not stated as done or scheduled",
-        "Adds no cause, number, owner, or result the original did not state",
+        "The rewritten wiki text adds no cause, number, owner, or result the original did not state",
         "Contains no em dash, en dash, or spaced hyphen"
       ]
     },
@@ -237,8 +244,9 @@
         "Keeps the --branch bullet unchanged",
         "Adds one --dry-run bullet in the same '- **flag:** what it does.' shape",
         "Says a dry run does not upload and that skipped files are logged",
-        "Does not contain 'ghost pass', 'this session', 'we decided', 'as discussed', or any account of how the flag was built",
-        "Returns the section only, with no commentary on the edit"
+        "The Options section text contains none of: 'ghost pass', 'this session', 'we decided', 'as discussed'",
+        "The Options section text gives no account of how the flag was built or debated",
+        "Shows the updated section with no explanation of the editing choices"
       ]
     }
   ]

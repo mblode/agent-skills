@@ -5,11 +5,14 @@
       "id": 1,
       "prompt": "Improve the spacing of one existing settings panel. It has consistent tokens but no design-system.md.",
       "expected_output": "Inspect local token sources and make the targeted change without a full extraction project.",
-      "files": [],
+      "files": [
+        "evals/files/settings/SettingsPanel.tsx",
+        "evals/files/settings/globals.css"
+      ],
       "assertions": [
-        "Uses existing tokens",
+        "Every spacing value in the proposed change comes from the spacing scale or spacing tokens in globals.css, with no arbitrary pixel values",
         "Does not require a new design-system artifact for one edit",
-        "Verifies the affected rendered panel"
+        "States that the change has not been checked in the rendered panel"
       ]
     },
     {
@@ -33,6 +36,53 @@
         "Names a11y-disabled-control-tooltip",
         "Leaves source unchanged because the request is report-only",
         "Does not recommend pointer-events-none on the button as the fix"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Stress-test MemberRow.tsx for me. What's the worst realistic data it could get, and what breaks?",
+      "expected_output": "A Break-mode report from the source: worst-case values taken from the schema limits, each predicted break graded with its cause and a fix at file:line, and what already holds.",
+      "files": [
+        "evals/files/member-row/MemberRow.tsx",
+        "evals/files/member-row/member.ts"
+      ],
+      "assertions": [
+        "Reports that a long display name or email cannot shrink or truncate in the row",
+        "Reports that a member with no avatarUrl renders an image with no source",
+        "Reports that a null lastActiveAt produces a wrong or nonsensical 'Active N days ago' value",
+        "Takes at least one worst-case length from the schema in member.ts (120, 254, 40, or 50)",
+        "Grades each break as Broken, Ugly, or Fragile"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Add dark mode to PricingCard.tsx. The theme is in globals.css.",
+      "expected_output": "A Retrofit change that swaps the card's hard-coded light colours for the semantic tokens globals.css already defines for both themes, including the icon fill, with nothing else redesigned and the rendered dark check named as still to do.",
+      "files": [
+        "evals/files/dark/PricingCard.tsx",
+        "evals/files/dark/globals.css"
+      ],
+      "assertions": [
+        "Replaces the card's bg-white and gray text classes with the semantic tokens already defined in globals.css (such as bg-card and text-card-foreground)",
+        "Changes the check icon's hard-coded #111827 fill so it follows the theme",
+        "Introduces no colour value that is absent from globals.css",
+        "Leaves the card's layout, spacing, and copy unchanged",
+        "States that the dark theme has not been checked in a browser"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Audit NewsletterForm.tsx. Report only, I'm about to ship it.",
+      "expected_output": "A short report-only audit that finds no blocking defect in a soundly built form, lists at most a few minor notes, leaves rendered checks unknown, and proposes no redesign.",
+      "files": [
+        "evals/files/newsletter/NewsletterForm.tsx"
+      ],
+      "assertions": [
+        "States that it found no defect that should block shipping",
+        "Does not report the email input as missing a label",
+        "Reports three or fewer findings",
+        "Does not report a failed contrast or touch-target measurement",
+        "Does not propose a new palette, layout, or type scale"
       ]
     }
   ]

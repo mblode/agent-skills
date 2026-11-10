@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: oklch(0.99 0.003 250);
+  --foreground: oklch(0.21 0.02 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.02 250);
+  --muted: oklch(0.96 0.005 250);
+  --muted-foreground: oklch(0.48 0.02 250);
+  --border: oklch(0.91 0.006 250);
+  --primary: oklch(0.5 0.16 255);
+  --primary-foreground: oklch(0.99 0.003 250);
+  --ring: oklch(0.6 0.14 255);
+}
+
+.dark {
+  --background: oklch(0.17 0.015 250);
+  --foreground: oklch(0.95 0.005 250);
+  --card: oklch(0.21 0.015 250);
+  --card-foreground: oklch(0.95 0.005 250);
+  --muted: oklch(0.26 0.015 250);
+  --muted-foreground: oklch(0.72 0.015 250);
+  --border: oklch(0.32 0.015 250);
+  --primary: oklch(0.7 0.14 255);
+  --primary-foreground: oklch(0.17 0.015 250);
+  --ring: oklch(0.7 0.14 255);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ring: var(--ring);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
