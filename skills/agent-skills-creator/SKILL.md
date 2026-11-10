@@ -26,7 +26,7 @@ Create and improve skills in the Agent Skills open format: full lifecycle from p
 | `references/capability-delta.md` | Removing generic coaching, evaluating model upgrades, or auditing a whole collection |
 | `references/authoring-tips.md` | Default when writing or cutting body content: judgement over rules, constraint calibration, permission and completion scope, degrees of freedom, content patterns, descriptions |
 | `references/skill-patterns.md` | Choosing a structural pattern |
-| `references/format-specification.md` | Directory layout, spec versus Claude Code-only frontmatter, body substitutions, loading semantics, which host reads the skill from where and what each can do, naming |
+| `references/format-specification.md` | Directory layout, portable versus host-extension frontmatter, body substitutions, loading semantics, validation, naming |
 | `references/rules-folder-structure.md` | Building a rules-based audit/lint skill |
 | `references/improving-existing-skills.md` | Auditing, scoring, simplifying, or rewriting an existing skill; the Module Lens rules for a collection audit |
 | `references/executable-code.md` | Skill includes scripts, injects live context with `!`, depends on packages, or invokes MCP tools |
