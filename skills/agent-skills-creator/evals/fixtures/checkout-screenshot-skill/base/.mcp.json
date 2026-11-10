@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "inkwell": {
+      "command": "node",
+      "args": ["tools/inkwell-server/index.mjs"],
+      "env": {
+        "INKWELL_OUTPUT_DIR": "design/generated"
+      }
+    }
+  }
+}

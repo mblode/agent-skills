@@ -1,0 +1,16 @@
+{
+  "name": "saltmarsh-booking",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel -r run dev",
+    "check": "pnpm -r run check",
+    "test": "pnpm -r run test",
+    "build": "pnpm -r run build",
+    "db:migrate": "pnpm --filter @saltmarsh/api run migrate",
+    "db:generate": "pnpm --filter @saltmarsh/api run generate"
+  }
+}

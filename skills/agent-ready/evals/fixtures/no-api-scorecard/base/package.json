@@ -1,0 +1,9 @@
+{
+  "name": "birch-almanac",
+  "version": "1.0.4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}

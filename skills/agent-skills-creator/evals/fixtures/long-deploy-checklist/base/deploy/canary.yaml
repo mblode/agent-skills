@@ -1,0 +1,14 @@
+service: storefront-web
+canary:
+  trafficPercent: 5
+  holdMinutes: 20
+  abort:
+    - metric: checkout_latency_p95_ms
+      above: 800
+      forMinutes: 3
+    - metric: checkout_error_rate_percent
+      above: 0.5
+      forMinutes: 1
+promotion:
+  manual: true
+  postPromoteWatchMinutes: 30

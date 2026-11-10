@@ -1,0 +1,12 @@
+{
+  "name": "thistle-commons",
+  "version": "6.2.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.mjs",
+    "check": "tsc --noEmit",
+    "release:tag": "node scripts/tag-release.mjs",
+    "secrets:rotate": "node scripts/rotate-secret.mjs"
+  }
+}

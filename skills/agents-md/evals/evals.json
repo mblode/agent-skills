@@ -4,36 +4,46 @@
     {
       "id": 1,
       "prompt": "Improve these repository instructions. AGENTS.md says npm test, but package.json exposes only check and build. CLAUDE.md contains a duplicate copy. Codex and Claude Code both use the repo.",
-      "expected_output": "Correct the command, preserve unique instructions in AGENTS.md, and remove the duplicate CLAUDE.md without creating a wrapper.",
+      "expected_output": "AGENTS.md names the check script that package.json defines, the one rule that only CLAUDE.md held is carried into AGENTS.md, and the duplicate CLAUDE.md is removed without leaving a wrapper.",
       "files": [],
+      "fixture": "evals/fixtures/stale-test-command",
       "assertions": [
-        "Uses the manifest-backed check command",
-        "Keeps one authoritative instruction source",
-        "Applies the requested improvement without a second approval",
-        "Uses native Claude Code AGENTS.md support and checks fallback blockers"
+        "Reports replacing `npm test` in AGENTS.md with the `check` script that package.json defines",
+        "Reports carrying the integer minor-unit amounts rule, which only CLAUDE.md held, into AGENTS.md",
+        "Reports that AGENTS.md is left as the only file holding the instruction text",
+        "Reports the edits as already applied, without asking for approval first",
+        "States that Claude Code can read AGENTS.md without a CLAUDE.md wrapper",
+        "Reports checking for other Claude instruction files (.claude/CLAUDE.md or CLAUDE.local.md) that would stop Claude Code falling back to AGENTS.md"
       ]
     },
     {
       "id": 2,
       "prompt": "Audit, without editing, an AGENTS.md that lists a missing scripts/deploy.sh and says always write descriptive variable names.",
-      "expected_output": "Report the broken path and redundant coaching with proposed changes.",
+      "expected_output": "A read-only report: scripts/deploy.sh does not exist and the deploy entry point is the deploy script in package.json, `npm run lint` is not a defined script, the variable-names line is generic coaching to cut, and the repository contracts stay.",
       "files": [],
+      "fixture": "evals/fixtures/missing-deploy-script",
       "assertions": [
-        "Leaves files unchanged",
-        "Identifies the missing executable path",
-        "Distinguishes repository contracts from generic coding advice"
+        "Reports making no file changes",
+        "Reports that scripts/deploy.sh does not exist in the repository",
+        "Names the deploy entry point the repository does have (`npm run deploy` or scripts/publish.mjs) as the replacement",
+        "Reports that AGENTS.md names `npm run lint`, a script package.json does not define",
+        "Classifies the descriptive-variable-names line as generic advice to cut",
+        "Does not recommend cutting the append-only migrations rule"
       ]
     },
     {
       "id": 3,
-      "prompt": "Migrate this repository to AGENTS.md only. Root CLAUDE.md is a symlink to AGENTS.md, packages/api/CLAUDE.md has unique rules, and .claude/CLAUDE.md exists. A gitignored CLAUDE.local.md holds private notes.",
-      "expected_output": "Remove the duplicate symlink safely, migrate scoped content, inspect the hidden project blocker, and keep private notes out of shared files while explaining the fallback mode exception.",
+      "prompt": "Migrate this repository to AGENTS.md only. Root CLAUDE.md is a one-line @AGENTS.md wrapper, packages/api/CLAUDE.md has unique rules, and .claude/CLAUDE.md exists. A gitignored CLAUDE.local.md holds private notes.",
+      "expected_output": "Remove the root wrapper, migrate the scoped API rules to a nested AGENTS.md, carry the one rule that only .claude/CLAUDE.md held into AGENTS.md before removing it, and keep private notes out of shared files while explaining the fallback mode exception.",
       "files": [],
+      "fixture": "evals/fixtures/claude-file-migration",
       "assertions": [
-        "Does not delete the symlink target",
-        "Preserves unique instructions and nested scope",
-        "Does not copy private notes into shared AGENTS.md",
-        "Explains that project CLAUDE.local.md blocks default fallback and both-files mode supports retaining it"
+        "Reports removing the root CLAUDE.md wrapper while keeping AGENTS.md",
+        "Reports moving the packages/api/CLAUDE.md rules into packages/api/AGENTS.md",
+        "Reports carrying the branch-naming rule, which only .claude/CLAUDE.md held, into AGENTS.md",
+        "Reports that the CLAUDE.local.md notes were not copied into any shared file",
+        "States that a CLAUDE.local.md left in the project stops Claude Code's default fallback to AGENTS.md",
+        "Names the setting that loads both file formats as the way to keep CLAUDE.local.md"
       ]
     },
     {
@@ -41,24 +51,31 @@
       "prompt": "Set this repo up so Claude Code and Codex share our project skills. skills/triage-errors/SKILL.md calls PostHog MCP tools to fetch the top error, and only the Claude Code setup has that MCP server. AGENTS.md also repeats the triage steps the skill holds.",
       "expected_output": "Flag that triage-errors depends on an MCP server only one tool has, either keep it out of the shared set or name the dependency in its description, and leave one copy of the triage steps with a pointer in the other file.",
       "files": [],
+      "fixture": "evals/fixtures/shared-triage-skill",
       "assertions": [
-        "Identifies the PostHog MCP dependency as a capability Codex lacks",
-        "Keeps the skill out of the shared set or names the MCP dependency in its description",
-        "Does not claim the skill works unchanged in Codex",
-        "Removes the duplicated triage steps from one file and leaves a pointer"
+        "Reports that the Codex setup has no PostHog MCP server, so triage-errors cannot fetch the error there",
+        "Reports either keeping triage-errors out of the skills shared with Codex or naming the PostHog MCP dependency in its description",
+        "Does not claim that triage-errors works unchanged in Codex",
+        "Reports removing the duplicated triage steps from either AGENTS.md or the skill",
+        "Reports leaving a pointer to the remaining copy of the triage steps",
+        "Reports sharing the release-notes skill with both tools"
       ]
     },
     {
       "id": 5,
-      "prompt": "Our AGENTS.md keeps growing. It's 260 lines now, about forty of them are 'Update (Sept):' or 'we used to use Jest, now Vitest' notes under older rules, and there are 14 skills in .claude/skills. Get it back under control and stop it creeping again.",
-      "expected_output": "Size Budget measurements taken before and after (root lines, launch-path bytes, project skill description bytes); a Refactor that rewrites each dated or 'used to' note into the current rule and deletes the history; directory-specific detail moved to nested AGENTS.md files; skills that duplicate root reduced to one copy; a root at or under 150 lines; and the one-in, one-out rule stated as how the file stays under budget.",
+      "prompt": "Our AGENTS.md keeps growing. It's 260 lines now, about forty of them are 'Update (Sept):' or 'we used to use Jest, now Vitest' notes under older rules, and there are 6 skills in .claude/skills. Get it back under control and stop it creeping again.",
+      "expected_output": "Size Budget measurements taken before and after (root lines, bytes, project skill description bytes); a Refactor that rewrites each dated or 'used to' note into the current rule and deletes the history; package-specific detail moved to nested AGENTS.md files; the migration procedure that the db-migrations skill duplicates reduced to one copy; a root at or under 150 lines; and the one-in, one-out rule stated as how the file stays under budget.",
       "files": [],
+      "fixture": "evals/fixtures/instruction-creep",
       "assertions": [
-        "Reports root line count and launch-path byte total both before and after the edit",
-        "Reports the project skill description size per tool (.claude/skills and .agents/skills) as part of the always-loaded cost",
-        "The edited root AGENTS.md contains no dated entry and no 'previously' or 'used to' note",
-        "The edited root AGENTS.md is 150 lines or fewer, or the report names each remaining line over budget and why it stays",
-        "The edited root AGENTS.md contains a one-line rule that an addition at or over budget removes or moves a line"
+        "Reports the root AGENTS.md line count both before and after the edit",
+        "Reports a byte size for the root AGENTS.md both before and after the edit",
+        "Reports the total size of the skill descriptions in .claude/skills as part of the always-loaded cost",
+        "Reports that the edited AGENTS.md has no dated Update note and no 'used to' note left",
+        "Reports a final root AGENTS.md of 150 lines or fewer",
+        "Reports adding a rule to AGENTS.md that a new line at budget must replace or move an existing one",
+        "Reports that the migration procedure in AGENTS.md duplicates the db-migrations skill",
+        "Reports moving package-specific rules out of the root file into a nested AGENTS.md or a skill"
       ]
     }
   ]

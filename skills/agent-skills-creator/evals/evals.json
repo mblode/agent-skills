@@ -3,28 +3,32 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Improve our deploy-checklist skill. It's 380 lines and people say it's too long. Here's the folder.",
-      "expected_output": "A concrete keep, cut, merge, or retire decision, preserving deployment contracts and team preferences while removing generic coaching. Reports available baseline and revised evidence separately from unrun scenarios, with validator results.",
+      "prompt": "Improve our deploy-checklist skill. It's nearly 200 lines and people say it's too long. Here's the folder.",
+      "expected_output": "A shorter skill that keeps the deployment contracts (freeze window, migration plan, payments drain, canary thresholds, rollback) and drops the generic coaching, with the duplicated rollback steps reduced to one copy, the conflicting canary hold times surfaced, line counts before and after, and a plain statement that behaviour was not measured.",
       "files": [],
+      "fixture": "evals/fixtures/long-deploy-checklist",
       "assertions": [
-        "Records a baseline revision and existing validator result before editing",
-        "Separates measured behavioral evidence from static judgement and unrun scenarios",
-        "Preserves repo-specific release contracts while deleting generic reminders",
-        "Considers retirement or merging when no distinct payload remains",
-        "Runs validate.sh and reports its result"
+        "Reports the SKILL.md line count both before and after the edit",
+        "States that the shortened skill's behaviour was not measured by running it",
+        "Reports keeping the production freeze window rule",
+        "Reports cutting generic advice that is not specific to this repository's deploys",
+        "Reports that the rollback steps were duplicated between SKILL.md and references/rollback.md",
+        "Reports that the skill stated two different canary hold times (20 minutes and 10 minutes)"
       ]
     },
     {
       "id": 2,
       "prompt": "Write a skill that reviews screenshots of our checkout for visual regressions and then generates a corrected mockup image for the designer.",
-      "expected_output": "A skill whose body hands the screenshot to the model directly rather than instructing a describe-then-reason step, and which routes the mockup generation to a named image-generation tool with an explicit path for when that tool is absent, because image input is universal across current frontier models and image output is not.",
+      "expected_output": "A skill whose body hands the screenshot to the model directly rather than instructing a describe-then-reason step, and which routes the mockup generation to the inkwell image tool the repository already configures, with an explicit path for when that tool is absent, because image input is universal across current frontier models and image output is not.",
       "files": [],
+      "fixture": "evals/fixtures/checkout-screenshot-skill",
       "assertions": [
         "Does not instruct the model to describe or transcribe the screenshot as an intermediate step",
-        "Names a specific image-generation tool for the mockup and states what the skill does when it is unavailable",
+        "Names the inkwell image tool that this repository already configures for generating the mockup",
+        "States what the new skill does when the image tool is unavailable",
         "Does not assume the invoking model can emit an image directly",
-        "States the shell or repo precondition if any step depends on one, so a browser host fails at step one rather than improvising",
-        "Description opens in third person with a Use when clause and quoted trigger phrases"
+        "States what the new skill requires from its host before its first step",
+        "States the new skill's description or its Use when trigger phrases"
       ]
     },
     {
@@ -32,12 +36,15 @@
       "prompt": "My skill works great in Claude Code but does nothing useful when a teammate runs it from Cursor, and it broke the claude.ai upload. Here it is.",
       "expected_output": "A diagnosis that separates the two failures by their shared cause: Claude Code-only frontmatter and ${CLAUDE_*} substitutions degrade silently on Cursor and hard-error on a claude.ai upload from the same lines, plus a check of whether the body assumes a shell or a repo that a browser host cannot supply, and a fix that keeps the six spec fields and states preconditions in the body.",
       "files": [],
+      "fixture": "evals/fixtures/claude-only-frontmatter",
       "assertions": [
-        "Identifies the Claude Code-only frontmatter fields present and explains that they are ignored on Cursor and rejected on upload",
-        "Finds any ${CLAUDE_*} substitution in the body and explains it is left literal on other agents",
-        "Checks whether the body's steps assume bash or a working tree and adds a stated precondition where they do",
-        "Does not recommend removing the skill from Cursor or maintaining two copies",
-        "Runs validate.sh and reports frontmatter-portable as PASS or explains the remaining SKIP"
+        "Names Claude Code-only frontmatter fields that the skill's SKILL.md contains (such as context, agent, argument-hint, or disable-model-invocation)",
+        "Explains that Cursor ignores those fields",
+        "Explains that the claude.ai upload rejects those fields",
+        "Reports the ${CLAUDE_SKILL_DIR} path in the body as text that other agents leave unexpanded",
+        "Reports that the skill never stated it needs a git repository",
+        "Reports adding a stated precondition for the shell and git requirement",
+        "Does not recommend removing the skill from Cursor or maintaining two copies"
       ]
     },
     {
@@ -45,25 +52,29 @@
       "prompt": "Update all skills for new frontier models. The vendor announcement says coding and judgement improved. No cross-model evaluation runner is connected.",
       "expected_output": "Updates retention guidance first, audits every skill with a ledger, removes generic coaching, retains task contracts, and explicitly marks cross-model behavior untested.",
       "files": [],
+      "fixture": "evals/fixtures/frontier-model-refresh",
       "assertions": [
         "Does not infer training contents or passing model evaluations from the announcement",
-        "Records a concrete disposition for every skill",
+        "Gives a keep, cut, merge, or retire decision for each of the four skills by name",
+        "Reports that tidy-comments holds only generic advice with nothing specific to this repository",
         "Does not delete an operational security contract on benchmark reputation alone",
         "Distinguishes authored scenarios from executed tests"
       ]
     },
     {
       "id": 5,
-      "prompt": "We have 38 skills installed and Codex has started truncating the descriptions. It keeps loading the database skill for anything that mentions a model. Fix the routing.",
-      "expected_output": "Reads every description as one listing in the order the host shows it, shortens descriptions instead of adding trigger words, replaces domain-noun category lists with the moment of use, gives colliding siblings a For X use Y edge, and verifies with should-trigger and near-miss prompts run against the full listing. Bodies are untouched.",
+      "prompt": "We have 9 skills installed and Codex has started truncating the descriptions. It keeps loading the database skill for anything that mentions a model. Fix the routing.",
+      "expected_output": "Reads every description as one listing, shortens descriptions instead of adding trigger words, replaces domain-noun category lists with the moment of use, gives the database skill and the model-facing skills it collides with a For X use Y edge, and lists should-trigger and near-miss prompts while saying routing was not measured with a model run. Bodies are untouched.",
       "files": [],
+      "fixture": "evals/fixtures/crowded-skill-listing",
       "assertions": [
-        "Concatenates or reads all installed descriptions together before editing any single one",
-        "Reduces total description length rather than lengthening the misrouting skill's description",
-        "Rewrites the database skill's trigger from a category list to a specific moment of use such as adding or changing a migration",
-        "Adds a disambiguating clause to both members of any colliding pair, not just one",
-        "Runs or authors a routing eval with near-miss prompts and reports the result against the whole listing",
-        "Does not edit SKILL.md bodies to fix a routing problem"
+        "Reports the combined length of all nine descriptions before the change",
+        "Reports a lower combined description length after the change",
+        "Quotes the database skill's new description",
+        "Reports that the database skill and each skill it collided with gained a clause pointing at the other",
+        "Lists near-miss prompts that mention a model but belong to a skill other than database",
+        "States that routing was not measured by running a model against the listing",
+        "Reports leaving the SKILL.md bodies unchanged"
       ]
     },
     {
@@ -71,13 +82,15 @@
       "prompt": "Our feature-implementation skill used to run a task to completion. Since we upgraded the model it does the first cut, writes a summary, and asks us to review before it will run the tests or fix anything. Here's the skill.",
       "expected_output": "Locates the stop-for-review step and any blanket confirmation language, decides for each whether the decision is genuinely the user's, removes the ones that are not, and replaces them with a stated scope of done, completion evidence, and an explicit grant for the local test loop with the reason it is safe. Does not add step-by-step instructions to compensate.",
       "files": [],
+      "fixture": "evals/fixtures/stops-for-review",
       "assertions": [
-        "Identifies the specific step or sentence that instructs the model to stop for review after the first implementation",
-        "Distinguishes checkpoints that guard a user decision (deploy, spend, destructive action) from a generic review pause and keeps only the former",
-        "Adds a scope-of-done sentence covering implementation, running the affected tests, and fixing what the change broke",
-        "Grants the local test loop explicitly with the reason it is safe rather than only removing the restriction",
-        "Does not add prescriptive step lists or additional reminders to run tests",
-        "Runs validate.sh and reports its result"
+        "Identifies Step 4 as the instruction that stops the work for review after the first implementation",
+        "Reports removing or narrowing the blanket rule to confirm before running any command",
+        "Reports keeping the approval requirement for the shared-database migration",
+        "Reports adding a statement of what done means that includes running the tests",
+        "Reports that the skill now explicitly permits running the local checks without asking",
+        "Gives the reason the local test run is safe (it uses a throwaway local database, not the shared one)",
+        "Does not add a new checklist or step list to compensate for the removed pause"
       ]
     },
     {
@@ -96,14 +109,17 @@
     {
       "id": 8,
       "prompt": "Audit all our skills for duplication and dead weight; several repeat the same tells list and one keeps a sources file in references/.",
-      "expected_output": "A module-lens collection audit: a deletion test per section, one owner per fact with the copies turned into pointers, never-load files moved out of references/, sibling edges kept where routing collides, uncertain cuts deferred, floor content kept, and routing measured before and after any description change.",
+      "expected_output": "A module-lens collection audit: a deletion test per section, the tells list given one owner with the copies turned into pointers and the drifted copy called out, the never-loaded sources file moved out of references/, and the security and data-integrity rules kept.",
       "files": [],
+      "fixture": "evals/fixtures/duplicated-tells-list",
       "assertions": [
-        "Applies a deletion test per section, not only per skill",
-        "Keeps one owner per fact and turns the duplicates into pointers",
-        "Moves never-loaded files to evals/ or maintenance/",
-        "Measures routing before and after cutting any description edge, or says it is unmeasured",
-        "Records uncertain cuts as deferred and keeps security and data-integrity content"
+        "Names at least one specific section inside a skill as dead weight to cut",
+        "Names blog-drafts, release-notes, and support-replies as the three skills carrying the tells list",
+        "Reports that the support-replies copy of the tells list has drifted from the other two",
+        "Proposes or applies keeping the tells list in one place with the other skills pointing to it",
+        "Reports that references/sources.md in blog-drafts is never loaded by its SKILL.md",
+        "Proposes or applies moving sources.md out of references/ to a maintenance-only location",
+        "Reports keeping the incident-comms rule against publishing customer identifiers"
       ]
     }
   ]

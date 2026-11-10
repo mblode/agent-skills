@@ -1,0 +1,34 @@
+:root {
+  --ink: #23301f;
+  --paper: #f6f1e4;
+  --leaf: #4f7a3a;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 42rem;
+  padding: 1.5rem;
+  font: 1.0625rem/1.6 Georgia, "Times New Roman", serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+header nav a {
+  margin-left: 1rem;
+}
+
+a {
+  color: var(--leaf);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid #d8cfb8;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+}

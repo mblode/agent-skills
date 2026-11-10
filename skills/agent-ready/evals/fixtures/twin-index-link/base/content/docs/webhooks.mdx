@@ -1,0 +1,17 @@
+---
+title: Webhooks
+description: Receive events when a letter is printed, posted, or returned
+order: 2
+---
+
+Register an endpoint in the dashboard. Quill Harbor posts a JSON event to it for each status change.
+
+| Event | When |
+|---|---|
+| `letter.printed` | The letter left the printer |
+| `letter.posted` | The carrier collected it |
+| `letter.returned` | It came back undelivered |
+
+Every request carries a `Quill-Signature` header: an HMAC-SHA256 of the raw body with your endpoint secret. Verify it before you parse the body.
+
+Respond with a 2xx within ten seconds. A failed delivery is retried for 24 hours with exponential backoff. See [Errors](/docs/errors) for the codes a retry can carry.

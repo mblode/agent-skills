@@ -1,0 +1,5 @@
+# Sale days: no production deploys, all day UTC.
+2025-11-28
+2025-12-01
+2025-12-26
+2026-01-01

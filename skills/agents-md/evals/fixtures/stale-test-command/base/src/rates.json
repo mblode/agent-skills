@@ -1,0 +1,6 @@
+{
+  "AUD": { "minorUnits": 2 },
+  "JPY": { "minorUnits": 0 },
+  "KWD": { "minorUnits": 3 },
+  "USD": { "minorUnits": 2 }
+}

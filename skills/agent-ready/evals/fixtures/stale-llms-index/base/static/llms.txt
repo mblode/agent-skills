@@ -1,0 +1,9 @@
+# Kestrel Relay
+
+> Kestrel Relay delivers SMS and voice notifications through one HTTP API.
+
+## Docs
+
+- [Quickstart](https://kestrelrelay.example/docs/quickstart): send a first message
+- [API keys](https://kestrelrelay.example/docs/api-keys): create and rotate keys
+- [Delivery receipts](https://kestrelrelay.example/docs/delivery-receipts): webhook events for sent, delivered, and failed

@@ -1,0 +1,12 @@
+# Birch Almanac
+
+> A printed sowing calendar and garden journal for cool climates, with free growing guides online.
+
+## Guides
+
+- [Sowing calendar](https://birchalmanac.example/guides/sowing-calendar): what to sow each month, indoors and out
+- [Frost dates](https://birchalmanac.example/guides/frost-dates): how to find your last spring frost and plan around it
+
+## About
+
+- [About the almanac](https://birchalmanac.example/about): who makes it and how it is printed

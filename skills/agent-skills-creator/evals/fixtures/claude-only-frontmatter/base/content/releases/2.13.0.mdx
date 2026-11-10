@@ -1,0 +1,17 @@
+---
+version: 2.13.0
+date: 2025-05-06
+---
+
+## Added
+
+- Macros can now insert the assignee's name and the ticket's first response time.
+- Saved views can be shared with a whole team.
+
+## Changed
+
+- Breaking: the `ticket.closed` webhook now fires on merge as well as close. Filter on `reason` if you only want closes.
+
+## Fixed
+
+- Attachments over 20 MB no longer fail silently; the composer now says why.

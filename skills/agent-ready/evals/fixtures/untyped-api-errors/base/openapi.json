@@ -1,0 +1,67 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Marlin Parcels API",
+    "version": "1.9.0",
+    "description": "Create shipments, track them, and quote delivery rates."
+  },
+  "servers": [{ "url": "https://example.com" }],
+  "security": [{ "apiKey": [] }],
+  "paths": {
+    "/shipments": {
+      "get": {
+        "operationId": "listShipments",
+        "summary": "List shipments",
+        "parameters": [{ "name": "status", "in": "query", "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "A list of shipments", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      },
+      "post": {
+        "operationId": "createShipment",
+        "summary": "Create a shipment",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object" } } } },
+        "responses": {
+          "201": { "description": "The created shipment", "content": { "application/json": { "schema": { "type": "object" } } } },
+          "422": { "description": "Validation failed" }
+        }
+      }
+    },
+    "/shipments/{id}": {
+      "get": {
+        "operationId": "getShipment",
+        "summary": "Get a shipment",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "The shipment", "content": { "application/json": { "schema": { "type": "object" } } } },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/shipments/{id}/events": {
+      "get": {
+        "operationId": "listShipmentEvents",
+        "summary": "List tracking events for a shipment",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Tracking events", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      }
+    },
+    "/rates/quote": {
+      "post": {
+        "operationId": "quoteRates",
+        "summary": "Quote delivery rates for a parcel",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object" } } } },
+        "responses": {
+          "200": { "description": "Quotes per service", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKey": { "type": "apiKey", "in": "header", "name": "X-API-Key" }
+    }
+  }
+}

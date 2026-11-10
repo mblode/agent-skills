@@ -1,0 +1,16 @@
+---
+title: Quickstart
+description: Send a first message with one request
+order: 1
+---
+
+Create a key in the console, then post a message.
+
+```bash
+curl https://api.kestrelrelay.example/v2/messages \
+  -H "Authorization: Bearer $KESTREL_KEY" \
+  -d to=+447700900123 \
+  -d body="Your table is ready"
+```
+
+The response carries a message id and a status of queued. Add a status callback URL to hear what happens next.

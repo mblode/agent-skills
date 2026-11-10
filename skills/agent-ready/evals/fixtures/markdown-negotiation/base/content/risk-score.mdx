@@ -1,0 +1,18 @@
+---
+title: Risk score
+order: 2
+---
+
+The risk score combines four inputs: fuel moisture, wind speed, slope, and vegetation type. Each input is scaled to 0 to 1 and weighted.
+
+## Bands
+
+- Low: 0 to 19
+- Moderate: 20 to 39
+- High: 40 to 59
+- Very high: 60 to 79
+- Extreme: 80 to 100
+
+## Reading a cell
+
+A cell's score is the worst three-hour window in the next 24 hours, not the current value. A calm morning before a windy afternoon shows the afternoon's score.
