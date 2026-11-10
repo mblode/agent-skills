@@ -1,0 +1,5 @@
+{
+  "name": "sorrel-timesheets",
+  "branch": "workday-digest",
+  "message": "Add workdays-only average to the team digest"
+}

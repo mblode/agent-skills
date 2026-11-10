@@ -1,0 +1,13 @@
+{
+  "name": "wrenfield-stock",
+  "version": "0.31.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "typescript": "^5.8.3"
+  }
+}

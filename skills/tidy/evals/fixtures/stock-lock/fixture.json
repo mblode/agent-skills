@@ -1,0 +1,5 @@
+{
+  "name": "wrenfield-stock",
+  "branch": "reserve-stock-on-order",
+  "message": "Reserve stock when an order is placed"
+}
