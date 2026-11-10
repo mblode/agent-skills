@@ -50,7 +50,7 @@
         "Contains no cue timestamps or inline timing tags",
         "Keeps the statement that a deploy went from 40 minutes to six",
         "Includes the closing line about deleting the staging cluster",
-        "Adds no sentence that is absent from the captions"
+        "The transcript body contains no sentence that is absent from the captions"
       ]
     },
     {

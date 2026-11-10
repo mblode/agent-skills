@@ -21,7 +21,8 @@
       "files": [],
       "assertions": [
         "Cites rule/gesture-has-control-alternative and names a concrete non-drag alternative",
-        "Cites rule/cover-reachable-states and lists a failure state for the reorder save",
+        "Lists a failure state for the reorder save",
+        "Cites rule/cover-reachable-states",
         "Routes the gesture implementation to ui-animation, not to itself",
         "Includes an internal brief with job, desired outcome, and consequence filled"
       ]
