@@ -1,0 +1,115 @@
+WEBVTT
+Kind: captions
+Language: en
+
+00:00:00.160 --> 00:00:03.270 align:start position:0%
+ 
+[Music]
+
+00:00:03.270 --> 00:00:03.280 align:start position:0%
+[Music]
+ 
+
+00:00:03.280 --> 00:00:06.150 align:start position:0%
+[Music]
+hi<00:00:03.600><c> everyone</c><00:00:04.160><c> my</c><00:00:04.400><c> name</c><00:00:04.640><c> is</c><00:00:04.880><c> Priya</c><00:00:05.360><c> and</c><00:00:05.600><c> I</c><00:00:05.760><c> run</c>
+
+00:00:06.150 --> 00:00:06.160 align:start position:0%
+hi everyone my name is Priya and I run
+ 
+
+00:00:06.160 --> 00:00:09.030 align:start position:0%
+hi everyone my name is Priya and I run
+the<00:00:06.400><c> platform</c><00:00:06.880><c> team</c><00:00:07.200><c> at</c><00:00:07.360><c> a</c><00:00:07.520><c> freight</c><00:00:07.920><c> company</c>
+
+00:00:09.030 --> 00:00:09.040 align:start position:0%
+the platform team at a freight company
+ 
+
+00:00:09.040 --> 00:00:12.310 align:start position:0%
+the platform team at a freight company
+a<00:00:09.280><c> year</c><00:00:09.520><c> ago</c><00:00:09.840><c> a</c><00:00:10.000><c> deploy</c><00:00:10.480><c> took</c><00:00:10.800><c> us</c><00:00:11.040><c> 40</c><00:00:11.440><c> minutes</c>
+
+00:00:12.310 --> 00:00:12.320 align:start position:0%
+a year ago a deploy took us 40 minutes
+ 
+
+00:00:12.320 --> 00:00:15.510 align:start position:0%
+a year ago a deploy took us 40 minutes
+and<00:00:12.560><c> today</c><00:00:12.960><c> it</c><00:00:13.120><c> takes</c><00:00:13.440><c> six</c><00:00:13.840><c> this</c><00:00:14.080><c> talk</c><00:00:14.400><c> is</c><00:00:14.560><c> how</c>
+
+00:00:15.510 --> 00:00:15.520 align:start position:0%
+and today it takes six this talk is how
+ 
+
+00:00:15.520 --> 00:00:18.790 align:start position:0%
+and today it takes six this talk is how
+the<00:00:15.760><c> first</c><00:00:16.080><c> thing</c><00:00:16.320><c> we</c><00:00:16.480><c> did</c><00:00:16.800><c> was</c><00:00:17.040><c> measure</c><00:00:17.600><c> where</c>
+
+00:00:18.790 --> 00:00:18.800 align:start position:0%
+the first thing we did was measure where
+ 
+
+00:00:18.800 --> 00:00:21.990 align:start position:0%
+the first thing we did was measure where
+the<00:00:19.040><c> time</c><00:00:19.280><c> went</c><00:00:19.680><c> and</c><00:00:19.920><c> 26</c><00:00:20.480><c> of</c><00:00:20.640><c> those</c><00:00:20.960><c> minutes</c>
+
+00:00:21.990 --> 00:00:22.000 align:start position:0%
+the time went and 26 of those minutes
+ 
+
+00:00:22.000 --> 00:00:25.190 align:start position:0%
+the time went and 26 of those minutes
+were<00:00:22.240><c> integration</c><00:00:22.880><c> tests</c><00:00:23.280><c> waiting</c><00:00:23.680><c> on</c><00:00:23.840><c> a</c><00:00:24.000><c> shared</c>
+
+00:00:25.190 --> 00:00:25.200 align:start position:0%
+were integration tests waiting on a shared
+ 
+
+00:00:25.200 --> 00:00:28.390 align:start position:0%
+were integration tests waiting on a shared
+staging<00:00:25.680><c> cluster</c><00:00:26.160><c> that</c><00:00:26.400><c> only</c><00:00:26.720><c> one</c><00:00:26.960><c> team</c><00:00:27.280><c> could</c>
+
+00:00:28.390 --> 00:00:28.400 align:start position:0%
+staging cluster that only one team could
+ 
+
+00:00:28.400 --> 00:00:31.590 align:start position:0%
+staging cluster that only one team could
+use<00:00:28.640><c> at</c><00:00:28.800><c> a</c><00:00:28.960><c> time</c><00:00:29.440><c> so</c><00:00:29.680><c> we</c><00:00:29.840><c> gave</c><00:00:30.160><c> every</c><00:00:30.480><c> pull</c>
+
+00:00:31.590 --> 00:00:31.600 align:start position:0%
+use at a time so we gave every pull
+ 
+
+00:00:31.600 --> 00:00:34.790 align:start position:0%
+use at a time so we gave every pull
+request<00:00:32.000><c> its</c><00:00:32.240><c> own</c><00:00:32.480><c> short-lived</c><00:00:33.120><c> environment</c>
+
+00:00:34.790 --> 00:00:34.800 align:start position:0%
+request its own short-lived environment
+ 
+
+00:00:34.800 --> 00:00:38.070 align:start position:0%
+request its own short-lived environment
+[Applause]
+
+00:00:38.070 --> 00:00:38.080 align:start position:0%
+[Applause]
+ 
+
+00:00:38.080 --> 00:00:41.270 align:start position:0%
+[Applause]
+and<00:00:38.320><c> that</c><00:00:38.560><c> is</c><00:00:38.720><c> why</c><00:00:38.960><c> last</c><00:00:39.280><c> month</c><00:00:39.600><c> we</c><00:00:39.760><c> finally</c>
+
+00:00:41.270 --> 00:00:41.280 align:start position:0%
+and that is why last month we finally
+ 
+
+00:00:41.280 --> 00:00:44.470 align:start position:0%
+and that is why last month we finally
+deleted<00:00:41.760><c> the</c><00:00:41.920><c> staging</c><00:00:42.400><c> cluster</c><00:00:42.960><c> thank</c><00:00:43.200><c> you</c>
+
+00:00:44.470 --> 00:00:44.480 align:start position:0%
+deleted the staging cluster thank you
+ 

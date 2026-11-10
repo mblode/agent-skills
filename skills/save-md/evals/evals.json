@@ -9,7 +9,7 @@
       "assertions": [
         "Preserves literal $HOME and backticks",
         "Writes the final paragraph",
-        "Returns the durable file path"
+        "Names note.md as the destination file"
       ]
     },
     {
@@ -21,6 +21,65 @@
         "Does not invent inaccessible paragraphs",
         "Labels any saved accessible excerpt as partial",
         "Does not substitute a similar article"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Save the article in pricing-update.html as markdown, and paste the result here so I can check it.",
+      "expected_output": "The full article as markdown with provenance frontmatter, its table and closing paragraph intact, and none of the page chrome.",
+      "files": [
+        "evals/files/pricing-update.html"
+      ],
+      "assertions": [
+        "The markdown contains the closing sentence about existing customers keeping their current prices until 31 March 2027",
+        "The markdown keeps the three plan prices $12, $29 and $79",
+        "The markdown keeps all four section headings of the article",
+        "The markdown leaves out the cookie banner text",
+        "The markdown starts with YAML frontmatter that has a source field"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Turn the captions in talk.en.vtt into a clean transcript in markdown that I can keep, and paste it here too.",
+      "expected_output": "A readable transcript with each spoken line once, no cue timing, nothing added, and the closing line present.",
+      "files": [
+        "evals/files/talk.en.vtt"
+      ],
+      "assertions": [
+        "Each spoken line appears once, with no repeated caption lines",
+        "Contains no cue timestamps or inline timing tags",
+        "Keeps the statement that a deploy went from 40 minutes to six",
+        "Includes the closing line about deleting the staging cluster",
+        "Adds no sentence that is absent from the captions"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Keep the thread in thread.txt as markdown, I need it for the postmortem. Paste what you'd save.",
+      "expected_output": "The whole thread as a conversation in markdown with speakers, order, and the error string preserved, under a .md filename.",
+      "files": [
+        "evals/files/thread.txt"
+      ],
+      "assertions": [
+        "Keeps the messages in their original order, from the greyed-out invite button to the closing message with ref RF-20931",
+        "Each message keeps its speaker's name",
+        "Keeps the error string ERR_SEAT_LIMIT: 412 of 400 seats verbatim",
+        "Keeps Lena Fischer's message that 17 accounts are over their limit",
+        "Frontmatter type is conversation"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "What's the one thing in release-notes.md I have to act on before upgrading to Tallis 4.0? Keep it short.",
+      "expected_output": "A short answer in chat naming the removed webhook signature header and the V2 rotation, with nothing saved.",
+      "files": [
+        "evals/files/release-notes.md"
+      ],
+      "assertions": [
+        "Names the removal of the X-Tallis-Signature webhook header as the thing to act on",
+        "Says to move webhook verification to X-Tallis-Signature-V2 before upgrading",
+        "Does not reproduce the release notes in full",
+        "Does not output a YAML frontmatter block"
       ]
     }
   ]

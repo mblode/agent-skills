@@ -1,0 +1,64 @@
+@font-face {
+  font-family: "Halden Text";
+  src: url("/fonts/HaldenText-Regular.ttf");
+}
+
+:root {
+  --font-body: "Halden Text";
+  --color-ink: #1d1f23;
+  --color-muted: #5b616b;
+  --color-rule: #e3e5e8;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--color-ink);
+}
+
+.post {
+  max-width: 66ch;
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+}
+
+.post h1 {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.post h2 {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 600;
+  margin: 2.5rem 0 0.5rem;
+}
+
+.post-meta {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  margin: 0 0 2rem;
+}
+
+.post p {
+  margin: 0 0 1.25rem;
+}
+
+.post strong {
+  font-weight: 700;
+}
+
+.post em,
+.post blockquote {
+  font-style: italic;
+}
+
+.post blockquote {
+  margin: 2rem 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--color-rule);
+}

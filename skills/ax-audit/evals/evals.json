@@ -22,6 +22,71 @@
         "Does not apply approval-flow rules to the form",
         "Routes ordinary UI review to ui-design"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our support assistant asks before it sends email, issues credits, or closes tickets. Can you do an AX review of the approval step? The executor and the dialog are in executor.ts and ApprovalDialog.tsx.",
+      "expected_output": "Report that the approval gate exists but its dialog shows only the action name, and recommend passing the call arguments through to it.",
+      "files": [
+        "evals/files/thin-approval/executor.ts",
+        "evals/files/thin-approval/ApprovalDialog.tsx"
+      ],
+      "assertions": [
+        "Identifies that the approval dialog shows only the action name, not the arguments of the call",
+        "Recommends passing the tool call input through to the approval request so the dialog can display it",
+        "Names at least one concrete detail the approver needs to see, such as the recipient, the email body, or the credit amount",
+        "Does not report the approval gate as missing from the execution path",
+        "Cites control-thin-approval-payload"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We added a nightly job so the CRM agent can tidy up stale deals and notes on its own (nightly-cleanup.ts, it goes through the same executor.ts as chat). Chat already asks before anything destructive. Anything I should worry about before this ships?",
+      "expected_output": "Report that the scheduled path runs destructive tools with approval skipped, with no standing limit and no notice to the user.",
+      "files": [
+        "evals/files/nightly-job/nightly-cleanup.ts",
+        "evals/files/nightly-job/executor.ts"
+      ],
+      "assertions": [
+        "Identifies that the nightly job runs archive or delete tools with approval skipped",
+        "Recommends a standing limit for unattended runs, such as a tool allowlist or a cap on records changed per run",
+        "Recommends notifying a workspace user of what the job changed",
+        "Does not report the interactive chat approval as missing",
+        "Cites comm-unrequested-action-no-consent"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Can our agent actually run Ledgerly end to end for a user? tools.json is the tool manifest we ship and ui-actions.md is everything the web app lets a person do.",
+      "expected_output": "Report the invoice actions the web app offers that no tool covers, and leave the fully covered customer entity alone.",
+      "files": [
+        "evals/files/tool-parity/tools.json",
+        "evals/files/tool-parity/ui-actions.md"
+      ],
+      "assertions": [
+        "Reports that no tool can edit or update an invoice",
+        "Reports that no tool can void an invoice",
+        "Reports that sending a payment reminder has no tool",
+        "Does not report any missing tool for customers",
+        "Cites a rule ID that begins with parity-"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Quick AX check on the refund agent before release: refund-executor.ts, RefundApprovalCard.tsx and chat-route.ts. I think it's in decent shape, so only tell me about things that should actually hold the release.",
+      "expected_output": "Confirm the gate, the approval details, and the stop control are in place and report no release-blocking finding.",
+      "files": [
+        "evals/files/refund-flow/refund-executor.ts",
+        "evals/files/refund-flow/RefundApprovalCard.tsx",
+        "evals/files/refund-flow/chat-route.ts"
+      ],
+      "assertions": [
+        "Does not report a missing approval gate on issue_refund",
+        "Does not report the approval card as hiding the refund amount",
+        "Does not report the Stop button as unwired",
+        "Does not report the refund tool's results as unstructured prose",
+        "Reports no release-blocking finding"
+      ]
     }
   ]
 }

@@ -7,7 +7,7 @@
       "expected_output": "Inspect the PR branch diff and report the overlapping-line risk.",
       "files": [],
       "assertions": [
-        "Includes committed changes against the actual PR base",
+        "Does not conclude there is nothing to audit because the unstaged diff is empty",
         "Names the inherited fixed line-height",
         "Uses the rule-specific impact rather than the category default"
       ]
@@ -20,7 +20,69 @@
       "assertions": [
         "Does not replace quotes inside code",
         "Does not alter --no-input",
-        "Distinguishes declared fonts from the face actually loaded"
+        "Limits punctuation findings to the rendered paragraph text"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Bold text on our blog looks smeared and the text pops in late on first load. Can you audit the font setup in site.css and post.html?",
+      "expected_output": "Report the single regular face behind the synthesized bold and italic, the missing font-display, and the stack with no fallbacks, each with a fix.",
+      "files": [
+        "evals/files/font-loading/site.css",
+        "evals/files/font-loading/post.html"
+      ],
+      "assertions": [
+        "Identifies that the browser synthesizes bold because only a regular font file is loaded",
+        "Flags the missing font-display descriptor",
+        "Flags that the font-family value has no fallback fonts",
+        "Recommends loading real bold and italic font files or a variable font",
+        "Cites at least one rule ID that begins with font-"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Long pages in our docs feel tiring to read. Review the body text typography in docs.css (guide.html is a typical page).",
+      "expected_output": "Report the overlong measure, the tight paragraph line-height, the tracked body text, and the justified paragraphs, each with a fix.",
+      "files": [
+        "evals/files/reading-measure/docs.css",
+        "evals/files/reading-measure/guide.html"
+      ],
+      "assertions": [
+        "Flags the prose line length as too long",
+        "Recommends a measure of roughly 45 to 75 characters per line",
+        "Flags the 1.2 line-height on paragraphs as too tight",
+        "Flags the letter-spacing applied to body paragraphs",
+        "Flags the justified paragraph text"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Copy check on landing.html before it goes live. Only the typography of the text itself: quotes, dashes, that kind of thing.",
+      "expected_output": "Report the straight quotes, the double hyphen, the hyphenated ranges, and the three-period ellipsis in rendered copy, leaving the command in the code block alone.",
+      "files": [
+        "evals/files/copy-punctuation/landing.html"
+      ],
+      "assertions": [
+        "Flags the straight quotes around the testimonial",
+        "Flags the double hyphen in the hero heading",
+        "Recommends an en dash for the Mon-Fri or 9-5 range",
+        "Flags the three periods after Loading your workspace as needing an ellipsis character",
+        "Leaves the brightdesk import command inside the code element unchanged"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Design already signed off the terms page. Can you run a typography check on terms.html and legal.css and tell me if anything actually needs fixing before launch?",
+      "expected_output": "Confirm the font loading, measure, and punctuation are sound and report no critical finding.",
+      "files": [
+        "evals/files/terms-page/terms.html",
+        "evals/files/terms-page/legal.css"
+      ],
+      "assertions": [
+        "Does not report synthesized bold or italic",
+        "Does not report a line-length problem",
+        "Does not report straight quotes or apostrophes in the copy",
+        "Reports no finding rated critical or launch-blocking"
       ]
     }
   ]

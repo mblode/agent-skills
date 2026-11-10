@@ -1,0 +1,73 @@
+:root {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --color-ink: #16181d;
+  --color-muted: #596070;
+  --color-surface: #f6f7f9;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--color-ink);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 48px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.sidebar {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.prose {
+  max-width: 1120px;
+}
+
+.prose h1 {
+  font-size: 2.25rem;
+  line-height: 1.15;
+  margin: 2rem 0 1rem;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin: 2.5rem 0 0.75rem;
+}
+
+.prose p,
+.prose li {
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-align: justify;
+}
+
+.prose p {
+  margin: 0 0 1rem;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-surface);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--color-surface);
+  padding: 16px;
+  overflow-x: auto;
+}

@@ -1,0 +1,46 @@
+{
+  "server": "ledgerly-agent-tools",
+  "version": "1.8.0",
+  "tools": [
+    {
+      "name": "create_customer",
+      "description": "Create a customer record.",
+      "inputSchema": { "type": "object", "required": ["name", "email"], "properties": { "name": { "type": "string" }, "email": { "type": "string" }, "taxId": { "type": "string" } } }
+    },
+    {
+      "name": "list_customers",
+      "description": "List customers, newest first.",
+      "inputSchema": { "type": "object", "properties": { "search": { "type": "string" }, "cursor": { "type": "string" } } }
+    },
+    {
+      "name": "get_customer",
+      "description": "Fetch one customer by id.",
+      "inputSchema": { "type": "object", "required": ["customerId"], "properties": { "customerId": { "type": "string" } } }
+    },
+    {
+      "name": "update_customer",
+      "description": "Change a customer's name, email, or tax id.",
+      "inputSchema": { "type": "object", "required": ["customerId"], "properties": { "customerId": { "type": "string" }, "name": { "type": "string" }, "email": { "type": "string" }, "taxId": { "type": "string" } } }
+    },
+    {
+      "name": "delete_customer",
+      "description": "Delete a customer that has no invoices.",
+      "inputSchema": { "type": "object", "required": ["customerId"], "properties": { "customerId": { "type": "string" } } }
+    },
+    {
+      "name": "create_invoice",
+      "description": "Create a draft invoice for a customer.",
+      "inputSchema": { "type": "object", "required": ["customerId", "lines"], "properties": { "customerId": { "type": "string" }, "dueDate": { "type": "string", "format": "date" }, "lines": { "type": "array", "items": { "type": "object", "required": ["description", "amountCents"], "properties": { "description": { "type": "string" }, "amountCents": { "type": "integer" } } } } } }
+    },
+    {
+      "name": "list_invoices",
+      "description": "List invoices, filterable by status and customer.",
+      "inputSchema": { "type": "object", "properties": { "status": { "type": "string", "enum": ["draft", "sent", "paid", "overdue", "void"] }, "customerId": { "type": "string" }, "cursor": { "type": "string" } } }
+    },
+    {
+      "name": "get_invoice",
+      "description": "Fetch one invoice with its lines and payment status.",
+      "inputSchema": { "type": "object", "required": ["invoiceId"], "properties": { "invoiceId": { "type": "string" } } }
+    }
+  ]
+}

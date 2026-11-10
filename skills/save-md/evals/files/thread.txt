@@ -1,0 +1,20 @@
+#billing-escalations
+Exported 14 Oct 2026, 11:20
+
+[09:02] Dana Whitfield: Heads up, Northgate Dental can't add their new hygienist. Admin says the invite button is greyed out.
+[09:04] Omar Reyes: Which plan are they on? I see them as Practice 400 in the CRM.
+[09:07] Dana Whitfield: Practice 400, yes. The admin sent me this from the browser console: ERR_SEAT_LIMIT: 412 of 400 seats
+[09:11] Omar Reyes: So they are already 12 over. That should not be possible, the limit is meant to block at 400.
+[09:12] Omar Reyes: Unless someone raised it by hand and forgot to update billing?
+[09:13] Dana Whitfield: Nothing in the account notes about a manual change.
+[09:15] Lena Fischer: Nobody raised it. It has been possible since the 2 October release. Bulk CSV import skips the seat check.
+[09:16] Lena Fischer: They imported 40 staff on the 6th, which took them from 372 to 412.
+[09:18] Omar Reyes: Then we charged them for 400 and let them use 412, and now we block number 413. Great.
+[09:19] Omar Reyes: Dana, can you tell them we will lift the cap today and not bill the overage?
+[09:21] Dana Whitfield: Will do. Do we know how many other accounts are over?
+[09:24] Lena Fischer: 17 accounts, all from CSV imports since the 2nd. Biggest overage is 31 seats.
+[09:26] Dana Whitfield: Told Northgate. They also want the 3 days of lost onboarding time acknowledged, the hygienist started Monday.
+[09:29] Omar Reyes: Fair. One month credit is within what support can approve without finance.
+[09:33] Dana Whitfield: Should I write to the other 17 or wait for the fix?
+[09:35] Omar Reyes: Wait. We write once, after Thursday, with the fix and the no-overage promise in the same email.
+[09:41] Lena Fischer: Cap raised to 450 on Northgate until the import fix ships Thursday. I also credited one month, ref RF-20931. Closing this out.
