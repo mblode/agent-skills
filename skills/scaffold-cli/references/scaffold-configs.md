@@ -138,7 +138,7 @@ export default defineConfig([
 ]);
 ```
 
-`fixedExtension: false` keeps `.js` and `.d.ts`. tsdown's node-platform default emits `.mjs` and `.d.mts`, and then `bin` and `exports` point at files that do not exist; `pnpm dlx publint` after the build catches it.
+`fixedExtension: false` makes the extension follow the package type, so this `"type": "module"` package gets `.js` and `.d.ts`. tsdown's node-platform default emits `.mjs` and `.d.mts`, and then `bin`, `exports`, and `types` point at files that do not exist. It is the option tsdown documents for this; `outputOptions.entryFileNames` also yields `.js` but tsdown marks `outputOptions` "use with caution", so the template does not use it. After any build, list `dist/` and confirm every path in `bin`, `exports`, `main`, and `types` names an emitted file; `pnpm dlx publint` catches a mismatch.
 
 `banner` injects the shebang into `dist/cli.js` at build, which is why `src/cli.ts` carries none.
 

@@ -110,7 +110,7 @@ For a local scaffold, stop after Step 7. If the user already requested remote se
 
 ## Gotchas
 
-- **tsdown emits `.mjs` by default.** With `platform: node` (the default) `fixedExtension` is on, so a config without `outputOptions.entryFileNames: "[name].js"` builds `dist/cli.mjs`, `dist/index.mjs`, and `dist/index.d.mts`, and `bin` and `exports` point at files that do not exist. The `outputOptions` block in the template is what keeps them `.js`; do not trim it as noise.
+- **tsdown emits `.mjs` by default.** With `platform: node` `fixedExtension` defaults to on, so a config without `fixedExtension: false` builds `dist/cli.mjs`, `dist/index.mjs`, and `dist/index.d.mts`, and `bin`, `exports`, and `types` point at files that do not exist. The `fixedExtension: false` line on both template entries is what keeps them `.js` and `.d.ts` in a `"type": "module"` package; do not trim it as noise. Whatever the tsdown version, list `dist/` after the build and confirm every path in `bin`, `exports`, `main`, and `types` names a file that is there.
 - **No shebang in `src/cli.ts`.** tsdown's `banner` injects `#!/usr/bin/env node`; a source shebang doubles it in `dist/cli.js`. The two build entries stay separate: the CLI entry has the banner and `dts: false`, the library entry has `dts: true` and no banner.
 - **`"test": "vitest run"` without `--passWithNoTests`** exits 1 on a repo with zero test files, so the first CI run goes red.
 - **`@changesets/cli@3` pairs with `changesets/action@v2` and the `publish-script:` input.** `@v1` cannot drive changesets v3, and `@v2` given the v1 `publish:` input versions the package and then completes green without publishing. The templates carry the matching pair; do not downgrade one side.
