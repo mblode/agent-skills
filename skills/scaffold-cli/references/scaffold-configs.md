@@ -3,6 +3,7 @@
 ## Contents
 
 - [package.json](#packagejson)
+- [pnpm-workspace.yaml](#pnpm-workspaceyaml)
 - [tsconfig.json](#tsconfigjson)
 - [tsdown.config.ts](#tsdownconfigts)
 - [.gitignore](#gitignore)
@@ -69,7 +70,7 @@
     "commander": "^15.0.0"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
+    "@changesets/cli": "^3.0.3",
     "@types/node": "^24.13.3",
     "tsdown": "^0.22.4",
     "typescript": "^7.0.2",
@@ -82,6 +83,15 @@
 `ultracite init` (post-scaffold) adds the `oxlint`, `oxfmt`, and `lefthook` devDependencies plus the `check`, `fix`, and `prepare` scripts, which is why this template omits them.
 
 `{{pnpm_version}}` is the output of `pnpm --version`. `pnpm/action-setup` in both workflows reads the pnpm version from `packageManager`, and corepack refuses a mismatch, so keep the field even for a single-package repo.
+
+## pnpm-workspace.yaml
+
+```yaml
+allowBuilds:
+  lefthook: false
+```
+
+pnpm fails an install with `ERR_PNPM_IGNORED_BUILDS` when a dependency has a build script that is neither allowed nor denied. `lefthook` has one (a `postinstall` that runs `lefthook install`), and the project's own `prepare: lefthook install` script already does that work, so the entry denies it. Every other dependency keeps pnpm's default protection. The file has no `packages` key because this is a single-package repo; pnpm reads its settings from here regardless.
 
 ## tsconfig.json
 
@@ -183,7 +193,7 @@ SOFTWARE.
 
 ```json
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],

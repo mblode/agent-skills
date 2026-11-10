@@ -74,6 +74,7 @@ both correct at once.
 
 ## Command Notes
 
+- `pnpm-workspace.yaml` from Step 3 must exist before `ultracite init`: its `allowBuilds` entry for `lefthook` is what lets the `pnpm add -D lefthook` inside init succeed.
 - `git init` must precede `ultracite init`: the lefthook integration adds a `prepare: lefthook install` script and runs it immediately; `lefthook install` writes into `.git/hooks` and fails without a repo.
 - `ultracite init` runs `pnpm install` itself (from `--pm pnpm`), then writes `oxlint.config.ts`, `oxfmt.config.ts`, `lefthook.yml`, and updates `package.json` (adds `check`, `fix`, `prepare: lefthook install` scripts and the `oxlint`/`oxfmt`/`lefthook`/`ultracite` devDeps). `--linter oxlint` is required: under `--quiet` the linter defaults to Biome instead of prompting, so the repo silently lands on the wrong toolchain.
 - Keep AGENTS.md as the only shared instruction file.
@@ -107,7 +108,7 @@ Validation:
 - `ultracite init` fails or hangs: re-run without `--quiet` to see the blocking prompt, answer interactively, then continue.
 - Claude Code requires its built-in agents-md mod enabled with an AGENTS.md-loading mode; use the agents-md skill if instructions do not load.
 - `pnpm install` fails with `ERR_PNPM_UNSUPPORTED_ENGINE`: verify Node >= 24.11 with `node --version`; the engines field rejects older versions.
-- `pnpm install` lists ignored build scripts (for example `lefthook`): expected. pnpm skips dependency lifecycle scripts unless approved, and the project's own `prepare: lefthook install` installs the hooks, so there is nothing to approve.
+- `ultracite init` dies at `pnpm add -D lefthook` with `ERR_PNPM_IGNORED_BUILDS`, or `pnpm install` fails the same way, and `lefthook.yml` is missing: `pnpm-workspace.yaml` is absent or lacks the `lefthook: false` entry under `allowBuilds`. Write it from `references/scaffold-configs.md` and re-run the `ultracite init` command. For any other package the error names, add its own `allowBuilds` entry (`true` only when it needs its build script); do not allow all builds.
 - `pnpm install` prints a peer warning for `typescript` against `tsdown`: expected and harmless. `tsdown@0.22.x` still lists its optional `typescript` peer as `^5 || ^6`, but its `.d.ts` engine (`rolldown-plugin-dts`) supports `^7`, so `dist/index.d.ts` still generates. Do not downgrade TypeScript.
 - `pnpm run build` fails with unresolved imports: every relative import needs a `.js` extension (NodeNext requires them even for `.ts` sources).
 - `pnpm run test` exits 1 with "No test files found": the test script is missing `--passWithNoTests`.
