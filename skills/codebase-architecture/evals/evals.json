@@ -32,7 +32,6 @@
       "assertions": [
         "Refuses to open a fix PR whose diff contains no test",
         "Refuses a diff that touches protected paths such as CI workflows, agent settings, infrastructure, or instruction files",
-        "Names the exception to the test requirement: an alert-triage draft that changes only one alert definition",
         "Re-runs the repo's check and test commands in the workflow rather than trusting the agent's report",
         "Separates the job that runs the agent from the only job allowed to push",
         "Opens a draft PR and merges nothing automatically"
@@ -46,7 +45,7 @@
       "assertions": [
         "Gives triage its own verdicts (real failure, alert is wrong, noise), separate from the fix job's reproduce verdicts, and treats an unparsable verdict as a real failure",
         "Routes a real failure to the fix job by opening an issue instead of fixing it inside the triage job",
-        "States that an issue opened by triage passes through the same fix-job gates as any other issue, starting with reproduce",
+        "Says the fix job runs its own reproduce step on an issue that triage opened before it fixes anything",
         "Limits an alert-is-wrong draft to that one alert's definition with its recent datapoints, refuses a wider diff, never deletes or mutes the alert, and leaves the merge to a person",
         "Dedupes by alert fingerprint, and treats repeated noise on one fingerprint as alert is wrong"
       ]
