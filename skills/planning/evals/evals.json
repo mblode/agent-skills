@@ -27,12 +27,20 @@
       "id": 3,
       "prompt": "Plan adding four filter props to the shared DataTable used across the app. This reporting feature will keep growing next month.",
       "expected_output": "Measure the fork before recommending, ask about the growth hinge, and record the decision.",
-      "files": [],
+      "files": [
+        "evals/files/datatable/DataTable.tsx",
+        "evals/files/datatable/UsersPage.tsx",
+        "evals/files/datatable/InvoicesPage.tsx",
+        "evals/files/datatable/TeamsPage.tsx",
+        "evals/files/datatable/AuditLogPage.tsx",
+        "evals/files/datatable/ReportsPage.tsx"
+      ],
       "assertions": [
-        "Counts DataTable call sites or usages before recommending an option",
+        "States that DataTable has five call sites in the supplied code",
         "States what would flip the recommendation",
-        "Asks about how far the feature will grow rather than a bare extend-or-new question",
-        "Records the resolved decision with who, why, and the flip condition"
+        "Asks the user how far or in what direction the reporting feature will grow",
+        "Includes a decision entry for extending DataTable versus building a separate component that names who decides it",
+        "Marks that decision as proposed or awaiting the user's answer, not as already agreed"
       ]
     },
     {
@@ -44,6 +52,37 @@
         "Names docs/cli.md as a doc that changes in the same PR",
         "Does not list docs/history.md as a doc to update",
         "Does not add a line or size budget to the plan"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Split team-digest-plan.md into tickets we can hand out on Monday.",
+      "expected_output": "Three tickets cut by shippable outcome (the setting, the weekly email, the admin stats) rather than by layer, with the blocking order stated, a verification per ticket, and the sender address kept as an open item for marketing.",
+      "files": [
+        "evals/files/digest/team-digest-plan.md"
+      ],
+      "assertions": [
+        "Splits the tickets by outcome (digest setting, weekly email, admin stats) rather than by database, backend, and frontend",
+        "States that the weekly email ticket is blocked by the digest setting ticket",
+        "Gives every ticket its own acceptance or verification criterion",
+        "Keeps the sender address marked as undecided with marketing named as the party who supplies it",
+        "Does not present a launch date or deadline as known"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Stress-test reset-rate-limit-plan.md before I start on it tomorrow. The two files it touches are here too.",
+      "expected_output": "A review that checks the plan's claims against rateLimit.ts and resetRequest.ts, finds them true, and says the plan is ready without adding scope or rewriting it.",
+      "files": [
+        "evals/files/reset/reset-rate-limit-plan.md",
+        "evals/files/reset/rateLimit.ts",
+        "evals/files/reset/resetRequest.ts"
+      ],
+      "assertions": [
+        "Confirms that the rateLimit({ key, limit, windowSec }) signature in rateLimit.ts matches what the plan claims",
+        "Concludes the plan can be started without rework",
+        "Does not add CAPTCHA, account lockout, or a new datastore as a requirement",
+        "Does not return a rewritten copy of the whole plan"
       ]
     }
   ],

@@ -35,8 +35,52 @@
         "Cites rule/no-redundant-entry for the billing address re-entry",
         "Cites rule/time-limit-adjustable for the session timeout and proposes a warning plus extension or draft persistence",
         "Cites rule/preserve-user-input for the lost fields",
-        "Findings carry a P0-P3 level and a user consequence, not only a code observation",
-        "Records a coverage gap instead of inventing a rule ID for anything uncovered"
+        "Findings carry a P0-P3 level and a user consequence, not only a code observation"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Support keeps getting tickets about accidental archives, so the squad wants a confirm dialog on Archive project. Do we need it? Notes are in archive-flow.md.",
+      "expected_output": "A short action-mode answer: no confirmation on Archive because it is fully restorable, the existing Delete forever safeguard left as it is, and at most a pointer from the toast to where the project went.",
+      "files": [
+        "evals/files/archive/archive-flow.md"
+      ],
+      "assertions": [
+        "Recommends against adding the confirmation dialog to Archive project",
+        "Gives the unlimited Restore from the Archived tab as the reason Archive needs no confirmation",
+        "Says that confirming a reversible action teaches people to click through confirmations",
+        "Does not recommend changing the Delete forever dialog",
+        "Cites rule/destructive-proportional"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Review this invite flow for product correctness before we build it. The spec is invite-flow.md.",
+      "expected_output": "Review-mode findings ordered by user impact: pasted addresses lost on any failure, a seat charge the dialog never states, a dialog stacked on a dialog, each with the consequence and the smallest decision-level fix.",
+      "files": [
+        "evals/files/invite/invite-flow.md"
+      ],
+      "assertions": [
+        "Flags that a failed Submit discards the pasted email addresses",
+        "Flags that the dialog does not tell the user each invite reserves a paid seat before they commit",
+        "Flags the personal note dialog opening on top of the Invite dialog",
+        "Lists the lost-addresses finding above the stacked-dialog finding",
+        "Every finding carries a rule ID written in the rule/<name> form"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Choose the controls for our notification settings screen. Brief is in notification-brief.md, the UI team builds it after.",
+      "expected_output": "A shape-mode decision per setting: a single-choice control for frequency, a multi-select for channels, a searchable picker for time zone, the native time inputs kept, with translated label length accounted for.",
+      "files": [
+        "evals/files/notifications/notification-brief.md"
+      ],
+      "assertions": [
+        "Chooses a single-choice control (radio group or segmented control) for digest frequency instead of checkboxes",
+        "Chooses a multi-select control (checkboxes or switches) for channels instead of the single-select dropdown",
+        "Chooses a searchable select or combobox for time zone instead of the radio list",
+        "Keeps the native time inputs for quiet hours",
+        "Says how the digest frequency control copes with longer German or Japanese labels"
       ]
     }
   ]

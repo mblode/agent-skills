@@ -7,8 +7,9 @@
       "expected_output": "Configure an effective gate and demonstrate a deliberate violation fails.",
       "files": [],
       "assertions": [
-        "Checks the process exit status",
-        "Shows pass/fail evidence using a disposable violation",
+        "Says the gate is decided by the jscpd process exit status, not by its printed report",
+        "Gives a proof step that seeds a disposable duplicate and expects the jscpd command to exit non-zero",
+        "Does not claim the gate was run or proven when nothing was executed",
         "Does not install unrelated architecture tools"
       ]
     },
@@ -29,7 +30,9 @@
       "expected_output": "An unattended fix job whose gates run in the workflow, not the prompt: reproduce first, a test in the diff, protected paths, check and test re-run outside the model, a read-only agent job separate from the job that pushes, caps with fingerprint dedupe, isolated settings with a budget, and a draft PR a person merges.",
       "files": [],
       "assertions": [
-        "Refuses a code fix with no test and any diff touching CI, agent settings, infrastructure, or instruction files, naming the one exception: an alert-triage draft that changes only one alert definition",
+        "Refuses to open a fix PR whose diff contains no test",
+        "Refuses a diff that touches protected paths such as CI workflows, agent settings, infrastructure, or instruction files",
+        "Names the exception to the test requirement: an alert-triage draft that changes only one alert definition",
         "Re-runs the repo's check and test commands in the workflow rather than trusting the agent's report",
         "Separates the job that runs the agent from the only job allowed to push",
         "Opens a draft PR and merges nothing automatically"
@@ -42,9 +45,43 @@
       "files": [],
       "assertions": [
         "Gives triage its own verdicts (real failure, alert is wrong, noise), separate from the fix job's reproduce verdicts, and treats an unparsable verdict as a real failure",
-        "Hands a real failure to the fix job as an issue under every fix-job gate",
+        "Routes a real failure to the fix job by opening an issue instead of fixing it inside the triage job",
+        "States that an issue opened by triage passes through the same fix-job gates as any other issue, starting with reproduce",
         "Limits an alert-is-wrong draft to that one alert's definition with its recent datapoints, refuses a wider diff, never deletes or mutes the alert, and leaves the merge to a person",
         "Dedupes by alert fingerprint, and treats repeated noise on one fingerprint as alert is wrong"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Find the shallow modules in this billing code and tell me what to deepen first.",
+      "expected_output": "Ranked deepening opportunities with file paths: the pass-through InvoiceService, the invoice total and tax calculation duplicated across two handlers, and the customer, client, and account naming split, with one slice to migrate first and the missing change history named.",
+      "files": [
+        "evals/files/billing/invoiceService.ts",
+        "evals/files/billing/invoiceRepository.ts",
+        "evals/files/billing/invoiceHandler.ts",
+        "evals/files/billing/checkoutHandler.ts"
+      ],
+      "assertions": [
+        "Identifies InvoiceService as a pass-through whose methods only forward to InvoiceRepository",
+        "Identifies the tax and total calculation as duplicated between invoiceHandler.ts and checkoutHandler.ts",
+        "Notes that one entity is named customer, client, and account in different places",
+        "Names a single opportunity to do first",
+        "States that it could not check change history to see which files change most"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We need to send a welcome email when someone signs up. I'm thinking a new notifications microservice with its own queue so it scales. Design the architecture; our layout is in repo-structure.md.",
+      "expected_output": "A short answer that declines the new service and queue: a welcome job enqueued from the accounts module on the existing jobs table and sent through the existing mailer package, with the condition that would justify splitting it out later.",
+      "files": [
+        "evals/files/welcome/repo-structure.md"
+      ],
+      "assertions": [
+        "Recommends against building a separate notifications service",
+        "Reuses the existing jobs table and worker instead of adding a new queue",
+        "Sends through the existing mailer package",
+        "Enqueues the welcome job in the same transaction as the account insert",
+        "Names a concrete condition under which a separate service would become justified"
       ]
     }
   ]

@@ -1,0 +1,17 @@
+{
+  "name": "@acme/harbor",
+  "version": "1.4.0",
+  "description": "Ship a preview URL for every branch",
+  "license": "MIT",
+  "repository": "github:acme/harbor",
+  "type": "module",
+  "bin": {
+    "harbor": "./harbor.js"
+  },
+  "files": [
+    "harbor.js"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}
