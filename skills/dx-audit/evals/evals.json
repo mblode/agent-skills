@@ -54,7 +54,7 @@
         "Reports that importing the package starts an interval timer as a side effect",
         "Reports that findStop returns null for a missing id while findRoute throws",
         "Edits no file",
-        "Labels each finding with an impact level such as CRITICAL, HIGH, or MEDIUM"
+        "Labels findings with impact levels such as CRITICAL, HIGH, or MEDIUM"
       ]
     },
     {

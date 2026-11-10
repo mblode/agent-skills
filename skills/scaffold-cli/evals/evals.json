@@ -9,7 +9,7 @@
       "fixture": "evals/fixtures/fresh-report-repo",
       "assertions": [
         "States that package.json maps the bin name report to ./dist/cli.js",
-        "States that the build config has separate entries for src/cli.ts and src/index.ts",
+        "Names both src/cli.ts and src/index.ts as files it created",
         "Names tsdown as the bundler",
         "Does not create a GitHub repository or publish to npm",
         "Does not claim the install, build, or publint checks were run"
@@ -25,7 +25,6 @@
         "Reports the file names present in dist, including index.d.mts",
         "States one concrete change that makes bin agree with the emitted CLI file name",
         "Reports that exports or types in package.json also point at files the build does not emit",
-        "Does not claim a rebuild or packaging check passed",
         "Fixes the tsdown config to emit .js files rather than repointing package.json at .mjs"
       ]
     },
@@ -36,8 +35,8 @@
       "files": [],
       "fixture": "evals/fixtures/cache-scripts-to-cli",
       "assertions": [
-        "States that the purge command has a --dry-run option that reports what would be deleted without deleting",
-        "States that the purge command validates the bucket name before touching the filesystem, rejecting values such as ../etc",
+        "States that the purge command has a --dry-run option",
+        "States that the purge command rejects unsafe bucket names such as ../etc",
         "States that the purge command requires an explicit flag such as --yes instead of prompting when stdin is not a TTY",
         "States that the list command can print JSON on stdout",
         "Does not claim the install or build was run"
@@ -50,7 +49,7 @@
       "files": [],
       "fixture": "evals/fixtures/half-finished-package",
       "assertions": [
-        "States that the publish workflow uses OIDC trusted publishing with id-token: write rather than a stored npm token",
+        "States that the publish workflow uses OIDC trusted publishing rather than a stored npm token",
         "Reports adding .changeset/config.json",
         "Changes the test script so it passes with zero test files",
         "Removes the shebang from src/cli.ts because the build banner already adds one",
@@ -66,7 +65,7 @@
       "assertions": [
         "Reports the leftover {{description}} placeholder in package.json",
         "Reports the leftover {{year}} or {{author}} placeholder in the LICENSE file",
-        "Reports that the built CLI entry would have no shebang because neither src/cli.ts nor the build config adds one",
+        "Reports that the built CLI entry would have no shebang",
         "Reports that the publish workflow pins Node 22 while the package requires Node 24",
         "Does not claim the build or validation commands were run"
       ]

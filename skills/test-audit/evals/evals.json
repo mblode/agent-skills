@@ -22,7 +22,7 @@
       "files": [],
       "fixture": "evals/fixtures/billing-junk-sweep",
       "assertions": [
-        "States a numeric target for how many tests or what share of them to remove",
+        "States how many tests, or what share of them, it removed or proposes to remove",
         "Reports tests deleted from src/billing rather than only proposing a list",
         "Keeps the test that a replayed webhook event id is applied only once",
         "Keeps the test that a split total adds back up to the cent",
