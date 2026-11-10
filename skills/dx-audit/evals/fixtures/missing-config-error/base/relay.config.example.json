@@ -1,0 +1,5 @@
+{
+  "endpoint": "https://relay.cobalt.example/v2/messages",
+  "channel": "ops-alerts",
+  "retries": 3
+}

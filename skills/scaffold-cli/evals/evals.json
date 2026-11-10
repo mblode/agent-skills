@@ -3,24 +3,86 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Create a local-only TypeScript CLI scaffold named @acme/report with bin report. Use the house stack. Do not create a remote or publish.",
-      "expected_output": "Generate and validate the local package while respecting local-only scope.",
+      "prompt": "Create a local-only TypeScript CLI scaffold named @acme/report with bin report. Use the house stack. Do not create a remote or publish. The repo will be acme/report, author Dana Whitlock, description \"Turn CSV exports into weekly reports\". I'm offline right now, so write the files and skip the install.",
+      "expected_output": "The config, source, and docs files written into the repo with every placeholder filled, bin report mapped to ./dist/cli.js, separate tsdown entries for the CLI and the library, and a plain statement that install, build, and validation were not run. No remote and no publish.",
       "files": [],
+      "fixture": "evals/fixtures/fresh-report-repo",
       "assertions": [
-        "Keeps CLI and library build outputs distinct",
-        "Checks bin and exports against emitted files",
-        "Does not create a GitHub repo or publish"
+        "States that package.json maps the bin name report to ./dist/cli.js",
+        "States that the build config has separate entries for src/cli.ts and src/index.ts",
+        "Names tsdown as the bundler",
+        "Does not create a GitHub repository or publish to npm",
+        "Does not claim the install, build, or publint checks were run"
       ]
     },
     {
       "id": 2,
       "prompt": "A scaffold template produces dist/cli.mjs but package.json bin names dist/cli.js. Fix the scaffold.",
-      "expected_output": "Reconcile the actual emitted extension and manifest contract.",
+      "expected_output": "Checks the emitted files in dist (cli.mjs, index.mjs, index.d.mts) against bin, main, types, and exports, fixes the tsdown config so both entries emit .js and .d.ts, and says the rebuild could not be run so the fix is unverified.",
       "files": [],
+      "fixture": "evals/fixtures/emitted-extension-mismatch",
       "assertions": [
-        "Checks the build output",
-        "Makes the manifest and emitted entry agree",
-        "Does not claim successful packaging from source alone"
+        "Reports the file names present in dist, including index.d.mts",
+        "States one concrete change that makes bin agree with the emitted CLI file name",
+        "Reports that exports or types in package.json also point at files the build does not emit",
+        "Does not claim a rebuild or packaging check passed",
+        "Fixes the tsdown config to emit .js files rather than repointing package.json at .mjs"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Scaffold a proper TypeScript CLI and npm package to replace scripts/purge-cache.sh and scripts/list-buckets.sh. Name tidepool-cache, bin tidepool, repo saltwater-labs/tidepool-cache, author Priya Raman, description \"Inspect and purge build cache buckets\". Local only, and I'm offline so write the files and skip the install.",
+      "expected_output": "A full scaffold with list and purge commands. purge validates the bucket name before it reaches the filesystem, offers --dry-run, confirms in a terminal, and requires an explicit flag when stdin is not a TTY. list prints JSON on request. The response says install and build were not run.",
+      "files": [],
+      "fixture": "evals/fixtures/cache-scripts-to-cli",
+      "assertions": [
+        "States that the purge command has a --dry-run option that reports what would be deleted without deleting",
+        "States that the purge command validates the bucket name before touching the filesystem, rejecting values such as ../etc",
+        "States that the purge command requires an explicit flag such as --yes instead of prompting when stdin is not a TTY",
+        "States that the list command can print JSON on stdout",
+        "Does not claim the install or build was run"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I started scaffolding this package by hand and stopped after the source files. Finish it: changesets, CI, the npm publish workflow, and the agent docs. Don't push or publish anything, and I'm offline so skip installs.",
+      "expected_output": "Adds .changeset/config.json, the CI workflow, an OIDC publish workflow on Node 24, AGENTS.md, and the skill file. Fixes what the half-done scaffold got wrong: the test script fails with zero test files, and src/cli.ts carries a shebang the build banner already adds. Nothing pushed or published.",
+      "files": [],
+      "fixture": "evals/fixtures/half-finished-package",
+      "assertions": [
+        "States that the publish workflow uses OIDC trusted publishing with id-token: write rather than a stored npm token",
+        "Reports adding .changeset/config.json",
+        "Changes the test script so it passes with zero test files",
+        "Removes the shebang from src/cli.ts because the build banner already adds one",
+        "States that nothing was pushed or published"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I scaffolded this CLI from our templates last night but rushed it. Check the scaffold over and fix what I got wrong before I publish the first version. I'm offline, so no installs.",
+      "expected_output": "A placeholder sweep and a read of every config against the others: {{description}} left in package.json, {{year}} and {{author}} left in LICENSE, the CLI build entry missing its shebang banner, and the publish workflow on Node 22 while the package requires Node 24. Fixes applied, with a statement that build and validation commands were not run.",
+      "files": [],
+      "fixture": "evals/fixtures/rushed-scaffold-check",
+      "assertions": [
+        "Reports the leftover {{description}} placeholder in package.json",
+        "Reports the leftover {{year}} or {{author}} placeholder in the LICENSE file",
+        "Reports that the built CLI entry would have no shebang because neither src/cli.ts nor the build config adds one",
+        "Reports that the publish workflow pins Node 22 while the package requires Node 24",
+        "Does not claim the build or validation commands were run"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "This CLI was hand-rolled a few years ago (plain JS, no build step). Add a --json flag to `list` so our deploy script can parse the output.",
+      "expected_output": "The flag added in place to the existing plain JavaScript command, with the JSON output shown from a real run. The project keeps its shape: no TypeScript conversion, no bundler, no changesets or workflows, no new dependencies.",
+      "files": [],
+      "fixture": "evals/fixtures/hand-rolled-json-flag",
+      "assertions": [
+        "Reports adding a --json option to the list command",
+        "Reports output observed from running list with --json",
+        "Does not convert the project to TypeScript or add a bundler",
+        "Does not add changesets, release workflows, or new dependencies",
+        "States that list output without --json is unchanged"
       ]
     }
   ]

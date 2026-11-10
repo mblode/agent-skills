@@ -1,0 +1,8 @@
+{
+  "workspace": "harbour-ops",
+  "records": [
+    { "id": "rec_1001", "kind": "vessel", "name": "Ilse Marie" },
+    { "id": "rec_1002", "kind": "vessel", "name": "North Tern" },
+    { "id": "rec_1003", "kind": "berth", "name": "Quay 4" }
+  ]
+}

@@ -1,0 +1,5 @@
+[
+  { "id": 1, "tag": "fix", "text": "Retry uploads after a dropped connection", "addedAt": "2026-08-03" },
+  { "id": 2, "tag": "feature", "text": "Export invoices as CSV", "addedAt": "2026-08-11" },
+  { "id": 3, "tag": "fix", "text": "Stop the sidebar flickering on resize", "addedAt": "2026-08-19" }
+]

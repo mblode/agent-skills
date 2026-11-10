@@ -1,0 +1,14 @@
+{
+  "name": "heron-deploy",
+  "version": "2.3.0",
+  "description": "Roll out and inspect services on a Heron cluster",
+  "type": "module",
+  "bin": {
+    "heron": "bin/heron.js"
+  },
+  "files": ["bin", "src"],
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT"
+}

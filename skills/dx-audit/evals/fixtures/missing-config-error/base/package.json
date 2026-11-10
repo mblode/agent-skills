@@ -1,0 +1,14 @@
+{
+  "name": "cobalt-relay",
+  "version": "1.6.2",
+  "description": "Queue outbound messages for a Cobalt relay endpoint",
+  "type": "module",
+  "bin": {
+    "relay": "bin/relay.js"
+  },
+  "files": ["bin", "src", "relay.config.example.json"],
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT"
+}

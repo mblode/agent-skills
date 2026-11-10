@@ -1,0 +1,9 @@
+{
+  "name": "@saltmarsh/payments",
+  "version": "0.31.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
