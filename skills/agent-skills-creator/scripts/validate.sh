@@ -195,6 +195,7 @@ validate_skill() {
   check house toc-over-100-lines "over 100 lines with no Contents heading:$no_toc" \
     "$(printf '%s' "$no_toc" | wc -w | tr -d ' ')"
 
+  # Fixture repositories keep the real names of the files they model (AGENTS.md, README.md).
   # bash 3.2 mis-parses `case` inside $( ), so build this in the current shell.
   bad_names=""
   while IFS= read -r -d '' f; do
@@ -202,7 +203,7 @@ validate_skill() {
     # NOTICE.md carries legal attribution, not authored workflow content.
     if [ "$b" = "SKILL" ] || [ "$b" = "NOTICE" ] || [ "$b" = "_sections" ] || [ "$b" = "_template" ]; then continue; fi
     printf '%s' "$b" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || bad_names="$bad_names ${b// /<space>}"
-  done < <(find "$skill_dir" -name '*.md' -print0 2>/dev/null)
+  done < <(find "$skill_dir" -name '*.md' -not -path "$skill_dir/evals/fixtures/*" -print0 2>/dev/null)
   check house kebab-case-filenames "not kebab-case:$bad_names" "$(printf '%s' "$bad_names" | wc -w | tr -d ' ')"
 
   # Root-level track files belong to the simple/hub pattern only.
@@ -386,7 +387,7 @@ validate_skill() {
       [ -n "$target" ] || continue
       [ -e "$dir/$target" ] || dead="$dead $(basename "$f")->$target"
     done < <(perl -ne 'next if /^\s*```/ ... /^\s*```/; while (/\]\(([^)\s]+)\)/g) { print "$1\n" }' "$f")
-  done < <(find "$skill_dir" -name '*.md' -print0 2>/dev/null)
+  done < <(find "$skill_dir" -name '*.md' -not -path "$skill_dir/evals/fixtures/*" -print0 2>/dev/null)
   check house md-links-resolve "link target missing:$dead" "$(printf '%s' "$dead" | wc -w | tr -d ' ')"
 
   fi

@@ -103,6 +103,13 @@ class ValidatorContract(unittest.TestCase):
         for check in ['kebab-case-filenames', 'root-md-hub-only']:
             self.assertTrue(any(r[1] == 'FAIL' and r[3] == check for r in rows), rows)
 
+    def test_fixture_repositories_keep_real_file_names(self):
+        fixture = self.skill / 'evals/fixtures/sample/base'
+        fixture.mkdir(parents=True)
+        (fixture / 'AGENTS.md').write_text('# Agents\n\nSee [setup](docs/setup.md).\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 0, rows)
+
     def test_notice_cannot_make_workflow_guidance_reachable(self):
         reference = self.skill / 'references/hidden.md'
         reference.parent.mkdir()
