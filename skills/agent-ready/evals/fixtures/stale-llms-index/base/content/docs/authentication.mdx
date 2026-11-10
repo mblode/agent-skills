@@ -1,0 +1,11 @@
+---
+title: Authentication
+description: Create, scope, and rotate API keys
+order: 2
+---
+
+Every request carries a key in the Authorization header as a bearer token.
+
+Keys are scoped to one workspace and one of three roles: send, read, or admin. A send key cannot read message bodies back.
+
+Rotate a key from the console. The old key keeps working for 24 hours so a deploy can pick up the new one without dropped messages.

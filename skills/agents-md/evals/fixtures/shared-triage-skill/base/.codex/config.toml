@@ -1,0 +1,5 @@
+model_reasoning_effort = "medium"
+approval_policy = "on-request"
+
+[shell_environment_policy]
+inherit = "core"

@@ -1,0 +1,17 @@
+---
+title: Errors
+description: Error codes, what causes them, and which are safe to retry
+order: 3
+---
+
+Errors are JSON with a `code` and a `message`.
+
+| Status | Code | Retry |
+|---|---|---|
+| 400 | `invalid_address` | No. Fix the address |
+| 401 | `invalid_key` | No |
+| 409 | `duplicate_idempotency_key` | No. The first request succeeded |
+| 429 | `rate_limited` | Yes, after `Retry-After` seconds |
+| 503 | `printer_unavailable` | Yes, with backoff |
+
+Send an `Idempotency-Key` header on every `POST` so a retry never prints a second letter.

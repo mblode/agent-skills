@@ -1,0 +1,18 @@
+---
+title: Exports
+order: 3
+---
+
+Any area up to 10,000 square kilometres can be exported as GeoJSON or CSV.
+
+```
+GET /exports?bbox=143.2,-37.9,144.1,-37.2&format=geojson
+```
+
+## Limits
+
+An account may run 20 exports an hour. An export larger than the area limit returns a 413 with the largest box that would fit.
+
+## Attribution
+
+Exports are licensed for internal planning use. Published maps must credit Ember Atlas and state the export time.

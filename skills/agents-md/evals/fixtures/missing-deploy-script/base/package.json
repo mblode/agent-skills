@@ -1,0 +1,15 @@
+{
+  "name": "harbor-notes",
+  "version": "0.18.2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.mjs",
+    "check": "node --check src/server.mjs && node scripts/check-migrations.mjs",
+    "migrate": "node scripts/migrate.mjs",
+    "deploy": "node scripts/publish.mjs"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.9.1"
+  }
+}

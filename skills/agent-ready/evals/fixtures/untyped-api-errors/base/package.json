@@ -1,0 +1,14 @@
+{
+  "name": "marlin-parcels",
+  "version": "1.9.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "dev": "node --watch src/server.mjs",
+    "check": "node --check src/server.mjs && node --check src/app.mjs"
+  }
+}

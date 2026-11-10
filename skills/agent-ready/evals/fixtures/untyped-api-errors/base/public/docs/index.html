@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Marlin Parcels API documentation</title>
+  </head>
+  <body>
+    <main>
+      <h1>Marlin Parcels API</h1>
+      <p>Send your key in the <code>X-API-Key</code> header. Every request and response body is JSON.</p>
+      <h2>Shipments</h2>
+      <ul>
+        <li><code>POST /shipments</code>: create a shipment from a recipient, a weight in grams, and a service.</li>
+        <li><code>GET /shipments</code>: list shipments, optionally filtered by <code>status</code>.</li>
+        <li><code>GET /shipments/{id}</code>: fetch one shipment.</li>
+        <li><code>GET /shipments/{id}/events</code>: list its tracking events.</li>
+      </ul>
+      <h2>Rates</h2>
+      <ul>
+        <li><code>POST /rates/quote</code>: quote every service for a weight in grams.</li>
+      </ul>
+      <h2>Limits</h2>
+      <p>Each key may make 120 requests a minute.</p>
+      <p>The machine-readable description is at <a href="/openapi.json">/openapi.json</a>.</p>
+    </main>
+  </body>
+</html>

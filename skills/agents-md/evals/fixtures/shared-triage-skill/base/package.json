@@ -1,0 +1,22 @@
+{
+  "name": "copper-kettle",
+  "version": "3.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3400",
+    "build": "next build",
+    "check": "tsc --noEmit && biome check src",
+    "changelog": "node scripts/changelog.mjs"
+  },
+  "dependencies": {
+    "next": "^15.3.2",
+    "posthog-node": "^4.18.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "typescript": "^5.8.3"
+  }
+}

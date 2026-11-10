@@ -1,0 +1,27 @@
+{
+  "name": "@saltmarsh/api",
+  "version": "5.12.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --experimental-strip-types src/server.ts",
+    "check": "tsc --noEmit && biome check src",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "migrate": "node scripts/migrate.mjs",
+    "generate": "kysely-codegen --out-file src/db/types.ts"
+  },
+  "dependencies": {
+    "@react-email/components": "^0.0.41",
+    "fastify": "^5.3.3",
+    "kysely": "^0.28.2",
+    "pg": "^8.16.0",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "kysely-codegen": "^0.18.5",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  }
+}

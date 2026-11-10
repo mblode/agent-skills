@@ -1,0 +1,9 @@
+# Ember Atlas
+
+> Ember Atlas maps wildfire risk for land managers. These docs cover the map layers, the risk score, and the export formats.
+
+## Docs
+
+- [Overview](https://docs.emberatlas.example/docs/overview.md): what the map shows and how often it updates
+- [Risk score](https://docs.emberatlas.example/docs/risk-score.md): the inputs and the five bands
+- [Exports](https://docs.emberatlas.example/docs/exports.md): GeoJSON and CSV exports, limits, and attribution

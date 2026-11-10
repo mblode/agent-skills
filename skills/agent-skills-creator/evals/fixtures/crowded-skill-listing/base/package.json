@@ -1,0 +1,15 @@
+{
+  "name": "mossback-platform",
+  "version": "9.3.0",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "scripts": {
+    "dev": "pnpm --parallel -r run dev",
+    "check": "pnpm -r run check",
+    "db:new": "node scripts/new-migration.mjs",
+    "db:types": "kysely-codegen --out-file src/db/types.ts",
+    "openapi:write": "node scripts/write-openapi.mjs",
+    "prompts:compare": "node scripts/compare-prompts.mjs",
+    "jobs:replay": "node scripts/replay-job.mjs"
+  }
+}

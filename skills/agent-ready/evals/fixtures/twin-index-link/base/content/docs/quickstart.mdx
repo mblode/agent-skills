@@ -1,0 +1,18 @@
+---
+title: Quickstart
+description: Send your first letter in five minutes
+order: 1
+---
+
+Create an API key in the dashboard, then post a letter.
+
+```bash
+curl https://api.quillharbor.example/v1/letters \
+  -H "Authorization: Bearer $QUILL_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"to": {"name": "Ada Voss", "line1": "4 Tidewater Row", "postcode": "BS1 4QA", "country": "GB"}, "template": "welcome"}'
+```
+
+The response carries the letter `id` and a `status` of `queued`. Letters are printed at 16:00 UK time on working days.
+
+Next, read [Webhooks](/docs/webhooks) to hear when a letter is posted.

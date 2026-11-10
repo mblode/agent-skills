@@ -1,0 +1,11 @@
+---
+title: Delivery receipts
+description: Webhook events for sent, delivered, and failed messages
+order: 3
+---
+
+Set a status callback URL on a message or on the workspace. Kestrel Relay posts a JSON receipt for each status change.
+
+A receipt carries the message id, the new status, the carrier error code when there is one, and a timestamp in UTC.
+
+Receipts can arrive out of order. Compare the timestamp, and never move a message back from delivered to sent.

@@ -1,0 +1,13 @@
+{
+  "name": "kestrel-relay-site",
+  "version": "2.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "preview": "node scripts/preview.mjs"
+  }
+}

@@ -1,0 +1,11 @@
+---
+title: Rate limits
+description: Request quotas, burst allowance, and how to back off
+order: 5
+---
+
+Each workspace may send 50 requests a second with a burst of 200. Carrier throughput limits apply on top and differ by country.
+
+A request over the limit gets a 429 with a Retry-After header in seconds. Back off for that long, then resume.
+
+Higher limits are available on the Scale plan.

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kestrelrelay.example/sitemap.xml
