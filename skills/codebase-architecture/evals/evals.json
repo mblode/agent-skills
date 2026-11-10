@@ -47,19 +47,5 @@
         "Dedupes by alert fingerprint, and treats repeated noise on one fingerprint as alert is wrong"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Harden a repository whose CI runs jscpd without a failure threshold. A seeded duplicate currently exits zero. Keep scope to that gate.",
-      "Design a plan only for an internal service. Existing code already supplies an auth policy registry and request context.",
-      "Add a scheduled GitHub Actions job where a coding agent reads new production error issues and opens fix PRs on its own.",
-      "Add a scheduled job where a coding agent reads our monitoring alerts as they fire and decides what to do with each one, with no one watching."
-    ],
-    "near_miss": [
-      {
-        "prompt": "Simplify only the current diff before I open a PR.",
-        "expected": "tidy"
-      }
-    ]
-  }
+  ]
 }

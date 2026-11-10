@@ -36,4 +36,4 @@ Fetch with `curl -sSL -o <file> <url>` and read the file. Prefer a text endpoint
 - YouTube's "Sign in to confirm you're not a bot" is an IP block: `--cookies-from-browser` on a laptop, stop in a sandbox. The description is not the talk.
 - An empty `.md` next to a large PDF means a scan, not a blank document: render the pages and read them.
 
-Maintenance only: `evals/evals.json` holds scenarios and routing prompts for anyone changing this skill.
+Maintenance only: `evals/evals.json` holds scenarios for anyone changing this skill.

@@ -142,4 +142,4 @@ For a PR handoff posted through `pr-babysitter` or `gh`, use the same finding sh
 - `ui-design` Audit mode: UI-level slop, layout, and rendered quality; Deslop mode here covers code-level slop only.
 - `test-audit`: suite-wide test pruning to a measured coverage target across the whole repo. This skill gates only the tests a diff adds or changes; "prune the suite" or "cut 20% of tests" routes there instead.
 
-Maintenance only: `evals/evals.json` holds the regression scenarios and routing prompts for anyone changing this skill; it never loads during a user task.
+Maintenance only: `evals/evals.json` holds the regression scenarios for anyone changing this skill; it never loads during a user task.

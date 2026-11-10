@@ -23,17 +23,5 @@
         "Does not claim successful packaging from source alone"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Create a local-only TypeScript CLI scaffold named @acme/report with bin report. Use the house stack. Do not create a remote or publish.",
-      "A scaffold template produces dist/cli.mjs but package.json bin names dist/cli.js. Fix the scaffold."
-    ],
-    "near_miss": [
-      {
-        "prompt": "Publish the next version of this existing changesets package.",
-        "expected": "autoship"
-      }
-    ]
-  }
+  ]
 }

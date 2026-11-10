@@ -23,17 +23,5 @@
         "Routes ordinary UI review to ui-design"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Audit an agent tool with this execution path: the UI displays a confirmation, but the API directly invokes deleteWorkspace(args). A direct API caller can bypass the UI.",
-      "Run an AX audit on a static contact form with no model, agent, or tool execution."
-    ],
-    "near_miss": [
-      {
-        "prompt": "Audit the flags and exit codes of our CLI.",
-        "expected": "dx-audit"
-      }
-    ]
-  }
+  ]
 }

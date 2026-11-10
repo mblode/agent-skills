@@ -154,4 +154,4 @@ The ones that cut across probes. Each probe file carries its own false positives
 - `ui-animation`: motion craft. This skill can capture the timing, but judging the curve is that skill's.
 - `app-verification`: a durable, per-app harness (a verify CLI, a doctor command, a feature map, worktree isolation) that a repo keeps and every agent reuses; this skill's probes are the kind of check that harness's `verify` can call for the UI paths it covers. Reach for this skill for a one-off browser probe against a fixed UI rule; reach for `app-verification` (call it by name) to give the repo a lasting way to run and prove itself session after session.
 
-Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a verification run.
+Maintenance only: `evals/evals.json` holds the behavioural scenarios for anyone changing this skill. It never loads during a verification run.

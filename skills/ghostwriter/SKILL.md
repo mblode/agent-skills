@@ -69,7 +69,7 @@ A profile always wins over a reference's defaults. An ask, a decline, bad news, 
 | Technical docs | `docs` | [references/docs.md](references/docs.md) |
 | README | `readme` | [references/readme.md](references/readme.md) |
 
-Maintenance only: [evals/evals.json](evals/evals.json) holds scenarios and routing prompts for anyone changing this skill. [scripts/discriminate.py](scripts/discriminate.py) checks whether drafts from a profile pass as the person: hold out a fifth of their real messages (never counted or quoted in the profile), then a second model guesses which of each real and drafted pair the person wrote; near 50% means it cannot tell.
+Maintenance only: [evals/evals.json](evals/evals.json) holds scenarios for anyone changing this skill. [scripts/discriminate.py](scripts/discriminate.py) checks whether drafts from a profile pass as the person: hold out a fifth of their real messages (never counted or quoted in the profile), then a second model guesses which of each real and drafted pair the person wrote; near 50% means it cannot tell.
 
 ## Gotchas
 

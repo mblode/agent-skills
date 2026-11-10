@@ -96,7 +96,7 @@ Load only when the condition applies.
 - `test-audit`: suite-wide pruning of a durable test suite, a different asset from the feature map here. Gating a new test in a diff is `tidy`.
 - `planning`: a plan for one feature; a new feature's plan is where its eventual feature file starts.
 
-Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a verification run.
+Maintenance only: `evals/evals.json` holds the behavioural scenarios for anyone changing this skill. It never loads during a verification run.
 
 ## Credit
 

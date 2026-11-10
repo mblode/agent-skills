@@ -44,47 +44,6 @@
       ]
     }
   ],
-  "routing": {
-    "should_trigger": [
-      "Agents have written thousands of tests we don't need, prune them",
-      "Remove 20% of the least useful tests while keeping coverage within 2%",
-      "Which of these tests are actually worth keeping?",
-      "Our test suite is bloated with mock-heavy tests, audit it",
-      "Delete tests that just re-assert the implementation",
-      "Find duplicate tests across the dispatch and outbound suites and consolidate them",
-      "Cut the test LOC in half without losing real coverage"
-    ],
-    "near_miss": [
-      {
-        "prompt": "CI takes 14 minutes, shard the test job",
-        "expected": "ci-speedup"
-      },
-      {
-        "prompt": "Review my diff for bugs before I push",
-        "expected": "tidy"
-      },
-      {
-        "prompt": "I'm about to add a test for the slugify change in src/lib/slug.ts, is it worth adding?",
-        "expected": "tidy"
-      },
-      {
-        "prompt": "Audit these tests in my PR before I merge",
-        "expected": "tidy"
-      },
-      {
-        "prompt": "The tests are failing on my PR, fix CI",
-        "expected": "pr-babysitter"
-      },
-      {
-        "prompt": "Set up Vitest and a CI workflow for this new CLI package",
-        "expected": "scaffold-cli"
-      },
-      {
-        "prompt": "Take screenshots of the settings page and check the layout at mobile widths",
-        "expected": "ui-verification"
-      }
-    ]
-  },
   "baseline": {
     "date": "2026-09-24",
     "method": "Plan-only proxy: fresh general-purpose subagents wrote their plan of work with and without the skill loaded; no fixture repository was executed. Graded by hand against the assertions.",

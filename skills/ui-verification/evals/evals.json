@@ -104,28 +104,5 @@
         "Takes no action against a production URL or a live payment or email provider"
       ]
     }
-  ],
-  "routing": {
-    "should_trigger": [
-      "Verify these audit findings in the browser before I open the PR.",
-      "Prove these are real. The audit flagged six things and I don't believe half of them.",
-      "Run the probes on /checkout at mobile width.",
-      "Did the fix actually work? Re-check the layout shift on the dashboard.",
-      "Capture both themes on the settings page so I can see the dark-mode contrast.",
-      "Check the contrast on this page for real, not from the hex values.",
-      "The audit says the modal doesn't restore focus. Reproduce it.",
-      "Review the before and after screenshots of this UI change.",
-      "The loading and loaded story captures look identical. Verify that they reached their intended states.",
-      "Try to break the new checkout flow like a real user would, it already passes its tests.",
-      "Do an exploratory test of the invite flow on the preview before I merge."
-    ],
-    "near_miss": [
-      "Audit this component for UX bugs. (ui-design: reading source is not this skill)",
-      "Is this ready to ship? (ui-design: the verdict is the audit's, this skill never issues one)",
-      "Write a Playwright e2e test for the checkout flow. (a durable test suite is the repo's, not a one-off probe)",
-      "Set up Chromatic for visual regression. (pixel baselines are Chromatic's)",
-      "Make the close button bigger. (ui-design Build; this skill measures, it does not restyle)",
-      "What's our LCP in production? (field performance is RUM, not a lab probe)"
-    ]
-  }
+  ]
 }

@@ -92,7 +92,7 @@ Output separates **format** requirements from **house** conventions, including r
 
 ### Step 6: Update README.md
 
-Add the skill's bullet under the matching category heading and bump the count; `validate.sh` checks both and names what is missing. Where the repo also ships `docs/skills.mdx`, add the same bullet there.
+Add the skill's bullet under the matching category heading, and bump the skill count where the README states one; `validate.sh` checks both and names what is missing. Where the repo also ships `docs/skills.mdx`, add the same bullet there.
 
 ### Step 7: Smoke-test
 
@@ -124,4 +124,4 @@ When installation behavior changed, install the edited local source into a dispo
 - `agents-md` for auditing AGENTS.md/CLAUDE.md instruction files
 - `ghostwriter` for documentation quality
 
-Maintenance only: `evals/evals.json` holds the behavioural scenarios and routing prompts for anyone changing this skill. It never loads during a user task, which is the baseline Phase A of `references/improving-existing-skills.md` asks for.
+Maintenance only: `evals/evals.json` holds the behavioural scenarios for anyone changing this skill. It never loads during a user task, which is the baseline Phase A of `references/improving-existing-skills.md` asks for.
