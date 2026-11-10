@@ -18,6 +18,7 @@ Most tells share four causes, and fixing a cause clears several tells at once: w
 - **Re-explaining what the reader has:** a reply that restates the problem and walks the diagnosis before the decision. Lead with the decision; keep the one fact they lack.
 - **Leaked context:** a name, label, or detail that exists only in this conversation: a term coined while working ("the dedupe gate"), a decision the reader never saw, "as discussed", a README line about why the last change was made. Use the reader's own term, define it once, or cut it.
 - **Writing about the document:** "this section covers", "the table below compares", "compiled from". Describe the subject.
+- **Expletive openers:** "There is a", "There are", "It is important to" put an empty subject first. Start on the real subject: "Three tests fail", not "There are three tests that fail".
 - **Copula avoidance:** "serves as", "stands as", "features", "boasts" where "is" or "has" is the word.
 - **Participle tails:** "ensuring a smooth rollout", "highlighting the team's commitment". Keep the fact, cut at the comma.
 - **Objections nobody raised:** "I'm not saying", "some might say", "you might think". If one holds a claim, state the claim.
