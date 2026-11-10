@@ -1,15 +1,16 @@
-export class UsageError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "UsageError";
-    this.exitCode = 2;
+class TallyError extends Error {
+  constructor(code, message, details = {}, options = undefined) {
+    super(message, options);
+    this.name = new.target.name;
+    this.code = code;
+    this.details = details;
   }
 }
 
-export class InputError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "InputError";
-    this.exitCode = 1;
-  }
+export class UsageError extends TallyError {
+  exitCode = 2;
+}
+
+export class InputError extends TallyError {
+  exitCode = 1;
 }

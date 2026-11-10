@@ -3,6 +3,7 @@
 ## Contents
 
 - [package.json](#packagejson)
+- [pnpm-workspace.yaml](#pnpm-workspaceyaml)
 - [tsconfig.json](#tsconfigjson)
 - [tsdown.config.ts](#tsdownconfigts)
 - [.gitignore](#gitignore)
@@ -69,19 +70,27 @@
     "commander": "^15.0.0"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
+    "@changesets/cli": "^3.0.3",
     "@types/node": "^24.13.3",
     "tsdown": "^0.22.4",
     "typescript": "^7.0.2",
-    "ultracite": "^7.9.3",
     "vitest": "^4.1.10"
   }
 }
 ```
 
-`ultracite init` (post-scaffold) adds the `oxlint`, `oxfmt`, and `lefthook` devDependencies plus the `check`, `fix`, and `prepare` scripts, which is why this template omits them.
+`ultracite init` (post-scaffold) adds the `ultracite` (pinned exact), `oxlint`, `oxfmt`, and `lefthook` devDependencies plus the `check`, `fix`, and `prepare` scripts, which is why this template omits them.
 
 `{{pnpm_version}}` is the output of `pnpm --version`. `pnpm/action-setup` in both workflows reads the pnpm version from `packageManager`, and corepack refuses a mismatch, so keep the field even for a single-package repo.
+
+## pnpm-workspace.yaml
+
+```yaml
+allowBuilds:
+  lefthook: false
+```
+
+pnpm fails an install with `ERR_PNPM_IGNORED_BUILDS` when a dependency has a build script that is neither allowed nor denied. `lefthook` has one (a `postinstall` that runs `lefthook install`), and the project's own `prepare: lefthook install` script already does that work, so the entry denies it. Every other dependency keeps pnpm's default protection. The file has no `packages` key because this is a single-package repo; pnpm reads its settings from here regardless.
 
 ## tsconfig.json
 
@@ -138,7 +147,7 @@ export default defineConfig([
 ]);
 ```
 
-`fixedExtension: false` keeps `.js` and `.d.ts`. tsdown's node-platform default emits `.mjs` and `.d.mts`, and then `bin` and `exports` point at files that do not exist; `pnpm dlx publint` after the build catches it.
+`fixedExtension: false` makes the extension follow the package type, so this `"type": "module"` package gets `.js` and `.d.ts`. tsdown's node-platform default emits `.mjs` and `.d.mts`, and then `bin`, `exports`, and `types` point at files that do not exist. It is the option tsdown documents for this; `outputOptions.entryFileNames` also yields `.js` but tsdown marks `outputOptions` "use with caution", so the template does not use it. After any build, list `dist/` and confirm every path in `bin`, `exports`, `main`, and `types` names an emitted file; `pnpm dlx publint` catches a mismatch.
 
 `banner` injects the shebang into `dist/cli.js` at build, which is why `src/cli.ts` carries none.
 
@@ -183,7 +192,7 @@ SOFTWARE.
 
 ```json
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],

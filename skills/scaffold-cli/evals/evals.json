@@ -3,8 +3,8 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Create a local-only TypeScript CLI scaffold named @acme/report with bin report. Use the house stack. Do not create a remote or publish. The repo will be acme/report, author Dana Whitlock, description \"Turn CSV exports into weekly reports\". I'm offline right now, so write the files and skip the install.",
-      "expected_output": "The config, source, and docs files written into the repo with every placeholder filled, bin report mapped to ./dist/cli.js, separate tsdown entries for the CLI and the library, and a plain statement that install, build, and validation were not run. No remote and no publish.",
+      "prompt": "Create a local-only TypeScript CLI scaffold named @acme/report with bin report. Use the house stack. Do not create a remote or publish. The repo will be acme/report, author Dana Whitlock, description \"Turn CSV exports into weekly reports\".",
+      "expected_output": "The config, source, and docs files written into the repo with every placeholder filled, bin report mapped to ./dist/cli.js, and separate tsdown entries for the CLI and the library. Dependencies installed and the build run, with the evidence shown: the files the build wrote to dist (cli.js, index.js, index.d.ts) and the output of running dist/cli.js. Any validation step that failed or was skipped is named as such. No remote and no publish.",
       "files": [],
       "fixture": "evals/fixtures/fresh-report-repo",
       "assertions": [
@@ -12,13 +12,14 @@
         "Names both src/cli.ts and src/index.ts as files it created",
         "Names tsdown as the bundler",
         "Does not create a GitHub repository or publish to npm",
-        "Does not claim the install, build, or publint checks were run"
+        "Reports dist/cli.js among the files a completed build wrote",
+        "Reports output observed from running the built dist/cli.js, such as --version printing 0.0.1"
       ]
     },
     {
       "id": 2,
       "prompt": "A scaffold template produces dist/cli.mjs but package.json bin names dist/cli.js. Fix the scaffold.",
-      "expected_output": "Checks the emitted files in dist (cli.mjs, index.mjs, index.d.mts) against bin, main, types, and exports, fixes the tsdown config so both entries emit .js and .d.ts, and says the rebuild could not be run so the fix is unverified.",
+      "expected_output": "Checks the emitted files in dist (cli.mjs, index.mjs, index.d.mts) against bin, main, types, and exports, fixes the tsdown config so both entries emit .js and .d.ts, then rebuilds and reports the file names now in dist.",
       "files": [],
       "fixture": "evals/fixtures/emitted-extension-mismatch",
       "assertions": [
@@ -30,8 +31,8 @@
     },
     {
       "id": 3,
-      "prompt": "Scaffold a proper TypeScript CLI and npm package to replace scripts/purge-cache.sh and scripts/list-buckets.sh. Name tidepool-cache, bin tidepool, repo saltwater-labs/tidepool-cache, author Priya Raman, description \"Inspect and purge build cache buckets\". Local only, and I'm offline so write the files and skip the install.",
-      "expected_output": "A full scaffold with list and purge commands. purge validates the bucket name before it reaches the filesystem, offers --dry-run, confirms in a terminal, and requires an explicit flag when stdin is not a TTY. list prints JSON on request. The response says install and build were not run.",
+      "prompt": "Scaffold a proper TypeScript CLI and npm package to replace scripts/purge-cache.sh and scripts/list-buckets.sh. Name tidepool-cache, bin tidepool, repo saltwater-labs/tidepool-cache, author Priya Raman, description \"Inspect and purge build cache buckets\". Local only: no remote and no publish.",
+      "expected_output": "A full scaffold with list and purge commands. purge validates the bucket name before it reaches the filesystem, offers --dry-run, confirms in a terminal, and requires an explicit flag when stdin is not a TTY. list prints JSON on request. Dependencies installed and the build run, with output shown from running the built CLI in dist. Any validation step that failed or was skipped is named as such.",
       "files": [],
       "fixture": "evals/fixtures/cache-scripts-to-cli",
       "assertions": [
@@ -39,7 +40,7 @@
         "States that the purge command rejects unsafe bucket names such as ../etc",
         "States that the purge command requires an explicit flag such as --yes instead of prompting when stdin is not a TTY",
         "States that the list command can print JSON on stdout",
-        "Does not claim the install or build was run"
+        "Reports output observed from running the built CLI in dist"
       ]
     },
     {

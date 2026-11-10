@@ -15,10 +15,10 @@ The templates encode the house toolchain. Substitute project values and verify t
 
 | File | Read When |
 |------|-----------|
-| `references/scaffold-configs.md` | Step 3: package.json, tsconfig, tsdown, gitignore, license, changeset config, GitHub Actions |
+| `references/scaffold-configs.md` | Step 3: package.json, pnpm-workspace.yaml, tsconfig, tsdown, gitignore, license, changeset config, GitHub Actions |
 | `references/scaffold-source.md` | Steps 4-5: src/cli.ts, src/index.ts, src/types.ts, AGENTS.md, README.md, skills/SKILL.md |
 | `references/agent-friendly-cli.md` | Step 4, only when a command takes an identifier, path, or URL, or mutates state: input validation, dry-run, confirmation, schema |
-| `references/post-scaffold.md` | Steps 6-8: post-scaffold commands, the lefthook.yml replacement, validation checklist, GitHub and npm bootstrap, troubleshooting |
+| `references/post-scaffold.md` | Steps 6-8: post-scaffold commands, validation checklist, GitHub and npm bootstrap, troubleshooting |
 
 ## Scaffold Workflow
 
@@ -66,7 +66,7 @@ Ask only for what the user didn't provide:
 
 Load `references/scaffold-configs.md`. Generate every file there, replacing each `{{placeholder}}`:
 
-`package.json`, `tsconfig.json`, `tsdown.config.ts`, `.gitignore`, `LICENSE.md`, `.changeset/config.json`, `.changeset/README.md`, `.github/workflows/ci.yml`, `.github/workflows/npm-publish.yml`
+`package.json`, `pnpm-workspace.yaml`, `tsconfig.json`, `tsdown.config.ts`, `.gitignore`, `LICENSE.md`, `.changeset/config.json`, `.changeset/README.md`, `.github/workflows/ci.yml`, `.github/workflows/npm-publish.yml`
 
 ### Step 4: Generate source files
 
@@ -90,7 +90,7 @@ Use AGENTS.md directly; do not create a CLAUDE.md wrapper or symlink.
 
 ### Step 6: Run post-scaffold commands
 
-Load `references/post-scaffold.md`. Run the command sequence in the order given, including the `lefthook.yml` overwrite between `ultracite init` and the first commit.
+Load `references/post-scaffold.md`. Run the command sequence in the order given.
 
 ### Step 7: Validate scaffold
 
@@ -110,10 +110,11 @@ For a local scaffold, stop after Step 7. If the user already requested remote se
 
 ## Gotchas
 
-- **tsdown emits `.mjs` by default.** With `platform: node` (the default) `fixedExtension` is on, so a config without `outputOptions.entryFileNames: "[name].js"` builds `dist/cli.mjs`, `dist/index.mjs`, and `dist/index.d.mts`, and `bin` and `exports` point at files that do not exist. The `outputOptions` block in the template is what keeps them `.js`; do not trim it as noise.
+- **tsdown emits `.mjs` by default.** With `platform: node` `fixedExtension` defaults to on, so a config without `fixedExtension: false` builds `dist/cli.mjs`, `dist/index.mjs`, and `dist/index.d.mts`, and `bin`, `exports`, and `types` point at files that do not exist. The `fixedExtension: false` line on both template entries is what keeps them `.js` and `.d.ts` in a `"type": "module"` package; do not trim it as noise. Whatever the tsdown version, list `dist/` after the build and confirm every path in `bin`, `exports`, `main`, and `types` names a file that is there.
 - **No shebang in `src/cli.ts`.** tsdown's `banner` injects `#!/usr/bin/env node`; a source shebang doubles it in `dist/cli.js`. The two build entries stay separate: the CLI entry has the banner and `dts: false`, the library entry has `dts: true` and no banner.
 - **`"test": "vitest run"` without `--passWithNoTests`** exits 1 on a repo with zero test files, so the first CI run goes red.
 - **`@changesets/cli@3` pairs with `changesets/action@v2` and the `publish-script:` input.** `@v1` cannot drive changesets v3, and `@v2` given the v1 `publish:` input versions the package and then completes green without publishing. The templates carry the matching pair; do not downgrade one side.
+- **`pnpm-workspace.yaml` is not optional in this single-package repo.** Without its `allowBuilds` entry for `lefthook`, pnpm stops `ultracite init` at `pnpm add -D lefthook` with `ERR_PNPM_IGNORED_BUILDS`, `lefthook.yml` is never written, and CI's `pnpm install --frozen-lockfile` fails the same way.
 - **npm cannot register a trusted publisher for a package that does not exist yet.** The first release run fails `E404` or `ENEEDAUTH` until Step 8's one-time manual `pnpm publish` has created the package and the workflow is registered. That publish happens before any changeset exists, so it is the one manual publish `autoship`'s rules do not forbid.
 - **Node 22 ships npm 10.9.x; OIDC publishing needs npm 11.5.1 or later.** Node 24 ships npm 11.19, which is why both workflows pin `node-version: 24`. Lowering it to 22 breaks publishing with `ENEEDAUTH`. The release workflow upgrades npm even though the project uses pnpm: `pnpm publish` can hand the upload to the npm CLI on `PATH`, and an older npm there fails OIDC.
 - **Agent-facing output is a format contract.** Data on stdout, logs and progress on stderr; a stray `console.log` breaks a consumer parsing `--output json`. Never prompt when stdin is not a TTY: honor `--no-input` and take every value as a flag, or the process hangs under a pipe.
