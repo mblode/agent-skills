@@ -22,6 +22,65 @@
         "Keeps the original hostname in the authoritative record",
         "Treats an unknown hostname as unresolved rather than another tenant"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Here's the proxy for our tenant storefronts on Vercel and one of the API routes behind it (proxy.ts, orders-route.ts). Is tenant isolation safe as it stands?",
+      "expected_output": "Report the forwarded client tenant header on early-return paths, the unknown-host fallback to marketing, and the handler that trusts the header.",
+      "files": [
+        "evals/files/proxy-headers/proxy.ts",
+        "evals/files/proxy-headers/orders-route.ts"
+      ],
+      "assertions": [
+        "Identifies that a client-supplied x-tenant-id header is forwarded unchanged on paths where the proxy returns early",
+        "Recommends removing inbound x-tenant headers on every path through the proxy",
+        "Identifies that an unknown hostname is rewritten to the marketing page instead of returning 404",
+        "Recommends that the orders handler confirm the tenant from the session or the data layer, not from the header alone"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We're launching Lumenpage: customers publish their own HTML and JavaScript at <name>.lumenpage.com, the dashboard lives at lumenpage.com/app with a session cookie set on Domain=lumenpage.com, and paid plans can attach their own domains later. Do we need to do anything about the Public Suffix List before launch?",
+      "expected_output": "Recommend a separate tenant domain, a Public Suffix List submission for it, and a host-only session cookie, noting custom domains need no entry.",
+      "files": [],
+      "assertions": [
+        "Recommends moving tenant sites to a registrable domain separate from the brand and dashboard domain",
+        "States that a session cookie scoped to Domain=lumenpage.com is exposed to tenant subdomains",
+        "Recommends submitting the tenant suffix to the Public Suffix List",
+        "States that customer-owned custom domains need no Public Suffix List entry",
+        "States that Public Suffix List inclusion has no guaranteed timeline for reaching browsers"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Can you review our custom domain onboarding in domain-actions.ts? Pro customers attach their own domain and we map it to their site.",
+      "expected_output": "Report that the mapping goes live before verification, that hostnames can be claimed twice, that detaching leaves the mapping, and that verification polls without a limit.",
+      "files": [
+        "evals/files/domain-onboarding/domain-actions.ts"
+      ],
+      "assertions": [
+        "Identifies that the hostname mapping goes live before domain ownership is verified",
+        "Recommends activating the hostname mapping only after verification succeeds",
+        "Identifies that attachDomain never checks whether the hostname is already mapped to another tenant",
+        "Identifies that detachDomain leaves the hostname map entry in place",
+        "Identifies that the verification loop polls with no delay or attempt limit"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Second pair of eyes before we onboard the first paying tenants on Tessel: can one tenant reach another tenant's projects through proxy.ts, tenant-db.ts and schema.sql? Only flag real leaks, I don't need a wishlist.",
+      "expected_output": "Confirm the header stripping, the 404 for unknown hosts, and the forced row level security hold, and report no cross-tenant leak.",
+      "files": [
+        "evals/files/isolation-check/proxy.ts",
+        "evals/files/isolation-check/tenant-db.ts",
+        "evals/files/isolation-check/schema.sql"
+      ],
+      "assertions": [
+        "Does not report that a client can forge the x-tenant-id header",
+        "Does not report that unknown hostnames resolve to another tenant or to the brand site",
+        "Does not report that the application role bypasses row level security",
+        "Concludes that the supplied files show no cross-tenant data leak"
+      ]
     }
   ]
 }

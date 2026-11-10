@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Webhooks guide | Cinderpay Docs</title>
+  <link rel="stylesheet" href="/docs.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar" aria-label="Guides">
+      <a href="/guides/quickstart">Quickstart</a>
+      <a href="/guides/webhooks" aria-current="page">Webhooks</a>
+      <a href="/guides/idempotency">Idempotency</a>
+    </nav>
+    <main class="prose">
+      <h1>Webhooks</h1>
+      <p>Cinderpay sends a webhook whenever something happens to a payment after your request has returned. Most integrations need three events to stay in sync, and the rest can be ignored until you have a reason to care about them.</p>
+      <h2>Verify every delivery</h2>
+      <p>Each delivery carries a signature header computed over the timestamp and the raw request body. Compute the same value with your endpoint secret and compare the two in constant time before you parse the JSON, because a parsed and re-serialised body will not match.</p>
+      <p>Reject deliveries whose timestamp is more than five minutes old. Set <code>tolerance_seconds</code> if your clock drifts.</p>
+      <h2>Respond quickly</h2>
+      <p>Return a 2xx status within ten seconds and do the real work on a queue. A delivery that times out is retried with increasing delays for three days, and your endpoint is disabled after that.</p>
+    </main>
+  </div>
+</body>
+</html>
