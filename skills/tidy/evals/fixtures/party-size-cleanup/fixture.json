@@ -1,0 +1,5 @@
+{
+  "name": "harborside-bookings",
+  "branch": "simplify-create-reservation",
+  "message": "Clean up createReservation and drop checks the route already does"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "sorrel-timesheets",
+  "version": "1.12.5",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "typescript": "^5.8.3"
+  }
+}

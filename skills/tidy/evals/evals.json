@@ -12,7 +12,8 @@
         "Does not require a green suite to begin; the auth failure appears in the Baseline line, not as a finding",
         "Locates the existing exported formatter and cites its path and a live call site in a Context: line",
         "States the range reviewed as a ref pair or merge-base range",
-        "Every finding carries file:line, a Why: line, and a Fix: line that could be committed as written"
+        "Every finding carries a file:line, a Why: line, and a Fix: line",
+        "Each Fix: line states a concrete change that could be committed as written"
       ]
     },
     {
@@ -25,7 +26,7 @@
         "Reads outside the diff to find every writer of the state the retry handled",
         "Names the trigger and the consequence for the removed guard",
         "Does not accept fewer lines as proof of safety",
-        "Reads references/context-errors.md before applying its rubric, and lists only reference files actually read in this session under Reference evidence",
+        "Lists references/context-errors.md under Reference evidence",
         "Each reference listed under Reference evidence carries a short quoted excerpt",
         "Edits no file"
       ]
@@ -65,7 +66,7 @@
       "files": [],
       "fixture": "evals/fixtures/deslop-branch",
       "assertions": [
-        "Reads references/ai-slop-patterns.md and references/severity-rubric.md and lists them under Reference evidence with excerpts",
+        "Lists references/ai-slop-patterns.md under Reference evidence",
         "Groups findings by category, not by file",
         "Fixes `as any` at the type's source or with a type guard rather than a different cast",
         "Flags only patterns inside the diff; pre-existing comments outside touched functions are not findings",
@@ -84,6 +85,174 @@
         "Fix asserts on the real slugify output rather than the mock's return value",
         "Does not treat this as a suite-wide prune; no coverage target or campaign language appears",
         "Files the finding in the same confirmed/plausible tiers as the rest of the report, not a separate section"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Can you review my branch before I push? It's a harmless cleanup of createReservation in src/reservations/create.ts, the route already does those checks.",
+      "expected_output": "A read-only report that flags the removed party-size validation as a regression because the waitlist CSV import calls createReservation without the route's checks, names the corrupted seat count a bad row produces, and clears the removed unknown-slot check as dead code.",
+      "files": [],
+      "fixture": "evals/fixtures/party-size-cleanup",
+      "assertions": [
+        "Reports the removed party-size check in src/reservations/create.ts as a regression",
+        "Names the waitlist CSV import as a caller that reaches createReservation without the route's validation",
+        "States a concrete wrong outcome for a bad party size, such as a NaN or negative seat count that lets a slot overbook",
+        "Does not report the removed unknown-slot check as a regression",
+        "Edits no file"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Review my branch please. I changed findProduct in src/catalog/lookup.ts to throw instead of returning null and updated the product route to match.",
+      "expected_output": "A read-only report that greps the callers of findProduct, finds the reorder planner still relying on a null return, and reports that one unknown SKU now aborts the nightly reorder instead of being skipped.",
+      "files": [],
+      "fixture": "evals/fixtures/lookup-throws",
+      "assertions": [
+        "Identifies src/orders/reorder.ts as a caller of findProduct that the diff did not update",
+        "States that an unknown SKU now throws out of the reorder run where it used to be skipped",
+        "Proposes a fix that restores skipping unknown SKUs in the reorder planner",
+        "Does not report the updated product route as broken",
+        "States the range reviewed as a ref pair or merge-base range"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Review this before I open a PR. Expense submissions kept failing whenever receipt storage had a blip, so saveReceipt in src/receipts/save.ts handles the error itself now.",
+      "expected_output": "A read-only report that flags the new catch as a discarded error: saveReceipt returns a receipt key after a failed upload, so submitExpense records the key and discards the only copy of the file, with a fix that lets the caller see the failure.",
+      "files": [],
+      "fixture": "evals/fixtures/receipt-upload-catch",
+      "assertions": [
+        "Flags the new catch in src/receipts/save.ts as swallowing the storage failure while still returning a receipt key",
+        "Names src/expenses/submit.ts as the caller that treats the failed upload as a success",
+        "States that the temporary upload is discarded even though the receipt was never stored",
+        "Proposes a fix that lets the caller tell a failed upload from a stored one",
+        "Edits no file"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "tidy this branch before I push, I added signature verification for the carrier webhooks in src/webhooks/verify.ts",
+      "expected_output": "The hand-rolled hex encoder and constant-time comparison replaced with node:crypto built-ins while a wrong-length signature still returns false, the webhook tests run with their result reported, and nothing committed.",
+      "files": [],
+      "fixture": "evals/fixtures/signature-verify",
+      "assertions": [
+        "Replaces the hand-rolled comparison with timingSafeEqual from node:crypto",
+        "Replaces the hand-rolled hex encoder with the built-in hex output of the digest or Buffer",
+        "States that a signature of the wrong length is still rejected rather than throwing",
+        "Runs the webhook tests after the edit and reports their actual result",
+        "Does not commit, push, or open a PR"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Tidy this up for me. The branch adds scheduled ticket exports by email and a JSON option on the existing download.",
+      "expected_output": "The delivery registry and strategy interface removed so the scheduled export calls the mailer directly, because email is its only strategy and call site; the formatter lookup kept because the download and the scheduled export both use it; tests run and nothing committed.",
+      "files": [],
+      "fixture": "evals/fixtures/scheduled-export",
+      "assertions": [
+        "Removes or inlines the delivery strategy registry from src/export/delivery.ts",
+        "Cites email being the only registered strategy or the single call site as the reason for removing the registry",
+        "Leaves the formatter lookup in src/export/formatters.ts in place",
+        "Runs the export tests after the edit and reports their actual result",
+        "Does not commit, push, or open a PR"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Review my changes on this branch before I push. It adds a preview page so people can see where a short link goes.",
+      "expected_output": "A read-only report with no findings: the link target interpolated into the preview markup is escaped by the html template tag and limited to http and https at creation, both outside the diff, so the branch is ready to push.",
+      "files": [],
+      "fixture": "evals/fixtures/link-preview",
+      "assertions": [
+        "States plainly that the branch is ready to push",
+        "Does not report the link target interpolated in src/http/handlers/preview.ts as an injection or escaping defect",
+        "Lists no finding that asks for a code change",
+        "Edits no file",
+        "States the range reviewed as a ref pair or merge-base range"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Can you do a security review of my branch before I open the PR? It adds the proof-of-delivery photo upload for couriers in src/routes/proof-upload.ts. Don't change anything, I only want the findings.",
+      "expected_output": "A read-only report with one confirmed finding, the client-supplied filename joined into the storage path so a courier can write outside the proof directory, while the route's authentication, shipment ownership check, and upload size limit are recognised as already enforced by the route guard and the upload parser.",
+      "files": [],
+      "fixture": "evals/fixtures/proof-upload",
+      "assertions": [
+        "Reports that the uploaded file's client-supplied filename is used to build the path the photo is written to",
+        "Names a triggering input for that finding, such as a filename containing ../ segments",
+        "States the consequence as a file written outside the proof storage directory",
+        "Does not report the new route as lacking authentication or a shipment ownership check",
+        "Does not report a missing upload size limit as a finding"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Review my branch before I push? It adds the job that gives a member 500 points when someone they referred finishes signing up (src/jobs/award-referral.ts). Report only please.",
+      "expected_output": "A read-only report that finds the referral credit is not idempotent: the worker outside the diff re-runs a failed job, the handler can fail after the credit, and the retry credits the points again, with a fix that passes a stable per-referral reference to the ledger the way the purchase job already does.",
+      "files": [],
+      "fixture": "evals/fixtures/referral-reward-job",
+      "assertions": [
+        "Reports that the referral job can credit the points for one referral more than once",
+        "Attributes the repeated run to the queue worker re-enqueuing a failed job, citing src/queue/worker.ts",
+        "Names a step after the ledger credit that can fail, such as the email send throwing",
+        "Fix passes a stable reference derived from the referral to ledger.credit, written as a concrete change",
+        "Does not treat the status === \"rewarded\" check at the top of the handler as enough to prevent the double credit"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Review my branch, it fixes the yen amounts that were showing up wrong in receipt emails. The change is in src/lib/price.ts. Don't edit anything yet.",
+      "expected_output": "A read-only report that flags the fix as a special case keyed to the receipt email inside the shared formatter, shows that the checkout summary and the admin export still divide yen by 100, and proposes formatting by the currency's minor units in toDisplayPrice for every caller.",
+      "files": [],
+      "fixture": "evals/fixtures/yen-receipt-price",
+      "assertions": [
+        "Reports that the yen handling in toDisplayPrice only takes effect when the caller is the receipt email",
+        "Names at least one other caller that still shows yen amounts wrongly, the checkout summary or the admin CSV export",
+        "States the wrong output for those callers, a yen amount shown divided by 100 with two decimals",
+        "Fix makes toDisplayPrice format by the currency's minorUnits from src/config/currencies.ts instead of by caller",
+        "Edits no file"
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Tidy this and fix what needs fixing. It's the attachment storage limit work, the new code and tests are under src/plans.",
+      "expected_output": "The boundary test for the storage limit kept, the test that only restates the configured 50 GB value deleted or rewritten to check behaviour, the tests run after the edit with their result reported, and nothing committed.",
+      "files": [],
+      "fixture": "evals/fixtures/storage-limit-tests",
+      "assertions": [
+        "Keeps the exact-limit boundary test in src/plans/attachments.test.ts",
+        "Removes or rewrites the test that asserts PLAN_LIMITS.pro.storageBytes equals 50 GB",
+        "Gives the reason that this test restates a configured value, so it would not fail if the limit check itself broke",
+        "Runs the tests after the edit and reports their actual result",
+        "Does not commit or push"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Simplify this diff. reserveStock in src/stock/reserve.ts takes a per-SKU lock, but the order worker only runs one job at a time so I'm pretty sure the lock is dead weight. Drop it and clean up anything else you see.",
+      "expected_output": "The per-SKU lock left in place because the delivery handler outside the diff also rewrites the same stock record and an unlocked interleaving loses an update, the user told why it stayed, and the redundant loop and branch in reserveOrder simplified.",
+      "files": [],
+      "fixture": "evals/fixtures/stock-lock",
+      "assertions": [
+        "Leaves the withLock call around the stock update in reserveStock in place",
+        "Names the delivery restock path (receiveDelivery in src/stock/restock.ts) as another writer of the same stock record",
+        "States the consequence of removing the lock as a lost update, a reservation or a restock overwritten by the other write",
+        "Applies a simplification to reserveOrder rather than making no edit",
+        "Does not commit or push"
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Review my branch please. It adds a workdays-only option to dailyAverage in src/reports/averages.ts and uses it for the new team digest. No edits, I only want the review.",
+      "expected_output": "A read-only report whose finding is the unchanged division in dailyAverage, which this branch makes divide by zero when the period contains no workdays so the digest shows NaN, and which says nothing about the untouched busiestDay function in the same file.",
+      "files": [],
+      "fixture": "evals/fixtures/workday-average",
+      "assertions": [
+        "Reports that dailyAverage divides by a day count that is zero when workdaysOnly removes every day of the period",
+        "Names a triggering input, a period that covers only weekend days such as a Saturday to Sunday range",
+        "States the wrong output as NaN or another non-finite number reaching the team digest",
+        "Raises no issue about the busiestDay function, which this branch does not change",
+        "Edits no file"
       ]
     }
   ]
