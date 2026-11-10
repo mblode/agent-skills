@@ -1,6 +1,6 @@
 # Validation Evidence
 
-Choose probes for the changed behavior, not a fixed command quota. Record commands, timestamp, exact requested/final URLs, environment/build identity and relevant results. Preserve unrelated processes and edits; use an available port owned by this task for local serving.
+Choose probes for the changed behavior, not a fixed command quota. Record commands, timestamp, exact requested/final URLs, environment/build identity and relevant results. Preserve unrelated processes and edits; serve locally on an available port owned by this task, and prove the listener answering there is this build (its build ID, or a string unique to the change) before reading the response.
 
 ## Built-page checks
 
