@@ -51,7 +51,7 @@ Store scenarios in `evals/evals.json` inside the skill folder. Use this reposito
 }
 ```
 
-A case that needs a repository adds `"fixture": "evals/fixtures/<dir>"` beside `files`: the runner commits the directory's `base/` tree on `main`, overlays `head/` as a feature-branch commit and `worktree/` as uncommitted edits, and reads the repository name, branch, commit message, and deleted paths from an optional `fixture.json`.
+A case that needs a repository adds `"fixture": "evals/fixtures/<dir>"` beside `files`: the runner commits the directory's `base/` tree on `main`, overlays `head/` as a feature-branch commit and `worktree/` as uncommitted edits, and reads the repository name, branch, commit message, and deleted paths from an optional `fixture.json`. A case whose skill reads user-level files adds `"home": "evals/home/<dir>"`: the runner copies that directory into the run's home folder for both arms, so `evals/home/<dir>/.config/<tool>/` appears at `~/.config/<tool>/`.
 
 Write `prompt` the way a user types it, with real paths and context; vary formality across cases and include one boundary case. Add `assertions` after the first run, not before: you do not know what "good" looks like until you have seen an output. Keep them objective (countable, checkable); style and feel are for human review. Keep contract assertions even when both configurations pass. They guard against regressions; use differentiating assertions to measure added value.
 

@@ -301,7 +301,7 @@ validate_skill() {
     record FAIL format frontmatter-first-line "SKILL.md does not open with --- on line 1 (BOM or leading blank line)"
   fi
 
-  n=$(grep -rlE '(/Users/|/home/)[a-z]' "$skill_dir" 2>/dev/null | wc -l | tr -d ' ')
+  n=$(grep -rlE '(^|[^A-Za-z0-9_.-])(/Users/|/home/)[a-z]' "$skill_dir" 2>/dev/null | wc -l | tr -d ' ')
   check house no-absolute-paths "hardcoded home path; resolve against the installed skill or project directory" "$n"
 
   n=$(grep -rnE 'MCP' "$skill_dir" 2>/dev/null | grep -E '`[a-z][a-z0-9]*_[a-z0-9_]+`' | grep -vE 'mcp__|[A-Za-z]:[a-z]' | wc -l | tr -d ' ')

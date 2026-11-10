@@ -103,6 +103,15 @@ class ValidatorContract(unittest.TestCase):
         for check in ['kebab-case-filenames', 'root-md-hub-only']:
             self.assertTrue(any(r[1] == 'FAIL' and r[3] == check for r in rows), rows)
 
+    def test_relative_home_folder_is_not_an_absolute_path(self):
+        (self.skill / 'evals').mkdir(exist_ok=True)
+        (self.skill / 'evals/notes.json').write_text('{"home": "evals/home/writer"}\n')
+        code, rows = self.run_validator()
+        self.assertEqual(code, 0, rows)
+        (self.skill / 'evals/notes.json').write_text('{"path": "/home/writer/notes"}\n')
+        code, rows = self.run_validator()
+        self.assertTrue(any(r[1] == 'FAIL' and r[3] == 'no-absolute-paths' for r in rows), rows)
+
     def test_fixture_repositories_keep_real_file_names(self):
         fixture = self.skill / 'evals/fixtures/sample/base'
         fixture.mkdir(parents=True)
