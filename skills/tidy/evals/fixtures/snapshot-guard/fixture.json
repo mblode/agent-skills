@@ -1,0 +1,5 @@
+{
+  "name": "pinewood-metrics",
+  "branch": "skip-empty-snapshots",
+  "message": "Skip saving empty snapshots and add readEntry"
+}

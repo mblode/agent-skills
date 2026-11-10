@@ -1,0 +1,5 @@
+{
+  "name": "kestrel-cms",
+  "branch": "limit-slug-length",
+  "message": "Limit post slugs to 60 characters"
+}

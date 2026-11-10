@@ -1,0 +1,5 @@
+{
+  "name": "marlow-notes",
+  "branch": "drop-sync-retry",
+  "message": "Drop retry around sync write now that the upsert is idempotent"
+}
