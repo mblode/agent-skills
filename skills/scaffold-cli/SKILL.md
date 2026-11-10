@@ -18,7 +18,7 @@ The templates encode the house toolchain. Substitute project values and verify t
 | `references/scaffold-configs.md` | Step 3: package.json, pnpm-workspace.yaml, tsconfig, tsdown, gitignore, license, changeset config, GitHub Actions |
 | `references/scaffold-source.md` | Steps 4-5: src/cli.ts, src/index.ts, src/types.ts, AGENTS.md, README.md, skills/SKILL.md |
 | `references/agent-friendly-cli.md` | Step 4, only when a command takes an identifier, path, or URL, or mutates state: input validation, dry-run, confirmation, schema |
-| `references/post-scaffold.md` | Steps 6-8: post-scaffold commands, the lefthook.yml replacement, validation checklist, GitHub and npm bootstrap, troubleshooting |
+| `references/post-scaffold.md` | Steps 6-8: post-scaffold commands, validation checklist, GitHub and npm bootstrap, troubleshooting |
 
 ## Scaffold Workflow
 
@@ -90,7 +90,7 @@ Use AGENTS.md directly; do not create a CLAUDE.md wrapper or symlink.
 
 ### Step 6: Run post-scaffold commands
 
-Load `references/post-scaffold.md`. Run the command sequence in the order given, including the `lefthook.yml` overwrite between `ultracite init` and the first commit.
+Load `references/post-scaffold.md`. Run the command sequence in the order given.
 
 ### Step 7: Validate scaffold
 
