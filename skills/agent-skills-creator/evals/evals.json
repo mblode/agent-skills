@@ -42,7 +42,7 @@
         "Explains that Cursor ignores those fields",
         "Explains that the claude.ai upload rejects those fields",
         "Reports the ${CLAUDE_SKILL_DIR} path in the body as text that other agents leave unexpanded",
-        "Reports that the steps need a shell and a git repository, which the skill never stated",
+        "Reports that the skill never stated it needs a git repository",
         "Reports adding a stated precondition for the shell and git requirement",
         "Does not recommend removing the skill from Cursor or maintaining two copies"
       ]
@@ -70,7 +70,7 @@
       "assertions": [
         "Reports the combined length of all nine descriptions before the change",
         "Reports a lower combined description length after the change",
-        "Quotes the database skill's new description, which names a specific action such as writing a migration in place of a list of nouns",
+        "Quotes the database skill's new description",
         "Reports that the database skill and each skill it collided with gained a clause pointing at the other",
         "Lists near-miss prompts that mention a model but belong to a skill other than database",
         "States that routing was not measured by running a model against the listing",

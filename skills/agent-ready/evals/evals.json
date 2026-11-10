@@ -24,7 +24,7 @@
         "Reports error responses changed to a JSON problem-details body",
         "Reports adding a shared error schema to openapi.json for the 4xx and 5xx responses",
         "Reports a version declared in the route paths or a response header, not only described in the docs",
-        "Reports rate-limit headers emitted from the existing limiter in src/lib/limiter.mjs",
+        "Reports rate-limit headers emitted from the existing limiter",
         "Reports adding a link to the docs from the homepage",
         "Does not add a CLI package"
       ]
@@ -42,8 +42,7 @@
         "Reports changing the llms.txt entries to link the .md twins instead of the HTML pages",
         "States that client-side analytics cannot see agent traffic because agents run no JavaScript",
         "Names server or CDN logs as the place to measure agent requests",
-        "Does not add new documentation pages",
-        "States that the change was not verified against a running server"
+        "Does not add new documentation pages"
       ]
     },
     {
