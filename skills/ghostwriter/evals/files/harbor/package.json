@@ -9,7 +9,8 @@
     "harbor": "./harbor.js"
   },
   "files": [
-    "harbor.js"
+    "harbor.js",
+    "upload.js"
   ],
   "engines": {
     "node": ">=20"

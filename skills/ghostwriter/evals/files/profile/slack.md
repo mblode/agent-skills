@@ -1,6 +1,6 @@
 # Slack voice
 
-Synthetic fixture, 40 messages.
+Built from 40 messages.
 
 ## Measured
 

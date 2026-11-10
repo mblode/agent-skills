@@ -1,6 +1,6 @@
 # Soul
 
-Ren Aoki, writer. Synthetic fixture for evals; not a real person.
+Ren Aoki, writer.
 
 ## Punctuation
 
