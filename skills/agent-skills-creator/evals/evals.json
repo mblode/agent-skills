@@ -39,7 +39,7 @@
       "fixture": "evals/fixtures/claude-only-frontmatter",
       "assertions": [
         "Names Claude Code-only frontmatter fields that the skill's SKILL.md contains (such as context, agent, argument-hint, or disable-model-invocation)",
-        "Explains that Cursor ignores those fields",
+        "Explains that a host other than Claude Code may ignore those fields",
         "Attributes the claude.ai upload failure to those fields (a hedged attribution counts)",
         "Reports the ${CLAUDE_SKILL_DIR} path in the body as text that other agents leave unexpanded",
         "Reports that the skill never stated it needs a git repository",
