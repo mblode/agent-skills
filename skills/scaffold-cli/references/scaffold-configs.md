@@ -74,13 +74,12 @@
     "@types/node": "^24.13.3",
     "tsdown": "^0.22.4",
     "typescript": "^7.0.2",
-    "ultracite": "^7.9.3",
     "vitest": "^4.1.10"
   }
 }
 ```
 
-`ultracite init` (post-scaffold) adds the `oxlint`, `oxfmt`, and `lefthook` devDependencies plus the `check`, `fix`, and `prepare` scripts, which is why this template omits them.
+`ultracite init` (post-scaffold) adds the `ultracite` (pinned exact), `oxlint`, `oxfmt`, and `lefthook` devDependencies plus the `check`, `fix`, and `prepare` scripts, which is why this template omits them.
 
 `{{pnpm_version}}` is the output of `pnpm --version`. `pnpm/action-setup` in both workflows reads the pnpm version from `packageManager`, and corepack refuses a mismatch, so keep the field even for a single-package repo.
 

@@ -95,7 +95,7 @@ Validation:
 - [ ] `node dist/cli.js --help` shows the description and lists the `--output` and `--no-input` global options
 - [ ] `node dist/cli.js --version | cat` prints 0.0.1 with no ANSI escape codes (color is suppressed when stdout is not a TTY)
 - [ ] AGENTS.md exists without a CLAUDE.md wrapper or symlink
-- [ ] `grep -c staged_files lefthook.yml` returns 2 (the generated single-job version was replaced)
+- [ ] `grep -c 'run: .*{staged_files}' lefthook.yml` returns 2: one `run` line per job, each scoped to the staged files (the generated single-job version returns 1)
 - [ ] a JSON-only commit passes the hook: `pnpm exec lefthook run pre-commit --file package.json` exits 0 (this is the changesets-bot release path; `touch` plus `git add` stages nothing on an unchanged file, so the hook would skip and prove nothing)
 - [ ] `pnpm-lock.yaml` exists and `package-lock.json` does not (a stray npm lockfile makes `changeset publish` and the CI cache pick the wrong tool)
 - [ ] `.github/workflows/ci.yml` and `.github/workflows/npm-publish.yml` exist
