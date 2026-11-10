@@ -22,7 +22,8 @@
       "assertions": [
         "Contains no reason or motive for the rebuild that the user did not state",
         "Contains no invented numbers, names, tools, or quotes beyond one night, 3 years, and Claude Code",
-        "Any headings are plain noun phrases; no lists or tables",
+        "Uses no lists or tables",
+        "Any headings are noun phrases, not sentences",
         "No em dash or spaced hyphen",
         "Adds no commentary on the post beyond at most one line about which voice profile was used"
       ]
@@ -152,7 +153,7 @@
     },
     {
       "id": 12,
-      "prompt": "Make this sound less like AI. It's the intro to our eng blog post:\n\nIn today's fast-paced landscape, our team embarked on a transformative journey to migrate 14 services to Kubernetes. This wasn't just a migration \u2014 it was a testament to our commitment to reliability. Over 6 months, we reduced deploy times from 40 minutes to 7, ensuring a seamless experience for developers. The results speak for themselves. Let that sink in.",
+      "prompt": "Make this sound less like AI. It's the intro to our eng blog post:\n\nIn today's fast-paced landscape, our team embarked on a transformative journey to migrate 14 services to Kubernetes. This wasn't just a migration — it was a testament to our commitment to reliability. Over 6 months, we reduced deploy times from 40 minutes to 7, ensuring a seamless experience for developers. The results speak for themselves. Let that sink in.",
       "expected_output": "A plain intro that keeps 14 services, Kubernetes, 6 months, and 40 to 7 minutes, with the inflation, antithesis, participle tail, and closers removed and nothing added.",
       "files": [],
       "assertions": [
@@ -192,7 +193,7 @@
     },
     {
       "id": 15,
-      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). You drafted this Slack message for me: 'Hey team! Quick update: the migration is complete and everything went smoothly \ud83c\udf89 Let me know if you have any questions!' I sent this instead: 'migration's done, 0 errors. ping me if anything looks off'. Learn from that. Show me the change to my slack profile; don't save it yet.",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). You drafted this Slack message for me: 'Hey team! Quick update: the migration is complete and everything went smoothly 🎉 Let me know if you have any questions!' I sent this instead: 'migration's done, 0 errors. ping me if anything looks off'. Learn from that. Show me the change to my slack profile; don't save it yet.",
       "expected_output": "A short ledger of the edits (greeting dropped, emoji and exclamations dropped, vague 'smoothly' replaced by '0 errors', lowercase start) and the proposed profile change, shown not saved.",
       "files": [
         "evals/files/profile/soul.md",
