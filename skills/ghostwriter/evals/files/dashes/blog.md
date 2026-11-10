@@ -1,6 +1,6 @@
 # Blog voice
 
-Synthetic fixture, 6 posts.
+Built from 6 posts.
 
 ## Measured
 

@@ -1,6 +1,6 @@
 # Done Bear
 
-Synthetic company fixture for evals.
+Company voice for Done Bear, a to-do app.
 
 ## Voice
 
