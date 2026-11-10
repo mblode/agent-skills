@@ -1,6 +1,6 @@
 # Soul
 
-Sam Ellery, engineering lead in Melbourne. Synthetic fixture for evals; not a real person.
+Sam Ellery, engineering lead in Melbourne.
 
 ## Register
 

@@ -3,9 +3,12 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Turn this into a Slack message for the platform channel: ok so the rspack thing is done for admin-web, refresh is like 1 second now instead of 12, i think we should roll it to the other apps but maybe not the checkout one yet? not sure. PR is github.com/acme/web/pull/482",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Turn this into a Slack message for the platform channel: ok so the rspack thing is done for admin-web, refresh is like 1 second now instead of 12, i think we should roll it to the other apps but maybe not the checkout one yet? not sure. PR is github.com/acme/web/pull/482",
       "expected_output": "One finished Slack message in the user's slack register, shorter than the ramble, keeping the numbers and the link, with the checkout question left open.",
-      "files": [],
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/slack.md"
+      ],
       "assertions": [
         "Keeps 1 second, 12, admin-web, and the PR link verbatim",
         "The checkout rollout stays a question or a maybe; it is not stated as a decision",
@@ -16,23 +19,29 @@
     },
     {
       "id": 2,
-      "prompt": "Write a blog post in my voice. Facts: I rebuilt my site from scratch in one night with Claude Code, it was live before morning, the old codebase was 3 years old and I deleted all of it. That is all I want to say.",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Write a blog post in my voice. Facts: I rebuilt my site from scratch in one night with Claude Code, it was live before morning, the old codebase was 3 years old and I deleted all of it. That is all I want to say.",
       "expected_output": "A short post in the blog register built only from the three supplied facts, with no invented motive, quote, or extra episode, halved once and checked.",
-      "files": [],
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/blog.md"
+      ],
       "assertions": [
         "Contains no reason or motive for the rebuild that the user did not state",
         "Contains no invented numbers, names, tools, or quotes beyond one night, 3 years, and Claude Code",
         "Uses no lists or tables",
-        "Any headings are noun phrases, not sentences",
+        "Any section heading below the title is a noun phrase, not a sentence",
         "No em dash or spaced hyphen",
         "Adds no commentary on the post beyond at most one line about which voice profile was used"
       ]
     },
     {
       "id": 3,
-      "prompt": "Critique my draft before I send it to my manager: 'Hi Priya, I hope this finds you well. I wanted to reach out because I've been thinking about the on-call rotation and honestly I think there might potentially be some room for improvement. It's not about the workload, it's about the predictability. Let me know your thoughts when you get a chance!'",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Critique my draft before I send it to my manager: 'Hi Priya, I hope this finds you well. I wanted to reach out because I've been thinking about the on-call rotation and honestly I think there might potentially be some room for improvement. It's not about the workload, it's about the predictability. Let me know your thoughts when you get a chance!'",
       "expected_output": "Findings ordered by cost to the reader, each naming the place, the problem, the cost, and the edit; no rewritten message and no praise.",
-      "files": [],
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/email.md"
+      ],
       "assertions": [
         "Opens with the highest-cost finding, not a compliment or a summary of what works",
         "Contains no praise or reassurance sentence",
@@ -47,11 +56,12 @@
       "expected_output": "A CLI README from the manifest: install from the published name, a runnable quickstart, badges because it is published, no invented origin story, and the readme profile's markup if one exists.",
       "files": [
         "evals/files/harbor/package.json",
-        "evals/files/harbor/harbor.js"
+        "evals/files/harbor/harbor.js",
+        "evals/files/harbor/upload.js"
       ],
       "assertions": [
         "Install line uses @acme/harbor, not the repo name",
-        "Quickstart is complete and runnable as pasted",
+        "Quickstart tells the reader to set HARBOR_TOKEN before running `harbor deploy`",
         "Contains no sentence explaining why the author built it",
         "No Contributing, Development, Tech Stack, or Workspaces section",
         "Includes headings named exactly Install, Quickstart, and License"
@@ -103,11 +113,11 @@
     {
       "id": 8,
       "prompt": "Write the design doc for moving session storage from Redis to Postgres. Facts: Redis bill is $1,400/month, sessions are 2GB, we already run Postgres 16 for everything else, p99 read must stay under 20ms, I haven't decided the TTL sweep interval. Alternatives I looked at: keep Redis, use Cloudflare KV.",
-      "expected_output": "A design doc in the templates.md skeleton: Context, Decision, Why this over the alternatives (Redis and KV each with the reason it lost), Consequences, Input wanted naming the TTL sweep interval. No Background or Timeline section, no invented latency or cost figures beyond the ones given.",
+      "expected_output": "A design doc in the templates.md skeleton: Context, Decision, Why this over the alternatives (keep Redis and Cloudflare KV, with a placeholder where the user gave no reason), Consequences, Input wanted naming the TTL sweep interval. No Background or Timeline section, no invented latency or cost figures beyond the ones given.",
       "files": [],
       "assertions": [
         "Uses only the supplied numbers and invents no latency, cost, or date",
-        "Names both alternatives with a one-sentence reason each",
+        "Invents no reason for rejecting Cloudflare KV: the reason is a placeholder or is named as missing",
         "Input wanted line names the TTL sweep interval and nothing vaguer",
         "Contains no section without a supplied fact under it",
         "Leaves the TTL decision open rather than choosing one"
@@ -153,25 +163,31 @@
     },
     {
       "id": 12,
-      "prompt": "Make this sound less like AI. It's the intro to our eng blog post:\n\nIn today's fast-paced landscape, our team embarked on a transformative journey to migrate 14 services to Kubernetes. This wasn't just a migration — it was a testament to our commitment to reliability. Over 6 months, we reduced deploy times from 40 minutes to 7, ensuring a seamless experience for developers. The results speak for themselves. Let that sink in.",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Make this sound less like AI. It's the intro to our eng blog post:\n\nIn today's fast-paced landscape, our team embarked on a transformative journey to migrate 14 services to Kubernetes. This wasn't just a migration — it was a testament to our commitment to reliability. Over 6 months, we reduced deploy times from 40 minutes to 7, ensuring a seamless experience for developers. The results speak for themselves. Let that sink in.",
       "expected_output": "A plain intro that keeps 14 services, Kubernetes, 6 months, and 40 to 7 minutes, with the inflation, antithesis, participle tail, and closers removed and nothing added.",
-      "files": [],
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/blog.md"
+      ],
       "assertions": [
         "Keeps 14 services, Kubernetes, 6 months, 40 minutes, and 7",
         "The rewritten intro itself contains none of: landscape, journey, testament, seamless, 'speak for themselves', 'let that sink in', 'not just'",
         "Contains no em dash, en dash, or spaced hyphen",
-        "Adds no reason, number, name, or result that the original did not state",
+        "The rewritten intro adds no reason, number, name, or result that the original did not state",
         "Returns the rewritten text without a list of what was changed"
       ]
     },
     {
       "id": 13,
-      "prompt": "Write a LinkedIn post: my team shipped offline mode for the Done Bear iOS app last week. That's all I've got.",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). Write a LinkedIn post: my team shipped offline mode for the Done Bear iOS app last week. That's all I've got.",
       "expected_output": "A short post built from the one fact, with placeholders or a one-line note for anything missing, and no invented quote, metric, person, or customer reaction.",
-      "files": [],
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/linkedin.md"
+      ],
       "assertions": [
         "Contains no quote attributed to anyone",
-        "Contains no number, percentage, or metric beyond what the user gave",
+        "The post text contains no number, percentage, or metric the user did not give",
         "Names no person or customer and describes no user reaction the user did not state",
         "Does not open with a staged run-up ('Big news', 'Excited to share', 'Here's the thing')"
       ]
@@ -238,9 +254,12 @@
     },
     {
       "id": 18,
-      "prompt": "We just spent this session adding a --dry-run flag to the harbor CLI. While working we called the check that skips uploads 'the ghost pass', and we went back and forth on whether to log skipped files before settling on yes. Update the README's Options section with the new flag. Current section:\n\n## Options\n\n- **--branch:** deploy a specific branch instead of the current one.",
+      "prompt": "My ghostwriter profiles are in the current folder (GHOSTWRITER_HOME is this folder). We just spent this session adding a --dry-run flag to the harbor CLI. While working we called the check that skips uploads 'the ghost pass', and we went back and forth on whether to log skipped files before settling on yes. Update the README's Options section with the new flag. Current section:\n\n## Options\n\n- **--branch:** deploy a specific branch instead of the current one.",
       "expected_output": "The Options section with one new bullet saying --dry-run runs without uploading and logs the files it skips, in the reader's terms, and the --branch bullet unchanged.",
-      "files": [],
+      "files": [
+        "evals/files/profile/soul.md",
+        "evals/files/profile/readme.md"
+      ],
       "assertions": [
         "Keeps the --branch bullet unchanged",
         "Adds one --dry-run bullet in the same '- **flag:** what it does.' shape",

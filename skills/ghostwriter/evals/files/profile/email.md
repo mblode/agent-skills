@@ -1,6 +1,6 @@
 # Email voice
 
-Synthetic fixture, 25 emails.
+Built from 25 emails.
 
 ## Measured
 
