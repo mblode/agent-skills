@@ -10,6 +10,6 @@
     "changes": "node scripts/list-changes.mjs"
   },
   "dependencies": {
-    "astro": "^5.8.0"
+    "astro": "^7.4.8"
   }
 }
