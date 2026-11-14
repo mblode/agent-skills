@@ -64,7 +64,7 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 ## Toolchain
 
-**Faster runners.** Standard hosted GitHub runners are two to four slow vCPUs on shared disks. Third-party runners (Blacksmith, Depot, Namespace, RWX, BuildJet, or self-hosted) run the same YAML on faster CPUs and NVMe; one team measured jobs 34 percent faster on average and `tsc` 52 percent faster (Linear, 2026). It is a spend, so it is the user's call, made on one run of the unchanged pipeline on each. Measure after the split and setup work, because a faster machine shortens every job and hides which one was the problem.
+**Faster runners.** Standard hosted GitHub runners are two to four slow vCPUs on shared disks. Third-party runners (Blacksmith, Depot, Namespace, RWX, Sengi, or self-hosted) run the same YAML on faster CPUs and NVMe; one team measured jobs 34 percent faster on average and `tsc` 52 percent faster (Linear, 2026). It is a spend, so it is the user's call, made on one run of the unchanged pipeline on each. Measure after the split and setup work, because a faster machine shortens every job and hides which one was the problem.
 
 **Native TypeScript.** `tsgo` (`@typescript/native-preview`) cut one team's weekly median type-check by 73 percent (Linear, 2026). It does not support `baseUrl`, some `paths` shapes, `moduleResolution: node10` (usually inherited or defaulted rather than written in the tsconfig it fails on), or every `tsc -b` layout; check each tsconfig and keep `tsc` for the ones it refuses. The gain lands on the chain only when type-checking is on it.
 
