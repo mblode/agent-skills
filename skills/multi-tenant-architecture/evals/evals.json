@@ -41,14 +41,15 @@
     {
       "id": 4,
       "prompt": "We're launching Lumenpage: customers publish their own HTML and JavaScript at <name>.lumenpage.com, the dashboard lives at lumenpage.com/app with a session cookie set on Domain=lumenpage.com, and paid plans can attach their own domains later. Do we need to do anything about the Public Suffix List before launch?",
-      "expected_output": "Recommend a separate tenant domain, a Public Suffix List submission for it, and a host-only session cookie, noting custom domains need no entry.",
+      "expected_output": "Recommend a separate tenant domain and a host-only session cookie now, defer the Public Suffix List submission until the platform is live and serves thousands of users on the tenant suffix, and note custom domains need no entry.",
       "files": [],
       "assertions": [
         "Recommends moving tenant sites to a registrable domain separate from the brand and dashboard domain",
         "States that a session cookie scoped to Domain=lumenpage.com is exposed to tenant subdomains",
-        "Recommends submitting the tenant suffix to the Public Suffix List",
-        "States that customer-owned custom domains need no Public Suffix List entry",
-        "States that Public Suffix List inclusion has no guaranteed timeline for reaching browsers"
+        "Does not recommend opening a Public Suffix List pull request before launch",
+        "States that a Public Suffix List submission requires a live service already serving thousands of distinct users on the suffix",
+        "Does not recommend submitting the brand domain lumenpage.com to the Public Suffix List",
+        "States that customer-owned custom domains need no Public Suffix List entry"
       ]
     },
     {
@@ -80,6 +81,19 @@
         "Does not report that unknown hostnames resolve to another tenant or to the brand site",
         "Does not report that the application role bypasses row level security",
         "Concludes that the supplied files show no cross-tenant data leak"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Pagewell is live: about 6,000 customers publish their own sites at <name>.pagewell.site, and we want to submit pagewell.site and staging.pagewell.site to the Public Suffix List. pagewell.site expires in 14 months. Draft the PR.",
+      "expected_output": "Decline to draft the PR until the registration exceeds two years, and drop staging.pagewell.site as a non-production entry.",
+      "files": [],
+      "assertions": [
+        "Does not draft a submission while pagewell.site has two years or less of registration remaining",
+        "Recommends removing staging.pagewell.site because staging entries are declined",
+        "Requires a role-based contact address in the Submitted by line",
+        "Requires an abuse contact reachable from pagewell.site",
+        "Requires the repository pull request template to be used unaltered"
       ]
     }
   ]
