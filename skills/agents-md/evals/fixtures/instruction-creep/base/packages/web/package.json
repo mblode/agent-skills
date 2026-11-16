@@ -13,13 +13,13 @@
     "next": "^15.3.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "zod": "^3.25.28"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@testing-library/react": "^16.3.0",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "vitest": "^5.1.0"
   }
 }
