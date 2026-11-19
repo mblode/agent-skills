@@ -21,7 +21,7 @@ The order to install agent guardrails in a repo, new or existing. Every step com
 
 ## How to run it
 
-Check each step's audit row first and skip it if it passes. For each step you install: land the guard and the fix (or a per-file list) for its existing violations in one change, plant a violation and watch it fail with its fix message, revert, and move on. Steps 1 to 7 make the repo safe to edit; 8 to 10 make agent work verifiable; 11 and 12 make it mergeable. On a repo with no web UI, database or deploys, mark the steps that need one `n/a`.
+Check each step's audit row first and skip it if it passes. For each step you install: land the guard and the fix (or a per-file list) for its existing violations in one change, plant a violation and watch it fail with its fix message, revert, and move on. Steps 1 to 7 make the repo safe to edit; 8 to 10 make agent work verifiable; 11 and 12 make it mergeable. On a repo with no web UI, database or deploys, mark the steps that need one `n/a`. The steps name TypeScript tools (tsconfig, knip, oxlint) because that is where they were proven; in another stack keep the guard and swap the tool.
 
 ## 1. One check command
 
@@ -59,15 +59,12 @@ Check each step's audit row first and skip it if it passes. For each step you in
 
 ## 5. Exception lists only shrink
 
-`codebase-architecture` `enforcement-ladder.md` rung 3 lists offenders explicitly; its weakness, stated there, is that the list does not fail when it grows. Close that with one guard script over every exception list in the repo (lint ceilings, size exemptions, knip ignores, "apps without tests", package-manager exceptions, unregistered folders):
+The growth guard is `codebase-architecture` `enforcement-ladder.md` rung 3 ("Close the growth gap"): one script fails an added entry and a stale entry in every exception list. Point it at all of them: lint ceilings, size exemptions, knip ignores, "apps without tests", package-manager exceptions, unregistered folders. What the owner does not say:
 
-- **Rule:** diff each list against the merge base with the main branch; an added entry fails with "this list only shrinks: fix the code instead". An entry that no longer matches anything (the file was split, the app was deleted, the test now exists) also fails and says "delete its line". The only allowed growth is for a path the merge base did not have, such as an imported repo.
 - **Rule:** every entry carries its reason, and a date or PR when it is temporary. "Not done yet" is not a reason. When the format cannot hold comments (JSON), keep the reasons in a sibling file the guard also reads.
 - **Rule:** legacy or imported code gets per-rule, per-file ceilings, never a folder-wide exception. New files in that folder inherit every rule.
-- **Because:** under deadline the cheapest green is appending your path. Folder-wide exceptions silently covered every new file written there.
-- **Not a count baseline:** this checks lists of named paths, not a violation count, and never rewrites itself. `enforcement-ladder.md` says why a self-updating count file fails.
+- **Because:** under deadline the cheapest green is appending your path, and folder-wide exceptions silently covered every new file written there.
 - **Check:** add an entry, the guard fails; delete a file named in a list, the guard fails.
-- **CI note:** locally the guard may skip when the main branch is not fetched; in CI that case must fail, or the guard passes forever on shallow clones.
 
 ## 6. Registries and generated files match their source
 

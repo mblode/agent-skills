@@ -8,7 +8,7 @@ description: Designs module interfaces, deepens shallow modules, and installs en
 Decide a TypeScript codebase's structure, improve it where change has become expensive, and make it hold. The target is a codebase a reader can hold in their head: few surfaces, one canonical way to do each job, and behaviour where you would first look for it.
 
 - **IS:** folder structures, module interfaces, request context and middleware pipelines, frontend/backend boundaries; architecture briefs; domain language and decision records; domain-informed deepening; guardrail tooling, CI gates, and agent wayfinding.
-- **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a plan for one feature (`planning`), a diff-scoped cleanup pass (`tidy`), structural review of a local diff (`tidy`), or a product's own verify CLI, doctor command, and feature map (`app-verification`, call it by name).
+- **IS NOT:** scaffolding a new repo (`scaffold-nextjs` for a Next.js turborepo, `scaffold-cli` for a TypeScript CLI), multi-tenant domain/isolation/routing (`multi-tenant-architecture`), the content of AGENTS.md itself (`agents-md`), a plan for one feature (`planning`), a diff-scoped cleanup pass (`tidy`), structural review of a local diff (`tidy`), a product's own verify CLI, doctor command, and feature map (`app-verification`, call it by name), or an end-to-end agent-readiness build or audit across instructions, verification and CI (`agent-friendly`).
 
 ## Contents
 

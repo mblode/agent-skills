@@ -18,7 +18,7 @@ The build order comes from a production monorepo of dozens of apps written mostl
 | File | Read when |
 |------|-----------|
 | `references/build-playbook.md` | Build mode, or Apply mode when the gap is a missing step: the ordered steps, each with the incident behind it, its check and its owner |
-| `references/audit-checklist.md` | Audit mode: rule, check, evidence and owner per row, and the verdict rules |
+| `references/audit-checklist.md` | Audit mode: rule, check and owner per row, and the verdict rules |
 | `references/doctrine.md` | Explain mode: worked examples of each rule in a real repo |
 | `references/diagnostics.md` | Writing a lint, type, build, startup or guard message that names the fix |
 | `references/laws.md` | Adding or reviewing a law or a repo-level promise: fast-check, census with a planted mutant, TLA+, Lean, and their limits |

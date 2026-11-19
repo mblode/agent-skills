@@ -13,7 +13,7 @@ The pattern and the reasoning belong to agent-skills `codebase-architecture`, se
 | `process.env` outside entry points | "Read environment variables through env.ts, which parses them once at startup." |
 | An exception list grew | "adds <path> for <rule>. This list only shrinks: fix the code instead of adding the exception." |
 | An exception list entry is stale | "<path> now passes <rule>. Delete its line." |
-| A banned runner in a script | "Use bun --bun next instead of npx next." |
+| A banned runner in a script | "Use <house runner> instead of <banned runner>; check-package-manager lists the exceptions and their reasons." |
 | `refresh` from `next/cache` restricted | "Wrap the API call in runAction from @/lib/action; it refreshes and returns { error } for the form." |
 
 The RLS message also names the escape hatch and where it lives, so the agent that genuinely needs it changes the allowlist (a reviewed diff) instead of adding a disable comment.
