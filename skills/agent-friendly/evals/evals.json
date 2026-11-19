@@ -1,0 +1,65 @@
+{
+  "skill_name": "agent-friendly",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review flagged the same thing on three PRs this week: agents keep importing drizzle-orm straight into router.ts files. Add a line to AGENTS.md telling them not to.",
+      "expected_output": "Explains that a recurring review comment is a missing rule and a lint rule beats an AGENTS.md line. Applies it: a restricted-import override on router.ts whose message names the fix (move the query into the module's service.ts), restating existing bans because overrides replace options, a planted violation to prove it bites, and no new prose. Points to codebase-architecture's enforcement-ladder reference for rollout.",
+      "files": [],
+      "assertions": [
+        "Proposes a lint rule or type-level guardrail instead of an AGENTS.md line.",
+        "The proposed message tells the agent what to use instead.",
+        "Includes a planted violation to prove the rule fires.",
+        "Names the owner skill for the detail rather than restating it at length."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Audit the harbor-notes repo for agent-friendliness and tell me what to fix first.",
+      "expected_output": "Runs the rubric across all ten sections with evidence per row from the repo at a named SHA, gives a verdict per section, marks n/a with reasons, files each gap in the repo's tracker with a done condition equal to the row's check, and orders the gaps with verification blockers first (for example no doctor, verify that fails empty, or feature map).",
+      "files": [],
+      "assertions": [
+        "Gives a verdict for every section, not only codebase shape.",
+        "Every verdict cites a command output or file location.",
+        "Puts verification gaps at the top of the fix order.",
+        "Files or proposes one task per gap with a done condition."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our offline sync engine keeps getting race-condition bugs that tests don't catch. Which principle applies, and what should we do?",
+      "expected_output": "Explain mode: the laws rung. States the invariant (every client converges to the server sequence under reordering and reconnects), recommends a small TLA+ model checked by TLC in CI with fast-check properties for the pure parts, says law and spec changes need a person's review, and states the limits (a proof covers only the laws written; a model is not the code, so tie it to the implementation). Names references/laws.md as the owner.",
+      "files": [],
+      "assertions": [
+        "Identifies laws or formal verification as the applicable rung.",
+        "Recommends TLA+ with TLC for the concurrency invariant rather than only more example tests.",
+        "States that law or spec changes need a person's review.",
+        "States a limit: proofs cover only the laws written, or a model is not the code."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What should an agent-friendly CLI for our verify command look like?",
+      "expected_output": "Answers from the catalogue's tools and CLIs section in brief (JSON output, stable exit codes, errors that name the fix, dry-run, idempotent, fails when no checks ran) and routes the detail to dx-audit and ax-audit and the verify contract to app-verification, without restating their rules.",
+      "files": [],
+      "assertions": [
+        "Lists the rule briefly: JSON output, stable exit codes, fix-naming errors, dry-run or idempotency.",
+        "Routes detail to dx-audit or ax-audit.",
+        "Routes the verify contract to app-verification."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "We're starting a new TypeScript monorepo for a team where agents will write most of the code. Set it up so it's agent-friendly from day one.",
+      "expected_output": "Build mode: walks the build playbook in order rather than listing tips. Starts with one check command, strict tsconfig and dead-code settings, boundary lint whose messages name the fix, a size cap, and a shrink-only guard over every exception list; then hooks (post-edit lint returning findings, pre-push, one setup script), AGENTS.md with a Verify section stating what it proves and does not, a template and generator, verification that fails when no checks ran, and one required CI check. Proves each guard with a planted violation and ends with check exiting 0.",
+      "files": [],
+      "assertions": [
+        "Follows an ordered sequence that starts with a single check command, not with AGENTS.md prose.",
+        "Makes exception lists shrink-only, failing both added and stale entries.",
+        "Wires a post-edit or pre-push hook rather than relying on an instruction to run checks.",
+        "Proves at least one guard with a planted violation.",
+        "States done as the check command exiting 0, not as files written."
+      ]
+    }
+  ]
+}
