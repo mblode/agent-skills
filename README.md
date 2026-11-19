@@ -32,6 +32,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 ### Architecture
 
 - **[codebase-architecture](./skills/codebase-architecture/SKILL.md)**: Design a structure, deepen an existing one, or harden it with guardrails.
+- **[agent-friendly](./skills/agent-friendly/SKILL.md)**: Builds or audits a codebase for agents: one check command, boundary lint that names the fix, shrink-only exception lists, hooks, AGENTS.md with Verify, and laws.
 - **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with Blode UI, Ultracite (oxlint/shadcn), GitHub, and Vercel.
 - **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI package: ESM, tsdown, vitest, changesets, CI.
 - **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Tenant isolation, routing, and custom domains on Cloudflare or Vercel.
