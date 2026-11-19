@@ -162,7 +162,12 @@ Running fewer tests per change is how large monorepos keep the PR gate inside it
 - Google runs a subset at presubmit and the rest in batched postsubmit milestones; tests more than 10 dependency edges from a change hardly ever break, and files changed recently by three or more people break more often (Google TAP, 2017).
 - Meta's predictive selection catches more than 99.9% of faulty changes (more than 95% of individual failures) while running about a third of the transitively dependent tests, doubling test infrastructure efficiency (Meta, 2018).
 
-Start with path rules from the dependency graph (the pre-push filter above, or the task runner's affected graph). A learned or AI selector sits on top under four rules: it may only add tests to what the path rules chose, never remove them; it runs in shadow first, logging what it would have added against what later failed; it has a deadline, after which the path rules alone decide; and it sees the diff only after the secrets scan has passed. Whatever selection skips at the PR gate, the full suite still runs post-merge on main.
+Start with path rules from the dependency graph (the pre-push filter above, or the task runner's affected graph). A learned or AI selector sits on top under four rules: it may only add tests to what the path rules chose, never remove them; it runs in shadow first, logging what it would have added against what later failed; it has a deadline, after which the path rules alone decide; and it sees the diff only after the secrets scan has passed. Whatever selection skips at the PR gate, the full suite still runs before anything deploys, and where depends on release cadence:
+
+- **Continuous deploy** (every main commit can ship): the full suite runs post-merge or pre-deploy on each coalesced batch, and deploy follows only verified commits.
+- **Scheduled releases**: post-merge runs smoke and regression guards only, and the full suite runs on a schedule (hourly or daily) against a named main SHA; the release is cut from the newest SHA it passed on.
+
+Route by toolchain before selecting tests: a change confined to one language or toolchain skips the other's proof, and shared, deleted or unclassified inputs run both (OpenClaw, 2026). Make the skip decision before a runner starts, so a skipped lane costs no allocation.
 
 ## Gotchas
 

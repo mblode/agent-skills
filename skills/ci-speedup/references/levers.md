@@ -56,7 +56,7 @@ Grouped by the class of time each one removes. For each lever: what must be true
 
 **Memory-bound tests in parallel worktrees.** When several agent worktrees run suites on one machine, memory runs out before CPU: every worker that type-checks while it transforms holds its own compiler program. Use a transpile-only transform (Vitest's default, `@swc/jest`, or ts-jest in transpile-only mode) and run the type checker once as its own step; cap workers per suite (`--maxWorkers=2`) when worktrees run concurrently. A worker killed for memory fails a random test, so read the exit code before calling it a flake.
 
-**Balancing shards.** Vitest and Playwright shard by file count, not by duration. Split the long files instead of writing a duration-balancing sequencer: a shard is only as fast as its longest file, and a file of a few hundred tests serializes one worker. After splitting its large files, one team moved from 4 to 8 shards and the critical job got about 19 percent faster and cheaper (Linear, 2026).
+**Balancing shards.** Vitest and Playwright shard by file count, not by duration. Split the long files instead of writing a duration-balancing sequencer: a shard is only as fast as its longest file, and a file of a few hundred tests serializes one worker. After splitting its large files, one team moved from 4 to 8 shards and the critical job got about 19 percent faster and cheaper (Linear, 2026). More shards is not always faster: every shard repeats checkout, install and boot, so add one only when the slowest shard's execution time dwarfs that setup. Balancing so jobs finish together took one team's slowest job from 403 to 300 seconds (OpenClaw, 2026).
 
 **Remote task cache.** Turbo or Nx remote caching turns a hit into a network fetch, a disk write, and a read by the next task, so a fully cached run on a hosted runner still takes real time. It pays for build outputs consumed downstream, less for test tasks whose only output is a pass. Without it, every task in CI is a miss and `turbo run test` is only a parallel runner.
 
@@ -81,6 +81,8 @@ Grouped by the class of time each one removes. For each lever: what must be true
 **Build optional artifacts on demand.** Preview images, Storybook builds and bundle reports built on every push cost runner minutes and often sit on the chain. Build them on a label, a comment command, or `workflow_dispatch`, and on the default branch only when something consumes them.
 
 ## Cost Accounting
+
+**Review once, follow up on request.** An AI review that runs on every push costs pushes per PR times the per-run price, and agent PRs push often. Review automatically when the PR opens or leaves draft; later pushes get a review only on a comment, label or explicit request. Most misses are caught in the first pass or by the next change. The setting usually lives in the review bot's own configuration, not the workflow; `flow.md` has the per-merged-change arithmetic.
 
 Wall-clock and runner minutes move independently; the ledger writes both:
 
