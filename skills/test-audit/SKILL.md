@@ -97,6 +97,13 @@ Running tests and coverage locally, and deleting tests and test-only seams in th
 - validation actually run, with results
 - a proposed gate for the repo's `AGENTS.md`, drawn from the patterns this audit actually found, so agents stop writing them
 
+## Keep it pruned
+
+A prune regrows within weeks when agents keep adding a test per change. Two signals stop it:
+
+- **Ratio.** Count tracked lines in test files, test support (fixtures, helpers, mocks) and implementation separately with `git ls-files`. A suite where tests plus support pass about half of all lines is a campaign candidate; OpenClaw peaked at 69% before its prune (OpenClaw, 2026).
+- **Per-PR budget.** Propose an advisory cap on net new test lines per pull request, 400 by default, in the handoff's `AGENTS.md` gate: over it, offset by deleting or consolidating tests elsewhere, or state why in the PR body. Report it as a CI warning, not a failure; a blocking cap teaches agents to cram assertions into fewer lines.
+
 ## Gotchas
 
 - Line coverage survives deletions that remove the only assertion on a path, because another test still executes the lines without checking them. Where a deletion looks free on coverage, confirm a keeper asserts the behavior, or run a mutation against the owner (`references/coverage.md`).

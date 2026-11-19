@@ -44,3 +44,4 @@ The batching formulas (runs per PR, optimum batch size, speculation throughput) 
 - Retry playbooks: one PR's red build and its rerun belong to `pr-babysitter`; the skill sets only the system flake and retry policy.
 - Host-specific queue and plugin tuning: changes per CI vendor and ages quickly.
 - Dependency upgrade ladders: a migration, not a CI lever.
+- Vincent, [OpenClaw CI cost reduction](https://vincent.build/openclaw-ci-cost-reduction/) (2026): the release-cadence split for the full suite, toolchain routing before runner start, review once then on request, and shard balancing (slowest compact job 403 s to 300 s). Its headline cost cut (86.5% fewer runner-hours, 95.5% list-price value) is a sponsored-compute estimate over a period when commits fell 44%, so the skill cites only the mechanisms and the shard figure.
