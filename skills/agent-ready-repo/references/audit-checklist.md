@@ -129,7 +129,7 @@ Run each row against the repo's default branch in a clean worktree. Evidence is 
 
 | # | Rule | Check | Owner |
 |---|---|---|---|
-| 10.1 | Agent-readable | `llms.txt` and Markdown routes where the product has public docs | `agent-ready`; `seo` |
+| 10.1 | Agent-readable | `llms.txt` and Markdown routes where the product has public docs | `agent-ready-site`; `seo` |
 
 ## Report
 

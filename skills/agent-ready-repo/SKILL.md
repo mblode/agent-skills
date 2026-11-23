@@ -1,10 +1,10 @@
 ---
-name: agent-friendly
+name: agent-ready-repo
 description: >-
-  Makes a codebase agent-friendly: builds the guardrails, instructions and verification agents need, or audits a repo against the catalogue and fixes the top gap. Use when asked to "make this repo agent-friendly", "set up a repo for agents", "audit this for agents", or "agents keep making the same mistake".
+  For a codebase: makes it safe for agents to work in by building the guardrails, AGENTS.md, verification and laws they need, or audits a repo against the catalogue and fixes the top gap. Use when asked to "make this repo agent-friendly", "set up a repo for agents", "audit this for agents", or "agents keep making the same mistake". For a public website or docs site use agent-ready-site.
 ---
 
-# Agent friendly
+# Agent ready repo
 
 The one catalogue of what makes a codebase safe for agents to work in unattended, and the order to build it in. Each item states the rule in a line, the section says why it matters, `references/audit-checklist.md` says how to check it, `references/build-playbook.md` says how to install it, and the owner named at the end of each section holds the detail. When an owner and this file disagree, the owner wins and this file is stale.
 
@@ -12,6 +12,7 @@ The build order comes from a production monorepo of dozens of apps written mostl
 
 - **IS:** installing the guardrails, instructions and verification in order (Build), explaining which rule applies and why (Explain), scoring a repo across every section with evidence (Audit), and fixing the highest-leverage gap (Apply).
 - **IS NOT:** the detail behind any rule (read its owner), module and interface design (`codebase-architecture`), the content of AGENTS.md (`agents-md`), a product's verify CLI and feature map (`app-verification`), or CI speed (`ci-speedup`).
+- **IS NOT:** making a public website or docs site agent-ready: llms.txt, markdown negotiation, Agent Score, AFDocs, agent 404s (`agent-ready-site`).
 
 ## Files
 
@@ -97,7 +98,7 @@ Owners: `dx-audit`; `ax-audit`.
 
 ### 10. Sites and docs agents read
 - `llms.txt`, Markdown routes, agent-readiness scores.
-Owners: `agent-ready`; `seo`.
+Owners: `agent-ready-site`; `seo`.
 
 ## Permissions
 
