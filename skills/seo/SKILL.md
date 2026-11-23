@@ -1,13 +1,13 @@
 ---
 name: seo
-description: Audits and fixes technical SEO, researches search demand, creates content briefs, and measures SEO, AEO and GEO performance. Use when asked to "audit SEO", "fix indexing", "improve AI visibility", "do AEO or GEO", "check keyword volume", "write an SEO brief", or "why did organic traffic drop". For Mintlify Agent Score, AFDocs, or Is Agentic reports use agent-ready. For writing the article use ghostwriter; for visual redesign use ui-design.
+description: Audits and fixes technical SEO, researches search demand, creates content briefs, and measures SEO, AEO and GEO performance. Use when asked to "audit SEO", "fix indexing", "improve AI visibility", "do AEO or GEO", "check keyword volume", "write an SEO brief", or "why did organic traffic drop". For Mintlify Agent Score, AFDocs, or Is Agentic reports use agent-ready-site. For writing the article use ghostwriter; for visual redesign use ui-design.
 compatibility: The prompt panel script needs Python 3.9+ and provider API keys in the environment.
 ---
 
 # SEO
 
 - **IS:** one entry point for search visibility: evidence-led audits, implementation, demand research, writer briefs, and performance measurement across search engines and AI search (AEO for AI answers inside search, GEO for standalone assistants; see `references/answer-engines.md`).
-- **IS NOT:** writing the article or standalone marketing copy (`ghostwriter`), visual redesign (`ui-design`), tenant infrastructure (`multi-tenant-architecture`), or implementing AFDocs / Is Agentic / Is It Agent Ready scorecards (`agent-ready`). Fix SEO copy and markup when they are part of the requested implementation.
+- **IS NOT:** writing the article or standalone marketing copy (`ghostwriter`), visual redesign (`ui-design`), tenant infrastructure (`multi-tenant-architecture`), or implementing AFDocs / Is Agentic / Is It Agent Ready scorecards (`agent-ready-site`). Fix SEO copy and markup when they are part of the requested implementation.
 
 ## Route the task
 

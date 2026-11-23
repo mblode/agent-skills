@@ -1,6 +1,6 @@
-# agent-friendly sources
+# agent-ready-repo sources
 
-Provenance for `skills/agent-friendly`. Never loads during a task.
+Provenance for `skills/agent-ready-repo` (named `agent-friendly` until November 2026). Never loads during a task.
 
 - Lauren Tan, talk and interview on agent factories (2026), and [pstack](https://github.com/cursor/plugins/tree/main/pstack) (MIT, © 2026 Lauren Tan): the principle "encode lessons in structure", files over registries, one writer per value, no history comments, and verification skills. The catalogue restates the ideas in its own words; no pstack file is vendored.
 - Bend, [`LAWS.bend`](https://bend-lang.com): laws as an instruction file backed by proof, behind `references/laws.md`.

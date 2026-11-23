@@ -1,15 +1,17 @@
 ---
-name: agent-ready
-description: Implements agent-readiness on public sites and docs from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make our site agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief.
+name: agent-ready-site
+description: >-
+  For a public website or docs site: implements agent-readiness from Mintlify Agent Score, AFDocs, Is Agentic, Is It Agent Ready, or url-discovery-bench reports, or from server logs of agents 404ing on guessed URLs. Use when asked to "make our site agent-ready", "improve Agent Score", "fix llms.txt coverage", "agents keep 404ing on our docs", or when a pasted scorecard is the brief. For a codebase's guardrails, AGENTS.md and verification use agent-ready-repo.
 compatibility: The verification script needs Bash and curl. Scanner commands need Node.js and npm registry access.
 ---
 
-# Agent Ready
+# Agent Ready Site
 
 Turn a public agent-readiness score, or a log of agents failing to navigate, into shipped, verified HTTP and docs changes.
 
 - **IS:** ingesting Mintlify Agent Score / AFDocs, [Is Agentic](https://is-agentic.com/), [Is It Agent Ready](https://isitagentready.com/), or [url-discovery-bench](https://github.com/mintlify/url-discovery-bench) findings, plus server-side evidence of agent 404s, inspecting the repo, implementing the matching protocols, adding tests, and verifying live responses.
 - **IS NOT:** rewriting docs prose (`ghostwriter`), package/CLI/SDK ergonomics (`dx-audit`), whether an in-product agent can be trusted (`ax-audit`), search ranking, crawler policy, and Next.js `llms.txt`/markdown routes (`seo`; this skill owns the AFDocs and Is Agentic contract those routes must satisfy), or repo instruction files (`agents-md`). Do not vendor [vercel-labs/is-agentic](https://github.com/vercel-labs/is-agentic); that skill retrieves reports. This one implements the product.
+- **IS NOT:** making a codebase safe for agents to work in: guardrails, AGENTS.md, verification, laws (`agent-ready-repo`).
 
 ## Contents
 

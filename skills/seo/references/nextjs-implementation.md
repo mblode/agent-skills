@@ -33,7 +33,7 @@ For Next versions that use `proxy.ts`, use the documented exported handler, runt
 
 Inspect existing `llms.txt` and `*.md` handlers before adding another. Typical App Router shape: a route handler or `proxy.ts` rewrite that serves the markdown source at the HTML path with `.md` appended (directory URLs use `index.md`). On `Accept: text/markdown`, return that body with `Content-Type: text/markdown; charset=utf-8` and `Vary: Accept`; HTML Accept stays on the existing page. Confirm the matcher does not exclude `.md` or `llms.txt`.
 
-Honor Accept `q=0` and verify CDN `Vary` on both representations, as in `answer-engines.md`. AFDocs pass/fail for `llms.txt` shape, in-page directives, and coverage is `agent-ready`, not this file.
+Honor Accept `q=0` and verify CDN `Vary` on both representations, as in `answer-engines.md`. AFDocs pass/fail for `llms.txt` shape, in-page directives, and coverage is `agent-ready-site`, not this file.
 
 ## Structured data
 

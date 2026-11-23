@@ -13,7 +13,7 @@ Bind each metric to the actual property, hostname and project path. Verify nativ
 | How often do people ask the topic? | Vendor Exact prompt demand metric | Demand is not the site's share of visibility |
 | Is AI influence arriving without a referral? | Branded search impressions, direct sessions in the campaign window, and a self-reported "how did you hear" answer | Leading indicators, not proof of AI attribution; keep each as its own series |
 | Does discovery produce useful outcomes? | Analytics landing sessions, qualified visits, signups, activation or revenue | Preserve attribution definitions and windows; missing/referrer-stripped visits prevent complete AI attribution |
-| Do the agent-readable surfaces answer? | Scanner scorecards and `agent-ready`'s `scripts/check-surfaces.sh` output, or the equivalent curl probes | Says whether `llms.txt`, markdown twins and headers work, not whether any engine cites them; agent readership itself needs server logs, and without a log drain it is `No data` |
+| Do the agent-readable surfaces answer? | Scanner scorecards and `agent-ready-site`'s `scripts/check-surfaces.sh` output, or the equivalent curl probes | Says whether `llms.txt`, markdown twins and headers work, not whether any engine cites them; agent readership itself needs server logs, and without a log drain it is `No data` |
 
 Inspect current native capabilities using `sources.md`, not a frozen vendor checklist. Google generative AI reports may expose different dimensions for Search and Discover. Where a connector omits a native report, use an available browser/export or report that gap rather than silently substituting overall search data.
 

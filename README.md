@@ -32,7 +32,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 ### Architecture
 
 - **[codebase-architecture](./skills/codebase-architecture/SKILL.md)**: Design a structure, deepen an existing one, or harden it with guardrails.
-- **[agent-friendly](./skills/agent-friendly/SKILL.md)**: Builds or audits a codebase for agents: one check command, boundary lint that names the fix, shrink-only exception lists, hooks, AGENTS.md with Verify, and laws.
+- **[agent-ready-repo](./skills/agent-ready-repo/SKILL.md)**: Builds or audits a codebase for agents: one check command, boundary lint that names the fix, shrink-only exception lists, hooks, AGENTS.md with Verify, and laws.
 - **[scaffold-nextjs](./skills/scaffold-nextjs/SKILL.md)**: Next.js turborepo with Blode UI, Ultracite (oxlint/shadcn), GitHub, and Vercel.
 - **[scaffold-cli](./skills/scaffold-cli/SKILL.md)**: TypeScript CLI package: ESM, tsdown, vitest, changesets, CI.
 - **[multi-tenant-architecture](./skills/multi-tenant-architecture/SKILL.md)**: Tenant isolation, routing, and custom domains on Cloudflare or Vercel.
@@ -56,7 +56,7 @@ Agents: these skills. Humans: [Taste Training](https://blode.co/taste-training),
 
 - **[ax-audit](./skills/ax-audit/SKILL.md)**: Agentic experience audit: 24 rules for tool parity, approval gates, and escape hatches, ship verdict.
 - **[dx-audit](./skills/dx-audit/SKILL.md)**: Libraries, CLIs, SDKs, npm packages: 38 rules, agent-friendly checks, root-cause findings.
-- **[agent-ready](./skills/agent-ready/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
+- **[agent-ready-site](./skills/agent-ready-site/SKILL.md)**: Implements AFDocs, Is Agentic, Is It Agent Ready, and agent 404 findings: llms.txt maps, markdown twins, API errors.
 - **[typography-audit](./skills/typography-audit/SKILL.md)**: 78 rules: punctuation, fonts, sizing, spacing, hierarchy, pairing.
 - **[seo](./skills/seo/SKILL.md)**: SEO, AEO and GEO audits and fixes, search-demand research, writer briefs, and search, AI visibility, and conversion measurement.
 - **[test-audit](./skills/test-audit/SKILL.md)**: Prunes low-value tests across a whole suite to a measured target with coverage held; invoked explicitly for a repo-wide or subsystem-wide campaign.
