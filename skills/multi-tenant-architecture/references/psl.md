@@ -9,16 +9,20 @@ Applies to step 1 when tenants publish content or run code on sibling subdomains
 
 ## Decide
 
-- Submit when tenants can publish HTML or JavaScript, or run code, on `<tenant>.<suffix>`.
-- Submit the label directly above the tenant name: `acme.app` for `<tenant>.acme.app`, `sites.acme.app` for `<tenant>.sites.acme.app`.
+- Isolation is needed when tenants can publish HTML or JavaScript, or run code, on `<tenant>.<suffix>`. Needing isolation does not make the platform eligible: run [psl-readiness.md](psl-readiness.md) before recommending a submission. A platform that has not launched, or does not yet serve thousands of current users on the suffix, gets `Defer` and the interim controls below, not a PR.
+- When eligible, submit the label directly above the tenant name: `acme.app` for `<tenant>.acme.app`, `sites.acme.app` for `<tenant>.sites.acme.app`. Submit production suffixes only; staging, preview, and sandbox suffixes are declined.
 - Not needed for custom domains tenants own, or when only your code runs on the subdomains.
 - Listing changes behavior you may rely on: parent-scoped cookies, cross-subdomain sign-in, and code that infers "same site" from the hostname. Test those before the PR, because the change lands on the browsers' schedule, not yours.
 
 ## Eligibility (PRIVATE section)
 
+The full gate and blocker list is in [psl-readiness.md](psl-readiness.md). In short:
+
+- Live, public production service already serving thousands of distinct users on the suffix. Pre-launch, beta, invite-only, waitlist, and demo-only services are declined, as are projected users.
 - Only the domain owner or an authorized representative may submit; third-party requests are declined.
 - Registration must have more than two years remaining, with a commitment to keep more than a year on the term.
-- Declined: short-term, sandbox, or lab projects; entries meant to dodge rate limits or vendor protections; wildcard entries used for IP mapping; alternative TLD systems.
+- Role-based contact address and an abuse contact reachable from the suffix.
+- Declined: short-term, sandbox, staging, preview, test, or lab entries; entries meant to dodge rate limits or vendor protections; wildcard entries used for IP mapping; alternative TLD systems.
 
 ## Submission steps
 
@@ -27,15 +31,15 @@ Applies to step 1 when tenants publish content or run code on sibling subdomains
 
    ```text
    // Acme : https://acme.app/
-   // Submitted by Jane Doe <jane@acme.app>
+   // Submitted by Jane Doe <security@acme.app>
    acme.app
    ```
 
-   Sort the block by company name; within it, by TLD then the label left of the TLD; keep multiple suffixes alphabetical.
-3. Describe the service, example tenant hostnames, and the intended site boundaries in the PR template. Respond to maintainer review.
+   Use a role address, not a personal one. Sort the block by company name, never at the end of the file; within it, by TLD then the label left of the TLD; keep multiple suffixes alphabetical. Run `make test`.
+3. Complete `.github/pull_request_template.md` exactly as provided: keep every heading, checkbox, and comment; state the current user count; describe the service, live example tenant hostnames, and the intended site boundaries; give the abuse contact URL. Respond to maintainer review.
 4. After merge, wait: there is no SLA and no way to expedite. Chrome and Firefox ship the list with releases; platforms that embed it in the OS update with the OS.
 
-## Interim controls (before the list propagates)
+## Interim controls (before the list propagates, or while deferred)
 
 - Dashboard and auth on a different apex (`app.acme.com`) than tenant subdomains (`*.acme.app`).
 - Session cookies as `__Host-session=...; Secure; HttpOnly; Path=/; SameSite=Lax` with no `Domain` attribute: browsers reject a `__Host-` cookie that carries `Domain`, so a sibling tenant cannot overwrite it.
@@ -43,7 +47,7 @@ Applies to step 1 when tenants publish content or run code on sibling subdomains
 
 ## Record in the output
 
-`PSL decision: Submit` with suffix, owner, PR link, and the `_psl` TXT date; or `No PSL` with the reason (tenant-owned domains only, or no tenant-controlled content on subdomains).
+`PSL decision: Submit` with suffix, owner, PR link, and the `_psl` TXT date; `Defer` with the failed readiness gate, the interim controls in place, and the condition for revisiting; or `No PSL` with the reason (tenant-owned domains only, or no tenant-controlled content on subdomains).
 
 ## Sources
 

@@ -37,6 +37,7 @@ description: Designs tenant isolation, hostname routing, custom-domain lifecycle
 | [vercel-domains.md](references/vercel-domains.md) | Vercel chosen: SDK domain lifecycle, DNS targets, verification, wildcard nameservers, SSL, troubleshooting (step 7) |
 | [data-isolation.md](references/data-isolation.md) | Step 3 on either platform: shared schema with RLS, schema-per-tenant, database-per-tenant, and the Postgres/Supabase/Drizzle policy pattern |
 | [psl.md](references/psl.md) | Step 1 when tenants publish content or run code on sibling subdomains: eligibility, submission, interim cookie controls |
+| [psl-readiness.md](references/psl-readiness.md) | Step 1 before recommending any PSL submission: readiness gate and hard blockers |
 | [limits-and-quotas.md](references/limits-and-quotas.md) | Step 8: Cloudflare, Vercel, and Neon limit names with the official source for each, to map onto plans |
 
 ## Workflow (order matters)
@@ -58,7 +59,7 @@ Multi-tenant progress:
 1. Choose the domain strategy
 - Put tenant workloads on a dedicated registrable domain (`acme.app` for tenants, `acme.com` for brand). One phishing tenant on `x.acme.com` puts the whole domain on blocklists, and a tenant cookie with `Domain=acme.com` reaches your dashboard.
 - Keep the dashboard and auth on a different apex from tenant subdomains (`app.acme.com` for the console, `*.acme.app` for tenants).
-- If tenants publish content or run code on sibling subdomains, submit the label directly above the tenant name (`acme.app`, or `sites.acme.app` for `<tenant>.sites.acme.app`) to the PSL and start now: there is no SLA. Tenant-owned custom domains need no PSL entry. Otherwise record `No PSL` with the reason.
+- If tenants publish content or run code on sibling subdomains, ship the interim cookie controls in [psl.md](references/psl.md) now, and run [psl-readiness.md](references/psl-readiness.md) before recommending a PSL submission. Submit the label directly above the tenant name (`acme.app`, or `sites.acme.app` for `<tenant>.sites.acme.app`) only when the platform is live, already serves thousands of distinct users on that suffix, and passes every hard blocker. A pre-launch, beta, or small platform records `Defer`, not a PR. Tenant-owned custom domains need no PSL entry. Otherwise record `No PSL` with the reason.
 
 2. Choose tenant identification (one primary; custom domain as the upgrade path)
 - **Subdomain** `tenant.acme.app`: wildcard DNS plus wildcard certificate. The default.
@@ -120,7 +121,7 @@ Length follows the decisions: drop any section the project does not face rather 
 - Tenant domain:
 - Tenant subdomains:
 - Custom domains:
-- PSL decision: Submit (suffix, owner, PR link, _psl TXT date) | No PSL (reason)
+- PSL decision: Submit (suffix, owner, PR link, _psl TXT date) | Defer (failed readiness gate, interim controls, revisit condition) | No PSL (reason)
 
 ## Routing matrix
 | Host pattern | Resolver | Destination | Unknown tenant behavior |
