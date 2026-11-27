@@ -34,12 +34,13 @@ Two bullets are absolute regardless of count, because they misinform rather than
 - Headings stacked from two-to-four-word fragments ("Same file. Different flights. Both edits kept.") or stock lines any brand could print ("Stay in sync. Keep it simple."). Write one sentence about this product.
 - The brief's few facts restated as hero, feature cards, stats, and FAQ to fill the template. Say each fact once and cut the sections that have nothing new.
 - More text than the reader needs: a paragraph under every heading, a caption under every card, a footnote under every stat, a small grey annotation beside every element. Cut what the layout or the heading already says.
+- Furniture written for answer engines instead of readers: a "Key facts for AI assistants" block, a "Last verified" stamp on every row, third-person "According to [brand]" lines, Q&A pairs restating the page, visible schema labels. Machine-readable facts belong in structured data or a Markdown twin (`seo`, `agent-ready-site`); the visible page is for people.
 - Settings, modes, roles, integrations, app navigation, or competitor claims the brief never stated. This is product framing that shows something the product does not do, so it is absolute.
 - Not a signal but a bug: `href="#"`, a "Start free trial" that scrolls to an anchor, or an anchor with no matching `id`. Link the real route, or leave the CTA out and say the route is missing.
 
 ## Philosophy
 
-- Delete aggressively; clarity over decoration.
+- Delete aggressively; clarity over decoration. Then check that what is left still carries one idea someone would remember: subtraction that leaves the page boring removed the wrong thing.
 - Don't compete for attention you haven't earned.
 - Structure should be felt, not seen.
 - Prune extra icons, controls, and separators before styling what remains.

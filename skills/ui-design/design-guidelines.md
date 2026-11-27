@@ -51,7 +51,7 @@ Follow these when designing or building UI. Entries that point into `components.
 - [Surfaces](./guidelines/surfaces.md): cards, wells, borders, dividers, and white space as surface treatments; when to use cards vs subtle dividers vs recessed backgrounds vs no separation; applies to stat grids, dashboard metrics, list items, sidebars, any content grouping decision
 - [Tables](./guidelines/tables.md): data tables, comparison tables, table headings, row dividers, table containers
 - [Team Sections](./guidelines/team-sections.md): team grids, team member cards, staff listings, about-us sections, people galleries with photos and bios
-- [Testimonials](./guidelines/testimonials.md): customer quotes, reviews, social proof sections, testimonial cards, hanging punctuation, attribution layout
+- [Testimonials](./guidelines/testimonials.md): customer quotes, rotating quotes, reviews, social proof sections, testimonial cards, hanging punctuation, attribution layout
 - [Typography](./guidelines/typography.md): font weights, line heights, text sizes, heading styles, max-width constraints, text-pretty/text-balance, tracking, eyebrow text, when to omit a label, link styling in dense UI
 
 ## Reference Modules

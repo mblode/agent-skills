@@ -10,7 +10,7 @@ Fast, low-fi planning before visual polish.
 
 ## Copy what works
 
-- Start from a gold-standard product; match layout, spacing, and hierarchy, then adapt to context.
+- Start from a gold-standard product; match layout, spacing, and hierarchy precisely, then write down why each choice works before adapting it to context. The reason is what transfers; a surface copied without it reads as the reference brand, not this product.
 - When refreshing a product, keep a live old/new toggle behind a feature flag to compare fast.
 - Tune colour and token changes in the running product, then sync exact values to the design system.
 - During polish ask: what should hold focus, which controls are louder than the task, which borders or icons can be removed with no loss of meaning.

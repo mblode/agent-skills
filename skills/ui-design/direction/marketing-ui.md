@@ -59,7 +59,8 @@ If the first viewport still works without the image, the image is too weak. If t
 ### Viewport budget
 
 - A sticky/fixed header counts against the hero; header + hero content must fit the initial viewport.
-- For `100vh`/`100svh` heroes, subtract persistent chrome (`calc(100svh - header-height)`) or overlay the header instead of stacking it.
+- On multi-section pages, stop the hero short of `100svh` so the top of the next section peeks above the fold; a hero that ends at the viewport edge reads as the whole page and hides the scroll.
+- When a hero intentionally fills `100vh`/`100svh`, subtract persistent chrome (`calc(100svh - header-height)`) or overlay the header instead of stacking it.
 
 ## Imagery
 

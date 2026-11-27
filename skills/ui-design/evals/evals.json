@@ -84,6 +84,18 @@
         "Does not report a failed contrast or touch-target measurement",
         "Does not propose a new palette, layout, or type scale"
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Pick a visual direction for a one-page site for a ceramics studio. The owner wants it to feel like unglazed clay: one serif, a single kiln-orange accent, and almost no motion. The deliverable is the direction, not code.",
+      "expected_output": "A Direction decision set with a closed motif inventory and the will-not list it implies, applied to the small surfaces as well as the hero, and no markup.",
+      "files": [],
+      "assertions": [
+        "Names a closed motif inventory covering colour, shape, type, and motion",
+        "Includes a will-not list that follows from this brief's inventory (for example no second accent colour, no glossy or glass surfaces), not a generic ban list",
+        "Says how at least one unbriefed surface (footer, 404, empty state, or email capture) reuses the inventory",
+        "Writes no markup or component code"
+      ]
     }
   ]
 }

@@ -57,7 +57,7 @@ Direction and Build chain: for a new surface with no direction, run Direction fi
 
 A decision skill. It does ONE thing: choose the visual system. It writes no markup; the build is Build mode's job.
 
-Output a decision set: a one-sentence visual thesis (mood, material, energy), palette as CSS variables, type pairing and scale, spacing grid, radius and depth strategy, the layout pattern for the primary surface, and for conversion pages the section sequence, CTA plan, and proof placement. Close against the Quality Bar, then hand off to Build.
+Output a decision set: a one-sentence visual thesis (mood, material, energy), palette as CSS variables, type pairing and scale, spacing grid, radius and depth strategy, the layout pattern for the primary surface, and for conversion pages the section sequence, CTA plan, and proof placement. Include the closed motif inventory the thesis allows (colours, shapes, type, motion habits, recurring phrases) and the "will not" list that follows from it, so Build can refuse additions the thesis never asked for. Close against the Quality Bar, then hand off to Build.
 
 ### Pick a track
 
@@ -203,7 +203,7 @@ For Direction and Build. Reference products are calibration only; verify against
 
 - Product UI keeps high information density without card piles, hero furniture, or marketing copy.
 - Marketing UI has one primary conversion path, visible proof, and no generic SaaS gradients or stock-like imagery.
-- Type, colour, radius, and interface language express one personality for the product and audience.
+- Type, colour, radius, motion, and interface language express one personality for the product and audience, drawn from one motif inventory, and it reaches the surfaces nobody briefs: footer, 404, empty states, email capture, favicon.
 - Sizes, gaps, radii, weights, colours, and elevation values trace to project tokens or a documented exception.
 - Hierarchy is readable at desktop and mobile widths without viewport-scaled type.
 - Palette uses project tokens or a deliberate direction; no default Tailwind indigo/gray look.

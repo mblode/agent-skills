@@ -61,7 +61,7 @@ For hero text or page-header entrances, split content into sections (or words) a
 | Level | Delay | Use for |
 |-------|-------|---------|
 | Section-level | 100ms per section | Title block, description block, button group |
-| Word-level | 80ms per word | Hero headline only |
+| Word-level | 80-120ms per word, plus a pause at punctuation | Hero headline or a quote only |
 
 **CSS pattern:**
 
@@ -83,11 +83,6 @@ For hero text or page-header entrances, split content into sections (or words) a
 .animate-enter-section {
   --delay: 100ms;
 }
-
-/* Word level: 80ms gaps */
-.animate-enter-word {
-  --delay: 80ms;
-}
 ```
 
 **Section-level JSX:**
@@ -104,21 +99,35 @@ For hero text or page-header entrances, split content into sections (or words) a
 </div>
 ```
 
+**Words follow spoken cadence.** A fixed delay per word reads like a model streaming tokens. Time the reveal to how the line sounds aloud: a steady beat per word, a pause of about three beats after a comma, and a longer one after a full stop. Tune the pauses by reading the line aloud; when a recording of the line exists, its word onsets beat any rule of thumb.
+
 **Word-level JSX:**
 
 ```tsx
-{"Track expenses, build habits".split(" ").map((word, i) => (
+const BEAT = 100;
+const PAUSE: Record<string, number> = { ",": 3 * BEAT, ".": 5 * BEAT, "?": 5 * BEAT, "!": 5 * BEAT };
+
+let at = 0;
+const words = "Track expenses, build habits.".split(" ").map((word) => {
+  const delay = at;
+  at += BEAT + (PAUSE[word.at(-1) ?? ""] ?? 0);
+  return { word, delay };
+});
+
+{words.map(({ word, delay }, i) => (
   <span
-    key={word}
-    className="animate-enter animate-enter-word inline-block"
-    style={{ "--stagger": i + 1 }}
+    key={i}
+    className="animate-enter inline-block"
+    style={{ animationDelay: `${delay}ms` }}
   >
     {word}&nbsp;
   </span>
 ))}
 ```
 
-These differ from the general-purpose 30-50ms item stagger in `component-patterns.md`: use 30-50ms for lists, 80-100ms for page-level entrances where each chunk carries narrative weight.
+Key by position, not by word: a line that repeats a word ("one by one") collides on `key={word}`.
+
+These differ from the general-purpose 30-50ms item stagger in `component-patterns.md`: use 30-50ms for lists, 100ms for page-level sections, and a spoken beat for words, where each chunk carries narrative weight.
 
 ---
 

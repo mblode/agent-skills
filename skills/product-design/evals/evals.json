@@ -83,6 +83,18 @@
         "Keeps the native time inputs for quiet hours",
         "Says how the digest frequency control copes with longer German or Japanese labels"
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Users keep missing the Export button in our report toolbar, which has 11 buttons. The PM wants a 'Pinned actions' setting so each user picks which buttons show. Shape this.",
+      "expected_output": "Works the smallest-intervention ladder from the top: removes or demotes toolbar controls before adding a setting, rejects the setting as deferring the decision to users, and keeps one primary action prominent.",
+      "files": [],
+      "assertions": [
+        "Proposes removing or demoting toolbar controls before adding the setting",
+        "Cites rule/smallest-intervention",
+        "Does not emit a code patch, className, or prop change",
+        "Every cited rule ID appears verbatim in references/rules.md"
+      ]
     }
   ]
 }

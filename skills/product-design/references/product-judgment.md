@@ -79,10 +79,11 @@ Match surface weight to decision importance.
 
 Before adding UI, work through cheaper options in order (`rule/smallest-intervention`):
 
-1. A better default. Can the right thing happen without the user choosing?
-2. A behavior change. Can the system do this automatically and reliably?
-3. Reuse. Does an existing pattern already solve this job?
-4. New UI. Only when the above do not.
+1. Remove something. Is the job hard because the surface already offers too much? Taking away a control, option, or step is cheaper than adding one, and it pays back on every visit.
+2. A better default. Can the right thing happen without the user choosing?
+3. A behavior change. Can the system do this automatically and reliably?
+4. Reuse. Does an existing pattern already solve this job?
+5. New UI. Only when the above do not.
 
 Strong defaults and direct behavior beat configuration the user must learn and maintain. Adding a toggle defers the decision to the user; it does not make one. NN/g's slip-prevention list (helpful constraints, suggestions, good defaults, forgiving formatting) is the same ladder applied to input: prevent the error before designing the error state.
 
@@ -101,7 +102,7 @@ Navigation components for navigation, action components for actions (`rule/navig
 
 Trace each non-mechanical decision to something in SKILL.md's Decision authority order. Two evidence sources sit below project-canonical guidance and above general heuristics: an accepted product or design decision with stable evidence, then a verified adjacent shipped pattern in the same product area.
 
-If a decision rests only on heuristics or preference, say so and flag it open. Do not present taste as evidence.
+If a decision rests only on heuristics or preference, say so and flag it open. Do not present taste or visual finish as evidence: generated polish costs nothing, so review the objects, actions, consequences, and states with the finish set aside.
 
 ## The decision checklist
 

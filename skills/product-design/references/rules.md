@@ -100,7 +100,7 @@ This skill owns these IDs; `ghostwriter` writes the strings against them, and th
 
 ### rule/smallest-intervention
 - Scope: any proposed change that adds UI.
-- Rule: before adding a control, setting, or surface, evaluate a better default, a behavior change, or reuse of an existing pattern. Add UI only when none solve the job.
+- Rule: before adding a control, setting, or surface, evaluate removing what already competes with the job, a better default, a behavior change, or reuse of an existing pattern. Add UI only when none solve the job.
 - Why: every added control is a permanent cost to learn and maintain. Configuration is not a substitute for a correct default.
 - Source: `product-judgment.md` > Smallest coherent intervention; NN/g slips (constraints, defaults, forgiving formatting).
 

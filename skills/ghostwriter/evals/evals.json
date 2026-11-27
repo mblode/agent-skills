@@ -273,6 +273,17 @@
         "The Options section text gives no account of how the flag was built or debated",
         "Shows the updated section with no explanation of the editing choices"
       ]
+    },
+    {
+      "id": 19,
+      "prompt": "Write a homepage headline for Ledgerly, a local-first Mac invoicing app for freelance designers that exports directly to Xero without a monthly subscription. No company profile is configured.",
+      "expected_output": "One recommended headline (labelled provisional for the missing profile) choosing a concrete angle rather than generic adjectives, with no alternative options or discarded drafts shown.",
+      "files": [],
+      "assertions": [
+        "Returns one recommended headline with no alternative options or discarded angles shown",
+        "Notes the missing company profile and marks the draft provisional",
+        "Avoids unearned adjectives like powerful, seamless, or intuitive"
+      ]
     }
   ]
 }
