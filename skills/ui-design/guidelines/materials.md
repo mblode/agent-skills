@@ -2,7 +2,7 @@
 
 Covers: translucent chrome, backdrop-filter layers, material weight as hierarchy, vibrancy text legibility, scroll edge effects, grain against banding, and reduced-transparency fallbacks. Approximates Apple-style materials on the web.
 
-- Build nav bars, toolbars, and sheets as translucent layers, `backdrop-filter: blur() saturate()` over a semi-transparent background, with content scrolling underneath, rather than opaque bars that consume a fixed strip. A bright top border reads as light catching the material.
+- Translucency is a direction choice, not the default. An opaque bar is the basic answer and the cheaper one. Build nav bars, toolbars, and sheets as translucent layers, `backdrop-filter: blur() saturate()` over a semi-transparent background, only when content genuinely scrolls underneath and the direction calls for material. A bright top border reads as light catching the material.
 - Material weight encodes hierarchy: darker, heavier materials separate structural regions (sidebars); lighter materials draw attention to interactive elements (buttons). Never stack a light translucent surface on another translucent surface: legibility collapses.
 - Bigger surfaces read as thicker: give them stronger blur and a deeper shadow than small chips. Consider context-aware shadow, heavier over busy or text content for separation, lighter over plain backgrounds.
 - Dim to focus, separate to keep flow. A modal task pairs the surface with a dimming scrim and pushes the background back. A parallel, non-blocking panel uses translucency and offset without a scrim so the flow isn't broken. For stacked sheets, progressively dim and push back each parent layer.

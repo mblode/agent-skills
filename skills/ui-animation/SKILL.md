@@ -138,6 +138,7 @@ Prefer lower-overhead transitions (CSS-only) unless the design requires JS orche
 High-signal failures not covered above:
 
 - Animating on mount without a user trigger: unexpected motion disorients; the user did nothing to cause it.
+- Animating an icon for flair (hover wiggles, idle loops, nav icons that draw themselves): the icon sits beside its label on every visit, so the motion pulls the eye off the label and reports nothing. An icon moves only to report a change of state, which is the icon swap recipe.
 - Hard stops on drag boundaries feel broken; apply friction/damping so movement diminishes past it (see gesture-drag reference).
 - Animating both a container and staggering its children: pick one entrance per container. If the panel slides in, its content should already be visible on arrival.
 - Tooltip animation after the first is open: subsequent tooltips in the group open instantly, or the toolbar feels laggy.

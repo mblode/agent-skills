@@ -37,7 +37,7 @@ Turn "this feels off" into a named cause, then make the smallest fix that addres
 | `linear` easing on non-constant motion | Nothing physical moves at constant speed. Ease-out for enter/exit, ease-in-out for on-screen movement. `linear` only for marquees, spinners, time-visualizing holds, and scrubbed scroll motion. |
 | Curve too weak | Steepen it; when an animation feels flat, the curve is usually the problem, not the duration. |
 | A duration-based ease on something that should feel alive (drag release, morphing pill) | Use a spring; fixed durations can't carry velocity or an organic settle. A weird-feeling spring is usually fixed by raising damping. |
-| Uniform stagger (identical delay and distance per item) | Vary delay and distance by importance; the metronome effect is what feels mechanical. |
+| Uniform stagger (identical delay and distance per item) | Vary delay and distance by importance; the metronome effect is what feels mechanical. A word-by-word text reveal follows spoken cadence instead (`contextual-animations.md`). |
 
 ## "It feels cheap, but I can't say why"
 

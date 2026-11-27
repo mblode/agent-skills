@@ -33,6 +33,17 @@
         "Keeps typing, hover, and list navigation silent",
         "Does not create AudioContext on page load"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add a word-by-word entrance to the hero line \"Plan the week, then plan the day. Nothing else.\" in React.",
+      "expected_output": "Per-word delays follow spoken cadence, a steady beat with longer pauses after the comma and full stops, instead of one uniform delay; elements are keyed by position; reduced motion shows the whole line without the staggered travel.",
+      "files": [],
+      "assertions": [
+        "The word after a comma or full stop starts later than one beat after the word before it",
+        "Does not key the word elements by their text, since \"plan\" and \"the\" repeat",
+        "Reduced motion renders the full line without per-word travel"
+      ]
     }
   ]
 }

@@ -94,7 +94,7 @@ Put the rotate on a wrapping `<g>` so nested decorations shake for free.
 
 ## Ambient life
 
-Make idle scenes feel alive with barely perceptible looping motion, and use **non-syncing durations** so layers never line up; that's what makes it read organic instead of mechanical:
+Ambient life is for illustration (empty-state art, hero scenes), never for interface icons. Make idle scenes feel alive with barely perceptible looping motion, and use **non-syncing durations** so layers never line up; that's what makes it read organic instead of mechanical:
 
 ```jsx
 // float: translateY 0 to 1.5px over 3s; rotate: 0 to 2deg over 4s
